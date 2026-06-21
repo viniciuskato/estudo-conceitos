@@ -18,14 +18,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;min-height:100vh}
-
-/* ── PROGRESS BAR ── */
 #progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
-
-/* ── LAYOUT ── */
 #body-wrap{display:flex;min-height:100vh}
-
-/* ── SIDEBAR ── */
 #sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s}
 #sidebar.collapsed{width:44px}
 #s-toggle{padding:10px 0 6px;display:flex;justify-content:center;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -38,38 +32,25 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-si
 a.sl{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,border-color .15s,opacity .2s}
 a.sl:hover{color:var(--text)}
 a.sl.active{color:var(--ac);border-left-color:var(--ac)}
-#sidebar.collapsed .s-logo,
-#sidebar.collapsed .s-group,
-#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
-
-/* ── CONTENT ── */
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
 #content{flex:1;padding:52px 72px 120px;transition:padding .25s}
 #body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
 .prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
 #body-wrap.sidebar-collapsed .prose{max-width:114ch}
-
-/* ── TIPOGRAFIA ── */
 h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--ac);line-height:1.3;margin-bottom:10px}
 .doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:16px}
 .doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
 .chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
-
-h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-h2.in-view-heading{color:var(--ac);transition:color .3s}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border);transition:color .3s}
+section.in-view > h2{color:var(--ac)}
 h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
 p{margin-bottom:1.1em}
 strong{color:var(--text);font-weight:600}
 em{font-style:italic;color:var(--muted)}
-
-/* âncoras */
 h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
 h2:hover .anchor,h3:hover .anchor{opacity:1}
-
-/* ── PERGUNTA MOTIVADORA ── */
 .pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
 .pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-
-/* ── PAINEL DE DEPENDÊNCIAS ── */
 .dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
 .dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
 .dep-row{display:flex;gap:10px;flex-wrap:wrap}
@@ -77,27 +58,17 @@ h2:hover .anchor,h3:hover .anchor{opacity:1}
 .dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
 .dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
 .dep-item:hover{color:var(--ac)}
-
-/* ── NOTA HISTÓRICA ── */
 .hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
 .hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
-
-/* ── KEY-CONCEPT BOX ── */
 .kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
 .kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-
-/* ── CONCEITOS-CHAVE GRID ── */
 .ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 32px}
 .ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
 .ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
 .ck-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0}
-
-/* ── CALLOUT / FÓRMULA ── */
 .callout{background:var(--bg3);border-left:3px solid var(--ac);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
 .callout strong{color:var(--ac)}
 .formula{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 18px;margin:20px 0;font-family:'Courier New',monospace;font-size:15px;color:var(--ac);text-align:center}
-
-/* ── TABELAS ── */
 .table-wrap{overflow-x:auto;margin:28px 0}
 table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
 th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
@@ -105,37 +76,24 @@ td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vert
 tr:last-child td{border-bottom:none}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
-
-/* ── CROSS-LINK ── */
 a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
 a.cross-link:hover{opacity:1}
-
-/* ── CITE ── */
 a.cite{color:var(--ac);text-decoration:none;font-size:.85em;vertical-align:super}
 a.cite:hover{text-decoration:underline}
-
-/* ── CONEXÕES ── */
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.8em}
 .connections-box p:last-child{margin-bottom:0}
-
-/* ── LEITURAS / REFS ── */
 .book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
 .book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
 .book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}
 .book-card .book-meta{color:var(--muted);font-size:12px}
 .badge-tem{display:inline-block;background:#2a1f0a;color:var(--ac);border:1px solid var(--border);border-radius:3px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:6px;letter-spacing:.04em;vertical-align:middle}
-ol.refs{padding-left:1.2em}
-ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
-ol.refs li a{color:var(--ac);text-decoration:none}
-ol.refs li a:hover{text-decoration:underline}
-
-/* ── RESPOSTA ── */
+.refs p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding-left:1.5em;text-indent:-1.5em}
+.refs a{color:var(--ac);text-decoration:none}
+.refs a:hover{text-decoration:underline}
 .resposta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac2);border-radius:0 6px 6px 0;padding:16px 20px;margin-top:40px;margin-bottom:8px}
 .resposta .rlabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-
-/* ── MOBILE ── */
 #mob-bar{display:none}
 @media(max-width:900px){
   #sidebar{display:none}
@@ -148,8 +106,6 @@ ol.refs li a:hover{text-decoration:underline}
   .ck-grid{grid-template-columns:repeat(2,1fr)}
   .book-grid{grid-template-columns:1fr}
 }
-
-/* ── PRINT ── */
 @media print{
   #sidebar,#mob-bar,#progress-bar{display:none}
   body{background:#fff;color:#000}
@@ -164,596 +120,861 @@ ol.refs li a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-
 <div id="progress-bar"></div>
-
-<!-- ══ MOB BAR ══ -->
 <div id="mob-bar">
-  <button id="mob-menu-btn" aria-label="Abrir menu">☰</button>
+  <button id="mob-menu-btn" aria-label="Abrir menu">&#9776;</button>
   <span>Fundamentos de Investimentos</span>
 </div>
-
 <div id="body-wrap">
-
-<!-- ══════════════ SIDEBAR ══════════════ -->
 <nav id="sidebar">
   <div id="s-toggle">
-    <button id="toggle-btn" aria-label="Colapsar sidebar">‹</button>
+    <button id="toggle-btn" aria-label="Colapsar sidebar">&#8249;</button>
   </div>
   <div class="s-inner">
     <div class="s-logo">
       Fundamentos de Investimentos
-      <a href="../index.html">← Índice do projeto</a>
+      <a href="../index.html">&#8592; Índice do projeto</a>
     </div>
-
-    <div class="s-group">Conteúdo</div>
+    <div class="s-group">Conteudo</div>
     <a class="sl" href="#fundamentos-necessarios">Fundamentos necessários</a>
     <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
-    <a class="sl" href="#o-que-e-investir">O que é investir</a>
+    <a class="sl" href="#o-que-e-investir">O que e investir</a>
     <a class="sl" href="#valor-do-dinheiro-no-tempo">Valor do dinheiro no tempo</a>
     <a class="sl" href="#risco-e-retorno">Risco e retorno</a>
     <a class="sl" href="#classes-de-ativos">Classes de ativos</a>
     <a class="sl" href="#renda-fixa">Renda fixa</a>
-    <a class="sl" href="#renda-variavel">Renda variável</a>
+    <a class="sl" href="#renda-variavel">Renda variavel</a>
     <a class="sl" href="#diversificacao">Diversificação e carteira</a>
+    <a class="sl" href="#hme">Hipótese de Mercados Eficientes</a>
+    <a class="sl" href="#fatores-de-risco">Fatores de risco: alem do CAPM</a>
+    <a class="sl" href="#evidencia-empirica">Evidencia empirica de longo prazo</a>
+    <a class="sl" href="#custos">O papel dos custos</a>
+    <a class="sl" href="#retirada-segura">Regra de retirada segura</a>
     <a class="sl" href="#tributacao">Tributação</a>
-    <a class="sl" href="#inflacao-e-juros">Inflação e juros reais</a>
+    <a class="sl" href="#inflacao-e-juros">Inflacao e juros reais</a>
     <a class="sl" href="#perfil-investidor">Perfil do investidor</a>
-    <a class="sl" href="#conexoes">Conexões</a>
-
-    <div class="s-group">Revisão</div>
-    <a class="sl" href="#discussao">Discussão</a>
+    <a class="sl" href="#capm">CAPM &mdash; modelo e limites</a>
+    <a class="sl" href="#financas-comportamentais">Finanças comportamentais</a>
+    <a class="sl" href="#cdi-selic">Mecanismo CDI e Selic</a>
+    <a class="sl" href="#debentures">Debentures</a>
+    <a class="sl" href="#alocacao-estrategica">Alocação estratégica e rebalanceamento</a>
+    <a class="sl" href="#conexoes">Conexoes</a>
+    <div class="s-group">Revisao</div>
+    <a class="sl" href="#perguntas-em-aberto">Perguntas em aberto</a>
+    <a class="sl" href="#discussao">Discussao</a>
     <a class="sl" href="#leituras">Leituras recomendadas</a>
-    <a class="sl" href="#referencias">Referências ABNT</a>
+    <a class="sl" href="#referencias">Referencias ABNT</a>
   </div>
 </nav>
-
-<!-- ══════════════ CONTEÚDO ══════════════ -->
 <div id="content">
 <div class="prose">
 
-<!-- CABEÇALHO -->
 <h1>Fundamentos de Investimentos</h1>
-<p class="doc-meta">Finanças Pessoais · Economia · 2026</p>
+<p class="doc-meta">Finanças Pessoais &middot; Economia &middot; 2026</p>
 <div class="doc-chips">
-  <span class="chip">⏱ <b>~25 min</b> de leitura</span>
-  <span class="chip">📋 Pré-requisitos: <b>aritmética básica, percentuais</b></span>
-  <span class="chip">🔗 Depende de: <b>nenhum material anterior</b></span>
-  <span class="chip">📍 Área: <b>Finanças Pessoais</b></span>
+  <span class="chip">&#9200; <b>~75 min</b> de leitura</span>
+  <span class="chip">&#128203; Pré-requisitos: <b>aritmética básica, percentuais</b></span>
+  <span class="chip">&#128279; Depende de: <b>nenhum material anterior</b></span>
+  <span class="chip">&#128205; Área: <b>Finanças Pessoais</b></span>
 </div>
 
-<!-- PERGUNTA MOTIVADORA -->
 <div class="pergunta">
   <div class="plabel">Pergunta motivadora</div>
-  <p>Você recebe R$ 50.000 de herança. Manter na poupança, colocar no Tesouro IPCA+, comprar ações ou deixar em CDB — qual decisão é racionalmente defensável, e como você avalia isso sem ser enganado pela taxa nominal na vitrine?</p>
+  <p>Você recebe R$ 50.000 de herança e precisa tomar uma decisão. Poupança, Tesouro IPCA+, ETF de ações, CDB de banco pequeno ou imóvel &mdash; qual escolha é racionalmente defensável, e como você avalia isso sem ser enganado pela taxa nominal na vitrine, pelos custos ocultos que corroem o retorno composto ou pela falsa sensação de que pode identificar ativos subprecificados num mercado que processa informação mais rápido do que você?</p>
 </div>
 
-<!-- PAINEL DE DEPENDÊNCIAS -->
 <div class="dep-panel">
-  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-label">Mapa de dependencias</div>
   <div class="dep-row">
     <div class="dep-group">
-      <div class="dgt">Este compêndio usa</div>
-      <span class="dep-item">Nenhum material anterior do projeto</span>
+      <div class="dgt">Este compendio usa</div>
+      <a class="dep-item" href="#">Nenhum material anterior do projeto</a>
     </div>
     <div class="dep-group">
-      <div class="dgt">Leia antes se necessário</div>
-      <span class="dep-item">Aritmética de percentuais e potenciação</span>
-      <span class="dep-item">Noção de inflação (conceito cotidiano)</span>
+      <div class="dgt">Leia antes se necessario</div>
+      <a class="dep-item" href="#">Aritmética de percentuais e potenciação</a>
+      <a class="dep-item" href="#">Noção de inflação (conceito cotidiano)</a>
+      <a class="dep-item" href="#">Estatística básica: média e desvio padrão</a>
     </div>
     <div class="dep-group">
       <div class="dgt">Materiais que dependem deste</div>
-      <span class="dep-item">Análise fundamentalista de ações (futuro)</span>
-      <span class="dep-item">Previdência privada — PGBL e VGBL (futuro)</span>
+      <a class="dep-item" href="#">Análise fundamentalista de ações (futuro)</a>
+      <a class="dep-item" href="#">Previdência privada &mdash; PGBL e VGBL (futuro)</a>
+      <a class="dep-item" href="#">Alocação de ativos e rebalanceamento (futuro)</a>
     </div>
   </div>
 </div>
 
-<!-- ═══ FUNDAMENTOS NECESSÁRIOS ═══ -->
-<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
-
-<p>Três conceitos econômicos aparecem como pano de fundo constante ao longo do material. Compreendê-los antes é indispensável — sem eles, a maioria das frases sobre taxas e retornos ficaria opaca.</p>
-
+<section id="fundamentos-necessarios">
+<h2>Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<p>Três conceitos econômicos aparecem como pano de fundo constante ao longo do material. Compreendê-los antes é indispensável &mdash; sem eles, a maioria das frases sobre taxas e retornos ficaria opaca.</p>
 <p><strong>Inflação</strong> é o aumento generalizado e contínuo do nível de preços de uma economia. Ela corrói o poder de compra da moeda: R$ 100 hoje não comprarão a mesma cesta de bens daqui a um ano se a inflação for positiva. No Brasil, o índice oficial é o IPCA (Índice de Preços ao Consumidor Amplo), calculado pelo IBGE.</p>
-
-<p><strong>Taxa de juros</strong> é o preço do dinheiro no tempo — o custo de abrir mão de liquidez hoje em troca de valor futuro. A taxa básica da economia brasileira é a Selic (Sistema Especial de Liquidação e de Custódia), definida pelo Banco Central a cada 45 dias. Ela serve como referência para todas as demais taxas do mercado.</p>
-
+<p><strong>Taxa de juros</strong> é o preço do dinheiro no tempo &mdash; o custo de abrir mão de liquidez hoje em troca de valor futuro. A taxa básica da economia brasileira é a Selic (Sistema Especial de Liquidação e de Custódia), definida pelo Banco Central a cada 45 dias. Ela serve como referência para todas as demais taxas do mercado.</p>
 <p><strong>Liquidez</strong> é a velocidade e o custo de converter um ativo em dinheiro sem perda significativa de valor. Dinheiro em conta corrente tem liquidez imediata; um imóvel pode levar meses para ser vendido pelo preço justo. Maior liquidez geralmente implica menor retorno esperado.</p>
+</section>
 
-<!-- ═══ CONCEITOS-CHAVE ═══ -->
-<h2 id="conceitos-chave">Conceitos-chave <a class="anchor" href="#conceitos-chave">#</a></h2>
-
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anchor" href="#conceitos-chave">#</a></h2>
 <div class="ck-grid">
-  <div class="ck-card">
-    <div class="ckt">Custo de oportunidade</div>
-    <p>O retorno da melhor alternativa não escolhida. No Brasil, a referência é a Selic.</p>
-  </div>
-  <div class="ck-card">
-    <div class="ckt">Juros compostos</div>
-    <p>Rendimento que incide sobre o capital acumulado, não apenas sobre o principal original.</p>
-  </div>
-  <div class="ck-card">
-    <div class="ckt">Prêmio de risco</div>
-    <p>Retorno adicional exigido por aceitar incerteza maior em relação ao ativo livre de risco.</p>
-  </div>
-  <div class="ck-card">
-    <div class="ckt">Diversificação</div>
-    <p>Distribuição do capital entre ativos pouco correlacionados para reduzir risco sem sacrificar retorno proporcional.</p>
-  </div>
-  <div class="ck-card">
-    <div class="ckt">Taxa real de juros</div>
-    <p>Retorno após descontar a inflação. Mede o ganho efetivo em poder de compra.</p>
-  </div>
-  <div class="ck-card">
-    <div class="ckt">Fronteira eficiente</div>
-    <p>Conjunto de carteiras que, para cada nível de risco, maximiza o retorno esperado (Markowitz, 1952).</p>
-  </div>
+  <div class="ck-card"><div class="ckt">Custo de oportunidade</div><p>O retorno da melhor alternativa não escolhida. No Brasil, a referência é a Selic.</p></div>
+  <div class="ck-card"><div class="ckt">Juros compostos</div><p>Rendimento que incide sobre o capital acumulado, não apenas sobre o principal original.</p></div>
+  <div class="ck-card"><div class="ckt">Prêmio de risco</div><p>Retorno adicional exigido por aceitar incerteza maior em relação ao ativo livre de risco.</p></div>
+  <div class="ck-card"><div class="ckt">Diversificação</div><p>Distribuição do capital entre ativos pouco correlacionados para reduzir risco sem sacrificar retorno proporcional.</p></div>
+  <div class="ck-card"><div class="ckt">Taxa real de juros</div><p>Retorno após descontar a inflação. Mede o ganho efetivo em poder de compra.</p></div>
+  <div class="ck-card"><div class="ckt">Fronteira eficiente</div><p>Conjunto de carteiras que, para cada nível de risco, maximiza o retorno esperado (Markowitz, 1952).</p></div>
+  <div class="ck-card"><div class="ckt">HME</div><p>Hipótese de que os preços de mercado refletem toda a informação disponível, impossibilitando ganhos sistemáticos acima do mercado.</p></div>
+  <div class="ck-card"><div class="ckt">Fama-French</div><p>Modelo de três fatores que amplia o CAPM: mercado, tamanho (SMB) e valor (HML) explicam o retorno esperado de ações.</p></div>
+  <div class="ck-card"><div class="ckt">Taxa de retirada segura</div><p>Percentual do patrimônio que pode ser retirado anualmente sem esgotar o portfólio num horizonte de 30 anos. Estudo Trinity: ~4%.</p></div>
 </div>
+</section>
 
-<!-- ═══ O QUE É INVESTIR ═══ -->
-<h2 id="o-que-e-investir">O que é investir <a class="anchor" href="#o-que-e-investir">#</a></h2>
-
+<section id="o-que-e-investir">
+<h2>O que e investir <a class="anchor" href="#o-que-e-investir">#</a></h2>
 <div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  A distinção moderna entre investimento, poupança e especulação foi sistematizada por John Maynard Keynes na <em>Teoria Geral</em> (1936), que separou a decisão de poupar (adiar consumo) da decisão de investir (alocar capital em ativos produtivos). Antes disso, os termos eram usados de forma intercambiável. Keynes também cunhou o conceito de "espíritos animais" para descrever a componente irracional das decisões de investimento — antecipando séculos de pesquisa em finanças comportamentais.
+  <span class="hl">&#128220; Contexto histórico</span>
+  A distinção moderna entre investimento, poupança e especulação foi sistematizada por John Maynard Keynes na <em>Teoria Geral</em> (1936), que separou a decisão de poupar (adiar consumo) da decisão de investir (alocar capital em ativos produtivos). Keynes também cunhou o conceito de "espíritos animais" para descrever a componente irracional das decisões de investimento &mdash; antecipando décadas de pesquisa em finanças comportamentais.
 </div>
-
 <div class="kbox">
   <div class="klabel">Definição formal</div>
   Investir é alocar capital hoje com a expectativa racional de obter um retorno futuro que compense: (1) o adiamento do consumo; (2) a inflação esperada; (3) os riscos assumidos. Essa definição distingue investimento de poupança (que preserva apenas valor nominal) e de especulação (que prioriza ganho de curto prazo com risco elevado e horizonte incerto).
 </div>
-
-<p>A lógica central é o <strong>custo de oportunidade</strong>: qualquer recurso aplicado em algum ativo deixa de ser aplicado em outro. Comparar investimentos significa sempre responder à pergunta "em relação a qual alternativa?". No Brasil, a referência natural é a Selic, pois representa o retorno de um ativo praticamente sem risco de crédito e com alta liquidez. Um investimento só é atraente se superar esse patamar de forma proporcional ao risco adicional que impõe.</p>
-
+<p>A lógica central é o <strong>custo de oportunidade</strong>: qualquer recurso aplicado em algum ativo deixa de ser aplicado em outro. Comparar investimentos significa sempre responder à pergunta "em relação a qual alternativa?". No Brasil, a referência natural é a Selic. Um investimento só é atraente se superar esse patamar de forma proporcional ao risco adicional que impõe.</p>
 <div class="callout">
   <strong>Princípio estruturante:</strong> nenhum investimento oferece simultaneamente alto retorno, alta liquidez e baixo risco. Toda oferta que pareça reunir os três merece ceticismo máximo.
 </div>
+</section>
 
-<!-- ═══ VALOR DO DINHEIRO NO TEMPO ═══ -->
-<h2 id="valor-do-dinheiro-no-tempo">Valor do dinheiro no tempo <a class="anchor" href="#valor-do-dinheiro-no-tempo">#</a></h2>
-
+<section id="valor-do-dinheiro-no-tempo">
+<h2>Valor do dinheiro no tempo <a class="anchor" href="#valor-do-dinheiro-no-tempo">#</a></h2>
 <div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  O conceito de valor presente foi formalizado matematicamente por Irving Fisher em <em>The Theory of Interest</em> (1930), mas a ideia de que dinheiro presente vale mais que dinheiro futuro aparece em escritos islâmicos medievais e no direito romano. A distinção entre juros simples e compostos já era operacionalmente usada por banqueiros florentinos do século XIII — os Medici calculavam retornos compostos sobre empréstimos de longo prazo para financiar guerras e rotas comerciais.
+  <span class="hl">&#128220; Contexto histórico</span>
+  O conceito de valor presente foi formalizado matematicamente por Irving Fisher em <em>The Theory of Interest</em> (1930). A distinção entre juros simples e compostos já era operacionalmente usada por banqueiros florentinos do século XIII &mdash; os Médici calculavam retornos compostos sobre empréstimos de longo prazo para financiar guerras e rotas comerciais.
 </div>
-
 <div class="kbox">
   <div class="klabel">Definição formal</div>
-  O valor do dinheiro no tempo estabelece que uma unidade monetária disponível hoje vale mais do que a mesma unidade disponível no futuro, por três razões: (1) pode ser imediatamente investida e gerar retorno; (2) a inflação reduz seu poder de compra com o tempo; (3) o recebimento futuro é probabilístico — existe incerteza sobre se ocorrerá —, enquanto o presente é certo.
+  O valor do dinheiro no tempo estabelece que uma unidade monetária disponível hoje vale mais do que a mesma unidade disponível no futuro, por três razões: (1) pode ser imediatamente investida e gerar retorno; (2) a inflação reduz seu poder de compra com o tempo; (3) o recebimento futuro é probabilístico &mdash; existe incerteza sobre se ocorrerá &mdash;, enquanto o presente é certo.
 </div>
-
 <h3>Juros simples vs. juros compostos <a class="anchor" href="#juros-simples-vs-compostos">#</a></h3>
-
-<p>Em <strong>juros simples</strong>, o rendimento é calculado sempre sobre o capital inicial, independentemente do tempo decorrido. Em <strong>juros compostos</strong>, o rendimento de cada período é incorporado ao capital e, no período seguinte, também passa a render — o capital cresce sobre si mesmo.</p>
-
-<div class="formula">M = C × (1 + i)ⁿ</div>
-
-<p>Onde <strong>M</strong> é o montante final, <strong>C</strong> é o capital inicial, <strong>i</strong> é a taxa de juros por período e <strong>n</strong> é o número de períodos. A consequência é crescimento exponencial, não linear: a diferença entre manter um investimento por 10 anos e por 20 anos não é o dobro — é muito maior.</p>
-
-<figure>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Anos</th>
-          <th>Juros simples (10% a.a.)</th>
-          <th>Juros compostos (10% a.a.)</th>
-          <th>Diferença</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>5</td><td>R$ 1.500</td><td>R$ 1.611</td><td>+R$ 111</td></tr>
-        <tr><td>10</td><td>R$ 2.000</td><td>R$ 2.594</td><td>+R$ 594</td></tr>
-        <tr><td>20</td><td>R$ 3.000</td><td>R$ 6.727</td><td>+R$ 3.727</td></tr>
-        <tr><td>30</td><td>R$ 4.000</td><td>R$ 17.449</td><td>+R$ 13.449</td></tr>
-      </tbody>
-      <caption>Tabela 1. Evolução de R$ 1.000 investidos a 10% a.a. em regimes de juros simples e compostos. Capital inicial: R$ 1.000.</caption>
-    </table>
-  </div>
-</figure>
-
-<h3>Regra dos 72 <a class="anchor" href="#regra-dos-72">#</a></h3>
-
-<p>A regra dos 72 é uma aproximação para estimar em quantos anos um capital dobra a uma taxa composta: divida 72 pela taxa de juros anual. A 9% ao ano, o capital dobra em aproximadamente 8 anos (72 ÷ 9 = 8). A 12%, dobra em 6 anos. Esse atalho é útil para comparar cenários rapidamente sem a fórmula completa — e para perceber que a taxa nominal de uma aplicação muda drasticamente o horizonte de acumulação.</p>
-
-<!-- ═══ RISCO E RETORNO ═══ -->
-<h2 id="risco-e-retorno">Risco e retorno <a class="anchor" href="#risco-e-retorno">#</a></h2>
-
-<div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  A formalização da relação risco-retorno é atribuída a Harry Markowitz (1952) e ao seu sucessor William Sharpe, que desenvolveu o CAPM (<em>Capital Asset Pricing Model</em>) em 1964. Antes deles, o conceito de "risco" em finanças era qualitativo — os investidores sabiam que risco existia, mas não tinham como mensurá-lo ou comparar carteiras sistematicamente. O artigo de Markowitz introduziu o desvio padrão dos retornos como medida de risco, transformando finanças em disciplina quantitativa. Markowitz recebeu o Nobel de Economia em 1990.
-</div>
-
-<div class="kbox">
-  <div class="klabel">Definição formal</div>
-  Risco, no contexto financeiro, é a incerteza sobre o retorno de um investimento — a possibilidade de que o resultado real difira do esperado, tanto positiva quanto negativamente. A medida estatística padrão é o desvio padrão dos retornos históricos. A relação entre risco e retorno é estrutural: em mercados competitivos e razoavelmente eficientes, retornos esperados mais altos só existem como compensação por riscos mais elevados (<span class="cite"><a href="#referencias">MARKOWITZ, 1952</a></span>).
-</div>
-
-<p>Esse diferencial de retorno exigido por um investidor para assumir risco acima do nível livre de risco é chamado de <strong>prêmio de risco</strong>. Ele varia com o tipo e a magnitude do risco assumido.</p>
-
-<h3>Tipos de risco <a class="anchor" href="#tipos-de-risco">#</a></h3>
-
+<p>Em <strong>juros simples</strong>, o rendimento é calculado sempre sobre o capital inicial. Em <strong>juros compostos</strong>, o rendimento de cada período é incorporado ao capital e, no período seguinte, também passa a render &mdash; o capital cresce sobre si mesmo.</p>
+<div class="formula">M = C x (1 + i)^n</div>
+<p>Onde <strong>M</strong> é o montante final, <strong>C</strong> é o capital inicial, <strong>i</strong> é a taxa de juros por período e <strong>n</strong> é o número de períodos. A consequência é crescimento exponencial, não linear.</p>
 <div class="table-wrap">
   <table>
-    <thead>
-      <tr><th>Tipo</th><th>Descrição</th><th>Eliminável por diversificação?</th></tr>
-    </thead>
+    <thead><tr><th>Anos</th><th>Juros simples (10% a.a.)</th><th>Juros compostos (10% a.a.)</th><th>Diferença</th></tr></thead>
     <tbody>
-      <tr>
-        <td><strong>Risco de crédito</strong></td>
-        <td>O emissor não consegue honrar o pagamento (calote). Ex.: empresa emissora de debênture vai à falência.</td>
-        <td>Parcialmente</td>
-      </tr>
-      <tr>
-        <td><strong>Risco de mercado</strong></td>
-        <td>Variações gerais de preços, taxas de juros ou câmbio afetam o valor do ativo.</td>
-        <td>Parcialmente</td>
-      </tr>
-      <tr>
-        <td><strong>Risco de liquidez</strong></td>
-        <td>Dificuldade de converter o ativo em dinheiro no momento necessário sem perda de valor.</td>
-        <td>Não</td>
-      </tr>
-      <tr>
-        <td><strong>Risco sistêmico</strong></td>
-        <td>Crise que afeta toda a economia simultaneamente (ex.: 2008, pandemia). Não diversificável.</td>
-        <td>Não</td>
-      </tr>
-      <tr>
-        <td><strong>Risco específico</strong></td>
-        <td>Risco particular de uma empresa ou setor. Pode ser reduzido com diversificação adequada.</td>
-        <td>Sim</td>
-      </tr>
+      <tr><td>5</td><td>R$ 1.500</td><td>R$ 1.611</td><td>+R$ 111</td></tr>
+      <tr><td>10</td><td>R$ 2.000</td><td>R$ 2.594</td><td>+R$ 594</td></tr>
+      <tr><td>20</td><td>R$ 3.000</td><td>R$ 6.727</td><td>+R$ 3.727</td></tr>
+      <tr><td>30</td><td>R$ 4.000</td><td>R$ 17.449</td><td>+R$ 13.449</td></tr>
+    </tbody>
+    <caption>Tabela 1. Evolução de R$ 1.000 investidos a 10% a.a. em regimes de juros simples e compostos.</caption>
+  </table>
+</div>
+<h3>Regra dos 72 <a class="anchor" href="#regra-dos-72">#</a></h3>
+<p>A regra dos 72 estima em quantos anos um capital dobra a uma taxa composta: divida 72 pela taxa de juros anual. A 9% ao ano, o capital dobra em aproximadamente 8 anos. A 12%, dobra em 6 anos.</p>
+</section>
+
+<section id="risco-e-retorno">
+<h2>Risco e retorno <a class="anchor" href="#risco-e-retorno">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  A formalização da relação risco-retorno é atribuída a Harry Markowitz (1952) e ao seu sucessor William Sharpe, que desenvolveu o CAPM (<em>Capital Asset Pricing Model</em> &mdash; modelo de precificação de ativos de capital) em 1964. Antes deles, o conceito de "risco" em finanças era qualitativo. O artigo de Markowitz introduziu o desvio padrão dos retornos como medida de risco, transformando finanças em disciplina quantitativa. Markowitz recebeu o Nobel de Economia em 1990.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Risco, no contexto financeiro, é a incerteza sobre o retorno de um investimento. A medida estatística padrão é o desvio padrão dos retornos históricos. Em mercados competitivos e razoavelmente eficientes, retornos esperados mais altos só existem como compensação por riscos mais elevados <a class="cite" href="#referencias">(MARKOWITZ, 1952)</a>.
+</div>
+<p>Esse diferencial de retorno exigido por um investidor para assumir risco acima do nível livre de risco é chamado de <strong>prêmio de risco</strong>.</p>
+<h3>Tipos de risco <a class="anchor" href="#tipos-de-risco">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipo</th><th>Descrição</th><th>Eliminável por diversificação?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Risco de crédito</strong></td><td>O emissor não consegue honrar o pagamento (calote).</td><td>Parcialmente</td></tr>
+      <tr><td><strong>Risco de mercado</strong></td><td>Variações gerais de preços, taxas de juros ou câmbio afetam o valor do ativo.</td><td>Parcialmente</td></tr>
+      <tr><td><strong>Risco de liquidez</strong></td><td>Dificuldade de converter o ativo em dinheiro no momento necessário sem perda de valor.</td><td>Não</td></tr>
+      <tr><td><strong>Risco sistêmico</strong></td><td>Crise que afeta toda a economia simultaneamente (ex.: 2008, pandemia). Não diversificável.</td><td>Não</td></tr>
+      <tr><td><strong>Risco específico</strong></td><td>Risco particular de uma empresa ou setor. Pode ser reduzido com diversificação adequada.</td><td>Sim</td></tr>
     </tbody>
     <caption>Tabela 2. Principais categorias de risco em investimentos e relação com a diversificação.</caption>
   </table>
 </div>
+<p>A distinção entre risco sistêmico e risco específico é fundamental: a diversificação elimina riscos específicos, mas não protege contra choques que afetam todos os ativos simultaneamente.</p>
+</section>
 
-<p>A distinção entre risco sistêmico e risco específico é fundamental: a diversificação elimina riscos específicos, mas não protege contra choques que afetam todos os ativos simultaneamente. Um portfólio bem diversificado ainda está plenamente exposto a recessões globais, crises cambiais e choques de taxa de juros.</p>
-
-<!-- ═══ CLASSES DE ATIVOS ═══ -->
-<h2 id="classes-de-ativos">Classes de ativos <a class="anchor" href="#classes-de-ativos">#</a></h2>
-
+<section id="classes-de-ativos">
+<h2>Classes de ativos <a class="anchor" href="#classes-de-ativos">#</a></h2>
 <div class="kbox">
   <div class="klabel">Definição formal</div>
-  Uma classe de ativo é um grupo de instrumentos financeiros com características semelhantes de risco, retorno e comportamento de mercado. A divisão em classes é relevante porque ativos de classes diferentes tendem a se comportar de forma distinta diante dos mesmos eventos econômicos — correlação baixa entre classes é o fundamento da diversificação eficiente.
+  Uma classe de ativo é um grupo de instrumentos financeiros com características semelhantes de risco, retorno e comportamento de mercado. Ativos de classes diferentes tendem a se comportar de forma distinta diante dos mesmos eventos econômicos &mdash; correlação baixa entre classes é o fundamento da diversificação eficiente.
 </div>
-
 <div class="table-wrap">
   <table>
-    <thead>
-      <tr><th>Classe</th><th>Exemplos</th><th>Retorno esperado</th><th>Risco</th><th>Liquidez típica</th></tr>
-    </thead>
+    <thead><tr><th>Classe</th><th>Exemplos</th><th>Retorno esperado</th><th>Risco</th><th>Liquidez tipica</th></tr></thead>
     <tbody>
-      <tr>
-        <td><strong>Renda fixa</strong></td>
-        <td>Tesouro Direto, CDB, LCI, LCA, debêntures</td>
-        <td>Baixo a médio</td>
-        <td>Baixo a médio</td>
-        <td>Alta a média</td>
-      </tr>
-      <tr>
-        <td><strong>Renda variável</strong></td>
-        <td>Ações, ETFs de ações</td>
-        <td>Médio a alto</td>
-        <td>Alto</td>
-        <td>Alta (mercado)</td>
-      </tr>
-      <tr>
-        <td><strong>Fundos imobiliários (FIIs)</strong></td>
-        <td>FIIs de tijolo, de papel</td>
-        <td>Médio</td>
-        <td>Médio</td>
-        <td>Média</td>
-      </tr>
-      <tr>
-        <td><strong>Ativos reais</strong></td>
-        <td>Imóveis, ouro, commodities</td>
-        <td>Médio</td>
-        <td>Médio a alto</td>
-        <td>Baixa</td>
-      </tr>
-      <tr>
-        <td><strong>Criptoativos</strong></td>
-        <td>Bitcoin, Ethereum</td>
-        <td>Muito alto (e incerto)</td>
-        <td>Muito alto</td>
-        <td>Alta</td>
-      </tr>
+      <tr><td><strong>Renda fixa</strong></td><td>Tesouro Direto, CDB, LCI, LCA, debêntures</td><td>Baixo a médio</td><td>Baixo a médio</td><td>Alta a média</td></tr>
+      <tr><td><strong>Renda variável</strong></td><td>Ações, ETFs de ações</td><td>Médio a alto</td><td>Alto</td><td>Alta (mercado)</td></tr>
+      <tr><td><strong>Fundos imobiliários (FIIs)</strong></td><td>FIIs de tijolo, de papel</td><td>Médio</td><td>Médio</td><td>Média</td></tr>
+      <tr><td><strong>Ativos reais</strong></td><td>Imóveis, ouro, commodities</td><td>Médio</td><td>Médio a alto</td><td>Baixa</td></tr>
+      <tr><td><strong>Criptoativos</strong></td><td>Bitcoin, Ethereum</td><td>Muito alto (e incerto)</td><td>Muito alto</td><td>Alta</td></tr>
     </tbody>
-    <caption>Tabela 3. Visão comparativa das principais classes de ativos. Retorno esperado e risco são positivamente correlacionados em toda a tabela.</caption>
+    <caption>Tabela 3. Visão comparativa das principais classes de ativos.</caption>
   </table>
 </div>
+</section>
 
-<!-- ═══ RENDA FIXA ═══ -->
-<h2 id="renda-fixa">Renda fixa <a class="anchor" href="#renda-fixa">#</a></h2>
-
+<section id="renda-fixa">
+<h2>Renda fixa <a class="anchor" href="#renda-fixa">#</a></h2>
 <div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  O Tesouro Direto foi criado pelo governo federal brasileiro em 2002 com o objetivo de democratizar o acesso aos títulos públicos, que antes só eram acessíveis a grandes investidores via fundos de renda fixa com elevadas taxas de administração. Antes de 2002, a pessoa física que quisesse investir em títulos soberanos pagava indiretamente — e caros — os custos de gestão de fundos que compravam esses mesmos papéis. A digitalização do programa, já nos anos 2010, tornou-o o maior canal de distribuição de títulos públicos para pessoas físicas do mundo.
+  <span class="hl">&#128220; Contexto histórico</span>
+  O Tesouro Direto foi criado pelo governo federal brasileiro em 2002 para democratizar o acesso aos títulos públicos, que antes só eram acessíveis a grandes investidores via fundos de renda fixa com elevadas taxas de administração. A digitalização do programa, nos anos 2010, tornou-o o maior canal de distribuição de títulos públicos para pessoas físicas do mundo.
 </div>
-
 <div class="kbox">
   <div class="klabel">Definição formal</div>
-  Renda fixa é a classe de ativos em que as condições de remuneração — taxa de juros, índice de correção e prazo — são estabelecidas no momento da contratação e não dependem do desempenho de uma empresa ou do mercado. O que varia entre produtos é o risco de crédito do emissor: o governo federal oferece o menor risco; bancos de menor porte oferecem maior risco dentro do universo regulamentado.
+  Renda fixa é a classe de ativos em que as condições de remuneração &mdash; taxa de juros, índice de correção e prazo &mdash; são estabelecidas no momento da contratação e não dependem do desempenho de uma empresa ou do mercado. O que varia entre produtos é o risco de crédito do emissor.
 </div>
-
 <h3>Tesouro Direto <a class="anchor" href="#tesouro-direto">#</a></h3>
-
-<p>O Tesouro Direto é o programa do governo federal que permite à pessoa física comprar títulos públicos diretamente. É considerado o investimento de menor risco disponível no Brasil: o risco de crédito é soberano — o governo pode emitir moeda para honrar compromissos em reais. Os principais títulos são:</p>
-
 <div class="table-wrap">
   <table>
-    <thead>
-      <tr><th>Título</th><th>Remuneração</th><th>Indicado quando</th></tr>
-    </thead>
+    <thead><tr><th>Título</th><th>Remuneração</th><th>Indicado quando</th></tr></thead>
     <tbody>
-      <tr>
-        <td><strong>Tesouro Selic</strong></td>
-        <td>Selic + ágio/deságio pequeno</td>
-        <td>Reserva de emergência; proteção contra alta de juros</td>
-      </tr>
-      <tr>
-        <td><strong>Tesouro Prefixado</strong></td>
-        <td>Taxa fixa definida na compra</td>
-        <td>Expectativa de queda da Selic; objetivos de prazo definido</td>
-      </tr>
-      <tr>
-        <td><strong>Tesouro IPCA+</strong></td>
-        <td>IPCA + taxa real fixa</td>
-        <td>Proteção da inflação a longo prazo; aposentadoria</td>
-      </tr>
+      <tr><td><strong>Tesouro Selic</strong></td><td>Selic + ágio/deságio pequeno</td><td>Reserva de emergência; proteção contra alta de juros</td></tr>
+      <tr><td><strong>Tesouro Prefixado</strong></td><td>Taxa fixa definida na compra</td><td>Expectativa de queda da Selic; objetivos de prazo definido</td></tr>
+      <tr><td><strong>Tesouro IPCA+</strong></td><td>IPCA + taxa real fixa</td><td>Proteção da inflação a longo prazo; aposentadoria</td></tr>
     </tbody>
     <caption>Tabela 4. Principais títulos do Tesouro Direto e finalidades estratégicas na carteira.</caption>
   </table>
 </div>
-
 <div class="callout">
-  <strong>Atenção à marcação a mercado:</strong> títulos prefixados e Tesouro IPCA+ oscilam de preço antes do vencimento. Quem resgata antecipadamente pode receber mais ou menos do que investiu. Quem carrega até o vencimento recebe exatamente a taxa contratada — sem surpresas.
+  <strong>Atenção à marcação a mercado:</strong> títulos prefixados e Tesouro IPCA+ oscilam de preço antes do vencimento. Quem resgata antecipadamente pode receber mais ou menos do que investiu. Quem carrega até o vencimento recebe exatamente a taxa contratada.
 </div>
-
 <h3>CDB, LCI e LCA <a class="anchor" href="#cdb-lci-lca">#</a></h3>
+<p>O <strong>CDB</strong> (Certificado de Depósito Bancário) remunera o investidor a uma taxa prefixada ou atrelada ao CDI (Certificado de Depósito Interbancário). CDBs são cobertos pelo FGC (Fundo Garantidor de Créditos) até R$ 250.000 por CPF por instituição.</p>
+<p>A <strong>LCI</strong> (Letra de Crédito Imobiliário) e a <strong>LCA</strong> (Letra de Crédito do Agronegócio) são isentas de Imposto de Renda para pessoa física. A comparação correta com CDBs exige calcular o retorno líquido após IR em cada opção.</p>
+<div class="formula">Retorno liquido CDB = Taxa bruta x (1 - aliquota IR)</div>
+<p>Exemplo: CDB a 12% a.a. com prazo de 2 anos, alíquota 15%. Retorno líquido = 10,2% a.a. Uma LCI acima de 10,2% para o mesmo prazo e risco é mais vantajosa.</p>
+</section>
 
-<p>O <strong>CDB</strong> (Certificado de Depósito Bancário) é uma forma de os bancos captarem recursos do público, remunerando o investidor a uma taxa prefixada ou atrelada ao CDI (Certificado de Depósito Interbancário — taxa que os bancos cobram uns dos outros em empréstimos de curtíssimo prazo, muito próxima da Selic). CDBs são cobertos pelo FGC (Fundo Garantidor de Créditos) até R$ 250.000 por CPF por instituição.</p>
-
-<p>A <strong>LCI</strong> (Letra de Crédito Imobiliário) e a <strong>LCA</strong> (Letra de Crédito do Agronegócio) são títulos bancários semelhantes ao CDB, mas com uma vantagem fiscal: são isentos de Imposto de Renda para pessoa física. Por isso, costumam oferecer taxas nominais menores que CDBs equivalentes — a comparação correta exige calcular o retorno líquido após IR em cada opção.</p>
-
-<h3>Comparação líquida: CDB vs. LCI/LCA <a class="anchor" href="#comparacao-cdb-lci">#</a></h3>
-
-<p>Para comparar um CDB tributável com uma LCI/LCA isenta, é necessário calcular o rendimento equivalente. A fórmula parte da alíquota de IR aplicável ao CDB, que decresce com o prazo: 22,5% até 180 dias; 20% de 181 a 360 dias; 17,5% de 361 a 720 dias; 15% acima de 720 dias.</p>
-
-<div class="formula">Retorno líquido CDB = Taxa bruta × (1 − alíquota IR)</div>
-
-<p>Exemplo: um CDB a 12% ao ano com prazo de 2 anos tem alíquota de 15%. O retorno líquido é 12% × (1 − 0,15) = 10,2% ao ano. Uma LCI que ofereça acima de 10,2% ao ano para o mesmo prazo e risco é mais vantajosa.</p>
-
-<!-- ═══ RENDA VARIÁVEL ═══ -->
-<h2 id="renda-variavel">Renda variável <a class="anchor" href="#renda-variavel">#</a></h2>
-
+<section id="renda-variavel">
+<h2>Renda variavel <a class="anchor" href="#renda-variavel">#</a></h2>
 <div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  A Bolsa de Valores de São Paulo (Bovespa) foi fundada em 1890, mas permaneceu restrita a grandes investidores e corretoras por décadas. A democratização do mercado de ações para o pequeno investidor ocorreu gradualmente a partir dos anos 1990, com a privatização de empresas estatais e a criação do Home Broker (negociação online) no final da década. A fusão da Bovespa com a BM&amp;F em 2008 criou a B3 (Brasil, Bolsa, Balcão), que hoje concentra toda a negociação de ações, derivativos, FIIs e ETFs no Brasil.
+  <span class="hl">&#128220; Contexto histórico</span>
+  A Bolsa de Valores de São Paulo (Bovespa) foi fundada em 1890. A democratização do mercado de ações para o pequeno investidor ocorreu gradualmente a partir dos anos 1990, com a privatização de empresas estatais e a criação do Home Broker. A fusão da Bovespa com a BM&amp;F em 2008 criou a B3 (Brasil, Bolsa, Balcão).
 </div>
-
 <div class="kbox">
   <div class="klabel">Definição formal</div>
-  Renda variável é a classe de ativos em que o retorno não é conhecido antecipadamente e depende do desempenho futuro de uma empresa, do mercado ou de outro fator subjacente. O investidor assume maior incerteza em troca de maior potencial de ganho no longo prazo — a compensação pelo risco adicional é o prêmio de risco de mercado, historicamente positivo em horizontes de 10 anos ou mais.
+  Renda variável é a classe de ativos em que o retorno não é conhecido antecipadamente e depende do desempenho futuro de uma empresa, do mercado ou de outro fator subjacente. O investidor assume maior incerteza em troca de maior potencial de ganho no longo prazo &mdash; compensação pelo risco adicional é o prêmio de risco de mercado.
 </div>
-
 <h3>Ações <a class="anchor" href="#acoes">#</a></h3>
+<p>Uma <strong>ação</strong> representa uma fração do capital social de uma empresa de capital aberto. O retorno vem de duas fontes: valorização do preço (ganho de capital) e proventos distribuídos &mdash; dividendos e JCP (Juros sobre Capital Próprio). No Brasil, dividendos são isentos de IR para pessoa física; o JCP é tributado na fonte a 15%.</p>
+<h3>ETFs &mdash; fundos de indice <a class="anchor" href="#etfs">#</a></h3>
+<p>Um <strong>ETF</strong> (<em>Exchange-Traded Fund</em> &mdash; fundo negociado em bolsa) replica um índice de mercado e é negociado em bolsa como uma ação. Sua vantagem central é diversificação automática com custo baixo. ETFs eliminam risco específico por construção &mdash; o risco que permanece é o sistêmico do mercado representado pelo índice.</p>
+<h3>Fundos imobiliarios (FIIs) <a class="anchor" href="#fiis">#</a></h3>
+<p>Os <strong>FIIs</strong> investem em ativos imobiliários &mdash; imóveis físicos (FIIs de tijolo) ou títulos de crédito imobiliário como CRIs e LCIs (FIIs de papel). São negociados em bolsa e distribuem renda mensal, geralmente isenta de IR para pessoa física sob condições específicas.</p>
+</section>
 
-<p>Uma <strong>ação</strong> representa uma fração do capital social de uma empresa de capital aberto. Ao comprar uma ação, o investidor torna-se sócio da companhia, com direito proporcional aos lucros distribuídos (dividendos) e à valorização patrimonial. No Brasil, as ações são negociadas na B3.</p>
-
-<p>Existem dois tipos principais: <strong>ações ordinárias (ON)</strong>, que conferem direito a voto nas assembleias; e <strong>ações preferenciais (PN)</strong>, que em geral têm prioridade no recebimento de dividendos, mas direito de voto restrito. Após a reforma da Lei das S.A., novas empresas listadas tendem a ter apenas ações ordinárias (código terminado em 3).</p>
-
-<p>O retorno de uma ação vem de duas fontes: a valorização do preço (ganho de capital) e os proventos distribuídos — dividendos e JCP (Juros sobre Capital Próprio). No Brasil, dividendos são isentos de IR para pessoa física, enquanto o JCP é tributado na fonte a 15%.</p>
-
-<h3>ETFs — fundos de índice <a class="anchor" href="#etfs">#</a></h3>
-
-<p>Um <strong>ETF</strong> (<em>Exchange-Traded Fund</em> — fundo negociado em bolsa) é um fundo que replica um índice de mercado (como o Ibovespa ou o S&amp;P 500) e é negociado em bolsa como uma ação. Sua vantagem central é a diversificação automática com custo baixo: ao comprar uma cota do BOVA11, o investidor adquire exposição proporcional às maiores empresas da bolsa brasileira em uma única transação. ETFs eliminam risco específico por construção — o risco que permanece é o sistêmico do mercado representado pelo índice.</p>
-
-<h3>Fundos imobiliários (FIIs) <a class="anchor" href="#fiis">#</a></h3>
-
-<p>Os <strong>FIIs</strong> (Fundos de Investimento Imobiliário) são fundos que investem em ativos imobiliários — imóveis físicos (FIIs de tijolo) ou em títulos de crédito imobiliário como CRIs e LCIs (FIIs de papel). São negociados em bolsa e distribuem renda mensal, geralmente isenta de IR para pessoa física que detenha menos de 10% das cotas do fundo e desde que o fundo tenha mais de 50 cotistas. Funcionam como uma forma de ter exposição ao mercado imobiliário com alta liquidez e fracionamento acessível.</p>
-
-<!-- ═══ DIVERSIFICAÇÃO ═══ -->
-<h2 id="diversificacao">Diversificação e carteira <a class="anchor" href="#diversificacao">#</a></h2>
-
+<section id="diversificacao">
+<h2>Diversificação e carteira <a class="anchor" href="#diversificacao">#</a></h2>
 <div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  Harry Markowitz publicou "Portfolio Selection" no <em>Journal of Finance</em> em 1952, com apenas 14 páginas. O artigo demonstrou matematicamente que o risco de uma carteira não é a média ponderada dos riscos individuais de seus ativos — depende crucialmente das correlações entre eles. A ideia era radicalmente nova: era possível montar uma carteira com risco menor do que qualquer ativo individual, simplesmente combinando ativos com correlações negativas ou baixas. Markowitz trabalhou o conceito como tese de doutorado na Universidade de Chicago; seu orientador Milton Friedman chegou a dizer que o tema "não era economia". Em 1990, Markowitz recebeu o Nobel de Economia.
+  <span class="hl">&#128220; Contexto histórico</span>
+  Harry Markowitz publicou "Portfolio Selection" no <em>Journal of Finance</em> em 1952, com apenas 14 páginas. O artigo demonstrou matematicamente que o risco de uma carteira não é a média ponderada dos riscos individuais &mdash; depende crucialmente das correlações entre ativos. Seu orientador Milton Friedman chegou a dizer que o tema "não era economia". Em 1990, Markowitz recebeu o Nobel de Economia.
 </div>
-
 <div class="kbox">
   <div class="klabel">Definição formal</div>
   Diversificação é a distribuição do capital entre ativos cujos retornos não são perfeitamente correlacionados, com o objetivo de reduzir o risco total do portfólio sem sacrificar o retorno esperado proporcional. A Teoria Moderna do Portfólio (TMP) de Markowitz (1952) demonstrou que o risco de uma carteira depende não apenas dos riscos individuais dos ativos, mas da correlação entre eles.
 </div>
-
-<p>A intuição: se dois ativos se movem em direções opostas diante dos mesmos eventos, colocá-los juntos na carteira faz com que as perdas de um sejam parcialmente compensadas pelos ganhos do outro. Quanto mais baixa a correlação — ou melhor ainda, negativa —, maior o benefício da diversificação.</p>
-
 <div class="callout">
-  <strong>Fronteira eficiente:</strong> Markowitz mostrou que existe um conjunto de carteiras que, para cada nível de risco, maximiza o retorno esperado. Carteiras abaixo dessa fronteira são ineficientes — é possível obter mais retorno com o mesmo risco, ou o mesmo retorno com menos risco, simplesmente ajustando a composição.
+  <strong>Fronteira eficiente:</strong> Markowitz mostrou que existe um conjunto de carteiras que, para cada nível de risco, maximiza o retorno esperado. Carteiras abaixo dessa fronteira são ineficientes &mdash; é possível obter mais retorno com o mesmo risco simplesmente ajustando a composição.
 </div>
-
-<h3>Diversificação na prática <a class="anchor" href="#diversificacao-pratica">#</a></h3>
-
-<p>A diversificação ocorre em múltiplas dimensões: entre classes de ativos (renda fixa e variável), dentro de uma mesma classe (várias ações de setores distintos), entre geografias (Brasil e exterior) e entre prazos (curto, médio e longo prazo). Cada camada adiciona proteção contra um tipo diferente de risco.</p>
-
-<p>Contudo, diversificação tem retornos decrescentes. A redução de risco específico é mais acentuada nas primeiras 15 a 20 ações; adicionar a 30ª ou 40ª ação contribui pouco incrementalmente. A partir de certo ponto, o benefício marginal não justifica o custo de gestão de muitas posições.</p>
-
-<!-- ═══ TRIBUTAÇÃO ═══ -->
-<h2 id="tributacao">Tributação <a class="anchor" href="#tributacao">#</a></h2>
-
-<p>A tributação é parte integrante da decisão de investimento — comparar retornos brutos sem considerar imposto leva a conclusões incorretas. No Brasil, os principais impostos sobre investimentos são o IR (Imposto de Renda) e o IOF (Imposto sobre Operações Financeiras).</p>
-
-<div class="table-wrap">
-  <table>
-    <thead>
-      <tr><th>Investimento</th><th>IR</th><th>IOF</th><th>Observação</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Renda fixa (CDB, Tesouro)</td>
-        <td>15% a 22,5% (regressivo pelo prazo)</td>
-        <td>Sim, até 30 dias</td>
-        <td>Imposto retido na fonte</td>
-      </tr>
-      <tr>
-        <td>LCI / LCA</td>
-        <td>Isento (PF)</td>
-        <td>Pode incidir conforme carência</td>
-        <td>Carência mínima de 90 dias (LCI) e 90 dias (LCA)</td>
-      </tr>
-      <tr>
-        <td>Ações (ganho de capital)</td>
-        <td>15% (<em>swing trade</em>) / 20% (<em>day trade</em>)</td>
-        <td>Não</td>
-        <td>Isenção para vendas mensais ≤ R$ 20.000</td>
-      </tr>
-      <tr>
-        <td>Dividendos de ações</td>
-        <td>Isento (PF)</td>
-        <td>Não</td>
-        <td>Discussão legislativa pode alterar isso</td>
-      </tr>
-      <tr>
-        <td>FIIs (rendimento mensal)</td>
-        <td>Isento (condições específicas)</td>
-        <td>Não</td>
-        <td>Ganho de capital na venda de cotas: 20%</td>
-      </tr>
-      <tr>
-        <td>ETFs de renda variável</td>
-        <td>15% sobre ganho de capital</td>
-        <td>Não</td>
-        <td>Sem isenção de R$ 20.000/mês</td>
-      </tr>
-    </tbody>
-    <caption>Tabela 5. Resumo tributário dos principais investimentos para pessoa física no Brasil (2026). Legislação sujeita a alteração.</caption>
-  </table>
+<div class="kbox">
+  <div class="klabel">Limites do modelo &mdash; TMP de Markowitz</div>
+  A TMP pressupõe que: (1) retornos seguem distribuição normal &mdash; mas retornos reais apresentam <em>fat tails</em> (caudas pesadas) e assimetria negativa, com crises mais frequentes e intensas do que a curva normal prevê; (2) correlações entre ativos são estáveis &mdash; na prática, correlações sobem exatamente nos momentos de crise; (3) o investidor conhece retornos esperados e variâncias futuras &mdash; estimá-los a partir de dados históricos introduz erro que pode distorcer a carteira "ótima"; (4) não há custos de transação nem impostos. O modelo é uma ferramenta de raciocínio, não uma receita operacional direta <a class="cite" href="#referencias">(MICHAUD, 1989)</a>.
 </div>
+<p>Diversificação tem retornos decrescentes. A redução de risco específico é mais acentuada nas primeiras 15 a 20 ações; adicionar a 30ª ou 40ª contribui pouco incrementalmente.</p>
+</section>
 
-<p>A tabela regressiva do IR para renda fixa cria um incentivo claro de longo prazo: manter aplicações por mais de 720 dias reduz a alíquota de 22,5% para 15%, representando diferença expressiva no retorno líquido acumulado.</p>
-
-<!-- ═══ INFLAÇÃO E JUROS REAIS ═══ -->
-<h2 id="inflacao-e-juros">Inflação e juros reais <a class="anchor" href="#inflacao-e-juros">#</a></h2>
-
+<section id="hme">
+<h2>Hipótese de Mercados Eficientes <a class="anchor" href="#hme">#</a></h2>
 <div class="hist">
-  <span class="hl">📜 Contexto histórico</span>
-  A equação de Fisher foi desenvolvida pelo economista Irving Fisher em <em>The Theory of Interest</em> (1930), como extensão de seu trabalho sobre deflação e dívida. Fisher viveu o trauma pessoal de ver sua fortuna destruída na crise de 1929 — em parte por não ter aplicado sua própria teoria: ele acreditou que a bolsa americana estava em um "patamar permanentemente alto" em 1929. A distinção entre taxa nominal e real que ele formalizou é hoje considerada elementar, mas demorou décadas para ser incorporada à política monetária dos bancos centrais.
+  <span class="hl">&#128220; Contexto histórico</span>
+  A HME (Hipótese de Mercados Eficientes) foi sistematizada por Eugene Fama em sua tese de doutorado na Universidade de Chicago e consolidada no artigo seminal de 1970 no <em>Journal of Finance</em>. Em 1953, Maurice Kendall mostrou que os preços das ações se moviam de forma aleatória; em 1964, Paul Samuelson demonstrou matematicamente que um mercado de informação livre deveria produzir preços imprevistos. Fama sistematizou essas ideias em três formas testáveis.
 </div>
-
 <div class="kbox">
   <div class="klabel">Definição formal</div>
-  A taxa nominal é o rendimento expresso em moeda corrente, sem ajuste inflacionário. A taxa real é o rendimento após descontar a inflação do período — mede o ganho efetivo em termos de poder de compra. A relação entre as duas é dada pela equação de Fisher: (1 + i<sub>real</sub>) = (1 + i<sub>nominal</sub>) / (1 + inflação).
+  A HME (Hipótese de Mercados Eficientes) postula que os preços dos ativos financeiros refletem, a qualquer momento, toda a informação disponível relevante. Sob essa hipótese, é impossível obter retornos sistematicamente acima do mercado (ajustados ao risco) usando apenas informações disponíveis publicamente, pois qualquer oportunidade de arbitragem seria imediatamente eliminada pela ação de participantes racionais <a class="cite" href="#referencias">(FAMA, 1970)</a>.
 </div>
+<h3>As tres formas da HME <a class="anchor" href="#formas-hme">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Forma</th><th>Informação incorporada</th><th>Implicação prática</th><th>Evidência empírica</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Fraca</strong></td><td>Preços históricos e volume negociado</td><td>Análise técnica (gráfica) não gera alfa consistente</td><td>Amplamente suportada; padrões técnicos exploráveis desaparecem quando publicados</td></tr>
+      <tr><td><strong>Semiforte</strong></td><td>Toda informação pública (relatórios, balanços, notícias)</td><td>Análise fundamentalista não gera alfa consistente após custos</td><td>Parcialmente suportada; anomalias documentadas (efeito valor, efeito tamanho) desafiam a forma</td></tr>
+      <tr><td><strong>Forte</strong></td><td>Toda informação &mdash; inclusive insider (privilegiada)</td><td>Nem mesmo <em>insiders</em> com informação privada podem ganhar consistentemente</td><td>Rejeitada empiricamente: insider trading é lucrativo quando não monitorado</td></tr>
+    </tbody>
+    <caption>Tabela 5. As três formas da HME e o estado da evidência empírica para cada uma.</caption>
+  </table>
+</div>
+<div class="kbox">
+  <div class="klabel">Limites do modelo &mdash; HME</div>
+  A HME pressupõe: (1) investidores racionais que processam informação instantânea e sem custo &mdash; mas finanças comportamentais (Kahneman, Shiller, Thaler) documentaram vieses sistemáticos que persistem; (2) arbitragem sem fricção &mdash; na prática, custos de venda a descoberto e limitação de capital restringem a arbitragem (Shleifer e Vishny: "limites da arbitragem"); (3) preços sempre refletem fundamentos &mdash; bolhas como o dot-com (2000) e o subprime (2007-08) são difíceis de reconciliar com a HME; (4) paradoxo de Grossman-Stiglitz (1980): se os mercados fossem perfeitamente eficientes, ninguém teria incentivo para coletar informação, portanto os mercados jamais poderiam ser perfeitamente eficientes <a class="cite" href="#referencias">(GROSSMAN; STIGLITZ, 1980)</a>.
+</div>
+<p>Para o investidor individual, a implicação prática da HME é poderosa: a probabilidade de selecionar ativos ou momentos de mercado de forma sistematicamente superior ao índice, após custos e impostos, é baixa. Isso não significa que nenhum gestor bata o mercado; significa que, ex ante, identificar qual gestor vai bater o mercado é tão difícil quanto bater o mercado diretamente.</p>
+</section>
 
-<div class="formula">(1 + i<sub>real</sub>) = (1 + i<sub>nominal</sub>) / (1 + inflação)</div>
+<section id="fatores-de-risco">
+<h2>Fatores de risco: alem do CAPM <a class="anchor" href="#fatores-de-risco">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  O CAPM de Sharpe (1964) propunha que o único fator relevante para o retorno esperado era a sensibilidade ao mercado (beta). Nos anos 1980, anomalias empíricas acumulavam-se: ações de empresas pequenas e com alto índice book-to-market apresentavam retornos superiores ao previsto. Em 1993, Eugene Fama e Kenneth French publicaram o modelo de três fatores que organizou essas anomalias, essencialmente detonando o reinado do CAPM como modelo único.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal &mdash; Modelo de Três Fatores de Fama-French</div>
+  O modelo postula que o retorno esperado de um ativo em excesso à taxa livre de risco é explicado por três fatores: (1) <strong>MKT</strong> &mdash; premio de mercado; (2) <strong>SMB</strong> (<em>Small Minus Big</em> &mdash; pequeno menos grande): retorno de ações de empresas pequenas em excesso ao de grandes; (3) <strong>HML</strong> (<em>High Minus Low</em> &mdash; alto menos baixo): retorno de ações com alto índice book-to-market (valor) em excesso ao de ações com baixo book-to-market (crescimento) <a class="cite" href="#referencias">(FAMA; FRENCH, 1993)</a>.
+</div>
+<div class="formula">E(Ri) - Rf = Bi*MKT + si*SMB + hi*HML</div>
+<p>Onde Bi, si e hi são as sensibilidades do ativo a cada fator. O modelo explica tipicamente 90-95% da variação de retorno entre carteiras diversificadas, contra 70% do CAPM de um fator.</p>
+<h3>O que os fatores significam <a class="anchor" href="#significado-fatores">#</a></h3>
+<p>O <strong>fator tamanho (SMB)</strong> captura o excesso histórico de retorno de empresas pequenas sobre grandes. A interpretação mais aceita: empresas pequenas carregam risco adicional &mdash; menor liquidez, menor acesso a crédito, maior sensibilidade a ciclos econômicos &mdash; e o prêmio é compensação por esse risco. A interpretação comportamental alternativa: investidores negligenciam sistematicamente as <em>small caps</em>, criando subprecificação persistente.</p>
+<p>O <strong>fator valor (HML)</strong> captura o excesso histórico de retorno de ações "baratas" (alto book-to-market) sobre ações "caras" (crescimento). Empresas de valor tendem a ser empresas em dificuldades financeiras &mdash; o prêmio seria compensação por esse <em>distress risk</em>.</p>
+<p>Em 2015, Fama e French estenderam o modelo para cinco fatores, adicionando <strong>RMW</strong> (<em>Robust Minus Weak</em> &mdash; lucratividade) e <strong>CMA</strong> (<em>Conservative Minus Aggressive</em> &mdash; investimento). A proliferação de fatores &mdash; hoje mais de 400 documentados na literatura &mdash; levanta o problema do <em>factor zoo</em>: quantos são genuinamente explicativos e quantos são ruído estatístico de <em>data mining</em>? <a class="cite" href="#referencias">(HARVEY; LIU; ZHU, 2016)</a>.</p>
+<h3>Implicacao para o investidor <a class="anchor" href="#implicacao-fatores">#</a></h3>
+<p>ETFs que seguem índices ponderados por capitalização de mercado têm exposição implícita apenas ao fator mercado. ETFs de <em>smart beta</em> ou de fatores específicos (value, size) buscam capturar prêmios adicionais com custo moderado. A tensão: prêmios de fator, quando amplamente conhecidos e comercializados, tendem a ser parcialmente arbitrados &mdash; o prêmio futuro pode ser menor que o histórico.</p>
+</section>
 
-<p>Aproximação simplificada: i<sub>real</sub> ≈ i<sub>nominal</sub> − inflação. Adequada para taxas baixas; para taxas elevadas, a equação completa é necessária.</p>
+<section id="evidencia-empirica">
+<h2>Evidencia empirica de longo prazo sobre premio de risco <a class="anchor" href="#evidencia-empirica">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  O estudo mais abrangente sobre retornos históricos de longo prazo foi realizado por Elroy Dimson, Paul Marsh e Mike Staunton, publicado em <em>Triumph of the Optimists</em> (2002) e atualizado anualmente no Credit Suisse Global Investment Returns Yearbook. Cobrindo 32 países desde 1900, o projeto consolidou dados antes fragmentados por mercado.
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Mercado</th><th>Retorno real ações (a.a.)</th><th>Retorno real bonds (a.a.)</th><th>Prêmio de risco histórico (a.a.)</th><th>Período</th></tr></thead>
+    <tbody>
+      <tr><td><strong>EUA</strong></td><td>~6,4%</td><td>~2,0%</td><td>~4,4%</td><td>1900-2023</td></tr>
+      <tr><td><strong>Reino Unido</strong></td><td>~5,0%</td><td>~1,5%</td><td>~3,5%</td><td>1900-2023</td></tr>
+      <tr><td><strong>Mundo (ex-EUA)</strong></td><td>~4,5%</td><td>~1,8%</td><td>~2,7%</td><td>1900-2023</td></tr>
+      <tr><td><strong>Brasil</strong></td><td>variavel*</td><td>variavel*</td><td>&mdash;</td><td>dados limitados</td></tr>
+    </tbody>
+    <caption>Tabela 6. Retornos reais anualizados históricos por classe de ativo. *Brasil: dados pré-1994 distorcidos pela hiperinflação. Fonte: Dimson, Marsh e Staunton (2024).</caption>
+  </table>
+</div>
+<h3>O que a evidência diz &mdash; e o que não diz <a class="anchor" href="#evidencia-critica">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Pontos de atenção crítica</div>
+  <p style="margin-bottom:0.6em"><strong>Viés de sobrevivência:</strong> o mercado americano foi excepcionalmente bem-sucedido no século XX. Mercados como o russo (1917), chinês (1949) e alemão (1945) foram zerados por guerras ou expropriação. Usar apenas dados de mercados sobreviventes superestima o retorno esperado.</p>
+  <p style="margin-bottom:0.6em"><strong>O prêmio passado não é garantia do futuro:</strong> parte do retorno histórico das ações reflete expansão de múltiplos (P/L). Se múltiplos reverterem à média histórica, o retorno futuro será menor que o histórico.</p>
+  <p style="margin-bottom:0.6em"><strong>A volatilidade de curto prazo é real:</strong> em qualquer janela de 10 anos, o mercado de ações pode entregar retorno negativo. O S&amp;P 500 perdeu ~50% de 2000 a 2002 e outros ~50% de 2007 a 2009. O horizonte importa &mdash; o prêmio se manifesta no longo prazo, não garantido a cada década.</p>
+  <p style="margin-bottom:0"><strong>Risco de sequência:</strong> a ordem das quedas importa tanto quanto a média. Dois portfólios com o mesmo retorno médio anual produzem patrimônios finais radicalmente diferentes dependendo de quando ocorrem os anos negativos &mdash; relevante especialmente na fase de retirada.</p>
+</div>
+</section>
 
-<p>Exemplo concreto: se um CDB rende 12% ao ano e o IPCA do período foi 5%, a taxa real aproximada é 7% ao ano. Se a inflação fosse de 13%, o mesmo CDB teria retorno real negativo — o investidor perdeu poder de compra mesmo "ganhando" nominalmente.</p>
-
+<section id="custos">
+<h2>O papel dos custos no retorno composto <a class="anchor" href="#custos">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  John C. Bogle, fundador da Vanguard, dedicou décadas a demonstrar que os custos de gestão ativa são o principal preditor negativo de retorno para o investidor. Em 1976, criou o primeiro fundo de índice disponível para o público geral, o Vanguard 500 Index Fund. A ideia foi ridicularizada na época pelos gestores ativos como "Bogle's Folly". Hoje, os fundos de índice da Vanguard somam mais de US$ 8 trilhões em ativos.
+</div>
+<div class="kbox">
+  <div class="klabel">Mecanismo &mdash; destruicao de valor por custos</div>
+  Os custos de investimento não subtraem simplesmente o retorno de um único período: eles são subtraídos antes da capitalização de cada período subsequente. Um custo anual de 2% em taxa de administração parece modesto, mas sobre 30 anos e retorno bruto de 8% a.a., o capital final é aproximadamente 43% menor do que seria sem esse custo. O custo composto é o custo real.
+</div>
+<div class="formula">Patrimonio sem custo (30 anos, 8% bruto) = ~10,0x capital inicial | Com custo 2% a.a. = ~5,7x capital inicial</div>
+<p>O investidor com custo de 2% ao ano acumula, em 30 anos, menos de 60% do patrimônio que acumularia no investimento de baixo custo com mesma classe de ativo. Esse diferencial não é abstraído pelos gráficos de rentabilidade dos fundos &mdash; que mostram retorno bruto, não líquido de taxa.</p>
+<h3>Tipos de custo que corroem retorno <a class="anchor" href="#tipos-custo">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipo de custo</th><th>Descrição</th><th>Magnitude típica (Brasil)</th><th>Evitável?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Taxa de administração</strong></td><td>Cobrada anualmente sobre o patrimônio total do fundo</td><td>0,1% (ETF) a 3%+ (fundo ativo)</td><td>Parcialmente &mdash; ETFs são muito mais baratos</td></tr>
+      <tr><td><strong>Taxa de performance</strong></td><td>Cobrada sobre o excesso de retorno acima de um benchmark</td><td>20% do excedente (comum em fundos ativos)</td><td>Sim &mdash; ETFs não cobram</td></tr>
+      <tr><td><strong>Spread bid-ask</strong></td><td>Diferença entre preço de compra e venda no momento da transação</td><td>Variável (menor em ativos líquidos)</td><td>Parcialmente</td></tr>
+      <tr><td><strong>IR e IOF</strong></td><td>Imposto sobre rendimentos e sobre operações financeiras</td><td>15%-22,5% sobre ganho real</td><td>Parcialmente &mdash; prazo reduz alíquota de IR</td></tr>
+      <tr><td><strong>Custos de giro excessivo</strong></td><td>Compra e venda frequente gera emolumentos e IR por realização de lucro</td><td>Variável</td><td>Sim &mdash; estratégia de longo prazo e <em>buy and hold</em></td></tr>
+    </tbody>
+    <caption>Tabela 7. Tipos de custo que afetam o retorno líquido composto do investidor.</caption>
+  </table>
+</div>
 <div class="callout">
-  <strong>Implicação prática:</strong> em períodos de inflação elevada, apenas aplicações que superem o IPCA preservam o poder de compra. A poupança, que rende 70% da Selic quando a Selic supera 8,5% ao ano, frequentemente entrega retorno real próximo de zero ou negativo em contextos inflacionários.
+  <strong>Regra prática:</strong> o retorno médio bruto do mercado acionário americano em 100 anos foi de ~10% ao ano nominal. Uma taxa de administração de 2% consome 20% desse retorno antes do imposto. Em mercados com retorno real historicamente menor, a proporção consumida é ainda maior.
 </div>
+</section>
 
-<!-- ═══ PERFIL DO INVESTIDOR ═══ -->
-<h2 id="perfil-investidor">Perfil do investidor <a class="anchor" href="#perfil-investidor">#</a></h2>
+<section id="retirada-segura">
+<h2>Regra de retirada segura <a class="anchor" href="#retirada-segura">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  Em 1994, William Bengen publicou "Determining Withdrawal Rates Using Historical Data" no <em>Journal of Financial Planning</em>. Usando dados desde 1926, Bengen testou qual seria a taxa de retirada anual que um portfólio 50% ações/50% bonds conseguia suportar por pelo menos 30 anos em todos os períodos históricos. O resultado foi 4%. Em 1998, o Estudo Trinity (Cooley, Hubbard e Walz) replicou e estendeu a análise, conferindo robustez estatística à estimativa.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal &mdash; taxa de retirada segura</div>
+  A taxa de retirada segura (<em>safe withdrawal rate</em> &mdash; SWR) é o percentual do patrimônio inicial que pode ser retirado anualmente &mdash; corrigido pela inflação nos anos seguintes &mdash; com probabilidade historicamente alta de o portfólio não se esgotar num horizonte definido (geralmente 30 anos). A regra de 4% de Bengen estabelece que, para um portfólio 50% ações/50% bonds, essa taxa foi sustentável em 100% dos períodos históricos americanos testados.
+</div>
+<h3>O Estudo Trinity e a mecanica da regra <a class="anchor" href="#trinity">#</a></h3>
+<p>O Estudo Trinity (1998) testou múltiplas combinações de alocação (de 100% ações a 100% bonds) e múltiplas taxas de retirada (de 3% a 12%) sobre todos os períodos históricos de 15, 20 e 30 anos desde 1925. Conclusão: para portfólios com ao menos 50% em ações e taxa de retirada de 4%, a taxa de sucesso (portfólio não zerado ao final) foi de 95-100% em horizontes de 30 anos. A 5% de retirada, a taxa de sucesso cai para ~80%.</p>
+<div class="formula">Patrimonio necessario = Despesas anuais / Taxa de retirada segura</div>
+<p>Exemplo: despesas anuais de R$ 60.000 com taxa de retirada de 4%: patrimônio necessário = R$ 60.000 / 0,04 = R$ 1.500.000. Esse valor ficou conhecido na comunidade de independência financeira como o <strong>número FI</strong> (<em>financial independence number</em>).</p>
+<h3>O metodo Bazin &mdash; diferenca conceitual <a class="anchor" href="#bazin">#</a></h3>
+<p>No contexto brasileiro, o investidor e jornalista Décio Bazin popularizou no livro <em>Faça Fortuna com Ações</em> (1992) um critério simples para selecionar ações: só comprar ações com <em>dividend yield</em> acima de 6% ao ano. O critério de 6% de Bazin não é equivalente à taxa de retirada segura do Estudo Trinity: um é critério de seleção de ativos individuais; o outro é uma propriedade emergente de portfólios históricos completos.</p>
+<div class="kbox">
+  <div class="klabel">Limites criticos da regra dos 4%</div>
+  <p style="margin-bottom:0.6em"><strong>Viés de sobrevivência dos dados:</strong> a regra foi calibrada com dados americanos, o melhor resultado histórico documentado. Para mercados com menor retorno ou maior volatilidade, a SWR segura pode ser significativamente menor &mdash; estimativas para mercados globais sugerem 3,0-3,5%.</p>
+  <p style="margin-bottom:0.6em"><strong>Horizonte além de 30 anos:</strong> a regra foi testada para 30 anos. Para aposentadorias mais longas &mdash; possíveis com expectativa de vida crescente ou aposentadoria antecipada &mdash; a SWR segura é menor.</p>
+  <p style="margin-bottom:0.6em"><strong>Risco de sequência:</strong> uma crise nos anos 1-5 após iniciar retiradas pode consumir capital permanentemente, mesmo que o mercado se recupere. A ordem das quedas importa mais na fase de retirada do que na fase de acumulação.</p>
+  <p style="margin-bottom:0.6em"><strong>Retornos futuros menores:</strong> com múltiplos historicamente elevados em mercados desenvolvidos, vários pesquisadores argumentam que o retorno esperado das ações nas próximas décadas é menor que o histórico &mdash; o que reduziria a SWR sustentável para 3,0-3,3% <a class="cite" href="#referencias">(PFAU, 2012)</a>.</p>
+  <p style="margin-bottom:0"><strong>A regra é estática:</strong> retiradas fixas corrigidas pela inflação não correspondem ao comportamento real do aposentado. Estratégias dinâmicas (reduzir retirada em quedas) permitem taxas iniciais maiores com risco similar.</p>
+</div>
+</section>
 
+<section id="tributacao">
+<h2>Tributação <a class="anchor" href="#tributacao">#</a></h2>
+<p>A tributação é parte integrante da decisão de investimento &mdash; comparar retornos brutos sem considerar imposto leva a conclusões incorretas.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Investimento</th><th>IR</th><th>IOF</th><th>Observacao</th></tr></thead>
+    <tbody>
+      <tr><td>Renda fixa (CDB, Tesouro)</td><td>15% a 22,5% (regressivo pelo prazo)</td><td>Sim, até 30 dias</td><td>Imposto retido na fonte</td></tr>
+      <tr><td>LCI / LCA</td><td>Isento (PF)</td><td>Pode incidir conforme carência</td><td>Carência mínima de 90 dias</td></tr>
+      <tr><td>Ações (ganho de capital)</td><td>15% (swing trade) / 20% (day trade)</td><td>Não</td><td>Isenção para vendas mensais &le; R$ 20.000</td></tr>
+      <tr><td>Dividendos de ações</td><td>Isento (PF)</td><td>Não</td><td>Discussão legislativa pode alterar isso</td></tr>
+      <tr><td>FIIs (rendimento mensal)</td><td>Isento (condições específicas)</td><td>Não</td><td>Ganho de capital na venda de cotas: 20%</td></tr>
+      <tr><td>ETFs de renda variável</td><td>15% sobre ganho de capital</td><td>Não</td><td>Sem isenção de R$ 20.000/mês</td></tr>
+    </tbody>
+    <caption>Tabela 8. Resumo tributário dos principais investimentos para pessoa física no Brasil (2026). Legislação sujeita a alteração.</caption>
+  </table>
+</div>
+<p>A tabela regressiva do IR para renda fixa cria incentivo de longo prazo: manter aplicações por mais de 720 dias reduz a alíquota de 22,5% para 15%.</p>
+</section>
+
+<section id="inflacao-e-juros">
+<h2>Inflacao e juros reais <a class="anchor" href="#inflacao-e-juros">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  A equação de Fisher foi desenvolvida por Irving Fisher em <em>The Theory of Interest</em> (1930). Fisher viveu o trauma pessoal de ver sua fortuna destruída na crise de 1929 &mdash; em parte por acreditar que a bolsa americana estava em um "patamar permanentemente alto". A distinção entre taxa nominal e real demorou décadas para ser incorporada à política monetária dos bancos centrais.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  A taxa nominal é o rendimento expresso em moeda corrente, sem ajuste inflacionário. A taxa real é o rendimento após descontar a inflação do período. A relação entre as duas é a equação de Fisher: (1 + i_real) = (1 + i_nominal) / (1 + inflação).
+</div>
+<div class="formula">(1 + i_real) = (1 + i_nominal) / (1 + inflacao)</div>
+<p>Aproximação simplificada: i_real = i_nominal - inflação. Adequada para taxas baixas; para taxas elevadas, a equação completa é necessária.</p>
+<p>Exemplo: CDB rende 12% ao ano e o IPCA foi 5%. Taxa real aproximada = 7% ao ano. Se a inflação fosse 13%, o mesmo CDB teria retorno real negativo &mdash; o investidor perdeu poder de compra mesmo "ganhando" nominalmente.</p>
+<div class="callout">
+  <strong>Implicação prática:</strong> em períodos de inflação elevada, apenas aplicações que superem o IPCA preservam o poder de compra. A poupança, que rende 70% da Selic quando a Selic supera 8,5% ao ano, frequentemente entrega retorno real próximo de zero ou negativo.
+</div>
+</section>
+
+<section id="perfil-investidor">
+<h2>Perfil do investidor <a class="anchor" href="#perfil-investidor">#</a></h2>
 <div class="kbox">
   <div class="klabel">Definição formal</div>
   Perfil do investidor (ou <em>suitability</em>) é o conjunto de características pessoais que determinam a combinação mais adequada de risco e retorno para aquele indivíduo. No Brasil, a regulação da CVM (Comissão de Valores Mobiliários) exige que as instituições financeiras avaliem o perfil do cliente antes de recomendar produtos.
 </div>
+<p>Os três fatores determinantes são: (1) <strong>horizonte de tempo</strong> &mdash; quanto mais distante o objetivo financeiro, mais risco o investidor pode assumir; (2) <strong>capacidade financeira</strong> &mdash; quanto do patrimônio pode ser exposto a oscilações sem comprometer necessidades básicas; (3) <strong>tolerância psicológica ao risco</strong> &mdash; a disposição emocional de suportar quedas temporárias sem vender em pânico.</p>
+<p>Os perfis convencionalmente utilizados são: <strong>conservador</strong> (prioriza segurança e liquidez), <strong>moderado</strong> (busca equilíbrio entre risco e retorno) e <strong>agressivo</strong> (prioriza máximo retorno no longo prazo; tolera grandes oscilações).</p>
+<p>A <strong>reserva de emergência</strong> é um componente anterior ao perfil: independentemente da agressividade do investidor, recomenda-se manter de 3 a 6 meses de despesas mensais em ativos de altíssima liquidez e baixo risco (Tesouro Selic ou CDB com liquidez diária), antes de qualquer outra alocação. Essa reserva não é investimento &mdash; é seguro.</p>
+</section>
 
-<p>Os três fatores determinantes são: (1) <strong>horizonte de tempo</strong> — quanto mais distante o objetivo financeiro, mais risco o investidor pode assumir, pois há tempo para recuperar perdas temporárias; (2) <strong>capacidade financeira</strong> — quanto do patrimônio pode ser exposto a oscilações sem comprometer necessidades básicas; (3) <strong>tolerância psicológica ao risco</strong> — a disposição emocional de suportar quedas temporárias sem vender em pânico.</p>
+<section id="capm">
+<h2>CAPM &mdash; Capital Asset Pricing Model <a class="anchor" href="#capm">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  William Sharpe publicou o CAPM em 1964 no <em>Journal of Finance</em>; John Lintner chegou a conclusões equivalentes de forma independente em 1965. O modelo formalizou uma pergunta que os economistas não conseguiam responder com precisão: quanto retorno um ativo deveria oferecer dado o seu risco? Sharpe recebeu o Nobel de Economia em 1990, junto com Markowitz, cujo trabalho sobre carteiras era o fundamento necessário do CAPM. A intuição central &mdash; que apenas o risco não diversificável deve ser remunerado &mdash; permanece como pilar conceitual da teoria de finanças mesmo que o modelo em si tenha sido amplamente refutado empiricamente.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  O CAPM (<em>Capital Asset Pricing Model</em> &mdash; modelo de precificação de ativos de capital) estabelece que o retorno esperado de um ativo é função linear do seu <strong>beta</strong> &mdash; a sensibilidade do ativo ao retorno do mercado como um todo. Ativos com beta mais alto devem oferecer retorno esperado mais alto, pois contribuem mais para o risco da carteira. O mercado, por ser totalmente diversificado, remunera apenas o risco sistemático (não diversificável), nunca o risco específico <a class="cite" href="#referencias">(SHARPE, 1964)</a>.
+</div>
+<div class="formula">E(Ri) = Rf + &beta;i &times; [E(Rm) &minus; Rf]</div>
+<p>Onde: <strong>E(Ri)</strong> é o retorno esperado do ativo i; <strong>Rf</strong> é a taxa livre de risco; <strong>&beta;i</strong> (beta) é a sensibilidade do ativo ao mercado; <strong>E(Rm)</strong> é o retorno esperado do mercado; e <strong>[E(Rm) &minus; Rf]</strong> é o <em>equity risk premium</em> (prêmio de risco de mercado).</p>
 
-<p>Os perfis convencionalmente utilizados são: <strong>conservador</strong> (prioriza segurança e liquidez; aceita retornos menores), <strong>moderado</strong> (busca equilíbrio entre risco e retorno; aceita alguma oscilação) e <strong>agressivo</strong> (prioriza máximo retorno no longo prazo; tolera grandes oscilações).</p>
+<h3>Beta: o que mede e como interpretar <a class="anchor" href="#beta">#</a></h3>
+<p>O <strong>beta</strong> de um ativo é estimado pela inclinação da regressão dos retornos do ativo sobre os retornos do mercado. Formalmente, &beta;i = Cov(Ri, Rm) / Var(Rm). Um beta de 1,0 indica que o ativo se move em sincronia com o mercado. Um beta de 1,5 indica que, quando o mercado sobe 10%, o ativo tende a subir 15% &mdash; e vice-versa nas quedas. Um beta negativo (raro) indica que o ativo se move na direção oposta ao mercado, o que o torna valioso para <em>hedge</em>.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Beta</th><th>Interpretação</th><th>Exemplo típico</th></tr></thead>
+    <tbody>
+      <tr><td>&beta; &lt; 0</td><td>Movimenta-se contra o mercado</td><td>Alguns ativos de ouro, opções de venda</td></tr>
+      <tr><td>&beta; = 0</td><td>Independente do mercado</td><td>Letras do Tesouro de curto prazo</td></tr>
+      <tr><td>&beta; = 1</td><td>Movimenta-se com o mercado</td><td>ETF do Ibovespa (por construção)</td></tr>
+      <tr><td>0 &lt; &beta; &lt; 1</td><td>Menos volátil que o mercado</td><td>Ações defensivas (utilidades, alimentos)</td></tr>
+      <tr><td>&beta; &gt; 1</td><td>Mais volátil que o mercado</td><td>Ações de tecnologia, <em>small caps</em></td></tr>
+    </tbody>
+    <caption>Tabela 9. Interpretação do beta e exemplos por faixa.</caption>
+  </table>
+</div>
 
-<p>A <strong>reserva de emergência</strong> é um componente anterior ao perfil: independentemente da agressividade do investidor, recomenda-se manter de 3 a 6 meses de despesas mensais em ativos de altíssima liquidez e baixo risco (Tesouro Selic ou CDB com liquidez diária), antes de qualquer outra alocação. Essa reserva não é investimento — é seguro.</p>
+<h3>Security Market Line (SML) <a class="anchor" href="#sml">#</a></h3>
+<p>A <strong>SML</strong> (<em>Security Market Line</em> &mdash; linha do mercado de títulos) é a representação gráfica do CAPM: uma reta que mapeia o retorno esperado de qualquer ativo em função do seu beta. O eixo horizontal é o beta; o eixo vertical é o retorno esperado. Todos os ativos corretamente precificados devem estar sobre a SML: abaixo dela são sobrevalorizados (retorno insuficiente para o risco); acima dela são subvalorizados (retorno superior ao exigido pelo risco).</p>
+<p>O intercepto da SML é Rf (taxa livre de risco) e a inclinação é o prêmio de risco de mercado [E(Rm) &minus; Rf]. Um ativo que consistentemente rende acima da SML gera <strong>alfa positivo</strong> (&alpha;) &mdash; retorno ajustado ao risco superior ao esperado pelo CAPM. Alfa é a medida clássica de "adição de valor" por um gestor ativo.</p>
 
-<!-- ═══ CONEXÕES ═══ -->
-<h2 id="conexoes">Conexões <a class="anchor" href="#conexoes">#</a></h2>
+<div class="kbox">
+  <div class="klabel">Limites do modelo &mdash; CAPM</div>
+  <p style="margin-bottom:0.6em"><strong>Pressuposto de mercado eficiente:</strong> o CAPM pressupõe que todos os investidores têm expectativas homogêneas, horizonte de um período e acesso ilimitado a empréstimos e investimentos à taxa livre de risco &mdash; nenhuma dessas condições existe na prática.</p>
+  <p style="margin-bottom:0.6em"><strong>Beta instável no tempo:</strong> o beta estimado a partir de dados históricos não é estável &mdash; ele muda com o ciclo econômico, com mudanças na estrutura de capital da empresa e com eventos específicos. O beta futuro, que é o relevante para precificação, não é diretamente observável.</p>
+  <p style="margin-bottom:0.6em"><strong>O portfólio de mercado não é observável:</strong> a teoria exige o portfólio de todos os ativos com risco na economia (não só ações). Na prática, usa-se um índice de ações como proxy &mdash; o que introduz erro de mensuração que invalida testes empíricos (crítica de Roll, 1977).</p>
+  <p style="margin-bottom:0.6em"><strong>Anomalias empíricas persistentes:</strong> Fama e French (1992) testaram formalmente o CAPM com dados de 1963 a 1990 e concluíram que o beta não explica significativamente a seção transversal de retornos de ações americanas &mdash; tamanho e book-to-market têm muito maior poder explicativo. O CAPM é empiricamente refutado como modelo preditivo.</p>
+  <p style="margin-bottom:0"><strong>Valor normativo persiste:</strong> mesmo sem validade empírica plena, o CAPM organiza o raciocínio sobre risco e retorno de forma útil. O conceito de que risco específico não deve ser remunerado &mdash; porque pode ser diversificado &mdash; é uma das ideias mais poderosas de toda a teoria de finanças <a class="cite" href="#referencias">(FAMA; FRENCH, 1992)</a>.</p>
+</div>
+</section>
 
+<section id="financas-comportamentais">
+<h2>Finanças comportamentais <a class="anchor" href="#financas-comportamentais">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  Daniel Kahneman e Amos Tversky publicaram "Prospect Theory: An Analysis of Decision under Risk" em 1979 no <em>Econometrica</em>, demonstrando experimentalmente que os seres humanos não se comportam como agentes racionais nas decisões sob incerteza. Richard Thaler aplicou esses achados ao mercado financeiro ao longo dos anos 1980 e 1990, criando o campo de finanças comportamentais. Robert Shiller documentou volatilidade excessiva nos preços das ações que a HME não conseguia explicar. Kahneman recebeu o Nobel de Economia em 2002; Thaler em 2017 &mdash; ambos por demonstrar que a irracionalidade humana é sistemática, previsível e persistente.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Finanças comportamentais (<em>behavioral finance</em>) é o campo que integra psicologia cognitiva e economia para explicar como vieses sistemáticos de julgamento afetam decisões de investimento, formação de preços de ativos e alocação de capital. A premissa central é que desvios da racionalidade não são aleatórios (que se cancelariam no agregado) mas correlacionados entre indivíduos &mdash; o que lhes permite mover preços e gerar ineficiências de mercado persistentes <a class="cite" href="#referencias">(KAHNEMAN; TVERSKY, 1979)</a>.
+</div>
+
+<h3>Aversão à perda <a class="anchor" href="#aversao-perda">#</a></h3>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  A teoria da perspectiva (<em>prospect theory</em>) de Kahneman e Tversky (1979) demonstrou, através de experimentos com escolhas reais, que a função de valor dos indivíduos é assimétrica: a dor de uma perda é psicologicamente cerca de duas a 2,5 vezes mais intensa do que o prazer de um ganho equivalente. Essa descoberta explica por que investidores tomam riscos excessivos para evitar realizar perdas e são excessivamente avessos ao risco quando os ganhos são certos.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Aversão à perda (<em>loss aversion</em>) é a tendência dos indivíduos de ponderar perdas mais intensamente do que ganhos equivalentes em valor absoluto. Formalmente, &lambda; &asymp; 2,0 a 2,5: perder R$ 100 gera desgosto psicológico equivalente ao prazer de ganhar R$ 200 a R$ 250. A função de valor na teoria da perspectiva é côncava para ganhos (aversão ao risco com ganhos) e convexa para perdas (propensão ao risco para tentar evitar realizar a perda).
+</div>
+<p>A implicação prática mais direta da aversão à perda é o <strong>viés de disposição</strong>: investidores tendem a vender prematuramente os ativos que estao em ganho (para "garantir o lucro") e segurar indefinidamente os ativos que estao em perda (para evitar "realizar o prejuizo"). O resultado e exatamente o oposto da estrategia racional: cortar as perdas cedo e deixar os ganhos correrem.</p>
+
+<h3>Viés de disposição <a class="anchor" href="#vies-disposicao">#</a></h3>
+<p>O <em>disposition effect</em> (viés de disposição) foi documentado empiricamente por Shefrin e Statman (1985) e confirmado em analises de dados de corretagem por Odean (1998). Usando registros de 10.000 contas em uma corretora americana de 1987 a 1993, Odean mostrou que: os ativos em ganho eram vendidos 50% mais rapido do que os ativos em perda &mdash; exatamente o oposto do otimo tributario, ja que vender perdas antes do fim do ano fiscal permite compensacao de ganhos <a class="cite" href="#referencias">(ODEAN, 1998)</a>.</p>
+<p>No contexto brasileiro, o viés de disposição interage com a tributação: investidores que seguram ações em prejuízo por meses não podem compensar perdas contra ganhos em outros ativos, e ao mesmo tempo vendem ações em ganho antes de completar o período de isenção de R$ 20.000/mês, gerando incidência de IR desnecessária.</p>
+
+<h3>Ancoragem <a class="anchor" href="#ancoragem">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Ancoragem (<em>anchoring bias</em>) é a tendência de atribuir peso desproporcional a um valor de referência inicial (&quot;âncora&quot;) ao fazer estimativas ou decisões subsequentes. Tversky e Kahneman (1974) demonstraram experimentalmente que valores numéricos sem relação com a estimativa pedida ainda assim influenciavam as respostas dos participantes de forma mensurável.
+</div>
+<p>No mercado financeiro, a âncora mais comum é o <strong>preço de compra</strong>. Um investidor que comprou uma ação a R$ 50 e vê ela cair a R$ 30 frequentemente percebe os R$ 50 como o "preço justo" e aguarda o retorno a esse nível antes de vender &mdash; mesmo que os fundamentos da empresa tenham mudado radicalmente. O preço de compra não é informação relevante para a decisão de manter ou vender o ativo hoje; o que importa é a relação entre o preço atual e o valor intrínseco estimado.</p>
+<p>Outras âncoras comuns: preço histórico máximo (&quot;estava a R$ 100, agora a R$ 40 está barato&quot;), preço-alvo de analista, ou qualquer número que tenha sido apresentado imediatamente antes da decisão. Estudos de Ariely, Loewenstein e Prelec (2003) com leilões mostram que âncoras completamente arbitrárias &mdash; como os dois últimos dígitos do CPF &mdash; influenciam valores de compra de produtos.</p>
+
+<h3>Excesso de confianca <a class="anchor" href="#excesso-confianca">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Excesso de confiança (<em>overconfidence bias</em>) é a tendência sistemática dos indivíduos de superestimar a precisão de seu conhecimento, a qualidade de suas previsões e sua capacidade de controlar resultados. Em finanças, manifesta-se principalmente como: (1) calibração ruim &mdash; os intervalos de confiança estimados pelos indivíduos são muito mais estreitos do que a frequência de acerto justificaria; (2) efeito <em>better-than-average</em> &mdash; a maioria dos investidores acredita que sua habilidade de selecionar ativos está acima da média.
+</div>
+<p>Odean e Barber documentaram os efeitos do excesso de confiança em uma série de estudos usando dados de corretagem. O artigo "Trading Is Hazardous to Your Wealth" (2000) mostrou que os 20% de investidores com maior frequência de negociação obtinham retorno anual 6,5 pontos percentuais inferior ao mercado, enquanto os 20% com menor frequência obtinham retorno próximo ao mercado. A causa: cada operação tem custo (spread, emolumento, imposto) e excesso de confiança gera negociação excessiva <a class="cite" href="#referencias">(BARBER; ODEAN, 2000)</a>.</p>
+<p>O excesso de confianca e exacerbado por vieses de atribuicao: quando uma aposta da certo, o investidor atribui o resultado a sua habilidade; quando da errado, atribui ao azar ou a fatores externos. Isso cria uma memoria sistematicamente distorcida que alimenta confian&ccedil;a futura injustificada.</p>
+
+<h3>Outros vieses relevantes <a class="anchor" href="#outros-vieses">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Viés</th><th>Descrição</th><th>Manifestação em investimentos</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Viés de disponibilidade</strong></td><td>Superestimar a probabilidade de eventos facilmente recordados</td><td>Após uma crise recente, superestimar risco de colapso; após bull market, subestimar risco de queda</td></tr>
+      <tr><td><strong>Viés de familiaridade (<em>home bias</em>)</strong></td><td>Preferência por ativos conhecidos ou do próprio país</td><td>Portfólios superconcentrados em ações brasileiras quando diversificação global reduziria risco</td></tr>
+      <tr><td><strong>Contabilidade mental</strong></td><td>Tratar dinheiro de fontes diferentes como não-fungível</td><td>"Dinheiro da bonificação" investido em ativos de alto risco que nunca seriam comprados com salário</td></tr>
+      <tr><td><strong>Viés de confirmação</strong></td><td>Buscar informação que confirma crenças existentes</td><td>Seguir analistas que confirmam posições já tomadas; ignorar informação contrária</td></tr>
+      <tr><td><strong>Miopia de perdas</strong></td><td>Monitoramento excessivamente frequente que amplifica aversão à perda</td><td>Investidor que verifica o     </tbody>
+    <caption>Tabela 10. Principais vieses comportamentais e suas manifestações em decisões de investimento.</caption>
+  </table>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo &mdash; finanças comportamentais</div>
+  <p style="margin-bottom:0.6em"><strong>Vieses são heterogêneos:</strong> nem todos os indivíduos exibem os mesmos vieses com a mesma intensidade. Especialistas com feedback correto e deliberado tendem a exibir menos vieses em suas áreas de competência. A aplicação mecânica de "o investidor é sempre irracional" é em si um erro de ancoragem.</p>
+  <p style="margin-bottom:0.6em"><strong>Limites da arbitragem:</strong> mesmo que vieses sistemáticos criem preços errados, arbitradores racionais podem não conseguir corrigir o preço se: (1) o ativo mal precificado não tiver substituto próximo; (2) o custo de manter a posição até a convergência superar o capital disponível. Preços errados podem persistir muito mais do que o arbitrador consegue permanecer solvente.</p>
+  <p style="margin-bottom:0"><strong>Prescrição vs. descrição:</strong> finanças comportamentais descreve como pessoas decidem, não como deveriam decidir. Saber do viés de disposição não elimina automaticamente o viés de disposição &mdash; o conhecimento metacognitivo reduz mas não extingue os efeitos <a class="cite" href="#referencias">(KAHNEMAN, 2011)</a>.</p>
+</div>
+</section>
+
+<section id="cdi-selic">
+<h2>Mecanismo CDI e Selic <a class="anchor" href="#cdi-selic">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  O Sistema Especial de Liquidação e de Custódia (Selic) foi criado pelo Banco Central do Brasil em 1979 para registrar e liquidar operações com títulos públicos federais. O CDI (Certificado de Depósito Interbancário) surgiu como instrumento do mercado privado na década de 1980, quando o sistema bancário brasileiro precisava de mecanismos de curto prazo para equilibrar a liquidez entre instituições. A taxa CDI tornou-se a referência de mercado privado equivalente à Selic &mdash; as duas convergem para o mesmo patamar porque arbitragem entre os dois mercados elimina divergências persistentes.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal &mdash; Selic</div>
+  A taxa Selic (Sistema Especial de Liquidação e de Custódia) é a taxa de juros básica da economia brasileira, definida pelo COPOM (Comitê de Política Monetária) do Banco Central a cada 45 dias. Tecnicamente, é a taxa média ponderada das operações de financiamento de um dia (overnight) lastreadas em títulos públicos federais no sistema Selic. A Selic-meta é a taxa-alvo definida pelo COPOM; a Selic efetiva (ou "Selic over") é a taxa efetivamente praticada nas operações interbancárias, que fica próxima &mdash; mas não idêntica &mdash; à meta.
+</div>
+
+<h3>O mecanismo de transmissao da Selic <a class="anchor" href="#transmissao-selic">#</a></h3>
+<p>A Selic é o instrumento primário de política monetária do Brasil sob o regime de metas de inflação (vigente desde 1999). O Banco Central eleva a Selic quando a inflação está acima da meta para: (1) encarecer o crédito, reduzindo consumo e investimento; (2) atrair capital externo, valorizando o real e barateando importações; (3) sinalizar comprometimento com a estabilidade de preços, o que ancora expectativas inflacionárias.</p>
+<p>A cadeia de transmissão opera em múltiplos canais: Selic-meta &rarr; taxa de financiamento overnight entre bancos &rarr; custo de captação bancária &rarr; taxas de empréstimo ao consumidor e empresa &rarr; nível de crédito e consumo &rarr; demanda agregada &rarr; pressão inflacionária. Esse processo tem defasagem de 6 a 18 meses &mdash; os efeitos de uma elevação da Selic hoje são sentidos na inflação apenas nos trimestres seguintes.</p>
+<div class="callout">
+  <strong>Por que a Selic brasileira é estruturalmente alta:</strong> a taxa real de juros brasileira (Selic menos IPCA) historicamente supera a de economias comparáveis por três motivos principais: (1) baixa poupança doméstica, que exige prêmio para atrair capital estrangeiro; (2) risco fiscal percebido pelo mercado, que eleva o prêmio exigido para financiar a dívida pública; (3) inercial histórico de uma economia que operou com hiperinflação até 1994 e cujas instituições ainda precificam incerteza inflacionária.
+</div>
+
+<h3>CDI: o que é e como se relaciona com a Selic <a class="anchor" href="#cdi">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Definição formal &mdash; CDI</div>
+  O CDI (Certificado de Depósito Interbancário) é um título emitido por instituições financeiras para captação de recursos de outras instituições financeiras, com prazo de um dia útil. A taxa CDI média das operações realizadas em cada dia é calculada e divulgada pela B3 &mdash; essa taxa é conhecida como "taxa DI" ou simplesmente "CDI". Por arbitragem com o mercado de títulos públicos (Selic), a taxa DI fica normalmente 0,10 p.p. abaixo da Selic efetiva.
+</div>
+<p>Na prática do mercado de investimentos, o CDI serve como benchmark: CDBs remuneram uma porcentagem do CDI (ex.: "100% do CDI"), fundos DI buscam replicar o CDI, e a rentabilidade de muitos produtos de renda fixa é cotada em percentual do CDI. O investidor que aplica em um CDB a "110% do CDI" recebe 10% a mais que o CDI &mdash; mas o CDI já é aproximadamente a Selic efetiva, portanto esse 10% extra representa o prêmio de risco de crédito da instituição emissora.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Taxa</th><th>Definição</th><th>Quem controla</th><th>Diferença típica</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Selic-meta</strong></td><td>Meta definida pelo COPOM</td><td>Banco Central do Brasil</td><td>Referência de política monetária</td></tr>
+      <tr><td><strong>Selic efetiva (over)</strong></td><td>Média das operações overnight com títulos públicos</td><td>Mercado (B3/BCB)</td><td>Próxima da meta; &plusmn;0,02 p.p.</td></tr>
+      <tr><td><strong>Taxa DI (CDI)</strong></td><td>Média das operações CDI interbancárias de 1 dia</td><td>Mercado privado (B3)</td><td>Selic efetiva &minus; ~0,10 p.p.</td></tr>
+      <tr><td><strong>TLP</strong></td><td>Taxa de Longo Prazo, referência do BNDES pós-2018</td><td>Tesouro Nacional</td><td>IPCA + taxa real pré-fixada</td></tr>
+    </tbody>
+    <caption>Tabela 11. Hierarquia das taxas de referência do sistema financeiro brasileiro.</caption>
+  </table>
+</div>
+
+<h3>Por que o CDI importa para o investidor <a class="anchor" href="#cdi-investidor">#</a></h3>
+<p>O CDI é o custo de oportunidade implícito de qualquer aplicação de renda fixa no Brasil. Quando um CDB paga 95% do CDI, o investidor está aceitando um retorno 5% inferior ao CDI &mdash; algo só racional se o ativo oferecer outra vantagem (cobertura do FGC, liquidez diária, etc.). Quando um fundo de ações cobra 2% de administração e historicamente entrega 10% de retorno bruto, o retorno líquido pode ser inferior ao CDI em anos de fraca performance da bolsa &mdash; o que levanta a questão estrutural sobre por que assumir risco de renda variável com custo elevado.</p>
+</section>
+
+<section id="debentures">
+<h2>Debentures <a class="anchor" href="#debentures">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  As debêntures são o instrumento de dívida corporativa de longo prazo mais antigo do mercado de capitais brasileiro: foram previstas na legislação comercial do Império no século XIX. O mercado se desenvolveu de forma relevante apenas a partir dos anos 2000, com a estabilização monetária e o alongamento do horizonte de planejamento das empresas. As debêntures incentivadas (Lei 12.431/2011) foram criadas para estimular o financiamento de infraestrutura através do mercado de capitais, com isenção de IR para investidores pessoas físicas.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Uma debênture é um título de dívida emitido por uma sociedade anônima não financeira que confere ao detentor um direito de crédito contra a empresa emissora, segundo as condições da escritura de emissão. A diferença fundamental em relação a um CDB: (1) o emissor é uma empresa (não um banco); (2) não há cobertura do FGC; (3) o prazo tende a ser mais longo; (4) a complexidade de estruturação permite diversas formas de remuneração e garantias.
+</div>
+
+<h3>Tipos de debêntures <a class="anchor" href="#tipos-debentures">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipo</th><th>Característica</th><th>IR pessoa física</th><th>Uso típico</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Simples</strong></td><td>Retorna o principal acrescido de juros; sem conversão em ações</td><td>Tabela regressiva (15%-22,5%)</td><td>Financiamento geral de empresa</td></tr>
+      <tr><td><strong>Conversível</strong></td><td>Pode ser convertida em ações da emissora a critério do debenturista ou da empresa</td><td>Complexo (depende da conversão)</td><td>Captação por startups ou empresas em crescimento</td></tr>
+      <tr><td><strong>Permutável</strong></td><td>Pode ser trocada por ações de outra empresa (não a emissora)</td><td>Complexo</td><td>Desinvestimentos corporativos</td></tr>
+      <tr><td><strong>Incentivada (Lei 12.431)</strong></td><td>Destinada a projetos de infraestrutura; isenta de IR para PF</td><td><strong>Isento</strong></td><td>Rodovias, energia, saneamento, telecomunicações</td></tr>
+      <tr><td><strong>Debêntures de infraestrutura (pós 2022)</strong></td><td>Evolução das incentivadas; isentas de IR para PF e IRPJ/CSLL para PJ</td><td><strong>Isento</strong></td><td>Projetos prioritários de infraestrutura</td></tr>
+    </tbody>
+    <caption>Tabela 12. Tipos de debêntures e características tributárias para investidor pessoa física.</caption>
+  </table>
+</div>
+
+<h3>Rating de crédito e spreads <a class="anchor" href="#rating-spreads">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Definição formal &mdash; rating de crédito</div>
+  O rating (classificação de crédito) de uma debênture é a opinião formalizada de uma agência de avaliação de risco sobre a capacidade da empresa emissora de honrar suas obrigações financeiras nos termos acordados. As principais agências atuantes no Brasil são Moody's, S&amp;P, Fitch e Austin Rating. A escala vai de AAA (máxima qualidade) a D (inadimplente), com níveis intermediários de grau de investimento (BBB- ou superior) e grau especulativo (high yield; abaixo de BBB-).
+</div>
+<p>O <strong>spread de crédito</strong> é o excesso de retorno de uma debênture em relação a um título livre de risco com mesma duração. Ele compensa o investidor pelo risco de inadimplência do emissor. Um spread maior indica maior risco percebido ou menor liquidez do papel. Formalmente: spread = taxa da debênture &minus; taxa Tesouro IPCA+ (ou CDI) equivalente.</p>
+<p>Spreads de crédito variam com o ciclo econômico: em períodos de crise, spreads se ampliam mesmo para emissores de boa qualidade, porque a incerteza sistemática aumenta a compensação exigida por qualquer risco de crédito. Esse comportamento &mdash; a correlação positiva entre spreads e estresse de mercado &mdash; é o motivo pelo qual debêntures não são "livre de risco de mercado" mesmo que o emissor não vá à falência: o valor de mercado do título cai quando os spreads se ampliam.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Rating</th><th>Descrição do risco</th><th>Spread típico (sobre IPCA+)</th></tr></thead>
+    <tbody>
+      <tr><td>AAA / AA</td><td>Risco mínimo; empresa com finanças excepcionalmente sólidas</td><td>0,3% &ndash; 0,8% a.a.</td></tr>
+      <tr><td>A</td><td>Baixo risco; empresa financeiramente forte</td><td>0,8% &ndash; 1,5% a.a.</td></tr>
+      <tr><td>BBB</td><td>Risco moderado; grau de investimento mínimo</td><td>1,5% &ndash; 2,5% a.a.</td></tr>
+      <tr><td>BB</td><td>Especulativo; vulneravel a mudancas economicas</td><td>2,5% &ndash; 4,5% a.a.</td></tr>
+      <tr><td>B ou abaixo</td><td>Alto risco; probabilidade significativa de inadimplência</td><td>4,5% a.a. ou mais</td></tr>
+    </tbody>
+    <caption>Tabela 13. Escala de rating e spreads típicos para debêntures brasileiras (referência: mercado 2024-2026).</caption>
+  </table>
+</div>
+
+<h3>Liquidez e marcação a mercado em debêntures <a class="anchor" href="#liquidez-debentures">#</a></h3>
+<p>Debêntures são negociadas no mercado secundário pela plataforma CETIP/B3, mas a liquidez é tipicamente menor do que a de títulos públicos. O bid-ask spread (diferença entre preço de compra e venda) pode ser relevante para debêntures de emissores menores ou com baixo volume de negociação. Quem precisa vender antes do vencimento pode não conseguir o preço que a marcação a mercado indicaria &mdash; o risco de liquidez é parte integrante do investimento em crédito privado.</p>
+<p>Para debêntures incentivadas, a isenção de IR para pessoas físicas torna o retorno bruto diretamente comparável ao retorno líquido de títulos tributáveis. Uma debênture incentivada a IPCA + 5,5% a.a. é equivalente a um Tesouro IPCA+ a IPCA + 6,5% a.a. para um investidor na alíquota de 15% de IR &mdash; a diferença de 1 p.p. é o benefício fiscal efetivo nesse cenário.</p>
+</section>
+
+<section id="alocacao-estrategica">
+<h2>Alocação estratégica de ativos e rebalanceamento <a class="anchor" href="#alocacao-estrategica">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  Gary Brinson, Randolph Hood e Gilbert Beebower publicaram em 1986 no Financial Analysts Journal um estudo que analisou o desempenho de 91 grandes fundos de pensão americanos de 1974 a 1983. A conclusão foi surpreendente: mais de 90% da variação de retorno entre os fundos era explicada pela <strong>política de alocação de ativos</strong> &mdash; não pela seleção de títulos específicos nem pelo market timing. Essa constatação transformou o debate sobre investimento institucional e validou a importância da alocação estratégica sobre a seleção tática.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Alocação estratégica de ativos (Strategic Asset Allocation &mdash; SAA) é a definição de pesos-alvo para cada classe de ativo em um portfólio, com base no perfil de risco-retorno do investidor e no horizonte de investimento. Difere da alocação tática, que busca desvios de curto prazo da estratégia com base em previsões de mercado. A SAA é revisada periodicamente (tipicamente anual) para verificar se as metas de longo prazo ainda são adequadas &mdash; mas não é alterada em resposta a movimentos de mercado de curto prazo.
+</div>
+
+<h3>O que determina a alocação estratégica <a class="anchor" href="#determinantes-alocacao">#</a></h3>
+<p>Três variáveis determinam a SAA de um investidor: (1) <strong>horizonte de tempo</strong> &mdash; quanto maior o horizonte, maior a tolerância à volatilidade e maior a participação em renda variável justificável; (2) <strong>necessidade de liquidez</strong> &mdash; a fração do portfólio que pode precisar ser acessada no curto prazo deve permanecer em ativos líquidos e de baixo risco; (3) <strong>tolerância ao risco</strong> &mdash; tanto capacidade objetiva (quanto o patrimônio aguenta perder sem comprometer necessidades básicas) quanto tolerância psicológica (suportar quedas sem panicar e vender no pior momento).</p>
+<div class="callout">
+  <strong>A regra dos 100 menos a idade</strong> é uma heurística histórica popular: alocar em renda variável um percentual equivalente a (100 &minus; sua idade). Uma pessoa de 30 anos teria 70% em ações; uma de 60 anos teria 40%. A variante mais moderna usa (110 &minus; idade) ou (120 &minus; idade), refletindo maior longevidade. A regra tem valor didático como ponto de partida &mdash; mas não captura diferenças individuais de patrimônio, renda, objetivo e tolerância.
+</div>
+
+<h3>Rebalanceamento: mecanismo e lógica <a class="anchor" href="#rebalanceamento">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Rebalanceamento é o processo de ajustar periodicamente a composição do portfólio para restaurar os pesos-alvo da SAA, após desvios causados pelo desempenho diferencial das classes de ativo. Um portfólio que começou com 60% ações / 40% renda fixa e teve as ações valorizando 30% pode estar em 68% ações / 32% renda fixa &mdash; rebalancear significa vender parte das ações (agora sobreponderadas) e comprar renda fixa (subponderada) para retornar a 60/40.
+</div>
+<p>A lógica do rebalanceamento é contraintuitiva: exige vender o que está subindo e comprar o que está caindo &mdash; o oposto do impulso emocional natural. Isso faz do rebalanceamento um mecanismo disciplinado de buy low, sell high embarcado na estratégia, sem exigir julgamento tático sobre o mercado.</p>
+
+<h3>Estratégias de rebalanceamento <a class="anchor" href="#estrategias-rebalanceamento">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Estrategia</th><th>Gatilho</th><th>Vantagem</th><th>Desvantagem</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Calendário</strong></td><td>Periodicidade fixa (anual, semestral)</td><td>Simples; baixo custo de decisão</td><td>Pode rebalancear com desvio mínimo ou ignorar desvio grande no interim</td></tr>
+      <tr><td><strong>Por banda (threshold)</strong></td><td>Quando a alocação de qualquer classe desvia mais de X% do alvo (ex.: &plusmn;5 p.p.)</td><td>Mais preciso; reage a movimentos reais</td><td>Requer monitoramento contínuo</td></tr>
+      <tr><td><strong>Híbrido</strong></td><td>Calendário + banda (rebalancear no período só se o desvio for maior que a banda)</td><td>Balanceia frequência e precisão</td><td>Ligeiramente mais complexo de implementar</td></tr>
+      <tr><td><strong>Por aportes</strong></td><td>Novo capital é direcionado para a classe subponderada</td><td>Sem custo de venda; sem IR realizado</td><td>Funciona melhor na fase de acumulação, não na de retirada</td></tr>
+    </tbody>
+    <caption>Tabela 14. Estratégias de rebalanceamento: gatilho, vantagem e limitação.</caption>
+  </table>
+</div>
+
+<h3>Efeito do rebalanceamento sobre o retorno <a class="anchor" href="#efeito-rebalanceamento">#</a></h3>
+<p>O rebalanceamento não garante retorno superior em todos os períodos. Em mercados com tendência clara (como a bolsa americana de 2010 a 2020), o portfólio rebalanceado periodicamente teria retorno inferior ao portfólio que simplesmente deixou as ações crescerem sem intervenção &mdash; porque venderia ações apreciadas para comprar bonds com desempenho inferior.</p>
+<p>O ganho do rebalanceamento é de natureza diferente: ele <strong>reduz o risco</strong> de forma disciplinada ao longo do tempo e, em mercados com reversão à média (onde os níveis altos são seguidos de queda e vice-versa), pode adicionar retorno. A evidência empírica sobre o ganho de retorno é mista e dependente do período; a evidência sobre a redução de risco é consistente.</p>
+<div class="kbox">
+  <div class="klabel">Custos do rebalanceamento &mdash; Brasil</div>
+  <p style="margin-bottom:0.6em">No Brasil, o rebalanceamento por venda e compra de ativos tem custos específicos que podem erodir o benefício: (1) IR sobre ganho de capital nas vendas de ações (exceto isenção de R$ 20.000/mês em vendas de ações de empresas); (2) IOF em resgates de renda fixa com menos de 30 dias; (3) spread bid-ask em ativos menos líquidos. Para portfólios em fase de acumulação, rebalanceamento por aportes evita esses custos sempre que possível. Para portfólios em fase de retirada, o rebalanceamento por venda é inevitável &mdash; o planejamento tributário da saída deve ser parte da estratégia.</p>
+  <p style="margin-bottom:0">O uso de ativos dentro do regime de isenção de IR (LCI, LCA, debêntures incentivadas, dividendos de ações) como parte da renda fixa da carteira pode reduzir o custo tributário do rebalanceamento no longo prazo &mdash; esses ativos podem ser ajustados sem realização de ganho tributável quando estruturados corretamente.</p>
+</div>
+</section>
+
+<section id="conexoes">
+<h2>Conexoes <a class="anchor" href="#conexoes">#</a></h2>
 <div class="connections-box">
   <h4>Como este material se conecta a outros temas</h4>
-  <p>Os conceitos de <strong>risco sistêmico e diversificação</strong> são análogos ao que ocorre em contextos biológicos: em imunologia, a resposta policlonal a um antígeno distribui o risco de falha — nenhum único clone de linfócito carrega toda a carga de reconhecimento. A correlação entre ativos na carteira tem o mesmo papel da redundância funcional nos sistemas imunológicos.</p>
-  <p>A <strong>equação de Fisher</strong> e a distinção entre nominal e real são estruturalmente equivalentes ao conceito de eficiência energética em fisiologia: o que importa não é o gasto bruto de ATP, mas o quanto desse gasto converte-se em trabalho útil líquido. Nas finanças, a "inflação" é o custo fixo que o investidor sempre paga antes de começar a ganhar de verdade.</p>
-  <p>A noção de <strong>fronteira eficiente</strong> aparece em termodinâmica como curva de eficiência de Carnot: há um limite teórico para o que é possível obter de um sistema dado um conjunto de restrições. Carteiras abaixo da fronteira eficiente são, no sentido termodinâmico, energia mal aproveitada.</p>
+  <p>Os conceitos de <strong>risco sistêmico e diversificação</strong> são análogos ao que ocorre em imunologia: a resposta policlonal a um antígeno distribui o risco de falha &mdash; nenhum único clone de linfócito carrega toda a carga de reconhecimento. A correlação entre ativos na carteira tem o mesmo papel da redundância funcional nos sistemas imunológicos.</p>
+  <p>A <strong>equação de Fisher</strong> e a distinção entre nominal e real são estruturalmente equivalentes ao conceito de eficiência energética em fisiologia: o que importa não é o gasto bruto de ATP, mas o quanto desse gasto converte-se em trabalho útil líquido. A inflação é o custo fixo que o investidor sempre paga antes de começar a ganhar de verdade.</p>
+  <p>A <strong>HME e o paradoxo de Grossman-Stiglitz</strong> têm estrutura análoga a sistemas de equilíbrio em física termodinâmica: um sistema perfeitamente em equilíbrio não possui gradiente, portanto nenhuma força motriz. O mercado financeiro existe porque está sempre ligeiramente fora do equilíbrio, criando incentivos para que participantes coletem informação e, ao fazê-lo, aproximem o mercado do equilíbrio.</p>
+  <p>A <strong>regra de retirada segura e o risco de sequência</strong> conectam-se ao conceito de ruína em teoria da probabilidade: mesmo com retorno esperado positivo, a ordem dos eventos importa quando há retiradas periódicas &mdash; o portfólio não pode se recuperar do que já foi consumido, criando assimetria permanente entre perdas precoces e tardias.</p>
+  <p>Os <strong>vieses comportamentais</strong> &mdash; especialmente aversão à perda e viés de disposição &mdash; têm estrutura análoga ao condicionamento aversivo em neurociência: a amígdala processa ameaças de perda com maior urgência do que recompensas equivalentes, o que faz o sistema de resposta rápida (Sistema 1 de Kahneman) dominar o deliberativo (Sistema 2) exatamente nos momentos de maior estresse do mercado &mdash; quando a deliberação seria mais necessária.</p>
+</div>
+</section>
+
+<section id="perguntas-em-aberto">
+<h2>Perguntas em aberto <a class="anchor" href="#perguntas-em-aberto">#</a></h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>O prêmio de risco de ações (<em>equity risk premium</em>) é estável ou decresce à medida que mais capital institucional adota estratégias indexadas? Se a maioria dos participantes deixar de fazer análise fundamentalista, o mercado perde o mecanismo que o torna eficiente &mdash; e os fatores de Fama-French perdem o prêmio ou se tornam mais exploráveis? A literatura não tem resposta consensual sobre o ponto de transição.</p>
 </div>
 
-<!-- ═══ DISCUSSÃO ═══ -->
-<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>Qual é a taxa de retirada segura real para mercados emergentes como o Brasil? A regra dos 4% de Bengen foi calibrada com dados do mercado americano de 1926&ndash;1994. Estudos internacionais (Pfau, 2010; Dimson, Marsh &amp; Staunton) sugerem taxas entre 2,5% e 3,5% para a maioria dos países desenvolvidos fora dos EUA. Para o Brasil, com volatilidade cambial, inflação estrutural mais alta e histórico de crises fiscais, não há estudo de longo prazo suficientemente robusto que estime essa taxa com confiança.</p>
+</div>
 
-<p>Os conceitos apresentados convergem em torno de uma tensão central que define toda decisão de alocação de capital: a impossibilidade de maximizar simultaneamente retorno, liquidez e segurança. Essa tríade funciona como um triângulo onde puxar um vértice necessariamente afasta os outros dois. A diversificação não resolve esse dilema — ela otimiza a relação risco/retorno para um dado nível de risco sistêmico, mas não o elimina.</p>
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>Os fatores de Fama-French (tamanho e valor) são prêmios de risco genuínos ou artefatos de mineração de dados (<em>data mining</em>) que desaparecem após publicação? Após 1993, o prêmio de valor (<em>value premium</em>) enfraqueceu significativamente nos EUA &mdash; especialmente na última década. Há debate ativo sobre se isso reflete arbitragem pelo mercado, mudança estrutural na economia (dominância de intangíveis que o índice book-to-market não captura) ou período amostral insuficiente.</p>
+</div>
 
-<p>A tensão mais não-óbvia no cenário brasileiro é a que existe entre a isenção fiscal de LCIs/LCAs e FIIs e a liquidez que esses instrumentos oferecem. A isenção funciona como subsídio setorial com finalidade de política pública (crédito ao agronegócio e ao mercado imobiliário), não como benefício ao poupador em si. Quando a Selic sobe, os emissores dessas letras não precisam oferecer taxas equivalentes a CDBs de mesma qualidade — a isenção já faz o trabalho. O investidor que compara apenas taxas brutas captura essa diferença incorretamente; o que compara taxas líquidas descobre que, em muitos cenários, a vantagem é menor do que parece na vitrine.</p>
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>Vieses comportamentais são corrigíveis com educação financeira ou são estruturais e resistentes à aprendizagem? A evidência experimental (Thaler, Kahneman) sugere que conhecer o viés não o elimina &mdash; mesmo economistas especialistas cometem aversão à perda em decisões reais. Não está claro se intervenções de longo prazo (como comprometimento antecipado de aportes automáticos) mudam a intensidade do viés ou apenas contornam o contexto em que ele se manifesta.</p>
+</div>
 
-<p>Uma implicação derivada que o corpo do texto não enuncia explicitamente: a equação de Fisher revela que a política monetária do Banco Central opera em dois planos simultâneos. Quando o Bacen eleva a Selic para combater inflação, ele aumenta tanto a taxa nominal quanto — se a elevação superar a expectativa inflacionária — a taxa real. Para o investidor em Tesouro Selic, isso é diretamente favorável. Para o investidor em Tesouro Prefixado ou IPCA+ com prazo longo, a marcação a mercado pode gerar perdas temporárias expressivas no preço dos títulos, mesmo que o retorno contratado ao vencimento permaneça intacto. O paradoxo: o ativo mais "seguro" conceitualmente — título soberano — pode apresentar a maior volatilidade de curto prazo se mal posicionado no prazo.</p>
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>A Hipótese de Mercados Adaptativos (Andrew Lo, 2004) é uma teoria ou uma redescricão descritiva? Lo propõe que a eficiência é variável ao longo do tempo conforme o ambiente competitivo muda &mdash; analogia evolutiva. Mas a hipótese não gera previsões falsificáveis com precisão suficiente para substituir operacionalmente a HME. Permanece aberto se é um framework científico genuíno ou uma metáfora que acomoda toda evidência post-hoc.</p>
+</div>
 
-<!-- RESPOSTA À PERGUNTA MOTIVADORA -->
+</section>
+
+<section id="discussao">
+<h2>Discussao <a class="anchor" href="#discussao">#</a></h2>
+<p>Os conceitos apresentados convergem em torno de uma tensão central que define toda decisão de alocação de capital: a impossibilidade de maximizar simultaneamente retorno, liquidez e segurança. Essa tríade funciona como um triângulo onde puxar um vértice necessariamente afasta os outros dois. A diversificação não resolve esse dilema &mdash; ela otimiza a relação risco/retorno para um dado nível de risco sistêmico, mas não o elimina.</p>
+<p>A HME e o modelo de Fama-French criam uma tensão intelectual produtiva: se os mercados são suficientemente eficientes para tornar o stock picking improvável de ter sucesso sistemático (HME semiforte), como existem fatores de retorno como tamanho e valor que persistem por décadas? A resposta acadêmica mais aceita é que esses fatores representam riscos compensados &mdash; não ineficiências exploráveis gratuitamente. O alfa do fator não é "free lunch" &mdash; é compensação por suportar dor no momento errado.</p>
+<p>Finanças comportamentais e a HME não são incompatíveis &mdash; são complementares na medida em que vieses sistemáticos criam pressões de preço que arbitradores racionais não conseguem corrigir completamente por causa dos limites da arbitragem. O mercado é "suficientemente eficiente" para que a maioria dos investidores individuais não consiga bater o índice após custos &mdash; mas "suficientemente ineficiente" para que vieses agregados criem prêmios de fator exploráveis por quem os suporta por tempo suficiente.</p>
+<p>Uma implicação que o corpo do texto não enuncia diretamente: a combinação entre custos compostos, impostos e prêmio de risco histórico revela que o verdadeiro custo de oportunidade do investidor brasileiro em renda fixa de longo prazo é subestimado. Com a Selic elevada e LCIs isentas de IR, a diferença de retorno líquido entre renda fixa e renda variável no Brasil é estruturalmente menor do que em economias com juros próximos de zero. O prêmio de risco adicional necessário para justificar a volatilidade de ações precisa ser maior aqui do que nos EUA &mdash; onde o ativo livre de risco entrega quase nada em termos reais.</p>
+
 <div class="resposta">
-  <div class="rlabel">Resposta à pergunta motivadora</div>
-  <p>Com R$ 50.000 de herança e os conceitos do compêndio em mãos, a decisão racional segue três etapas. Primeiro: separe de 3 a 6 meses de despesas em Tesouro Selic ou CDB com liquidez diária — isso não é investimento, é seguro; o restante passa para a etapa seguinte. Segundo: calcule o retorno líquido de cada opção usando a equação de Fisher e a tabela de IR — LCIs a 10% brutas valem mais que CDBs a 11% brutos com prazo de 1 ano (10% isentos > 11% × 0,80 = 8,8% líquidos). Terceiro: para horizontes superiores a 5 anos, o Tesouro IPCA+ garante taxa real positiva travada — e ações/ETFs têm prêmio de risco historicamente positivo nesse horizonte. A poupança, em qualquer cenário com Selic acima de 8,5%, entrega retorno real próximo de zero após inflação e nunca é a escolha racionalmente defensável.</p>
+  <div class="rlabel">Resposta a pergunta motivadora</div>
+  <p>Com R$ 50.000 de herança, a decisão racional segue três etapas. Primeiro: separe de 3 a 6 meses de despesas em Tesouro Selic ou CDB com liquidez diária &mdash; isso não é investimento, é seguro. Segundo: calcule o retorno líquido de cada opção usando a equação de Fisher e a tabela de IR &mdash; LCIs a 10% brutas valem mais que CDBs a 11% brutos com prazo de 1 ano (10% isentos contra 8,8% líquidos do CDB); debêntures incentivadas de alta qualidade (AA ou AAA) a IPCA + 5% são equivalentes tributariamente a Tesouro IPCA+ a IPCA + 6%. Terceiro: para horizontes superiores a 5-10 anos, defina uma SAA com pesos-alvo e disciplina de rebalanceamento &mdash; o Tesouro IPCA+ garante taxa real positiva travada, e ETFs de ações têm prêmio de risco historicamente positivo nesse horizonte. O retorno de um ETF de baixo custo (0,3% a.a.) supera o de um fundo ativo com taxa de 2% mesmo com desempenho bruto idêntico, pois os custos compõem negativamente por décadas. E o viés de disposição vai tentar convencer você a vender os ativos em ganho e segurar os em perda &mdash; o rebalanceamento por calendário remove essa decisão do escopo emocional.</p>
 </div>
+</section>
 
-<!-- ═══ LEITURAS RECOMENDADAS ═══ -->
-<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
-
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
 <h3>Livros-texto</h3>
 <div class="book-grid">
   <div class="book-card">
     <div class="book-title">O Investidor Inteligente <span class="badge-tem">VOCÊ TEM</span></div>
-    <div class="book-meta">Benjamin Graham · Harper Business, 2006 (4ª ed. rev.)<br>O texto fundacional de <em>value investing</em>. Explica o porquê do comportamento irracional do mercado e como aproveitá-lo. Alta densidade de mecanismo por página.</div>
+    <div class="book-meta">Benjamin Graham &middot; Harper Business, 2006 (4ª ed. rev.)<br>Texto fundacional de value investing. Explica o porquê do comportamento irracional do mercado. Alta densidade de mecanismo por página &mdash; especialmente os capítulos sobre Mr. Market e margem de segurança.</div>
   </div>
   <div class="book-card">
     <div class="book-title">Psicologia Financeira</div>
-    <div class="book-meta">Morgan Housel · HarperCollins Brasil, 2021<br>Foco em comportamento e vieses cognitivos que destroem retornos. Complementa a parte técnica com o que nenhuma fórmula captura: a irracionalidade humana.</div>
+    <div class="book-meta">Morgan Housel &middot; HarperCollins Brasil, 2021<br>Foco em comportamento e vieses cognitivos que destroem retornos. Complementa a parte técnica com o que nenhuma fórmula captura: a irracionalidade humana e o papel do tempo.</div>
   </div>
   <div class="book-card">
     <div class="book-title">A Random Walk Down Wall Street</div>
-    <div class="book-meta">Burton Malkiel · W.W. Norton, 2023 (13ª ed.)<br>Argumento rigoroso pela hipótese de mercados eficientes e defesa de ETFs de índice. Contrabalança Graham sem o contradizer completamente.</div>
+    <div class="book-meta">Burton Malkiel &middot; W.W. Norton, 2023 (13ª ed.)<br>Argumento rigoroso pela HME e defesa de ETFs de índice. Contrabalança Graham sem contradizê-lo completamente &mdash; ambos convivem se o horizonte for longo.</div>
   </div>
   <div class="book-card">
     <div class="book-title">Princípios de Investimentos</div>
-    <div class="book-meta">Bodie, Kane, Marcus · AMGH/McGraw-Hill, 2014 (10ª ed.)<br>Referência acadêmica. Cobre TMP, CAPM e precificação de derivativos com rigor matemático. Ideal após dominar os fundamentos.</div>
+    <div class="book-meta">Bodie, Kane, Marcus &middot; AMGH/McGraw-Hill, 2014 (10ª ed.)<br>Referência acadêmica. Cobre TMP, CAPM, Fama-French e precificação de derivativos com rigor matemático. Ideal após dominar os fundamentos.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Triumph of the Optimists</div>
+    <div class="book-meta">Dimson, Marsh, Staunton &middot; Princeton University Press, 2002<br>A base empírica mais abrangente sobre retornos históricos em 16 países desde 1900. Essencial para entender o prêmio de risco sem viés de sobrevivência americano.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">The Little Book of Common Sense Investing</div>
+    <div class="book-meta">John C. Bogle &middot; Wiley, 2017<br>O caso definitivo por ETFs de índice e baixo custo. Demonstra com dados por que custos compostos destroem retornos dos fundos ativos no longo prazo.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Thinking, Fast and Slow</div>
+    <div class="book-meta">Daniel Kahneman &middot; Farrar, Straus and Giroux, 2011<br>A obra de síntese de Kahneman sobre os dois sistemas cognitivos. Os capítulos sobre teoria da perspectiva, aversão à perda e excesso de confiança são leitura essencial para qualquer investidor. Alta densidade de mecanismo psicológico por página.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Misbehaving: The Making of Behavioral Economics</div>
+    <div class="book-meta">Richard Thaler &middot; W.W. Norton, 2015<br>Conta a história do campo de finanças comportamentais em primeira pessoa &mdash; por um dos seus fundadores e Nobel 2017. Cobre contabilidade mental, efeito dotação e política de rebalanceamento com exemplos concretos.</div>
   </div>
 </div>
-
-<h3>Artigos científicos (acesso aberto)</h3>
+<h3>Artigos cientificos (acesso aberto)</h3>
 <p>
-  <strong>Markowitz (1952)</strong> — "Portfolio Selection" — o artigo original da Teoria Moderna do Portfólio. <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.2307/2975974</a><br><br>
-  <strong>Fama (1970)</strong> — "Efficient Capital Markets: A Review of Theory and Empirical Work" — base da hipótese de mercados eficientes. <em>Journal of Finance</em>, 25(2), 383–417. Disponível via JSTOR.
+  <strong>Markowitz (1952)</strong> &mdash; "Portfolio Selection" &mdash; artigo original da TMP. <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.2307/2975974</a><br><br>
+  <strong>Sharpe (1964)</strong> &mdash; "Capital Asset Prices: A Theory of Market Equilibrium Under Conditions of Risk" &mdash; artigo original do CAPM. <em>Journal of Finance</em>, 19(3), 425-442.<br><br>
+  <strong>Fama (1970)</strong> &mdash; "Efficient Capital Markets: A Review of Theory and Empirical Work" &mdash; base da HME. <em>Journal of Finance</em>, 25(2), 383-417. Disponivel via JSTOR.<br><br>
+  <strong>Fama; French (1993)</strong> &mdash; "Common Risk Factors in the Returns on Stocks and Bonds" &mdash; modelo de tres fatores. <em>Journal of Financial Economics</em>, 33(1), 3-56.<br><br>
+  <strong>Kahneman; Tversky (1979)</strong> &mdash; "Prospect Theory: An Analysis of Decision Under Risk" &mdash; fundamento de finanças comportamentais. <a href="https://doi.org/10.2307/1914185" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.2307/1914185</a><br><br>
+  <strong>Barber; Odean (2000)</strong> &mdash; "Trading Is Hazardous to Your Wealth" &mdash; evidencia empirica sobre excesso de negociacao. <a href="https://doi.org/10.1111/0022-1082.00226" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.1111/0022-1082.00226</a><br><br>
+  <strong>Bengen (1994)</strong> &mdash; "Determining Withdrawal Rates Using Historical Data" &mdash; origem da regra dos 4%. <em>Journal of Financial Planning</em>, 7(4), 171-180.<br><br>
+  <strong>Cooley, Hubbard, Walz (1998)</strong> &mdash; "Retirement Savings: Choosing a Withdrawal Rate That Is Sustainable" &mdash; Estudo Trinity. <em>AAII Journal</em>, 20(2), 16-21.
 </p>
-
 <h3>Recursos institucionais online</h3>
 <p>
-  <strong>Tesouro Nacional</strong> — <a href="https://www.tesourodireto.com.br" target="_blank" rel="noopener" style="color:var(--ac)">tesourodireto.com.br</a> — simuladores, preços em tempo real e material educacional oficial.<br><br>
-  <strong>B3 Educação</strong> — <a href="https://edu.b3.com.br" target="_blank" rel="noopener" style="color:var(--ac)">edu.b3.com.br</a> — cursos gratuitos sobre mercado de capitais.<br><br>
-  <strong>CVM</strong> — <a href="https://www.gov.br/cvm" target="_blank" rel="noopener" style="color:var(--ac)">gov.br/cvm</a> — regulação, alertas de fraude e acesso a prospectos e demonstrações financeiras.
+  <strong>Tesouro Nacional</strong> &mdash; <a href="https://www.tesourodireto.com.br" target="_blank" rel="noopener" style="color:var(--ac)">tesourodireto.com.br</a> &mdash; simuladores, precos em tempo real e material educacional oficial.<br><br>
+  <strong>B3 Educacao</strong> &mdash; <a href="https://edu.b3.com.br" target="_blank" rel="noopener" style="color:var(--ac)">edu.b3.com.br</a> &mdash; cursos gratuitos sobre mercado de capitais.<br><br>
+  <strong>CVM</strong> &mdash; <a href="https://www.gov.br/cvm" target="_blank" rel="noopener" style="color:var(--ac)">gov.br/cvm</a> &mdash; regulacao, alertas de fraude e acesso a prospectos.
 </p>
+</section>
 
-<!-- ═══ REFERÊNCIAS ═══ -->
-<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<section id="referencias">
+<h2>Referencias ABNT <a class="anchor" href="#referencias">#</a></h2>
+<div class="refs">
+  <p>ARIELY, Dan; LOEWENSTEIN, George; PRELEC, Drazen. "Coherent arbitrariness": stable demand curves without stable preferences. <strong>Quarterly Journal of Economics,</strong> v. 118, n. 1, p. 73-106, fev. 2003. Disponivel em: <a href="https://doi.org/10.1162/00335530360535153" target="_blank" rel="noopener">https://doi.org/10.1162/00335530360535153</a>. Acesso em: 21 jun. 2026.</p>
+  <p>BARBER, Brad M.; ODEAN, Terrance. Trading is hazardous to your wealth: the common stock investment performance of individual investors. <strong>The Journal of Finance,</strong> v. 55, n. 2, p. 773-806, abr. 2000. Disponivel em: <a href="https://doi.org/10.1111/0022-1082.00226" target="_blank" rel="noopener">https://doi.org/10.1111/0022-1082.00226</a>. Acesso em: 21 jun. 2026.</p>
+  <p>BENGEN, William P. Determining withdrawal rates using historical data. <strong>Journal of Financial Planning,</strong> v. 7, n. 4, p. 171-180, out. 1994.</p>
+  <p>BODIE, Zvi; KANE, Alex; MARCUS, Alan J. <strong>Principios de investimentos.</strong> 10. ed. Porto Alegre: AMGH/McGraw-Hill, 2014.</p>
+  <p>BOGLE, John C. <strong>The little book of common sense investing.</strong> rev. ed. Hoboken: Wiley, 2017.</p>
+  <p>BRINSON, Gary P.; HOOD, L. Randolph; BEEBOWER, Gilbert L. Determinants of portfolio performance. <strong>Financial Analysts Journal,</strong> v. 42, n. 4, p. 39-44, jul./ago. 1986.</p>
+  <p>COOLEY, Philip L.; HUBBARD, Carl M.; WALZ, Daniel T. Retirement savings: choosing a withdrawal rate that is sustainable. <strong>AAII Journal,</strong> v. 20, n. 2, p. 16-21, fev. 1998.</p>
+  <p>DIMSON, Elroy; MARSH, Paul; STAUNTON, Mike. <strong>Triumph of the optimists:</strong> 101 years of global investment returns. Princeton: Princeton University Press, 2002.</p>
+  <p>FAMA, Eugene F. Efficient capital markets: a review of theory and empirical work. <strong>The Journal of Finance,</strong> v. 25, n. 2, p. 383-417, maio 1970. Disponivel em: <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener">https://doi.org/10.2307/2975974</a>. Acesso em: 21 jun. 2026.</p>
+  <p>FAMA, Eugene F.; FRENCH, Kenneth R. The cross-section of expected stock returns. <strong>The Journal of Finance,</strong> v. 47, n. 2, p. 427-465, jun. 1992. Disponivel em: <a href="https://doi.org/10.1111/j.1540-6261.1992.tb04398.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1540-6261.1992.tb04398.x</a>. Acesso em: 21 jun. 2026.</p>
+  <p>FAMA, Eugene F.; FRENCH, Kenneth R. Common risk factors in the returns on stocks and bonds. <strong>Journal of Financial Economics,</strong> v. 33, n. 1, p. 3-56, fev. 1993. Disponivel em: <a href="https://doi.org/10.1016/0304-405X(93)90023-5" target="_blank" rel="noopener">https://doi.org/10.1016/0304-405X(93)90023-5</a>. Acesso em: 21 jun. 2026.</p>
+  <p>FAMA, Eugene F.; FRENCH, Kenneth R. A five-factor asset pricing model. <strong>Journal of Financial Economics,</strong> v. 116, n. 1, p. 1-22, abr. 2015.</p>
+  <p>FISHER, Irving. <strong>The theory of interest.</strong> New York: Macmillan, 1930.</p>
+  <p>GRAHAM, Benjamin. <strong>O investidor inteligente.</strong> 4. ed. rev. New York: Harper Business, 2006.</p>
+  <p>GROSSMAN, Sanford J.; STIGLITZ, Joseph E. On the impossibility of informationally efficient markets. <strong>The American Economic Review,</strong> v. 70, n. 3, p. 393-408, jun. 1980.</p>
+  <p>HARVEY, Campbell R.; LIU, Yan; ZHU, Heqing. ... and the cross-section of expected returns. <strong>Review of Financial Studies,</strong> v. 29, n. 1, p. 5-68, jan. 2016.</p>
+  <p>HOUSEL, Morgan. <strong>Psicologia financeira.</strong> São Paulo: HarperCollins Brasil, 2021.</p>
+  <p>KAHNEMAN, Daniel. <strong>Thinking, fast and slow.</strong> New York: Farrar, Straus and Giroux, 2011.</p>
+  <p>KAHNEMAN, Daniel; TVERSKY, Amos. Prospect theory: an analysis of decision under risk. <strong>Econometrica,</strong> v. 47, n. 2, p. 263-291, mar. 1979. Disponivel em: <a href="https://doi.org/10.2307/1914185" target="_blank" rel="noopener">https://doi.org/10.2307/1914185</a>. Acesso em: 21 jun. 2026.</p>
+  <p>KEYNES, John Maynard. <strong>A teoria geral do emprego, do juro e da moeda.</strong> São Paulo: Atlas, 1982. [Orig. 1936].</p>
+  <p>MALKIEL, Burton G. <strong>A random walk down Wall Street.</strong> 13. ed. New York: W. W. Norton, 2023.</p>
+  <p>MARKOWITZ, Harry. Portfolio selection. <strong>The Journal of Finance,</strong> v. 7, n. 1, p. 77-91, mar. 1952. Disponivel em: <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener">https://doi.org/10.2307/2975974</a>. Acesso em: 21 jun. 2026.</p>
+  <p>MICHAUD, Richard O. The Markowitz optimization enigma: is 'optimized' optimal? <strong>Financial Analysts Journal,</strong> v. 45, n. 1, p. 31-42, jan./fev. 1989.</p>
+  <p>ODEAN, Terrance. Are investors reluctant to realize their losses? <strong>The Journal of Finance,</strong> v. 53, n. 5, p. 1775-1798, out. 1998. Disponivel em: <a href="https://doi.org/10.1111/0022-1082.00072" target="_blank" rel="noopener">https://doi.org/10.1111/0022-1082.00072</a>. Acesso em: 21 jun. 2026.</p>
+  <p>PFAU, Wade D. Capital market expectations, asset allocation, and safe withdrawal rates. <strong>Journal of Financial Planning,</strong> v. 25, n. 1, p. 36-43, jan. 2012.</p>
+  <p>SHARPE, William F. Capital asset prices: a theory of market equilibrium under conditions of risk. <strong>The Journal of Finance,</strong> v. 19, n. 3, p. 425-442, set. 1964. Disponivel em: <a href="https://doi.org/10.1111/j.1540-6261.1964.tb02865.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1540-6261.1964.tb02865.x</a>. Acesso em: 21 jun. 2026.</p>
+  <p>SHEFRIN, Hersh; STATMAN, Meir. The disposition to sell winners too early and ride losers too long: theory and evidence. <strong>The Journal of Finance,</strong> v. 40, n. 3, p. 777-790, jul. 1985. Disponivel em: <a href="https://doi.org/10.1111/j.1540-6261.1985.tb05002.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1540-6261.1985.tb05002.x</a>. Acesso em: 21 jun. 2026.</p>
+  <p>TESOURO NACIONAL. <strong>Tesouro Direto:</strong> como funciona. Brasilia: Secretaria do Tesouro Nacional, 2026. Disponivel em: <a href="https://www.tesourodireto.com.br" target="_blank" rel="noopener">https://www.tesourodireto.com.br</a>. Acesso em: 21 jun. 2026.</p>
+  <p>THALER, Richard H. <strong>Misbehaving: the making of behavioral economics.</strong> New York: W. W. Norton, 2015.</p>
+</div>
+</section>
 
-<ol class="refs">
-  <li>BODIE, Zvi; KANE, Alex; MARCUS, Alan J. <strong>Princípios de investimentos.</strong> 10. ed. Porto Alegre: AMGH/McGraw-Hill, 2014.</li>
-  <li>FAMA, Eugene F. Efficient capital markets: a review of theory and empirical work. <strong>The Journal of Finance,</strong> v. 25, n. 2, p. 383–417, maio 1970. Disponível em: <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener">https://doi.org/10.2307/2975974</a>. Acesso em: 21 jun. 2026.</li>
-  <li>FISHER, Irving. <strong>The theory of interest:</strong> as determined by impatience to spend income and opportunity to invest it. New York: Macmillan, 1930.</li>
-  <li>GRAHAM, Benjamin. <strong>O investidor inteligente.</strong> 4. ed. rev. New York: Harper Business, 2006.</li>
-  <li>HOUSEL, Morgan. <strong>Psicologia financeira:</strong> lições atemporais sobre fortuna, ganância e felicidade. São Paulo: HarperCollins Brasil, 2021.</li>
-  <li>KEYNES, John Maynard. <strong>A teoria geral do emprego, do juro e da moeda.</strong> São Paulo: Atlas, 1982. [Orig. 1936].</li>
-  <li>MALKIEL, Burton G. <strong>A random walk down Wall Street.</strong> 13. ed. New York: W. W. Norton, 2023.</li>
-  <li>MARKOWITZ, Harry. Portfolio selection. <strong>The Journal of Finance,</strong> v. 7, n. 1, p. 77–91, mar. 1952. Disponível em: <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener">https://doi.org/10.2307/2975974</a>. Acesso em: 21 jun. 2026.</li>
-  <li>TESOURO NACIONAL. <strong>Tesouro Direto:</strong> como funciona. Brasília: Secretaria do Tesouro Nacional, 2026. Disponível em: <a href="https://www.tesourodireto.com.br" target="_blank" rel="noopener">https://www.tesourodireto.com.br</a>. Acesso em: 21 jun. 2026.</li>
-</ol>
-
-</div><!-- .prose -->
-</div><!-- #content -->
-
-</div><!-- #body-wrap -->
+</div>
+</div>
+</div>
 
 <script>
-// ── Progress bar ──
 const bar = document.getElementById('progress-bar');
 window.addEventListener('scroll', () => {
   const st = document.documentElement.scrollTop;
@@ -761,7 +982,6 @@ window.addEventListener('scroll', () => {
   bar.style.width = (sh > 0 ? st / sh * 100 : 0) + '%';
 }, { passive: true });
 
-// ── Sidebar toggle ──
 const sidebar = document.getElementById('sidebar');
 const bodyWrap = document.getElementById('body-wrap');
 const toggleBtn = document.getElementById('toggle-btn');
@@ -770,11 +990,11 @@ function applyCollapsed(collapsed) {
   if (collapsed) {
     sidebar.classList.add('collapsed');
     bodyWrap.classList.add('sidebar-collapsed');
-    toggleBtn.textContent = '›';
+    toggleBtn.textContent = String.fromCharCode(8250);
   } else {
     sidebar.classList.remove('collapsed');
     bodyWrap.classList.remove('sidebar-collapsed');
-    toggleBtn.textContent = '‹';
+    toggleBtn.textContent = String.fromCharCode(8249);
   }
 }
 
@@ -787,15 +1007,11 @@ toggleBtn.addEventListener('click', () => {
   sessionStorage.setItem('sidebar-collapsed', nowCollapsed);
 });
 
-// ── Mobile menu ──
 const mobBtn = document.getElementById('mob-menu-btn');
 if (mobBtn) {
-  mobBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-  });
+  mobBtn.addEventListener('click', () => { sidebar.classList.toggle('open'); });
 }
 
-// ── IntersectionObserver: sidebar active link ──
 const sections = document.querySelectorAll('h2[id], h3[id]');
 const links = document.querySelectorAll('#sidebar a.sl[href^="#"]');
 
@@ -804,7 +1020,7 @@ const observer = new IntersectionObserver(entries => {
     if (entry.isIntersecting) {
       const id = entry.target.id;
       links.forEach(l => l.classList.remove('active'));
-      const active = document.querySelector(`#sidebar a.sl[href="#${id}"]`);
+      const active = document.querySelector('#sidebar a.sl[href="#' + id + '"]');
       if (active) active.classList.add('active');
     }
   });
@@ -812,19 +1028,23 @@ const observer = new IntersectionObserver(entries => {
 
 sections.forEach(s => observer.observe(s));
 
-// ── Scroll suave ──
+const allSections = document.querySelectorAll('section[id]');
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      allSections.forEach(s => s.classList.remove('in-view'));
+      entry.target.classList.add('in-view');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+allSections.forEach(s => sectionObserver.observe(s));
+
 links.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-</script>
-
-</body>
-</html>
-{ behavior: 'smooth' });
   });
 });
 </script>
