@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M1 — Órgãos e Tecidos Linfoides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.chip b{color:var(--text);font-weight:500}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.pergunta p{font-size:15px;color:var(--text);margin:0;line-height:1.7}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}.dep-item:last-child{border-bottom:none}
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--ac);z-index:100;transition:width .1s linear;pointer-events:none}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+section:not(.in-view)>h2{color:var(--text);transition:color .3s}
+@media(max-width:900px){
+  body{flex-direction:column}
+  #sidebar{display:none;width:100%!important;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
+  #sidebar.open{display:block}#sidebar .s-inner{width:100%;overflow-y:visible}
+  #s-toggle{display:none}#mob-bar{display:flex}#body-wrap{flex-direction:column}
+  #content{padding:24px 20px 80px}.ck-grid{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.book-grid{grid-template-columns:1fr}
+}
+@media print{
+  #sidebar,#mob-bar,#progress-bar{display:none}body{background:#fff;color:#111;display:block}
+  #content{padding:0}h1,h2,h3{color:#111}.kbox,.box,.hist{border-color:#ccc;background:#f9f9f9;color:#111}
+  table,th,td{border-color:#ccc;color:#111}th{background:#eee}a[href]::after{content:" ("attr(href)")";font-size:.8em;color:#555}.anc{display:none}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M1 — Orgaos Linfoides</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo"><b>Imunologia M1</b><span>Orgaos e Tecidos Linfoides</span><a href="index.html">&larr; Indice de Imunologia</a></div>
+    <div class="s-group">Conteudo</div>
+    <a class="sl" href="#fundamentos">Fundamentos necessarios</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#visao-geral">Visao geral do SI</a>
+    <a class="sl" href="#orgaos-primarios">Orgaos primarios</a>
+    <a class="sl sub" href="#medula-ossea">Medula ossea</a>
+    <a class="sl sub" href="#timo">Timo</a>
+    <a class="sl sub" href="#selecao-timica">Selecao timica</a>
+    <a class="sl sub" href="#involucao-timica">Involucao timica</a>
+    <a class="sl" href="#orgaos-secundarios">Orgaos secundarios</a>
+    <a class="sl sub" href="#baco">Baco</a>
+    <a class="sl sub" href="#linfonodos">Linfonodos</a>
+    <a class="sl" href="#malt">MALT</a>
+    <a class="sl sub" href="#galt">GALT</a>
+    <a class="sl sub" href="#nalt-balt">NALT e BALT</a>
+    <a class="sl" href="#salt">SALT</a>
+    <div class="s-group">Revisao</div>
+    <a class="sl" href="#conexoes">Conexoes</a>
+    <a class="sl" href="#discussao">Discussao</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Referencias ABNT</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>M1 &mdash; &Oacute;rg&atilde;os e Tecidos Linfoides</h1>
+  <p class="doc-meta">Imunologia &middot; PUC &middot; 2026 &middot; Abbas cap. 1&ndash;2 &middot; Aulas: &Oacute;rg&atilde;os Linfoides Partes 1 e 2</p>
+  <div class="doc-chips">
+    <span class="chip">&#9201; <b>~25 min</b> de leitura</span>
+    <span class="chip">&#128203; Pr&eacute;-requisitos: <b>Hematopoiese, anatomia b&aacute;sica</b></span>
+    <span class="chip">&#128279; Depende de: <b>&mdash;</b></span>
+    <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que um paciente que recebe transplante de timo na inf&acirc;ncia (como na s&iacute;ndrome de DiGeorge) pode desenvolver imunidade celular funcional, mas um adulto timectomizado n&atilde;o perde suas respostas T estabelecidas &mdash; e o que isso revela sobre a separa&ccedil;&atilde;o entre os s&iacute;tios de gera&ccedil;&atilde;o e ativa&ccedil;&atilde;o dos linf&oacute;citos?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de depend&ecirc;ncias</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este comp&ecirc;ndio usa</div>
+      <span class="dep-item">&mdash; (m&oacute;dulo inaugural)</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necess&aacute;rio</div>
+      <span class="dep-item">Hematopoiese (conceito externo)</span>
+      <span class="dep-item">Anatomia do mediastino</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 &mdash; C&eacute;lulas do Sistema Imune</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html">M8 &mdash; Linf&oacute;citos T</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html">M7 &mdash; Anticorpos</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necess&aacute;rios <a class="anc" href="#fundamentos">#</a></h2>
+<div class="g2">
+  <div class="box"><strong>Hematopoiese</strong><br>Gera&ccedil;&atilde;o cont&iacute;nua de c&eacute;lulas sangu&iacute;neas a partir de c&eacute;lulas-tronco hematopoiéticas (CTH) pluripotentes na medula &oacute;ssea. Toda c&eacute;lula do sistema imune tem origem nesse processo.</div>
+  <div class="box"><strong>Linhagem mieloide vs. linfoide</strong><br>As CTH se comprometem com dois ramos: progenitor mieloide (granul&oacute;citos, mon&oacute;citos, plaquetas, eritr&oacute;citos) e progenitor linfoide (linf&oacute;citos B, T e NK).</div>
+  <div class="box"><strong>Ant&iacute;geno e especificidade</strong><br>Ant&iacute;geno &eacute; qualquer mol&eacute;cula reconhecida pelo sistema imune adaptativo. A especificidade exige linf&oacute;citos de enorme diversidade &mdash; ~10&sup8;&ndash;10&sup9; especificidades &mdash; gerados antes de qualquer exposi&ccedil;&atilde;o antig&ecirc;nica.</div>
+  <div class="box"><strong>Toler&acirc;ncia central</strong><br>Elimina&ccedil;&atilde;o de linf&oacute;citos autorreativos durante a matura&ccedil;&atilde;o nos &oacute;rg&atilde;os prim&aacute;rios. Falha na toler&acirc;ncia central &eacute; base das doen&ccedil;as autoimunes.</div>
+  <div class="box"><strong>Circula&ccedil;&atilde;o linf&aacute;tica</strong><br>Rede paralela ao sistema venoso que drena fluido intersticial (linfa) para o sangue via ducto tor&aacute;cico. Os linfonodos s&atilde;o filtros imunol&oacute;gicos posicionados ao longo dessa rede.</div>
+  <div class="box"><strong>Imunidade inata vs. adaptativa</strong><br>A inata responde r&aacute;pido e de forma inespec&iacute;fica; a adaptativa responde com especificidade e mem&oacute;ria, mas exige dias. Os &oacute;rg&atilde;os linfoides s&atilde;o a infraestrutura f&iacute;sica de ambas.</div>
+</div>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Org&atilde;os prim&aacute;rios</div><div class="ckd">Medula &oacute;ssea e timo &mdash; onde linf&oacute;citos s&atilde;o gerados e submetidos &agrave; toler&acirc;ncia central</div></div>
+  <div class="ck-card"><div class="ckt">Org&atilde;os secund&aacute;rios</div><div class="ckd">Linfonodos, ba&ccedil;o, MALT &mdash; onde linf&oacute;citos maduros encontram ant&iacute;genos e se ativam</div></div>
+  <div class="ck-card"><div class="ckt">Sele&ccedil;&atilde;o positiva</div><div class="ckd">Tim&oacute;citos sobrevivem se reconhecerem MHC pr&oacute;prio com afinidade suficiente (c&oacute;rtex)</div></div>
+  <div class="ck-card"><div class="ckt">Sele&ccedil;&atilde;o negativa</div><div class="ckd">Tim&oacute;citos com alta afinidade por autoantig&eacute;nos s&atilde;o deletados ou viram Tregs (medula)</div></div>
+  <div class="ck-card"><div class="ckt">AIRE</div><div class="ckd">Gene que for&ccedil;a express&atilde;o de autoantig&eacute;nos teciduais no timo &mdash; essencial &agrave; toler&acirc;ncia</div></div>
+  <div class="ck-card"><div class="ckt">HEV</div><div class="ckd"><em>High endothelial venules</em> (v&ecirc;nulas de end&oacute;telio alto) &mdash; portais de entrada de linf&oacute;citos na&iuml;ve nos linfonodos</div></div>
+  <div class="ck-card"><div class="ckt">MALT / IgA secretora</div><div class="ckd">Maior massa linfoide do corpo; especializado na imunidade de mucosa via IgA dim&eacute;rica</div></div>
+  <div class="ck-card"><div class="ckt">Imunosenesc&ecirc;ncia</div><div class="ckd">Redu&ccedil;&atilde;o progressiva da imunidade adaptativa com involu&ccedil;&atilde;o t&iacute;mica a partir da puberdade</div></div>
+  <div class="ck-card"><div class="ckt">Hematopoiese extramedular</div><div class="ckd">Retomada de hematopoiese pelo f&iacute;gado/ba&ccedil;o quando a medula est&aacute; lesada &mdash; patol&oacute;gica no adulto</div></div>
+</div>
+</section>
+
+<section id="visao-geral">
+<h2>Vis&atilde;o geral do sistema imune <a class="anc" href="#visao-geral">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Ilya Metchnikoff descreveu a fagocitose em 1882 e Paul Ehrlich prop&ocirc;s a teoria das cadeias laterais dos anticorpos em 1897 &mdash; ambos sem saber que existiam dois compartimentos anat&ocirc;micos distintos para a gera&ccedil;&atilde;o e a ativa&ccedil;&atilde;o dos linf&oacute;citos. A distin&ccedil;&atilde;o entre &oacute;rg&atilde;os prim&aacute;rios e secund&aacute;rios s&oacute; foi formalizada nas d&eacute;cadas de 1960&ndash;70, quando Jacques Miller demonstrou (1961) que o timo era essencial para a imunidade celular, e outros grupos mostraram que a medula &oacute;ssea era a fonte de precursores B.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  O sistema imune &eacute; o conjunto de &oacute;rg&atilde;os, tecidos, c&eacute;lulas e mol&eacute;culas que protegem o organismo contra agentes agressores &mdash; microrganismos, c&eacute;lulas tumorais e subst&acirc;ncias estranhas. Sua capacidade defensiva depende de uma arquitetura espacial precisa com dois n&iacute;veis hier&aacute;rquicos de fun&ccedil;&otilde;es mutuamente exclusivas.
+</div>
+<p>Os <strong>&oacute;rg&atilde;os prim&aacute;rios</strong> (ou centrais) s&atilde;o os s&iacute;tios de gera&ccedil;&atilde;o e matura&ccedil;&atilde;o dos linf&oacute;citos &mdash; onde c&eacute;lulas aprendem a distinguir pr&oacute;prio de n&atilde;o-pr&oacute;prio antes de qualquer contato com ant&iacute;geno. Os <strong>&oacute;rg&atilde;os secund&aacute;rios</strong> (ou perif&eacute;ricos) s&atilde;o os s&iacute;tios onde linf&oacute;citos maduros encontram ant&iacute;genos, se ativam e geram respostas efetoras.</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Categoria</th><th>Org&atilde;o/Tecido</th><th>Ant&iacute;geno chega via</th><th>Fun&ccedil;&atilde;o principal</th></tr></thead>
+  <tbody>
+    <tr><td>Prim&aacute;rio</td><td>Medula &oacute;ssea</td><td>&mdash;</td><td>Hematopoiese; matura&ccedil;&atilde;o de linf&oacute;citos B</td></tr>
+    <tr><td>Prim&aacute;rio</td><td>Timo</td><td>&mdash;</td><td>Matura&ccedil;&atilde;o, sele&ccedil;&atilde;o e toler&acirc;ncia de linf&oacute;citos T</td></tr>
+    <tr><td>Secund&aacute;rio</td><td>Ba&ccedil;o</td><td>Sangue</td><td>Resposta a ant&iacute;genos sangu&iacute;neos; filtra&ccedil;&atilde;o</td></tr>
+    <tr><td>Secund&aacute;rio</td><td>Linfonodos</td><td>Vaso linf&aacute;tico aferente</td><td>Resposta a ant&iacute;genos teciduais</td></tr>
+    <tr><td>MALT</td><td>GALT, NALT, BALT</td><td>Mucosa / l&uacute;men</td><td>Imunidade de mucosa (IgA secret&oacute;ra)</td></tr>
+    <tr><td>SALT</td><td>Epiderme/derme</td><td>Contato cut&acirc;neo</td><td>Vigil&acirc;ncia imune cut&acirc;nea</td></tr>
+  </tbody>
+  <caption>Tabela 1. Organiza&ccedil;&atilde;o hier&aacute;rquica dos &oacute;rg&atilde;os e tecidos linfoides.</caption>
+</table></div>
+</section>
+
+<section id="orgaos-primarios">
+<h2>Org&atilde;os prim&aacute;rios &mdash; onde linf&oacute;citos nascem e aprendem <a class="anc" href="#orgaos-primarios">#</a></h2>
+<p>A l&oacute;gica dos &oacute;rg&atilde;os prim&aacute;rios resolve um paradoxo: o sistema imune adaptativo precisa reconhecer praticamente qualquer ant&iacute;geno poss&iacute;vel, mas n&atilde;o pode reconhecer o pr&oacute;prio. A solu&ccedil;&atilde;o &eacute; gerar enorme diversidade de receptores (via recombina&ccedil;&atilde;o VDJ aleat&oacute;ria) e depois selecionar, nos &oacute;rg&atilde;os prim&aacute;rios, apenas os linf&oacute;citos &uacute;teis e n&atilde;o autorreativos &mdash; antes de qualquer exposi&ccedil;&atilde;o antig&ecirc;nica real.</p>
+</section>
+
+<section id="medula-ossea">
+<h2>Medula &oacute;ssea <a class="anc" href="#medula-ossea">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  A medula &oacute;ssea como s&iacute;tio hematopoiético prim&aacute;rio foi identificada por Ernst Neumann e Giulio Bizzozero de forma independente em 1868&ndash;1869. Sua fun&ccedil;&atilde;o como &oacute;rg&atilde;o linfoide prim&aacute;rio para linf&oacute;citos B s&oacute; foi elucidada na d&eacute;cada de 1970, quando experimentos de transplante de medula em camundongos irradiados demonstraram que ela continha os precursores de todas as c&eacute;lulas sangu&iacute;neas, incluindo linf&oacute;citos B maduros.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Tecido hematopoiético que ocupa as cavidades dos ossos e constitui o principal s&iacute;tio de produ&ccedil;&atilde;o de todas as c&eacute;lulas sangu&iacute;neas no adulto. &Eacute; tamb&eacute;m o local de matura&ccedil;&atilde;o completa dos linf&oacute;citos B.
+</div>
+<p>Durante o desenvolvimento fetal, a hematopoiese migra progressivamente: inicia nas <strong>ilhotas sangu&iacute;neas do saco vitelínico</strong>, move-se para o <strong>f&iacute;gado fetal</strong> entre o 3&ordm; e 4&ordm; m&ecirc;s de gesta&ccedil;&atilde;o, e finaliza na <strong>medula &oacute;ssea</strong>. Ao nascimento, todos os ossos s&atilde;o hematopoiéticos. No adulto, a hematopoiese restringe-se aos <strong>ossos chatos</strong> &mdash; esterno, v&eacute;rtebras, ossos il&iacute;acos e costelas.</p>
+<p>Quando a medula &eacute; lesada (irradia&ccedil;&atilde;o, quimioterapia, fibrose) ou h&aacute; demanda excepcional, o f&iacute;gado e o ba&ccedil;o podem retomar a hematopoiese &mdash; fen&ocirc;meno chamado <strong>hematopoiese extramedular</strong>, normal no feto mas patol&oacute;gico no adulto.</p>
+<p>Os linf&oacute;citos B completam toda sua matura&ccedil;&atilde;o na medula &oacute;ssea, passando por pontos de controle que verificam: (1) se o rearranjo do gene do receptor B (BCR) foi bem-sucedido; (2) se o BCR gerado reconhece autoantig&eacute;nos &mdash; caso positivo, a c&eacute;lula &eacute; eliminada por apoptose (sele&ccedil;&atilde;o negativa) ou tem o receptor editado (<em>receptor editing</em>).</p>
+</section>
+
+<section id="timo">
+<h2>Timo <a class="anc" href="#timo">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  O timo era considerado vestigial at&eacute; 1961, quando Jacques Miller demonstrou que camundongos neonatais timectomizados desenvolviam imunodefici&ecirc;ncia celular grave. O achado foi confirmado independentemente por Robert Good, e inaugurou a era da imunologia celular. Em 1968, o gene <em>nude</em> do camundongo at&iacute;mico foi descrito. O gene AIRE, respons&aacute;vel pela toler&acirc;ncia central mediada pelo timo, foi identificado em 1997.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  &Oacute;rg&atilde;o linfoide prim&aacute;rio bilobado, localizado no mediastino anterior, respons&aacute;vel exclusivamente pela matura&ccedil;&atilde;o, sele&ccedil;&atilde;o e toler&acirc;ncia dos linf&oacute;citos T. Sem timo funcional, n&atilde;o h&aacute; imunidade celular adaptativa.
+</div>
+<p>Estruturalmente, cada lobo t&iacute;mico divide-se em <strong>c&oacute;rtex</strong> (externo, com tim&oacute;citos imaturos em prolifera&ccedil;&atilde;o intensa) e <strong>medula</strong> (interna, com tim&oacute;citos maduros, macr&oacute;fagos e c&eacute;lulas dendr&iacute;ticas). As <strong>c&eacute;lulas epiteliais t&iacute;micas corticais</strong> produzem IL-7, essencial ao desenvolvimento inicial do linf&oacute;cito T, e expressam mol&eacute;culas MHC que conduzem a sele&ccedil;&atilde;o positiva. As c&eacute;lulas epiteliais medulares expressam o gene <strong>AIRE</strong> (<em>autoimmune regulator</em>, regulador autoimune), que for&ccedil;a a express&atilde;o de autoantig&eacute;nos teciduais no timo &mdash; permitindo que linf&oacute;citos T autorreativos sejam identificados e eliminados.</p>
+</section>
+
+<section id="selecao-timica">
+<h2>Sele&ccedil;&atilde;o t&iacute;mica: positiva e negativa <a class="anc" href="#selecao-timica">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  O mecanismo da sele&ccedil;&atilde;o t&iacute;mica dupla foi elucidado progressivamente nos anos 1980&ndash;90. Phillipa Marrack e John Kappler demonstraram em 1987 que tim&oacute;citos autorreativos eram deletados na medula t&iacute;mica. Harald von Boehmer e colaboradores definiram os par&acirc;metros de afinidade que separam sele&ccedil;&atilde;o positiva de negativa &mdash; a "hip&oacute;tese da afinidade".
+</div>
+<p><strong>Sele&ccedil;&atilde;o positiva</strong> (c&oacute;rtex): tim&oacute;citos que reconhecem mol&eacute;culas MHC pr&oacute;prias com afinidade suficiente sobrevivem. Os demais morrem por apoptose ("morte por neglig&ecirc;ncia"). Esse passo garante compet&ecirc;ncia funcional.</p>
+<p><strong>Sele&ccedil;&atilde;o negativa</strong> (medula): tim&oacute;citos que reconhecem autoantig&eacute;nos com afinidade muito alta s&atilde;o eliminados (dele&ccedil;&atilde;o clonal) ou se tornam c&eacute;lulas T regulat&oacute;rias (Tregs). Esse passo garante a toler&acirc;ncia central.</p>
+<div class="box">
+  <strong>Resultado:</strong> apenas ~2&ndash;5% dos tim&oacute;citos que entram no timo sa&iacute;em como linf&oacute;citos T maduros e funcionais. A efici&ecirc;ncia brutal desse filtro &eacute; o pre&ccedil;o da autotoler&acirc;ncia.
+</div>
+<div class="box alerta">
+  <strong>S&iacute;ndrome de DiGeorge (CATCH 22)</strong> &mdash; Dele&ccedil;&atilde;o do cromossomo 22q11.2; afeta 1:4.000&ndash;6.000 nascidos. Compromete a forma&ccedil;&atilde;o das bolsas far&iacute;ngeas III e IV, resultando em aplasia ou hipoplasia do timo. Consequ&ecirc;ncia: imunodefici&ecirc;ncia celular grave, hipocalcemia, cardiopatias cong&ecirc;nitas. CATCH 22: <em>Cardiac defects, Abnormal facies, Thymic hypoplasia, Cleft palate, Hypocalcemia</em>.
+</div>
+<div class="box alerta">
+  <strong>APECED (S&iacute;ndrome Poliglandular Autoimune tipo 1)</strong> &mdash; Muta&ccedil;&atilde;o no gene AIRE (21q22.3). Sem AIRE funcional, linf&oacute;citos T autorreativos escapam da sele&ccedil;&atilde;o negativa. Manifesta&ccedil;&otilde;es: candidíase mucocutânea cr&ocirc;nica (70&ndash;100%), hipoparatireoidismo (79&ndash;100%), doen&ccedil;a de Addison (60&ndash;100%). Preval&ecirc;ncia maior em finlandeses (1:25.000) e judeus iranianos (1:9.000).
+</div>
+</section>
+
+<section id="involucao-timica">
+<h2>Involu&ccedil;&atilde;o t&iacute;mica e imunosenesc&ecirc;ncia <a class="anc" href="#involucao-timica">#</a></h2>
+<p>O timo atinge peso m&aacute;ximo (~30&ndash;40 g) na puberdade e involui progressivamente com a idade, sendo substitu&iacute;do por tecido adiposo. Os n&iacute;veis de timulina (horm&ocirc;nio t&iacute;mico) declinam continuamente a partir dos 20 anos e tornam-se indetect&aacute;veis ap&oacute;s os 60. Essa involu&ccedil;&atilde;o reduz a gera&ccedil;&atilde;o de novos linf&oacute;citos T na&iuml;ve, contribuindo para a <strong>imunosenesc&ecirc;ncia</strong> &mdash; redu&ccedil;&atilde;o progressiva da capacidade de resposta imune adaptativa com o envelhecimento.</p>
+<p>A imunosenesc&ecirc;ncia n&atilde;o &eacute; apenas decl&iacute;nio funcional das c&eacute;lulas existentes: &eacute;, estruturalmente, aus&ecirc;ncia de reposi&ccedil;&atilde;o t&iacute;mica. Isso explica por que idosos respondem mal a pat&oacute;genos novos (HIV, SARS-CoV-2) e a vacinas.</p>
+</section>
+
+<section id="orgaos-secundarios">
+<h2>Org&atilde;os secund&aacute;rios &mdash; onde a resposta acontece <a class="anc" href="#orgaos-secundarios">#</a></h2>
+<p>Os &oacute;rg&atilde;os linfoides secund&aacute;rios s&atilde;o a interface entre linf&oacute;citos maduros circulantes e ant&iacute;genos dos tecidos. Sua organiza&ccedil;&atilde;o n&atilde;o &eacute; aleat&oacute;ria: linf&oacute;citos B e T ocupam zonas distintas, otimizando o encontro com ant&iacute;genos e entre si &mdash; a colabora&ccedil;&atilde;o T&ndash;B &eacute; essencial para a maioria das respostas humorais.</p>
+</section>
+
+<section id="baco">
+<h2>Ba&ccedil;o <a class="anc" href="#baco">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  A fun&ccedil;&atilde;o imune do ba&ccedil;o foi negligenciada at&eacute; as d&eacute;cadas de 1950&ndash;60, quando surgiu a s&iacute;ndrome de <em>Overwhelming Post-Splenectomy Infection</em> (OPSI), identificada por King e Shumacker (1952) em crian&ccedil;as esplenectomizadas. A descoberta de que o ba&ccedil;o era o principal produtor de IgM de fase inicial contra bact&eacute;rias encapsuladas redefiniu a indica&ccedil;&atilde;o de esplenectomia em pediatria.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Maior &oacute;rg&atilde;o linfoide secund&aacute;rio, especializado na resposta a ant&iacute;genos presentes na corrente sangu&iacute;nea. &Eacute; simultaneamente filtro imunol&oacute;gico e filtro hematol&oacute;gico. &Uacute;nico &oacute;rg&atilde;o linfoide sem afer&ecirc;ncia linf&aacute;tica &mdash; o ant&iacute;geno chega exclusivamente pelo sangue.
+</div>
+<p>Estruturalmente divide-se em <strong>polpa branca</strong> (bainha linfoide periarteriolar com linf&oacute;citos T, e fol&iacute;culos linfoides com linf&oacute;citos B) e <strong>polpa vermelha</strong> (sinusoides, macr&oacute;fagos, eritr&oacute;citos, plaquetas, granul&oacute;citos e plasmoçitos).</p>
+<div class="box alerta">
+  <strong>Asplenia e risco infeccioso</strong> &mdash; Indiv&iacute;duos sem ba&ccedil;o (esplenectomizados ou com asplenia funcional, como na anemia falciforme) t&ecirc;m risco drasticamente aumentado de infec&ccedil;&otilde;es graves por bact&eacute;rias encapsuladas: <em>Streptococcus pneumoniae</em>, <em>Haemophilus influenzae</em> e <em>Neisseria meningitidis</em>. Essas bact&eacute;rias dependem de opsoniza&ccedil;&atilde;o por anticorpos para ser fagocitadas &mdash; e o ba&ccedil;o &eacute; o principal s&iacute;tio de produ&ccedil;&atilde;o de IgM de fase inicial.
+</div>
+</section>
+
+<section id="linfonodos">
+<h2>Linfonodos <a class="anc" href="#linfonodos">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Os linfonodos foram descritos anatomicamente desde o s&eacute;culo XVII, mas sua fun&ccedil;&atilde;o imune s&oacute; foi elucidada com os experimentos de tr&aacute;fego linfocit&aacute;rio de James Gowans nos anos 1960. Gowans demonstrou que linf&oacute;citos recirculam continuamente entre o sangue e os linfonodos via HEV &mdash; resultado que transformou o conceito de linf&oacute;cito de c&eacute;lula est&aacute;tica em vigilante circulante.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Pequenos &oacute;rg&atilde;os (2&ndash;10 mm) encapsulados, distribu&iacute;dos ao longo de toda a rede linf&aacute;tica, especializados na resposta a ant&iacute;genos drenados dos tecidos perif&eacute;ricos. S&atilde;o os principais s&iacute;tios de ativa&ccedil;&atilde;o de linf&oacute;citos T e B por ant&iacute;genos teciduais.
+</div>
+<p>Morfologicamente: <strong>c&oacute;rtex externo</strong> &mdash; fol&iacute;culos linfoides com linf&oacute;citos B (fol&iacute;culos prim&aacute;rios em repouso; fol&iacute;culos secund&aacute;rios com centros germinativos durante resposta ativa). <strong>Parac&oacute;rtex</strong> &mdash; rico em linf&oacute;citos T e c&eacute;lulas dendr&iacute;ticas apresentadoras de ant&iacute;geno. <strong>Medula</strong> &mdash; plasmoçitos secretando anticorpos.</p>
+<p>A entrada de linf&oacute;citos na&iuml;ve ocorre pelas <strong>HEV</strong> (<em>high endothelial venules</em>) &mdash; estruturas especializadas que expressam mol&eacute;culas de ades&atilde;o reconhecidas pelos linf&oacute;citos circulantes. Ant&iacute;genos chegam pelo linf&aacute;tico aferente, s&atilde;o captados por c&eacute;lulas dendríticas e apresentados &agrave;s c&eacute;lulas T no parac&oacute;rtex.</p>
+<div class="box clinico">
+  <strong>Linfadenopatia</strong> &mdash; Aumento de linfonodos reflete hiperplasia reativa (infec&ccedil;&atilde;o local), infiltra&ccedil;&atilde;o neopl&aacute;sica (linfomas) ou met&aacute;stase de tumor s&oacute;lido. O padr&atilde;o de drenagem linf&aacute;tica &eacute; anatomicamente previs&iacute;vel: a mama drena principalmente para linfonodos axilares, o que determina a abordagem cir&uacute;rgica no c&acirc;ncer de mama (pesquisa do linfonodo sentinela).
+</div>
+</section>
+
+<section id="malt">
+<h2>MALT &mdash; Tecido linfoide associado &agrave;s mucosas <a class="anc" href="#malt">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  O conceito de MALT foi formalizado por Ivan Roitt e colaboradores na d&eacute;cada de 1970, ap&oacute;s a descoberta de que a IgA secret&oacute;ra &mdash; a imunoglobulina dominante nas mucosas &mdash; era produzida localmente por plasmoçitos residentes, e n&atilde;o transportada do sangue. A demonstra&ccedil;&atilde;o de que a IgA era dim&eacute;rica e possu&iacute;a um componente secret&oacute;rio espec&iacute;fico consolidou a ideia de um sistema imune de mucosa anatomicamente distinto.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Conjunto de estruturas linfoides organizadas nas mucosas do trato gastrointestinal, respirat&oacute;rio e urogenital. Constitui a maior massa de tecido linfoide do corpo humano e &eacute; especializado na produ&ccedil;&atilde;o de IgA secret&oacute;ra &mdash; o anticorpo dominante nas mucosas.
+</div>
+</section>
+
+<section id="galt">
+<h2>GALT &mdash; Tecido linfoide do intestino <a class="anc" href="#galt">#</a></h2>
+<p>O GALT (<em>Gut-Associated Lymphoid Tissue</em>, tecido linfoide associado ao intestino) inclui as <strong>Placas de Peyer</strong> (agregados linfoides no &iacute;leo), linfonodos mesentéricos e fol&iacute;culos linfoides isolados no ap&ecirc;ndice vermiforme.</p>
+<p>A estrutura-chave do GALT s&atilde;o as <strong>c&eacute;lulas M</strong> (<em>microfold cells</em>, c&eacute;lulas microfold): c&eacute;lulas epiteliais especializadas sobre as Placas de Peyer que realizam endocitose de ant&iacute;genos luminais, os transportam transcitoticamente e os liberam na face basal, onde c&eacute;lulas dendríticas os captam para apresenta&ccedil;&atilde;o &agrave;s c&eacute;lulas T. As c&eacute;lulas M s&atilde;o a porta de entrada do ant&iacute;geno intestinal para o sistema imune adaptativo.</p>
+<p>O ap&ecirc;ndice vermiforme, historicamente considerado vestigial, atua como "santu&aacute;rio" para bact&eacute;rias intestinais comensais e reservat&oacute;rio de linf&oacute;citos B de mem&oacute;ria, contribuindo para a reconstitui&ccedil;&atilde;o da microbiota ap&oacute;s disbiose grave.</p>
+</section>
+
+<section id="nalt-balt">
+<h2>NALT e BALT <a class="anc" href="#nalt-balt">#</a></h2>
+<p>O NALT (<em>Nasopharynx-Associated Lymphoid Tissue</em>) corresponde ao <strong>Anel de Waldeyer</strong>: adenoide (tonsila far&iacute;ngea), tonsilas palatinas, tubais e linguais. &Eacute; a primeira linha de defesa imune das vias a&eacute;reas superiores.</p>
+<p>O BALT (<em>Bronchus-Associated Lymphoid Tissue</em>) n&atilde;o est&aacute; presente constitutivamente no adulto saud&aacute;vel &mdash; &eacute; um <strong>&oacute;rg&atilde;o linfoide terci&aacute;rio</strong>, induzido por inflama&ccedil;&atilde;o e exposi&ccedil;&atilde;o a microrganismos. Presente em ~40% das crian&ccedil;as e adolescentes; nos adultos, surge em resposta a pneumonias, tabagismo ou doen&ccedil;as autoimunes pulmonares.</p>
+</section>
+
+<section id="salt">
+<h2>SALT &mdash; Tecido linfoide da pele <a class="anc" href="#salt">#</a></h2>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  SALT (<em>Skin-Associated Lymphoid Tissue</em>, tecido linfoide associado &agrave; pele): sistema imune cut&acirc;neo composto por c&eacute;lulas de Langerhans na epiderme, c&eacute;lulas dendríticas d&eacute;rmicas, linf&oacute;citos T residentes e queratinócitos ativados.
+</div>
+<p>As <strong>c&eacute;lulas de Langerhans</strong> s&atilde;o c&eacute;lulas dendríticas especializadas, as principais APCs (c&eacute;lulas apresentadoras de ant&iacute;geno) da pele. A pele &eacute; o maior &oacute;rg&atilde;o imune de barreira do organismo, e o SALT coordena a vigil&acirc;ncia imunol&oacute;gica cont&iacute;nua contra pat&oacute;genos cut&acirc;neos e ant&iacute;genos ambientais.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conex&otilde;es com outros m&oacute;dulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M1 &rarr; <a class="cross-link" href="celulas-sistema-imune.html">M2 &mdash; C&eacute;lulas</a>:</strong> os &oacute;rg&atilde;os estudados aqui s&atilde;o os microambientes que produzem e treinam as c&eacute;lulas do M2. A compreens&atilde;o de onde cada c&eacute;lula matura (medula &oacute;ssea para LB; timo para LT) conecta a anatomia funcional &agrave; biologia celular.</p>
+  <p><strong>M1 &rarr; <a class="cross-link" href="linfocitos-t-diferenciacao.html">M8 &mdash; Linf&oacute;citos T</a>:</strong> a sele&ccedil;&atilde;o t&iacute;mica positiva e negativa descrita aqui &eacute; o pr&eacute;-requisito para entender a diversidade e autotoler&acirc;ncia dos linf&oacute;citos T. As Tregs, vencedoras do Nobel 2025, originam-se precisamente da sele&ccedil;&atilde;o negativa.</p>
+  <p><strong>M1 &rarr; <a class="cross-link" href="anticorpos-imunidade-humoral.html">M7 &mdash; Anticorpos</a>:</strong> a medula &oacute;ssea n&atilde;o apenas produz linf&oacute;citos B &mdash; &eacute; tamb&eacute;m o destino final dos plasmoçitos de vida longa que secretam anticorpos de alta afinidade. O ciclo completo (gera&ccedil;&atilde;o na medula &rarr; ativa&ccedil;&atilde;o no linfonodo &rarr; retorno &agrave; medula como plasmoçito) s&oacute; faz sentido com a anatomia dos dois &oacute;rg&atilde;os em mente.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discuss&atilde;o <a class="anc" href="#discussao">#</a></h2>
+<p>A converg&ecirc;ncia entre &oacute;rg&atilde;os prim&aacute;rios e secund&aacute;rios revela uma l&oacute;gica evolutiva consistente: o sistema imune adaptativo resolve o problema da especificidade distribuindo o trabalho no espa&ccedil;o. A gera&ccedil;&atilde;o de diversidade (medula &oacute;ssea, timo) &eacute; fisicamente separada da resposta ao ant&iacute;geno (linfonodos, ba&ccedil;o, MALT). Essa separa&ccedil;&atilde;o n&atilde;o &eacute; acidental &mdash; ela permite que a toler&acirc;ncia seja estabelecida antes de qualquer exposi&ccedil;&atilde;o antig&ecirc;nica, evitando que o mesmo ambiente que treina linf&oacute;citos tamb&eacute;m os ative prematuramente.</p>
+<p>A tens&atilde;o mais reveladora est&aacute; na involu&ccedil;&atilde;o t&iacute;mica: o &oacute;rg&atilde;o mais cr&iacute;tico para a gera&ccedil;&atilde;o de diversidade de linf&oacute;citos T desaparece funcionalmente na vida adulta. O organismo "aposta" que a diversidade gerada na juventude &eacute; suficiente para toda a vida &mdash; aposta que funciona bem em ambientes com baixa press&atilde;o de novos pat&oacute;genos, mas que explica por que idosos respondem mal a pat&oacute;genos novos e vacinas.</p>
+<p>A implica&ccedil;&atilde;o derivada &eacute; que os &oacute;rg&atilde;os linfoides secund&aacute;rios s&atilde;o adaptativamente pl&aacute;sticos &mdash; BALT e estruturas linfoides terci&aacute;rias surgem em resposta &agrave; inflama&ccedil;&atilde;o local &mdash; enquanto os prim&aacute;rios s&atilde;o fixos e n&atilde;o regeneram ap&oacute;s a inf&acirc;ncia. Terapias de rejuvenescimento t&iacute;mico (IL-7 recombinante, timopentina) est&atilde;o em investiga&ccedil;&atilde;o precisamente porque restaurar a sa&iacute;da t&iacute;mica de novos linf&oacute;citos T na&iuml;ve poderia reverter parcialmente a imunosenesc&ecirc;ncia.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOCE TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai &middot; Elsevier, 11&ordf; ed. &middot; Cap&iacute;tulos 1 e 2. Fonte prim&aacute;ria deste m&oacute;dulo. Cobre hematopoiese, arquitetura dos &oacute;rg&atilde;os linfoides e circula&ccedil;&atilde;o linfocit&aacute;ria com profundidade molecular.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Kuby Immunology</div>
+    <div class="bm">Punt, Stranford et al. &middot; Macmillan, 8&ordf; ed. &middot; Cap&iacute;tulo 2. Integra&ccedil;&atilde;o entre anatomia funcional e fisiologia celular; figuras did&aacute;ticas superiores ao Abbas.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology</div>
+    <div class="bm">Murphy, Weaver &middot; Garland/Norton, 10&ordf; ed. &middot; Cap&iacute;tulo 1. &Ecirc;nfase em "por qu&ecirc;" em vez de "o qu&ecirc;" &mdash; ideal para construir intui&ccedil;&atilde;o antes de memorizar estruturas.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Immunopaedia (online)</div>
+    <div class="bm"><a href="https://www.immunopaedia.org.za" target="_blank" rel="noopener" style="color:var(--ac)">immunopaedia.org.za</a> &middot; Gratuito. Anima&ccedil;&otilde;es e revis&otilde;es de &oacute;rg&atilde;os linfoides pela International Union of Immunological Societies.</div>
+  </div>
+</div>
+</section>
+
+<section id="referencias">
+<h2>Refer&ecirc;ncias ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 11. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>MABBOTT, Neil A. et al. Microfold (M) cells: important immunosurveillance posts in the intestinal epithelium. <em>Mucosal Immunology</em>, v. 6, p. 666&ndash;677, 2013. DOI: <a href="https://doi.org/10.1038/mi.2013.30" target="_blank" rel="noopener">10.1038/mi.2013.30</a></li>
+  <li>MILLER, J. F. A. P. Immunological function of the thymus. <em>The Lancet</em>, v. 278, n. 7205, p. 748&ndash;749, 1961. DOI: <a href="https://doi.org/10.1016/S0140-6736(61)90693-6" target="_blank" rel="noopener">10.1016/S0140-6736(61)90693-6</a></li>
+  <li>PUNT, Jenni et al. <em>Kuby Immunology</em>. 8. ed. New York: Macmillan Higher Education, 2022.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: &Oacute;rg&atilde;os e tecidos linfoides &mdash; Parte 1</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 2026.</li>
+  <li>OLIVEIRA, Carlos Eduardo Coral de. <em>Aula: &Oacute;rg&atilde;os Linfoides &mdash; Parte 2</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 06 mar. 2026.</li>
+  <li>SEEFELD, M. L. et al. Harnessing the potential of the NALT and BALT as targets for immunomodulation. <em>Frontiers in Immunology</em>, v. 15, p. 1419527, 2024. DOI: <a href="https://doi.org/10.3389/fimmu.2024.1419527" target="_blank" rel="noopener">10.3389/fimmu.2024.1419527</a></li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+
+<script>
+// SIDEBAR TOGGLE
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function setSidebarState(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.innerHTML = '&#8250;';
+    sessionStorage.setItem('sidebar-collapsed', '1');
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    toggleBtn.innerHTML = '&#8249;';
+    sessionStorage.setItem('sidebar-collapsed', '0');
+  }
+}
+if (sessionStorage.getItem('sidebar-collapsed') === '1') setSidebarState(true);
+toggleBtn.addEventListener('click', function() { setSidebarState(!sidebar.classList.contains('collapsed')); });
+
+// BARRA DE PROGRESSO
+var bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function() {
+  var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+}, { passive: true });
+
+// SIDEBAR HIGHLIGHT
+var sLinks = document.querySelectorAll('#sidebar a.sl[href^="#"]');
+var obs1 = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      sLinks.forEach(function(l) { l.classList.remove('active'); });
+      var a = document.querySelector('#sidebar a.sl[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+// SECAO ATIVA HIGHLIGHT
+var obs2 = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) e.target.classList.add('in-view');
+    else e.target.classList.remove('in-view');
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+document.querySelectorAll('section[id]').forEach(function(s) { obs1.observe(s); obs2.observe(s); });
+
+// SCROLL SUAVE
+sLinks.forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var t = document.querySelector(link.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

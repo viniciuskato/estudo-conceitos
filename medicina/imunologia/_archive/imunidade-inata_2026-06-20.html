@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 4 — Imunidade Inata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0c09;--bg2:#17140f;--bg3:#201c15;--border:#3d3020;--text:#ddd5c0;--muted:#b09a78;--blue:#e0a04a;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 0 40px}
+#sidebar .logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--blue);padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
+#sidebar .logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+#sidebar .group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px}
+#sidebar a{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent}
+#sidebar a:hover{color:var(--text)}#sidebar a.active{color:var(--blue);border-left-color:var(--blue)}
+main{flex:1;padding:60px 80px 120px}.content{max-width:72ch;margin:0 auto}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--blue);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:48px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--blue);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+p{margin-bottom:1.1em}strong{color:var(--text);font-weight:600}em{font-style:italic;color:var(--muted)}
+a.cite{color:var(--blue);text-decoration:none;font-size:.85em;vertical-align:super}a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--blue);text-decoration:none;font-size:.82em;font-style:italic;border-bottom:1px dashed var(--blue);opacity:.85}a.cross-link:hover{opacity:1}
+.table-wrap{overflow-x:auto;margin:28px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.fund-card strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}.fund-card p{color:var(--muted);margin:0;line-height:1.6}
+.callout{background:var(--bg3);border-left:3px solid var(--blue);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--blue)}
+.phase-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:24px 0}
+.phase-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
+.phase-card .phase-label{font-family:var(--font-ui);font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.phase-card .phase-time{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px}
+.phase-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.barrier-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.barrier-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px}
+.barrier-card .barrier-type{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.barrier-card p{font-family:var(--font-ui);font-size:13px;color:var(--text);margin:0;line-height:1.6}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}.book-card .book-meta{color:var(--muted);font-size:12px}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}ol.refs li a{color:var(--blue);text-decoration:none}ol.refs li a:hover{text-decoration:underline}
+@media(max-width:1024px){body{flex-direction:column}#sidebar{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;padding:12px 0 0;border-right:none;border-bottom:1px solid var(--border)}#sidebar .logo{border-bottom:none;margin-bottom:0;padding-bottom:8px}#sidebar .group-label{padding:8px 12px 4px}#sidebar a{padding:4px 12px}main{padding:32px 24px 80px}.phase-grid{grid-template-columns:1fr}.barrier-grid,.fund-grid,.book-grid{grid-template-columns:1fr}}
+@media print{#sidebar{display:none}body{display:block;background:#fff;color:#000}main{padding:0}h1,h2,h3{color:#000}.callout{background:#f5f5f5;border-color:#999;color:#000}table,th,td{border-color:#ccc;color:#000}th{background:#eee}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}.anchor{display:none}}
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="logo">Imunologia · Módulo 4<a href="index.html">← Índice de Imunologia</a></div>
+  <div class="group-label">Conteúdo</div>
+  <a href="#fundamentos-necessarios">Fundamentos necessários</a>
+  <a href="#conceito-inata">Definição e características</a>
+  <a href="#barreiras">Barreiras físicas e químicas</a>
+  <a href="#celulas-inatas">Células da imunidade inata</a>
+  <a href="#ilcs">ILCs</a>
+  <a href="#fagocitose">Fagocitose</a>
+  <a href="#inflamacao">Resposta inflamatória local</a>
+  <a href="#sistemica">Resposta sistêmica de fase aguda</a>
+  <a href="#antiviral">Defesa antiviral inata</a>
+  <a href="#ativacao-adaptativa">Ativação da imunidade adaptativa</a>
+  <div class="group-label">Revisão</div>
+  <a href="#conexoes">Conexões</a>
+  <a href="#discussao">Discussão</a>
+  <a href="#leituras">Leituras recomendadas</a>
+  <a href="#referencias">Referências ABNT</a>
+</nav>
+<main><div class="content">
+
+<h1>Módulo 4 — Imunidade Inata</h1>
+<p class="doc-meta">Imunologia · PUC · 2026 · Abbas cap. 2 · Aula: Resposta imune inata</p>
+
+<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<div class="fund-grid">
+  <div class="fund-card"><strong>Células sentinelas e efetoras</strong><p>Macrófagos teciduais, células dendríticas, mastócitos e células NK são as células residentes que iniciam a resposta inata. A amplitude do repertório celular está em <a class="cross-link" href="celulas-sistema-imune.html#mieloides">Módulo 2 → Células mieloides</a>.</p></div>
+  <div class="fund-card"><strong>PRRs e PAMPs/DAMPs</strong><p>TLRs, NLRs e RLRs são os sensores que detectam patógenos ou dano. O mecanismo molecular completo de cada família de PRR e das citocinas que ativam está em <a class="cross-link" href="moleculas-sistema-imune.html#prrs">Módulo 3 → PRRs e PAMPs/DAMPs</a>.</p></div>
+  <div class="fund-card"><strong>Órgãos linfoides e compartimentos</strong><p>A imunidade inata opera em tecidos periféricos — não em órgãos linfoides secundários. A anatomia dos compartimentos imunes está em <a class="cross-link" href="orgaos-linfoides.html#orgaos-secundarios">Módulo 1 → Órgãos secundários</a>.</p></div>
+  <div class="fund-card"><strong>Sistema complemento</strong><p>Componente molecular central da imunidade inata humoral. Será detalhado no Módulo 5; aqui é referenciado como efetor de opsonização e lise na resposta inata precoce.</p></div>
+</div>
+
+<h2 id="conceito-inata">Definição e características fundamentais <a class="anchor" href="#conceito-inata">#</a></h2>
+<p>A imunidade inata é definida como o conjunto de mecanismos de defesa pré-formados, constitutivamente presentes antes de qualquer exposição antigênica, capazes de iniciar resposta protetora em minutos a horas. O adjetivo "inata" indica que esses mecanismos são codificados na linhagem germinativa — não requerem rearranjo gênico somático nem seleção clonal <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+<div class="phase-grid">
+  <div class="phase-card"><div class="phase-label">Fase 1</div><div class="phase-time">0–4 horas</div><p>Barreiras físicas e químicas; antimicrobianos pré-formados; complemento espontâneo</p></div>
+  <div class="phase-card"><div class="phase-label">Fase 2</div><div class="phase-time">4–96 horas</div><p>Resposta inata induzida: ativação de macrófagos e DCs via PRRs; recrutamento de neutrófilos; inflamação local</p></div>
+  <div class="phase-card"><div class="phase-label">Fase 3</div><div class="phase-time">> 96 horas</div><p>Ativação da imunidade adaptativa: apresentação de antígeno, ativação de linfócitos T e B</p></div>
+</div>
+<p>Quatro propriedades distinguem a imunidade inata da adaptativa: (1) <strong>inespecificidade relativa</strong> — reconhece padrões moleculares conservados, não estruturas individuais; (2) <strong>ausência de memória imunológica clássica</strong> — cada resposta é qualitativamente equivalente à anterior (com ressalva abaixo); (3) <strong>resposta imediata</strong> — não requer expansão clonal prévia; (4) <strong>conservação evolutiva</strong> — TLRs e componentes do complemento têm homólogos em invertebrados com mais de 700 milhões de anos.</p>
+<div class="callout"><strong>Imunidade inata treinada:</strong> descoberta recente (Netea et al., 2011) mostra que macrófagos e células NK podem adquirir memória epigenética após infecção ou vacinação — respondendo de forma mais intensa a estímulos subsequentes, mesmo heterólogos. Mediada por modificações em histonas (H3K4me3, H3K27ac) sem alteração de sequência de DNA. Não é "verdadeira" memória imunológica (sem expansão clonal), mas tem relevância para eficácia de vacinas como BCG.</div>
+
+<h2 id="barreiras">Barreiras físicas e químicas — a primeira linha <a class="anchor" href="#barreiras">#</a></h2>
+<p>A barreira epitelial é a primeira linha de defesa — antes de qualquer resposta celular ou molecular ativa. Sua função é exclusão física de patógenos por estrutura anatômica e por moléculas antimicrobianas pré-formadas. A ruptura de qualquer barreira — trauma, queimadura, sonda urinária, cateter venoso — é a principal porta de entrada para infecções oportunistas.</p>
+<div class="barrier-grid">
+  <div class="barrier-card"><div class="barrier-type">Pele</div><p>Epitélio escamoso estratificado queratinizado — barreira mecânica robusta. pH ácido (~5,5) inibe crescimento bacteriano. Ácidos graxos de glândulas sebáceas são antimicrobianos. Microbioma competitivo.</p></div>
+  <div class="barrier-card"><div class="barrier-type">Mucosas respiratórias</div><p>Epitélio colunar pseudoestratificado ciliado. Muco trapping + clearance mucociliar (escada mucociliar). IgA secretora. Lisozima e lactoferrina no muco.</p></div>
+  <div class="barrier-card"><div class="barrier-type">Trato gastrointestinal</div><p>pH gástrico ácido (< 2,0) — letal para maioria dos patógenos. Peristalse. Muco com mucinas. Células de Paneth secretam defensinas α no lúmen das criptas ileal e cecal.</p></div>
+  <div class="barrier-card"><div class="barrier-type">Moléculas antimicrobianas</div><p><strong>Defensinas α e β</strong>: peptídeos catiônicos que formam poros em membranas bacterianas e fúngicas. <strong>Catelicidinas</strong> (LL-37): secretadas por neutrófilos, células epiteliais — atividade bactericida de amplo espectro. <strong>Lisozima</strong>: hidrolisa peptidoglicano (parede de Gram-positivos).</p></div>
+</div>
+
+<h2 id="celulas-inatas">Células da imunidade inata — funções integradas <a class="anchor" href="#celulas-inatas">#</a></h2>
+<p>As células da imunidade inata foram descritas individualmente no Módulo 2. Aqui, o foco está em como essas células funcionam em conjunto na resposta inata temporal. Os macrófagos teciduais residentes são os primeiros a detectar o patógeno via PRRs — sua ativação produz TNF-α, IL-1β, IL-6 e quimiocinas que iniciam o recrutamento celular. Mastócitos residentes nos tecidos secretam histamina e TNF pré-formados em segundos, vasodilatando o leito capilar local e aumentando a permeabilidade vascular — o que explica os sinais cardinais da inflamação (calor, rubor, tumor).</p>
+<p>Os neutrófilos — ausentes nos tecidos em condições normais — chegam nas primeiras 2–4 horas atraídos por CXCL8 (IL-8) e são os principais fagócitos da fase aguda. Células dendríticas teciduais capturam antígenos continuamente; quando ativadas por PAMPs, migram para linfonodos drenantes e iniciam a resposta adaptativa. Células NK respondem a células infectadas por vírus e células tumorais sem necessidade de MHC — mecanismo detalhado abaixo.</p>
+
+<h2 id="ilcs">ILCs — linfócitos inatos sem receptor antigênico <a class="anchor" href="#ilcs">#</a></h2>
+<p>As células linfoides inatas (ILCs, <em>Innate Lymphoid Cells</em>) são uma família de células linfoides recentemente caracterizada que não expressam receptor de antígeno (sem BCR nem TCR) e são ativadas por citocinas do microambiente. São os análogos inatos dos linfócitos T helper: ILC1 ↔ Th1 (produzem IFN-γ sob IL-12), ILC2 ↔ Th2 (produzem IL-4, IL-5, IL-13 sob IL-25 e IL-33 — essenciais na defesa anti-helmintos e na asma), ILC3 ↔ Th17 (produzem IL-17 e IL-22 sob IL-23 — defesa em mucosas). ILC3 também são a principal fonte de IL-22 que mantém a integridade da barreira intestinal.</p>
+
+<h2 id="fagocitose">Fagocitose — o mecanismo celular central <a class="anchor" href="#fagocitose">#</a></h2>
+<p>A fagocitose é definida como o processo pelo qual células especializadas (neutrófilos, macrófagos) internalizam partículas ≥ 0,5 µm (bactérias, fungos, debris celulares) em uma vesícula denominada fagossomo. O processo ocorre em etapas sequenciais: (1) <strong>reconhecimento</strong> — via receptores Fc (para IgG opsonizante), receptores do complemento (CR1, CR3 para C3b) ou PRRs diretos (lectinas tipo C, TLRs); (2) <strong>internalização</strong> — pseudópodes envolvem a partícula (mecanismo de "zipper") ou projeta-se membrana ao redor (mecanismo de "copo"); (3) <strong>fusão fagossomo-lisossomo</strong> → formação do fagolisossomo; (4) <strong>destruição intraluminal</strong> por mecanismos dependentes (EROs, óxido nítrico) e independentes de oxigênio (defensinas, lisozima, acidificação pH 4,5).</p>
+<p>O burst oxidativo (explosão respiratória) é gerado pela NADPH oxidase — complexo enzimático que converte O₂ em ânion superóxido (O₂•⁻), posteriormente convertido a H₂O₂ e, pela mieloperoxidase, em ácido hipocloroso (HOCl) — o principal agente bactericida do fagolisossomo. Deficiência genética de NADPH oxidase causa a Doença Granulomatosa Crônica (DGC) — incapacidade de eliminar patógenos catalase-positivos.</p>
+<div class="callout"><strong>Evasão bacteriana da fagocitose:</strong> patógenos intracelulares desenvolveram múltiplas estratégias: Mycobacterium tuberculosis inibe a fusão fagossomo-lisossomo por injeção de fatores bacterianos (lipoarabinomanana). Listeria monocytogenes e Shigella sp. escapam do fagossomo para o citoplasma. Salmonella sp. sobrevive dentro do fagolisossomo por resistência a EROs. O conhecimento dessas evasões justifica por que a imunidade mediada por células T é indispensável para controle de infecções intracelulares (Módulo 9).</div>
+
+<h2 id="inflamacao">Resposta inflamatória local <a class="anchor" href="#inflamacao">#</a></h2>
+<p>A inflamação local é definida como a resposta vascular e celular de um tecido a dano ou infecção — coordenada para eliminar a causa, remover detritos e iniciar reparo. Os cinco sinais cardinais clássicos (calor, rubor, tumor, dor, perda de função) são consequências diretas de eventos vasculares mediados por histamina, prostaglandinas e bradicinina.</p>
+<p>O sequência é: (1) vasodilatação arteriolar (histamina de mastócitos, PGI₂ de endotélio ativado) → aumenta fluxo sanguíneo; (2) aumento da permeabilidade vascular (histamina, leucotrienos, TNF) → exsudato rico em proteínas no interstício; (3) expressão de moléculas de adesão no endotélio (ICAM-1, E-selectina — induzidas por TNF e IL-1); (4) migração de neutrófilos (rolamento → ativação por CXCL8 → adesão firme → diapedese); (5) fagocitose e destruição do patógeno no tecido <a class="cite" href="#referencias">(REICHE, 2026)</a>.</p>
+<p>A resolução da inflamação não é passiva — é um processo ativo mediado por lipoxinas, resolvinas e protectinas (derivados do ácido araquidônico e EPA/DHA) que inibem recrutamento adicional de neutrófilos, promovem apoptose de neutrófilos e estimulam fagocitose de detritos por macrófagos (efferocytosis). Falha na resolução → inflamação crônica → dano tecidual progressivo.</p>
+
+<h2 id="sistemica">Resposta sistêmica de fase aguda <a class="anchor" href="#sistemica">#</a></h2>
+<p>Quando a inflamação local não contém o patógeno, mediadores — principalmente TNF-α, IL-1β e IL-6 — atingem a circulação sistêmica, desencadeando a resposta de fase aguda: (1) <strong>febre</strong> — IL-1β e TNF ativam síntese de PGE₂ no hipotálamo anterior, elevando o ponto de ajuste térmico; (2) <strong>síntese hepática de proteínas de fase aguda positivas</strong> (PCR, fibrinogênio, C3, proteína sérica amiloide A — sob IL-6) e queda das negativas (albumina, transferrina); (3) <strong>leucocitose</strong> — IL-1 e CSF estimulam produção medular acelerada de neutrófilos; (4) <strong>trombocitose reativa</strong> — IL-6 estimula trombopoetina.</p>
+<p>A febre tem efeito protetor documentado: (a) reduz a taxa de replicação de muitos patógenos; (b) aumenta a eficiência da apresentação de antígenos por DCs (upregulação de MHC); (c) potencializa a citotoxicidade de células NK. Antipirético rotinário em febre moderada (38–39 °C) pode, portanto, reduzir eficácia da resposta imune — embora seja clinicamente justificado em casos de desconforto intenso ou risco de convulsão febril em crianças.</p>
+
+<h2 id="antiviral">Defesa antiviral inata <a class="anchor" href="#antiviral">#</a></h2>
+<p>A defesa inata contra vírus depende de três componentes integrados: (1) <strong>PRRs que detectam RNA/DNA viral</strong> — TLR3 (RNA fita dupla no endossomo), TLR7/8 (RNA fita simples viral), TLR9 (DNA CpG), RIG-I e MDA5 (RNA viral citosólico); (2) <strong>interferons do tipo I</strong> (IFN-α/β) — produzidos pela célula infectada e pelas plasmacitoides DCs (a principal fonte de IFN-α sistêmico), sinalizam via JAK-STAT para induzir estado antiviral em células vizinhas; (3) <strong>células NK</strong> — matam células infectadas que diminuíram MHC-I como evasão viral (princípio "missing self") <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+<p>As células NK operam por dois sinais opostos: <strong>receptores ativadores</strong> (NKG2D reconhece MICA/MICB — ligantes de estresse expressos em células infectadas e tumorais) e <strong>receptores inibidores</strong> (KIRs reconhecem HLA classe I — MHC-I normal inibe NK). Célula infectada que downregula MHC-I perde o sinal inibitório → NK ativa → morte por granzima/perforina ou ADCC. Mecanismo detalhado em <a class="cross-link" href="celulas-sistema-imune.html#nk">Módulo 2 → Células NK</a>.</p>
+
+<h2 id="ativacao-adaptativa">A ponte: como a imunidade inata ativa a adaptativa <a class="anchor" href="#ativacao-adaptativa">#</a></h2>
+<p>A imunidade inata não apenas defende — ela instrui a imunidade adaptativa. As células dendríticas são o elo: após capturar antígenos no tecido periférico, migram para linfonodos drenantes sob influência de CCL19 e CCL21 (quimiocinas homeostáticas de linfonodos). Na migração, maturam: upregulam MHC-II (mais antígeno apresentado), upregulam co-estimulatórias CD80/CD86 (sinal 2 indispensável para ativação de células T) e produzem citocinas polarizantes (IL-12 → Th1; IL-4/TSLP → Th2; IL-6 + TGF-β → Th17; IL-10 → Treg).</p>
+<p>A ausência de co-estimulação (CD28-CD80/86) em um linfócito T que recebe apenas sinal 1 (TCR–MHC/peptídeo) resulta em anergia — não em ativação. Esse mecanismo é fundamental para tolerância a antígenos próprios apresentados sem inflamação. Dito de outra forma: o sistema imune interpretou que inflamação = patógeno = perigo, e ausência de inflamação = próprio = tolerância. Os auto-antígenos são apresentados constitutivamente pelas DCs sem co-estimulação — garantindo tolerância periférica.</p>
+
+<h2 id="conexoes">Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>Módulo 4 → Módulo 3 (Moléculas):</strong> este módulo integra em resposta funcional o que o Módulo 3 descreveu molecularmente. PRRs, citocinas, quimiocinas, mediadores lipídicos e proteínas de fase aguda são os mecanismos; a imunidade inata é o processo. Cada citocina aqui mencionada tem mecanismo completo em <a class="cross-link" href="moleculas-sistema-imune.html#citocinas">Módulo 3 → Citocinas</a>.</p>
+  <p><strong>Módulo 4 → Módulo 5 (Complemento):</strong> o sistema complemento opera como efetor humoral da imunidade inata — opsonização via C3b, recrutamento de neutrófilos via C5a, lise via MAC. A via alternativa e das lectinas não requerem anticorpos, sendo genuinamente inatas. Ver <a class="cross-link" href="sistema-complemento.html#funcoes">Módulo 5 → Funções efetoras</a>.</p>
+  <p><strong>Módulo 4 → Módulo 6 (MHC):</strong> a apresentação de antígenos por DCs maduras é o elo entre inata e adaptativa. O mecanismo de processamento e apresentação via MHC-I e MHC-II é detalhado em <a class="cross-link" href="mhc-apresentacao-antigenica.html#processamento">Módulo 6 → Processamento e apresentação</a>.</p>
+</div>
+
+<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
+<p>A convergência entre os mecanismos da imunidade inata revela um princípio de economia evolutiva: o mesmo sinal de perigo (PAMP ou DAMP detectado por PRR) ativa simultaneamente defesa imediata (fagocitose, complemento), amplificação local (inflamação, recrutamento celular), sinalização sistêmica (febre, fase aguda) e instrução da resposta adaptativa (maturação de DCs). Um único evento de reconhecimento desencadeia quatro camadas de resposta em paralelo — não em série.</p>
+<p>A tensão central é a seguinte: a mesma maquinaria que protege contra patógenos causa dano em doenças inflamatórias crônicas. TNF, IL-1β e neutrófilos são indispensáveis na sepse por Gram-negativo — mas são os causadores de dano articular em artrite reumatoide, dano intestinal em doença de Crohn e dano coronariano em aterosclerose. O que muda não é o mecanismo, mas o alvo: sem patógeno para eliminar, a resposta inata perpetua-se contra tecido próprio ou antígenos ambientais inofensivos.</p>
+<p>A implicação derivada é que a distinção "inata vs. adaptativa" é didaticamente útil mas biologicamente incompleta. As ILCs mostram que há linfócitos sem receptor antigênico que polarizam respostas como Th1/2/17; a imunidade inata treinada mostra que há memória sem expansão clonal; as DCs mostram que a inata instrui a adaptativa com especificidade de contexto (qual citocina é produzida determina que tipo de resposta adaptativa emerge). O sistema imune não tem dois braços — tem um continuum de mecanismos com diferentes cinéticas de ativação.</p>
+
+<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card"><div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed. · Capítulo 2<br>Cobertura completa da imunidade inata com ênfase no papel instrucional para resposta adaptativa. Inclui ILCs com maior profundidade que fontes mais antigas.</div></div>
+  <div class="book-card"><div class="book-title">Janeway's Immunobiology</div><div class="book-meta">Murphy, Weaver · Garland, 10ª ed. · Capítulo 3<br>Excelente cobertura de receptores inatos com perspectiva evolutiva. Inclui comparação entre PRRs de invertebrados e vertebrados — melhor que Abbas nesse aspecto específico.</div></div>
+</div>
+<p style="font-size:14px;color:var(--muted)"><strong>Artigo:</strong> NETEA, M. G. et al. Trained immunity: a memory for innate host defense. <em>Cell Host Microbe</em>, v. 9, n. 5, p. 355–361, 2011. DOI: <a href="https://doi.org/10.1016/j.chom.2011.04.006" target="_blank" rel="noopener" style="color:var(--blue)">10.1016/j.chom.2011.04.006</a></p>
+
+<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>NETEA, Mihai G. et al. Trained immunity: a memory for innate host defense. <em>Cell Host Microbe</em>, v. 9, n. 5, p. 355–361, 2011. DOI: <a href="https://doi.org/10.1016/j.chom.2011.04.006" target="_blank" rel="noopener">10.1016/j.chom.2011.04.006</a></li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Resposta imune inata</em>. PUC-PR, Disciplina Agressão e Defesa, 2026.</li>
+  <li>ROSA NETO, N. S.; CARVALHO, J. F. O uso de provas de atividade inflamatória em reumatologia. <em>Revista Brasileira de Reumatologia</em>, v. 49, n. 4, p. 413–430, 2009.</li>
+</ol>
+
+</div></main>
+<script>
+const sections=document.querySelectorAll('h2[id],h3[id]');
+const links=document.querySelectorAll('#sidebar a[href^="#"]');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const id=entry.target.id;links.forEach(l=>l.classList.remove('active'));const active=document.querySelector('#sidebar a[href="#'+id+'"]');if(active)active.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+links.forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const target=document.querySelector(link.getAttribute('href'));if(target)target.scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Condução Eficiente — Saveiro · Nivus · S90 T8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #0e0c09;
+    --bg2:    #17140f;
+    --bg3:    #201c15;
+    --border: #3d3020;
+    --text:   #ddd5c0;
+    --muted:  #b09a78;
+    --blue:   #e0a04a;
+    --font-body: 'Source Serif 4', Georgia, serif;
+    --font-ui:   'Inter', system-ui, sans-serif;
+    --sidebar-w: 260px;
+    /* cores por veículo */
+    --saveiro: #d4844a;
+    --nivus:   #e0a04a;
+    --volvo:   #b898cc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .layout { display: flex; flex: 1; }
+
+  /* ── SIDEBAR ── */
+  aside {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 28px 0 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    font-family: var(--font-ui);
+  }
+  aside::-webkit-scrollbar { width: 4px; }
+  aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .group-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 20px 6px;
+  }
+  .sidebar-link {
+    display: block;
+    padding: 4px 20px 4px 24px;
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    line-height: 1.4;
+  }
+  .sidebar-link:hover { color: var(--text); background: var(--bg3); }
+  .sidebar-link.active {
+    color: var(--blue);
+    border-left-color: var(--blue);
+    background: rgba(224,160,74,0.07);
+    font-weight: 500;
+  }
+  .sidebar-link.sub { padding-left: 34px; font-size: 12px; }
+
+  /* ── MAIN ── */
+  main { flex: 1; padding: 56px 48px 96px; min-width: 0; }
+  .content { max-width: 72ch; margin: 0 auto; }
+
+  /* ── TIPOGRAFIA ── */
+  h1 {
+    font-family: var(--font-body);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  .subtitle { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin-bottom: 48px; }
+
+  h2 {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  h2 .anchor, h3 .anchor {
+    position: absolute;
+    left: -1.4rem;
+    color: var(--border);
+    font-weight: 400;
+    font-size: 0.9em;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  h2:hover .anchor, h3:hover .anchor { opacity: 1; }
+
+  h3 {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin: 2rem 0 0.6rem;
+    position: relative;
+  }
+
+  p { margin-bottom: 1rem; }
+  section { margin-bottom: 3rem; scroll-margin-top: 20px; }
+
+  /* ── BOXES ── */
+  .box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    font-size: 0.95rem;
+  }
+  .box.destaque  { border-left: 3px solid var(--blue); }
+  .box.alerta    { border-left: 3px solid #c07840; background: #1a1208; }
+  .box.mec       { border-left: 3px solid var(--muted); }
+  .box.saveiro   { border-left: 3px solid var(--saveiro); }
+  .box.nivus     { border-left: 3px solid var(--nivus); }
+  .box.volvo     { border-left: 3px solid var(--volvo); }
+
+  /* ── FLOW ── */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 1.2rem 0; }
+  .flow-step { display: flex; align-items: flex-start; gap: 1rem; }
+  .flow-connector { display: flex; flex-direction: column; align-items: center; margin-left: 1rem; }
+  .flow-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--blue); flex-shrink: 0; margin-top: 0.5rem; }
+  .flow-line { width: 2px; flex: 1; min-height: 24px; background: linear-gradient(var(--blue), var(--border)); margin: 2px 0; }
+  .flow-content {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    margin-bottom: 4px;
+    flex: 1;
+    font-size: 0.93rem;
+  }
+
+  /* ── TABELA ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    margin: 1.2rem 0;
+    background: var(--bg2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  th {
+    background: var(--bg3);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── SPECS GRID ── */
+  .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.2rem 0; }
+  @media (max-width: 700px) { .specs-grid { grid-template-columns: 1fr; } }
+  .spec-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .spec-card.saveiro { border-top: 3px solid var(--saveiro); }
+  .spec-card.nivus   { border-top: 3px solid var(--nivus); }
+  .spec-card.volvo   { border-top: 3px solid var(--volvo); }
+  .spec-title { font-family: var(--font-ui); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .spec-card.saveiro .spec-title { color: var(--saveiro); }
+  .spec-card.nivus   .spec-title { color: var(--nivus); }
+  .spec-card.volvo   .spec-title { color: var(--volvo); }
+  .spec-item { margin-bottom: 8px; font-family: var(--font-ui); }
+  .spec-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .spec-value { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+  .spec-sub { font-size: 11px; color: var(--muted); }
+
+  /* ── RPM BARS ── */
+  .rpm-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: var(--font-ui); }
+  .rpm-lbl { width: 80px; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+  .rpm-wrap { flex: 1; position: relative; height: 22px; background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .rpm-fill { position: absolute; height: 100%; border-radius: 4px; display: flex; align-items: center; padding: 0 8px; font-size: 10px; font-weight: 700; }
+  .rpm-ann { width: 160px; font-size: 11px; color: var(--muted); flex-shrink: 0; text-align: right; }
+
+  /* ── CAPTION ── */
+  .caption {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    margin-bottom: 1.4rem;
+    line-height: 1.5;
+  }
+
+  /* ── CITE ── */
+  a.cite {
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 0.8em;
+    vertical-align: super;
+    line-height: 1;
+    font-family: var(--font-ui);
+    font-weight: 600;
+  }
+  a.cite:hover { color: var(--text); }
+
+  /* ── LEITURAS ── */
+  .leitura { margin-bottom: 1rem; }
+  .leitura-titulo { font-weight: 600; color: var(--text); }
+  .leitura-desc { font-size: 0.9rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── REFS ── */
+  .ref-list { font-family: var(--font-ui); font-size: 0.85rem; line-height: 1.7; }
+  .ref-list li { margin-bottom: 0.7rem; color: var(--muted); }
+  .ref-list a { color: var(--blue); text-decoration: none; }
+  .ref-list a:hover { text-decoration: underline; }
+
+  .sep { height: 1px; background: var(--border); margin: 2.5rem 0; opacity: 0.5; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #111; font-size: 11pt; }
+    aside { display: none; }
+    main { padding: 0; }
+    .content { max-width: 100%; }
+    h1, h2, h3 { color: #111; }
+    .box { border: 1px solid #ccc; background: #f9f9f9; }
+    table { font-size: 10pt; }
+    th { background: #eee; color: #333; }
+    .caption { color: #555; }
+    a.cite { color: #333; }
+  }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 1024px) {
+    aside { display: none; }
+    .layout { display: block; }
+    main { padding: 32px 24px 64px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar">
+  <span class="group-label">Fundamentos</span>
+  <a class="sidebar-link" href="#fundamentos-necessarios">Fundamentos necessários</a>
+  <a class="sidebar-link sub" href="#fund-trabalho">↳ Trabalho e eficiência</a>
+  <a class="sidebar-link sub" href="#fund-termodinamica">↳ Ciclo Otto</a>
+  <a class="sidebar-link sub" href="#fund-torque">↳ Torque e potência</a>
+  <a class="sidebar-link sub" href="#fund-rpm">↳ RPM</a>
+
+  <span class="group-label">Conteúdo</span>
+  <a class="sidebar-link" href="#por-que">Por que RPM determina consumo</a>
+  <a class="sidebar-link" href="#specs">Especificações dos motores</a>
+  <a class="sidebar-link sub" href="#saveiro-motor">↳ Saveiro 1.6 MSI</a>
+  <a class="sidebar-link sub" href="#nivus-motor">↳ Nivus 1.0 TSI</a>
+  <a class="sidebar-link sub" href="#volvo-motor">↳ Volvo S90 T8</a>
+  <a class="sidebar-link" href="#faixas">Faixas ótimas de RPM</a>
+  <a class="sidebar-link" href="#comparativo">Tabela comparativa</a>
+  <a class="sidebar-link" href="#tecnicas">Técnicas de condução</a>
+  <a class="sidebar-link sub" href="#troca-marchas">↳ Troca de marchas</a>
+  <a class="sidebar-link sub" href="#rolagem">↳ Rolagem e inércia</a>
+  <a class="sidebar-link sub" href="#volvo-modos">↳ Modos do S90 T8</a>
+  <a class="sidebar-link" href="#fatores">Fatores que afetam o consumo</a>
+
+  <span class="group-label">Revisão</span>
+  <a class="sidebar-link" href="#discussao">Discussão</a>
+  <a class="sidebar-link" href="#leituras">Leituras recomendadas</a>
+  <a class="sidebar-link" href="#referencias">Referências ABNT</a>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main>
+<div class="content">
+
+<h1>Condução Eficiente</h1>
+<p class="subtitle">Saveiro 2019 1.6 MSI · Nivus 1.0 TSI · Volvo S90 T8 — faixas de RPM, torque, potência e técnicas de economia de combustível</p>
+
+<!-- ══════════ FUNDAMENTOS ══════════ -->
+<section id="fundamentos-necessarios">
+  <h2><a class="anchor" href="#fundamentos-necessarios">#</a>Fundamentos necessários</h2>
+  <p>Esta seção ativa os conceitos físicos sem os quais a relação entre rotação do motor, consumo de combustível e eficiência não faz sentido completo.</p>
+
+  <h3 id="fund-trabalho"><a class="anchor" href="#fund-trabalho">#</a>Trabalho e eficiência</h3>
+  <p>Na física, <strong>trabalho</strong> é definido como a transferência de energia que ocorre quando uma força desloca um objeto na direção em que atua (W = F · d). O motor existe para realizar trabalho: mover o veículo vencendo a resistência do ar, o atrito dos pneus e a inércia da massa. Toda gota de combustível queimada libera energia química que precisa ser convertida em trabalho mecânico útil — o que não se converte vira calor dissipado no escapamento, no radiador e no atrito interno.</p>
+
+  <p>Entende-se por <strong>eficiência térmica</strong> a razão entre o trabalho útil gerado e a energia total fornecida ao sistema. Um motor com eficiência de 35% converte 35% da energia do combustível em movimento; os outros 65% são perdas. A meta de toda condução econômica é manter o motor operando no ponto de maior eficiência — que corresponde a uma faixa específica de rotação.</p>
+
+  <h3 id="fund-termodinamica"><a class="anchor" href="#fund-termodinamica">#</a>Ciclo Otto</h3>
+  <p>O <strong>ciclo Otto</strong> é definido como o ciclo termodinâmico de referência para motores de ignição por centelha — aqueles que usam faísca elétrica para inflamar a mistura ar-combustível. Ele se desdobra em quatro etapas: (1) admissão — pistão desce, mistura entra; (2) compressão — pistão sobe, mistura é comprimida; (3) combustão e expansão — a faísca inflama a mistura, os gases se expandem e empurram o pistão para baixo, gerando trabalho; (4) escape — pistão sobe, expelindo os gases queimados.</p>
+
+  <p>A eficiência do ciclo depende criticamente do tempo disponível para cada etapa. Em rotações muito altas, a combustão é incompleta — parte do combustível sai pelo escapamento sem queimar. Em rotações muito baixas sob carga elevada, pode ocorrer <strong>detonação</strong> — ignição espontânea antes da faísca, que desperdiça energia e danifica o motor. Existe, portanto, uma faixa de rotação onde o ciclo opera com maior completude: a zona de melhor eficiência térmica.</p>
+
+  <h3 id="fund-torque"><a class="anchor" href="#fund-torque">#</a>Torque e potência</h3>
+  <p><strong>Torque</strong> é definido como o momento de força — a tendência de uma força de causar rotação em torno de um eixo. A unidade do Sistema Internacional (SI) é o Newton-metro (N·m). Fabricantes VW e outros europeus declaram também em quilograma-força-metro (kgf·m), unidade do sistema técnico; a conversão é <strong>1 kgf·m ≈ 9,81 N·m</strong>. Nos motores, torque determina a capacidade de tração — de vencer cargas, subidas e inércia. Para condução econômica em cruzeiro, o que importa é torque suficiente na menor rotação possível.</p>
+
+  <p><strong>Potência</strong> é definida como a taxa de realização de trabalho por unidade de tempo (P = T × ω: torque multiplicado pela velocidade angular). Em termos práticos: torque é a força com que o motor empurra; potência é essa força multiplicada pela rapidez com que o motor gira. Um motor pode ter torque alto em baixas rotações e potência máxima em altas rotações — são grandezas complementares.</p>
+
+  <div class="box mec">
+    <strong>Analogia:</strong> dois carregadores num armazém. O primeiro carrega 50 kg por viagem e faz 2 viagens por hora; o segundo carrega 20 kg e faz 10 viagens. O primeiro tem mais "torque" — força por ciclo. O segundo pode ter mais "potência" — trabalho total por hora. Para subir uma rampa íngreme com carga pesada, o primeiro é mais útil; para despachar muitas caixas leves rapidamente, o segundo.
+  </div>
+
+  <h3 id="fund-rpm"><a class="anchor" href="#fund-rpm">#</a>RPM</h3>
+  <p>RPM é definido como o número de rotações completas que o virabrequim executa por minuto. A 1.000 RPM, o motor completa 1.000 voltas por minuto; em motores de 4 tempos, isso equivale a 500 ciclos Otto completos por minuto.</p>
+
+  <p>Como cada ciclo consome uma quantidade de combustível, <strong>quanto maior o RPM, mais combustível por minuto</strong>. O instrumento do motorista para controlar o RPM é a escolha da marcha: uma marcha mais longa faz o motor girar mais devagar para a mesma velocidade do veículo, reduzindo o consumo — desde que a rotação resultante ainda esteja acima do limiar de tração adequada.</p>
+</section>
+
+<!-- ══════════ POR QUE RPM ══════════ -->
+<section id="por-que">
+  <h2><a class="anchor" href="#por-que">#</a>Por que a faixa de RPM determina o consumo</h2>
+
+  <p>A eficiência do motor não é constante ao longo de toda a faixa de rotação — ela tem um pico. Esse pico, chamado de <strong>zona de melhor eficiência térmica</strong>, é o ponto onde a relação trabalho útil gerado por grama de combustível queimado é máxima. Fora dessa zona, em qualquer direção, o motor desperdiça progressivamente mais.</p>
+
+  <p>Acima da zona: em rotações elevadas, os processos de admissão, compressão e escape acontecem muito rapidamente. A mistura não tem tempo para se distribuir uniformemente no cilindro, a combustão é incompleta, e as perdas por atrito interno crescem com o quadrado da velocidade angular. O resultado é mais combustível para a mesma quantidade de trabalho útil.<a href="#referencias" class="cite">(HEYWOOD, 2018)</a></p>
+
+  <p>Abaixo da zona: em rotações muito baixas sob carga elevada, a pressão de admissão é insuficiente para encher adequadamente o cilindro, a relação entre trabalho de bombeamento e trabalho útil piora, e o risco de detonação aumenta.</p>
+
+  <div class="box destaque">
+    <strong>Raciocínio encadeado:</strong> rotação próxima ao pico de torque = combustão mais completa por ciclo → mais trabalho por grama de combustível → menos ciclos necessários para vencer a carga → menos combustível por km. A zona econômica fica ligeiramente <em>abaixo</em> do pico de torque: o motor entrega quase o mesmo torque com menos RPM, reduzindo o consumo absoluto por distância percorrida.
+  </div>
+</section>
+
+<!-- ══════════ SPECS ══════════ -->
+<section id="specs">
+  <h2><a class="anchor" href="#specs">#</a>Especificações dos motores</h2>
+
+  <div class="specs-grid">
+    <div class="spec-card saveiro">
+      <div class="spec-title">Saveiro 1.6 MSI</div>
+      <div class="spec-item"><div class="spec-label">Arquitetura</div><div class="spec-value">4 cil. EA111 · 8v</div></div>
+      <div class="spec-item"><div class="spec-label">Cilindrada</div><div class="spec-value">1.598 cm³</div></div>
+      <div class="spec-item"><div class="spec-label">Potência máx.</div><div class="spec-value">104 cv</div><div class="spec-sub">~5.800 RPM (etanol)</div></div>
+      <div class="spec-item"><div class="spec-label">Torque máx. (SI)</div><div class="spec-value">153 N·m</div><div class="spec-sub">fab. 15,6 kgf·m · ~3.800 RPM</div></div>
+      <div class="spec-item"><div class="spec-label">Alimentação</div><div class="spec-value">MPI aspirado · flex</div></div>
+      <div class="spec-item"><div class="spec-label">Câmbio</div><div class="spec-value">Manual 5 vel.</div></div>
+    </div>
+    <div class="spec-card nivus">
+      <div class="spec-title">Nivus 1.0 TSI</div>
+      <div class="spec-item"><div class="spec-label">Arquitetura</div><div class="spec-value">3 cil. EA211 · 12v</div></div>
+      <div class="spec-item"><div class="spec-label">Cilindrada</div><div class="spec-value">999 cm³</div></div>
+      <div class="spec-item"><div class="spec-label">Potência máx.</div><div class="spec-value">128 cv</div><div class="spec-sub">~5.000–6.000 RPM (etanol)</div></div>
+      <div class="spec-item"><div class="spec-label">Torque máx. (SI)</div><div class="spec-value">200 N·m</div><div class="spec-sub">fab. 20,4 kgf·m · plateau 2.000–3.500 RPM</div></div>
+      <div class="spec-item"><div class="spec-label">Alimentação</div><div class="spec-value">Injeção direta + turbo · flex</div></div>
+      <div class="spec-item"><div class="spec-label">Câmbio</div><div class="spec-value">Automático 6 vel.</div></div>
+    </div>
+    <div class="spec-card volvo">
+      <div class="spec-title">Volvo S90 T8</div>
+      <div class="spec-item"><div class="spec-label">Arquitetura</div><div class="spec-value">4 cil. 2.0 + motor elétrico</div></div>
+      <div class="spec-item"><div class="spec-label">Cilindrada</div><div class="spec-value">1.969 cm³</div></div>
+      <div class="spec-item"><div class="spec-label">Potência combinada</div><div class="spec-value">390 cv</div><div class="spec-sub">Térmico: 320 cv a 5.700 RPM</div></div>
+      <div class="spec-item"><div class="spec-label">Torque máx. (SI)</div><div class="spec-value">640 N·m combinado</div><div class="spec-sub">Térmico: 400 N·m · 2.200–5.400 RPM</div></div>
+      <div class="spec-item"><div class="spec-label">Sistema</div><div class="spec-value">PHEV plug-in híbrido</div><div class="spec-sub">Motor elétrico traseiro: 65 kW · bateria 9,2 kWh</div></div>
+      <div class="spec-item"><div class="spec-label">Câmbio</div><div class="spec-value">Automático 8 vel.</div></div>
+    </div>
+  </div>
+  <p class="caption"><strong>Figura 1.</strong> Fichas técnicas dos três veículos. Torque em N·m (SI); valores "fab." indicam a unidade declarada pelo fabricante VW (kgf·m). Conversão: 1 kgf·m ≈ 9,81 N·m. Potências em etanol para Saveiro e Nivus; S90 T8 declara potência combinada térmica + elétrica.<a href="#referencias" class="cite">(VOLKSWAGEN DO BRASIL, 2019; VOLKSWAGEN DO BRASIL, 2021; VOLVO CARS, 2019)</a></p>
+
+  <h3 id="saveiro-motor"><a class="anchor" href="#saveiro-motor">#</a>Saveiro 1.6 MSI — o motor aspirado e seu comportamento</h3>
+
+  <p>O motor de injeção multiponto (MPI) EA111 é um motor <strong>aspirado</strong> — sem compressor de ar. A única forma de obter mais ar, e portanto queimar mais combustível e gerar mais força, é aumentar a velocidade de rotação: cada pistão suga ar pelo movimento descendente, e a quantidade de ar por ciclo é limitada pelo volume do cilindro.</p>
+
+  <p>O resultado é uma curva de torque que sobe gradualmente com o RPM, atinge o pico por volta de 3.800 RPM, e depois cai — porque as perdas de bombeamento e atrito crescem mais rápido que o ganho de força. Acima de 3.800 RPM o motor consome progressivamente mais combustível para cada unidade de força gerada.<a href="#referencias" class="cite">(VOLKSWAGEN DO BRASIL, 2019)</a></p>
+
+  <div class="box saveiro"><strong>Implicação prática:</strong> manter a Saveiro acima de 3.200 RPM em cruzeiro significa operar no segmento de queda de torque — mais combustível para a mesma força. A 100 km/h na 5ª marcha o motor gira ~2.400–2.600 RPM, zona razoável. O risco é a aceleração: demorar a subir de marcha deixa o motor roncar acima de 3.000 RPM por tempo prolongado.</div>
+
+  <h3 id="nivus-motor"><a class="anchor" href="#nivus-motor">#</a>Nivus 1.0 TSI — downsizing e plateau de torque</h3>
+
+  <p>O <strong>turbocompressor</strong> é definido como um dispositivo que usa a energia dos gases de escapamento para girar uma turbina que, por sua vez, comprime o ar de admissão antes de ele entrar no cilindro. Isso permite introduzir mais ar — e portanto mais combustível — por ciclo do que o pistão conseguiria sugar sozinho. Essa estratégia é chamada de <strong>downsizing</strong> (redução de cilindrada com manutenção ou ganho de desempenho).</p>
+
+  <p>A consequência mais importante para a eficiência é o <strong>plateau de torque</strong>: com pressão de turbo disponível já a partir de ~1.500 RPM, o motor atinge os 200 N·m cedo e os mantém de 2.000 a 3.500 RPM — em vez de num pico estreito como o aspirado. Isso permite trocar de marcha mais cedo sem perder resposta.<a href="#referencias" class="cite">(VOLKSWAGEN DO BRASIL, 2021; SCHMITT et al., 2015)</a></p>
+
+  <div class="box nivus"><strong>Implicação prática:</strong> a 100 km/h em 6ª marcha, o Nivus gira ~2.200–2.500 RPM — dentro do plateau. O câmbio automático já otimiza as trocas, mas o motorista pode sabotá-lo pressionando o acelerador além de ~50% do curso em cruzeiro: isso induz kickdown (descida automática de marcha) e joga o motor para 3.500–5.000 RPM.</div>
+
+  <h3 id="volvo-motor"><a class="anchor" href="#volvo-motor">#</a>Volvo S90 T8 — a lógica do veículo híbrido plug-in</h3>
+
+  <p>Um <strong>veículo elétrico plug-in híbrido</strong> (PHEV — Plug-in Hybrid Electric Vehicle) é definido como um veículo que combina motor a combustão interna com um ou mais motores elétricos alimentados por bateria recarregável por fonte externa. O S90 T8 tem um motor a gasolina de 2.0 litros com turbo e supercharger (compressor mecânico movido por correia — que entrega pressão imediata antes do turbo atingir rotação suficiente) no eixo dianteiro, e um motor elétrico de 65 kW no eixo traseiro.<a href="#referencias" class="cite">(VOLVO CARS, 2019)</a></p>
+
+  <p>A lógica de eficiência é fundamentalmente diferente dos outros dois carros. Em vez de otimizar a RPM de um único motor, o sistema de gestão eletrônica decide a cada instante qual fonte é mais eficiente para a situação:</p>
+
+  <div class="flow">
+    <div class="flow-step"><div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div><div class="flow-content"><strong>Bateria carregada + baixa velocidade (&lt;60 km/h):</strong> motor elétrico exclusivo — consumo de combustível zero.</div></div>
+    <div class="flow-step"><div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div><div class="flow-content"><strong>Bateria parcial + estrada:</strong> modo híbrido — térmico opera em faixa eficiente (1.500–2.500 RPM) enquanto o elétrico complementa acelerações.</div></div>
+    <div class="flow-step"><div class="flow-connector"><div class="flow-dot"></div><div class="flow-line"></div></div><div class="flow-content"><strong>Bateria esgotada:</strong> térmico assume integralmente; faixa ideal de 1.800–2.800 RPM.</div></div>
+    <div class="flow-step"><div class="flow-connector"><div class="flow-dot"></div></div><div class="flow-content"><strong>Aceleração forte:</strong> ambos os motores atuam simultaneamente, entregando os 390 cv e 640 N·m combinados.</div></div>
+  </div>
+
+  <p>O motor elétrico entrega torque máximo desde 0 RPM — porque a força eletromagnética não depende de velocidade rotacional para existir, ao contrário dos motores a combustão.<a href="#referencias" class="cite">(WIRASINGHA; EMADI, 2011)</a></p>
+</section>
+
+<!-- ══════════ FAIXAS ══════════ -->
+<section id="faixas">
+  <h2><a class="anchor" href="#faixas">#</a>Faixas ótimas de RPM para economia</h2>
+
+  <div style="margin: 16px 0 4px;">
+    <div class="rpm-row">
+      <div class="rpm-lbl" style="color:var(--saveiro)">Saveiro</div>
+      <div class="rpm-wrap">
+        <div class="rpm-fill" style="left:33%;width:20%;background:rgba(212,132,74,0.35);color:var(--saveiro);">2.000–3.200</div>
+      </div>
+      <div class="rpm-ann">Pico torque: ~3.800 RPM</div>
+    </div>
+    <div class="rpm-row">
+      <div class="rpm-lbl" style="color:var(--nivus)">Nivus</div>
+      <div class="rpm-wrap">
+        <div class="rpm-fill" style="left:25%;width:29%;background:rgba(224,160,74,0.3);color:var(--nivus);">1.800–3.500</div>
+      </div>
+      <div class="rpm-ann">Plateau: 2.000–3.500 RPM</div>
+    </div>
+    <div class="rpm-row">
+      <div class="rpm-lbl" style="color:var(--volvo)">S90 T8</div>
+      <div class="rpm-wrap">
+        <div class="rpm-fill" style="left:0;width:42%;background:rgba(184,152,204,0.15);color:var(--volvo);border-right:2px dashed var(--volvo);">Elétrico (0) · Térmico: 1.500–2.800</div>
+      </div>
+      <div class="rpm-ann">Térmico entra se necessário</div>
+    </div>
+  </div>
+  <p class="caption"><strong>Figura 2.</strong> Faixas ótimas de RPM para condução econômica em cruzeiro. Escala 0–6.000 RPM; região colorida indica a zona de menor consumo por km. S90 T8 inclui operação elétrica pura (0 RPM no motor térmico) — a faixa tracejada indica que o motor térmico entra apenas quando necessário.</p>
+
+  <div class="box saveiro"><strong>Saveiro — como perceber a zona sem olhar o tacômetro:</strong> o guia sensorial é o som: ruído "firme e constante" sem ser agudo indica a zona certa. Ruído agudo e crescente → acima de 3.000 RPM, suba de marcha. Vibração e hesitação → abaixo de 1.800 RPM, desça uma marcha.</div>
+
+  <div class="box nivus"><strong>Nivus — o câmbio automático já sabe, não o sabote:</strong> o câmbio mantém o motor no plateau em condução normal. O risco é o kickdown: pressionando o acelerador além de ~50% do curso, o câmbio interpreta como demanda de potência e desce marcha desnecessariamente.</div>
+
+  <div class="box volvo"><strong>S90 T8 — RPM deixa de ser a pergunta certa:</strong> o controle de eficiência migra da rotação para a escolha da fonte de energia. Em cidade: bateria tem carga suficiente para modo Pure? Se sim, motor térmico em repouso — RPM irrelevante. Em estrada: modo Hybrid gerencia automaticamente.</div>
+</section>
+
+<!-- ══════════ COMPARATIVO ══════════ -->
+<section id="comparativo">
+  <h2><a class="anchor" href="#comparativo">#</a>Tabela comparativa</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Parâmetro</th>
+        <th style="color:var(--saveiro)">Saveiro 1.6</th>
+        <th style="color:var(--nivus)">Nivus 1.0 TSI</th>
+        <th style="color:var(--volvo)">S90 T8</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Cilindros / cilindrada</td><td>4 cil. · 1.598 cm³</td><td>3 cil. · 999 cm³</td><td>4 cil. · 1.969 cm³ + elétrico</td></tr>
+      <tr><td>Potência máxima</td><td>104 cv (etanol)</td><td>128 cv (etanol)</td><td>390 cv combinado</td></tr>
+      <tr><td>RPM do pico de potência</td><td>~5.800</td><td>~5.000–6.000</td><td>5.700 (térmico)</td></tr>
+      <tr><td><strong>Torque máx. (N·m — SI)</strong></td><td><strong>153 N·m</strong> <span style="color:var(--muted);font-size:11px">fab. 15,6 kgf·m</span></td><td><strong>200 N·m</strong> <span style="color:var(--muted);font-size:11px">fab. 20,4 kgf·m</span></td><td><strong>400 N·m</strong> térmico · <strong>640 N·m</strong> combinado</td></tr>
+      <tr><td>RPM do pico de torque</td><td>~3.800 (pico único)</td><td>2.000–3.500 (plateau)</td><td>2.200–5.400 (térmico)</td></tr>
+      <tr><td>Faixa econômica ideal</td><td>2.000–3.200 RPM</td><td>1.800–3.000 RPM</td><td>Elétrico (cidade) · 1.500–2.800 (térmico)</td></tr>
+      <tr><td>Turbo</td><td>Não</td><td>Sim</td><td>Sim + supercharger</td></tr>
+      <tr><td>Consumo estrada (gasolina)</td><td>12,4 km/l</td><td>14,8 km/l</td><td>~12,4 km/l (térmico só)</td></tr>
+      <tr><td>Consumo estrada (etanol)</td><td>8,8 km/l</td><td>10,3 km/l</td><td>—</td></tr>
+      <tr><td>Autonomia elétrica</td><td>—</td><td>—</td><td>~40–50 km (WLTP)</td></tr>
+    </tbody>
+  </table>
+  <p class="caption"><strong>Tabela 1.</strong> Comparação de parâmetros técnicos e de eficiência. Torque em N·m (SI); valores kgf·m são referência do fabricante VW. Consumos conforme INMETRO; autonomia elétrica conforme ciclo WLTP.</p>
+
+  <h3>Torque máximo em N·m — comparação visual</h3>
+  <div style="margin:14px 0 4px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-family:var(--font-ui)">
+      <div style="width:100px;font-size:12px;color:var(--saveiro);font-weight:600;flex-shrink:0;">Saveiro 1.6</div>
+      <div style="flex:1;position:relative;height:28px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);">
+        <div style="position:absolute;left:0;top:0;height:100%;width:23.5%;background:rgba(212,132,74,0.45);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;font-weight:700;color:var(--saveiro)">153 N·m</span></div>
+      </div>
+      <div style="width:100px;font-size:10px;color:var(--muted);text-align:right;flex-shrink:0;">fab. 15,6 kgf·m</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-family:var(--font-ui)">
+      <div style="width:100px;font-size:12px;color:var(--nivus);font-weight:600;flex-shrink:0;">Nivus 1.0 TSI</div>
+      <div style="flex:1;position:relative;height:28px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);">
+        <div style="position:absolute;left:0;top:0;height:100%;width:30.8%;background:rgba(224,160,74,0.45);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;font-weight:700;color:var(--nivus)">200 N·m</span></div>
+      </div>
+      <div style="width:100px;font-size:10px;color:var(--muted);text-align:right;flex-shrink:0;">fab. 20,4 kgf·m</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;font-family:var(--font-ui)">
+      <div style="width:100px;font-size:12px;color:var(--volvo);font-weight:600;flex-shrink:0;">S90 T8 combinado</div>
+      <div style="flex:1;position:relative;height:28px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);">
+        <div style="position:absolute;left:0;top:0;height:100%;width:98%;background:rgba(184,152,204,0.35);border-radius:4px;display:flex;align-items:center;padding-left:8px;"><span style="font-size:11px;font-weight:700;color:var(--volvo)">640 N·m</span></div>
+      </div>
+      <div style="width:100px;font-size:10px;color:var(--muted);text-align:right;flex-shrink:0;">fab. 65,3 kgf·m</div>
+    </div>
+  </div>
+  <p class="caption"><strong>Figura 3.</strong> Torque máximo em N·m (SI), escala 0–650 N·m. Todos os valores primários em SI; kgf·m como referência secundária do fabricante. 1 kgf·m ≈ 9,81 N·m.</p>
+</section>
+
+<!-- ══════════ TÉCNICAS ══════════ -->
+<section id="tecnicas">
+  <h2><a class="anchor" href="#tecnicas">#</a>Técnicas de condução eficiente</h2>
+
+  <h3 id="troca-marchas"><a class="anchor" href="#troca-marchas">#</a>Troca de marchas no momento certo</h3>
+
+  <p>A troca de marcha é o principal instrumento de controle de RPM disponível ao motorista. A lógica é invariante: <strong>subir de marcha o mais cedo possível sem cair abaixo do limiar de tração</strong>. O que muda entre os três carros é onde esse limiar está e quem toma a decisão.</p>
+
+  <p>Na Saveiro, o câmbio manual torna o motorista o único árbitro. Em aceleração suave, suba de marcha quando o RPM passar de 2.500–2.800. Em aclive, tolere até 3.000 RPM antes de subir. O sinal de que você subiu cedo demais é o carro "engolir seco" logo após a troca — volte uma marcha e aguarde mais 200–300 RPM.</p>
+
+  <div class="box saveiro"><strong>Saveiro — lógica da troca:</strong> se após subir de marcha o carro hesita ou vibra, a rotação resultante ficou abaixo de 1.800 RPM. Desça a marcha. Se o motor soa agudo e o carro não responde ao pedal, a rotação está acima de 3.200 RPM — suba a marcha.</div>
+
+  <div class="box nivus"><strong>Nivus — onde o câmbio automático tem ponto cego:</strong> em frenagem, o câmbio antecipa a descida de marcha corretamente. O problema é o cruzeiro: manter o pedal além de ~50% do curso sem demanda real faz o câmbio interpretar como pedido de potência e descer marcha desnecessariamente.</div>
+
+  <div class="box volvo"><strong>S90 T8 — estratégia por trecho:</strong> avalie o percurso antes de sair. Trecho urbano longo → Pure ou Hybrid com bateria cheia. Estrada longa seguida de cidade → Save Battery na estrada para preservar a carga e usar no modo Pure ao chegar no trecho urbano.</div>
+
+  <h3 id="rolagem"><a class="anchor" href="#rolagem">#</a>Rolagem por inércia e o mito do ponto morto</h3>
+
+  <p>Toda frenagem converte em calor a energia cinética que custou combustível para ser gerada. Antecipar frenagens e deixar o veículo desacelerar por inércia — com marcha engatada e pé fora do acelerador — é recuperar parte dessa eficiência.</p>
+
+  <p>Quando o acelerador é solto com a marcha engatada em movimento, a maioria dos motores modernos ativa o <strong>corte de combustível</strong>: a injeção é zerada enquanto o motor é arrastado pela transmissão. O veículo desacelera sem consumir nada. Em ponto morto, ao contrário, o motor precisa de combustível para manter o ralenti (~0,5–0,7 l/h).<a href="#referencias" class="cite">(BOSCH, 2022)</a></p>
+
+  <div class="box alerta"><strong>O mito da descida em neutro:</strong> colocar em ponto morto nas descidas não economiza — o motor consome combustível de ralenti continuamente. Com a marcha engatada e pé solto do acelerador, o consumo é zero e o motor contribui com frenagem-motor, aumentando o controle do veículo.</div>
+
+  <h3 id="volvo-modos"><a class="anchor" href="#volvo-modos">#</a>Modos de condução do S90 T8</h3>
+
+  <table>
+    <thead><tr><th>Modo</th><th>Fontes ativas</th><th>Quando usar</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Pure</strong></td><td>Motor elétrico exclusivo</td><td>Cidade com bateria carregada</td></tr>
+      <tr><td><strong>Hybrid</strong></td><td>Térmico + elétrico (gestão automática)</td><td>Uso misto / estrada — padrão recomendado</td></tr>
+      <tr><td><strong>Save Battery</strong></td><td>Térmico (preserva a bateria)</td><td>Estrada longa antes de trecho urbano</td></tr>
+      <tr><td><strong>Power</strong></td><td>Térmico + elétrico ao máximo</td><td>Ultrapassagens</td></tr>
+    </tbody>
+  </table>
+  <p class="caption"><strong>Tabela 2.</strong> Modos de condução do Volvo S90 T8. Em Pure, consumo de combustível é zero enquanto a bateria tiver carga suficiente.</p>
+</section>
+
+<!-- ══════════ FATORES ══════════ -->
+<section id="fatores">
+  <h2><a class="anchor" href="#fatores">#</a>Fatores que afetam o consumo real</h2>
+
+  <p>Os dados do INMETRO são obtidos em laboratório sob condições controladas — representam um teto de eficiência, não a realidade da rua.</p>
+
+  <table>
+    <thead><tr><th>Fator</th><th>Impacto típico</th><th>Controle do motorista</th></tr></thead>
+    <tbody>
+      <tr><td>Pneus abaixo da pressão ideal</td><td>+5 a +10%</td><td>Total</td></tr>
+      <tr><td>Ar-condicionado ligado</td><td>+10 a +20%</td><td>Parcial</td></tr>
+      <tr><td>Excesso de carga / bagageiro no teto</td><td>+5 a +15%</td><td>Total</td></tr>
+      <tr><td>Velocidade acima de 120 km/h</td><td>Resistência aerodinâmica ∝ v² — impacto alto</td><td>Total</td></tr>
+      <tr><td>Trânsito stop-and-go</td><td>Piora muito em aspirados; S90 em Pure é imune</td><td>Baixo</td></tr>
+      <tr><td>Óleo do motor fora do prazo</td><td>+3 a +8%</td><td>Total</td></tr>
+      <tr><td>Etanol vs. gasolina (Saveiro/Nivus)</td><td>Etanol rende ~30% menos volume; compare custo por km</td><td>Total</td></tr>
+      <tr><td>Bateria do S90 descarregada antes de cidade</td><td>Perde todo o benefício do modo elétrico urbano</td><td>Total</td></tr>
+    </tbody>
+  </table>
+  <p class="caption"><strong>Tabela 3.</strong> Fatores externos que desviam o consumo real dos valores de laboratório (INMETRO). "Controle do motorista": Total = depende exclusivamente do condutor; Parcial = influenciável mas não eliminável; Baixo = fora do controle direto.</p>
+
+  <div class="box mec"><strong>Gasolina ou etanol na Saveiro e no Nivus?</strong> Se o etanol custar menos de 70% do preço da gasolina, abasteça com etanol. O motivo: o etanol tem densidade energética de ~21,3 MJ/kg, contra ~43,4 MJ/kg da gasolina — você precisa de mais volume de etanol para percorrer a mesma distância.<a href="#referencias" class="cite">(ANP, 2023)</a></div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ══════════ DISCUSSÃO ══════════ -->
+<section id="discussao">
+  <h2><a class="anchor" href="#discussao">#</a>Discussão</h2>
+
+  <h3>O que os três motores têm em comum</h3>
+  <p>Apesar das arquiteturas radicalmente diferentes — aspirado de 4 cilindros, turbo de 3 cilindros e híbrido plug-in —, os três sistemas convergem para o mesmo princípio físico: maximizar trabalho útil por grama de combustível queimado. O que muda entre eles não é o objetivo, mas o <em>instrumento</em>. Na Saveiro, o instrumento é a disciplina manual do motorista sobre o câmbio. No Nivus, é o plateau de torque que amplia a margem de erro. No S90, é a comutação entre fontes de energia — o motor térmico só é acionado quando o elétrico não consegue atender sozinho. Três soluções distintas para o mesmo problema termodinâmico.</p>
+
+  <h3>A tensão central: eficiência é do sistema, não do motor</h3>
+  <p>O dado que o material deixa implícito mas não enuncia diretamente: a eficiência não é uma propriedade fixa do motor — é uma propriedade emergente do sistema motorista + motor + condições de uso. O Nivus tem consumo 19% menor que a Saveiro em estrada nos dados do INMETRO.<a href="#referencias" class="cite">(ANP, 2023)</a> Mas essa vantagem colapsa se o motorista do Nivus forçar kickdown continuamente: em 4.000–5.000 RPM, o 1.0 TSI consome proporcionalmente tanto quanto — ou mais que — a Saveiro em sua faixa ideal. O motor mais eficiente nas especificações pode ser o menos eficiente na prática.</p>
+
+  <p>O S90 leva esse paradoxo ao extremo: com bateria carregada em cidade, é o mais eficiente dos três por ampla margem (consumo de combustível zero). Com bateria descarregada em estrada, torna-se o menos eficiente — um motor térmico carregando o peso adicional da bateria e do motor elétrico sem aproveitá-los. A amplitude entre o melhor e o pior cenário é maior no S90 do que nos outros dois juntos.</p>
+
+  <h3>Implicação derivada: o custo cognitivo da eficiência</h3>
+  <p>Para uso brasileiro típico — cidade congestionada combinada com trechos de estrada —, os três carros exigem formas qualitativamente diferentes de atenção do motorista. A Saveiro exige monitoramento contínuo de RPM e decisão ativa de troca de marcha: sem disciplina, o consumo sobe. O Nivus delega essa decisão ao câmbio automático e exige apenas contenção no pedal. O S90 exige uma mudança de mentalidade mais profunda: sair da gestão de rotação para a gestão de carga de bateria e escolha de modo. Para a maioria dos perfis de uso, o Nivus é o veículo que maximiza a eficiência com menor custo cognitivo; a Saveiro recompensa quem é disciplinado e penaliza quem não é; o S90 tem o maior potencial de eficiência e o maior potencial de ineficiência.</p>
+</section>
+
+<!-- ══════════ LEITURAS ══════════ -->
+<section id="leituras">
+  <h2><a class="anchor" href="#leituras">#</a>Leituras recomendadas</h2>
+
+  <h3>Livros-texto</h3>
+  <div class="leitura">
+    <div class="leitura-titulo">Internal Combustion Engine Fundamentals — John B. Heywood</div>
+    <div class="leitura-desc">2. ed. Nova York: McGraw-Hill Education, 2018. Capítulos 2–4 explicam o porquê de cada etapa do ciclo Otto, as curvas de torque/potência e os determinantes da eficiência térmica.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo">Automotive Handbook — Robert Bosch GmbH</div>
+    <div class="leitura-desc">10. ed. Stuttgart: Bosch, 2022. Cobertura técnica enciclopédica de injeção, turbocompressão e sistemas híbridos.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo">Automotive Engineering Fundamentals — Stone &amp; Ball</div>
+    <div class="leitura-desc">Warrendale: SAE International, 2004. Conecta teoria termodinâmica a dados reais de veículos.</div>
+  </div>
+
+  <h3>Artigos científicos</h3>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="https://doi.org/10.4271/2015-01-1259" target="_blank" rel="noopener" style="color:var(--blue)">Efficiency improvement of a gasoline engine by downsizing combined with turbocharging — SAE ↗</a></div>
+    <div class="leitura-desc">SCHMITT, M. et al. <em>SAE Technical Paper</em>, 2015. Quantifica os ganhos de eficiência do downsizing com turbo — base para entender por que o 1.0 TSI supera o 1.6 aspirado em consumo real.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="https://doi.org/10.1109/TVT.2010.2091589" target="_blank" rel="noopener" style="color:var(--blue)">Energy management strategies for plug-in hybrid electric vehicles — IEEE ↗</a></div>
+    <div class="leitura-desc">WIRASINGHA, S. G.; EMADI, A. <em>IEEE Transactions on Vehicular Technology</em>, v. 60, n. 1, 2011. Mecanismo de decisão entre fontes de energia em PHEVs — substrato teórico do comportamento do S90 T8.</div>
+  </div>
+
+  <h3>Recursos institucionais online</h3>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="http://www.inmetro.gov.br/consumidor/pbe/veiculos_leves.asp" target="_blank" rel="noopener" style="color:var(--blue)">INMETRO — Programa Brasileiro de Etiquetagem Veicular ↗</a></div>
+    <div class="leitura-desc">Dados oficiais de consumo de todos os modelos vendidos no Brasil.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="https://www.gov.br/anp/pt-br/assuntos/producao-e-fornecimento-de-combustiveis/combustiveis-automotivos" target="_blank" rel="noopener" style="color:var(--blue)">ANP — Combustíveis Automotivos ↗</a></div>
+    <div class="leitura-desc">Dados energéticos de combustíveis brasileiros.</div>
+  </div>
+</section>
+
+<!-- ══════════ REFERÊNCIAS ══════════ -->
+<section id="referencias">
+  <h2><a class="anchor" href="#referencias">#</a>Referências ABNT</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;font-family:var(--font-ui)">Formato NBR 6023:2018. Ordenação alfabética.</p>
+
+  <ol class="ref-list">
+    <li>AGÊNCIA NACIONAL DO PETRÓLEO, GÁS NATURAL E BIOCOMBUSTÍVEIS (ANP). <strong>Anuário Estatístico Brasileiro do Petróleo, Gás Natural e Biocombustíveis</strong>. Brasília: ANP, 2023. Disponível em: <a href="https://www.gov.br/anp/pt-br" target="_blank" rel="noopener">gov.br/anp ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>BOSCH, Robert GmbH. <strong>Automotive Handbook</strong>. 10. ed. Stuttgart: Robert Bosch GmbH, 2022.</li>
+    <li>HEYWOOD, John B. <strong>Internal Combustion Engine Fundamentals</strong>. 2. ed. Nova York: McGraw-Hill Education, 2018.</li>
+    <li>SCHMITT, M. et al. Efficiency improvement of a gasoline engine by downsizing combined with turbocharging. <strong>SAE Technical Paper</strong>, 2015. Disponível em: <a href="https://doi.org/10.4271/2015-01-1259" target="_blank" rel="noopener">doi:10.4271/2015-01-1259 ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>VOLKSWAGEN DO BRASIL. <strong>Saveiro Robust 1.6 MSI CS (Flex) 2019 — Ficha Técnica</strong>. São Paulo: VW, 2019.</li>
+    <li>VOLKSWAGEN DO BRASIL. <strong>Ficha Técnica Nivus 1.0 TSI</strong>. São Paulo: VW, 2021. Disponível em: <a href="https://vw-digital-cdn-br.itd.vw.com.br/assets/newsroom-cdn-br-ps/00f45826da9cda0f51129a1f7a2792eb.pdf" target="_blank" rel="noopener">VW Newsroom ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>VOLVO CARS. <strong>S90 Twin Engine — Especificações de motor</strong>. Gotemburgo: Volvo Cars, 2019. Disponível em: <a href="https://www.volvocars.com/pt/support/car/s90-twin-engine/article/317a3bf9c31b3576c0a801510071d5c2/" target="_blank" rel="noopener">volvocars.com ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>WIRASINGHA, S. G.; EMADI, A. Energy management strategies for plug-in hybrid electric vehicles. <strong>IEEE Transactions on Vehicular Technology</strong>, v. 60, n. 1, p. 198–203, 2011. Disponível em: <a href="https://doi.org/10.1109/TVT.2010.2091589" target="_blank" rel="noopener">doi:10.1109/TVT.2010.2091589 ↗</a>. Acesso em: 19 jun. 2026.</li>
+  </ol>
+</section>
+
+</div><!-- .content -->
+</main>
+</div><!-- .layout -->
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('aside .sidebar-link');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(l => {
+          const href = l.getAttribute('href').replace('#', '');
+          l.classList.toggle('active', href === id);
+        });
+      }
+    });
+  }, { rootMargin: '-40px 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(s => obs.observe(s));
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

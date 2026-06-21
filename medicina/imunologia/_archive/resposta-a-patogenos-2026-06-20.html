@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 9 — Resposta Imune a Patógenos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0c09;--bg2:#17140f;--bg3:#201c15;--border:#3d3020;--text:#ddd5c0;--muted:#b09a78;--blue:#e0a04a;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 0 40px}
+#sidebar .logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--blue);padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
+#sidebar .logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+#sidebar .group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px}
+#sidebar a{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent}
+#sidebar a:hover{color:var(--text)}#sidebar a.active{color:var(--blue);border-left-color:var(--blue)}
+main{flex:1;padding:60px 80px 120px}.content{max-width:72ch;margin:0 auto}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--blue);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:48px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--blue);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+p{margin-bottom:1.1em}strong{color:var(--text);font-weight:600}em{font-style:italic;color:var(--muted)}
+a.cite{color:var(--blue);text-decoration:none;font-size:.85em;vertical-align:super}a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--blue);text-decoration:none;font-size:.82em;font-style:italic;border-bottom:1px dashed var(--blue);opacity:.85}a.cross-link:hover{opacity:1}
+.table-wrap{overflow-x:auto;margin:28px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.fund-card strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}.fund-card p{color:var(--muted);margin:0;line-height:1.6}
+.callout{background:var(--bg3);border-left:3px solid var(--blue);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--blue)}
+.pat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.pat-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
+.pat-card .pat-type{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.pat-card p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}.book-card .book-meta{color:var(--muted);font-size:12px}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}ol.refs li a{color:var(--blue);text-decoration:none}ol.refs li a:hover{text-decoration:underline}
+@media(max-width:1024px){body{flex-direction:column}#sidebar{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;padding:12px 0 0;border-right:none;border-bottom:1px solid var(--border)}#sidebar .logo{border-bottom:none;margin-bottom:0;padding-bottom:8px}#sidebar .group-label{padding:8px 12px 4px}#sidebar a{padding:4px 12px}main{padding:32px 24px 80px}.pat-grid,.fund-grid,.book-grid{grid-template-columns:1fr}}
+@media print{#sidebar{display:none}body{display:block;background:#fff;color:#000}main{padding:0}h1,h2,h3{color:#000}.callout{background:#f5f5f5;border-color:#999;color:#000}table,th,td{border-color:#ccc;color:#000}th{background:#eee}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}.anchor{display:none}}
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="logo">Imunologia · Módulo 9<a href="index.html">← Índice de Imunologia</a></div>
+  <div class="group-label">Conteúdo</div>
+  <a href="#fundamentos-necessarios">Fundamentos necessários</a>
+  <a href="#principio">Princípio geral: patógeno × resposta</a>
+  <a href="#bacterias-extracelulares">Bactérias extracelulares</a>
+  <a href="#bacterias-intracelulares">Bactérias intracelulares</a>
+  <a href="#evasao-bacteriana">Evasão bacteriana</a>
+  <a href="#virus-mecanismos">Vírus — resposta imune</a>
+  <a href="#evasao-viral">Evasão viral</a>
+  <a href="#fungos">Fungos</a>
+  <a href="#sepse">Sepse — a resposta patológica</a>
+  <div class="group-label">Revisão</div>
+  <a href="#conexoes">Conexões</a>
+  <a href="#discussao">Discussão</a>
+  <a href="#leituras">Leituras recomendadas</a>
+  <a href="#referencias">Referências ABNT</a>
+</nav>
+<main><div class="content">
+
+<h1>Módulo 9 — Resposta Imune a Patógenos</h1>
+<p class="doc-meta">Imunologia · PUC · 2026 · Abbas cap. 15–16 · Aulas: Vírus, Bactérias extracelulares, Bactérias intracelulares, Fungos</p>
+
+<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<div class="fund-grid">
+  <div class="fund-card"><strong>Imunidade inata completa</strong><p>PRRs, fagocitose, inflamação, IFNs e células NK são os mecanismos inatos que operam nas primeiras horas. Detalhado em <a class="cross-link" href="imunidade-inata.html">Módulo 4 → Imunidade Inata</a>.</p></div>
+  <div class="fund-card"><strong>Subtipos Th e polarização</strong><p>Th1 ativa macrófagos (intracelulares); Th2 ativa eosinófilos (helmintos); Th17 recruta neutrófilos (fungos/bactérias em mucosas). Detalhado em <a class="cross-link" href="linfocitos-t-diferenciacao.html#subtipos-th">Módulo 8 → Subtipos Th</a>.</p></div>
+  <div class="fund-card"><strong>Anticorpos e complemento</strong><p>IgG e IgM opsonizam e ativam complemento contra bactérias extracelulares. IgA protege mucosas. IgE media defesa anti-helminto. Mecanismos em <a class="cross-link" href="anticorpos-imunidade-humoral.html#funcoes-ac">Módulo 7 → Funções dos anticorpos</a>.</p></div>
+  <div class="fund-card"><strong>MHC e CTLs</strong><p>Células infectadas por vírus apresentam peptídeos virais em MHC-I → reconhecimento por CTLs → morte por granzima/perforina. Mecanismo em <a class="cross-link" href="mhc-apresentacao-antigenica.html#via-endogena">Módulo 6 → Via endógena</a> e <a class="cross-link" href="linfocitos-t-diferenciacao.html#cd8">Módulo 8 → CTLs</a>.</p></div>
+</div>
+
+<h2 id="principio">Princípio geral: tipo de patógeno determina tipo de resposta <a class="anchor" href="#principio">#</a></h2>
+<p>O sistema imune não tem uma única estratégia — tem um repertório de respostas especializadas, cada uma otimizada para um tipo de ameaça. O princípio unificador é: <strong>a localização do patógeno determina o tipo de resposta efetora</strong>. Patógenos extracelulares (bactérias no sangue ou tecidos, parasitos) são acessíveis a anticorpos e complemento. Patógenos intracelulares (vírus, bactérias intracelulares obrigatórias como Mycobacterium, Chlamydia, Rickettsia) estão no interior de células, fora do alcance de anticorpos — requerem resposta celular (CTLs que matam a célula hospedeira) e ativação de macrófagos por IFN-γ. Fungos podem viver dentro ou fora das células — a resposta varia <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Tipo de patógeno</th><th>Localização</th><th>Resposta inata predominante</th><th>Resposta adaptativa predominante</th></tr></thead>
+  <tbody>
+    <tr><td>Bactérias extracelulares</td><td>Sangue, tecidos, superfícies</td><td>Neutrófilos, complemento, macrófagos</td><td>Anticorpos (IgG, IgM, IgA) + Th1/Th17</td></tr>
+    <tr><td>Bactérias intracelulares</td><td>Fagolisossomo, citoplasma</td><td>Macrófagos, NK, IFN-γ</td><td>Th1 (ativa macrófagos) + CTLs</td></tr>
+    <tr><td>Vírus</td><td>Citoplasma de célula infectada</td><td>IFN-I, NK, células dendríticas</td><td>CTLs (CD8⁺) + anticorpos neutralizantes</td></tr>
+    <tr><td>Fungos</td><td>Extra e intracelular</td><td>Neutrófilos, macrófagos, CLRs (Dectina-1)</td><td>Th17 (extracelular) + Th1 (intracelular)</td></tr>
+  </tbody>
+  <caption>Tabela 9. Estratégias imunológicas por tipo de patógeno e localização.</caption>
+</table></div>
+
+<h2 id="bacterias-extracelulares">Bactérias extracelulares <a class="anchor" href="#bacterias-extracelulares">#</a></h2>
+<p>Bactérias extracelulares como <em>Staphylococcus aureus</em>, <em>Streptococcus pneumoniae</em>, <em>Neisseria meningitidis</em> e <em>Escherichia coli</em> vivem no espaço extracelular e são acessíveis a anticorpos e complemento. A resposta inata imediata é dominada por neutrófilos (recrutados por CXCL8 e C5a) e pelo complemento (via alternativa espontânea na superfície bacteriana, sem necessidade de anticorpo). O complemento opsoniza (C3b → fagocitose via CR3) e lisa bactérias Gram-negativas (MAC) <a class="cite" href="#referencias">(REICHE, 2026b)</a>.</p>
+<p>A resposta adaptativa é predominantemente humoral: anticorpos IgG opsonizantes (+ FcγRI/III dos fagócitos), anticorpos ativadores de complemento (IgM e IgG via clássica), e IgA secretora em superfícies mucosas que neutraliza antes da invasão. Linfócitos T CD4⁺ Th17 amplificam o recrutamento de neutrófilos por IL-17 — mecanismo importante contra bactérias piogênicas (formadoras de pus) como Staphylococcus. A infecção por <em>Neisseria meningitidis</em> é paradigmática: deficiência de complemento terminal (C5–C9) resulta em suscetibilidade seletiva a Neisseria (MAC é o mecanismo primário de lise), enquanto deficiência de IgG anti-polissacarídeo resulta em sepse meningocócica — justificando a vacinação específica.</p>
+
+<h2 id="bacterias-intracelulares">Bactérias intracelulares — o desafio do fagossomo <a class="anchor" href="#bacterias-intracelulares">#</a></h2>
+<p>Bactérias intracelulares obrigatórias (<em>Mycobacterium tuberculosis</em>, <em>Listeria monocytogenes</em>, <em>Chlamydia trachomatis</em>, <em>Rickettsia</em>) infectam células hospedeiras — principalmente macrófagos e células epiteliais — e persistem dentro delas por décadas. Nesse compartimento, são inacessíveis a anticorpos circulantes. A resposta imune precisa, portanto, (a) ativar o macrófago para destruir o patógeno dentro de si, ou (b) destruir a própria célula infectada para liberar e expor o patógeno <a class="cite" href="#referencias">(OLIVEIRA, 2026a)</a>.</p>
+<p>A resposta inata é mediada por células NK que produzem IFN-γ ao serem ativadas por IL-12 de macrófagos infectados. IFN-γ ativa macrófagos classicamente (M1) — upregulando NADPH oxidase (EROs), óxido nítrico sintase induzível (iNOS → NO) e lisossomos ativados — o suficiente para destruir M. tuberculosis dentro do fagolisossomo em imunocompetentes. A resposta adaptativa é dominada por Th1 (IFN-γ) e CTLs que destroem células infectadas. O granuloma — estrutura de macrófagos epitelioide, macrófagos gigantes multinucleados e linfócitos T organizados por IFN-γ e TNF — é a resposta adaptativa característica da tuberculose: contém o bacilo sem eliminá-lo definitivamente.</p>
+<div class="callout"><strong>M. tuberculosis e evasão da fagocitose:</strong> M. tb usa C3b depositado espontaneamente em sua superfície para entrar no macrófago via CR3 — evitando o burst oxidativo inicial. Dentro do fagossomo, secreta lipoarabinomanana (LAM) que inibe a fusão fagossomo-lisossomo, bloqueia a acidificação e escapa para um compartimento protegido. A ativação por IFN-γ supera esses mecanismos ao upregular IRGM1 e outros GTPases que forçam a fusão — mecanismo central da imunidade anti-TB mediada por Th1.</div>
+
+<h2 id="evasao-bacteriana">Evasão bacteriana — aprender com o patógeno <a class="anchor" href="#evasao-bacteriana">#</a></h2>
+<p>Cada mecanismo imunológico tem um mecanismo de evasão correspondente. <em>Streptococcus pneumoniae</em> tem cápsula polissacarídica que inibe fagocitose (mascarando receptores de complemento na superfície) e reduz opsonização — a vacina PCV13/PCV23 induz anticorpos anti-cápsula que superam esse mecanismo. <em>Chlamydia trachomatis</em> sobrevive em vacúolo intracelular secretando proteínas que inibem fusão com lisossomo. <em>Rickettsia</em> escapa do vacúolo para o citoplasma, onde persiste livre. <em>Listeria monocytogenes</em> escapa do fagossomo usando listeriolisina O (LLO) e polimeriza actina citoplasmática para propulsão intracelular e disseminação célula a célula — nunca exposta ao espaço extracelular. O entendimento dessas evasões explica por que bactérias intracelulares requerem CTLs (que destroem a célula inteira, eliminando o nicho) além de Th1.</p>
+
+<h2 id="virus-mecanismos">Vírus — resposta imune integrada <a class="anchor" href="#virus-mecanismos">#</a></h2>
+<p>A infecção viral tem duas fases imunológicas: (1) fase inicial (horas a dias) — dominada pela resposta inata: IFN-α/β produzidos pela célula infectada e por DCs plasmacitoides induzem estado antiviral em células vizinhas (upregulação de PKR, OAS, Mx); células NK destroem células infectadas que downregularam MHC-I; macrófagos e DCs são ativados e migram para linfonodos; (2) fase adaptativa (dias a semanas) — CTLs (CD8⁺) reconhecem peptídeos virais em MHC-I e destroem células infectadas; anticorpos neutralizantes (IgG, IgA) bloqueiam entrada viral em novas células e mediam ADCC <a class="cite" href="#referencias">(REICHE, 2026a)</a>.</p>
+<p>A sequência de eventos num vírus respiratório (exemplo: influenza) é: vírus infecta epitélio — ativa TLR3/7 e RIG-I → IFN-β produzido → estado antiviral local → DCs capturam detritos virais → DCs maduras migram para linfonodos → ativam CTLs e células B → CTLs destroem células infectadas no epitélio → anticorpos neutralizantes (anti-hemaglutinina) bloqueam reinfecção → memória imunológica persiste anos.</p>
+
+<h2 id="evasao-viral">Evasão viral — estratégias de sobrevivência <a class="anchor" href="#evasao-viral">#</a></h2>
+<p>Vírus desenvolveram estratégias sofisticadas para escapar de cada componente da resposta imune. (1) <strong>Evasão de IFN</strong>: proteína NS1 de influenza sequestrando dsRNA (não ativa RIG-I); proteínas NS3/4A de HCV clivando adaptadores de sinalização de RIG-I (MAVS) e TLR3 (TRIF). (2) <strong>Downregulação de MHC-I</strong>: proteína ICP47 de HSV bloqueia TAP — impede transporte de peptídeos ao RE → MHC-I vazio → menos apresentação a CTLs. O custo é exposição a NK (missing self). (3) <strong>Latência</strong>: herpesvírus (HSV, VZV, CMV, EBV) estabelecem latência em células de longa duração (neurônios, linfócitos B, monócitos) expressando apenas proteínas "invisíveis" ao sistema imune. (4) <strong>Evasão de NK</strong>: CMV expressa HLA-E (MHC-I não clássico) reconhecido por receptor inibitório NKG2A/CD94 de células NK → bloqueia morte por NK mesmo sem HLA-A/B/C.</p>
+<p>O HIV merece destaque separado pela extensão da evasão: integra-se ao genoma da célula hospedeira (latência), downregula MHC-I via Nef, muta antigênicos de envelope continuamente (drift), e destrói progressivamente os próprios CD4⁺ Th que coordenam a resposta imune — levando ao colapso imune (AIDS).</p>
+
+<h2 id="fungos">Fungos — Th17, neutrófilos e imunocompromissados <a class="anchor" href="#fungos">#</a></h2>
+<p>Fungos são patógenos oportunistas em sua maioria — raramente causam doença em imunocompetentes. A imunidade antifúngica é revelada pelo que acontece quando falha. <em>Candida albicans</em> causa mucosite grave em pacientes com deficiência de Th17 (síndrome de candidiase mucocutânea crônica — mutações em STAT3, IL-17RA, ou ACT1) ou em imunossuprimidos por corticoides. <em>Aspergillus fumigatus</em> causa aspergilose invasiva principalmente em neutropênicos graves — a neutropenia é o principal fator de risco para micoses sistêmicas. <em>Cryptococcus neoformans</em> causa meningite criptocócica quase exclusivamente em pacientes com CD4 < 100 células/μL (AIDS ou imunossupressão intensa) <a class="cite" href="#referencias">(OLIVEIRA, 2026b)</a>.</p>
+<p>O reconhecimento fúngico pela imunidade inata depende de CLRs: Dectina-1 reconhece β-glucana da parede (ativa NFκB e CARD9 → IL-23 e IL-6 → Th17); Dectina-2 reconhece manana. TLR2 e TLR4 também reconhecem PAMPs fúngicos. Neutrófilos são efetores centrais extracelulares — NETs (<em>Neutrophil Extracellular Traps</em>) são particularmente eficazes contra hifas de Aspergillus (maiores que o diâmetro de um neutrófilo — não fagocitáveis). Macrófagos ativados por IFN-γ controlam formas intracelulares via ROS e NO. A resposta adaptativa efetora é Th17 contra formas extracelulares (IL-17 recruta neutrófilos, IL-22 fortalece barreira epitelial) e Th1 contra formas intracelulares.</p>
+
+<h2 id="sepse">Sepse — quando a resposta imune se torna a doença <a class="anchor" href="#sepse">#</a></h2>
+<p>A sepse é definida como disfunção orgânica ameaçadora à vida causada por resposta desregulada do hospedeiro a infecção — não pela infecção em si. O gatilho mais comum é LPS de bactérias Gram-negativas via TLR4, que ativa uma cascata de TNF-α, IL-1β e IL-6 de macrófagos sistematicamente. Em concentrações sistêmicas, esses mediadores causam: vasodilatação periférica intensa (hipotensão → choque distributivo), aumento da permeabilidade vascular (edema pulmonar → SDRA), ativação da coagulação (CIVD) e disfunção de múltiplos órgãos. O paradoxo: o paciente em choque séptico está morrendo de sua própria resposta imune, não do patógeno.</p>
+<p>O tratamento da sepse tem sido um fracasso em desenvolver terapias anti-inflamatórias específicas — múltiplos ensaios com anti-TNF, anti-IL-1, e corticoides falharam em reduzir mortalidade consistentemente. A razão é que sepse não é apenas hiperativação — há uma fase imunossupressora subsequente (paralisia imune, anergia de linfócitos) que aumenta suscetibilidade a infecções secundárias. Tratar apenas a fase inicial inflamatória prolonga a fase imunossupressora.</p>
+
+<h2 id="conexoes">Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>Módulo 9 → Módulo 5 (Complemento):</strong> deficiência de componentes terminais (C5–C9) predispõe seletivamente a Neisseria — a conexão mais direta entre patógeno e complemento. Deficiência de opsoninas (C3) predispõe a bactérias capsuladas encapsuladas de forma geral. Ver <a class="cross-link" href="sistema-complemento.html#doencas">Módulo 5 → Doenças por defeitos do complemento</a>.</p>
+  <p><strong>Módulo 9 → Módulo 6 (MHC):</strong> a evasão de MHC-I por vírus (bloqueio de TAP por HSV, downregulação por HIV-Nef) cria a tensão entre escape de CTL e exposição a NK. A dualidade MHC-I ↔ missing self é o fio condutor da imunidade antiviral. Ver <a class="cross-link" href="mhc-apresentacao-antigenica.html#via-endogena">Módulo 6 → Via endógena</a>.</p>
+  <p><strong>Módulo 9 → Módulo 11 (Vacinas):</strong> o conhecimento dos mecanismos de resposta a cada patógeno fundamenta o desenho de vacinas: vacinas de subunidade proteica → anticorpos neutralizantes (influenza); vacinas vivas atenuadas → resposta celular e humoral completa; vacinas mRNA (COVID-19) → síntese de proteína pelo hospedeiro → apresentação em MHC-I e II → CTLs + anticorpos. Ver <a class="cross-link" href="vacinas-imunidade-protetora.html">Módulo 11 → Vacinas</a>.</p>
+</div>
+
+<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
+<p>A convergência entre a resposta a diferentes patógenos revela um princípio de co-evolução: cada mecanismo de evasão do patógeno tem um contra-mecanismo do hospedeiro — e vice-versa. M. tuberculosis inibe fusão fagossomo-lisossomo → IFN-γ ativa mecanismos para forçar a fusão. Vírus downregulam MHC-I → NK mata por "missing self". Fungos formam biofilmes → NETs os envolvem. Não há armistício — é uma corrida armamentista molecular ininterrupta.</p>
+<p>A tensão mais relevante clinicamente é que a mesma resposta que protege também pode matar o hospedeiro. Em sepse, o mecanismo protetor (TNF/IL-1 → inflamação sistêmica) torna-se letal. Em tuberculose, o granuloma contém o bacilo mas também provoca fibrose pulmonar progressiva. Em COVID-19 grave, a tempestade de citocinas (IL-6, IL-1β, TNF) causa SDRA mais que o vírus diretamente — as evidências mostram que pacientes com carga viral baixa ainda desenvolvem SDRA por dano mediado pela resposta imune. A modulação da resposta imune — não apenas sua ativação — é o desafio central da terapia infecciosa moderna.</p>
+<p>A implicação derivada mais importante é que patógenos intracelulares "revelam" qual braço da imunidade é indispensável para cada tipo de ameaça. Pacientes com deficiência seletiva de Th1 (IL-12Rβ1, IFN-γR) são suscetíveis a micobactérias atípicas (que normalmente não causam doença) — provando que Th1 é indispensável para controle de micobactérias. Pacientes com deficiência de Th17 (STAT3, IL-17RA) têm candidiase mucocutânea crônica — provando que Th17 é indispensável contra Candida. Cada imunodeficiência primária é, em essência, um experimento natural que mapeia qual mecanismo é necessário para qual patógeno.</p>
+
+<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card"><div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed. · Capítulo 15–16<br>Cobertura sistemática por tipo de patógeno com enfoque nos mecanismos de evasão. Cap. 15 cobre bactérias e fungos; cap. 16, vírus.</div></div>
+  <div class="book-card"><div class="book-title">Medical Microbiology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Murray, Rosenthal, Pfaller · Elsevier, 10ª ed.<br>Perspectiva do patógeno — excelente para mecanismos de virulência e evasão de cada agente específico. Complementa o Abbas que foca no hospedeiro.</div></div>
+</div>
+
+<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>OLIVEIRA, Carlos Eduardo Coral de. <em>Aula: Resposta contra bactérias intracelulares</em>. PUC-PR, Disciplina Agressão e Defesa, 2026a.</li>
+  <li>OLIVEIRA, Carlos Eduardo Coral de. <em>Aula: Resposta contra fungos</em>. PUC-PR, Disciplina Agressão e Defesa, 2026b.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Resposta imune frente a infecções virais e mecanismos de evasão dos vírus</em>. PUC-PR, Disciplina Agressão e Defesa, 2026a.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Resposta imune contra bactérias extracelulares</em>. PUC-PR, Disciplina Agressão e Defesa, 2026b.</li>
+  <li>SINGER, Mervyn et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). <em>JAMA</em>, v. 315, n. 8, p. 801–810, 2016. DOI: <a href="https://doi.org/10.1001/jama.2016.0287" target="_blank" rel="noopener">10.1001/jama.2016.0287</a></li>
+</ol>
+
+</div></main>
+<script>
+const sections=document.querySelectorAll('h2[id],h3[id]');
+const links=document.querySelectorAll('#sidebar a[href^="#"]');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const id=entry.target.id;links.forEach(l=>l.classList.remove('active'));const active=document.querySelector('#sidebar a[href="#'+id+'"]');if(active)active.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+links.forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const target=document.querySelector(link.getAttribute('href'));if(target)target.scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>

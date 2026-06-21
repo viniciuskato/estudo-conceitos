@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trombose e Hemostasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;   /* âmbar — navegação, links, títulos */
+  --ac2:#c0604a;  /* terracota — conceitos-chave, destaques */
+  --ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+#sidebar{width:240px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:24px 0 48px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar::-webkit-scrollbar{width:3px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.s-logo{padding:0 16px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;font-family:var(--font-ui)}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:12px 16px 4px}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+
+/* ── LAYOUT ── */
+#main-wrap{flex:1;display:flex;min-width:0}
+#content{flex:1;padding:52px 40px 100px;min-width:0}
+.prose{max-width:72ch;margin:0 auto}
+#margin{width:180px;flex-shrink:0;padding:52px 16px 100px;border-left:1px solid var(--border);background:var(--bg2)}
+
+/* ── TIPOGRAFIA ── */
+h1{font-size:1.9rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:44px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);position:relative}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+h2 .anc,h3 .anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+
+/* ── LINKS ── */
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+
+/* ── BOX CONCEITO-CHAVE (terracota) ── */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:10px 14px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+
+/* ── BOX GENÉRICO ── */
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.mec{border-left:2px solid var(--muted)}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+
+/* ── FLUXOGRAMA ── */
+.flow-wrap{border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin:16px 0;background:var(--bg3)}
+.flow-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.flow-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flow-v{display:flex;flex-direction:column;gap:0}
+.fn{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:6px 12px;font-family:var(--font-ui);font-size:12px;color:var(--text)}
+.fn.hl{background:var(--ac2bg);border-color:var(--ac2);color:#e08070}
+.fn.amber{background:#1e1208;border-color:var(--ac);color:var(--ac)}
+.farr{color:var(--muted);font-size:13px}
+.fdown{color:var(--muted);font-size:13px;text-align:center;padding:2px 0}
+
+/* ── TABELA ── */
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 12px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+
+/* ── CONNECTIONS BOX ── */
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+
+/* ── DRUG ── */
+.drug-name{font-family:var(--font-ui);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.drug-brand{font-family:var(--font-ui);font-size:.85rem;color:var(--muted);font-style:italic}
+.pill{display:inline-block;font-family:var(--font-ui);font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;letter-spacing:.04em}
+.pill-vo{background:rgba(90,138,106,.15);color:#7ab88a;border:1px solid rgba(90,138,106,.3)}
+.pill-iv{background:rgba(212,146,74,.12);color:var(--ac);border:1px solid rgba(212,146,74,.3)}
+.pill-sc{background:rgba(158,152,144,.12);color:var(--muted);border:1px solid rgba(158,152,144,.3)}
+
+/* ── LEITURAS ── */
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+
+/* ── REFS ── */
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+ol.refs li a:hover{text-decoration:underline}
+
+/* ── MARGEM ── */
+.m-card{border:1px solid var(--border);border-radius:5px;padding:10px 12px;margin-bottom:12px;font-family:var(--font-ui);font-size:12px}
+.m-card .mt{font-weight:500;color:var(--text);margin-bottom:4px;font-size:12px}
+.m-card .md{color:var(--muted);line-height:1.5;font-size:11px}
+.m-ref{background:var(--bg3);border-radius:5px;padding:9px 11px;margin-bottom:12px;font-family:var(--font-ui);font-size:11px;color:var(--muted);border:1px solid var(--border)}
+.m-ref .mr-l{font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.m-section{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+
+/* ── MOBILE MENU ── */
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 10px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#mob-nav{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  #margin{display:none}
+}
+@media(max-width:860px){
+  body{flex-direction:column}
+  #sidebar{display:none;width:100%;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
+  #sidebar.open{display:block}
+  #mob-bar{display:flex}
+  #main-wrap{flex-direction:column}
+  #content{padding:24px 20px 80px}
+}
+
+/* ── PRINT ── */
+@media print{
+  #sidebar,#mob-bar,#margin{display:none}
+  body{background:#fff;color:#111;display:block}
+  #content{padding:0}
+  h1,h2,h3{color:#111}
+  .kbox,.box{border-color:#ccc;background:#f9f9f9;color:#111}
+  .kbox .klabel{color:#555}
+  table,th,td{border-color:#ccc;color:#111}th{background:#eee}
+  a[href]::after{content:" ("attr(href)")";font-size:.8em;color:#555}
+  .anc{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="mob-bar">
+  <span class="mb-title">Trombose e Hemostasia</span>
+  <button id="mob-btn" onclick="toggleNav()">☰ Menu</button>
+</div>
+
+<nav id="sidebar">
+  <div class="s-logo">
+    <b>Trombose e Hemostasia</b>
+    <span>Fisiopatologia · PUCPR · 2026</span>
+    <a href="../../index.html">← Índice do projeto</a>
+  </div>
+  <div class="s-group">Conteúdo</div>
+  <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+  <div class="s-group">I · Hemostasia</div>
+  <a class="sl" href="#conceito">O que é hemostasia</a>
+  <a class="sl" href="#etapas">Quatro etapas</a>
+  <a class="sl" href="#vasoconstricao">Vasoconstrição</a>
+  <a class="sl" href="#primaria">Hemostasia primária</a>
+  <a class="sl sub" href="#adesao">↳ Adesão plaquetária</a>
+  <a class="sl sub" href="#ativacao">↳ Ativação e agregação</a>
+  <a class="sl" href="#endotelio">Papel do endotélio</a>
+  <a class="sl" href="#anticoagulacao">Anticoagulação fisiológica</a>
+  <div class="s-group">II · Coagulação</div>
+  <a class="sl" href="#cascata">Cascata de coagulação</a>
+  <a class="sl" href="#trombina">Papel da trombina</a>
+  <a class="sl" href="#fibrinolise">Fibrinólise</a>
+  <a class="sl" href="#controle">Controle e regulação</a>
+  <div class="s-group">III · Trombose e Embolia</div>
+  <a class="sl" href="#virchow">Tríade de Virchow</a>
+  <a class="sl" href="#tep">Tromboembolismo pulmonar</a>
+  <a class="sl" href="#outros-embolos">Outros êmbolos</a>
+  <div class="s-group">IV · Farmacologia</div>
+  <a class="sl" href="#antiplaquetarios">Antiplaquetários</a>
+  <a class="sl" href="#anticoagulantes">Anticoagulantes</a>
+  <a class="sl" href="#fibrinoliticos">Fibrinolíticos</a>
+  <div class="s-group">Revisão</div>
+  <a class="sl" href="#conexoes">Conexões</a>
+  <a class="sl" href="#discussao">Discussão</a>
+  <a class="sl" href="#leituras">Leituras recomendadas</a>
+  <a class="sl" href="#referencias">Referências ABNT</a>
+</nav>
+
+<div id="main-wrap">
+<div id="content">
+<div class="prose">
+
+<h1>Trombose e Hemostasia</h1>
+<p class="doc-meta">Fisiopatologia · Farmacologia · PUCPR · 2026 · Kumar & Abbas cap. 4–5</p>
+
+<!-- ══ FUNDAMENTOS ══ -->
+<section id="fundamentos">
+<h2>Fundamentos necessários <a class="anc" href="#fundamentos">#</a></h2>
+<p>Esta seção ativa conceitos de áreas adjacentes indispensáveis para os mecanismos de hemostasia e trombose. Se algum destes termos for opaco, consulte o material indicado antes de prosseguir.</p>
+
+<div class="g2">
+  <div class="box">
+    <strong>Endotélio vascular</strong>
+    <p style="margin-top:6px;font-size:14px;color:var(--muted)">Monocamada celular que reveste todos os vasos. Define o equilíbrio entre pró- e anticoagulação. Sua integridade ou lesão é o gatilho central da hemostasia.</p>
+  </div>
+  <div class="box">
+    <strong>Cascata enzimática</strong>
+    <p style="margin-top:6px;font-size:14px;color:var(--muted)">Sequência de ativações proteolíticas onde cada enzima ativa a próxima — gerando amplificação exponencial. Mesmo um estímulo pequeno pode gerar coágulo robusto.</p>
+  </div>
+  <div class="box">
+    <strong>Vitamina K e síntese hepática</strong>
+    <p style="margin-top:6px;font-size:14px;color:var(--muted)">Os fatores II, VII, IX e X — além das proteínas C e S — são sintetizados no fígado e dependem de vitamina K para sua ativação. Base da ação da varfarina.</p>
+  </div>
+  <div class="box">
+    <strong>Inflamação e coagulação</strong>
+    <p style="margin-top:6px;font-size:14px;color:var(--muted)">Os sistemas de coagulação e inflamação são fisicamente interligados — citocinas pró-inflamatórias (IL-1β, TNF) induzem expressão de fator tecidual no endotélio. Ver <a class="cross-link" href="../imunologia/moleculas-sistema-imune.html#citocinas">Módulo 3 de Imunologia → Citocinas</a>.</p>
+  </div>
+</div>
+</section>
+
+<!-- ══ I · HEMOSTASIA ══ -->
+<section id="conceito">
+<h2>O que é hemostasia — o problema que o organismo resolve <a class="anc" href="#conceito">#</a></h2>
+
+<p>O sistema circulatório é um circuito fechado sob pressão contínua. Qualquer ruptura precisa ser selada rapidamente — caso contrário, a perda de sangue compromete a perfusão tecidual e a sobrevida. <strong>Hemostasia</strong> (do grego <em>haima</em> = sangue + <em>stasis</em> = parar) é o sistema de autoreparo que resolve esse problema: ao detectar uma lesão vascular, desencadeia uma sequência orquestrada que cessa o sangramento sem obstruir definitivamente o vaso.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  <p>Hemostasia é definida como o processo precisamente coordenado que envolve plaquetas, fatores da coagulação e endotélio, ocorrendo no local de lesão vascular e culminando na formação de um coágulo para prevenir ou limitar o sangramento — seguido de sua dissolução controlada após o reparo tecidual.<a href="#referencias" class="cite">[1]</a></p>
+</div>
+
+<p>Pense na hemostasia como um sistema de <em>freios e acelerador</em> em equilíbrio: o organismo precisa formar coágulo rápido o suficiente para estancar o sangramento (lado pró-coagulante), mas também precisa limitar esse coágulo ao local da lesão e depois removê-lo (lado anticoagulante e fibrinolítico). O desequilíbrio entre esses dois lados é a base de doenças como trombose e hemorragia.</p>
+</section>
+
+<section id="etapas">
+<h2>Visão geral das quatro etapas <a class="anc" href="#etapas">#</a></h2>
+
+<p>Diante de uma lesão vascular, a hemostasia ocorre em sequência lógica obrigatória — cada etapa cria a condição para a próxima.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<div class="flow-wrap">
+  <div class="flow-label">Sequência da hemostasia</div>
+  <div class="flow-v">
+    <div class="fn" style="margin-bottom:6px">① <strong>Vasoconstrição</strong> — reduz o fluxo local imediatamente (segundos)</div>
+    <div class="fdown">↓</div>
+    <div class="fn" style="margin-bottom:6px">② <strong>Hemostasia primária</strong> — adesão e agregação plaquetária → tampão provisório (minutos)</div>
+    <div class="fdown">↓</div>
+    <div class="fn hl" style="margin-bottom:6px">③ <strong>Hemostasia secundária</strong> — cascata de coagulação → malha de fibrina consolida o tampão</div>
+    <div class="fdown">↓</div>
+    <div class="fn" style="margin-bottom:0">④ <strong>Fibrinólise</strong> — dissolve o coágulo após reparo tecidual</div>
+  </div>
+</div>
+
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Etapa</th><th>Evento central</th><th>Principais agentes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1. Vasoconstrição</strong></td><td>Reduz o fluxo no local</td><td>Endotelina, reflexo neurogênico</td></tr>
+    <tr><td><strong>2. Hemostasia primária</strong></td><td>Tampão plaquetário</td><td>FvW, GpIb, ADP, TXA₂, GpIIb-IIIa, fibrinogênio</td></tr>
+    <tr><td><strong>3. Hemostasia secundária</strong></td><td>Cascata → fibrina</td><td>Fator tecidual, trombina, fibrina, fator XIIIa</td></tr>
+    <tr><td><strong>4. Fibrinólise</strong></td><td>Remove o coágulo</td><td>tPA, plasminogênio → plasmina</td></tr>
+  </tbody>
+  <caption>Tabela 1. As quatro etapas da hemostasia com evento central e agentes moleculares.</caption>
+</table></div>
+</section>
+
+<section id="vasoconstricao">
+<h2>Etapa 1 — Vasoconstrição <a class="anc" href="#vasoconstricao">#</a></h2>
+<p>Imediatamente após a lesão, dois mecanismos combinados reduzem o calibre do vaso lesado:</p>
+<div class="g2">
+  <div class="box"><strong>Vasoconstrição reflexa</strong><p style="margin-top:5px;font-size:14px;color:var(--muted)">Resposta neurogênica imediata — ocorre em segundos, antes de qualquer mediador químico.</p></div>
+  <div class="box"><strong>Endotelina</strong><p style="margin-top:5px;font-size:14px;color:var(--muted)">Potente vasoconstritor liberado pelas células endoteliais lesadas. Amplifica e prolonga a vasoconstrição inicial.</p></div>
+</div>
+<div class="box mec">A vasoconstrição é transitória — serve para "ganhar tempo" até que o tampão plaquetário e a malha de fibrina se formem. Sem as etapas seguintes, seria insuficiente para controlar um sangramento por si só.<a href="#referencias" class="cite">[1]</a></div>
+</section>
+
+<section id="primaria">
+<h2>Etapa 2 — Hemostasia primária <a class="anc" href="#primaria">#</a></h2>
+<p>A hemostasia primária é a formação do <strong>tampão plaquetário</strong> em duas fases: adesão e depois ativação/agregação. Falhas nessa etapa causam sangramentos mucocutâneos — padrão clinicamente distinto das hemofilias, que afetam a hemostasia secundária.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<h3 id="adesao">Adesão plaquetária <a class="anc" href="#adesao">#</a></h3>
+<p>Em condições normais, as plaquetas circulam sem interagir com o endotélio íntegro. A lesão rompe essa barreira e expõe o colágeno subendotelial. O problema imediato: como fazer plaquetas se prenderem a uma superfície em ambiente de fluxo sanguíneo rápido?</p>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo central</div>
+  <p>O <strong>fator de von Willebrand (FvW)</strong> funciona como ponte de adesão de alta resistência ao <em>shear</em>: liga-se ao colágeno exposto de um lado e ao receptor plaquetário <strong>glicoproteína Ib (GpIb)</strong> de outro. Sem o FvW, as plaquetas simplesmente não conseguem aderir ao colágeno em fluxo rápido.<a href="#referencias" class="cite">[1]</a></p>
+</div>
+
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Componente</th><th>Função</th><th>Deficiência hereditária</th><th>Padrão de sangramento</th></tr></thead>
+  <tbody>
+    <tr><td>FvW</td><td>Ponte colágeno ↔ GpIb; carreador do fator VIII</td><td>Doença de von Willebrand</td><td>Mucocutâneo</td></tr>
+    <tr><td>GpIb</td><td>Receptor plaquetário que adere ao FvW</td><td>Síndrome de Bernard-Soulier</td><td>Mucocutâneo</td></tr>
+    <tr><td>GpIIb-IIIa</td><td>Integrina que liga fibrinogênio → agregação</td><td>Trombastenia de Glanzmann</td><td>Mucocutâneo</td></tr>
+  </tbody>
+  <caption>Tabela 2. Componentes da adesão/agregação plaquetária e deficiências hereditárias.</caption>
+</table></div>
+
+<div class="box clinico">As três deficiências da Tabela 2 causam sangramentos <strong>mucocutâneos</strong> (epistaxe, gengivorragia, petéquias) — padrão de falha em hemostasia primária. Sangramentos profundos (hemartroses) indicam defeito na hemostasia secundária (hemofilias A e B).<a href="#referencias" class="cite">[1,2]</a></div>
+
+<h3 id="ativacao">Ativação e agregação plaquetária <a class="anc" href="#ativacao">#</a></h3>
+
+<div class="flow-wrap">
+  <div class="flow-label">Sequência de ativação plaquetária</div>
+  <div class="flow-v">
+    <div class="fn" style="margin-bottom:4px">Plaqueta adere ao colágeno via FvW/GpIb → <strong>ativação</strong> (muda de disco para estrela com pseudópodes)</div>
+    <div class="fdown">↓</div>
+    <div class="fn" style="margin-bottom:4px">Liberação de grânulos contendo <strong>ADP</strong> e <strong>TXA₂</strong> → amplificam ativação para plaquetas vizinhas</div>
+    <div class="fdown">↓</div>
+    <div class="fn hl" style="margin-bottom:4px">ADP + TXA₂ induzem mudança conformacional no <strong>GpIIb-IIIa</strong> → passa a reconhecer fibrinogênio</div>
+    <div class="fdown">↓</div>
+    <div class="fn amber">Fibrinogênio forma <strong>pontes entre GpIIb-IIIa</strong> de plaquetas adjacentes → <strong>tampão plaquetário</strong></div>
+  </div>
+</div>
+
+<p>ADP e TXA₂ são os "mensageiros do alarme" que recrutam mais plaquetas. É exatamente por isso que o <strong>ácido acetilsalicílico (AAS)</strong> — que inibe a COX-1 e reduz TXA₂ — e o <strong>clopidogrel</strong> — que bloqueia o receptor de ADP P2Y₁₂ — funcionam como antiplaquetários. Esses mecanismos são aprofundados na seção <a class="cross-link" href="#antiplaquetarios">IV · Antiplaquetários</a>.</p>
+</section>
+
+<section id="endotelio">
+<h2>O endotélio — o regulador central do equilíbrio hemostático <a class="anc" href="#endotelio">#</a></h2>
+<p>O endotélio não é uma barreira passiva — é um órgão metabolicamente ativo que define continuamente o equilíbrio hemostático. O endotélio <em>íntegro</em> mantém o sangue fluido; quando <em>lesado ou ativado por inflamação</em>, reverte completamente seu perfil para pró-trombótico.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<div class="g2">
+  <div class="box">
+    <strong>Endotélio íntegro — antitrombótico</strong>
+    <p style="margin-top:8px;font-size:13px;color:var(--muted)"><em>Antiplaquetários:</em> prostaciclina (PGI₂) e óxido nítrico (NO) inibem agregação; ADPase degrada ADP circulante.</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Anticoagulantes:</em> moléculas heparina-like (inativam trombina), trombomodulina (ativa proteína C), TFPI.</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Fibrinolítico:</em> tPA dissolve fibrina nascente.</p>
+  </div>
+  <div class="box alerta">
+    <strong>Endotélio lesado — pró-trombótico</strong>
+    <p style="margin-top:8px;font-size:13px;color:var(--muted)"><em>Pró-plaquetário:</em> produz FvW → favorece adesão.</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Pró-coagulante:</em> expõe fator tecidual → ativa via extrínseca.</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Antifibrinolítico:</em> libera PAI → mantém a fibrina.</p>
+  </div>
+</div>
+
+<div class="box clinico">Lesão endotelial crônica — por hipertensão, dislipidemia, tabagismo ou inflamação sistêmica — desloca o equilíbrio permanentemente para o lado pró-trombótico, favorecendo trombos mesmo sem sangramento ativo. A inflamação crônica como fator de risco cardiovascular é abordada em <a class="cross-link" href="../imunologia/imunidade-inata.html#inflamacao">Imunologia M4 → Inflamação local</a>.<a href="#referencias" class="cite">[1,2]</a></div>
+</section>
+
+<section id="anticoagulacao">
+<h2>Anticoagulação fisiológica <a class="anc" href="#anticoagulacao">#</a></h2>
+<p>Três sistemas principais limitam a coagulação e impedem que qualquer pequeno estímulo evolua para trombose generalizada.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<h3>1. Antitrombina III (ATIII)</h3>
+<div class="kbox">
+  <div class="klabel">Mecanismo</div>
+  <p>Inibe a <strong>trombina (IIa)</strong> e os fatores <strong>IXa, Xa, XIa e XIIa</strong>. É ativada 1000× por moléculas heparina-like presentes no endotélio íntegro — base fisiológica da heparina farmacológica.<a href="#referencias" class="cite">[1,3]</a></p>
+</div>
+
+<h3>2. Proteínas C e S</h3>
+<div class="box mec">São <strong>vitamina K-dependentes</strong>. A proteína C, ativada pela trombomodulina (com proteína S como cofator), inativa os fatores <strong>Va e VIIIa</strong>, reduzindo drasticamente a geração de trombina. Deficiência hereditária de proteína C ou S causa trombofilia — risco elevado de TVP e embolia pulmonar.<a href="#referencias" class="cite">[1]</a></div>
+
+<h3>3. Trombomodulina, PGI₂ e NO</h3>
+<div class="box mec">A <strong>trombomodulina</strong> liga-se à trombina e <em>inverte sua função</em>: em vez de promover coagulação, a trombina ligada à trombomodulina ativa a proteína C — retroalimentação negativa elegante. <strong>PGI₂</strong> e <strong>NO</strong> inibem agregação plaquetária no endotélio íntegro.<a href="#referencias" class="cite">[1]</a></div>
+</section>
+
+<!-- ══ II · COAGULAÇÃO ══ -->
+<section id="cascata">
+<h2>Cascata de coagulação <a class="anc" href="#cascata">#</a></h2>
+<p>A cascata de coagulação é o mecanismo da hemostasia secundária — uma série de ativações proteolíticas em cadeia onde cada fator ativado ativa o próximo, gerando amplificação exponencial até a produção de fibrina. Ela pode ser iniciada por dois caminhos que convergem na <strong>ativação do fator X</strong>.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<div class="g2">
+  <div class="box">
+    <strong>Via extrínseca</strong>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Gatilho:</em> lesão vascular expõe o <strong>fator tecidual (FT)</strong> — presente em fibroblastos subendoteliais.</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Sequência:</em> FT + fator VII → VIIa → ativa fator X</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)">Via dominante <em>in vivo</em>. "Extrínseca" porque o gatilho vem de fora do sangue.</p>
+  </div>
+  <div class="box">
+    <strong>Via intrínseca</strong>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Gatilho:</em> contato do sangue com superfície de carga negativa (colágeno exposto).</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)"><em>Sequência:</em> XII → XI → IX + VIII (tenase) → ativa fator X</p>
+    <p style="margin-top:6px;font-size:13px;color:var(--muted)">"Intrínseca" porque todos os componentes já estão dentro do sangue.</p>
+  </div>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Via comum — convergência</div>
+  <p>Ambas as vias terminam na <strong>ativação do fator X</strong>.<br>
+  Xa + Va → complexo protrombinase → protrombina (II) → <strong>trombina (IIa)</strong><br>
+  Trombina → cliva fibrinogênio → monômeros de fibrina → polimerizados + estabilizados pelo fator XIIIa → <strong>coágulo de fibrina estável</strong>.<a href="#referencias" class="cite">[1]</a></p>
+</div>
+
+<div class="flow-wrap">
+  <div class="flow-label">Cascata simplificada</div>
+  <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+    <div style="flex:1;min-width:140px">
+      <div style="font-family:var(--font-ui);font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Via extrínseca</div>
+      <div class="fn" style="margin-bottom:4px;font-size:11px">FT + VII → VIIa</div>
+      <div class="fdown">↓</div>
+      <div class="fn amber" style="font-size:11px">→ Fator X</div>
+    </div>
+    <div style="flex:1;min-width:140px">
+      <div style="font-family:var(--font-ui);font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Via intrínseca</div>
+      <div class="fn" style="margin-bottom:4px;font-size:11px">XII → XI → IXa+VIIIa</div>
+      <div class="fdown">↓</div>
+      <div class="fn amber" style="font-size:11px">→ Fator X</div>
+    </div>
+    <div style="flex:1;min-width:140px">
+      <div style="font-family:var(--font-ui);font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Via comum</div>
+      <div class="fn hl" style="margin-bottom:4px;font-size:11px">Xa + Va → Protrombinase</div>
+      <div class="fdown">↓</div>
+      <div class="fn hl" style="margin-bottom:4px;font-size:11px">II → IIa (Trombina)</div>
+      <div class="fdown">↓</div>
+      <div class="fn hl" style="font-size:11px">Fibrinogênio → Fibrina</div>
+    </div>
+  </div>
+</div>
+
+<p>Os exames de coagulação mapeiam essas vias: o <strong>tempo de protrombina (TP)</strong> avalia a via extrínseca e comum; o <strong>tempo de tromboplastina parcial ativada (TTPa)</strong> avalia a via intrínseca e comum. Essa distinção é central para interpretar coagulopatias e monitorar anticoagulantes — a varfarina altera o TP; a heparina altera o TTPa. Esses fármacos são detalhados na seção <a class="cross-link" href="#anticoagulantes">IV · Anticoagulantes</a>.</p>
+</section>
+
+<section id="trombina">
+<h2>Papel central da trombina <a class="anc" href="#trombina">#</a></h2>
+<p>A trombina (fator IIa) é o efluente central da cascata — mas suas funções vão muito além de clivar fibrinogênio. É uma proteína multifuncional com efeitos pró- e anticoagulantes dependendo do contexto.<a href="#referencias" class="cite">[1]</a></p>
+
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Função da trombina</th><th>Efeito</th></tr></thead>
+  <tbody>
+    <tr><td>Cliva fibrinogênio</td><td>Gera monômeros de fibrina → coágulo</td></tr>
+    <tr><td>Ativa fator XIII</td><td>Estabiliza a malha de fibrina (crosslinks covalentes)</td></tr>
+    <tr><td>Ativa plaquetas</td><td>Amplifica a hemostasia primária via receptor PAR-1</td></tr>
+    <tr><td>Ativa fatores V e VIII</td><td>Retroalimentação positiva — amplifica a própria cascata</td></tr>
+    <tr><td>Liga-se à trombomodulina</td><td>Ativa proteína C → efeito anticoagulante (contexto de endotélio íntegro)</td></tr>
+  </tbody>
+  <caption>Tabela 3. Funções da trombina — o mesmo mediador tem efeitos opostos dependendo do contexto endotelial.</caption>
+</table></div>
+</section>
+
+<section id="fibrinolise">
+<h2>Fibrinólise — a dissolução controlada <a class="anc" href="#fibrinolise">#</a></h2>
+<p>Após o reparo tecidual, o coágulo de fibrina precisa ser removido para restaurar o fluxo vascular. A fibrinólise é o sistema que executa essa dissolução de forma controlada.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo central</div>
+  <p>O <strong>ativador do plasminogênio tecidual (tPA)</strong>, liberado pelo endotélio, converte o plasminogênio inativo em <strong>plasmina</strong> ativa. A plasmina cliva a fibrina em produtos de degradação (D-dímero é um desses produtos — biomarcador de trombose ativa). O inibidor PAI-1 bloqueia o tPA — quando PAI-1 predomina, a fibrina é mantida.<a href="#referencias" class="cite">[1]</a></p>
+</div>
+
+<p>O tPA farmacológico (alteplase, tenecteplase) usa exatamente esse mecanismo para dissolver trombos agudos — detalhado na seção <a class="cross-link" href="#fibrinoliticos">IV · Fibrinolíticos</a>.</p>
+</section>
+
+<section id="controle">
+<h2>Controle e regulação da coagulação <a class="anc" href="#controle">#</a></h2>
+<p>A coagulação é controlada por três mecanismos principais além dos já descritos na anticoagulação fisiológica: (1) diluição dos fatores ativados pelo fluxo sanguíneo; (2) depuração hepática dos fatores ativados; (3) retroalimentações negativas onde a própria trombina, em alta concentração, ativa a proteína C via trombomodulina — freando a cascata.<a href="#referencias" class="cite">[1]</a></p>
+</section>
+
+<!-- ══ III · TROMBOSE E EMBOLIA ══ -->
+<section id="virchow">
+<h2>Tríade de Virchow — os três pilares da trombose <a class="anc" href="#virchow">#</a></h2>
+<p>Rudolf Virchow (1856) identificou os três elementos que, individualmente ou em combinação, predispõem à trombose patológica. A tríade mantém plena validade clínica — é o framework que organiza o raciocínio sobre risco trombótico em qualquer contexto.</p>
+
+<div class="kbox">
+  <div class="klabel">Tríade de Virchow</div>
+  <p>1. <strong>Lesão endotelial</strong> — aterosclerose, hipertensão, tabagismo, inflamação, trauma cirúrgico<br>
+  2. <strong>Estase sanguínea</strong> — imobilização, insuficiência cardíaca, fibrilação atrial, obesidade<br>
+  3. <strong>Hipercoagulabilidade</strong> — trombofilias hereditárias (fator V de Leiden, deficiência de proteína C/S/ATIII), gestação, neoplasia, síndrome antifosfolipídeo<a href="#referencias" class="cite">[1,2]</a></p>
+</div>
+
+<div class="box clinico">A maioria dos eventos trombóticos clínicos envolve dois ou três elementos da tríade simultaneamente. Um paciente oncológico acamado pós-cirurgia tem os três fatores ativos — risco de TVP extremamente elevado, justificando profilaxia farmacológica.</div>
+
+<p>A lesão endotelial como elemento central da tríade conecta a trombose à inflamação sistêmica — as mesmas citocinas (IL-1β, TNF) que ativam o endotélio na resposta inflamatória induzem expressão de fator tecidual e supressão de trombomodulina. Esse mecanismo é detalhado em <a class="cross-link" href="../imunologia/moleculas-sistema-imune.html#citocinas">Imunologia M3 → Citocinas pró-inflamatórias</a>.</p>
+</section>
+
+<section id="tep">
+<h2>Tromboembolismo pulmonar (TEP) <a class="anc" href="#tep">#</a></h2>
+<p>O tromboembolismo pulmonar é definido como a obstrução de artérias pulmonares por êmbolos — na maioria dos casos, trombos originados em veias profundas dos membros inferiores (TVP) que se desprendem e migram pela circulação venosa até o pulmão.<a href="#referencias" class="cite">[1,2]</a></p>
+
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Gravidade do TEP</th><th>Achado</th><th>Conduta</th></tr></thead>
+  <tbody>
+    <tr><td>Maciço</td><td>Hipotensão + choque obstrutivo; disfunção de VD</td><td>Trombólise sistêmica (tPA) ou embolectomia cirúrgica</td></tr>
+    <tr><td>Submaciço</td><td>PA normal + disfunção de VD (ecocardiograma)</td><td>Anticoagulação plena; considerar trombólise</td></tr>
+    <tr><td>Baixo risco</td><td>PA normal + VD normal</td><td>Anticoagulação oral (preferir NOAC)</td></tr>
+  </tbody>
+  <caption>Tabela 4. Estratificação clínica do TEP e abordagem terapêutica inicial.</caption>
+</table></div>
+
+<p>O diagnóstico confirmatório padrão é a angiotomografia pulmonar (angio-TC). O <strong>D-dímero</strong> tem alto valor preditivo negativo — D-dímero normal exclui TEP em pacientes de baixa probabilidade clínica (escore de Wells ≤ 4).</p>
+</section>
+
+<section id="outros-embolos">
+<h2>Outros tipos de êmbolo <a class="anc" href="#outros-embolos">#</a></h2>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Tipo</th><th>Origem</th><th>Destino típico</th><th>Contexto clínico</th></tr></thead>
+  <tbody>
+    <tr><td>Gorduroso</td><td>Medula óssea (fratura de ossos longos)</td><td>Pulmão, cérebro</td><td>Trauma, cirurgia ortopédica</td></tr>
+    <tr><td>Gasoso</td><td>Ar (iatrôgenico ou mergulho)</td><td>Circulação arterial ou venosa</td><td>Doença descompressiva, cateter IV mal manuseado</td></tr>
+    <tr><td>Líquido amniótico</td><td>Líquido amniótico (parto)</td><td>Circulação pulmonar</td><td>Complicação obstétrica grave, alta mortalidade</td></tr>
+    <tr><td>Séptico</td><td>Vegetação de endocardite</td><td>Sistêmico (endocardite direita → pulmão)</td><td>Febre + embolia pulmonar séptica = endocardite até prova em contrário</td></tr>
+  </tbody>
+  <caption>Tabela 5. Tipos de êmbolo não trombóticos — origem, destino e contexto clínico.</caption>
+</table></div>
+</section>
+
+<!-- ══ IV · FARMACOLOGIA ══ -->
+<section id="antiplaquetarios">
+<h2>IV · Antiplaquetários <a class="anc" href="#antiplaquetarios">#</a></h2>
+<p>Antiplaquetários inibem a ativação ou agregação plaquetária — indicados principalmente em trombose arterial (SCA, AVC isquêmico, stents coronários), onde as plaquetas têm papel dominante pela alta velocidade de fluxo.<a href="#referencias" class="cite">[3]</a></p>
+
+<div class="box">
+  <div class="drug-name">Ácido acetilsalicílico (AAS) <span class="pill pill-vo">VO</span></div>
+  <div class="drug-brand">Aspirina®</div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> inibe irreversivelmente a COX-1 → reduz TXA₂ → menor ativação e agregação plaquetária. O bloqueio é permanente — dura a vida da plaqueta (~10 dias). Dose antiplaquetária: 75–100 mg/dia.</p>
+  <p style="font-size:14px"><strong>Indicações:</strong> prevenção secundária de SCA, AVC isquêmico, doença arterial periférica. Associado ao clopidogrel na terapia antiplaquetária dupla (DAPT) pós-stent.</p>
+</div>
+
+<div class="box">
+  <div class="drug-name">Clopidogrel <span class="pill pill-vo">VO</span></div>
+  <div class="drug-brand">Plavix®</div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> <em>pró-fármaco</em> — necessita ativação hepática por CYP2C19. O metabólito ativo bloqueia irreversivelmente o receptor P2Y₁₂ do ADP → inibe a ativação plaquetária mediada por ADP.</p>
+  <p style="font-size:14px"><strong>Atenção:</strong> polimorfismos em CYP2C19 (metabolizadores lentos) reduzem a eficácia — alternativas como ticagrelor (inibidor direto de P2Y₁₂, reversível) são preferidas em SCA de alto risco.</p>
+</div>
+
+<div class="box">
+  <div class="drug-name">Abciximabe / Eptifibatida / Tirofibana <span class="pill pill-iv">IV</span></div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> bloqueiam o receptor GpIIb-IIIa diretamente → impedem a ligação do fibrinogênio → inibem agregação de forma potente. Usados em intervenção coronária percutânea (ICP) de alto risco.</p>
+</div>
+</section>
+
+<section id="anticoagulantes">
+<h2>Anticoagulantes <a class="anc" href="#anticoagulantes">#</a></h2>
+<p>Anticoagulantes inibem fatores da cascata de coagulação — indicados em trombose venosa (TVP, TEP, fibrilação atrial), onde o fibrinogênio e a trombina têm papel dominante no fluxo lento.<a href="#referencias" class="cite">[3]</a></p>
+
+<div class="box">
+  <div class="drug-name">Heparina não fracionada (HNF) <span class="pill pill-iv">IV</span> <span class="pill pill-sc">SC</span></div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> potencializa a antitrombina III 1000× → inibe trombina e fator Xa (e XIa, IXa). Efeito imediato — reversível com protamina. Monitorada pelo TTPa.</p>
+  <p style="font-size:14px"><strong>Complicação:** trombocitopenia induzida por heparina (TIH) — anticorpos contra complexo heparina-PF4 → ativação plaquetária paradoxal → trombose.</p>
+</div>
+
+<div class="box">
+  <div class="drug-name">Heparinas de baixo peso molecular (HBPM) <span class="pill pill-sc">SC</span></div>
+  <div class="drug-brand">Enoxaparina (Clexane®), Dalteparina</div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> inibem predominantemente o fator Xa (relação anti-Xa/anti-IIa maior que HNF). Biodisponibilidade previsível — dose fixa por peso, sem necessidade de monitoramento rotineiro.</p>
+</div>
+
+<div class="box">
+  <div class="drug-name">Varfarina <span class="pill pill-vo">VO</span></div>
+  <div class="drug-brand">Coumadin®</div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> antagonista da vitamina K → inibe a ativação dos fatores II, VII, IX e X (e proteínas C e S). Efeito tardio (3–5 dias). Monitorada pelo RNI (INR). Múltiplas interações alimentares e medicamentosas.</p>
+</div>
+
+<div class="box">
+  <div class="drug-name">Anticoagulantes orais diretos (NOACs) <span class="pill pill-vo">VO</span></div>
+  <div class="drug-brand">Rivaroxabana, Apixabana (anti-Xa) · Dabigatrana (anti-IIa)</div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> inibem diretamente o fator Xa (rivaroxabana, apixabana) ou a trombina (dabigatrana). Dose fixa, sem monitoramento rotineiro, menos interações que varfarina. Reversão: andexanet alfa (anti-Xa) ou idarucizumab (dabigatrana).</p>
+</div>
+</section>
+
+<section id="fibrinoliticos">
+<h2>Fibrinolíticos <a class="anc" href="#fibrinoliticos">#</a></h2>
+<p>Fibrinolíticos (trombolíticos) ativam o plasminogênio → plasmina → dissolução ativa do trombo. Indicados em situações onde a obstrução trombótica é imediatamente ameaçadora à vida ou órgão.<a href="#referencias" class="cite">[3]</a></p>
+
+<div class="box alerta">
+  <div class="drug-name">Alteplase (tPA recombinante) / Tenecteplase (TNK-tPA) <span class="pill pill-iv">IV</span></div>
+  <p style="margin-top:8px;font-size:14px"><strong>Mecanismo:</strong> ativam o plasminogênio preferenciamente na superfície da fibrina → lise do trombo.</p>
+  <p style="font-size:14px"><strong>Indicações:</strong> AVC isquêmico agudo (até 4,5h do início), TEP maciço, IAM (quando ICP não disponível em tempo hábil).</p>
+  <p style="font-size:14px"><strong>Contraindicações absolutas:</strong> sangramento ativo, AVC hemorrágico prévio, cirurgia ou trauma craniano recente (< 3 meses), neoplasia cerebral.</p>
+</div>
+</section>
+
+<!-- ══ CONEXÕES ══ -->
+<section id="conexoes">
+<h2>Conexões <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>Trombose e hemostasia → Imunologia M3 (Citocinas):</strong> citocinas pró-inflamatórias como IL-1β e TNF — introduzidas ao longo deste material como gatilhos de lesão endotelial — são os mesmos mediadores centrais da resposta inflamatória sistêmica. O mecanismo pelo qual ativam o endotélio e induzem expressão de fator tecidual é detalhado em <a class="cross-link" href="../imunologia/moleculas-sistema-imune.html#citocinas">Imunologia M3 → Citocinas</a>.</p>
+  <p><strong>Trombose e hemostasia → Imunologia M4 (Imunidade inata):</strong> a inflamação crônica como fator de risco cardiovascular conecta diretamente com os mecanismos de inflamação local e resolução abordados em <a class="cross-link" href="../imunologia/imunidade-inata.html#inflamacao">Imunologia M4 → Inflamação local</a>.</p>
+  <p><strong>Trombose e hemostasia → SRAA e Anti-hipertensivos:</strong> a hipertensão arterial causa lesão endotelial crônica — primeiro elemento da tríade de Virchow. A angiotensina II tem efeito pró-trombótico direto (estimula PAI-1 e fator tecidual). IECAs e BRAs reduzem esse risco ao bloquear a angiotensina II. Ver <a class="cross-link" href="../farmacologia/hipertensao_sraa_anti-hipertensivos.html">SRAA e Anti-hipertensivos</a>.</p>
+</div>
+</section>
+
+<!-- ══ DISCUSSÃO ══ -->
+<section id="discussao">
+<h2>Discussão <a class="anc" href="#discussao">#</a></h2>
+<p>A convergência entre todos os sistemas abordados neste material é a mesma lógica: equilíbrio dinâmico entre ativação e inibição. Hemostasia primária e secundária, coagulação e fibrinólise, pró-trombótico e antitrombótico — cada par representa um sistema de controle bidirecional onde o equilíbrio é o estado fisiológico e o desvio em qualquer direção é doença (trombose ou hemorragia).</p>
+<p>A tensão mais relevante está na farmacologia: qualquer anticoagulante eficaz é inerentemente hemorrágico. O benefício de reduzir trombose sempre vem ao custo de aumentar risco de sangramento — e esse balanço é individual, dependendo do risco basal de cada paciente. A introdução dos NOACs resolveu parcialmente o problema da varfarina (monitoramento, interações), mas não eliminou o dilema fundamental. A reversibilidade — andexanet alfa para anti-Xa, idarucizumab para dabigatrana — representa uma tentativa de separar eficácia anticoagulante de irreversibilidade hemorrágica.</p>
+<p>A implicação derivada mais importante é sistêmica: trombose não é uma doença vascular isolada — é uma manifestação de desequilíbrio que frequentemente tem origem inflamatória, metabólica ou neoplásica. Tratar o trombo sem tratar sua causa é controle sintomático. O paciente com TEP recorrente sem fator precipitante identificável tem neoplasia oculta até prova em contrário — a investigação oncológica é parte do protocolo de TEP idiopático.</p>
+</section>
+
+<!-- ══ LEITURAS ══ -->
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Robbins & Cotran — Patologia: Bases Patológicas das Doenças</div>
+    <div class="bm">Kumar, Abbas, Aster · Elsevier, 10ª ed. · Capítulos 4 e 11<br>Cobertura mecanística completa de hemostasia, trombose e embolia. Referência padrão para fisiopatologia de base.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Rang & Dale's Pharmacology <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="bm">Elsevier, 10ª ed. · Capítulos 24–25<br>Farmacologia de antiplaquetários, anticoagulantes e fibrinolíticos com mecanismo molecular e aplicação clínica.</div>
+  </div>
+</div>
+<p style="font-size:13px;color:var(--muted);margin-top:12px"><strong>Artigo:</strong> KONSTANTINIDES, S. V. et al. 2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism. <em>European Heart Journal</em>, v. 41, p. 543–603, 2020. DOI: <a href="https://doi.org/10.1093/eurheartj/ehz405" target="_blank" rel="noopener" style="color:var(--ac)">10.1093/eurheartj/ehz405</a></p>
+</section>
+
+<!-- ══ REFERÊNCIAS ══ -->
+<section id="referencias">
+<h2>Referências ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. <em>Robbins & Cotran Patologia: Bases Patológicas das Doenças</em>. 10. ed. Rio de Janeiro: Elsevier, 2021.</li>
+  <li>COTRAN, Ramzi S.; KUMAR, Vinay; COLLINS, Tucker. <em>Robbins — Patologia Estrutural e Funcional</em>. 9. ed. Rio de Janeiro: Guanabara Koogan, 2016.</li>
+  <li>RANG, Humphrey P. et al. <em>Rang & Dale's Pharmacology</em>. 10. ed. Edinburgh: Elsevier, 2023.</li>
+  <li>KONSTANTINIDES, S. V. et al. 2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism. <em>European Heart Journal</em>, v. 41, n. 4, p. 543–603, 2020. Disponível em: <a href="https://doi.org/10.1093/eurheartj/ehz405" target="_blank" rel="noopener">https://doi.org/10.1093/eurheartj/ehz405</a></li>
+</ol>
+</section>
+
+</div>
+</div>
+
+<!-- ══ MARGEM ══ -->
+<aside id="margin">
+  <div class="m-section">Conceitos-chave</div>
+  <div class="m-card"><div class="mt">Hemostasia</div><div class="md">Processo de parada do sangramento — plaquetas + coagulação + endotélio.</div></div>
+  <div class="m-card"><div class="mt">FvW</div><div class="md">Fator de von Willebrand — ponte entre colágeno e GpIb plaquetário em fluxo rápido.</div></div>
+  <div class="m-card"><div class="mt">Trombina (IIa)</div><div class="md">Efluente central da cascata — cliva fibrinogênio, ativa plaquetas e retroalimenta a cascata.</div></div>
+  <div class="m-card"><div class="mt">tPA</div><div class="md"><em>Tissue plasminogen activator</em> — converte plasminogênio em plasmina, iniciando a fibrinólise.</div></div>
+  <div class="m-card"><div class="mt">D-dímero</div><div class="md">Produto de degradação da fibrina — marcador de atividade fibrinolítica e trombose ativa.</div></div>
+
+  <div class="m-section" style="margin-top:20px">Ver também</div>
+  <div class="m-ref"><div class="mr-l">Conexão</div>SRAA e Anti-hipertensivos → HAS como lesão endotelial crônica</div>
+  <div class="m-ref"><div class="mr-l">Conexão</div>Imunologia M3 → Citocinas e lesão endotelial</div>
+  <div class="m-ref"><div class="mr-l">Conexão</div>Imunologia M4 → Inflamação e risco cardiovascular</div>
+
+  <div class="m-section" style="margin-top:20px">Exames-chave</div>
+  <div class="m-card"><div class="mt">TP / INR</div><div class="md">Avalia via extrínseca + comum. Monitora varfarina.</div></div>
+  <div class="m-card"><div class="mt">TTPa</div><div class="md">Avalia via intrínseca + comum. Monitora heparina.</div></div>
+  <div class="m-card"><div class="mt">D-dímero</div><div class="md">Alto VPN — normal exclui TEP em baixa probabilidade (Wells ≤ 4).</div></div>
+</aside>
+</div>
+
+<script>
+function toggleNav(){
+  const s=document.getElementById('sidebar');
+  s.classList.toggle('open');
+}
+const sections=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('#sidebar a.sl');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      links.forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
+      if(a)a.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+links.forEach(l=>{
+  l.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(l.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>

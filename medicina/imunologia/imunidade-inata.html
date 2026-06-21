@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 &mdash; Imunidade Inata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.phase-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px}
+.phase-card .pl{font-family:var(--font-ui);font-size:9px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.phase-card .pt{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.phase-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+@media(max-width:900px){#mob-bar{display:flex}#sidebar{display:none;position:fixed;z-index:40;height:100%;top:0}#sidebar.open{display:flex}#s-toggle{display:none}#content{padding:24px 20px 80px}.ck-grid,.phase-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{#sidebar,#mob-bar,#progress-bar,.anc{display:none}body{background:#fff;color:#000}#content{padding:0}.prose{max-width:100%}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M4 &mdash; Imunidade Inata</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776; Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <b>M4 &mdash; Imunidade Inata</b>
+      <span>Imunologia &middot; PUC &middot; 2026</span>
+      <a href="index.html">&larr; &Iacute;ndice de Imunologia</a>
+    </div>
+    <div class="s-group">Conte&uacute;do</div>
+    <a class="sl" href="#fundamentos">Fundamentos necess&aacute;rios</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#definicao">Defini&ccedil;&atilde;o e caracter&iacute;sticas</a>
+    <a class="sl" href="#barreiras">Barreiras f&iacute;sicas e qu&iacute;micas</a>
+    <a class="sl" href="#celulas-inatas">C&eacute;lulas da Imunidade Inata</a>
+    <a class="sl" href="#ilcs">ILCs</a>
+    <a class="sl" href="#fagocitose">Fagocitose e Burst Oxidativo</a>
+    <a class="sl" href="#inflamacao">Resposta Inflamat&oacute;ria Local</a>
+    <a class="sl" href="#sistemica">Resposta Sist&ecirc;mica de Fase Aguda</a>
+    <a class="sl" href="#antiviral">Defesa Antiviral Inata</a>
+    <a class="sl" href="#imunidade-treinada">Imunidade Inata Treinada</a>
+    <a class="sl" href="#ponte-adaptativa">Ponte para a Adaptativa</a>
+    <div class="s-group">Revis&atilde;o</div>
+    <a class="sl" href="#conexoes">Conex&otilde;es</a>
+    <a class="sl" href="#discussao">Discuss&atilde;o</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Refer&ecirc;ncias ABNT</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>M4 &mdash; Imunidade Inata</h1>
+  <p class="doc-meta">Imunologia &middot; Medicina &middot; PUC-PR &middot; 2026 &middot; Abbas cap. 2; Aula Reiche 2026</p>
+  <div class="doc-chips">
+    <span class="chip">&#9201; <b>~25 min</b> de leitura</span>
+    <span class="chip">&#128203; Pr&eacute;-requisitos: <b>c&eacute;lulas do SI, PRRs, citocinas</b></span>
+    <span class="chip">&#128279; Depende de: <b>M1, M2, M3</b></span>
+    <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente neutrop&ecirc;nico ap&oacute;s quimioterapia desenvolve febre de 38,8 &deg;C e sepse por <em>Pseudomonas aeruginosa</em> em 24 horas. Por que a aus&ecirc;ncia de apenas um tipo celular &mdash; o neutr&oacute;filo &mdash; &eacute; capaz de colapsar toda a defesa do hospedeiro contra bact&eacute;rias extracelulares, mesmo com macrófagos, complemento e barreiras epiteliais intactos?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de depend&ecirc;ncias</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este comp&ecirc;ndio usa</div>
+      <a class="dep-item" href="orgaos-linfoides.html">M1 &mdash; &Oacute;rg&atilde;os Linfoides</a>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 &mdash; C&eacute;lulas do SI</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html">M3 &mdash; Mol&eacute;culas do SI</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necess&aacute;rio</div>
+      <a class="dep-item" href="#">Fagoss&ocirc;mo e lisossomo (biologia celular)</a>
+      <a class="dep-item" href="#">Esp&eacute;cies reativas de oxig&ecirc;nio</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="sistema-complemento.html">M5 &mdash; Sistema Complemento</a>
+      <a class="dep-item" href="mhc-apresentacao-antigenica.html">M6 &mdash; MHC</a>
+      <a class="dep-item" href="resposta-a-patogenos.html">M9 &mdash; Resposta a Pat&oacute;genos</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos Necess&aacute;rios <a class="anc" href="#fundamentos">#</a></h2>
+<p>A imunidade inata integra mecanismos de M1, M2 e M3 numa resposta temporal. Os <strong>PRRs</strong> (TLRs, NLRs, RLRs, CLRs) e as <strong>citocinas</strong> (TNF, IL-1&beta;, IL-6, IFN-&gamma;) s&atilde;o os mecanismos moleculares &mdash; detalhados em <a class="cross-link" href="moleculas-sistema-imune.html">M3 &rarr; Mol&eacute;culas do SI</a>. As <strong>c&eacute;lulas efetoras</strong> (neutr&oacute;filos, macr&oacute;fagos, c&eacute;lulas NK, DCs, mastócitos) s&atilde;o descritas individualmente em <a class="cross-link" href="celulas-sistema-imune.html">M2 &rarr; C&eacute;lulas do SI</a>. A anatomia dos <strong>compartimentos imunes</strong> (tecido, linfonodo, circula&ccedil;&atilde;o) est&aacute; em <a class="cross-link" href="orgaos-linfoides.html">M1 &rarr; &Oacute;rg&atilde;os Linfoides</a>. Este m&oacute;dulo integra esses elementos numa resposta funcional temporal.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Tr&ecirc;s fases</div><div class="ckd">0&ndash;4h (barreiras e complemento), 4&ndash;96h (inata induzida), &gt;96h (ponte para adaptativa).</div></div>
+  <div class="ck-card"><div class="ckt">Burst oxidativo</div><div class="ckd">NADPH oxidase gera O&#8322;&bull;&macr; &rarr; H&#8322;O&#8322; &rarr; HOCl via mieloperoxidase. Defici&ecirc;ncia = DGC.</div></div>
+  <div class="ck-card"><div class="ckt">Missing self (NK)</div><div class="ckd">C&eacute;lulas sem MHC-I perdem sinal inibit&oacute;rio de KIRs &rarr; NK ativa &rarr; killing.</div></div>
+  <div class="ck-card"><div class="ckt">ILCs</div><div class="ckd">Lin&oacute;citos inatos sem TCR/BCR. ILC1/2/3 s&atilde;o an&aacute;logos de Th1/2/17.</div></div>
+  <div class="ck-card"><div class="ckt">Imunidade treinada</div><div class="ckd">Mem&oacute;ria epigen&eacute;tica de macr&oacute;fagos (H3K4me3) sem expans&atilde;o clonal.</div></div>
+  <div class="ck-card"><div class="ckt">DC madura</div><div class="ckd">A ponte: capta antígeno na periferia, migra ao linfonodo, instrui a resposta T com polariza&ccedil;&atilde;o por citocinas.</div></div>
+</div>
+</section>
+
+<section id="definicao">
+<h2>Defini&ccedil;&atilde;o e Caracter&iacute;sticas Fundamentais <a class="anc" href="#definicao">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  <strong>Elie Metchnikoff</strong> descreveu a fagocitose em 1882 ao observar larvas de estrela-do-mar ingerirem esp&iacute;nhos &mdash; primeiro relato de imunidade inata celular. <strong>Paul Ehrlich</strong> defendia que a imunidade era humoral (anticorpos); o debate Metchnikoff vs. Ehrlich durou d&eacute;cadas e foi resolvido apenas quando ficou claro que ambos estavam certos &mdash; e ambos receberam o Nobel em 1908. A formaliza&ccedil;&atilde;o da imunidade inata como sistema distinto da adaptativa foi feita por <strong>Charles Janeway</strong> em 1989, com a hip&oacute;tese dos PRRs e PAMPs.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p><strong>Imunidade inata</strong> &eacute; o conjunto de mecanismos de defesa pr&eacute;-formados, constitutivamente presentes antes de qualquer exposi&ccedil;&atilde;o antig&ecirc;nica, capazes de iniciar resposta protetora em minutos a horas. S&atilde;o codificados na linhagem germinativa, n&atilde;o requerem rearranjo g&ecirc;nico som&aacute;tico nem sele&ccedil;&atilde;o clonal e reconhecem padr&otilde;es moleculares conservados (PAMPs e DAMPs) por PRRs.</p>
+</div>
+<div class="phase-grid">
+  <div class="phase-card"><div class="pl">Fase 1</div><div class="pt">0&ndash;4 horas</div><p>Barreiras epiteliais, antimicrobianos pr&eacute;-formados (defensinas, lisozima), complemento espontâneo (via alternativa)</p></div>
+  <div class="phase-card"><div class="pl">Fase 2</div><div class="pt">4&ndash;96 horas</div><p>Inata induzida: ativa&ccedil;&atilde;o de macr&oacute;fagos e DCs via PRRs; recrutamento de neutr&oacute;filos; inflama&ccedil;&atilde;o local; fase aguda sist&ecirc;mica</p></div>
+  <div class="phase-card"><div class="pl">Fase 3</div><div class="pt">&gt; 96 horas</div><p>Ponte para adaptativa: DCs maduras migram para linfonodos; ativa&ccedil;&atilde;o de linf&oacute;citos T e B; expans&atilde;o clonal</p></div>
+</div>
+</section>
+
+<section id="barreiras">
+<h2>Barreiras F&iacute;sicas e Qu&iacute;micas &mdash; A Primeira Linha <a class="anc" href="#barreiras">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A fun&ccedil;&atilde;o antimicrobiana da pele foi sistematizada no s&eacute;culo XX. As defensinas foram identificadas nos anos 1980 por <strong>Robert Lehrer</strong> e <strong>Tomas Ganz</strong> em granul&oacute;citos humanos e, posteriormente, em c&eacute;lulas de Paneth do intestino delgado. As catelicidinas (LL-37) foram caracterizadas nos anos 1990. A descoberta de que c&eacute;lulas de Paneth secretam defensinas &alpha; em resposta a bact&eacute;rias via TLRs (Vaishnava et al., 2008) conectou imunidade inata, microbioma intestinal e barreira epitelial.
+</div>
+<p>A barreira epitelial &eacute; a primeira linha de defesa &mdash; antes de qualquer resposta celular ativa. A ruptura de qualquer barreira (trauma, queimadura, sonda urin&aacute;ria, cateter venoso) &eacute; a principal porta de entrada para infec&ccedil;&otilde;es oportunistas.</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Barreira</th><th>Mecanismo f&iacute;sico</th><th>Mecanismo qu&iacute;mico</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Pele</strong></td><td>Epit&eacute;lio escamoso estratificado queratinizado; descama&ccedil;&atilde;o cont&iacute;nua</td><td>pH &aacute;cido (~5,5); &aacute;cidos graxos sebc&aacute;eos antimicrobianos; microbioma competitivo</td></tr>
+    <tr><td><strong>Mucosa respirat&oacute;ria</strong></td><td>Escada mucociliar (muco trapping + clearance ciliar)</td><td>IgA secret&oacute;ria; lisozima e lactoferrina no muco; defensinas &beta;</td></tr>
+    <tr><td><strong>Trato GI</strong></td><td>Peristalse; muco com mucinas</td><td>pH g&aacute;strico &lt;2,0 (letal para maioria dos pat&oacute;genos); defensinas &alpha; de c&eacute;lulas de Paneth</td></tr>
+    <tr><td><strong>Trato urin&aacute;rio</strong></td><td>Fluxo urin&aacute;rio (lavagem); epit&eacute;lio de transi&ccedil;&atilde;o</td><td>pH &aacute;cido; catelicidinas; IgA</td></tr>
+  </tbody>
+  <caption>Tabela 1. Barreiras da imunidade inata: mecanismos f&iacute;sicos e qu&iacute;micos.</caption>
+</table></div>
+<div class="box info">
+  <strong>Defensinas:</strong> pept&iacute;deos cati&ocirc;nicos anf&iacute;filos que se inserem em membranas de carga negativa (bacteriana, f&uacute;ngica) formando poros transmembrana &rarr; lise osm&oacute;tica. <strong>Defensinas &alpha;</strong> (neutr&oacute;filos, c&eacute;lulas de Paneth). <strong>Defensinas &beta;</strong> (epit&eacute;lio de mucosas &mdash; indu&ccedil;&atilde;o por PAMPs via TLR). Catelicidina LL-37: antimicrobiana de amplo espectro e quimioatraente de neutr&oacute;filos.
+</div>
+</section>
+
+<section id="celulas-inatas">
+<h2>C&eacute;lulas da Imunidade Inata &mdash; Fun&ccedil;&otilde;es Integradas <a class="anc" href="#celulas-inatas">#</a></h2>
+<p>Os tipos celulares foram descritos individualmente em <a class="cross-link" href="celulas-sistema-imune.html">M2</a>. Aqui, o foco &eacute; como cada c&eacute;lula atua nas fases temporais da resposta inata. <strong>Macr&oacute;fagos teciduais residentes</strong> s&atilde;o os primeiros sensores via PRRs &rarr; produzem TNF-&alpha;, IL-1&beta;, IL-6, CXCL8 em minutos. <strong>Mast&oacute;citos</strong> secretam histamina e TNF pr&eacute;-formados em segundos, vasodilatando o leito capilar (explica calor e rubor). <strong>Neutr&oacute;filos</strong> chegam em 2&ndash;4 horas via CXCL8 &mdash; s&atilde;o os principais fagócitos da fase aguda (a aus&ecirc;ncia explica a vulnerabilidade na neutropenia). <strong>C&eacute;lulas dendrit&iacute;cas</strong> capturam ant&iacute;genos; quando ativadas por PAMPs, migram para linfonodos &mdash; s&atilde;o o elo entre inata e adaptativa.</p>
+</section>
+
+<section id="ilcs">
+<h2>ILCs &mdash; Linf&oacute;citos Inatos Sem Receptor Antig&ecirc;nico <a class="anc" href="#ilcs">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  As ILCs foram formalmente classificadas como fam&iacute;lia &uacute;nica em 2013 por <strong>Innate Lymphoid Cell Nomenclature Group</strong>, ap&oacute;s a descoberta das ILC2 em 2010 como c&eacute;lulas produtoras de IL-13 em resposta a IL-25 e IL-33. Antes, cada subpopula&ccedil;&atilde;o tinha nomes independentes (c&eacute;lulas NK, linf&oacute;citos indu-tores de tecido linfóide, c&eacute;lulas produtoras de IL-22). A unifica&ccedil;&atilde;o revelou o paralelismo estrutural com linf&oacute;citos T helper.
+</div>
+<div class="kbox">
+  <div class="klabel">ILCs &mdash; Defini&ccedil;&atilde;o e classificac&atilde;o</div>
+  <p><strong>ILCs</strong> (<em>Innate Lymphoid Cells</em>, c&eacute;lulas linfoides inatas) s&atilde;o c&eacute;lulas linfoides que <strong>n&atilde;o expressam receptor de ant&iacute;geno</strong> (sem BCR nem TCR) e s&atilde;o ativadas por citocinas do microambiente. S&atilde;o os an&aacute;logos inatos dos linf&oacute;citos T helper: ILC1 &harr; Th1 (IFN-&gamma; sob IL-12); ILC2 &harr; Th2 (IL-4, IL-5, IL-13 sob IL-25/IL-33); ILC3 &harr; Th17 (IL-17, IL-22 sob IL-23).</p>
+</div>
+<p>ILC2 s&atilde;o essenciais na defesa anti-helmintos e na asma. ILC3 s&atilde;o a principal fonte de IL-22 que mant&eacute;m a integridade da barreira intestinal &mdash; deple&ccedil;&atilde;o de ILC3 em camundongos germ-free resulta em colite grave. C&eacute;lulas NK (ILC cit&oacute;tox&iacute;ca) operam pelo princ&iacute;pio missing self e ser&atilde;o detalhadas na seção de defesa antiviral.</p>
+</section>
+
+<section id="fagocitose">
+<h2>Fagocitose e Burst Oxidativo <a class="anc" href="#fagocitose">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  <strong>Metchnikoff</strong> descreveu a fagocitose em 1882. O burst oxidativo foi identificado nos anos 1950&ndash;60 ao observar-se consumo elevado de O&#8322; em neutr&oacute;filos ativados. A NADPH oxidase foi purificada por <strong>Bernard Babior</strong> nos anos 1970&ndash;80. A Doen&ccedil;a Granulomatosa Cr&ocirc;nica (DGC) foi descrita clinicamente em 1957 como "linfadenite granulomatosa fatal da inf&acirc;ncia" &mdash; s&oacute; nos anos 1970&ndash;80 sua base gen&eacute;tica (muta&ccedil;&atilde;o em CYBB, gene da gp91-phox) e o papel da NADPH oxidase foram elucidados.
+</div>
+<div class="kbox">
+  <div class="klabel">Fagocitose &mdash; defini&ccedil;&atilde;o</div>
+  <p><strong>Fagocitose</strong> &eacute; o processo pelo qual c&eacute;lulas especializadas (neutr&oacute;filos, macr&oacute;fagos) internalizam part&iacute;culas &ge;0,5 &micro;m em uma ves&iacute;cula denominada fagossomo. Ocorre em etapas: reconhecimento (receptores Fc, CR1/CR3, PRRs) &rarr; internaliza&ccedil;&atilde;o (pseudópodes) &rarr; fus&atilde;o fagossomo-lisossomo &rarr; destrui&ccedil;&atilde;o intraluminal.</p>
+</div>
+<p>A destrui&ccedil;&atilde;o intraluminal usa mecanismos <strong>dependentes de O&#8322;</strong>: NADPH oxidase gera &acirc;nion superóxido (O&#8322;&bull;&macr;) &rarr; H&#8322;O&#8322; &rarr; &aacute;cido hipocloroso (HOCl) via mieloperoxidase. E mecanismos <strong>independentes de O&#8322;</strong>: defensinas, lisozima, elastase, acidifica&ccedil;&atilde;o a pH 4,5. Os neutr&oacute;filos tamb&eacute;m formam NETs (<em>neutrophil extracellular traps</em>, armadilhas extracelulares de neutr&oacute;filos) &mdash; redes de DNA com histonas e enzimas antimicrobianas que imobilizam e matam bact&eacute;rias extracelu-larmente.</p>
+<div class="box alerta">
+  <strong>Doen&ccedil;a Granulomatosa Cr&ocirc;nica (DGC):</strong> muta&ccedil;&atilde;o em componentes da NADPH oxidase (mais comum: gp91-phox ligada ao X) &rarr; neutr&oacute;filos n&atilde;o geram burst oxidativo &rarr; incapacidade de eliminar pat&oacute;genos catalase-positivos (<em>Staphylococcus aureus</em>, <em>Aspergillus</em>, <em>Serratia marcescens</em>). Forma&ccedil;&atilde;o de granulomas (tentativa de conten&ccedil;&atilde;o cr&ocirc;nica). Tratamento: interferon-&gamma; (ativa vias bactericidas alternativas) + profilaxia antif&uacute;ngica.
+</div>
+</section>
+
+<section id="inflamacao">
+<h2>Resposta Inflamat&oacute;ria Local <a class="anc" href="#inflamacao">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  Os quatro sinais cardinais da inflama&ccedil;&atilde;o (rubor, calor, tumor, dor) foram descritos por <strong>Aulo C&eacute;lso</strong> no s&eacute;culo I d.C. O quinto (perda de fun&ccedil;&atilde;o) foi adicionado por <strong>Rudolf Virchow</strong> no s&eacute;culo XIX. A base molecular &mdash; histamina, bradicinina, prostaglandinas &mdash; s&oacute; foi elucidada no s&eacute;culo XX. O conceito de <em>resolution of inflammation</em> como processo ativo (n&atilde;o passivo) emergiu com a descoberta das lipoxinas por <strong>Charles Serhan</strong> nos anos 1980.
+</div>
+<p>A sequ&ecirc;ncia &eacute;: (1) vasodilata&ccedil;&atilde;o arteriolar (histamina de mast&oacute;citos, PGI&#8322;) &rarr; aumento do fluxo; (2) aumento da permeabilidade vascular (histamina, leucotrienos, TNF) &rarr; exsudato rico em prote&iacute;nas; (3) express&atilde;o de mol&eacute;culas de ades&atilde;o no end&oacute;telio (ICAM-1, E-selectina, induzidas por TNF e IL-1); (4) migra&ccedil;&atilde;o de neutr&oacute;filos (rolamento &rarr; ativa&ccedil;&atilde;o por CXCL8 &rarr; ades&atilde;o firme &rarr; diapedese); (5) fagocitose e destrui&ccedil;&atilde;o no tecido.</p>
+<div class="kbox">
+  <div class="klabel">Resolu&ccedil;&atilde;o ativa da inflama&ccedil;&atilde;o</div>
+  <p>A resolu&ccedil;&atilde;o n&atilde;o &eacute; passiva &mdash; &eacute; um processo ativo mediado por <strong>lipoxinas</strong>, <strong>resolvinas</strong> e <strong>protectinas</strong> (derivados do AA, EPA e DHA via LOX). Esses mediadores inibem recrutamento adicional de neutr&oacute;filos, promovem apoptose de neutr&oacute;filos e estimulam <em>efferocytosis</em> (fagocitose de corpos apop-t&oacute;ticos por macr&oacute;fagos M2). Falha na resolu&ccedil;&atilde;o &rarr; inflama&ccedil;&atilde;o cr&ocirc;nica &rarr; dano tecidual progressivo.</p>
+</div>
+</section>
+
+<section id="sistemica">
+<h2>Resposta Sist&ecirc;mica de Fase Aguda <a class="anc" href="#sistemica">#</a></h2>
+<p>Quando a inflama&ccedil;&atilde;o local n&atilde;o cont&eacute;m o pat&oacute;geno, TNF-&alpha;, IL-1&beta; e IL-6 atingem a circula&ccedil;&atilde;o sist&ecirc;mica e desencadeiam: (1) <strong>febre</strong> &mdash; IL-1&beta; e TNF ativam s&iacute;ntese de PGE&#8322; no hip&oacute;talo anterior, elevando o ponto de ajuste t&eacute;rmico; (2) <strong>prote&iacute;nas de fase aguda positivas</strong> (PCR, fibrinog&ecirc;nio, C3, SAA &mdash; sob IL-6 no f&iacute;gado) e queda das negativas (albumina, transferrina); (3) <strong>leucocitose</strong> &mdash; IL-1 e CSF estimulam produ&ccedil;&atilde;o medular acelerada; (4) <strong>trombocitose reativa</strong> &mdash; IL-6 estimula trombopoe-tina.</p>
+<div class="box info">
+  <strong>Febre &eacute; protetora?</strong> Sim, com ressalvas: reduz taxa de replica&ccedil;&atilde;o de muitos pat&oacute;genos; potencializa citotoxicidade de c&eacute;lulas NK; aumenta efici&ecirc;ncia de DCs. Antit&eacute;rmico rotineiro em febre moderada (38&ndash;39 &deg;C) pode reduzir efic&aacute;cia imune &mdash; embora justificado em desconforto intenso ou risco de convuls&atilde;o febril em crian&ccedil;as.
+</div>
+</section>
+
+<section id="antiviral">
+<h2>Defesa Antiviral Inata <a class="anc" href="#antiviral">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  As c&eacute;lulas NK foram descobertas em 1975 independentemente por <strong>Rolf Kiessling</strong> (Suécia) e <strong>Ronald Herberman</strong> (EUA) como c&eacute;lulas capazes de matar tumores sem pr&eacute;-sensibiliza&ccedil;&atilde;o. O princ&iacute;pio &ldquo;missing self&rdquo; foi formulado por <strong>K&auml;re et al.</strong> em 1986 e refinado por <strong>Peter Ljunggren e Klas K&auml;re</strong> em 1990. Os KIRs (<em>Killer Immunoglobulin-like Receptors</em>) foram caracterizados nos anos 1990 como os receptores inibidores que reconhecem MHC-I.
+</div>
+<p>A defesa inata antiviral integra tr&ecirc;s componentes: (1) <strong>PRRs detectam RNA/DNA viral</strong> (TLR3, TLR7/8, TLR9 &mdash; endossomais; RIG-I, MDA5 &mdash; citoss&oacute;licos); (2) <strong>interferons tipo I</strong> (IFN-&alpha;/&beta;) &rarr; JAK-STAT &rarr; genes ISG &rarr; estado antiviral em c&eacute;lulas vizinhas; (3) <strong>c&eacute;lulas NK</strong> eliminam c&eacute;lulas infectadas que downregulam MHC-I.</p>
+<div class="kbox">
+  <div class="klabel">Princ&iacute;pio missing self (NK)</div>
+  <p>C&eacute;lulas NK operam por dois sinais opostos: <strong>receptores ativadores</strong> (NKG2D reconhece MICA/MICB &mdash; ligantes de estresse em c&eacute;lulas infectadas e tumorais) e <strong>receptores inibidores</strong> (KIRs reconhecem HLA classe I &mdash; MHC-I normal inibe NK). C&eacute;lula infectada que downregula MHC-I perde o sinal inibit&oacute;rio &rarr; sinal ativador predomina &rarr; NK libera granzima/perforina &rarr; ap&oacute;ptose da c&eacute;lula-alvo.</p>
+</div>
+</section>
+
+<section id="imunidade-treinada">
+<h2>Imunidade Inata Treinada <a class="anc" href="#imunidade-treinada">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O conceito de imunidade treinada foi proposto por <strong>Mihai Netea et al.</strong> em 2011 ap&oacute;s observar que macr&oacute;fagos expostos a &beta;-glucana (parede de <em>Candida albicans</em>) respondiam mais intensamente a est&iacute;mulos bacterianos subsequentes &mdash; um fen&ocirc;meno que parecia "mem&oacute;ria" sem expans&atilde;o clonal. A base epigen&eacute;tica (H3K4me3 em promotores de genes inflamat&oacute;rios) foi elucidada pelo mesmo grupo em 2016, e o papel do BCG na imunidade inata treinada em humanos tornou-se relevante durante a pandemia de COVID-19.
+</div>
+<div class="kbox">
+  <div class="klabel">Imunidade inata treinada</div>
+  <p>Macr&oacute;fagos e c&eacute;lulas NK podem adquirir <strong>mem&oacute;ria epigen&eacute;tica</strong> ap&oacute;s infec&ccedil;&atilde;o ou vacina&ccedil;&atilde;o (BCG, &beta;-glucana), respondendo mais intensamente a est&iacute;mulos subsequentes mesmo heterólogos. Mediada por modifica&ccedil;&otilde;es em histonas (H3K4me3, H3K27ac &mdash; marcas de cromatina ativa) sem altera&ccedil;&atilde;o de sequ&ecirc;ncia de DNA. N&atilde;o envolve expans&atilde;o clonal &mdash; n&atilde;o &eacute; "mem&oacute;ria imunol&oacute;gica" no sentido adaptativo, mas tem relev&acirc;ncia funcional.</p>
+</div>
+<p>Implica&ccedil;&atilde;o: a efic&aacute;cia da vacina BCG contra tuberculose pode ser parcialmente explicada por imunidade inata treinada, al&eacute;m da imunidade adaptativa antigen-espec&iacute;fica. Estudos durante COVID-19 sugeriram que paises com vacina&ccedil;&atilde;o universal por BCG tinham menores taxas de mortalidade &mdash; hip&oacute;tese atribu&iacute;da a este mecanismo (ainda em debate, sem confirma&ccedil;&atilde;o em ensaios controlados).</p>
+</section>
+
+<section id="ponte-adaptativa">
+<h2>A Ponte: Como a Inata Instrui a Adaptativa <a class="anc" href="#ponte-adaptativa">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O papel instrucional das DCs na ativa&ccedil;&atilde;o de linf&oacute;citos T foi demonstrado por <strong>Ralph Steinman</strong> (Nobel 2011) a partir de 1973. A descoberta de que DCs n&atilde;o apenas apresentam ant&iacute;genos mas instruem a polariza&ccedil;&atilde;o da resposta T (Th1 vs. Th2 vs. Th17) por citocinas transformou a compreens&atilde;o da imunidade. O conceito de &ldquo;sinal 2&rdquo; (co-estimula&ccedil;&atilde;o CD28-CD80/86) como obrigat&oacute;rio para ativa&ccedil;&atilde;o de c&eacute;lulas T foi formalizado por <strong>Jenkins e Schwartz</strong> nos anos 1980.
+</div>
+<p>As DCs s&atilde;o o elo entre inata e adaptativa. Ap&oacute;s capturar ant&iacute;genos no tecido, migram para linfonodos sob CCL19/CCL21. Na migra&ccedil;&atilde;o, maturam: upregulam MHC-II, CD80/CD86 (co-estimuladores) e produzem citocinas polarizantes (IL-12 &rarr; Th1; IL-4/TSLP &rarr; Th2; IL-6+TGF-&beta; &rarr; Th17; IL-10 &rarr; Treg).</p>
+<div class="box clinico">
+  <strong>Toler&acirc;ncia peri&eacute;rica por aus&ecirc;ncia de co-estimula&ccedil;&atilde;o:</strong> linf&oacute;cito T que recebe apenas sinal 1 (TCR&ndash;MHC/pept&iacute;deo) sem sinal 2 (CD28&ndash;CD80/86) entra em anergia &mdash; n&atilde;o em ativa&ccedil;&atilde;o. Auto-ant&iacute;genos s&atilde;o apresentados pelas DCs sem co-estimula&ccedil;&atilde;o (sem PAMPs) &rarr; tol&ecirc;rancia peri&eacute;rica. Esse mecanismo &eacute; a raz&atilde;o pela qual o SI n&atilde;o ataca pr&oacute;prio em condi&ccedil;&otilde;es normais &mdash; e por que infec&ccedil;&otilde;es podem &ldquo;quebrar&rdquo; tol&ecirc;rancia (adjuvantes ativam co-estimuladores mesmo para auto-ant&iacute;genos).
+</div>
+</section>
+
+<section id="conexoes">
+<h2>Conex&otilde;es com Outros M&oacute;dulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M4 &rarr; M3 (Mol&eacute;culas):</strong> este m&oacute;dulo integra em resposta funcional o que o M3 descreveu molecularmente. PRRs, citocinas, quimiocinas, mediadores lip&iacute;dicos e prote&iacute;nas de fase aguda s&atilde;o os mecanismos; a imunidade inata &eacute; o processo. Ver <a class="cross-link" href="moleculas-sistema-imune.html">M3 &rarr; Mol&eacute;culas do SI</a>.</p>
+  <p><strong>M4 &rarr; M5 (Complemento):</strong> o sistema complemento opera como efetor humoral da imunidade inata &mdash; opsoniza&ccedil;&atilde;o (C3b), recrutamento de neutr&oacute;filos (C5a), lise (MAC). A via alternativa e das lectinas s&atilde;o genuinamente inatas (n&atilde;o requerem anticorpos). Ver <a class="cross-link" href="sistema-complemento.html">M5 &rarr; Sistema Complemento</a>.</p>
+  <p><strong>M4 &rarr; M9 (Pat&oacute;genos):</strong> as evas&otilde;es de pat&oacute;genos &mdash; inibi&ccedil;&atilde;o da fus&atilde;o fagossomo-lisossomo por <em>M. tuberculosis</em>, escape de NETs por <em>Staphylococcus aureus</em>, bloqueio de IFN tipo I por v&iacute;rus &mdash; s&atilde;o contramedidas espec&iacute;ficas contra os mecanismos inatos aqui descritos. Ver <a class="cross-link" href="resposta-a-patogenos.html">M9 &rarr; Resposta a Pat&oacute;genos</a>.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discuss&atilde;o <a class="anc" href="#discussao">#</a></h2>
+<p>A converg&ecirc;ncia dos mecanismos inatos revela um princ&iacute;pio de economia evolutiva: o mesmo sinal de perigo (PAMP detectado por PRR) ativa simultaneamente defesa imediata (fagocitose), amplifica&ccedil;&atilde;o local (inflama&ccedil;&atilde;o, recrutamento), sinaliza&ccedil;&atilde;o sist&ecirc;mica (febre, fase aguda) e instru&ccedil;&atilde;o adaptativa (matura&ccedil;&atilde;o de DCs). Um evento de reconhecimento desencadeia quatro camadas em paralelo &mdash; n&atilde;o em s&eacute;rie.</p>
+<p>A tens&atilde;o central: a mesma maquinaria que protege em infec&ccedil;&atilde;o causa dano em inflamatórias cr&ocirc;nicas. TNF e IL-1&beta; s&atilde;o indispens&aacute;veis na sepse por Gram-negativo &mdash; mas causam dano articular em artrite reumatoide e coronariano em aterosclerose. O que muda n&atilde;o &eacute; o mecanismo, mas o alvo: sem pat&oacute;geno, a inata perpetua-se contra pr&oacute;prio ou antígenos ambientais.</p>
+<p>A implica&ccedil;&atilde;o derivada que o corpo n&atilde;o enunciou explicitamente: a distin&ccedil;&atilde;o "inata vs. adaptativa" &eacute; didaticamente &uacute;til mas biologicamente incompleta. As ILCs polarizam como Th1/2/17 sem TCR; a imunidade treinada &eacute; mem&oacute;ria sem expans&atilde;o clonal; as DCs instruem a adaptativa com especificidade de contexto. O sistema imune n&atilde;o tem dois bra&ccedil;os separados &mdash; tem um continuum de mecanismos com diferentes cin&eacute;ticas de ativa&ccedil;&atilde;o.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras Recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai &middot; Elsevier, 11&ordf; ed. &middot; Cap. 2<br>Cobertura completa da imunidade inata com papel instrucional para adaptativa. Inclui ILCs com maior profundidade que fontes mais antigas.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology</div>
+    <div class="bm">Murphy, Weaver &middot; Garland, 10&ordf; ed. &middot; Cap. 3<br>Excelente perspectiva evolutiva dos PRRs. Compara&ccedil;&atilde;o de PRRs de invertebrados e vertebrados. Melhor que Abbas para l&oacute;gica evolutiva.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Imunidade Inata Treinada (artigo seminal)</div>
+    <div class="bm">Netea et al. <em>Cell Host Microbe</em>, 2011. DOI: <a href="https://doi.org/10.1016/j.chom.2011.04.006" target="_blank" rel="noopener" style="color:var(--ac)">10.1016/j.chom.2011.04.006</a><br>Proposta original do conceito. Leitura curta (8 p&aacute;ginas), acesso aberto.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Rang &amp; Dale's Pharmacology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Ritter et al. &middot; Elsevier, 10&ordf; ed. &middot; Cap. 17<br>Anti-inflamat&oacute;rios e biol&oacute;gicos a partir dos mecanismos inatos. Excelente para integrar farmacologia com imunologia.</div>
+  </div>
+</div>
+</section>
+
+<section id="referencias">
+<h2>Refer&ecirc;ncias ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 11. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>NETEA, Mihai G. et al. Trained immunity: a memory for innate host defense. <em>Cell Host Microbe</em>, v. 9, n. 5, p. 355&ndash;361, 2011. DOI: <a href="https://doi.org/10.1016/j.chom.2011.04.006" target="_blank" rel="noopener">10.1016/j.chom.2011.04.006</a></li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Resposta imune inata</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 2026.</li>
+  <li>ROSA NETO, N. S.; CARVALHO, J. F. O uso de provas de atividade inflamat&oacute;ria em reumatologia. <em>Revista Brasileira de Reumatologia</em>, v. 49, n. 4, p. 413&ndash;430, 2009.</li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+<script>
+const sidebar=document.getElementById('sidebar');
+const bodyWrap=document.getElementById('body-wrap');
+const toggleBtn=document.getElementById('toggle-btn');
+if(sessionStorage.getItem('sidebar-collapsed')==='1'){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');toggleBtn.textContent='›'}
+toggleBtn.addEventListener('click',()=>{const c=sidebar.classList.toggle('collapsed');bodyWrap.classList.toggle('sidebar-collapsed',c);toggleBtn.textContent=c?'›':'‹';sessionStorage.setItem('sidebar-collapsed',c?'1':'0')});
+const pb=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('#sidebar a.sl');
+const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs1.observe(s));
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs2.observe(s));
+</script>
+</body>
+</html>

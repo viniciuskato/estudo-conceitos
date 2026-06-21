@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 3 — Moléculas do Sistema Imune</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0c09;--bg2:#17140f;--bg3:#201c15;--border:#3d3020;--text:#ddd5c0;--muted:#b09a78;--blue:#e0a04a;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 0 40px}
+#sidebar .logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--blue);padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
+#sidebar .logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+#sidebar .group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px}
+#sidebar a{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent}
+#sidebar a:hover{color:var(--text)}#sidebar a.active{color:var(--blue);border-left-color:var(--blue)}
+main{flex:1;padding:60px 80px 120px}.content{max-width:72ch;margin:0 auto}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--blue);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:48px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--blue);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+p{margin-bottom:1.1em}strong{color:var(--text);font-weight:600}em{font-style:italic;color:var(--muted)}
+a.cite{color:var(--blue);text-decoration:none;font-size:.85em;vertical-align:super}a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--blue);text-decoration:none;font-size:.82em;font-style:italic;border-bottom:1px dashed var(--blue);opacity:.85}a.cross-link:hover{opacity:1}
+.table-wrap{overflow-x:auto;margin:28px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.fund-card strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}.fund-card p{color:var(--muted);margin:0;line-height:1.6}
+.callout{background:var(--bg3);border-left:3px solid var(--blue);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--blue)}.callout-yellow{border-left-color:#d4a017}.callout-yellow strong{color:var(--blue)}
+.mol-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.mol-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
+.mol-card .mol-name{font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.mol-card p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}.book-card .book-meta{color:var(--muted);font-size:12px}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}ol.refs li a{color:var(--blue);text-decoration:none}ol.refs li a:hover{text-decoration:underline}
+@media(max-width:1024px){body{flex-direction:column}#sidebar{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;padding:12px 0 0;border-right:none;border-bottom:1px solid var(--border)}#sidebar .logo{border-bottom:none;margin-bottom:0;padding-bottom:8px}#sidebar .group-label{padding:8px 12px 4px}#sidebar a{padding:4px 12px}main{padding:32px 24px 80px}.mol-grid,.fund-grid,.book-grid{grid-template-columns:1fr}}
+@media print{#sidebar{display:none}body{display:block;background:#fff;color:#000}main{padding:0}h1,h2,h3{color:#000}.callout{background:#f5f5f5;border-color:#999;color:#000}table,th,td{border-color:#ccc;color:#000}th{background:#eee}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}.anchor{display:none}}
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="logo">Imunologia · Módulo 3<a href="index.html">← Índice de Imunologia</a></div>
+  <div class="group-label">Conteúdo</div>
+  <a href="#fundamentos-necessarios">Fundamentos necessários</a>
+  <a href="#visao-geral-mol">Visão geral</a>
+  <a href="#enzimas-granulos">Enzimas e grânulos</a>
+  <a href="#prrs">PRRs e PAMPs/DAMPs</a>
+  <a href="#tlrs">TLRs</a>
+  <a href="#nlrs-rlrs">NLRs e RLRs</a>
+  <a href="#citocinas">Citocinas</a>
+  <a href="#tnf">TNF-α</a>
+  <a href="#interleucinas">Interleucinas-chave</a>
+  <a href="#proteinas-fase-aguda">Proteínas de fase aguda</a>
+  <a href="#pcr">PCR</a>
+  <a href="#moleculas-adesao">Moléculas de adesão</a>
+  <a href="#quimiocinas">Quimiocinas</a>
+  <a href="#mmps">Metaloproteinases (MMPs)</a>
+  <a href="#mediadores-lipidicos">Mediadores lipídicos</a>
+  <div class="group-label">Revisão</div>
+  <a href="#conexoes">Conexões</a>
+  <a href="#discussao">Discussão</a>
+  <a href="#leituras">Leituras recomendadas</a>
+  <a href="#referencias">Referências ABNT</a>
+</nav>
+<main><div class="content">
+
+<h1>Módulo 3 — Moléculas do Sistema Imune</h1>
+<p class="doc-meta">Imunologia · PUC · 2026 · Abbas cap. 3–4 · Aula: Moléculas do Sistema Imune</p>
+
+<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<div class="fund-grid">
+  <div class="fund-card"><strong>Células produtoras</strong><p>Neutrófilos, macrófagos, células dendríticas e linfócitos são as principais fontes das moléculas estudadas neste módulo. Ver <a class="cross-link" href="celulas-sistema-imune.html#mieloides">Módulo 2 → Células mieloides</a>.</p></div>
+  <div class="fund-card"><strong>Sinalização intracelular</strong><p>A ligação de um ligante a um receptor de superfície ativa cascatas intracelulares (NF-κB, MAPK, JAK-STAT) que culminam na transcrição de genes de citocinas e mediadores inflamatórios. O receptor sozinho não é suficiente — a cascata é o mecanismo.</p></div>
+  <div class="fund-card"><strong>PAMP vs. DAMP</strong><p>PAMPs são padrões moleculares associados a patógenos — estruturas conservadas entre microrganismos (LPS, peptidoglicano, RNA dupla fita). DAMPs são padrões de dano — moléculas endógenas liberadas de células lesadas (HMGB1, ATP, ácido úrico, DNA mitocondrial).</p></div>
+  <div class="fund-card"><strong>Receptor vs. ligante</strong><p>Toda interação molecular do SI é receptor–ligante específica. A especificidade do receptor determina quais PAMPs ativa e quais sinais gera. Entender o par receptor–ligante é entender o mecanismo — não apenas o efeito.</p></div>
+</div>
+
+<h2 id="visao-geral-mol">Visão geral — o vocabulário molecular do sistema imune <a class="anchor" href="#visao-geral-mol">#</a></h2>
+<p>O sistema imune opera por comunicação molecular: células reconhecem sinais de perigo, secretam mediadores e respondem a mediadores de outras células. As moléculas deste módulo formam essa linguagem. Dividem-se em três grandes categorias funcionais: (1) <strong>moléculas de reconhecimento</strong> — detectam a presença de patógenos ou dano (PRRs, defensinas, lectinas); (2) <strong>moléculas de sinalização</strong> — comunicam entre células o estado de alerta ou resolução (citocinas, quimiocinas, mediadores lipídicos); (3) <strong>moléculas efetoras e de regulação</strong> — executam ou modulam a resposta (proteínas de fase aguda, moléculas de adesão, MMPs) <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+
+<h2 id="enzimas-granulos">Enzimas e conteúdo granular — armas pré-formadas <a class="anchor" href="#enzimas-granulos">#</a></h2>
+<p>A estratégia dos fagócitos é armazenar arsenais enzimáticos pré-formados em grânulos citoplasmáticos, prontos para fusão com o fagossomo sem necessidade de síntese. Os grânulos dos neutrófilos (ver <a class="cross-link" href="celulas-sistema-imune.html#neutrofilos">Módulo 2 → Neutrófilos</a>) contêm mieloperoxidase (produz ácido hipocloroso — o mesmo princípio ativo do cloro), elastase, colagenase, lisozima e defensinas. Os grânulos dos eosinófilos contêm peroxidase eosinofílica, proteína catiônica (ECP) e neurotoxina derivada de eosinófilos (EDN) — altamente tóxicas para helmintos e mucosas.</p>
+
+<h2 id="prrs">PRRs — Receptores de Reconhecimento de Padrão <a class="anchor" href="#prrs">#</a></h2>
+<p>Os receptores de reconhecimento de padrão (PRRs, <em>Pattern Recognition Receptors</em>) são definidos como proteínas da imunidade inata que reconhecem estruturas moleculares conservadas compartilhadas por grandes grupos de microrganismos — os PAMPs — e estruturas endógenas liberadas por células lesadas — os DAMPs. São a base do reconhecimento inato: amplamente expressos, codificados na linhagem germinativa (não requerem rearranjo), e capazes de resposta imediata <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+<div class="mol-grid">
+  <div class="mol-card"><div class="mol-name">TLRs (Toll-like receptors)</div><p>10 membros em humanos. Reconhecem LPS (TLR4), flagelina (TLR5), RNA dupla fita viral (TLR3), DNA bacteriano CpG (TLR9). Localizam-se na membrana plasmática (extracelular) ou endossômica (intracelular). Ativam NF-κB → citocinas pró-inflamatórias.</p></div>
+  <div class="mol-card"><div class="mol-name">NLRs (NOD-like receptors)</div><p>Citosólicos. NOD1 e NOD2 reconhecem peptidoglicano bacteriano intracelular. NLRP3 e outros NLRs formam o <strong>inflamassomo</strong> — complexo que ativa caspase-1 → IL-1β e IL-18 maduras.</p></div>
+  <div class="mol-card"><div class="mol-name">RLRs (RIG-I-like receptors)</div><p>Citosólicos. RIG-I e MDA5 detectam RNA viral citosólico (vírus de RNA). Ativam IRF3/IRF7 → interferons do tipo I (IFN-α, IFN-β) — resposta antiviral fundamental.</p></div>
+  <div class="mol-card"><div class="mol-name">CLRs (Lectinas tipo C)</div><p>Reconhecem carboidratos da parede fúngica (β-glucana, manana). Dectina-1 e DC-SIGN são exemplos. Essenciais na imunidade antifúngica — ativam resposta Th17.</p></div>
+</div>
+
+<h2 id="tlrs">TLRs — mecanismo e importância clínica <a class="anchor" href="#tlrs">#</a></h2>
+<p>Os TLRs (<em>Toll-like receptors</em>) são os PRRs mais estudados. O TLR4 é o receptor clássico do LPS (lipopolissacarídeo) das bactérias Gram-negativas — sua ativação desencadeia a cascata de NF-κB com produção de TNF-α, IL-1β e IL-6, responsáveis pelo quadro clínico da sepse. A superativação sistêmica do TLR4 pelo LPS em infecções graves produz tempestade de citocinas → síndrome de resposta inflamatória sistêmica (SIRS) → choque séptico.</p>
+<p>Os TLRs endossômicos (TLR3, TLR7, TLR8, TLR9) detectam ácidos nucleicos virais internalizados — estratégia que evita reconhecimento acidental de DNA/RNA próprios no citoplasma. Mutações em TLRs ou em suas vias de sinalização (MyD88) causam imunodeficiências primárias com suscetibilidade aumentada a infecções bacterianas específicas.</p>
+
+<h2 id="nlrs-rlrs">Inflamassomo, NLRs e interferons tipo I <a class="anchor" href="#nlrs-rlrs">#</a></h2>
+<p>O <strong>inflamassomo</strong> é um complexo proteico citoplasmático formado por NLRs (especialmente NLRP3), a proteína adaptadora ASC e a pró-caspase-1. É ativado por sinais de dano celular (cristais de urato monosódico na gota, cristais de colesterol na aterosclerose, ATP extracelular, toxinas bacterianas formadoras de poros). A ativação do inflamassomo cliva pró-IL-1β e pró-IL-18 em suas formas maduras e ativas, e induz <strong>piroptose</strong> — morte celular inflamatória com liberação do conteúdo citoplasmático.</p>
+<p>Os <strong>interferons do tipo I</strong> (IFN-α produzido por células dendríticas plasmacitoides; IFN-β produzido por células infectadas) são a resposta antiviral primordial: induzem estado antiviral nas células vizinhas (upregulação de genes ISG — <em>interferon-stimulated genes</em>), ativam células NK e promovem maturação de células dendríticas. Ver mecanismo completo em <a class="cross-link" href="resposta-a-patogenos.html#virus-mecanismos">Módulo 9 → Imunidade antiviral</a>.</p>
+
+<h2 id="citocinas">Citocinas — a linguagem entre as células <a class="anchor" href="#citocinas">#</a></h2>
+<p>Citocinas são definidas como proteínas regulatórias secretadas por células imunes (e não imunes) que modulam a função de outras células por ligação a receptores específicos. Atuam de forma <strong>autócrina</strong> (sobre a própria célula), <strong>parácrina</strong> (sobre células vizinhas) ou <strong>endócrina</strong> (sobre órgãos distantes). Não são antígeno-específicas — a mesma citocina pode ser produzida por múltiplos tipos celulares e atuar em múltiplos alvos (pleiotropia) <a class="cite" href="#referencias">(REICHE, 2026)</a>.</p>
+<p>O balanço entre citocinas pró-inflamatórias (IL-1β, TNF-α, IL-6, IL-12, IL-17, IL-23) e anti-inflamatórias (IL-10, TGF-β, IL-35) determina a intensidade e duração da resposta imune. Desequilíbrios cronicamente pró-inflamatórios causam dano tecidual autoimune; desequilíbrios cronicamente anti-inflamatórios causam imunossupressão e suscetibilidade infecciosa.</p>
+
+<h2 id="tnf">TNF-α — o mediador central da inflamação aguda <a class="anchor" href="#tnf">#</a></h2>
+<p>O fator de necrose tumoral alfa (TNF-α, ou simplesmente TNF) é produzido principalmente por macrófagos ativados em resposta a LPS via TLR4. É o mediador central do choque séptico e da inflamação aguda sistêmica. Suas ações biológicas incluem: ativação endotelial com upregulação de moléculas de adesão (aumento do recrutamento de leucócitos), indução de febre (via PGE₂ no hipotálamo), coagulação intravascular, e apoptose de células tumorais (daí o nome histórico). Em altas concentrações sistêmicas, provoca hipotensão grave e falência múltipla de órgãos — a síndrome do choque séptico.</p>
+<p>TNF é alvo de biológicos amplamente usados: anti-TNF (infliximabe, adalimumabe, etanercepte) tratam artrite reumatoide, doença de Crohn, psoríase e espondilite — doenças em que TNF está cronicamente elevado. O risco associado é a reativação de tuberculose latente — cujo controle depende de granulomas mantidos por TNF.</p>
+
+<h2 id="interleucinas">Interleucinas-chave e seus papéis na resposta imune <a class="anchor" href="#interleucinas">#</a></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Citocina</th><th>Principal fonte</th><th>Alvo e efeito</th><th>Relevância clínica</th></tr></thead>
+  <tbody>
+    <tr><td><strong>IL-1β</strong></td><td>Macrófagos, células dendríticas</td><td>Febre, ativação endotelial, síntese de proteínas de fase aguda</td><td>Gota (cristais ativam NLRP3); anacinra (anti-IL-1)</td></tr>
+    <tr><td><strong>IL-6</strong></td><td>Macrófagos, células endoteliais</td><td>Fígado → proteínas de fase aguda; diferenciação de plasmócitos; eixo Th17</td><td>COVID-19 grave; tocilizumabe (anti-IL-6R)</td></tr>
+    <tr><td><strong>IL-10</strong></td><td>Macrófagos M2, Tregs, LB regulatórios</td><td>Inibe produção de citocinas pró-inflamatórias; antiinflamatório sistêmico</td><td>Deficiência de IL-10 → DII grave em lactentes</td></tr>
+    <tr><td><strong>IL-12</strong></td><td>Macrófagos, células dendríticas</td><td>Diferenciação Th1; ativação de NK → IFN-γ</td><td>Deficiência → suscetibilidade a micobactérias</td></tr>
+    <tr><td><strong>IL-17</strong></td><td>Células Th17</td><td>Recrutamento de neutrófilos; defesa em mucosas contra fungos e bactérias extracelulares</td><td>Psoríase; ixequizumabe, secuquinumabe (anti-IL-17)</td></tr>
+    <tr><td><strong>IFN-γ</strong></td><td>Células Th1, NK, CD8⁺</td><td>Ativação clássica de macrófagos (M1); upregulação de MHC-I e II</td><td>Essencial para controle de micobactérias e Leishmania</td></tr>
+    <tr><td><strong>TGF-β</strong></td><td>Tregs, macrófagos M2</td><td>Diferenciação de Tregs e Th17 (dependendo do contexto de IL-6); supressão imune; fibrose</td><td>Fibrose pulmonar, cicatrização; imunossupressão tumoral</td></tr>
+  </tbody>
+  <caption>Tabela 3. Principais citocinas do sistema imune, suas fontes, alvos e relevância clínica.</caption>
+</table></div>
+
+<h2 id="proteinas-fase-aguda">Proteínas de fase aguda — biomarcadores de inflamação sistêmica <a class="anchor" href="#proteinas-fase-aguda">#</a></h2>
+<p>As proteínas de fase aguda são proteínas plasmáticas cuja concentração se altera significativamente (> 25%) em resposta à inflamação sistêmica, sob controle principalmente de IL-6 e IL-1β atuando no fígado. Dividem-se em positivas (aumentam) — PCR, fibrinogênio, C3, proteína sérica amiloide A, ferritina, ceruloplasmina, α₁-antitripsina — e negativas (diminuem) — albumina, transferrina, pré-albumina. A albumina diminui porque o fígado, sob estímulo de IL-6, prioriza síntese de proteínas de fase aguda positivas <a class="cite" href="#referencias">(REICHE, 2026)</a>.</p>
+
+<h2 id="pcr">PCR — proteína C reativa <a class="anchor" href="#pcr">#</a></h2>
+<p>A proteína C reativa (PCR) é uma pentraxina produzida pelo fígado em resposta a IL-6. É o principal biomarcador de inflamação aguda na prática clínica. A PCR opsoniza bactérias (liga-se a fosfocolina da parede bacteriana) e ativa o complemento via via clássica — funções que justificam sua existência além do papel biomarcador.</p>
+<div class="callout callout-yellow"><strong>PCR ultrassensível (PCR-us) e risco cardiovascular:</strong> valores de PCR entre 1–3 mg/L (inflamação subclínica crônica de baixo grau) correlacionam-se com risco aumentado de eventos cardiovasculares, independente do colesterol. PCR-us < 1 mg/L = baixo risco; 1–3 mg/L = risco intermediário; > 3 mg/L = alto risco. Não confundir com PCR de fase aguda (infecção), onde valores chegam a 100–400 mg/L.</div>
+
+<h2 id="moleculas-adesao">Moléculas de adesão — o trânsito celular <a class="anchor" href="#moleculas-adesao">#</a></h2>
+<p>A migração de leucócitos do sangue para os tecidos inflamados ocorre em etapas orquestradas por moléculas de adesão expressas no endotélio (ativado por TNF e IL-1) e nos leucócitos. O processo segue: (1) <strong>rolamento</strong> — mediado por selectinas (E-selectina e P-selectina no endotélio; L-selectina nos leucócitos); (2) <strong>ativação</strong> — quimiocinas apresentadas na superfície endotelial ativam integrinas; (3) <strong>adesão firme</strong> — integrinas ativadas (LFA-1, Mac-1) ligam-se a ICAM-1/2 no endotélio; (4) <strong>transmigração</strong> (diapedese) — o leucócito atravessa a parede vascular para o tecido.</p>
+<p>O natalizumabe (anticorpo anti-VLA-4/α₄-integrina) bloqueia a transmigração de linfócitos para o SNC — usado na esclerose múltipla. O efeito colateral é o risco de leucoencefalopatia multifocal progressiva (LMP) por reativação do vírus JC.</p>
+
+<h2 id="quimiocinas">Quimiocinas — os guias da migração <a class="anchor" href="#quimiocinas">#</a></h2>
+<p>Quimiocinas são citocinas quimioatraentes — pequenas proteínas (8–10 kDa) que criam gradientes de concentração guiando a migração direcional de leucócitos para sítios específicos. Dividem-se em subfamílias pela posição dos resíduos de cisteína: <strong>CC</strong> (CCL2/MCP-1 — recruta monócitos; CCL5/RANTES — recruta eosinófilos e linfócitos T de memória) e <strong>CXC</strong> (CXCL8/IL-8 — recruta neutrófilos; CXCL12/SDF-1 — retém células na medula óssea). O receptor CXCR4 (receptor de CXCL12) é co-receptor do HIV para entrada em linfócitos T CD4⁺ — alvo do maraviroque.</p>
+
+<h2 id="mmps">Metaloproteinases de Matriz (MMPs) <a class="anchor" href="#mmps">#</a></h2>
+<p>As MMPs são endopeptidases zinco-dependentes que degradam componentes da matriz extracelular (colágeno, fibronectina, laminina). Em baixa expressão, participam da remodelação tecidual fisiológica. Sob estímulo de IL-1β e TNF-α, são amplamente upreguladas em sítios inflamatórios — facilitam a transmigração de leucócitos e contribuem para dano tecidual em artrite, aterosclerose e câncer metastático. MMP-1 e MMP-13 degradam colágeno tipos I e III; MMP-9 é marcador de instabilidade de placa aterosclerótica.</p>
+
+<h2 id="mediadores-lipidicos">Mediadores lipídicos do ácido araquidônico <a class="anchor" href="#mediadores-lipidicos">#</a></h2>
+<p>Os mediadores lipídicos derivados do ácido araquidônico (AA) são a segunda linguagem química da inflamação, após as citocinas. O AA é liberado da membrana plasmática pela fosfolipase A₂ e metabolizado por duas vias principais: <strong>cicloxigenase (COX)</strong> → prostaglandinas e tromboxanos; <strong>lipoxigenase (LOX)</strong> → leucotrienos. Prostaglandinas (PGE₂, PGI₂) induzem vasodilatação, dor e febre. Tromboxano A₂ ativa plaquetas. Leucotrienos (LTB₄ — recruta neutrófilos; LTC₄, LTD₄ — broncoconstrição) são os mediadores centrais da asma. AINEs (aspirina, ibuprofeno) inibem COX, bloqueando prostaglandinas e tromboxanos. Corticoides inibem fosfolipase A₂, bloqueando toda a cascata.</p>
+
+<h2 id="conexoes">Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>Módulo 3 → Módulo 4 (Imunidade Inata):</strong> os PRRs estudados aqui são o mecanismo pelo qual a imunidade inata detecta patógenos. TLRs, NLRs e RLRs são os sensores; as citocinas e mediadores são a resposta. O Módulo 4 integra esses elementos na resposta inata completa. Ver <a class="cross-link" href="imunidade-inata.html#reconhecimento">Módulo 4 → Reconhecimento de padrões</a>.</p>
+  <p><strong>Módulo 3 → Módulo 5 (Complemento):</strong> a PCR ativa o complemento pela via clássica — conectando biomarcador inflamatório e sistema efetoral. A IL-6 que induz PCR é a mesma que regula C3 hepático. Ver <a class="cross-link" href="sistema-complemento.html#via-classica">Módulo 5 → Via clássica</a>.</p>
+  <p><strong>Módulo 3 → Módulo 8 (Linfócitos T):</strong> as citocinas IL-12, IL-4, IL-6+TGF-β, IL-23 são os sinais polarizantes que dirigem a diferenciação de linfócitos T CD4⁺ em Th1, Th2, Th17 e Treg. A compreensão dos mecanismos moleculares aqui é pré-requisito direto para o Módulo 8. Ver <a class="cross-link" href="linfocitos-t-diferenciacao.html#subtipos-th">Módulo 8 → Subtipos Th</a>.</p>
+</div>
+
+<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
+<p>A convergência entre os diferentes sistemas moleculares revela um princípio central: a inflamação é um estado de sinalização amplificada, não uma resposta de tudo-ou-nada. PRRs detectam o patógeno; citocinas e mediadores lipídicos amplificam o sinal localmente (parácrina) e sistemicamente (endócrina); moléculas de adesão e quimiocinas recrutam células efetoras; proteínas de fase aguda chegam ao sítio via circulação. Cada camada amplifica e refina a anterior.</p>
+<p>A tensão mais clinicamente relevante está entre a proteção e o dano. TNF, IL-1β e IL-6 são indispensáveis para controlar infecções bacterianas graves — sem elas, a sepse por si não é o problema, é a ausência de resposta. Mas em excesso, esses mesmos mediadores causam o choque séptico, síndrome de ativação macrofágica e síndrome de liberação de citocinas (observada com CAR-T cells e biológicos). A terapêutica moderna é, em essência, aprendendo a modular essa amplificação sem apagá-la.</p>
+<p>A implicação derivada é que as "doenças inflamatórias crônicas" — artrite reumatoide, doença de Crohn, psoríase, esclerose múltipla — são todos casos de falha na regulação de retorno negativo da cascata inflamatória. IL-10 e TGF-β existem precisamente para terminar a resposta; quando falham (geneticamente ou por microambiente), o estado pró-inflamatório perpetua-se com dano tecidual progressivo. Os biológicos anti-TNF, anti-IL-6R e anti-IL-17 são, em última análise, reguladores negativos exógenos substituindo a falha dos endógenos.</p>
+
+<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card"><div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed. · Capítulos 3–4<br>Capítulo 3 cobre reconhecimento inato com profundidade molecular. Capítulo 4 cobre citocinas com tabelas completas de fontes, receptores e funções.</div></div>
+  <div class="book-card"><div class="book-title">Janeway's Immunobiology</div><div class="book-meta">Murphy, Weaver · Garland, 10ª ed. · Capítulos 3–4<br>Melhor apresentação da lógica evolutiva dos PRRs e da diversidade de TLRs. Cobre inflamassomo com mais contexto histórico que o Abbas.</div></div>
+</div>
+<p style="font-size:14px;color:var(--muted)"><strong>Artigo:</strong> ROSA NETO, N. S.; CARVALHO, J. F. O uso de provas de atividade inflamatória em reumatologia. <em>Revista Brasileira de Reumatologia</em>, v. 49, n. 4, p. 413–430, 2009.</p>
+
+<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>DE ALCANTARA, C. C.; REICHE, E. M. V.; SIMÃO, A. N. C. Cytokines in psoriasis. <em>Advances in Clinical Chemistry</em>, v. 100, p. 171–204, 2021. DOI: <a href="https://doi.org/10.1016/bs.acc.2020.04.004" target="_blank" rel="noopener">10.1016/bs.acc.2020.04.004</a></li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Moléculas do sistema imune</em>. PUC-PR, Disciplina Agressão e Defesa, 2026.</li>
+  <li>ROSA NETO, N. S.; CARVALHO, J. F. O uso de provas de atividade inflamatória em reumatologia. <em>Revista Brasileira de Reumatologia</em>, v. 49, n. 4, p. 413–430, 2009.</li>
+</ol>
+
+</div></main>
+<script>
+const sections=document.querySelectorAll('h2[id],h3[id]');
+const links=document.querySelectorAll('#sidebar a[href^="#"]');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const id=entry.target.id;links.forEach(l=>l.classList.remove('active'));const active=document.querySelector('#sidebar a[href="#'+id+'"]');if(active)active.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+links.forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const target=document.querySelector(link.getAttribute('href'));if(target)target.scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>

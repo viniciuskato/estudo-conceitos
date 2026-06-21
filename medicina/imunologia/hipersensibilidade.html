@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M10 — Hipersensibilidade · Imunologia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+
+/* ── Progress bar ── */
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+
+/* ── Sidebar ── */
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);border-radius:4px;color:var(--muted);cursor:pointer;font-size:14px;padding:4px 8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;transition:color .15s}
+#toggle-btn:hover{color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 40px}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);padding:4px 20px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;letter-spacing:.05em;text-transform:uppercase;transition:opacity .2s}
+.s-logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+.s-group{margin-bottom:4px;transition:opacity .2s}
+.s-group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:12px 20px 5px}
+a.sl{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+a.sl:hover{color:var(--text)}
+a.sl.active{color:var(--ac);border-left-color:var(--ac)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+
+/* ── Content ── */
+#body-wrap{display:flex;flex:1}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* ── Typography ── */
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--ac);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:16px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border);transition:color .3s}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+section.in-view>h2{color:var(--ac)}
+p{margin-bottom:1.1em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+
+/* ── Links ── */
+a.cite{color:var(--ac);text-decoration:none;font-size:.85em;font-style:normal}
+a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+
+/* ── Histórico ── */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+/* ── Kbox ── */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* ── Conceitos-chave ── */
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0;line-height:1.5}
+
+/* ── Pergunta motivadora ── */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:28px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.pergunta p{margin:0;font-size:15px}
+
+/* ── Painel de dependências ── */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+
+/* ── Tabela ── */
+.table-wrap{overflow-x:auto;margin:24px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+
+/* ── Fundamentos grid ── */
+.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.fund-card strong{display:block;color:var(--text);margin-bottom:6px}
+.fund-card p{color:var(--muted);margin:0;line-height:1.6}
+
+/* ── Conexões ── */
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:8px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}
+.connections-box p:last-child{margin-bottom:0}
+
+/* ── Leituras ── */
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .book-meta{color:var(--muted);font-size:12px;line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+
+/* ── Referências ── */
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+ol.refs li a:hover{text-decoration:underline}
+
+/* ── Mobile ── */
+#mob-bar{display:none;position:sticky;top:0;z-index:50;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 16px;align-items:center;gap:12px}
+#mob-menu-btn{background:none;border:1px solid var(--border);border-radius:4px;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 8px}
+#mob-bar span{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;top:0;left:0;z-index:200;height:100vh;width:280px}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #mob-bar{display:flex}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  .fund-grid,.book-grid{grid-template-columns:1fr}
+  #body-wrap.sidebar-collapsed #content{padding:24px 20px 80px}
+}
+
+/* ── Print ── */
+@media print{
+  #sidebar,#mob-bar,#progress-bar,#s-toggle{display:none}
+  body{display:block;background:#fff;color:#000}
+  #content{padding:0}
+  h1,h2,h3{color:#000}
+  .hist,.kbox,.pergunta,.dep-panel,.connections-box{background:#f5f5f5;border-color:#ccc}
+  .chip,.badge-tem{border-color:#ccc}
+  a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}
+  .anchor{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- Mobile bar -->
+<div id="mob-bar">
+  <button id="mob-menu-btn">☰</button>
+  <span>M10 — Hipersensibilidade</span>
+</div>
+
+<div id="body-wrap">
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Colapsar sidebar">‹</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Imunologia · Módulo 10<a href="index.html">← Índice de Imunologia</a></div>
+
+    <div class="s-group">
+      <div class="s-group-label">Conteúdo</div>
+      <a class="sl" href="#fundamentos-necessarios">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#classificacao">Classificação de Gell-Coombs</a>
+      <a class="sl" href="#tipo-i">Tipo I — IgE e mastócitos</a>
+      <a class="sl" href="#sensibilizacao">Sensibilização e fase efetora</a>
+      <a class="sl" href="#anafilaxia">Anafilaxia sistêmica</a>
+      <a class="sl" href="#tipo-ii">Tipo II — Citotóxica</a>
+      <a class="sl" href="#tipo-iii">Tipo III — Imunocomplexos</a>
+      <a class="sl" href="#tipo-iv">Tipo IV — Hipersensibilidade tardia</a>
+      <a class="sl" href="#granuloma">Granuloma</a>
+      <a class="sl" href="#diagnostico">Diagnóstico</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-label">Revisão</div>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências ABNT</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Content -->
+<div id="content">
+<div class="prose">
+
+<!-- Cabeçalho -->
+<div class="doc-header">
+  <h1>Módulo 10 — Hipersensibilidade</h1>
+  <p class="doc-meta">Imunologia · Agressão e Defesa · PUC-PR · 2026 · Abbas cap. 20 · Aulas: Prof.ª Reiche</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~25 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>IgE, mastócitos, complemento, Th2</b></span>
+    <span class="chip">🔗 Depende de: <b>M3, M5, M7, M8</b></span>
+    <span class="chip">📍 Área: <b>Imunologia clínica</b></span>
+  </div>
+</div>
+
+<!-- Pergunta motivadora -->
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que um paciente que tolerou penicilina por anos pode entrar em choque anafilático na próxima dose — e por que outro desenvolve lúpus eritematoso sistêmico sem nunca ter tomado o medicamento? A mesma maquinaria imune que nos protege pode nos matar: o que determina quando a resposta imune vira contra nós?</p>
+</div>
+
+<!-- Painel de dependências -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="moleculas-sistema-imune.html">M3 — Moléculas (mediadores lipídicos)</a>
+      <a class="dep-item" href="sistema-complemento.html">M5 — Sistema Complemento</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html">M7 — Anticorpos e IgE</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html">M8 — Linfócitos T e Th2/Treg</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html#classes-ig">IgE e FcεRI (M7)</a>
+      <a class="dep-item" href="sistema-complemento.html#funcoes">Anafilatoxinas C3a/C5a (M5)</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html#th2">Polarização Th2 e IL-4 (M8)</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html#mediadores-lipidicos">Leucotrienos e prostaglandinas (M3)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="vacinas-imunidade-protetora.html">M11 — Vacinas (adjuvantes Th2)</a>
+    </div>
+  </div>
+</div>
+
+<!-- Fundamentos necessários -->
+<section id="fundamentos-necessarios">
+<h2>Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<div class="fund-grid">
+  <div class="fund-card"><strong>IgE e mastócitos</strong><p>IgE se liga com altíssima afinidade ao receptor FcεRI em mastócitos teciduais e basófilos circulantes. O crosslinking de duas IgE adjacentes por um alérgeno dispara degranulação. Mecanismo detalhado em <a class="cross-link" href="anticorpos-imunidade-humoral.html#classes-ig">M7 → Classes de Ig</a>.</p></div>
+  <div class="fund-card"><strong>Polarização Th2 e troca para IgE</strong><p>Microambiente epitelial rico em TSLP, IL-25 e IL-33 polariza células T naïve para Th2. IL-4 produzida por Th2 induz troca de isotipo de IgM/IgG para IgE no centro germinativo. Detalhes em <a class="cross-link" href="linfocitos-t-diferenciacao.html#th2">M8 → Subtipos Th</a>.</p></div>
+  <div class="fund-card"><strong>Anafilatoxinas do complemento</strong><p>C3a e C5a ativam mastócitos independentemente de IgE — importante mecanismo de amplificação em hipersensibilidade tipo III. Ver <a class="cross-link" href="sistema-complemento.html#funcoes">M5 → Funções biológicas</a>.</p></div>
+  <div class="fund-card"><strong>Mediadores lipídicos</strong><p>Leucotrienos (LTC₄, LTD₄ — broncoconstrição potente; síntese via 5-LOX) e prostaglandinas (vasodilatação, dor; síntese via COX) são mediadores de fase tardia liberados após degranulação. Mecanismo em <a class="cross-link" href="moleculas-sistema-imune.html#mediadores-lipidicos">M3 → Mediadores lipídicos</a>.</p></div>
+</div>
+</section>
+
+<!-- Conceitos-chave -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anchor" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Hipersensibilidade</div><p>Resposta imune que causa dano ao hospedeiro — por exagero, alvo errado ou persistência além do necessário.</p></div>
+  <div class="ck-card"><div class="ckt">Classificação Gell-Coombs</div><p>Quatro tipos mecanisticamente distintos: I (IgE), II (IgG contra superfície celular), III (imunocomplexos), IV (celular tardia).</p></div>
+  <div class="ck-card"><div class="ckt">Atopia</div><p>Predisposição genética a produzir IgE contra antígenos ambientais inócuos. Afeta ~20% da população industrializada.</p></div>
+  <div class="ck-card"><div class="ckt">Sensibilização</div><p>Primeiro contato com o alérgeno que gera IgE específica ligada a mastócitos — sem sintomas, mas cria "memória IgE".</p></div>
+  <div class="ck-card"><div class="ckt">Imunocomplexo (IC)</div><p>Complexo antígeno-anticorpo que, quando depositado em tecidos e não removido adequadamente, ativa complemento e recruta neutrófilos.</p></div>
+  <div class="ck-card"><div class="ckt">DTH</div><p><em>Delayed-Type Hypersensitivity</em> — hipersensibilidade tardia mediada por linfócitos T CD4⁺ Th1/Th17 com pico em 48–72h.</p></div>
+</div>
+</section>
+
+<!-- Classificação -->
+<section id="classificacao">
+<h2>Classificação de Gell-Coombs — a estrutura organizadora <a class="anchor" href="#classificacao">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1963</span>
+  Antes de 1963, "alergia" e "autoimunidade" eram categorias clínicas sem base mecanística unificada. Philip Gell e Robin Coombs — imunologistas britânicos que também desenvolveram o teste de Coombs para detecção de anticorpos anti-hemácias — propuseram uma taxonomia baseada no mecanismo efetor, não na apresentação clínica. A classificação em quatro tipos não foi recebida como evidente: levou décadas para ser adotada universalmente, e hoje é aceita como ponto de partida pedagógico, não como descrição completa — a maioria das doenças alérgicas e autoimunes envolve múltiplos tipos simultaneamente.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Hipersensibilidade é uma resposta imune adaptativa (ou inata amplificada) que produz dano tecidual desproporcional ao benefício protetor, seja por ativação excessiva, por direcionamento contra antígenos próprios ou inócuos, ou por falha na resolução da resposta.
+</div>
+
+<div class="table-wrap"><table>
+  <thead><tr><th>Tipo</th><th>Nome</th><th>Mediador principal</th><th>Tempo de resposta</th><th>Exemplos clínicos</th></tr></thead>
+  <tbody>
+    <tr><td><strong>I</strong></td><td>Anafilática / Imediata</td><td>IgE + mastócitos/basófilos</td><td>Minutos a 2h (fase tardia: 2–24h)</td><td>Anafilaxia, asma alérgica, rinite, urticária, alergia alimentar</td></tr>
+    <tr><td><strong>II</strong></td><td>Citotóxica mediada por anticorpo</td><td>IgG ou IgM + complemento / ADCC</td><td>Horas</td><td>DHRN, reação transfusional, Graves, miastenia gravis, pênfigo</td></tr>
+    <tr><td><strong>III</strong></td><td>Mediada por imunocomplexos</td><td>IC (IgG+Ag) + complemento → neutrófilos</td><td>6–18h</td><td>LES, nefrite lúpica, vasculite, doença do soro, artrite reumatoide</td></tr>
+    <tr><td><strong>IV</strong></td><td>Celular / Tardia (DTH)</td><td>LT CD4⁺ Th1/Th17 e CD8⁺</td><td>48–72h; granuloma: 21–28 dias</td><td>Dermatite de contato, PPD/Mantoux, granuloma (TB, hanseníase, silicose)</td></tr>
+  </tbody>
+  <caption>Tabela 10.1. Classificação de Gell-Coombs. Muitas doenças envolvem múltiplos tipos: LES combina principalmente III + II; asma grave combina I + IV.</caption>
+</table></div>
+</section>
+
+<!-- Tipo I -->
+<section id="tipo-i">
+<h2>Tipo I — Hipersensibilidade anafilática mediada por IgE <a class="anchor" href="#tipo-i">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1902–1967</span>
+  Em 1902, Charles Richet e Paul Portier injetaram toxina de anêmona-do-mar em cães previamente sensibilizados esperando induzir tolerância — e produziram morte em minutos. Chamaram o fenômeno de "anafilaxia" (do grego <em>ana</em>: contra + <em>phylaxis</em>: proteção), o oposto de profilaxia. Richet recebeu o Nobel de Fisiologia em 1913. O mecanismo por IgE só foi elucidado em 1967, quando Ishizaka e Ishizaka identificaram a imunoglobulina E como o anticorpo responsável. A IgE foi a última classe de imunoglobulina a ser descoberta — justamente por ser a menos abundante no soro (0,05 μg/mL vs 12.000 μg/mL de IgG).
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Hipersensibilidade tipo I: reação imune imediata mediada por IgE específica para o alérgeno, ligada a receptores FcεRI em mastócitos e basófilos. O crosslinking de duas moléculas de IgE adjacentes pelo alérgeno ativa a célula e dispara degranulação em segundos a minutos.
+</div>
+
+<p>A lógica evolucionária da IgE é a defesa contra helmintos — parasitos grandes demais para fagocitose. Mastócitos carregados de IgE anti-helminto na submucosa intestinal degranulam ao contato com o parasito, promovendo expulsão por hipermotilidade, muco e eosinofilia. Em populações com baixa exposição a helmintos, essa maquinaria é "redirecionada" a alérgenos inócuos — o que explica por que atopia é mais prevalente em países industrializados (hipótese da higiene, desenvolvida na Discussão).</p>
+
+<p>A <strong>atopia</strong> — predisposição genética a produzir respostas Th2 exageradas e IgE contra antígenos ambientais — envolve polimorfismos em genes como <em>IL4</em>, <em>IL13</em>, <em>FCER1A</em> (cadeia alfa do FcεRI) e <em>TSLP</em>. Indivíduos atópicos têm IgE sérica total elevada (normal: &lt;100 UI/mL; atópicos: centenas a milhares de UI/mL) e IgE específica mensurável contra múltiplos alérgenos.</p>
+</section>
+
+<!-- Sensibilização -->
+<section id="sensibilizacao">
+<h2>Sensibilização e fase efetora — dois contatos, dois momentos <a class="anchor" href="#sensibilizacao">#</a></h2>
+
+<p>A hipersensibilidade tipo I ocorre obrigatoriamente em duas fases temporalmente separadas — esse é o ponto mais importante para a clínica: a primeira exposição nunca causa sintomas.</p>
+
+<p><strong>Fase de sensibilização (primeiro contato):</strong> o alérgeno penetra pela mucosa respiratória, intestinal ou cutânea. Células epiteliais estressadas liberam alarmas — TSLP (<em>thymic stromal lymphopoietin</em>), IL-25 e IL-33 — que polarizam células dendríticas (DCs) locais para um fenótipo pró-Th2. As DCs migram para linfonodos regionais e apresentam peptídeos do alérgeno via MHC-II a células T CD4⁺ naïve, que se diferenciam em Th2 (fator de transcrição GATA-3). Th2 produz IL-4 e IL-13, que induzem troca de isotipo de IgM/IgG para IgE nos linfócitos B do centro germinativo. A IgE produzida circula no soro e se liga com alta afinidade (K<sub>d</sub> ≈ 10⁻¹⁰ M) ao FcεRI em mastócitos teciduais e basófilos circulantes. O indivíduo está agora "armado" — sem qualquer sintoma.</p>
+
+<p><strong>Fase efetora (segundo contato):</strong> na reexposição ao mesmo alérgeno, as moléculas do alérgeno se ligam simultaneamente a duas ou mais IgE adjacentes na superfície do mastócito (<em>crosslinking</em>). Isso ativa tirosina quinases (Lyn, Syk) associadas ao FcεRI → fosforilação em cascata → aumento de Ca²⁺ intracelular → degranulação em segundos.</p>
+
+<div class="table-wrap"><table>
+  <thead><tr><th>Fase</th><th>Mediadores</th><th>Origem</th><th>Efeitos</th><th>Tempo</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Imediata</strong></td><td>Histamina, triptase, heparina, TNF, PAF</td><td>Pré-formados em grânulos</td><td>Vasodilatação, edema, prurido, broncoespasmo imediato, hipotensão</td><td>Segundos a minutos</td></tr>
+    <tr><td><strong>Tardia</strong></td><td>LTC₄, LTD₄, LTE₄, PGD₂, IL-4, IL-5, IL-13</td><td>Síntese de novo (LOX/COX) + secreção de citocinas</td><td>Broncoconstrição sustentada, muco, recrutamento de eosinófilos, inflamação crônica</td><td>2–24h</td></tr>
+  </tbody>
+  <caption>Tabela 10.2. Fases da degranulação do mastócito.</caption>
+</table></div>
+
+<p>A <strong>histamina</strong> (vasodilatação via H1 em vasos, broncoconstrição via H1 em músculo liso brônquico, prurido via nervos cutâneos) explica os sintomas imediatos. Os <strong>leucotrienos</strong> — LTC₄ e LTD₄, antes chamados de "substância de reação lenta da anafilaxia" (SRS-A) — são 100–1000× mais potentes que a histamina na broncoconstrição e são os principais mediadores da asma alérgica crônica e da fase tardia. Montelucaste (antagonista de receptor de leucotrieno CysLT1) bloqueia especificamente essa fase.</p>
+</section>
+
+<!-- Anafilaxia -->
+<section id="anafilaxia">
+<h2>Anafilaxia sistêmica — emergência imunológica <a class="anchor" href="#anafilaxia">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto clínico</span>
+  A anafilaxia mata por colapso hemodinâmico e/ou obstrução de via aérea. As principais causas em adultos são fármacos (especialmente penicilina e AINEs), alimentos (amendoim, nozes, frutos do mar) e veneno de insetos (abelhas, vespas). A adrenalina (epinefrina) foi adotada como tratamento de primeira linha em 1913 — antes mesmo do mecanismo ser compreendido. Hoje sabemos que ela age em múltiplos receptores: α₁ (vasoconstrição), β₁ (aumento do débito cardíaco), β₂ (broncodilatação e inibição da degranulação via cAMP).
+</div>
+
+<p>Anafilaxia é a forma sistêmica e potencialmente fatal da hipersensibilidade tipo I. Ocorre quando o alérgeno entra pela via sistêmica (fármaco EV ou IM, alimento absorvido, veneno de inseto) e ativa mastócitos em múltiplos tecidos <em>simultaneamente</em>. A descarga maciça de histamina, PAF e leucotrienos produz:</p>
+
+<ul style="margin:12px 0 12px 1.4em;color:var(--text)">
+  <li><strong>Choque distributivo:</strong> vasodilatação sistêmica + extravasamento vascular → queda abrupta da pressão arterial</li>
+  <li><strong>Broncoespasmo:</strong> contração do músculo liso brônquico → hipoxia → potencialmente fatal</li>
+  <li><strong>Angioedema laríngeo:</strong> edema de glote → obstrução de via aérea superior</li>
+  <li><strong>Manifestações cutâneas:</strong> urticária generalizada, eritema, prurido</li>
+</ul>
+
+<div class="kbox">
+  <div class="klabel">Tratamento — primeira linha</div>
+  <strong>Epinefrina (adrenalina) IM</strong> — músculo vasto lateral da coxa, 0,3–0,5 mg (adulto). Não retardar. Age por: α₁ → vasoconstrição periférica (reverte hipotensão); β₁ → inotrópico positivo; β₂ → broncodilatação + inibição da degranulação de mastócitos via aumento de AMPc intracelular. Anti-histamínicos e corticoides são adjuvantes — não substituem a adrenalina na emergência.
+</div>
+</section>
+
+<!-- Tipo II -->
+<section id="tipo-ii">
+<h2>Tipo II — Hipersensibilidade citotóxica mediada por anticorpo <a class="anchor" href="#tipo-ii">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico</span>
+  O teste de Coombs — desenvolvido pelo próprio Robin Coombs em 1945 — foi criado especificamente para detectar anticorpos anti-hemácias responsáveis pela doença hemolítica do recém-nascido (DHRN). Coombs percebeu que anticorpos IgG incompletos (que não aglutinam diretamente as hemácias) podiam ser detectados com anti-IgG de origem animal — o que depois ficou conhecido como teste de Coombs indireto. O mecanismo imune da DHRN foi o primeiro exemplo clínico sistematicamente elucidado de hipersensibilidade tipo II.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Hipersensibilidade tipo II: dano tecidual mediado por anticorpos IgG ou IgM dirigidos contra antígenos de superfície celular ou da matrix extracelular. O dano ocorre por três mecanismos: (1) opsonização → fagocitose por macrófagos/neutrófilos via FcγR; (2) ativação do complemento → MAC + anafilatoxinas; (3) ADCC mediada por células NK via FcγRIII (CD16).
+</div>
+
+<p><strong>Doença hemolítica do recém-nascido (DHRN):</strong> mãe Rh⁻ sensibilizada por parto ou aborto anterior de feto Rh⁺ produz IgG anti-Rh(D). Na gestação seguinte, essa IgG atravessa a placenta via FcRn neonatal (único isotipo com transporte placentário ativo) e ataca hemácias Rh⁺ do feto → hemólise extravascular no baço fetal → anemia fetal, hepatoesplenomegalia, hidropsia, icterícia grave e kernicterus no neonato. A prevenção é com imunoglobulina Rh (anti-D) administrada à mãe Rh⁻ após cada evento de sensibilização potencial — os anticorpos passivos eliminam hemácias Rh⁺ fetais antes que induzam memória imune materna.</p>
+
+<p><strong>Reação transfusional hemolítica ABO:</strong> anticorpos naturais anti-A ou anti-B (IgM — não atravessam a placenta, mas ativam complemento eficientemente) no receptor atacam hemácias transfundidas incompatíveis → hemólise intravascular por MAC → febre, hemoglobinúria, hipotensão, coagulação intravascular disseminada (CID), insuficiência renal aguda. Diferente da DHRN (IgG, hemólise extravascular), a hemólise ABO é mediada por IgM e é intravascular — mais grave e de início mais rápido.</p>
+
+<p><strong>Variante "estimulatória"</strong> — o anticorpo não destrói mas mimetiza o ligante natural. <em>Doença de Graves:</em> IgG anti-receptor de TSH (TRAb) estimula continuamente os tireócitos → hipertireoidismo autônomo sem regulação pelo eixo hipotálamo-hipofisário. <em>Miastenia gravis:</em> IgG anti-receptor nicotínico de acetilcolina (AChR) bloqueia a transmissão neuromuscular e acelera endocitose e degradação do receptor → fraqueza muscular progressiva, crise miastênica.</p>
+</section>
+
+<!-- Tipo III -->
+<section id="tipo-iii">
+<h2>Tipo III — Hipersensibilidade por imunocomplexos <a class="anchor" href="#tipo-iii">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1905</span>
+  Clemens von Pirquet — pediatra vienense que cunhou o termo "alergia" em 1906 — descreveu em 1905 a "doença do soro": pacientes tratados com soro equino anti-diftérico desenvolviam, 7–10 dias depois, febre, rash, artralgia e nefrite. Von Pirquet reconheceu que a doença ocorria na fase de clearance dos anticorpos contra as proteínas equinas — quando antígeno e anticorpo estavam em quantidades equivalentes, favorecendo a formação de imunocomplexos. Isso estabeleceu o conceito de que a resposta imune protetora poderia, ao mesmo tempo, causar dano — a essência da hipersensibilidade.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Hipersensibilidade tipo III: dano tecidual causado pela deposição de imunocomplexos (IC) — agregados de antígeno + IgG/IgM — em tecidos, seguida de ativação local do complemento e recrutamento de neutrófilos que liberam enzimas lisossomais e espécies reativas de oxigênio (ERO) no tecido hospedeiro.
+</div>
+
+<p>Em condições fisiológicas, IC são eliminados eficientemente: C3b se deposita no IC → eritrócitos capturam via CR1 → transporte ao fígado e baço para degradação por macrófagos. Quando esse sistema é sobrecarregado (produção excessiva de IC, como em infecção crônica ou autoimunidade) ou deficiente (deficiência de complemento, saturação dos receptores), IC se depositam em sites de filtração de alta pressão: glomérulos renais, espaço articular, vasos cutâneos e pulmonares.</p>
+
+<p><strong>Lúpus eritematoso sistêmico (LES):</strong> autoanticorpos (anti-dsDNA, anti-histonas, anti-Sm) formam IC com material nuclear liberado por células apoptóticas → deposição glomerular → nefrite lúpica (principal causa de mortalidade no LES). Anti-dsDNA com baixa avidez → IC pequenos → penetram a membrana basal glomerular → nefrite proliferativa. A crise lúpica consome complemento: C3 e C4 séricos baixos são marcadores de atividade da doença. <strong>Paradoxo do complemento:</strong> deficiência de C1q, C2 ou C4 — em vez de proteger — predispõe ao LES. O mecanismo: complemento é necessário para o clearance de detritos apoptóticos (C1q se liga a células apoptóticas e facilita sua remoção por macrófagos). Sem complemento, corpos apoptóticos acumulam, expondo material nuclear que induz autoimunidade.</p>
+</section>
+
+<!-- Tipo IV -->
+<section id="tipo-iv">
+<h2>Tipo IV — Hipersensibilidade celular tardia (DTH) <a class="anchor" href="#tipo-iv">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1890</span>
+  Robert Koch observou em 1890 que pacientes com tuberculose ativa desenvolviam reação inflamatória localizada 48–72h após injeção intradérmica de tuberculina (extrato de M. tuberculosis) — enquanto indivíduos saudáveis não reatores não respondiam. Koch acreditou erroneamente que isso indicava proteção. Merrill Chase demonstrou em 1942 que essa reação era transferível apenas com linfócitos, não com soro — o primeiro experimento a mostrar que a imunidade poderia ser "celular" e não apenas humoral. Essa observação fundou a distinção entre imunidade humoral e celular, e a reação de Koch tornou-se o protótipo da DTH.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Hipersensibilidade tipo IV (DTH — delayed-type hypersensitivity): reação imune mediada por linfócitos T CD4⁺ Th1 e Th17 (e CTLs CD8⁺ em contextos específicos) que causa dano tecidual com pico em 48–72 horas após contato com o antígeno. É o único tipo de hipersensibilidade puramente celular — independe de anticorpos e complemento.
+</div>
+
+<p>O mecanismo central é a reativação de células T de memória Th1 e Th17 que reconhecem o antígeno apresentado por APCs locais. IFN-γ produzido por Th1 ativa macrófagos locais → aumento de ERO, óxido nítrico e citocinas pró-inflamatórias (TNF, IL-1β, IL-6) → dano tecidual e infiltrado de linfócitos e macrófagos. IL-17 de Th17 recruta neutrófilos.</p>
+
+<p><strong>Dermatite de contato alérgica:</strong> haptenos (moléculas pequenas que se tornam antigênicas ao conjugar-se a proteínas cutâneas) penetram a epiderme. Compostos clássicos: níquel (joias e fivelas), urushiol (hera venenosa, <em>Toxicodendron radicans</em>), resinas epóxi, fragrâncias, látex. Células de Langerhans (DCs epidérmicas) capturam o complexo hapteno-proteína, maturam e migram para linfonodos → ativação de células T Th1 específicas → na reexposição (48–72h depois), células T de memória reconhecem o complexo no tecido → IFN-γ → macrófagos ativados → eczema: eritema, vesículas, prurido intenso.</p>
+
+<p>O <strong>teste de contato</strong> (<em>patch test</em>) é o padrão diagnóstico: alérgenos suspeitos sob adesivo nas costas por 48–72h. A reação ao <strong>PPD</strong> usa o mesmo mecanismo: injeção intradérmica de tuberculina → em indivíduos previamente expostos, células T de memória anti-Mtb migram ao local → DTH → enduração ≥ 10mm = reator forte.</p>
+</section>
+
+<!-- Granuloma -->
+<section id="granuloma">
+<h2>Granuloma — a hipersensibilidade tipo IV crônica <a class="anchor" href="#granuloma">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto clínico</span>
+  A palavra "granuloma" (do latim granulum: grânulo pequeno) foi usada pela primeira vez por Rudolf Virchow em 1864 para descrever a estrutura histológica nodular da tuberculose. O papel central do TNF na manutenção do granuloma só foi revelado nas décadas de 1980–1990, quando biológicos anti-TNF usados em artrite reumatoide causaram reativação de tuberculose latente — revelando involuntariamente que o TNF era essencial para a contenção do bacilo.
+</div>
+
+<p>Quando o antígeno persiste sem ser eliminado — M. tuberculosis (que bloqueia fusão fagossomo-lisossomo via LAM), M. leprae, Histoplasma capsulatum, Paracoccidioides brasiliensis, sílica cristalina, amianto — a resposta Th1 sustentada organiza estrutura multicamadas:</p>
+
+<ul style="margin:12px 0 12px 1.4em;color:var(--text)">
+  <li><strong>Centro:</strong> macrófagos diferenciados em células epitelioides (ativados por IFN-γ, morfologia alterada, aderem entre si)</li>
+  <li><strong>Células gigantes multinucleadas:</strong> fusão de macrófagos que tentam englobar partículas não elimináveis</li>
+  <li><strong>Coroa linfocitária:</strong> células T CD4⁺ Th1 que mantêm ativação dos macrófagos via IFN-γ</li>
+  <li><strong>Fibrose periférica:</strong> TGF-β → fibroblastos → colágeno → cápsula</li>
+  <li><strong>Necrose caseosa</strong> (específica de TB): centro "queijoso" por ERO, proteases e apoptose de macrófagos sobrecarregados</li>
+</ul>
+
+<p>Na tuberculose pulmonar primária, ~90% dos infectados formam granuloma e mantêm TB latente por décadas. <strong>Colapso do granuloma</strong> = reativação: HIV (queda de CD4⁺ destrói coroa linfocitária), corticoides sistêmicos, anti-TNF.</p>
+
+<div class="kbox">
+  <div class="klabel">Anti-TNF e reativação de TB — mecanismo</div>
+  TNF é essencial para recrutar e reter macrófagos no granuloma e manter sua atividade microbicida. Biológicos anti-TNF (infliximabe, adalimumabe, etanercepte) — usados em artrite reumatoide, Crohn, espondilite — dissolvem granulomas existentes e liberam micobactérias previamente contidas. Triagem obrigatória com PPD ou IGRA e profilaxia com isoniazida antes de iniciar qualquer anti-TNF.
+</div>
+</section>
+
+<!-- Diagnóstico -->
+<section id="diagnostico">
+<h2>Diagnóstico das hipersensibilidades <a class="anchor" href="#diagnostico">#</a></h2>
+
+<div class="table-wrap"><table>
+  <thead><tr><th>Tipo</th><th>Teste diagnóstico</th><th>Princípio</th><th>Leitura</th></tr></thead>
+  <tbody>
+    <tr><td><strong>I</strong></td><td>Prick test (puntura)</td><td>Alérgeno escarificado ativa mastócitos locais → histamina → pápula</td><td>15–20 min; pápula ≥ 3mm = positivo</td></tr>
+    <tr><td><strong>I</strong></td><td>IgE específica sérica (ImmunoCAP)</td><td>Detecção quantitativa de IgE específica por alérgeno</td><td>Laboratorial; útil quando prick test é contraindicado</td></tr>
+    <tr><td><strong>II</strong></td><td>Coombs direto e indireto</td><td>Anti-IgG humana detecta IgG ligada à superfície de hemácias</td><td>Aglutinação = positivo</td></tr>
+    <tr><td><strong>II/III</strong></td><td>Autoanticorpos (ANA, anti-dsDNA, FR)</td><td>Detecção de anticorpos para antígenos próprios no soro</td><td>Titulação; ELISA ou imunofluorescência</td></tr>
+    <tr><td><strong>III</strong></td><td>Complemento sérico (C3, C4, CH50)</td><td>Consumo de complemento por IC → valores baixos na fase ativa</td><td>C3 e C4 ↓ = doença ativa (LES, nefrite lúpica)</td></tr>
+    <tr><td><strong>IV</strong></td><td>Patch test (contato)</td><td>Alérgenos sob adesivo nas costas → linfócitos T de memória → DTH local</td><td>48–72h; eritema + enduração = positivo</td></tr>
+    <tr><td><strong>IV</strong></td><td>Mantoux (PPD)</td><td>Injeção intradérmica de 0,1 mL PPD → DTH por células T anti-Mtb</td><td>48–72h; ≥ 10mm = reator forte; ≥ 5mm em imunossuprimidos</td></tr>
+    <tr><td><strong>IV</strong></td><td>IGRA (QuantiFERON, T-SPOT)</td><td>Sangue incubado com ESAT-6/CFP-10 → IFN-γ dosado</td><td>Laboratorial; mais específico que PPD (não sofre interferência do BCG)</td></tr>
+  </tbody>
+  <caption>Tabela 10.3. Testes diagnósticos por tipo de hipersensibilidade.</caption>
+</table></div>
+</section>
+
+<!-- Conexões -->
+<section id="conexoes">
+<h2>Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M10 → M3 (Mediadores lipídicos):</strong> leucotrienos LTC₄ e LTD₄ — sintetizados via 5-LOX após degranulação do mastócito — são os principais responsáveis pela broncoconstrição sustentada na asma alérgica. Montelucaste bloqueia CysLT1. Mecanismo completo em <a class="cross-link" href="moleculas-sistema-imune.html#mediadores-lipidicos">M3 → Mediadores lipídicos</a>.</p>
+  <p><strong>M10 → M5 (Complemento):</strong> a hipersensibilidade tipo III depende do complemento para o dano (C3a e C5a recrutam neutrófilos) e para o clearance normal de IC (C3b opsoniza IC para eritrócitos e macrófagos). O paradoxo — deficiência de complemento predispõe a doença por IC — está explicado em <a class="cross-link" href="sistema-complemento.html#funcoes">M5 → Funções do complemento</a>.</p>
+  <p><strong>M10 → M8 (Tregs e Th2):</strong> a relação Th2/Treg determina o desfecho em atopia. Defeitos em FoxP3 (síndrome IPEX) cursam com autoimunidade que inclui componentes de tipos II e IV. A dessensibilização alérgica (imunoterapia) age aumentando Tregs e desviando a resposta de Th2 para Th1/Treg. Ver <a class="cross-link" href="linfocitos-t-diferenciacao.html#treg">M8 → Tregs</a>.</p>
+  <p><strong>M10 → M9 (Resposta a patógenos):</strong> o granuloma — protótipo da hipersensibilidade tipo IV crônica — é também a estrutura pela qual o sistema imune contém micobactérias intracelulares. O espectro Th1 vs Th2 na hanseníase (tuberculoide vs virchowiana) ilustra que a resposta imune adequada contém o bacilo, mas a resposta inadequada o permite disseminar. Ver <a class="cross-link" href="resposta-a-patogenos.html#intracelulares">M9 → Patógenos intracelulares</a>.</p>
+</div>
+</section>
+
+<!-- Discussão -->
+<section id="discussao">
+<h2>Discussão <a class="anchor" href="#discussao">#</a></h2>
+
+<p>A convergência entre os quatro tipos de hipersensibilidade revela um princípio único: cada mecanismo é uma resposta imune protetora operando no contexto errado. IgE evoluiu para expulsar helmintos — a anafilaxia é esse mecanismo aplicado a amendoim. IgG opsonizante evoluiu para fagocitar bactérias — a reação transfusional hemolítica ABO é esse mecanismo aplicado a hemácias alogênicas. O granuloma evoluiu para conter mycobactérias — a silicose é esse mecanismo aplicado a cristais de sílica inorgânica. Hipersensibilidade não é falha do sistema imune — é o sistema imune funcionando corretamente em situações para as quais não evoluiu.</p>
+
+<p>A tensão mais clinicamente relevante é que tratar a hipersensibilidade frequentemente envolve suprimir exatamente o mecanismo que é protetor em outro contexto. Corticoides suprimem toda resposta inflamatória e aumentam risco de infecção oportunista. Anti-IgE (omalizumabe) reduz IgE total — e em populações com helmintíases, pode prejudicar a defesa anti-parasitária. Anti-IL-17 (secuquinumabe) trata psoríase e aumenta risco de candidíase mucocutânea. Anti-TNF trata artrite e Crohn e reativa tuberculose latente. O custo de cada biológico de hipersensibilidade é precisamente o que aquela molécula protege — o clínico deve perguntar não apenas "qual hipersensibilidade devo suprimir" mas "qual imunidade protetora estou comprometendo".</p>
+
+<p>A implicação derivada mais profunda é o paradoxo epidemiológico do século XX. A prevalência de atopia e doenças autoimunes aumentou 2–3× em países industrializados nas últimas cinco décadas — exatamente no período de melhor saneamento, menor helmintíase e maior uso de antibióticos. A <strong>hipótese da higiene</strong> <span class="cite"><a href="#referencias">(STRACHAN, 1989)</a></span> propõe que a redução de exposições microbianas na infância diminui a ativação de Tregs e respostas Th1 que normalmente suprimem o Th2 — resultando em desvio para atopia. A versão atual — <strong>hipótese dos "velhos amigos"</strong> <span class="cite"><a href="#referencias">(ROOK, 2013)</a></span> — é mais precisa: não é higiene em geral, mas a eliminação de microrganismos co-evolucionários (helmintos, <em>Mycobacterium vaccae</em>, <em>Lactobacillus</em> spp.) que o sistema imune usa como sinal de calibração. A implicação terapêutica — uso de helmintos atenuados ou probióticos imunoreguladores — está em ensaios clínicos para doença inflamatória intestinal e asma.</p>
+</section>
+
+<!-- Leituras -->
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed., 2022 · Capítulo 20<br>Cobertura dos quatro tipos com mecanismos moleculares completos. Base de todo este compêndio.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Rang &amp; Dale's Pharmacology <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="book-meta">Rang et al. · Elsevier, 10ª ed. · Caps. 26–27<br>Mecanismo de anti-histamínicos, corticoides, montelucaste, omalizumabe, anti-IL-17/IL-23, anti-TNF. Essencial para traduzir mecanismo imune em intervenção farmacológica.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Janeway's Immunobiology</div>
+    <div class="book-meta">Murphy, Weaver · Garland Science, 10ª ed., 2022 · Cap. 14–15<br>Abordagem clássica com ênfase nos mecanismos de tolerância central e periférica. Discussão do paradoxo complemento-LES particularmente clara.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Robbins &amp; Cotran Pathologic Basis of Disease</div>
+    <div class="book-meta">Kumar, Abbas, Aster · Elsevier, 10ª ed., 2020 · Cap. 5<br>Perspectiva anatomopatológica — histologia de granulomas, glomerulonefrite lúpica, vasculite por IC. Complementa o Abbas com "como isso aparece no tecido".</div>
+  </div>
+</div>
+</section>
+
+<!-- Referências -->
+<section id="referencias">
+<h2>Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Cellular and Molecular Immunology</em>. 11. ed. Philadelphia: Elsevier, 2022. Capítulo 20.</li>
+  <li>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. <em>Robbins &amp; Cotran Pathologic Basis of Disease</em>. 10. ed. Philadelphia: Elsevier, 2020. Capítulo 5.</li>
+  <li>MURPHY, Kenneth; WEAVER, Casey. <em>Janeway's Immunobiology</em>. 10. ed. New York: Garland Science, 2022. Capítulos 14–15.</li>
+  <li>RANG, Humphrey P. et al. <em>Rang &amp; Dale's Pharmacology</em>. 10. ed. Edinburgh: Elsevier, 2023.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Reações de Hipersensibilidade Tipo I</em>. PUC-PR, Disciplina Agressão e Defesa, 2026a.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Reações de Hipersensibilidade Tipos II, III e IV</em>. PUC-PR, Disciplina Agressão e Defesa, 2026b.</li>
+  <li>ROOK, Graham A. W. Regulation of the immune system by biodiversity from the natural environment: an ecosystem service essential to health. <em>Proceedings of the National Academy of Sciences</em>, v. 110, n. 46, p. 18360–18367, 2013. DOI: <a href="https://doi.org/10.1073/pnas.1313731110" target="_blank" rel="noopener">10.1073/pnas.1313731110</a></li>
+  <li>STRACHAN, David P. Hay fever, hygiene, and household size. <em>BMJ</em>, v. 299, p. 1259–1260, 1989. DOI: <a href="https://doi.org/10.1136/bmj.299.6710.1259" target="_blank" rel="noopener">10.1136/bmj.299.6710.1259</a></li>
+</ol>
+</section>
+
+</div><!-- .prose -->
+</div><!-- #content -->
+</div><!-- #body-wrap -->
+
+<script>
+(function(){
+  var pb=document.getElementById('progress-bar');
+  window.addEventListener('scroll',function(){
+    var st=document.documentElement.scrollTop||document.body.scrollTop;
+    var sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+    pb.style.width=(sh>0?st/sh*100:0)+'%';
+  },{passive:true});
+
+  var sidebar=document.getElementById('sidebar');
+  var bodyWrap=document.getElementById('body-wrap');
+  var btn=document.getElementById('toggle-btn');
+  var COLLAPSED='sidebar-collapsed';
+
+  function applyState(collapsed){
+    if(collapsed){
+      sidebar.classList.add('collapsed');
+      bodyWrap.classList.add(COLLAPSED);
+      btn.textContent='›';
+      btn.title='Expandir sidebar';
+    } else {
+      sidebar.classList.remove('collapsed');
+      bodyWrap.classList.remove(COLLAPSED);
+      btn.textContent='‹';
+      btn.title='Colapsar sidebar';
+    }
+  }
+
+  var stored=sessionStorage.getItem('sidebar-collapsed');
+  applyState(stored==='1');
+
+  btn.addEventListener('click',function(){
+    var nowCollapsed=sidebar.classList.contains('collapsed');
+    applyState(!nowCollapsed);
+    sessionStorage.setItem('sidebar-collapsed',nowCollapsed?'0':'1');
+  });
+
+  var mobBtn=document.getElementById('mob-menu-btn');
+  if(mobBtn){
+    mobBtn.addEventListener('click',function(){
+      sidebar.classList.toggle('open');
+    });
+    document.addEventListener('click',function(e){
+      if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==mobBtn){
+        sidebar.classList.remove('open');
+      }
+    });
+  }
+
+  var sections=document.querySelectorAll('section[id]');
+  var links=document.querySelectorAll('#sidebar a.sl[href^="#"]');
+
+  var sectionObserver=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        var id=entry.target.id;
+        links.forEach(function(l){l.classList.remove('active')});
+        var active=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
+        if(active)active.classList.add('active');
+      } else {
+        entry.target.classList.remove('in-view');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+
+  sections.forEach(function(s){sectionObserver.observe(s)});
+
+  links.forEach(function(link){
+    link.addEventListener('click',function(e){
+      e.preventDefault();
+      var target=document.querySelector(link.getAttribute('href'));
+      if(target)target.scrollIntoView({behavior:'smooth'});
+      if(window.innerWidth<=900)sidebar.classList.remove('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>
+   btn.title='Expandir sidebar';
+    } else {
+      sidebar.classList.remove('collapsed');
+      bodyWrap.classList.remove(COLLAPSED);
+      btn.textContent='‹';
+      btn.title='Colapsar sidebar';
+    }
+  }
+
+  var stored=sessionStorage.getItem('sidebar-collapsed');
+  applyState(stored==='1');
+
+  btn.addEventListener('click',function(){
+    var nowCollapsed=sidebar.classList.contains('collapsed');
+    applyState(!nowCollapsed);
+    sessionStorage.setItem('sidebar-collapsed',nowCollapsed?'0':'1');
+  });
+
+  // Mobile menu
+  var mobBtn=document.getElementById('mob-menu-btn');
+  if(mobBtn){
+    mobBtn.addEventListener('click',function(){
+      sidebar.classList.toggle('open');
+    });
+    document.addEventListener('click',function(e){
+      if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==mobBtn){
+        sidebar.classList.remove('open');
+      }
+    });
+  }
+
+  // Sidebar active link + section in-view highlight
+  var sections=document.querySelectorAll('section[id]');
+  var links=document.querySelectorAll('#sidebar a.sl[href^="#"]');
+
+  var sectionObserver=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        var id=entry.target.id;
+        links.forEach(function(l){l.classList.remove('active')});
+        var active=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
+        if(active)active.classList.add('active');
+      } else {
+        entry.target.classList.remove('in-view');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+
+  sections.forEach(function(s){sectionObserver.observe(s)});
+
+  // Smooth scroll
+  links.forEach(function(link){
+    link.addEventListener('click',function(e){
+      e.preventDefault();
+      var target=document.querySelector(link.getAttribute('href'));
+      if(target)target.scrollIntoView({behavior:'smooth'});
+      if(window.innerWidth<=900)sidebar.classList.remove('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>

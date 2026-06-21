@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Falha de Airbag — VW Nivus 2023 Highline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #0e0c09;
+    --bg2:    #17140f;
+    --bg3:    #201c15;
+    --border: #3d3020;
+    --text:   #ddd5c0;
+    --muted:  #b09a78;
+    --blue:   #e0a04a;
+    --font-body: 'Source Serif 4', Georgia, serif;
+    --font-ui:   'Inter', system-ui, sans-serif;
+    --sidebar-w: 260px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .layout { display: flex; flex: 1; }
+
+  /* ── SIDEBAR ── */
+  aside {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 28px 0 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    font-family: var(--font-ui);
+  }
+  aside::-webkit-scrollbar { width: 4px; }
+  aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .nav-group-title {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 20px 6px;
+  }
+  .nav-link {
+    display: block;
+    padding: 4px 20px 4px 24px;
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    line-height: 1.4;
+  }
+  .nav-link:hover { color: var(--text); background: var(--bg3); }
+  .nav-link.active {
+    color: var(--blue);
+    border-left-color: var(--blue);
+    background: rgba(224,160,74,0.07);
+    font-weight: 500;
+  }
+  .nav-link.sub { padding-left: 34px; font-size: 12px; }
+
+  /* ── MAIN ── */
+  main { flex: 1; padding: 56px 48px 96px; min-width: 0; }
+  .content { max-width: 72ch; margin: 0 auto; }
+
+  /* ── TIPOGRAFIA ── */
+  h1 {
+    font-family: var(--font-body);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  .subtitle { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin-bottom: 48px; }
+
+  h2 {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  h2 .anchor, h3 .anchor {
+    position: absolute;
+    left: -1.4rem;
+    color: var(--border);
+    font-weight: 400;
+    font-size: 0.9em;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  h2:hover .anchor, h3:hover .anchor { opacity: 1; }
+
+  h3 {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin: 2rem 0 0.6rem;
+    position: relative;
+  }
+
+  p { margin-bottom: 1rem; }
+  section { margin-bottom: 3rem; scroll-margin-top: 20px; }
+
+  /* ── BOXES ── */
+  .box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    font-size: 0.95rem;
+  }
+  .box.destaque { border-left: 3px solid var(--blue); }
+  .box.alerta   { border-left: 3px solid #c07840; background: #1a1208; }
+  .box.mec      { border-left: 3px solid var(--muted); }
+  .box.clinico  { border-left: 3px solid #7aaa8a; background: #0e1710; }
+  .box.recall   { border-left: 3px solid #c05050; background: #1a0e0e; }
+
+  /* ── FLOW ── */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 1.2rem 0; }
+  .flow-step { display: flex; align-items: flex-start; gap: 1rem; }
+  .flow-connector { display: flex; flex-direction: column; align-items: center; margin-left: 1rem; }
+  .flow-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--blue); flex-shrink: 0; margin-top: 0.5rem; }
+  .flow-line { width: 2px; flex: 1; min-height: 24px; background: linear-gradient(var(--blue), var(--border)); margin: 2px 0; }
+  .flow-content {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    margin-bottom: 4px;
+    flex: 1;
+    font-size: 0.93rem;
+  }
+
+  /* ── TABELA ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    margin: 1.2rem 0;
+    background: var(--bg2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  th {
+    background: var(--bg3);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── CAUSA GRID ── */
+  .causa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 1.2rem 0;
+  }
+  .causa-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .tag-causa {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .tag-eletrico { background: rgba(224,160,74,0.12); color: var(--blue); border: 1px solid rgba(224,160,74,0.3); }
+  .tag-mecanico { background: rgba(192,120,64,0.12); color: #c07840; border: 1px solid rgba(192,120,64,0.3); }
+  .tag-modulo   { background: rgba(176,152,120,0.12); color: var(--muted); border: 1px solid rgba(176,152,120,0.3); }
+  .tag-recall   { background: rgba(192,80,80,0.12); color: #c07878; border: 1px solid rgba(192,80,80,0.3); }
+  .causa-card h4 { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .causa-card p  { font-size: 0.85rem; color: var(--muted); margin: 0; font-family: var(--font-ui); }
+
+  /* ── DIAG STEPS ── */
+  .diag-steps { margin: 1.2rem 0; }
+  .diag-step { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+  .diag-num {
+    min-width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #0e0c09;
+    font-family: var(--font-ui);
+    font-weight: 700; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .diag-body { flex: 1; }
+  .diag-body strong { font-family: var(--font-ui); font-weight: 600; color: var(--text); display: block; margin-bottom: 3px; }
+  .diag-body p { font-size: 0.9rem; color: var(--muted); margin: 0; font-family: var(--font-ui); }
+
+  /* ── FUND GRID ── */
+  .fund-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1.2rem 0;
+  }
+  .fund-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .fund-card strong { display: block; font-family: var(--font-ui); font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+  .fund-card p { font-size: 0.85rem; color: var(--muted); margin: 0; font-family: var(--font-ui); }
+
+  /* ── FLUXOGRAMA SRS ── */
+  .flow-srs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 1.2rem 0; }
+  .flow-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .flow-box.sensor  { border-color: var(--blue); color: var(--blue); }
+  .flow-box.ecu     { border-color: var(--muted); color: var(--muted); }
+  .flow-box.output  { border-color: #7aaa8a; color: #7aaa8a; }
+  .flow-box.fault   { border-color: #c07878; color: #c07878; }
+  .flow-arrow-srs { color: var(--muted); font-size: 16px; }
+
+  /* ── CITE ── */
+  a.cite {
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 0.8em;
+    vertical-align: super;
+    line-height: 1;
+    font-family: var(--font-ui);
+    font-weight: 600;
+  }
+  a.cite:hover { color: var(--text); }
+
+  /* ── LEITURAS ── */
+  .leitura { margin-bottom: 1rem; }
+  .leitura-titulo { font-weight: 600; color: var(--text); }
+  .leitura-desc { font-size: 0.9rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── REFS ── */
+  .ref-list { font-family: var(--font-ui); font-size: 0.85rem; line-height: 1.7; }
+  .ref-list li { margin-bottom: 0.7rem; color: var(--muted); }
+  .ref-list a { color: var(--blue); text-decoration: none; }
+  .ref-list a:hover { text-decoration: underline; }
+
+  .sep { height: 1px; background: var(--border); margin: 2.5rem 0; opacity: 0.5; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #111; font-size: 11pt; }
+    aside { display: none; }
+    main { padding: 0; }
+    .content { max-width: 100%; }
+    h1, h2, h3 { color: #111; }
+    .box { border: 1px solid #ccc; background: #f9f9f9; }
+    table { font-size: 10pt; }
+    th { background: #eee; color: #333; }
+    a.cite { color: #333; }
+    .causa-card, .fund-card { border: 1px solid #ccc; }
+  }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 1024px) {
+    aside { display: none; }
+    .layout { display: block; }
+    main { padding: 32px 24px 64px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<aside>
+  <span class="nav-group-title">Conteúdo</span>
+  <a class="nav-link" href="#introducao">Por que a luz acende?</a>
+  <a class="nav-link" href="#sistema-srs">O sistema SRS</a>
+  <a class="nav-link sub" href="#componentes">↳ Componentes</a>
+  <a class="nav-link sub" href="#como-funciona">↳ Como funciona</a>
+  <a class="nav-link" href="#luz-painel">O que a luz indica</a>
+  <a class="nav-link" href="#causas">Causas da falha</a>
+  <a class="nav-link sub" href="#causa-fiacao">↳ Fiação e conectores</a>
+  <a class="nav-link sub" href="#causa-clockspring">↳ Clock spring</a>
+  <a class="nav-link sub" href="#causa-sensores">↳ Sensores de impacto</a>
+  <a class="nav-link sub" href="#causa-modulo">↳ Módulo J234</a>
+  <a class="nav-link sub" href="#causa-cinto">↳ Pretensionador</a>
+  <a class="nav-link sub" href="#causa-corrosao">↳ Corrosão / umidade</a>
+  <a class="nav-link" href="#recall">Recall oficial (2025)</a>
+  <a class="nav-link" href="#diagnostico">Diagnóstico passo a passo</a>
+
+  <span class="nav-group-title">Revisão</span>
+  <a class="nav-link" href="#fundamentos">Fundamentos necessários</a>
+  <a class="nav-link" href="#discussao">Discussão</a>
+  <a class="nav-link" href="#leituras">Leituras recomendadas</a>
+  <a class="nav-link" href="#referencias">Referências ABNT</a>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main>
+<div class="content">
+
+<h1>Falha de Airbag — VW Nivus 2023 Highline</h1>
+<p class="subtitle">Sistema de Retenção Suplementar (SRS) · Causas · Diagnóstico · Recall oficial</p>
+
+<!-- ══════════ INTRODUÇÃO ══════════ -->
+<section id="introducao">
+  <h2><a class="anchor" href="#introducao">#</a>Por que a luz acende?</h2>
+
+  <p>Antes de listar causas, é preciso entender o problema que o sistema resolve: o airbag é pirotécnico — uma vez ativado, não tem volta. O módulo de controle do sistema de retenção suplementar (SRS, do inglês <em>Supplemental Restraint System</em>) monitora continuamente todos os seus componentes para garantir que, numa colisão, tudo funcione em milissegundos. Se qualquer sinal sai do esperado — tensão baixa, resistência errada, circuito aberto — o módulo detecta a anomalia, registra um código de diagnóstico de falha (DTC, <em>Diagnostic Trouble Code</em>) e acende o símbolo de airbag no painel.<a href="#referencias" class="cite">(MYAIRBAGS, 2024)</a></p>
+
+  <div class="box recall">⚠ Com a luz acesa, o módulo SRS desabilita o disparo dos airbags para evitar acionamento acidental. Se ocorrer um impacto frontal enquanto a luz está ligada, os airbags <strong>não vão inflar</strong>.<a href="#referencias" class="cite">(REPAIRPAL, 2024)</a></div>
+
+  <p>No Nivus 2023 Highline em particular, a luz de falha de airbag apareceu em número expressivo de proprietários, e há causas específicas desse modelo, incluindo um recall oficial da Volkswagen do Brasil iniciado em setembro de 2025.<a href="#referencias" class="cite">(TERRA, 2025)</a></p>
+</section>
+
+<!-- ══════════ SISTEMA SRS ══════════ -->
+<section id="sistema-srs">
+  <h2><a class="anchor" href="#sistema-srs">#</a>O sistema SRS</h2>
+
+  <h3 id="componentes"><a class="anchor" href="#componentes">#</a>Componentes do sistema</h3>
+  <p>O SRS não é apenas o airbag em si — é uma rede de sensores, atuadores e um módulo central que precisam funcionar em conjunto.<a href="#referencias" class="cite">(MYAIRBAGS, 2024)</a></p>
+
+  <table>
+    <thead><tr><th>Componente</th><th>Função</th><th>Localização</th></tr></thead>
+    <tbody>
+      <tr><td>Módulo de controle SRS (J234)</td><td>Processa sinais dos sensores e decide quando disparar</td><td>Assoalho central, sob o console</td></tr>
+      <tr><td>Sensores de aceleração/impacto</td><td>Detectam desaceleração brusca indicativa de colisão</td><td>Frente do veículo + laterais</td></tr>
+      <tr><td>Airbag frontal do motorista</td><td>Protege rosto e tórax do motorista em impacto frontal</td><td>Volante</td></tr>
+      <tr><td>Airbag frontal do passageiro</td><td>Protege o passageiro dianteiro</td><td>Painel, lado do passageiro</td></tr>
+      <tr><td>Airbags de cortina</td><td>Protegem cabeça em impactos laterais e capotamento</td><td>Teto, sobre as portas</td></tr>
+      <tr><td>Clock spring (espiral elétrico)</td><td>Mantém conexão elétrica entre volante giratório e fiação fixa</td><td>Coluna de direção</td></tr>
+      <tr><td>Pretensionador do cinto</td><td>Retrai o cinto em milissegundos no impacto</td><td>Coluna B (montante lateral)</td></tr>
+      <tr><td>Chicote elétrico SRS</td><td>Interliga todos os componentes ao módulo J234</td><td>Por todo o habitáculo</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="como-funciona"><a class="anchor" href="#como-funciona">#</a>Como o sistema funciona — e por que falha</h3>
+  <p>Pense no módulo J234 como um controlador de qualidade que, a cada ciclo de ignição, testa a resistência elétrica de cada squib (detonador pirotécnico interno do airbag) e a integridade de cada conexão. O squib é essencialmente um pequeno resistor que, ao receber corrente suficiente, aquece e detona uma carga propelente que infla a bolsa. Se sua resistência cair abaixo ou subir acima da faixa esperada, o módulo interpreta isso como falha.<a href="#referencias" class="cite">(MYAIRBAGS, 2024)</a></p>
+
+  <div class="flow-srs">
+    <div class="flow-box sensor">Sensor de impacto</div>
+    <div class="flow-arrow-srs">→</div>
+    <div class="flow-box ecu">Módulo J234</div>
+    <div class="flow-arrow-srs">→</div>
+    <div class="flow-box output">Squib (detonador)</div>
+    <div class="flow-arrow-srs">→</div>
+    <div class="flow-box output">Bolsa infla (~30 ms)</div>
+  </div>
+  <p style="font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:6px;margin-bottom:1.2rem">Anomalia em qualquer elo → J234 registra DTC → luz acende + airbags desabilitados.</p>
+
+  <div class="box mec">Se A (sensor detecta desaceleração brusca) → então B (J234 avalia plausibilidade e amplitude do sinal) → portanto C (squib recebe corrente → propelente queima → N₂ infla a bolsa). Uma interrupção em qualquer ponto dessa cadeia gera alarme e desativa todo o sistema.<a href="#referencias" class="cite">(REPAIRPAL, 2024)</a></div>
+</section>
+
+<!-- ══════════ LUZ NO PAINEL ══════════ -->
+<section id="luz-painel">
+  <h2><a class="anchor" href="#luz-painel">#</a>O que a luz no painel indica</h2>
+
+  <table>
+    <thead><tr><th>Comportamento</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td>Acende por ~6 s na partida e apaga</td><td>Normal — autoteste do módulo SRS ao ligar o veículo</td></tr>
+      <tr><td>Acende e permanece acesa com o carro ligado</td><td>Falha ativa — DTC armazenado, airbags desativados</td></tr>
+      <tr><td>Pisca intermitentemente</td><td>Falha intermitente — comum em conectores soltos ou fiação com mau contato</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box alerta">⚡ A luz isolada não diz qual componente falhou. Apenas um scanner com acesso ao módulo SRS — não um leitor OBD-II genérico — consegue ler os DTCs específicos e apontar o circuito envolvido.<a href="#referencias" class="cite">(VW OF CLARKSVILLE, 2023)</a></div>
+</section>
+
+<!-- ══════════ CAUSAS ══════════ -->
+<section id="causas">
+  <h2><a class="anchor" href="#causas">#</a>Causas da falha no Nivus 2023 Highline</h2>
+
+  <div class="causa-grid">
+    <div class="causa-card">
+      <span class="tag-causa tag-eletrico">Elétrico</span>
+      <h4>Fiação e conectores soltos</h4>
+      <p>Chicote sob o banco do motorista é ponto crítico. Vibração afrouxam conectores, gerando leituras de resistência fora da faixa esperada.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-mecanico">Mecânico</span>
+      <h4>Clock spring defeituoso</h4>
+      <p>Espiral do volante garante continuidade elétrica durante as curvas. Quando desgastado, o J234 interpreta como circuito aberto.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-eletrico">Elétrico</span>
+      <h4>Sensor de impacto com falha</h4>
+      <p>Sensores frontais ou laterais podem enviar sinais inválidos por corrosão, dano físico ou defeito de fabricação.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-modulo">Módulo</span>
+      <h4>Módulo J234 com defeito</h4>
+      <p>Falha interna no módulo de controle SRS por corrosão de soldas, dano por surto de tensão ou defeito de fábrica.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-mecanico">Mecânico</span>
+      <h4>Pretensionador do cinto</h4>
+      <p>O squib do pretensionador é monitorado da mesma forma que o do airbag. Conector na coluna B gera o mesmo símbolo no painel.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-recall">Recall</span>
+      <h4>Airbag do passageiro incorreto</h4>
+      <p>Causa específica do Nivus 2023: airbag frontal do passageiro montado com componente incompatível durante a fabricação.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-eletrico">Elétrico</span>
+      <h4>Corrosão por umidade</h4>
+      <p>Entrada de água corrói pinos de conectores do SRS — comum em sensores de impacto na soleira e conectores próximos ao assoalho.</p>
+    </div>
+    <div class="causa-card">
+      <span class="tag-causa tag-modulo">Elétrico</span>
+      <h4>Bateria com tensão instável</h4>
+      <p>Quedas abaixo do mínimo operacional do J234 (≤9 V) geram DTCs transitórios que persistem mesmo após a tensão normalizar.</p>
+    </div>
+  </div>
+
+  <h3 id="causa-fiacao"><a class="anchor" href="#causa-fiacao">#</a>1. Fiação e conectores — a causa mais comum</h3>
+  <p>O chicote elétrico do SRS percorre todo o habitáculo do Nivus: da frente (sensores de impacto), passa pelo assoalho (conectores do banco e do módulo J234), sobe pelas colunas (pretensionadores) e chega ao teto (airbags de cortina). O ponto mais relatado em Nivus e modelos VW da mesma plataforma é o <strong>conector sob o banco do motorista</strong>. O banco desliza dezenas de vezes por dia; com o tempo, o chicote sofre microfletimentos que afrouxam o conector.<a href="#referencias" class="cite">(MYCARLY, 2024)</a></p>
+
+  <div class="box clinico">🔍 Deslizar o banco completamente para frente, verificar os conectores abaixo (pinos dobrados, oxidação, encaixe incompleto) e retravar resolve a falha em muitos casos. Sempre com a bateria desconectada por pelo menos 10 minutos antes de tocar em qualquer conector SRS.</div>
+
+  <h3 id="causa-clockspring"><a class="anchor" href="#causa-clockspring">#</a>2. Clock spring (espiral elétrico do volante)</h3>
+  <p>O clock spring é um carretel de fita condutora enrolada entre a coluna de direção e o cubo do volante. Permite que o volante gire livremente mantendo a continuidade elétrica do airbag do motorista, da buzina e dos controles multifuncionais. Quando a fita interna rompe por fadiga mecânica, o J234 detecta circuito aberto no squib e acende a luz.<a href="#referencias" class="cite">(MOTORCITYEURO, 2023)</a></p>
+
+  <h3 id="causa-sensores"><a class="anchor" href="#causa-sensores">#</a>3. Sensores de impacto</h3>
+  <p>O Nivus possui sensores de aceleração na estrutura frontal e nos montantes laterais. Um sensor com sinal fora dos limites calibrados — por corrosão interna, impacto físico ou defeito de fabricação — gera um DTC que aponta o sensor específico, facilitando a localização via scanner.<a href="#referencias" class="cite">(MYAIRBAGS, 2024)</a></p>
+
+  <h3 id="causa-modulo"><a class="anchor" href="#causa-modulo">#</a>4. Módulo de controle J234</h3>
+  <p>O próprio módulo pode falhar internamente. As causas mais comuns são corrosão de trilhas por umidade (o módulo fica no assoalho central, vulnerável a encharcamento) e dano por surto de tensão. Quando o J234 falha, pode registrar múltiplos DTCs sem correlação lógica, ou simplesmente não comunicar com o scanner.<a href="#referencias" class="cite">(VW OF CLARKSVILLE, 2023)</a></p>
+
+  <h3 id="causa-cinto"><a class="anchor" href="#causa-cinto">#</a>5. Pretensionador do cinto de segurança</h3>
+  <p>O pretensionador usa um squib idêntico ao do airbag. O J234 monitora a resistência desse squib da mesma forma. Portanto, um conector desencaixado na coluna B produz <strong>o mesmo símbolo de airbag no painel</strong>, mesmo que todos os airbags estejam íntegros.<a href="#referencias" class="cite">(REPAIRPAL, 2024)</a></p>
+
+  <h3 id="causa-corrosao"><a class="anchor" href="#causa-corrosao">#</a>6. Corrosão e umidade</h3>
+  <p>Entrada de água no habitáculo corrói os pinos de cobre dos conectores SRS. A corrosão aumenta a resistência de contato, que o J234 interpreta como falha no squib. O dano pode ser invisível externamente (óxido verde dentro do conector) mas detectável com multímetro.<a href="#referencias" class="cite">(VW OF CLARKSVILLE, 2023)</a></p>
+</section>
+
+<!-- ══════════ RECALL ══════════ -->
+<section id="recall">
+  <h2><a class="anchor" href="#recall">#</a>Recall oficial — Volkswagen Brasil (2025)</h2>
+
+  <div class="box recall">🚨 A Volkswagen do Brasil convocou proprietários de Nivus, Virtus e Saveiro por falha grave no airbag frontal do passageiro. O defeito pode causar lesões graves ou morte em colisão frontal.<a href="#referencias" class="cite">(TERRA, 2025)</a></div>
+
+  <table>
+    <thead><tr><th>Item</th><th>Detalhe</th></tr></thead>
+    <tbody>
+      <tr><td>Modelos afetados</td><td>VW Nivus, Virtus e Saveiro</td></tr>
+      <tr><td>Período de produção</td><td>Maio de 2022 a novembro de 2024</td></tr>
+      <tr><td>Defeito</td><td>Airbag frontal do passageiro com componente incorreto — pode não inflar adequadamente em impacto frontal</td></tr>
+      <tr><td>Risco</td><td>Lesões graves ou óbito do passageiro dianteiro</td></tr>
+      <tr><td>Solução</td><td>Inspeção e substituição do airbag do passageiro por componente correto</td></tr>
+      <tr><td>Custo para o proprietário</td><td>Gratuito</td></tr>
+      <tr><td>Início dos reparos</td><td>23 de setembro de 2025</td></tr>
+      <tr><td>Onde realizar</td><td>Rede autorizada Volkswagen em todo o Brasil</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box clinico">✅ Acesse o portal da VW Brasil ou o SENATRAN com o número do chassi (VIN) para confirmar se o Nivus está na lista e agendar o reparo gratuito.</div>
+
+  <p>Se a luz de falha de airbag acendeu no seu Nivus 2023 Highline, a <strong>primeira ação</strong> deve ser verificar o recall — o defeito de componente incorreto pode ou não acender a luz, dependendo do tipo de incompatibilidade, e é independente das demais causas listadas.<a href="#referencias" class="cite">(AUTOSSEGREDOS, 2025)</a></p>
+</section>
+
+<!-- ══════════ DIAGNÓSTICO ══════════ -->
+<section id="diagnostico">
+  <h2><a class="anchor" href="#diagnostico">#</a>Diagnóstico passo a passo</h2>
+  <p>O protocolo abaixo segue lógica de custo crescente: verificações mais simples primeiro, diagnóstico especializado por último.</p>
+
+  <div class="diag-steps">
+    <div class="diag-step">
+      <div class="diag-num">1</div>
+      <div class="diag-body">
+        <strong>Verificar o recall</strong>
+        <p>Consulte o chassi no site da VW Brasil. Se o carro estiver no recall, agende imediatamente — é gratuito e prioritário por segurança.</p>
+      </div>
+    </div>
+    <div class="diag-step">
+      <div class="diag-num">2</div>
+      <div class="diag-body">
+        <strong>Leitura dos DTCs com scanner compatível VAG</strong>
+        <p>Um leitor OBD-II genérico geralmente não acessa o módulo SRS. É necessário scanner que suporte o protocolo VAG (VCDS, ODIS ou similares). O DTC aponta o circuito exato.</p>
+      </div>
+    </div>
+    <div class="diag-step">
+      <div class="diag-num">3</div>
+      <div class="diag-body">
+        <strong>Inspecionar conectores sob os bancos</strong>
+        <p>Com a bateria desconectada (aguardar 10 min para descarregar os capacitores do J234), deslize o banco para a posição mais avançada e inspecione o chicote abaixo. Verifique encaixe, pinos dobrados e oxidação.</p>
+      </div>
+    </div>
+    <div class="diag-step">
+      <div class="diag-num">4</div>
+      <div class="diag-body">
+        <strong>Verificar o clock spring</strong>
+        <p>Se o DTC aponta circuito aberto no airbag do motorista e os conectores estão OK, o clock spring é o principal suspeito. Teste correto usa ferramenta de simulação de squib (resistor de ~2–3 Ω) — nunca multímetro direto no squib real.</p>
+      </div>
+    </div>
+    <div class="diag-step">
+      <div class="diag-num">5</div>
+      <div class="diag-body">
+        <strong>Inspecionar sensores de impacto</strong>
+        <p>Com base no DTC, localizar o sensor indicado. Verificar integridade física, ausência de corrosão no conector e tensão de alimentação.</p>
+      </div>
+    </div>
+    <div class="diag-step">
+      <div class="diag-num">6</div>
+      <div class="diag-body">
+        <strong>Avaliar o módulo J234</strong>
+        <p>Se múltiplos DTCs sem correlação lógica ou módulo não comunica com scanner, suspeitar do J234. Empresas especializadas em recondicionamento de módulo SRS podem reparar a custo menor que a substituição.</p>
+      </div>
+    </div>
+    <div class="diag-step">
+      <div class="diag-num">7</div>
+      <div class="diag-body">
+        <strong>Apagar DTCs e retestar</strong>
+        <p>Após qualquer reparo, apagar os DTCs via scanner, religar o veículo e verificar se a luz retorna. Se retornar imediatamente, a falha persiste.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="box alerta">⚠ Nunca trabalhe no sistema de airbag com a bateria conectada. Os capacitores do J234 mantêm energia suficiente para disparar um squib por até 10 minutos após desconexão da bateria. Um disparo acidental causa lesão grave.</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ══════════ FUNDAMENTOS ══════════ -->
+<section id="fundamentos">
+  <h2><a class="anchor" href="#fundamentos">#</a>Fundamentos necessários</h2>
+  <p>Conceitos de áreas adjacentes que tornam o mecanismo do SRS imediatamente compreensível.</p>
+
+  <div class="fund-grid">
+    <div class="fund-card">
+      <strong>Resistência elétrica (Ω)</strong>
+      <p>Oposição ao fluxo de corrente. O squib tem resistência de ~2–3 Ω. Resistência muito alta (circuito aberto) ou muito baixa (curto) → DTC.</p>
+    </div>
+    <div class="fund-card">
+      <strong>Circuito aberto vs. curto-circuito</strong>
+      <p>Aberto: ruptura no condutor → resistência → ∞ → corrente zero. Curto: condutores em contato indevido → resistência → 0. Ambos ativam a luz de airbag.</p>
+    </div>
+    <div class="fund-card">
+      <strong>Capacitores e descarga elétrica</strong>
+      <p>Capacitores armazenam carga elétrica temporariamente. O J234 mantém tensão suficiente para disparar um squib por até 10 min após a bateria ser desconectada.</p>
+    </div>
+    <div class="fund-card">
+      <strong>Reação pirotécnica</strong>
+      <p>Reação química exotérmica rápida que libera grande volume de N₂ em milissegundos. O squib inicia a reação ao receber corrente; o gás infla a bolsa em ~30 ms.</p>
+    </div>
+    <div class="fund-card">
+      <strong>Protocolo OBD-II e DTCs</strong>
+      <p>OBD-II é o padrão obrigatório de diagnóstico veicular. DTCs do SRS geralmente iniciam com "B" (body) e requerem scanner com acesso ao módulo SRS.</p>
+    </div>
+    <div class="fund-card">
+      <strong>Continuidade elétrica</strong>
+      <p>Capacidade de corrente fluir sem interrupção por todo um circuito. O J234 testa continuidade de cada circuito do SRS a cada ignição.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DISCUSSÃO ══════════ -->
+<section id="discussao">
+  <h2><a class="anchor" href="#discussao">#</a>Discussão</h2>
+
+  <h3>O que converge: o SRS é uma rede, não um componente</h3>
+  <p>A luz de falha de airbag é muitas vezes interpretada pelo proprietário como "o airbag está com defeito", mas o material revela que o J234 monitora uma cadeia de componentes: sensores de impacto, chicote elétrico, clock spring, squibs dos airbags, squibs dos pretensionadores. O que o módulo detecta é uma anomalia elétrica em algum ponto dessa cadeia — não necessariamente no airbag em si. Isso tem implicação prática direta: um conector solto sob o banco pode acender a mesma luz que um airbag defeituoso. O DTC é o único instrumento que diferencia um do outro, e exige scanner compatível VAG, não um leitor genérico.</p>
+
+  <h3>A tensão central: o recall como anomalia de outra natureza</h3>
+  <p>O recall do Nivus 2023 introduz uma tensão que o material não resolve diretamente: o defeito de fabricação — airbag do passageiro com componente incorreto — pode <em>não acender a luz</em>. O módulo J234 enxerga o circuito elétrico como íntegro (resistência do squib dentro da faixa normal), mas não tem como verificar se o módulo inflatório é mecanicamente compatível com o veículo. Temos aqui dois planos distintos de falha: o elétrico (detectado pela luz e pelo DTC) e o mecânico de fabricação (invisível ao módulo, detectável apenas por inspeção física com o número de chassi). Tratar a luz de airbag como o único indicador de segurança é um equívoco que o recall do Nivus 2023 demonstra concretamente.</p>
+
+  <h3>Implicação derivada: a hierarquia de diagnóstico tem ordem obrigatória</h3>
+  <p>A sequência de diagnóstico proposta no material — recall primeiro, DTC depois, inspeção física na sequência — não é arbitrária. É a única ordem que garante cobertura completa dos dois planos de falha: o do recall (mecânico, invisível eletricamente) e o das causas comuns (elétricas, visíveis pelo DTC). Inverter essa ordem pode levar à conclusão prematura de que o carro está correto após corrigir uma causa elétrica, deixando o defeito de fabricação intocado. Para o Nivus 2023 especificamente, a consulta ao chassi no portal da VW é ação mandatória e anterior a qualquer outro diagnóstico.</p>
+</section>
+
+<!-- ══════════ LEITURAS ══════════ -->
+<section id="leituras">
+  <h2><a class="anchor" href="#leituras">#</a>Leituras recomendadas</h2>
+
+  <h3>Livros-texto</h3>
+  <div class="leitura">
+    <div class="leitura-titulo">Automotive Electrical and Electronic Systems — Tom Denton</div>
+    <div class="leitura-desc">Routledge, 5ª ed., 2017. Capítulo sobre SRS detalha o funcionamento dos squibs, clock spring e lógica de diagnóstico dos módulos de airbag.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo">Modern Automotive Technology — James E. Duffy</div>
+    <div class="leitura-desc">Goodheart-Willcox, 9ª ed., 2020. Boa cobertura de pretensionadores, sensores de impacto e procedimentos de segurança ao trabalhar com SRS.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo">Automotive Technology: A Systems Approach — Erjavec &amp; Thompson</div>
+    <div class="leitura-desc">Cengage, 6ª ed., 2014. Referência consolidada para sistemas de segurança passiva veicular.</div>
+  </div>
+
+  <h3>Artigos científicos</h3>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="https://info.myairbags.com/internal-mab-ts/vw-srs-supplemental-restraint-system/airbag-diagnostic-trouble-codes-dtcs" target="_blank" rel="noopener" style="color:var(--blue)">VW SRS Diagnostic Trouble Codes — MyAirbags ↗</a></div>
+    <div class="leitura-desc">Lista completa de DTCs do sistema SRS VW com descrições e causas prováveis.</div>
+  </div>
+
+  <h3>Recursos institucionais online</h3>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="https://www.volkswagen.com.br/recall" target="_blank" rel="noopener" style="color:var(--blue)">Portal de Recall VW Brasil ↗</a></div>
+    <div class="leitura-desc">Consulta por número de chassi. Obrigatório para proprietários do Nivus 2023.</div>
+  </div>
+  <div class="leitura">
+    <div class="leitura-titulo"><a href="https://repairpal.com/supplemental-restraint-system-srs-warning-light" target="_blank" rel="noopener" style="color:var(--blue)">SRS Warning Light — RepairPal ↗</a></div>
+    <div class="leitura-desc">Protocolo de diagnóstico passo a passo para sistemas SRS em veículos modernos.</div>
+  </div>
+</section>
+
+<!-- ══════════ REFERÊNCIAS ══════════ -->
+<section id="referencias">
+  <h2><a class="anchor" href="#referencias">#</a>Referências ABNT</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;font-family:var(--font-ui)">Formato NBR 6023:2018. Ordenação alfabética.</p>
+
+  <ol class="ref-list">
+    <li>AUTOSSEGREDOS. VW faz recall para Nivus 2023 por falha em airbag. <em>AutosSegredos</em>, 2025. Disponível em: <a href="https://www.autossegredos.com.br/mercado/recall/vw-faz-recall-para-nivus-2023-por-falha-em-airbag/" target="_blank" rel="noopener">autossegredos.com.br ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>MOTORCITYEURO. Why Your Volkswagen's Airbag Light Might Be On. <em>Motor City Euro</em>, 2023. Disponível em: <a href="https://motorcityeuro.com/why-your-volkswagens-airbag-light-might-be-on/" target="_blank" rel="noopener">motorcityeuro.com ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>MYCARLY. Problema com a luz do airbag no meu VW Nivus, é normal? <em>MyCarly Community</em>, 2024. Disponível em: <a href="https://www.mycarly.com/pt/community/problema-com-a-luz-do-airbag-no-meu-vw-nivus-e-normal-16d98369-dca3-495a-899d-601bc9f9dc3a/" target="_blank" rel="noopener">mycarly.com ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>MYAIRBAGS. VW SRS (Supplemental Restraint System)/Airbag Diagnostic Trouble Codes (DTCs). <em>MyAirbags</em>, 2024. Disponível em: <a href="https://info.myairbags.com/internal-mab-ts/vw-srs-supplemental-restraint-system/airbag-diagnostic-trouble-codes-dtcs" target="_blank" rel="noopener">myairbags.com ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>REPAIRPAL. Airbag Warning Light: What It's For, Why It's On and How to Fix It. <em>RepairPal</em>, 2024. Disponível em: <a href="https://repairpal.com/supplemental-restraint-system-srs-warning-light" target="_blank" rel="noopener">repairpal.com ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>TERRA. Recall: Volkswagen convoca Nivus, Virtus e Saveiro por falha no airbag. <em>Terra Mobilidade</em>, 2025. Disponível em: <a href="https://www.terra.com.br/mobilidade/recall-volkswagen-convoca-nivus-virtus-e-saveiro-por-falha-no-airbag,d7134d21853d99a5470875a96412414356xflwky.html" target="_blank" rel="noopener">terra.com.br ↗</a>. Acesso em: 19 jun. 2026.</li>
+    <li>VW OF CLARKSVILLE. How Can I Fix the Airbag Malfunction Light Issue In My Volkswagen? <em>Volkswagen of Clarksville</em>, 2023. Disponível em: <a href="https://www.volkswagenofclarksville.com/how-can-i-fix-the-airbag-malfunction-light-issue-in-my-volkswagen.htm" target="_blank" rel="noopener">volkswagenofclarksville.com ↗</a>. Acesso em: 19 jun. 2026.</li>
+  </ol>
+</section>
+
+</div><!-- .content -->
+</main>
+</div><!-- .layout -->
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('aside .nav-link');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(l => {
+          const href = l.getAttribute('href').replace('#', '');
+          l.classList.toggle('active', href === id);
+        });
+      }
+    });
+  }, { rootMargin: '-40px 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(s => obs.observe(s));
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySe

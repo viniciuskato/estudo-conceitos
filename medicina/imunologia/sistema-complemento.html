@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M5 &mdash; Sistema Complemento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+.via-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.via-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px}
+.via-card .vn{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.via-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+@media(max-width:900px){#mob-bar{display:flex}#sidebar{display:none;position:fixed;z-index:40;height:100%;top:0}#sidebar.open{display:flex}#s-toggle{display:none}#content{padding:24px 20px 80px}.ck-grid,.via-grid{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+@media print{#sidebar,#mob-bar,#progress-bar,.anc{display:none}body{background:#fff;color:#000}#content{padding:0}.prose{max-width:100%}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M5 &mdash; Sistema Complemento</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776; Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <b>M5 &mdash; Sistema Complemento</b>
+      <span>Imunologia &middot; PUC &middot; 2026</span>
+      <a href="index.html">&larr; &Iacute;ndice de Imunologia</a>
+    </div>
+    <div class="s-group">Conte&uacute;do</div>
+    <a class="sl" href="#fundamentos">Fundamentos necess&aacute;rios</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#definicao">Defini&ccedil;&atilde;o e propriedades gerais</a>
+    <a class="sl" href="#nomenclatura">Nomenclatura</a>
+    <a class="sl" href="#vias">As tr&ecirc;s vias de ativa&ccedil;&atilde;o</a>
+    <a class="sl sub" href="#via-classica">Via cl&aacute;ssica</a>
+    <a class="sl sub" href="#via-alternativa">Via alternativa</a>
+    <a class="sl sub" href="#via-lectina">Via das lectinas</a>
+    <a class="sl" href="#convergencia">Converg&ecirc;ncia em C3 e C5</a>
+    <a class="sl" href="#mac">MAC</a>
+    <a class="sl" href="#funcoes">Fun&ccedil;&otilde;es biol&oacute;gicas</a>
+    <a class="sl" href="#receptores">Receptores do complemento</a>
+    <a class="sl" href="#regulacao">Regula&ccedil;&atilde;o</a>
+    <a class="sl" href="#doencas">Doen&ccedil;as por defeitos</a>
+    <a class="sl" href="#evasao">Evas&atilde;o por pat&oacute;genos</a>
+    <div class="s-group">Revis&atilde;o</div>
+    <a class="sl" href="#conexoes">Conex&otilde;es</a>
+    <a class="sl" href="#discussao">Discuss&atilde;o</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Refer&ecirc;ncias ABNT</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>M5 &mdash; Sistema Complemento</h1>
+  <p class="doc-meta">Imunologia &middot; Medicina &middot; PUC-PR &middot; 2026 &middot; Abbas cap. 13; Aula Reiche 2026</p>
+  <div class="doc-chips">
+    <span class="chip">&#9201; <b>~25 min</b> de leitura</span>
+    <span class="chip">&#128203; Pr&eacute;-requisitos: <b>PRRs, anticorpos, fagocitose</b></span>
+    <span class="chip">&#128279; Depende de: <b>M2, M3, M4</b></span>
+    <span class="chip">&#128205; &Aacute;rea: <b>Imunologia molecular</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente com defici&ecirc;ncia de C1q tem LES grave, enquanto um paciente com defici&ecirc;ncia de C8 tem meningococemia recorrente sem qualquer doen&ccedil;a autoimune. Por que defici&ecirc;ncias de componentes <em>iniciais</em> do complemento causam autoimunidade, enquanto defici&ecirc;ncias de componentes <em>terminais</em> causam imunodefici&ecirc;ncia seletiva? O que essa invers&atilde;o revela sobre as fun&ccedil;&otilde;es distintas do complemento al&eacute;m da lise bacteriana?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de depend&ecirc;ncias</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este comp&ecirc;ndio usa</div>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 &mdash; C&eacute;lulas do SI</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html">M3 &mdash; Mol&eacute;culas do SI</a>
+      <a class="dep-item" href="imunidade-inata.html">M4 &mdash; Imunidade Inata</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necess&aacute;rio</div>
+      <a class="dep-item" href="#">Cascata enzim&aacute;tica (bioquímica)</a>
+      <a class="dep-item" href="#">IgM e IgG &mdash; estrutura (M7)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html">M7 &mdash; Anticorpos</a>
+      <a class="dep-item" href="hipersensibilidade.html">M10 &mdash; Hipersensibilidade</a>
+      <a class="dep-item" href="resposta-a-patogenos.html">M9 &mdash; Resposta a Pat&oacute;genos</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos Necess&aacute;rios <a class="anc" href="#fundamentos">#</a></h2>
+<p>O complemento opera por <strong>proteólise em cascata</strong>: cada componente ativado cliva o pr&oacute;ximo, amplificando o sinal &mdash; l&oacute;gica id&ecirc;ntica &agrave; cascata de coagula&ccedil;&atilde;o. <strong>Anticorpos IgM e IgG</strong> iniciam a via cl&aacute;ssica: IgM &eacute; ativador mais potente (uma mol&eacute;cula suficiente); IgG requer m&uacute;ltiplas adjacentes. Mast&oacute;citos s&atilde;o ativados por C3a e C5a (anafilatoxinas) com libera&ccedil;&atilde;o de histamina &mdash; ver <a class="cross-link" href="celulas-sistema-imune.html">M2 &rarr; Mast&oacute;citos</a>. MBL &eacute; um PRR sol&uacute;vel da via das lectinas &mdash; contexto dos PRRs em <a class="cross-link" href="moleculas-sistema-imune.html#clrs">M3 &rarr; CLRs</a>.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Tr&ecirc;s vias</div><div class="ckd">Cl&aacute;ssica (IgM/IgG), alternativa (<em>tick-over</em> de C3b) e lectinas (MBL). Todas convergem em C3.</div></div>
+  <div class="ck-card"><div class="ckt">C3 convertase</div><div class="ckd">Complexo enzim&aacute;tico que cliva C3 em C3a (anafilatoxina) + C3b (opsonina). Ponto de converg&ecirc;ncia das tr&ecirc;s vias.</div></div>
+  <div class="ck-card"><div class="ckt">MAC</div><div class="ckd">Complexo de Ataque &agrave; Membrana (C5b-C9): poro de 10 nm que lisa bact&eacute;rias Gram-negativas e hemácias.</div></div>
+  <div class="ck-card"><div class="ckt">Opsoniza&ccedil;&atilde;o</div><div class="ckd">C3b ligado covalentemente &agrave; superf&iacute;cie bacteriana &rarr; fagocitose 100&ndash;1000&times; mais eficiente via CR1/CR3.</div></div>
+  <div class="ck-card"><div class="ckt">Reguladores</div><div class="ckd">DAF (CD55), MCP (CD46), CD59 em c&eacute;lulas pr&oacute;prias &rarr; proteção contra lise autóloga. Aus&ecirc;ncia = HPN.</div></div>
+  <div class="ck-card"><div class="ckt">Clearance</div><div class="ckd">C3b opsoniza imunocomplexos &rarr; CR1 em eritr&oacute;citos transporta ao bac&ccedil;o/f&iacute;gado. Falha = LES.</div></div>
+</div>
+</section>
+
+<section id="definicao">
+<h2>Defini&ccedil;&atilde;o e Propriedades Gerais <a class="anc" href="#definicao">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  <strong>Jules Bordet</strong> (Nobel 1919) descobriu o complemento em 1894 ao observar que soro fresco de carneiro imunizado lisava bact&eacute;rias, mas o soro aquecido a 56 &deg;C perdia essa capacidade &mdash; mantendo anticorpos funcionais. O componente termolab&iacute;vel que "complementava" a fun&ccedil;&atilde;o do anticorpo deu nome ao sistema, proposto por <strong>Paul Ehrlich</strong>. O complemento foi clonado e caracterizado ao longo do s&eacute;culo XX; o eculizumabe (anti-C5), aprovado em 2007, marcou a era terap&ecirc;utica.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p>O <strong>sistema complemento</strong> &eacute; um mecanismo efetor da resposta imune inata e adaptativa constitu&iacute;do por mais de 50 prote&iacute;nas e glicoprote&iacute;nas plasm&aacute;ticas e de membrana (sintetizadas principalmente por hepatócitos) que operam em cascata enzim&aacute;tica para opsonizar alvos, lisar microrganismos, ampliar a resposta inflamat&oacute;ria e remover imunocomplexos e c&eacute;lulas apoptóticas.</p>
+</div>
+<p>Propriedades fundamentais: prote&iacute;nas do complemento constituem ~5% das globulinas s&eacute;ricas; circulam inativas at&eacute; sofrerem clivagem proteolítica; <strong>C3 &eacute; o componente mais abundante e central</strong>; a ativa&ccedil;&atilde;o &eacute; amplificada e localizada &mdash; C3b se concentra na superf&iacute;cie do pat&oacute;geno enquanto c&eacute;lulas pr&oacute;prias se protegem por reguladores de membrana.</p>
+</section>
+
+<section id="nomenclatura">
+<h2>Nomenclatura &mdash; L&oacute;gica dos Fragmentos <a class="anc" href="#nomenclatura">#</a></h2>
+<p>Componentes s&atilde;o designados por n&uacute;mero (C1&ndash;C9) ou letra (fator B, fator D, properdina). Quando clivados: fragmento <strong>"a"</strong> (menor) se difunde como mediador sol&uacute;vel; fragmento <strong>"b"</strong> (maior) permanece ligado covalentemente &agrave; superf&iacute;cie do alvo. C3b e C4b cont&ecirc;m um <strong>tio&eacute;ster reativo</strong> que forma liga&ccedil;&atilde;o covalente com grupos amino ou hidroxila na superf&iacute;cie bacteriana em microssegundos &mdash; o mecanismo pelo qual o complemento "gruda" especificamente no pat&oacute;geno que iniciou a ativa&ccedil;&atilde;o. A liga&ccedil;&atilde;o covalente &eacute; reversível por hidrólise, gerando iC3b &rarr; C3d (ligantes progressivamente mais fracos para CR3 e CR2 respectivamente).</p>
+</section>
+
+<section id="vias">
+<h2>As Tr&ecirc;s Vias de Ativa&ccedil;&atilde;o <a class="anc" href="#vias">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A via cl&aacute;ssica foi a primeira conhecida (Bordet, 1894). A via alternativa foi descrita por <strong>Louis Pillemer</strong> nos anos 1950 como "sistema properdina" &mdash; rejeitada inicialmente e reabilitada nos anos 1970 com a identifica&ccedil;&atilde;o dos fatores B, D e da properdina. A via das lectinas foi descoberta em 1987 por <strong>Kawasaki et al.</strong> ao identificar MBL como ativador independente de anticorpo. A MBL como PRR sol&uacute;vel da imunidade inata conectou o sistema complemento ao conceito de PRR de Janeway (1989).
+</div>
+<div class="via-grid">
+  <div class="via-card"><div class="vn">Via Cl&aacute;ssica</div><p>Requer anticorpo. C1q se liga &agrave;s regi&otilde;es Fc de IgM ou IgG em complexo imune. IgM (pent&acirc;mero) &eacute; ativador muito mais potente. Sequ&ecirc;ncia: C1q &rarr; C1r/C1s &rarr; C4 &rarr; C2 &rarr; C3 convertase (C4b2a). Tamb&eacute;m ativada por PCR ligada a fosfocolina.</p></div>
+  <div class="via-card"><div class="vn">Via Alternativa</div><p>Independe de anticorpo &mdash; verdadeiramente inata. C3 sofre hidrolise espontânea (<em>tick-over</em>). C3b depositado em superf&iacute;cie sem reguladores do hospedeiro &rarr; liga fator B &rarr; fator D cliva B &rarr; C3bBb (C3 convertase alternativa) &rarr; amplifica&ccedil;&atilde;o por properdina.</p></div>
+  <div class="via-card"><div class="vn">Via das Lectinas</div><p>Independe de anticorpo. MBL (<em>mannose-binding lectin</em>) reconhece res&iacute;duos de manose em superf&iacute;cie bacteriana/f&uacute;ngica. MASP-1 e MASP-2 clivam C4 e C2 &mdash; mesmo trajeto da via cl&aacute;ssica ap&oacute;s C4. Ficolinas ativam o mesmo trajeto via acetilglucosamina.</p></div>
+</div>
+</section>
+
+<section id="via-classica">
+<h2>Via Cl&aacute;ssica &mdash; Mecanismo Detalhado <a class="anc" href="#via-classica">#</a></h2>
+<p>C1 &eacute; um complexo macromolecular C1qr&#8322;s&#8322; estabilizado por &iacute;ons Ca&#178;&#8314;. C1q tem morfologia de "ramo de tulipas" com 6 dom&iacute;nios globulares &mdash; reconhece regi&otilde;es CH2 de IgG ou CH3 de IgM. A liga&ccedil;&atilde;o de ao menos 2 dom&iacute;nios simultaneamente (requerendo dois anticorpos IgG adjacentes, ou uma &uacute;nica IgM) muda a conformação de C1r &rarr; autoclive &rarr; ativa C1s. C1s cliva <strong>C4</strong> &rarr; C4a (sol&uacute;vel) + C4b (covalente &agrave; superf&iacute;cie). C4b liga C2 &rarr; C1s cliva C2 &rarr; C2b + <strong>C2a</strong> (permanece com C4b) &rarr; <strong>C4b2a = C3 convertase cl&aacute;ssica</strong>.</p>
+</section>
+
+<section id="via-alternativa">
+<h2>Via Alternativa &mdash; Vigil&acirc;ncia Cont&iacute;nua <a class="anc" href="#via-alternativa">#</a></h2>
+<p>C3 sofre hidrolise espontânea da liga&ccedil;&atilde;o tio&eacute;ster a uma taxa baixa constante (<em>tick-over</em>), gerando C3(H&#8322;O) capaz de se ligar ao fator B. Fator D (sempre ativo no plasma) cliva o fator B ligado &rarr; Bb. C3(H&#8322;O)Bb &eacute; a <strong>C3 convertase de fase fluida</strong> que cliva mais C3 em C3b. C3b depositado em superf&iacute;cie bacteriana inicia o loop de amplifica&ccedil;&atilde;o: C3b + fator B &rarr; fator D cliva B &rarr; <strong>C3bBb = C3 convertase alternativa</strong> na superf&iacute;cie. <strong>Properdina</strong> (fator P) estabiliza essa convertase.</p>
+<div class="box info">
+  <strong>O ponto cr&iacute;tico do <em>tick-over</em>:</strong> em superf&iacute;cies pr&oacute;prias, DAF (CD55) e fator H deslocam o fator B e inativam C3b &rarr; o loop n&atilde;o se estabelece. Em superf&iacute;cies bacterianas sem reguladores, o loop amplifica sem controle &mdash; depositando dezenas de milhares de mol&eacute;culas de C3b por bact&eacute;ria em minutos. A distinção pr&oacute;prio/n&atilde;o-pr&oacute;prio &eacute; codificada na presen&ccedil;a ou aus&ecirc;ncia de reguladores, n&atilde;o em anticorpos.
+</div>
+</section>
+
+<section id="via-lectina">
+<h2>Via das Lectinas &mdash; PRR Humoral <a class="anc" href="#via-lectina">#</a></h2>
+<p>A MBL &eacute; uma prote&iacute;na de fase aguda hep&aacute;tica com estrutura similar a C1q &mdash; 6 dom&iacute;nios de reconhecimento de carboidratos que se ligam a arranjos de manose e fucose em superf&iacute;cies bacterianas e f&uacute;ngicas, raros em c&eacute;lulas humanas (que expressam galactose e &aacute;cido si&aacute;lico terminais). MBL associada a MASP-2 funciona como C1 anal&oacute;gico: MASP-2 cliva C4 e C2, gerando C3 convertase cl&aacute;ssica. Ficolin-1, -2 e -3 reconhecem acetilglucosamina e ativam o mesmo trajeto. Defici&ecirc;ncia de MBL (polimorfismos comuns) aumenta suscetibilidade a infec&ccedil;&otilde;es respirat&oacute;rias na inf&acirc;ncia.</p>
+</section>
+
+<section id="convergencia">
+<h2>Converg&ecirc;ncia em C3 e C5 &mdash; As Convertases Centrais <a class="anc" href="#convergencia">#</a></h2>
+<p>Todas as tr&ecirc;s vias produzem uma C3 convertase. Quando C3b se acumula na superf&iacute;cie, uma mol&eacute;cula adicional de C3b associa-se &agrave; C3 convertase &rarr; <strong>C5 convertase</strong> (C4b2a3b nas vias cl&aacute;ssica/lectinas; C3bBb3b na via alternativa). A C5 convertase cliva C5 &rarr; C5a (anafilatoxina mais potente, quimioatraente) + C5b (inicia MAC).</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Via</th><th>Iniciador</th><th>C3 Convertase</th><th>Requer Ac?</th></tr></thead>
+  <tbody>
+    <tr><td>Cl&aacute;ssica</td><td>C1q ligado a Ac&ndash;Ag</td><td>C4b2a</td><td>Sim</td></tr>
+    <tr><td>Lectinas</td><td>MBL/Ficolina ligada a carboidrato</td><td>C4b2a</td><td>N&atilde;o</td></tr>
+    <tr><td>Alternativa</td><td>C3b em superf&iacute;cie sem regulador</td><td>C3bBb</td><td>N&atilde;o</td></tr>
+  </tbody>
+  <caption>Tabela 1. Compara&ccedil;&atilde;o das tr&ecirc;s vias de ativa&ccedil;&atilde;o do complemento.</caption>
+</table></div>
+</section>
+
+<section id="mac">
+<h2>Complexo de Ataque &agrave; Membrana (MAC) <a class="anc" href="#mac">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O MAC foi descrito estruturalmente por <strong>Muller-Eberhard</strong> nos anos 1960&ndash;70, que demonstrou que C5b inicia a polimeriza&ccedil;&atilde;o de C9 formando um poro transmembr&acirc;nico. A rela&ccedil;&atilde;o cl&iacute;nica entre defici&ecirc;ncia de componentes terminais e meningococemia foi estabelecida nos anos 1970&ndash;80, quando pacientes com infec&ccedil;&otilde;es recorrentes por <em>Neisseria</em> foram sistematicamente investigados. O eculizumabe (anti-C5, Alexion 2007) foi o primeiro biol&oacute;gico direcionado ao complemento.
+</div>
+<div class="kbox">
+  <div class="klabel">MAC &mdash; mecanismo</div>
+  <p>C5b recruta C6, C7 em complexo sol&uacute;vel que se insere na bicamada lip&iacute;dica. C8 ancora o complexo e inicia a polimerizac&atilde;o de C9 (10&ndash;18 mol&eacute;culas) formando um <strong>poro transmembr&acirc;nico cil&iacute;ndrico de 10 nm</strong>. O poro destr&oacute;i o gradiente i&ocirc;nico &rarr; influxo osmótico de &aacute;gua &rarr; lise. MAC &eacute; eficaz contra Gram-negativas; Gram-positivas t&ecirc;m parede espessa que protege a membrana.</p>
+</div>
+<div class="box alerta">
+  <strong>Defici&ecirc;ncia de C5&ndash;C9 e <em>Neisseria</em>:</strong> indiv&iacute;duos com defici&ecirc;ncia de qualquer componente terminal s&atilde;o seletivamente suscet&iacute;veis a <em>Neisseria meningitidis</em> e <em>N. gonorrhoeae</em> &mdash; as &uacute;nicas bact&eacute;rias pat&oacute;genas cuja conten&ccedil;&atilde;o depende criticamente do MAC para lise. Paciente com meningococemia recorrente = investigar complemento terminal.
+</div>
+</section>
+
+<section id="funcoes">
+<h2>Fun&ccedil;&otilde;es Biol&oacute;gicas Integradas <a class="anc" href="#funcoes">#</a></h2>
+<div class="g2">
+  <div class="box">
+    <strong>Opsoniza&ccedil;&atilde;o</strong><br>
+    C3b e iC3b depositados na superf&iacute;cie bacteriana s&atilde;o reconhecidos pelos receptores CR1 (C3b) e CR3/CR4 (iC3b) em neutr&oacute;filos e macr&oacute;fagos. Fagocitose 100&ndash;1000&times; mais eficiente de bact&eacute;rias opsonizadas.
+  </div>
+  <div class="box">
+    <strong>Anafilatoxinas</strong><br>
+    C3a e C5a se difundem sistemicamente e ativam mast&oacute;citos (histamina &rarr; vasodilatac&atilde;o), atraem neutr&oacute;filos (C5a &eacute; o quimioatraente mais potente do complemento) e ativam end&oacute;telio. Pot&ecirc;ncia: C5a &gt; C3a &gt; C4a.
+  </div>
+  <div class="box">
+    <strong>Remo&ccedil;&atilde;o de imunocomplexos</strong><br>
+    C3b opsoniza complexos Ag&ndash;Ac circulantes. Eritr&oacute;citos expressam CR1 e "carregam" esses complexos ao ba&ccedil;o e f&iacute;gado &rarr; fagocitose. Falha &rarr; depos&iacute;ção em rins (glomerulonefrite), articula&ccedil;&otilde;es e pele = LES.
+  </div>
+  <div class="box">
+    <strong>Lise direta (MAC)</strong><br>
+    Destrui&ccedil;&atilde;o de Gram-negativas, c&eacute;lulas infectadas por v&iacute;rus envelopados e hem&aacute;cias incompat&iacute;veis. Efic&aacute;cia limitada em Gram-positivos e fungos pela parede espessa.
+  </div>
+</div>
+</section>
+
+<section id="receptores">
+<h2>Receptores do Complemento (CRs) <a class="anc" href="#receptores">#</a></h2>
+<p><strong>CR1 (CD35)</strong>: expresso em eritr&oacute;citos, fagócitos, c&eacute;lulas B &mdash; liga C3b e C4b; medeia remo&ccedil;&atilde;o de imunocomplexos e fagocitose. <strong>CR2 (CD21)</strong>: expresso em linf&oacute;citos B e c&eacute;lulas foliculares dendrit&iacute;cas &mdash; liga C3d; co-receptor do BCR que amplifica 100&times; a ativa&ccedil;&atilde;o de linf&oacute;citos B por ant&iacute;genos opsonizados (o complemento melhora enormemente a resposta humoral ao abaixar o limiar de ativa&ccedil;&atilde;o de linf&oacute;citos B). <strong>CR3 (CD11b/CD18, Mac-1) e CR4 (CD11c/CD18)</strong>: ligam iC3b em neutr&oacute;filos e macr&oacute;fagos &mdash; mediando fagocitose e ades&atilde;o ao end&oacute;telio. <em>M. tuberculosis</em> usa CR3 para entrada "silenciosa" nos macr&oacute;fagos.</p>
+</section>
+
+<section id="regulacao">
+<h2>Regula&ccedil;&atilde;o &mdash; Protegendo o Hospedeiro <a class="anc" href="#regulacao">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A compreens&atilde;o dos reguladores do complemento emergiu nos anos 1970&ndash;90. O DAF (CD55) foi clonado em 1987 por <strong>Caras et al.</strong>; o CD59 em 1989. A fun&ccedil;&atilde;o do fator H como cofator de inativa&ccedil;&atilde;o de C3b foi elucidada por <strong>Whaley e Ruddy</strong> nos anos 1970. A HPN, como modelo natural de defici&ecirc;ncia de DAF e CD59, confirmou experimentalmente em humanos o papel protetor desses reguladores.
+</div>
+<p>Regula&ccedil;&atilde;o em m&uacute;ltiplos pontos: (1) instabilidade intr&iacute;nseca das convertases; (2) prote&iacute;nas reguladoras sol&uacute;veis: <strong>fator H</strong> desloca Bb e &eacute; cofator para fator I (inativa C3b &rarr; iC3b); <strong>C4bp</strong> faz o mesmo com C4b; <strong>C1-INH</strong> inativa C1r e C1s; (3) prote&iacute;nas de membrana em c&eacute;lulas pr&oacute;prias:</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Regulador</th><th>Localiza&ccedil;&atilde;o</th><th>Mecanismo</th><th>Defici&ecirc;ncia &rarr;</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DAF (CD55)</strong></td><td>Membrana (GPI)</td><td>Desloca Bb e C2a das convertases</td><td>HPN (se junto com CD59)</td></tr>
+    <tr><td><strong>MCP (CD46)</strong></td><td>Membrana (transmembrana)</td><td>Cofator do fator I &rarr; cliva C3b</td><td>SHU at&iacute;pica</td></tr>
+    <tr><td><strong>CD59</strong></td><td>Membrana (GPI)</td><td>Inibe polimerizac&atilde;o de C9 &rarr; bloqueia MAC</td><td>HPN (se junto com DAF)</td></tr>
+    <tr><td><strong>Fator H</strong></td><td>Plasm&aacute;tico</td><td>Desloca Bb + cofator fator I</td><td>SHU at&iacute;pica, DMRI</td></tr>
+    <tr><td><strong>C1-INH</strong></td><td>Plasm&aacute;tico</td><td>Inativa C1r, C1s, MASP, calicre&iacute;na</td><td>Angioedema heredit&aacute;rio</td></tr>
+  </tbody>
+  <caption>Tabela 2. Reguladores do complemento, mecanismos e defici&ecirc;ncias cl&iacute;nicas.</caption>
+</table></div>
+</section>
+
+<section id="doencas">
+<h2>Doen&ccedil;as por Defeitos do Complemento <a class="anc" href="#doencas">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A HPN foi descrita clinicamente por <strong>Paul St&uuml;mpke</strong> (1928) e <strong>Thomas Ham</strong> (1939, teste de Ham). A base gen&eacute;tica (muta&ccedil;&atilde;o em PIGA) s&oacute; foi elucidada por <strong>Takeda et al.</strong> em 1993. O angioedema heredit&aacute;rio foi descrito por <strong>Quincke</strong> em 1882 e sua rela&ccedil;&atilde;o com defici&ecirc;ncia de C1-INH por <strong>Donaldson e Evans</strong> em 1963. O eculizumabe, aprovado para HPN em 2007, foi o primeiro anticorpo monoclonal alvo do complemento com efic&aacute;cia clinicamente transformadora.
+</div>
+<div class="box alerta">
+  <strong>HPN (Hemoglobinuria Parox&iacute;stica Noturna):</strong> muta&ccedil;&atilde;o som&aacute;tica adquirida no gene <em>PIGA</em> (X) &rarr; deficit de GPI (glicosilfosfatidilinositol) &rarr; hem&aacute;cias sem DAF (CD55) e CD59 &rarr; lise pelo complemento espontâneo (&ldquo;<em>tick-over</em>&rdquo;). Manifesta&ccedil;&otilde;es: anemia hemol&iacute;tica intravascular, hemoglobinúria matinal, tromboses (hem&aacute;cias ativadas por complemento s&atilde;o protromb&oacute;ticas). Tratamento: eculizumabe (anti-C5, bloqueia MAC).
+</div>
+<div class="box alerta">
+  <strong>Angioedema Heredit&aacute;rio (AEH):</strong> defici&ecirc;ncia de C1-INH &rarr; ativa&ccedil;&atilde;o n&atilde;o regulada da calicre&iacute;na &rarr; bradicinina &rarr; edema cut&acirc;neo e mucoso grave. N&atilde;o responde a anti-histam&iacute;nico (n&atilde;o &eacute; mediado por histamina). Tratamento: concentrado de C1-INH, icatibant (anti-bradicinina), lanadelumabe (anti-calicre&iacute;na).
+</div>
+<div class="box clinico">
+  <strong>LES e defici&ecirc;ncia de componentes iniciais:</strong> defici&ecirc;ncia de C1q, C2 ou C4 prejudica clearance de imunocomplexos e c&eacute;lulas apoptóticas &rarr; ac&uacute;mulo de detritos pr&oacute;prios &rarr; resposta autoimune. Defici&ecirc;ncia de C2 &eacute; a imunodefici&ecirc;ncia prim&aacute;ria de complemento mais comum em caucasianos. Paradoxo: defici&ecirc;ncia de complemento causa autoimunidade, n&atilde;o apenas imunodefici&ecirc;ncia.
+</div>
+</section>
+
+<section id="evasao">
+<h2>Evas&atilde;o do Complemento por Pat&oacute;genos <a class="anc" href="#evasao">#</a></h2>
+<p><em>Mycobacterium tuberculosis</em> opsoniza-se com C3b (via alternativa espont&acirc;nea) e invade macr&oacute;fagos via CR3 &mdash; usando o reconhecimento do hospedeiro para entrar no fagócito sem desencadear burst oxidativo completo. <em>Streptococcus pyogenes</em> expressa prote&iacute;na M que liga fator H &rarr; inativa C3b em sua superf&iacute;cie &rarr; escapa de opsonizac&atilde;o. Herpesvírus, vaccinia e HIV incorporam em seus envelopes prote&iacute;nas reguladoras do complemento capturadas da c&eacute;lula hospedeira (DAF, CD59) &mdash; tornando-se "invisíveis" ao MAC. Essas evas&otilde;es s&atilde;o contramedidas espec&iacute;ficas contra a via alternativa e o MAC &mdash; revelando quais componentes s&atilde;o mais efetivos contra cada pat&oacute;geno.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conex&otilde;es com Outros M&oacute;dulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M5 &rarr; M3 (Mol&eacute;culas):</strong> a PCR (prote&iacute;na de fase aguda do M3) ativa o complemento pela via cl&aacute;ssica ao se ligar a fosfocolina bacteriana e recrutar C1q. A ponte entre biomarcador inflamat&oacute;rio e efetor imune passa pelo complemento. Ver <a class="cross-link" href="moleculas-sistema-imune.html#fase-aguda">M3 &rarr; PCR</a>.</p>
+  <p><strong>M5 &rarr; M7 (Anticorpos):</strong> CR2 (CD21) nas c&eacute;lulas B amplifica 100&times; a sinaliza&ccedil;&atilde;o do BCR por ant&iacute;genos opsonizados com C3d. O complemento &eacute; amplificador fisiol&oacute;gico da imunidade humoral. Ver <a class="cross-link" href="anticorpos-imunidade-humoral.html">M7 &rarr; Ativa&ccedil;&atilde;o de Linf&oacute;citos B</a>.</p>
+  <p><strong>M5 &rarr; M10 (Hipersensibilidade):</strong> C3a e C5a ativam mast&oacute;citos &mdash; mecanismo central da hipersensibilidade tipo I e III. No tipo III, a falha no clearance de imunocomplexos por defici&ecirc;ncia de complemento &eacute; mecanismo patog&ecirc;nico direto. Ver <a class="cross-link" href="hipersensibilidade.html">M10 &rarr; Hipersensibilidade tipo III</a>.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discuss&atilde;o <a class="anc" href="#discussao">#</a></h2>
+<p>A converg&ecirc;ncia das tr&ecirc;s vias em C3 &eacute; mais que eleg&acirc;ncia arquitetural &mdash; &eacute; redund&acirc;ncia funcional estrat&eacute;gica. O sistema pode ser ativado sem anticorpo (via alternativa e lectinas), cr&iacute;tico no in&iacute;cio de infec&ccedil;&atilde;o prim&aacute;ria. Quando anticorpos surgem, a via cl&aacute;ssica amplifica o complemento j&aacute; ativo, criando sinergia. As tr&ecirc;s vias cooperam com cin&eacute;ticas complementares &mdash; n&atilde;o competem.</p>
+<p>A tens&atilde;o mais importante: pat&oacute;genos intracelulares como <em>M. tuberculosis</em> sequestram a opsoniza&ccedil;&atilde;o por C3b para entrar no macr&oacute;fago via CR3 sem ativar mecanismos bactericidas. O complemento, desenhado para destruir pat&oacute;genos extracelulares, torna-se porta de entrada para pat&oacute;genos intracelulares &mdash; uma subvers&atilde;o que revela a limita&ccedil;&atilde;o do sistema sem integra&ccedil;&atilde;o da resposta Th1 (que ativa o macr&oacute;fago para matar o que engoliu).</p>
+<p>A implica&ccedil;&atilde;o derivada responde &agrave; pergunta motivadora: a distin&ccedil;&atilde;o imunodefici&ecirc;ncia vs. autoimunidade &eacute; invertida no complemento. Defici&ecirc;ncia terminal (C5&ndash;C9) &rarr; imunodefici&ecirc;ncia seletiva contra <em>Neisseria</em>. Defici&ecirc;ncia inicial (C1q, C2, C4) &rarr; autoimunidade (LES). Isso ocorre porque componentes iniciais s&atilde;o necess&aacute;rios para clearance de imunocomplexos e c&eacute;lulas apoptóticas &mdash; fun&ccedil;&atilde;o que nada tem a ver com lise bacteriana. O complemento n&atilde;o &eacute; apenas um "sistema de lise" &mdash; &eacute; um sistema de homeostasia que mant&eacute;m o organismo livre de detritos pr&oacute;prios poten-cialmente imunog&ecirc;nicos.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras Recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai &middot; Elsevier, 11&ordf; ed. &middot; Cap. 13<br>Melhor cobertura integrada do complemento na imunologia geral. Tabela completa de reguladores com mecanismo de a&ccedil;&atilde;o. Mais conciso que fontes especializadas.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology</div>
+    <div class="bm">Murphy, Weaver &middot; Garland, 10&ordf; ed. &middot; Cap. 2<br>Excelente tratamento did&aacute;tico da via alternativa e da l&oacute;gica evolutiva do complemento. Melhor para o conceito de <em>tick-over</em>.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Complement: revisão seminal</div>
+    <div class="bm">Ricklin et al. <em>Nature Immunology</em>, v. 11, p. 785&ndash;797, 2010. DOI: <a href="https://doi.org/10.1038/ni.1923" target="_blank" rel="noopener" style="color:var(--ac)">10.1038/ni.1923</a><br>Revis&atilde;o abrangente de mecanismos e fun&ccedil;&otilde;es. Acesso aberto.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Rang &amp; Dale's Pharmacology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Ritter et al. &middot; Elsevier, 10&ordf; ed.<br>Para o contexto farmacol&oacute;gico: eculizumabe, ravulizumabe e a era de biol&oacute;gicos anti-complemento.</div>
+  </div>
+</div>
+</section>
+
+<section id="referencias">
+<h2>Refer&ecirc;ncias ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 11. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Sistema Complemento</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 2026.</li>
+  <li>RICKLIN, Daniel et al. Complement: a key system for immune surveillance and homeostasis. <em>Nature Immunology</em>, v. 11, n. 9, p. 785&ndash;797, 2010. DOI: <a href="https://doi.org/10.1038/ni.1923" target="_blank" rel="noopener">10.1038/ni.1923</a></li>
+  <li>ROSA NETO, N. S.; CARVALHO, J. F. O uso de provas de atividade inflamat&oacute;ria em reumatologia. <em>Revista Brasileira de Reumatologia</em>, v. 49, n. 4, p. 413&ndash;430, 2009.</li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+<script>
+const sidebar=document.getElementById('sidebar');
+const bodyWrap=document.getElementById('body-wrap');
+const toggleBtn=document.getElementById('toggle-btn');
+if(sessionStorage.getItem('sidebar-collapsed')==='1'){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');toggleBtn.textContent='›'}
+toggleBtn.addEventListener('click',()=>{const c=sidebar.classList.toggle('collapsed');bodyWrap.classList.toggle('sidebar-collapsed',c);toggleBtn.textContent=c?'›':'‹';sessionStorage.setItem('sidebar-collapsed',c?'1':'0')});
+const pb=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('#sidebar a.sl');
+const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs1.observe(s));
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs2.observe(s));
+</script>
+</body>
+</html>

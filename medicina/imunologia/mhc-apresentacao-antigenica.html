@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M6 &mdash; MHC e Apresenta&ccedil;&atilde;o Antig&ecirc;nica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+.mhc-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 8px}
+.mhc-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px}
+.mhc-card .mc{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.mhc-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:5px;line-height:1.6}
+.mhc-card p:last-child{margin:0}
+.mhc-card strong{color:var(--text);font-weight:500}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+@media(max-width:900px){#mob-bar{display:flex}#sidebar{display:none;position:fixed;z-index:40;height:100%;top:0}#sidebar.open{display:flex}#s-toggle{display:none}#content{padding:24px 20px 80px}.ck-grid,.mhc-compare{grid-template-columns:1fr}}
+@media print{#sidebar,#mob-bar,#progress-bar,.anc{display:none}body{background:#fff;color:#000}#content{padding:0}.prose{max-width:100%}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M6 &mdash; MHC e Apresenta&ccedil;&atilde;o</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776; Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <b>M6 &mdash; MHC e Apresenta&ccedil;&atilde;o</b>
+      <span>Imunologia &middot; PUC &middot; 2026</span>
+      <a href="index.html">&larr; &Iacute;ndice de Imunologia</a>
+    </div>
+    <div class="s-group">Conte&uacute;do</div>
+    <a class="sl" href="#fundamentos">Fundamentos necess&aacute;rios</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#definicao">MHC &mdash; defini&ccedil;&atilde;o e localiza&ccedil;&atilde;o</a>
+    <a class="sl" href="#classes">Classes I, II e III</a>
+    <a class="sl" href="#estrutura">Estrutura molecular</a>
+    <a class="sl" href="#polimorfismo">Polimorfismo e HLA</a>
+    <a class="sl" href="#expressao">Express&atilde;o celular</a>
+    <a class="sl" href="#processamento">Processamento de ant&iacute;genos</a>
+    <a class="sl sub" href="#via-endogena">Via end&oacute;gena (MHC-I)</a>
+    <a class="sl sub" href="#via-exogena">Via ex&oacute;gena (MHC-II)</a>
+    <a class="sl sub" href="#cross">Apresenta&ccedil;&atilde;o cruzada</a>
+    <a class="sl" href="#superantigenos">Superant&iacute;genos</a>
+    <a class="sl" href="#hla-doencas">HLA e doen&ccedil;as</a>
+    <a class="sl" href="#transplante">HLA e transplantes</a>
+    <div class="s-group">Revis&atilde;o</div>
+    <a class="sl" href="#conexoes">Conex&otilde;es</a>
+    <a class="sl" href="#discussao">Discuss&atilde;o</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Refer&ecirc;ncias ABNT</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>M6 &mdash; MHC e Apresenta&ccedil;&atilde;o Antig&ecirc;nica</h1>
+  <p class="doc-meta">Imunologia &middot; Medicina &middot; PUC-PR &middot; 2026 &middot; Abbas cap. 6; Aula Reiche 2026</p>
+  <div class="doc-chips">
+    <span class="chip">&#9201; <b>~28 min</b> de leitura</span>
+    <span class="chip">&#128203; Pr&eacute;-requisitos: <b>linf&oacute;citos T, timo, DCs</b></span>
+    <span class="chip">&#128279; Depende de: <b>M1, M2, M4</b></span>
+    <span class="chip">&#128205; &Aacute;rea: <b>Imunologia molecular</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente com espondilite anquilosante tem HLA-B27 e doen&ccedil;a grave. Outro com celíaca tem HLA-DQ2 e &eacute; intolerante ao glúten. Em ambos os casos, uma mol&eacute;cula de MHC espec&iacute;fica &eacute; o determinante gen&eacute;tico da doen&ccedil;a. Por que a mesma mol&eacute;cula que deveria apresentar ant&iacute;genos de pat&oacute;genos acaba apresentando autoant&iacute;genos ou ant&iacute;genos alimentares e desencadeando autoimunidade? O que isso revela sobre o que o MHC realmente faz?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de depend&ecirc;ncias</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este comp&ecirc;ndio usa</div>
+      <a class="dep-item" href="orgaos-linfoides.html">M1 &mdash; &Oacute;rg&atilde;os Linfoides (timo)</a>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 &mdash; C&eacute;lulas do SI (DCs, T)</a>
+      <a class="dep-item" href="imunidade-inata.html">M4 &mdash; Ponte inata-adaptativa</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necess&aacute;rio</div>
+      <a class="dep-item" href="#">Proteassomo e ubiquitiniza&ccedil;&atilde;o</a>
+      <a class="dep-item" href="#">Lisossomo e catepsinas</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html">M8 &mdash; Linf&oacute;citos T</a>
+      <a class="dep-item" href="resposta-a-patogenos.html">M9 &mdash; Resposta a Pat&oacute;genos</a>
+      <a class="dep-item" href="hipersensibilidade.html">M10 &mdash; Hipersensibilidade</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos Necess&aacute;rios <a class="anc" href="#fundamentos">#</a></h2>
+<p>Linf&oacute;citos T CD4&#8314; e CD8&#8314; reconhecem ant&iacute;genos <strong>apenas quando apresentados por MHC</strong> &mdash; n&atilde;o reconhecem ant&iacute;genos sol&uacute;veis livres. C&eacute;lulas apresentadoras de ant&iacute;genos (APCs) profissionais &mdash; c&eacute;lulas dendrit&iacute;cas (DCs), macr&oacute;fagos e linf&oacute;citos B &mdash; expressam MHC-II constitutivamente; DCs s&atilde;o as &uacute;nicas capazes de ativar linf&oacute;citos T na&iuml;ve. A via end&oacute;gena (MHC-I) usa o <strong>proteassomo</strong> citoss&oacute;lico; a via ex&oacute;gena (MHC-II) usa <strong>catepsinas lisoss&ocirc;micas</strong>. A ponte inata-adaptativa via DCs maduras &eacute; descrita em <a class="cross-link" href="imunidade-inata.html#ponte-adaptativa">M4 &rarr; Ponte para a adaptativa</a>; a educa&ccedil;&atilde;o t&iacute;mica por MHC em <a class="cross-link" href="orgaos-linfoides.html#timo">M1 &rarr; Timo</a>.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">MHC / HLA</div><div class="ckd">Complexo maior de histocompatibilidade. Em humanos: HLA no cromossomo 6. 421 genes. O mais polim&oacute;rfico do genoma.</div></div>
+  <div class="ck-card"><div class="ckt">MHC-I vs MHC-II</div><div class="ckd">MHC-I: em todas as c&eacute;lulas nucleadas, apresenta para CD8&#8314; pept&iacute;deos 8&ndash;10aa. MHC-II: APCs, apresenta para CD4&#8314; pept&iacute;deos 13&ndash;25aa.</div></div>
+  <div class="ck-card"><div class="ckt">Polimorfismo</div><div class="ckd">HLA-B tem &gt;9.000 alelos. Concentrado no s&iacute;tio de liga&ccedil;&atilde;o de pept&iacute;deos. Mem&oacute;ria evolutiva de epidemias.</div></div>
+  <div class="ck-card"><div class="ckt">Via end&oacute;gena</div><div class="ckd">Prote&iacute;na citoss&oacute;lica &rarr; proteassomo &rarr; TAP &rarr; RE &rarr; MHC-I &rarr; superf&iacute;cie. Ativa CD8&#8314;.</div></div>
+  <div class="ck-card"><div class="ckt">Via ex&oacute;gena</div><div class="ckd">Prote&iacute;na fagocitada &rarr; endossomo/fag&oacute;ssomo &rarr; catepsinas &rarr; MIIC &rarr; HLA-DM remove CLIP &rarr; MHC-II &rarr; superf&iacute;cie. Ativa CD4&#8314;.</div></div>
+  <div class="ck-card"><div class="ckt">Apresenta&ccedil;&atilde;o cruzada</div><div class="ckd">DCs CD141&#8314; apresentam ant&iacute;genos ex&oacute;genos em MHC-I &rarr; ativa CD8&#8314; sem a APC estar infectada. Essencial em vacinas e tumores.</div></div>
+</div>
+</section>
+
+<section id="definicao">
+<h2>MHC &mdash; Defini&ccedil;&atilde;o e Localiza&ccedil;&atilde;o Gen&ocirc;mica <a class="anc" href="#definicao">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  <strong>George Snell</strong> descreveu o locus H-2 murino nos anos 1930&ndash;50 como determinante de rejeição de enxertos. <strong>Jean Dausset</strong> identificou o primeiro ant&iacute;geno leucocit&aacute;rio humano (MAC, depois HLA-A2) em 1958 ao observar anticorpos em pacientes politransfundidos. <strong>Baruj Benacerraf</strong> descobriu que o MHC controla a resposta imune a ant&iacute;genos sint&eacute;ticos (genes Ir). Os tr&ecirc;s receberam o Nobel em 1980. A restri&ccedil;&atilde;o ao MHC &mdash; linf&oacute;citos T reconhecem pept&iacute;deo + MHC, n&atilde;o pept&iacute;deo livre &mdash; foi demonstrada por <strong>Zinkernagel e Doherty</strong> em 1974 (Nobel 1996).
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p>O <strong>MHC</strong> (<em>Major Histocompatibility Complex</em>, complexo maior de histocompatibilidade) &eacute; a regi&atilde;o gen&ocirc;mica que codifica mol&eacute;culas de membrana respons&aacute;veis pela apresenta&ccedil;&atilde;o de pept&iacute;deos antig&ecirc;nicos ao TCR dos linf&oacute;citos T. Em humanos, denominado <strong>HLA</strong> (<em>Human Leukocyte Antigen</em>), localizado no cromossomo 6 (6p21), abrangendo ~4 &times; 10&#8310; nucleot&iacute;deos e 421 genes.</p>
+</div>
+</section>
+
+<section id="classes">
+<h2>Classes I, II e III &mdash; Fun&ccedil;&otilde;es Distintas <a class="anc" href="#classes">#</a></h2>
+<p>O locus MHC &eacute; dividido em tr&ecirc;s regi&otilde;es com produtos funcionais distintos. <strong>MHC classe I</strong> (HLA-A, -B, -C cl&aacute;ssicos; HLA-E, -F, -G n&atilde;o cl&aacute;ssicos) &mdash; apresenta pept&iacute;deos citoplasm&aacute;ticos a linf&oacute;citos T CD8&#8314;. <strong>MHC classe II</strong> (HLA-DP, -DQ, -DR cl&aacute;ssicos; HLA-DO, -DM nos lisossomos) &mdash; apresenta pept&iacute;deos ex&oacute;genos fagocitados a linf&oacute;citos T CD4&#8314;. <strong>MHC classe III</strong> &mdash; n&atilde;o codifica mol&eacute;culas de apresenta&ccedil;&atilde;o; codifica complemento (C2, C4), citocinas (TNF-&alpha;, linfotoxina) e prote&iacute;nas de choque t&eacute;rmico (HSPs) &mdash; justifica a associa&ccedil;&atilde;o entre defici&ecirc;ncia de C4 (MHC III) e LES.</p>
+</section>
+
+<section id="estrutura">
+<h2>Estrutura Molecular das Mol&eacute;culas MHC <a class="anc" href="#estrutura">#</a></h2>
+<div class="mhc-compare">
+  <div class="mhc-card">
+    <div class="mc">MHC Classe I</div>
+    <p><strong>Composi&ccedil;&atilde;o:</strong> cadeia &alpha; (45 kDa, codificada pelo MHC) + &beta;&#8322;-microglobulina (12 kDa, cromossomo 15 &mdash; <em>n&atilde;o</em> pelo MHC)</p>
+    <p><strong>S&iacute;tio de liga&ccedil;&atilde;o:</strong> &alpha;1 + &alpha;2 &mdash; pept&iacute;deos de 8&ndash;10 aa (extremidades ancoradas, r&iacute;gido)</p>
+    <p><strong>Express&atilde;o:</strong> todas as c&eacute;lulas nucleadas + plaquetas; ausente em neur&ocirc;nios, espermatozoides maduros</p>
+    <p><strong>Apresenta para:</strong> T CD8&#8314; (co-receptor CD8 liga &alpha;3)</p>
+  </div>
+  <div class="mhc-card">
+    <div class="mc">MHC Classe II</div>
+    <p><strong>Composi&ccedil;&atilde;o:</strong> cadeia &alpha; (33 kDa) + cadeia &beta; (28 kDa), ambas codificadas pelo MHC &mdash; heter&oacute;dimero &alpha;&beta;</p>
+    <p><strong>S&iacute;tio de liga&ccedil;&atilde;o:</strong> &alpha;1 + &beta;1 &mdash; pept&iacute;deos de 13&ndash;25 aa (extremidades abertas, flex&iacute;vel)</p>
+    <p><strong>Express&atilde;o:</strong> APCs profissionais (DCs, macr&oacute;fagos, LB); end&oacute;telio e epit&eacute;lio indu&ccedil;&atilde;o por IFN-&gamma;</p>
+    <p><strong>Apresenta para:</strong> T CD4&#8314; (co-receptor CD4 liga &beta;2)</p>
+  </div>
+</div>
+</section>
+
+<section id="polimorfismo">
+<h2>Polimorfismo e HLA &mdash; A Maior Diversidade do Genoma <a class="anc" href="#polimorfismo">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A descoberta do polimorfismo extremo do HLA emergiu com as tipagens de transplante nos anos 1960&ndash;70. O Banco de Dados IMGT/HLA foi criado em 1998 e hoje mant&eacute;m &gt;26.000 alelos. O haplótipo ancestral europeu (A1-B8-DR3) e sua associa&ccedil;&atilde;o com m&uacute;ltiplas doen&ccedil;as autoimunes foi descrito por <strong>Dausset e Svejgaard</strong> nos anos 1970, abrindo o campo de associa&ccedil;&atilde;o HLA-doen&ccedil;a. A associa&ccedil;&atilde;o HLA-B53 com prote&ccedil;&atilde;o contra mal&aacute;ria na &Aacute;frica Ocidental (Hill et al., 1991) demonstrou que o polimorfismo &eacute; mem&oacute;ria evolutiva de press&atilde;o seletiva por pat&oacute;genos.
+</div>
+<p>HLA-B possui &gt;9.097 alelos conhecidos (2022); HLA-A tem 7.644; HLA-DRB1 tem 3.389. A diversidade concentra-se no <strong>s&iacute;tio de liga&ccedil;&atilde;o de pept&iacute;deos</strong> (SLP) &mdash; cada alelo apresenta um conjunto ligeiramente diferente de pept&iacute;deos. O polimorfismo garante que qualquer pept&iacute;deo de qualquer pat&oacute;geno seja apresentado por ao menos alguma combina&ccedil;&atilde;o HLA na popula&ccedil;&atilde;o. Alelos s&atilde;o codominantes e herdados em blocos (<em>hapl&oacute;tipos</em>) pelo desequil&iacute;brio de liga&ccedil;&atilde;o.</p>
+</section>
+
+<section id="expressao">
+<h2>Express&atilde;o Celular &mdash; Regula&ccedil;&atilde;o por IFN-&gamma; <a class="anc" href="#expressao">#</a></h2>
+<p>MHC-I &eacute; constitutivo em todas as c&eacute;lulas nucleadas, mas sua express&atilde;o &eacute; upregulada 10&times; por IFN-&alpha;/&beta; e IFN-&gamma; &mdash; aumentando a capacidade de apresenta&ccedil;&atilde;o durante infec&ccedil;&atilde;o viral. DCs expressam o n&iacute;vel mais alto de MHC-I e II (10&times; maior que outros tipos celulares), justificando seu papel na ativa&ccedil;&atilde;o de linf&oacute;citos T na&iuml;ve. Neur&ocirc;nios expressam MHC-I em n&iacute;vel muito baixo &mdash; contribuindo para o "privil&eacute;gio imunol&oacute;gico" do SNC, mas tornando neur&ocirc;nios vulneráveis a infec&ccedil;&otilde;es virais com pouca resposta citot&oacute;xica local.</p>
+</section>
+
+<section id="processamento">
+<h2>Processamento de Ant&iacute;genos &mdash; O Problema da Fonte <a class="anc" href="#processamento">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A restri&ccedil;&atilde;o ao MHC foi demonstrada por <strong>Zinkernagel e Doherty</strong> em 1974: c&eacute;lulas T de camundongo infectado por v&iacute;rus s&oacute; matavam c&eacute;lulas infectadas com o mesmo MHC &mdash; n&atilde;o matavam c&eacute;lulas infectadas de camundongo com MHC diferente. Nobel 1996. O mecanismo de TAP foi descoberto por <strong>Townsend, Monaco e colegas</strong> nos anos 1990; a cadeia invariante e HLA-DM foram caracterizados pela mesma &eacute;poca por <strong>Cresswell et al.</strong>
+</div>
+<p>O sistema imune adaptativo enfrenta um problema: como distinguir c&eacute;lulas infectadas de saud&aacute;veis se os ant&iacute;genos est&atilde;o <em>dentro</em> das c&eacute;lulas? A solu&ccedil;&atilde;o: c&eacute;lulas infectadas exibem fragmentos de prote&iacute;nas citoss&oacute;licas em MHC-I (leg&iacute;vel por CD8&#8314;); APCs exibem fragmentos de material fagocitado em MHC-II (leg&iacute;vel por CD4&#8314;). As duas vias s&atilde;o fisicamente segregadas.</p>
+</section>
+
+<section id="via-endogena">
+<h2>Via End&oacute;gena &mdash; MHC-I Apresenta Prote&iacute;nas Citoplasm&aacute;ticas <a class="anc" href="#via-endogena">#</a></h2>
+<div class="kbox">
+  <div class="klabel">Via end&oacute;gena &mdash; sequ&ecirc;ncia</div>
+  <p>(1) Prote&iacute;nas ubiquitinadas s&atilde;o degradadas pelo <strong>proteassomo</strong> em pept&iacute;deos de 8&ndash;12 aa. (2) Pept&iacute;deos s&atilde;o transportados ao ret&iacute;culo endoplasm&aacute;tico (RE) por <strong>TAP</strong> (<em>Transporter associated with Antigen Processing</em>) &mdash; heter&oacute;dimero TAP1/TAP2. (3) No RE, pept&iacute;deos s&atilde;o carregados em MHC-I com aux&iacute;lio de chaperonas (calnexina, calreticulina, tapasina). (4) Complexo MHC-I/pept&iacute;deo exportado via Golgi &agrave; membrana plasm&aacute;tica.</p>
+</div>
+<div class="box alerta">
+  <strong>Evas&atilde;o viral por bloqueio de TAP:</strong> HSV produz ICP47 que bloqueia TAP &rarr; reduz MHC-I na superf&iacute;cie. Adenovirus E19 retém MHC-I no RE. Efeito: menos pept&iacute;deos virais apresentados &rarr; menos ativa&ccedil;&atilde;o de CD8&#8314;. Consequ&ecirc;ncia n&atilde;o pretendida: c&eacute;lulas sem MHC-I ficam vulner&aacute;veis a NK pelo princ&iacute;pio missing self (ver <a class="cross-link" href="imunidade-inata.html#antiviral">M4 &rarr; NK</a>).
+</div>
+</section>
+
+<section id="via-exogena">
+<h2>Via Ex&oacute;gena &mdash; MHC-II Apresenta Prote&iacute;nas Fagocitadas <a class="anc" href="#via-exogena">#</a></h2>
+<div class="kbox">
+  <div class="klabel">Via ex&oacute;gena &mdash; sequ&ecirc;ncia</div>
+  <p>(1) Prote&iacute;nas extracelulares s&atilde;o internalizadas por endocitose/fagocitose. (2) Fus&atilde;o com lisossomos &rarr; catepsinas degradam a pept&iacute;deos de 13&ndash;25 aa. (3) MHC-II rec&eacute;m-sintetizado no RE &eacute; protegido no SLP pela <strong>cadeia invariante</strong> (Ii) &mdash; bloqueia carregamento prematuro de pept&iacute;deos pr&oacute;prios. (4) No compartimento lissoss&ocirc;mico especializado (MIIC), <strong>HLA-DM</strong> remove o fragmento CLIP da cadeia invariante, liberando o SLP. (5) Pept&iacute;deo antig&ecirc;nico se liga &rarr; complexo MHC-II/pept&iacute;deo migra &agrave; membrana.</p>
+</div>
+<p>A cadeia invariante garante que MHC-II s&oacute; seja carregado no compartimento correto &mdash; n&atilde;o no RE, onde haveria mistura com pept&iacute;deos end&oacute;genos. Essa segrega&ccedil;&atilde;o f&iacute;sica &eacute; o que mant&eacute;m a distinc&atilde;o "MHC-I = end&oacute;geno; MHC-II = ex&oacute;geno" robusta.</p>
+</section>
+
+<section id="cross">
+<h2>Apresenta&ccedil;&atilde;o Cruzada &mdash; Exce&ccedil;&atilde;o &agrave; Regra <a class="anc" href="#cross">#</a></h2>
+<p>C&eacute;lulas dendrit&iacute;cas CD141&#8314;/BDCA-3&#8314; humanas (equivalentes a CD8&alpha;&#8314; murinas) s&atilde;o capazes de apresentar pept&iacute;deos de ant&iacute;genos ex&oacute;genos fagocitados em <strong>MHC-I</strong> &mdash; a <em>cross-presentation</em> (apresenta&ccedil;&atilde;o cruzada). O mecanismo envolve escape do material proteico do fag&oacute;ssomo para o citosol &rarr; proteassomo &rarr; TAP &rarr; MHC-I. Fun&ccedil;&atilde;o: ativar CD8&#8314; contra pat&oacute;genos intracelulares sem que a APC precise estar infectada; gerar resposta citot&oacute;xica contra tumores cujos ant&iacute;genos s&atilde;o capturados por DCs n&atilde;o infectadas. Relevante para vacinas proteicas que visam resposta CD8&#8314; e imunoterapia de c&acirc;ncer.</p>
+</section>
+
+<section id="superantigenos">
+<h2>Superant&iacute;genos &mdash; Bypass do Processamento <a class="anc" href="#superantigenos">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O conceito de superant&iacute;geno foi formalizado por <strong>Philippa Marrack e John Kappler</strong> em 1990 ao demonstrar que enterotoxinas estafiloc&oacute;cicas ativavam grandes fra&ccedil;&otilde;es do repertório T por liga&ccedil;&atilde;o ao dom&iacute;nio V&beta; do TCR. A s&iacute;ndrome do choque t&oacute;xico (TSST-1) foi descrita clinicamente em 1980 e seu mecanismo molecular elucidado por Marrack e Kappler. A aplica&ccedil;&atilde;o bioterrorrista desses conhecimentos &eacute; monitorada.
+</div>
+<div class="kbox">
+  <div class="klabel">Superant&iacute;genos</div>
+  <p>Superant&iacute;genos s&atilde;o prote&iacute;nas bacterianas (enterotoxinas estafiloc&oacute;cicas SEA&ndash;SEE, TSST-1) que se ligam simultaneamente ao dom&iacute;nio V&beta; do TCR e &agrave; cadeia &alpha; de MHC-II &mdash; como uma "pin&ccedil;a" &mdash; <strong>sem processamento nem SLP</strong>. Resultado: ativa&ccedil;&atilde;o de 5&ndash;20% de todos os linf&oacute;citos T (vs. &lt;0,001% em resposta convencional) &rarr; tempestade de citocinas (TNF-&alpha;, IL-2, IFN-&gamma;) &rarr; choque t&oacute;xico.</p>
+</div>
+</section>
+
+<section id="hla-doencas">
+<h2>HLA e Predisposi&ccedil;&atilde;o a Doen&ccedil;as <a class="anc" href="#hla-doencas">#</a></h2>
+<p>A associa&ccedil;&atilde;o entre alelos HLA espec&iacute;ficos e doen&ccedil;as reflete o papel do MHC na apresenta&ccedil;&atilde;o de autoant&iacute;genos e na modelagem do repert&oacute;rio de linf&oacute;citos T durante a educa&ccedil;&atilde;o t&iacute;mica.</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Doen&ccedil;a</th><th>Alelo HLA</th><th>Risco relativo</th><th>Mecanismo proposto</th></tr></thead>
+  <tbody>
+    <tr><td>Espondilite anquilosante</td><td>HLA-B27</td><td>~90&times; (mais forte)</td><td>Mimetismo molecular; pept&iacute;deo B27 mal-dobrado ativa UPR</td></tr>
+    <tr><td>Diabetes mellitus tipo 1</td><td>HLA-DR3/DR4; DQ2/DQ8</td><td>5&ndash;15&times;</td><td>Apresenta&ccedil;&atilde;o de autoant&iacute;genos pancre&aacute;ticos (insulina)</td></tr>
+    <tr><td>Artrite reumatoide</td><td>HLA-DR4 (ep&iacute;topo compartilhado DRB1)</td><td>4&ndash;6&times;</td><td>Presenta&ccedil;&atilde;o de pept&iacute;deos citrulinados</td></tr>
+    <tr><td>Narcolepsia</td><td>HLA-DQB1*06:02</td><td>&gt;98% dos casos</td><td>Autoimunidade contra neur&ocirc;nios de hipocretina (mim. H1N1)</td></tr>
+    <tr><td>Doen&ccedil;a cel&iacute;aca</td><td>HLA-DQ2, HLA-DQ8</td><td>Necess&aacute;rio, n&atilde;o suficiente</td><td>DQ2 apresenta gliadina desaminada com alta afinidade a CD4&#8314;</td></tr>
+    <tr><td>LES</td><td>HLA-DR2/DR3; defic. C4A (MHC III)</td><td>2&ndash;3&times;</td><td>C4A deficiente &rarr; clearance de imunocomplexos reduzido</td></tr>
+  </tbody>
+  <caption>Tabela 1. Associa&ccedil;&otilde;es HLA-doen&ccedil;a clinicamente relevantes.</caption>
+</table></div>
+</section>
+
+<section id="transplante">
+<h2>HLA e Rejei&ccedil;&atilde;o de Transplantes <a class="anc" href="#transplante">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A base imunol&oacute;gica da rejei&ccedil;&atilde;o de transplantes foi elucidada por <strong>Peter Medawar</strong> (Nobel 1960) ao demonstrar que rejei&ccedil;&atilde;o era um fen&ocirc;meno imunol&oacute;gico adaptativo. A import&acirc;ncia da compatibilidade HLA em transplante renal foi demonstrada por <strong>Paul Terasaki</strong> nos anos 1960&ndash;70, que desenvolveu o teste de citotoxicidade dependente de complemento (CDC) para tipagem HLA. A era de imunossupressores (ciclosporina, 1983) reduziu a import&acirc;ncia relativa da compatibilidade HLA, mas n&atilde;o a eliminou.
+</div>
+<p>O receptor reconhece HLA do doador de dois modos: (1) <strong>via direta</strong> &mdash; c&eacute;lulas T do receptor reconhecem diretamente mol&eacute;culas HLA intactas do doador nas APCs do enxerto. Domina na rejei&ccedil;&atilde;o aguda precoce. (2) <strong>via indireta</strong> &mdash; pept&iacute;deos derivados do HLA alog&ecirc;nico do doador s&atilde;o processados e apresentados por MHC pr&oacute;prio do receptor. Domina na rejei&ccedil;&atilde;o cr&ocirc;nica. O grau de incompatibilidade em HLA-A, -B e -DR &eacute; o principal preditor de rejei&ccedil;&atilde;o em transplantes renais.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conex&otilde;es com Outros M&oacute;dulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M6 &rarr; M1 (Timo):</strong> a sele&ccedil;&atilde;o t&iacute;mica positiva e negativa &eacute; diretamente mediada por MHC. C&eacute;lulas T cujo TCR n&atilde;o reconhece MHC pr&oacute;prio morrem por neglect; as que reagem ao MHC pr&oacute;prio com alta afinidade morrem por apoptose (deleção clonal). Ver <a class="cross-link" href="orgaos-linfoides.html#timo">M1 &rarr; Timo</a>.</p>
+  <p><strong>M6 &rarr; M8 (Linf&oacute;citos T):</strong> a apresenta&ccedil;&atilde;o via MHC &eacute; o sinal 1 de ativa&ccedil;&atilde;o de linf&oacute;citos T. MHC-I ativa CD8&#8314;; MHC-II ativa CD4&#8314;. O mecanismo completo de ativa&ccedil;&atilde;o (sinais 1, 2 e 3) est&aacute; em <a class="cross-link" href="linfocitos-t-diferenciacao.html">M8 &rarr; Linf&oacute;citos T</a>.</p>
+  <p><strong>M6 &rarr; M9 (Pat&oacute;genos):</strong> v&iacute;rus que bloqueiam TAP ou downregulam MHC-I escapam da resposta CD8&#8314; mas ficam vulner&aacute;veis a NK pelo missing self. A interac&atilde;o MHC-I &#8596; evas&atilde;o viral &#8596; NK &eacute; o fio condutor da imunidade antiviral. Ver <a class="cross-link" href="resposta-a-patogenos.html">M9 &rarr; Evas&atilde;o viral</a>.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discuss&atilde;o <a class="anc" href="#discussao">#</a></h2>
+<p>A converg&ecirc;ncia entre estrutura e fun&ccedil;&atilde;o do MHC &eacute; not&aacute;vel: o polimorfismo extremo do SLP &eacute; consequ&ecirc;ncia de sele&ccedil;&atilde;o por press&atilde;o de pat&oacute;genos ao longo de milh&otilde;es de anos. Popula&ccedil;&otilde;es que passaram por epidemias severas t&ecirc;m frequ&ecirc;ncia aumentada de alelos HLA que apresentam eficientemente pept&iacute;deos daquele pat&oacute;geno. A diversidade gen&eacute;tica de HLA &eacute; mem&oacute;ria evolutiva de epidemias passadas.</p>
+<p>A tens&atilde;o mais produtiva: a mesma diversidade que garante que a esp&eacute;cie possa responder a qualquer pat&oacute;geno cria, no indiv&iacute;duo, alelos que apresentam autoant&iacute;genos com alta afinidade. HLA-DQ2 apresenta gliadina (trigo) com efici&ecirc;ncia incomum &rarr; resposta T CD4&#8314; contra pept&iacute;deo alimentar &rarr; doen&ccedil;a cel&iacute;aca. O "pre&ccedil;o" da capacidade de apresentar ep&iacute;topos variados &eacute; o risco de apresentar ep&iacute;topos pr&oacute;prios ou alimentares que disparam resposta patol&oacute;gica.</p>
+<p>A implica&ccedil;&atilde;o derivada que responde &agrave; pergunta motivadora: o MHC n&atilde;o &eacute; uma mol&eacute;cula de "reconhecimento de pat&oacute;genos" &mdash; &eacute; uma mol&eacute;cula de <strong>vigil&acirc;ncia do proteoma celular</strong>. Ele apresenta amostras de tudo que a c&eacute;lula sintetiza ou fagocita ao sistema imune. A tol&ecirc;rancia a ant&iacute;genos pr&oacute;prios n&atilde;o emerge porque MHC n&atilde;o os apresenta &mdash; ele apresenta. Emerge dos mecanismos de educa&ccedil;&atilde;o t&iacute;mica e tol&ecirc;rancia peri&eacute;rica que ignoram ou suprimem as c&eacute;lulas T que reconhecem esses complexos. A autoimunidade &eacute; uma falha nesses filtros &mdash; n&atilde;o uma falha do MHC.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras Recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai &middot; Elsevier, 11&ordf; ed. &middot; Cap. 6<br>Cobertura completa de estrutura, processamento e apresenta&ccedil;&atilde;o. Figuras estruturais de MHC-I e II com dom&iacute;nios &mdash; essencial para compreens&atilde;o tridimensional.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology</div>
+    <div class="bm">Murphy, Weaver &middot; Garland, 10&ordf; ed. &middot; Cap. 5&ndash;6<br>Melhor cobertura de polimorfismo HLA com dados populacionais e hist&oacute;rica da descoberta. Tabela de associa&ccedil;&otilde;es HLA-doen&ccedil;a mais abrangente.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">IMGT/HLA Database</div>
+    <div class="bm"><a href="https://www.ebi.ac.uk/ipd/imgt/hla/" target="_blank" rel="noopener" style="color:var(--ac)">ebi.ac.uk/ipd/imgt/hla</a><br>Repositório oficial de alelos HLA com atualização cont&iacute;nua (&gt;26.000 alelos em 2022). Para consultar n&uacute;meros de alelos atualizados.</div>
+  </div>
+</div>
+</section>
+
+<section id="referencias">
+<h2>Refer&ecirc;ncias ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 11. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>BARKER, D. J. et al. The IPD-IMGT/HLA database. <em>Nucleic Acids Research</em>, v. 51, n. D1, p. D1053&ndash;D1060, 2023. DOI: <a href="https://doi.org/10.1093/nar/gkac1011" target="_blank" rel="noopener">10.1093/nar/gkac1011</a></li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Sistema MHC e HLA &mdash; import&acirc;ncia na resposta imune</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 2026.</li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+<script>
+const sidebar=document.getElementById('sidebar');
+const bodyWrap=document.getElementById('body-wrap');
+const toggleBtn=document.getElementById('toggle-btn');
+if(sessionStorage.getItem('sidebar-collapsed')==='1'){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');toggleBtn.textContent='›'}
+toggleBtn.addEventListener('click',()=>{const c=sidebar.classList.toggle('collapsed');bodyWrap.classList.toggle('sidebar-collapsed',c);toggleBtn.textContent=c?'›':'‹';sessionStorage.setItem('sidebar-collapsed',c?'1':'0')});
+const pb=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('#sidebar a.sl');
+const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs1.observe(s));
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs2.observe(s));
+</script>
+</body>
+</html>

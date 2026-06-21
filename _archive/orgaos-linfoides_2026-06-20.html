@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 1 — Órgãos e Tecidos Linfoides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0c09;--bg2:#17140f;--bg3:#201c15;
+  --border:#3d3020;--text:#ddd5c0;--muted:#b09a78;--blue:#e0a04a;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 0 40px}
+#sidebar .logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--blue);padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
+#sidebar .logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+#sidebar .group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px}
+#sidebar a{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent}
+#sidebar a:hover{color:var(--text)}
+#sidebar a.active{color:var(--blue);border-left-color:var(--blue)}
+main{flex:1;padding:60px 80px 120px}
+.content{max-width:72ch;margin:0 auto}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--blue);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:48px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--blue);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+p{margin-bottom:1.1em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+a.cite{color:var(--blue);text-decoration:none;font-size:.85em;vertical-align:super}
+a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--blue);text-decoration:none;font-size:.82em;font-style:italic;border-bottom:1px dashed var(--blue);opacity:.85}
+a.cross-link:hover{opacity:1}
+.table-wrap{overflow-x:auto;margin:28px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.fund-card strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}
+.fund-card p{color:var(--muted);margin:0;line-height:1.6}
+.callout{background:var(--bg3);border-left:3px solid var(--blue);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--blue)}
+.callout-red{border-left-color:#c0392b}.callout-red strong{color:#e07070}
+.callout-green{border-left-color:#27ae60}.callout-green strong{color:#7dcea0}
+.organ-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.organ-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
+.organ-card .organ-name{font-family:var(--font-ui);font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.organ-card p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.05em;text-transform:uppercase;margin-right:4px}
+.tag-primario{background:#1a2535;color:#7ab3e0;border:1px solid #2a4060}
+.tag-secundario{background:#251a10;color:var(--blue);border:1px solid var(--border)}
+.tag-malt{background:#1a2520;color:#7dcea0;border:1px solid #2a5040}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}
+.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .book-meta{color:var(--muted);font-size:12px}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+ol.refs li a{color:var(--blue);text-decoration:none}
+ol.refs li a:hover{text-decoration:underline}
+@media(max-width:1024px){
+  body{flex-direction:column}
+  #sidebar{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;padding:12px 0 0;border-right:none;border-bottom:1px solid var(--border)}
+  #sidebar .logo{border-bottom:none;margin-bottom:0;padding-bottom:8px}
+  #sidebar .group-label{padding:8px 12px 4px}
+  #sidebar a{padding:4px 12px}
+  main{padding:32px 24px 80px}
+  .organ-grid,.fund-grid,.book-grid{grid-template-columns:1fr}
+}
+@media print{
+  #sidebar{display:none}
+  body{display:block;background:#fff;color:#000}
+  main{padding:0}
+  h1,h2,h3{color:#000}
+  .callout{background:#f5f5f5;border-color:#999;color:#000}
+  table,th,td{border-color:#ccc;color:#000}
+  th{background:#eee}
+  a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}
+  .anchor{display:none}
+}
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="logo">Imunologia · Módulo 1
+    <a href="index.html">← Índice de Imunologia</a>
+  </div>
+  <div class="group-label">Conteúdo</div>
+  <a href="#fundamentos-necessarios">Fundamentos necessários</a>
+  <a href="#visao-geral">Visão geral do SI</a>
+  <a href="#orgaos-primarios">Órgãos primários</a>
+  <a href="#medula-ossea">Medula óssea</a>
+  <a href="#timo">Timo</a>
+  <a href="#orgaos-secundarios">Órgãos secundários</a>
+  <a href="#baco">Baço</a>
+  <a href="#linfonodos">Linfonodos</a>
+  <a href="#malt">MALT</a>
+  <a href="#salt">SALT</a>
+  <div class="group-label">Revisão</div>
+  <a href="#conexoes">Conexões</a>
+  <a href="#discussao">Discussão</a>
+  <a href="#leituras">Leituras recomendadas</a>
+  <a href="#referencias">Referências ABNT</a>
+</nav>
+<main>
+<div class="content">
+
+<h1>Módulo 1 — Órgãos e Tecidos Linfoides</h1>
+<p class="doc-meta">Imunologia · PUC · 2026 · Abbas cap. 1–2 · Aulas: Órgãos Linfoides Partes 1 e 2</p>
+
+<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<p>Conceitos de áreas adjacentes indispensáveis para compreender a arquitetura do sistema imune.</p>
+<div class="fund-grid">
+  <div class="fund-card"><strong>Hematopoiese</strong><p>Processo de geração contínua de células sanguíneas a partir de células-tronco hematopoiéticas (CTH) pluripotentes e autorrenovaveis na medula óssea. Toda célula do sistema imune tem origem nesse processo.</p></div>
+  <div class="fund-card"><strong>Linhagem mieloide vs. linfoide</strong><p>As CTH se comprometem com dois grandes ramos: o progenitor mieloide (origem de granulócitos, monócitos, mastócitos, plaquetas e eritrócitos) e o progenitor linfoide (origem de linfócitos B, T e NK).</p></div>
+  <div class="fund-card"><strong>Antígeno e especificidade</strong><p>Antígeno é qualquer molécula capaz de ser reconhecida pelo sistema imune adaptativo. A especificidade — cada linfócito reconhece um antígeno distinto — exige que os linfócitos maduros sejam produzidos em grande diversidade antes de qualquer exposição antigênica.</p></div>
+  <div class="fund-card"><strong>Tolerância central</strong><p>Mecanismo pelo qual linfócitos autorreativos (que reconheceriam tecidos próprios) são eliminados ou silenciados durante a maturação nos órgãos primários. Falha na tolerância central é base das doenças autoimunes.</p></div>
+  <div class="fund-card"><strong>Circulação linfática</strong><p>Rede paralela ao sistema venoso que drena fluido intersticial (linfa) dos tecidos para o sangue via ducto torácico. Os linfonodos são posicionados ao longo dessa rede como filtros imunológicos.</p></div>
+  <div class="fund-card"><strong>Imunidade inata vs. adaptativa</strong><p>A inata responde de forma rápida e inespecífica; a adaptativa responde com especificidade e memória, mas exige dias para se estabelecer. Os órgãos linfoides são a infraestrutura física de ambas, com ênfase na adaptativa.</p></div>
+</div>
+
+<h2 id="visao-geral">Visão geral do sistema imune <a class="anchor" href="#visao-geral">#</a></h2>
+<p>O sistema imune é definido como o conjunto de órgãos, tecidos, células e moléculas que protegem o organismo contra agentes agressores — microrganismos, células tumorais e substâncias estranhas. Sua capacidade de defesa depende de uma arquitetura espacial precisa: órgãos onde células são produzidas e treinadas, órgãos onde encontram antígenos e se ativam, e tecidos onde exercem funções efetoras <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+<p>A organização segue dois níveis hierárquicos. Os <strong>órgãos primários</strong> (ou centrais) são os sítios de geração e maturação dos linfócitos — onde células aprendem a distinguir próprio de não-próprio antes de qualquer contato com antígeno. Os <strong>órgãos secundários</strong> (ou periféricos) são os sítios onde linfócitos maduros encontram antígenos, se ativam e geram respostas efetoras.</p>
+
+<div class="table-wrap"><table>
+  <thead><tr><th>Categoria</th><th>Órgãos/Tecidos</th><th>Função principal</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag tag-primario">Primário</span> Medula óssea</td><td>Todos os ossos (feto); ossos chatos (adulto)</td><td>Hematopoiese; maturação de linfócitos B</td></tr>
+    <tr><td><span class="tag tag-primario">Primário</span> Timo</td><td>Mediastino anterior</td><td>Maturação, seleção e tolerância de linfócitos T</td></tr>
+    <tr><td><span class="tag tag-secundario">Secundário</span> Baço</td><td>Quadrante superior esquerdo do abdômen</td><td>Resposta a antígenos sanguíneos; filtração</td></tr>
+    <tr><td><span class="tag tag-secundario">Secundário</span> Linfonodos</td><td>Ao longo de toda a rede linfática</td><td>Resposta a antígenos teciduais e linfáticos</td></tr>
+    <tr><td><span class="tag tag-malt">MALT</span> Tecido linfoide das mucosas</td><td>Intestino, vias aéreas, nasofaringe</td><td>Imunidade de mucosa (IgA secretora)</td></tr>
+    <tr><td><span class="tag tag-malt">SALT</span> Tecido linfoide da pele</td><td>Epiderme e derme</td><td>Vigilância imune cutânea</td></tr>
+  </tbody>
+  <caption>Tabela 1. Organização hierárquica dos órgãos e tecidos linfoides e suas funções principais.</caption>
+</table></div>
+
+<h2 id="orgaos-primarios">Órgãos primários — onde linfócitos nascem e aprendem <a class="anchor" href="#orgaos-primarios">#</a></h2>
+<p>A lógica dos órgãos primários é a seguinte: o sistema imune adaptativo depende de linfócitos com receptores funcionais e não autorreativos. Esses linfócitos precisam ser gerados em enorme diversidade — estima-se 10⁸–10⁹ especificidades diferentes — antes de qualquer infecção. Os órgãos primários são o ambiente onde essa geração e o controle de qualidade (tolerância central) ocorrem.</p>
+
+<h2 id="medula-ossea">Medula óssea <a class="anchor" href="#medula-ossea">#</a></h2>
+<p>A medula óssea é definida como o tecido hematopoiético que ocupa as cavidades dos ossos e constitui o principal sítio de produção de todas as células sanguíneas no adulto. É também o local de maturação completa dos linfócitos B <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+<p>Durante o desenvolvimento fetal, a hematopoiese migra progressivamente: inicia nas <strong>ilhotas sanguíneas do saco vitelínico</strong>, move-se para o <strong>fígado fetal</strong> entre o 3º e 4º mês de gestação, e finalmente estabelece-se na <strong>medula óssea</strong>. Ao nascimento, todos os ossos são hematopoiéticos. No adulto, a hematopoiese se restringe aos <strong>ossos chatos</strong>: esterno, vértebras, ossos ilíacos e costelas — onde a medula vermelha persiste.</p>
+<p>Quando a medula óssea é lesada (por irradiação, quimioterapia ou fibrose) ou quando há demanda excepcional por células sanguíneas, o fígado e o baço podem retomar a hematopoiese — fenômeno chamado <strong>hematopoiese extramedular</strong>, normal no feto mas patológico no adulto.</p>
+<p>Os linfócitos B completam toda sua maturação na medula óssea, passando por pontos de controle que verificam (1) se o rearranjo do gene do receptor B (BCR) foi bem-sucedido e (2) se o BCR gerado reconhece antígenos próprios — caso positivo, a célula é eliminada por apoptose (seleção negativa) ou editada (edição de receptor).</p>
+
+<h2 id="timo">Timo <a class="anchor" href="#timo">#</a></h2>
+<p>O timo é definido como o órgão linfoide primário bilobado, localizado no mediastino anterior, responsável exclusivamente pela maturação, seleção e tolerância dos linfócitos T. Sem timo funcional, não há imunidade celular adaptativa.</p>
+<p>Estruturalmente, cada lobo tímico é dividido em <strong>córtex</strong> (externo, com timócitos imaturos em proliferação intensa) e <strong>medula</strong> (interna, com timócitos maduros, macrófagos e células dendríticas). As <strong>células epiteliais tímicas corticais</strong> produzem IL-7, essencial ao desenvolvimento inicial do linfócito T, e expressam moléculas MHC que conduzem a seleção positiva. As células epiteliais medulares expressam o gene <strong>AIRE</strong> (regulador autoimune), que força a expressão de autoantígenos teciduais no timo — permitindo que linfócitos T autorreativos sejam identificados e eliminados (seleção negativa).</p>
+
+<h3 id="selecao-timica">Seleção tímica: positiva e negativa <a class="anchor" href="#selecao-timica">#</a></h3>
+<p>A seleção dupla no timo é o mecanismo que garante que apenas linfócitos T úteis e não perigosos saiam para a periferia. A lógica é:</p>
+<p><strong>Seleção positiva</strong> (córtex): timócitos que conseguem reconhecer moléculas MHC próprias com afinidade suficiente sobrevivem. Os demais morrem por apoptose ("morte por negligência"). Esse passo garante que o linfócito T seja funcionalmente competente — capaz de reconhecer peptídeos apresentados por MHC.</p>
+<p><strong>Seleção negativa</strong> (medula): timócitos que reconhecem autoantígenos com afinidade muito alta são eliminados (deleção clonal) ou se tornam células T regulatórias (Tregs). Esse passo garante a tolerância central — evita autoimunidade.</p>
+<p>O resultado: apenas ~2–5% dos timócitos que entram no timo saem como linfócitos T maduros e funcionais.</p>
+
+<h3 id="involucao-timica">Involução tímica e imunosenescência <a class="anchor" href="#involucao-timica">#</a></h3>
+<p>O timo atinge peso máximo (~30–40 g) na puberdade e involui progressivamente com a idade, sendo substituído por tecido adiposo. Os níveis de timulina (hormônio tímico) declinam continuamente a partir dos 20 anos e tornam-se indetectáveis após os 60. Essa involução reduz a geração de novos linfócitos T naïve, contribuindo para a <strong>imunosenescência</strong> — a redução progressiva da capacidade de resposta imune adaptativa com o envelhecimento.</p>
+
+<h3 id="doencas-timo">Doenças relacionadas ao timo <a class="anchor" href="#doencas-timo">#</a></h3>
+<div class="callout callout-red"><strong>Síndrome de DiGeorge (CATCH 22)</strong> — Deleção do cromossomo 22q11.2; afeta 1:4.000–6.000 nascidos. Compromete a formação das bolsas faríngeas III e IV, resultando em aplasia ou hipoplasia do timo (e paratireoide). Consequência: imunodeficiência celular grave (LT CD4⁺ e CD8⁺ reduzidos), hipocalcemia, cardiopatias congênitas. O acrônimo CATCH 22 resume: <em>Cardiac defects, Abnormal facies, Thymic hypoplasia, Cleft palate, Hypocalcemia</em>, cromossomo 22.</div>
+<div class="callout callout-red"><strong>APECED (Síndrome Poliglandular Autoimune tipo 1)</strong> — Mutação no gene AIRE (21q22.3), que coordena a expressão de autoantígenos na medula tímica. Sem AIRE funcional, linfócitos T autorreativos escapam da seleção negativa e atacam múltiplos tecidos. Manifestações: candidíase mucocutânea crônica (70–100%), hipoparatireoidismo (79–100%), doença de Addison (60–100%), diabetes mellitus tipo 1, hepatite autoimune. Prevalência maior em finlandeses (1:25.000) e judeus iranianos (1:9.000).</div>
+
+<h2 id="orgaos-secundarios">Órgãos secundários — onde a resposta acontece <a class="anchor" href="#orgaos-secundarios">#</a></h2>
+<p>Os órgãos linfoides secundários são a interface entre os linfócitos maduros circulantes e os antígenos provenientes dos tecidos. Sua organização não é aleatória: linfócitos B e T ocupam zonas distintas, otimizando o encontro com antígenos e entre si — colaboração T–B é essencial para a maioria das respostas humorais.</p>
+
+<h2 id="baco">Baço <a class="anchor" href="#baco">#</a></h2>
+<p>O baço é o maior órgão linfoide secundário, especializado na resposta a antígenos presentes na <strong>corrente sanguínea</strong>. É simultaneamente um filtro imunológico e um filtro hematológico.</p>
+<p>Estruturalmente divide-se em <strong>polpa branca</strong> (tecido linfoide organizado: bainha linfoide periarteriolar com linfócitos T, e folículos linfoides com linfócitos B) e <strong>polpa vermelha</strong> (sinusoides, macrófagos, eritrócitos, plaquetas, granulócitos e plasmócitos).</p>
+<p>A polpa vermelha destrói hemácias velhas ou defeituosas e remove microrganismos opsonizados do sangue. A polpa branca inicia respostas imunes contra antígenos sanguíneos — único órgão linfoide sem aferência linfática: o antígeno chega exclusivamente pelo sangue.</p>
+
+<div class="callout callout-red"><strong>Asplenia e risco infeccioso</strong> — Indivíduos sem baço (esplenectomizados ou com asplenia funcional, como na anemia falciforme) têm risco drasticamente aumentado de infecções graves por bactérias encapsuladas: <em>Streptococcus pneumoniae</em>, <em>Haemophilus influenzae</em> e <em>Neisseria meningitidis</em>. Essas bactérias dependem de opsonização por anticorpos para serem fagocitadas — e o baço é o principal sítio de produção de IgM de fase inicial e de macrófagos que executam a fagocitose. A esplenomegalia (baço aumentado) pode refletir infiltração neoplásica (linfoma, leucemia), aumento da função filtradora (anemias hemolíticas) ou doenças de depósito.</div>
+
+<h2 id="linfonodos">Linfonodos <a class="anchor" href="#linfonodos">#</a></h2>
+<p>Os linfonodos são pequenos órgãos (2–10 mm) encapsulados, distribuídos ao longo de toda a rede linfática, especializados na resposta a antígenos drenados dos <strong>tecidos periféricos</strong> via vasos linfáticos aferentes. São os principais sítios de ativação de linfócitos T e B por antígenos teciduais.</p>
+<p>Morfologicamente: o <strong>córtex externo</strong> contém folículos linfoides com linfócitos B (folículos primários em repouso; folículos secundários com centros germinativos durante resposta ativa). O <strong>paracórtex</strong> é rico em linfócitos T e células dendríticas apresentadoras de antígeno. A <strong>medula</strong> contém plasmócitos secretando anticorpos.</p>
+<p>A entrada de linfócitos naïve circulantes nos linfonodos ocorre pelas <strong>vênulas de endotélio alto</strong> (HEV — <em>high endothelial venules</em>), estrutura especializada que expressa moléculas de adesão (L-selectina ligante) reconhecidas pelos linfócitos circulantes. Antígenos entram pelo linfático aferente, são captados por células dendríticas que os apresentam aos linfócitos T no paracórtex.</p>
+<p>A <strong>linfadenopatia</strong> (aumento de linfonodos) reflete hiperplasia reativa (infecção local), infiltração neoplásica (linfoma de Hodgkin — geralmente LB; linfoma não-Hodgkin) ou metástase de tumor sólido. O padrão de drenagem linfática é anatomicamente previsível: por exemplo, a mama drena principalmente para linfonodos axilares, o que determina a abordagem cirúrgica no câncer de mama.</p>
+
+<h2 id="malt">MALT — Tecido linfoide associado às mucosas <a class="anchor" href="#malt">#</a></h2>
+<p>O MALT (do inglês <em>Mucosa-Associated Lymphoid Tissue</em>) é definido como o conjunto de estruturas linfoides organizadas nas mucosas do trato gastrointestinal, respiratório e urogenital. Constitui a maior massa de tecido linfoide do corpo humano e é especializado na produção de <strong>IgA secretora</strong> — o anticorpo dominante nas mucosas.</p>
+
+<h3 id="galt">GALT — Tecido linfoide do intestino <a class="anchor" href="#galt">#</a></h3>
+<p>O GALT (<em>Gut-Associated Lymphoid Tissue</em>) inclui as <strong>Placas de Peyer</strong> (agregados linfoides no íleo), linfonodos mesentéricos e folículos linfoides isolados no apêndice vermiforme. As Placas de Peyer contêm linfócitos T CD4⁺ e CD8⁺, plasmócitos, macrófagos e células dendríticas.</p>
+<p>A estrutura-chave do GALT são as <strong>células M</strong> (<em>microfold cells</em>): células epiteliais especializadas localizadas sobre as Placas de Peyer que realizam endocitose de antígenos luminais, transportam-nos transcitoticamente e os liberam na face basal, onde células dendríticas os captam e os apresentam às células T. As células M são, portanto, a porta de entrada do antígeno intestinal para o sistema imune adaptativo.</p>
+<p>O apêndice vermiforme, historicamente considerado vestigial, atua como "<strong>santuário</strong>" para bactérias intestinais comensais e como reservatório de linfócitos B de memória, contribuindo para a reconstituição da microbiota após disbiose grave.</p>
+
+<h3 id="nalt-balt">NALT e BALT <a class="anchor" href="#nalt-balt">#</a></h3>
+<p>O NALT (<em>Nasopharynx-Associated Lymphoid Tissue</em>) corresponde ao <strong>Anel de Waldeyer</strong>: adenoide (tonsila faríngea), tonsilas palatinas, tubais e linguais. É a primeira linha de defesa imune das vias aéreas superiores.</p>
+<p>O BALT (<em>Bronchus-Associated Lymphoid Tissue</em>) não está presente constitutivamente no adulto saudável — é um <strong>órgão linfoide terciário</strong>, induzido por inflamação e exposição a microrganismos. Presente em ~40% das crianças e adolescentes; nos adultos, surge em resposta a pneumonias, tabagismo ou doenças autoimunes pulmonares.</p>
+
+<h2 id="salt">SALT — Tecido linfoide da pele <a class="anchor" href="#salt">#</a></h2>
+<p>O SALT (<em>Skin-Associated Lymphoid Tissue</em>) constitui o sistema imune cutâneo, composto por células de Langerhans na epiderme (células dendríticas especializadas, as principais APCs da pele), células dendríticas dérmicas, linfócitos T residentes na pele e queratinócitos ativados que secretam citocinas. A pele é o maior órgão imune de barreira do organismo, e o SALT coordena a vigilância imunológica contínua contra patógenos cutâneos e antígenos ambientais.</p>
+
+<h2 id="conexoes">Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>Módulo 1 → Módulo 2 (Células):</strong> os órgãos estudados aqui são os microambientes que produzem e treinam as células que serão estudadas no próximo módulo. A compreensão de onde cada célula matura (medula óssea para LB; timo para LT) é o fio que conecta a anatomia funcional à biologia celular. Ver <a class="cross-link" href="celulas-sistema-imune.html#hematopoiese">Módulo 2 → Hematopoiese</a>.</p>
+  <p><strong>Módulo 1 → Módulo 8 (Linfócitos T):</strong> a seleção tímica positiva e negativa descrita aqui é o pré-requisito para entender a diversidade e autotolerância dos linfócitos T. As células T regulatórias (Tregs), vencedoras do Nobel 2025, originam-se precisamente da seleção negativa no timo — linfócitos T com afinidade intermediária por autoantígenos, em vez de serem deletados, diferenciam-se em Tregs. Ver <a class="cross-link" href="linfocitos-t-diferenciacao.html#tregs">Módulo 8 → Tregs</a>.</p>
+  <p><strong>Módulo 1 → Módulo 7 (Anticorpos):</strong> a medula óssea não apenas produz linfócitos B — é também o destino final dos plasmócitos de vida longa que secretam anticorpos de alta afinidade após a resposta imune. O ciclo completo (geração na medula → ativação no linfonodo → retorno à medula como plasmócito) faz sentido somente com a anatomia dos dois órgãos em mente.</p>
+</div>
+
+<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
+<p>A convergência entre os órgãos primários e secundários revela uma lógica evolutiva consistente: o sistema imune adaptativo resolve o problema da especificidade distribuindo o trabalho no espaço. A geração de diversidade (medula óssea, timo) é fisicamente separada da resposta ao antígeno (linfonodos, baço, MALT). Essa separação não é acidental — ela permite que a tolerância seja estabelecida antes de qualquer exposição antigênica, evitando que o mesmo ambiente que treina linfócitos também os ative prematuramente.</p>
+<p>A tensão mais reveladora está na involução tímica: o órgão mais crítico para a geração de diversidade de linfócitos T desaparece funcionalmente na vida adulta. O organismo "aposta" que a diversidade gerada na juventude é suficiente para toda a vida — aposta que funciona bem em ambientes com baixa pressão de novos patógenos, mas que explica por que idosos e imunossuprimidos respondem mal a patógenos novos (HIV, SARS-CoV-2) e a vacinas. A imunosenescência não é apenas declínio funcional das células existentes: é, estruturalmente, ausência de reposição tímica.</p>
+<p>A implicação derivada é que os órgãos linfoides secundários são adaptativamente plásticos — BALT e estruturas linfoides terciárias surgem em resposta à inflamação local — enquanto os primários são fixos e não regeneram após a infância. Terapias de rejuvenescimento tímico (IL-7 recombinante, timopentina) estão em investigação precisamente porque restaurar a saída tímica de novos LT naïve poderia reverter parcialmente a imunosenescência.</p>
+
+<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<h3>Livros-texto</h3>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed.<br>Capítulos 1 e 2. A fonte primária deste módulo. Cobre hematopoiese, arquitetura dos órgãos linfoides e circulação linfocitária com profundidade molecular.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Kuby Immunology</div>
+    <div class="book-meta">Punt, Stranford et al. · Macmillan, 8ª ed.<br>Capítulo 2. Excelente pela integração entre anatomia funcional e fisiologia celular. Figuras didáticas superiores ao Abbas.</div>
+  </div>
+  <div class="book-card">
+    <div class="book-title">Janeway's Immunobiology</div>
+    <div class="book-meta">Murphy, Weaver · Garland/Norton, 10ª ed.<br>Capítulo 1. Cobre a lógica evolutiva da organização do SI com maior ênfase em "por quê" do que em "o quê" — ideal para construir intuição antes de decorar estruturas.</div>
+  </div>
+</div>
+<h3>Recursos institucionais online</h3>
+<p><strong>Immunopaedia</strong> — <a href="https://www.immunopaedia.org.za" target="_blank" rel="noopener" style="color:var(--blue)">immunopaedia.org.za</a> — Recurso gratuito com animações e revisões de órgãos linfoides, mantido pela International Union of Immunological Societies.<br><br>
+<strong>British Society for Immunology — Lymphoid organs</strong> — <a href="https://www.immunology.org/public-information/bitesized-immunology/organs-and-tissues" target="_blank" rel="noopener" style="color:var(--blue)">immunology.org</a> — Revisões curtas e acessíveis sobre cada órgão linfoide.</p>
+
+<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>MABBOTT, N. A. et al. Microfold (M) cells: important immunosurveillance posts in the intestinal epithelium. <em>Mucosal Immunology</em>, v. 6, p. 666–677, 2013. DOI: <a href="https://doi.org/10.1038/mi.2013.30" target="_blank" rel="noopener">10.1038/mi.2013.30</a></li>
+  <li>PUNT, Jenni et al. <em>Kuby Immunology</em>. 8. ed. New York: Macmillan Higher Education, 2022.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Órgãos e tecidos linfoides — Parte 1</em>. PUC-PR, Disciplina Agressão e Defesa, 2026.</li>
+  <li>OLIVEIRA, Carlos Eduardo Coral de. <em>Aula: Órgãos Linfoides — Parte 2</em>. PUC-PR, Disciplina Agressão e Defesa, 06 mar. 2026.</li>
+  <li>SEEFELD, M. L. et al. Harnessing the potential of the NALT and BALT as targets for immunomodulation. <em>Frontiers in Immunology</em>, v. 15, p. 1419527, 2024. DOI: <a href="https://doi.org/10.3389/fimmu.2024.1419527" target="_blank" rel="noopener">10.3389/fimmu.2024.1419527</a></li>
+</ol>
+
+</div>
+</main>
+<script>
+const sections = document.querySelectorAll('h2[id], h3[id]');
+const links = document.querySelectorAll('#sidebar a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector('#sidebar a[href="#' + id + '"]');
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

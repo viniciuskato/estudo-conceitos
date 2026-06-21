@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imunologia — Índice de Módulos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* (1) Paleta v2 */
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-ui);min-height:100vh;padding:48px 40px 100px}
+.page-header{max-width:960px;margin:0 auto 48px}
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:16px}
+.breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--ac)}
+h1{font-family:var(--font-body);font-size:2rem;color:var(--ac);margin-bottom:8px}
+.subtitle{font-size:14px;color:var(--muted);line-height:1.6;max-width:72ch}
+
+/* Tabs — (3) ocultar grafo em mobile */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:40px;max-width:960px;margin-left:auto;margin-right:auto}
+.tab{padding:10px 24px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;text-decoration:none;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-ui)}
+.tab:hover{color:var(--text)}.tab.active{color:var(--ac);border-bottom-color:var(--ac)}
+.tab-panel{display:none;max-width:960px;margin:0 auto}.tab-panel.active{display:block}
+#tab-grafo{display:block} /* visível em desktop */
+
+/* Cards grid */
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.module-card{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:20px 22px;text-decoration:none;display:block;transition:border-color .15s,background .15s;position:relative}
+.module-card:hover{border-color:var(--ac);background:var(--bg3)}
+
+/* (4) a:visited para progresso */
+.module-card:visited{border-color:#4a3a28}
+.module-card:visited .module-num{opacity:.6}
+.module-card:visited .module-title{color:var(--muted)}
+
+/* (2) Badge v2 */
+.badge-v2{position:absolute;top:10px;right:10px;font-family:var(--font-ui);font-size:9px;font-weight:700;color:var(--ac);background:var(--ac2bg);border:1px solid var(--ac2);border-radius:3px;padding:2px 6px;letter-spacing:.06em;text-transform:uppercase}
+
+/* (6) Marcação ponto de entrada M1 */
+.entry-point{border-color:var(--ac2) !important;box-shadow:0 0 0 1px var(--ac2)}
+.entry-label{font-family:var(--font-ui);font-size:9px;font-weight:700;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+
+.module-num{font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.module-title{font-family:var(--font-body);font-size:1rem;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.4}
+.module-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.module-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:3px}
+
+/* Graph */
+#graph-container{width:100%;height:600px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;position:relative;overflow:hidden}
+#graph-svg{width:100%;height:100%}
+.node-circle{fill:var(--bg3);stroke:var(--border);stroke-width:1.5;cursor:pointer;transition:stroke .15s,fill .15s}
+.node-circle.entry{stroke:var(--ac2);stroke-width:2.5}
+.node-circle:hover,.node-circle.highlighted{stroke:var(--ac);fill:var(--bg3)}
+.node-label{font-family:var(--font-ui);font-size:11px;fill:var(--muted);text-anchor:middle;cursor:pointer;pointer-events:none}
+.node-num{font-family:var(--font-ui);font-size:9px;fill:var(--ac);text-anchor:middle;font-weight:700;cursor:pointer;pointer-events:none}
+.node-num.entry-num{fill:var(--ac2)}
+.edge{stroke:var(--border);stroke-width:1.2;fill:none;opacity:.6;marker-end:url(#arrow)}
+.edge.highlighted{stroke:var(--ac);opacity:1;stroke-width:1.8}
+#tooltip{position:absolute;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:12px;font-family:var(--font-ui);padding:8px 12px;border-radius:4px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:220px;line-height:1.5;z-index:10}
+.graph-legend{position:absolute;bottom:16px;left:16px;font-size:11px;color:var(--muted);line-height:2}
+.graph-legend-item{display:flex;align-items:center;gap:8px}
+.graph-legend-arrow{width:20px;height:1px;background:var(--border);position:relative}
+.graph-legend-arrow::after{content:'';position:absolute;right:-1px;top:-3px;border:3px solid transparent;border-left:5px solid var(--border)}
+.graph-legend-entry{display:inline-block;width:12px;height:12px;border-radius:50%;border:2.5px solid var(--ac2);background:var(--bg3);vertical-align:middle}
+
+/* (3) Ocultar aba grafo em mobile */
+@media(max-width:700px){
+  body{padding:24px 16px 80px}
+  .modules-grid{grid-template-columns:1fr}
+  #tab-grafo{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="breadcrumb"><a href="../../index.html">← Início</a> / Medicina / Imunologia</div>
+  <h1>Imunologia</h1>
+  <p class="subtitle">11 módulos cobrindo imunologia de base ao nível de questão de prova — de órgãos linfoides e reconhecimento até hipersensibilidade e vacinas. Comece pelo M1. As arestas do grafo refletem dependências reais declaradas em cada compêndio.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('lista',this)">Lista de módulos</button>
+  <button id="tab-grafo" class="tab" onclick="switchTab('grafo',this)">Mapa de conexões</button>
+</div>
+
+<div id="lista" class="tab-panel active">
+  <div class="modules-grid">
+
+    <!-- M1 — ponto de entrada -->
+    <a class="module-card entry-point" href="orgaos-linfoides.html">
+      <div class="entry-label">★ Ponto de entrada</div>
+      <div class="module-num">Módulo 1</div>
+      <div class="module-title">Órgãos Linfoides e Desenvolvimento Linfocitário</div>
+      <div class="module-desc">Timo, medula, órgãos secundários. Desenvolvimento de linfócitos T e B, seleção tímica, tolerância central.</div>
+      <div class="module-tags"><span class="tag">órgãos linfoides</span><span class="tag">seleção tímica</span><span class="tag">tolerância</span></div>
+    </a>
+
+    <a class="module-card" href="celulas-sistema-imune.html">
+      <div class="module-num">Módulo 2</div>
+      <div class="module-title">Células do Sistema Imune</div>
+      <div class="module-desc">Linfócitos T, B, NK, macrófagos, neutrófilos, células dendríticas, mastócitos, eosinófilos, basófilos — origem, marcadores, funções.</div>
+      <div class="module-tags"><span class="tag">células imunes</span><span class="tag">CD markers</span><span class="tag">fagocitose</span></div>
+    </a>
+
+    <a class="module-card" href="moleculas-sistema-imune.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 3</div>
+      <div class="module-title">Moléculas do Sistema Imune</div>
+      <div class="module-desc">PRRs (TLRs, NLRs, RLRs), citocinas, quimiocinas, moléculas de adesão, mediadores lipídicos, PCR e proteínas de fase aguda.</div>
+      <div class="module-tags"><span class="tag">PRRs</span><span class="tag">citocinas</span><span class="tag">quimiocinas</span></div>
+    </a>
+
+    <a class="module-card" href="imunidade-inata.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 4</div>
+      <div class="module-title">Imunidade Inata</div>
+      <div class="module-desc">Barreiras físicas e químicas, resposta inflamatória local, ILCs, burst oxidativo, fase aguda sistêmica, interface com imunidade adaptativa.</div>
+      <div class="module-tags"><span class="tag">inflamação</span><span class="tag">NK</span><span class="tag">IFN tipo I</span></div>
+    </a>
+
+    <a class="module-card" href="sistema-complemento.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 5</div>
+      <div class="module-title">Sistema Complemento</div>
+      <div class="module-desc">Vias clássica, alternativa e das lectinas; MAC; opsonização; anafilatoxinas; regulação; HPN; angioedema hereditário.</div>
+      <div class="module-tags"><span class="tag">C3/C5</span><span class="tag">MAC</span><span class="tag">HPN</span></div>
+    </a>
+
+    <a class="module-card" href="mhc-apresentacao-antigenica.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 6</div>
+      <div class="module-title">MHC e Apresentação Antigênica</div>
+      <div class="module-desc">MHC-I e II: estrutura, polimorfismo, vias endógena/exógena; processamento; superantígenos; HLA e doenças; transplante.</div>
+      <div class="module-tags"><span class="tag">MHC-I/II</span><span class="tag">HLA</span><span class="tag">TAP</span></div>
+    </a>
+
+    <a class="module-card" href="anticorpos-imunidade-humoral.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 7</div>
+      <div class="module-title">Anticorpos e Imunidade Humoral</div>
+      <div class="module-desc">Estrutura de Ig, classes, ativação de linfócito B, centro germinativo, maturação de afinidade, troca de isotipo, ADCC, anticorpos monoclonais.</div>
+      <div class="module-tags"><span class="tag">IgG/IgE/IgA</span><span class="tag">GC</span><span class="tag">AID</span></div>
+    </a>
+
+    <a class="module-card" href="linfocitos-t-diferenciacao.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 8</div>
+      <div class="module-title">Linfócitos T — Diferenciação e Função</div>
+      <div class="module-desc">3 sinais de ativação; Th1/Th2/Th17/Tfh/Treg; FoxP3 e Nobel 2025; CTLs; memória imunológica (TCM vs TEM).</div>
+      <div class="module-tags"><span class="tag">Tregs</span><span class="tag">FoxP3</span><span class="tag">Nobel 2025</span></div>
+    </a>
+
+    <a class="module-card" href="resposta-a-patogenos.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 9</div>
+      <div class="module-title">Resposta a Patógenos</div>
+      <div class="module-desc">Bactérias extra e intracelulares, vírus, fungos, sepse — mecanismos imunes protetores e estratégias de evasão.</div>
+      <div class="module-tags"><span class="tag">M. tuberculosis</span><span class="tag">viral evasion</span><span class="tag">sepse</span></div>
+    </a>
+
+    <a class="module-card" href="hipersensibilidade.html">
+      <div class="badge-v2">v2</div>
+      <div class="module-num">Módulo 10</div>
+      <div class="module-title">Hipersensibilidade</div>
+      <div class="module-desc">Gell-Coombs I–IV: IgE/mastócitos (anafilaxia), anticorpos citotóxicos, imunocomplexos, DTH/granuloma.</div>
+      <div class="module-tags"><span class="tag">tipo I-IV</span><span class="tag">IgE</span><span class="tag">LES</span></div>
+    </a>
+
+    <a class="module-card" href="vacinas-imunidade-protetora.html">
+      <div class="module-num">Módulo 11</div>
+      <div class="module-title">Vacinas e Imunidade Protetora</div>
+      <div class="module-desc">Plataformas vacinais, adjuvantes, imunidade coletiva, vacinas de mRNA (COVID-19), vacinas antitumorais, desafios (HIV, influenza).</div>
+      <div class="module-tags"><span class="tag">mRNA</span><span class="tag">adjuvantes</span><span class="tag">herd immunity</span></div>
+    </a>
+
+  </div>
+</div>
+
+<div id="grafo" class="tab-panel">
+  <div id="graph-container">
+    <svg id="graph-svg" viewBox="0 0 900 560">
+      <defs>
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="#333131"/>
+        </marker>
+        <marker id="arrow-highlighted" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="#d4924a"/>
+        </marker>
+      </defs>
+    </svg>
+    <div id="tooltip"></div>
+    <div class="graph-legend">
+      <div class="graph-legend-item"><div class="graph-legend-arrow"></div><span>depende de</span></div>
+      <div class="graph-legend-item" style="margin-top:6px"><span class="graph-legend-entry"></span><span style="margin-left:8px">ponto de entrada</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(id, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='grafo') drawGraph();
+}
+
+let graphDrawn=false;
+function drawGraph(){
+  if(graphDrawn) return;
+  graphDrawn=true;
+
+  const nodes=[
+    {id:1,label:'Órgãos\nLinfoides',x:450,y:55,file:'orgaos-linfoides.html',entry:true},
+    {id:2,label:'Células\nImunes',x:200,y:155,file:'celulas-sistema-imune.html'},
+    {id:3,label:'Moléculas\nImunes',x:700,y:155,file:'moleculas-sistema-imune.html'},
+    {id:4,label:'Im. Inata',x:120,y:310,file:'imunidade-inata.html'},
+    {id:5,label:'Complemento',x:340,y:275,file:'sistema-complemento.html'},
+    {id:6,label:'MHC / Apres.\nAntigênica',x:560,y:275,file:'mhc-apresentacao-antigenica.html'},
+    {id:7,label:'Anticorpos\nHumoral',x:280,y:430,file:'anticorpos-imunidade-humoral.html'},
+    {id:8,label:'Linf. T\nDiferenc.',x:500,y:415,file:'linfocitos-t-diferenciacao.html'},
+    {id:9,label:'Resp.\nPatógenos',x:740,y:360,file:'resposta-a-patogenos.html'},
+    {id:10,label:'Hiper-\nsensib.',x:160,y:500,file:'hipersensibilidade.html'},
+    {id:11,label:'Vacinas',x:660,y:500,file:'vacinas-imunidade-protetora.html'},
+  ];
+
+  /* (5) Arestas derivadas dos painéis de dependência reais de cada compêndio */
+  const edges=[
+    {a:2,b:1,label:'M2 usa M1 — desenvolvimento linfocitário'},
+    {a:3,b:1,label:'M3 usa M1 — contexto de órgãos linfoides'},
+    {a:3,b:2,label:'M3 usa M2 — células que expressam moléculas'},
+    {a:4,b:1,label:'M4 usa M1 — órgãos linfoides e ILCs'},
+    {a:4,b:2,label:'M4 usa M2 — células efetoras inatas'},
+    {a:4,b:3,label:'M4 usa M3 — PRRs e citocinas na inata'},
+    {a:5,b:2,label:'M5 usa M2 — receptores de complemento em células'},
+    {a:5,b:3,label:'M5 usa M3 — CRP e moléculas ativadoras'},
+    {a:5,b:4,label:'M5 usa M4 — interface inata/complemento'},
+    {a:6,b:1,label:'M6 usa M1 — seleção tímica via MHC'},
+    {a:6,b:2,label:'M6 usa M2 — DCs e linfócitos T'},
+    {a:6,b:4,label:'M6 usa M4 — DCs maturam na inata'},
+    {a:7,b:2,label:'M7 usa M2 — linfócito B'},
+    {a:7,b:5,label:'M7 usa M5 — CR2 amplifica ativação B'},
+    {a:7,b:6,label:'M7 usa M6 — CD4⁺ helper e MHC-II'},
+    {a:8,b:3,label:'M8 usa M3 — citocinas polarizam subsets Th'},
+    {a:8,b:6,label:'M8 usa M6 — MHC-I/II = sinal 1 para T'},
+    {a:8,b:7,label:'M8 usa M7 — Tfh essencial para centro germinativo'},
+    {a:9,b:4,label:'M9 usa M4 — imunidade inata protetora'},
+    {a:9,b:5,label:'M9 usa M5 — complemento e Neisseria'},
+    {a:9,b:6,label:'M9 usa M6 — evasão viral de MHC-I ↔ NK'},
+    {a:9,b:7,label:'M9 usa M7 — anticorpos protetores'},
+    {a:9,b:8,label:'M9 usa M8 — Th1/Th2/Th17 para patógenos'},
+    {a:10,b:3,label:'M10 usa M3 — mediadores lipídicos'},
+    {a:10,b:5,label:'M10 usa M5 — anafilatoxinas tipo I/III'},
+    {a:10,b:7,label:'M10 usa M7 — IgE em mastócitos = tipo I'},
+    {a:10,b:8,label:'M10 usa M8 — Tregs/FoxP3 e autoimunidade'},
+  ];
+
+  const svg=document.getElementById('graph-svg');
+  const tooltip=document.getElementById('tooltip');
+  const R=38; // node radius
+
+  // Helper: compute edge endpoints offset to node border
+  function edgePoints(a, b){
+    const dx=b.x-a.x, dy=b.y-a.y;
+    const dist=Math.sqrt(dx*dx+dy*dy)||1;
+    const ox=dx/dist*R, oy=dy/dist*R;
+    return {x1:a.x+ox,y1:a.y+oy,x2:b.x-ox-dx/dist*4,y2:b.y-oy-dy/dist*4};
+  }
+
+  // draw edges first
+  edges.forEach(e=>{
+    const a=nodes.find(n=>n.id===e.a),b=nodes.find(n=>n.id===e.b);
+    const {x1,y1,x2,y2}=edgePoints(a,b);
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1);line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+    line.setAttribute('class','edge');
+    line.dataset.a=e.a;line.dataset.b=e.b;line.dataset.label=e.label;
+    line.addEventListener('mouseenter',ev=>{
+      tooltip.style.opacity='1';
+      tooltip.textContent=e.label;
+      const rect=svg.getBoundingClientRect();
+      tooltip.style.left=(ev.clientX-rect.left+12)+'px';
+      tooltip.style.top=(ev.clientY-rect.top-10)+'px';
+    });
+    line.addEventListener('mouseleave',()=>tooltip.style.opacity='0');
+    svg.appendChild(line);
+  });
+
+  // draw nodes
+  nodes.forEach(n=>{
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.style.cursor='pointer';
+    g.addEventListener('click',()=>window.location.href=n.file);
+    g.addEventListener('mouseenter',()=>{
+      g.querySelector('.node-circle').classList.add('highlighted');
+      svg.querySelectorAll('.edge').forEach(edge=>{
+        if(+edge.dataset.a===n.id||+edge.dataset.b===n.id){
+          edge.classList.add('highlighted');
+          edge.setAttribute('marker-end','url(#arrow-highlighted)');
+        }
+      });
+    });
+    g.addEventListener('mouseleave',()=>{
+      g.querySelector('.node-circle').classList.remove('highlighted');
+      svg.querySelectorAll('.edge').forEach(edge=>{
+        edge.classList.remove('highlighted');
+        edge.setAttribute('marker-end','url(#arrow)');
+      });
+    });
+
+    const circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circ.setAttribute('cx',n.x);circ.setAttribute('cy',n.y);circ.setAttribute('r',R);
+    circ.setAttribute('class','node-circle'+(n.entry?' entry':''));
+    g.appendChild(circ);
+
+    const numText=document.createElementNS('http://www.w3.org/2000/svg','text');
+    numText.setAttribute('x',n.x);numText.setAttribute('y',n.y-14);
+    numText.setAttribute('class','node-num'+(n.entry?' entry-num':''));
+    numText.textContent='M'+n.id;
+    g.appendChild(numText);
+
+    const lines=n.label.split('\n');
+    lines.forEach((line,i)=>{
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',n.x);
+      t.setAttribute('y',n.y+(lines.length===1?4:i===0?0:14));
+      t.setAttribute('class','node-label');
+      t.textContent=line;
+      g.appendChild(t);
+    });
+
+    svg.appendChild(g);
+  });
+}
+</script>
+</body>
+</html>

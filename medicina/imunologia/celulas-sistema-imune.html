@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M2 — Células do Sistema Imune</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.chip b{color:var(--text);font-weight:500}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.pergunta p{font-size:15px;color:var(--text);margin:0;line-height:1.7}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}.dep-item:last-child{border-bottom:none}
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--ac);z-index:100;transition:width .1s linear;pointer-events:none}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+section:not(.in-view)>h2{color:var(--text);transition:color .3s}
+@media(max-width:900px){
+  body{flex-direction:column}
+  #sidebar{display:none;width:100%!important;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
+  #sidebar.open{display:block}#sidebar .s-inner{width:100%;overflow-y:visible}
+  #s-toggle{display:none}#mob-bar{display:flex}#body-wrap{flex-direction:column}
+  #content{padding:24px 20px 80px}.ck-grid{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.book-grid{grid-template-columns:1fr}
+}
+@media print{
+  #sidebar,#mob-bar,#progress-bar{display:none}body{background:#fff;color:#111;display:block}
+  #content{padding:0}h1,h2,h3{color:#111}.kbox,.box,.hist{border-color:#ccc;background:#f9f9f9;color:#111}
+  table,th,td{border-color:#ccc;color:#111}th{background:#eee}a[href]::after{content:" ("attr(href)")";font-size:.8em;color:#555}.anc{display:none}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M2 &mdash; C&eacute;lulas do Sistema Imune</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo"><b>Imunologia M2</b><span>C&eacute;lulas do Sistema Imune</span><a href="index.html">&larr; &Iacute;ndice de Imunologia</a></div>
+    <div class="s-group">Conte&uacute;do</div>
+    <a class="sl" href="#fundamentos">Fundamentos necess&aacute;rios</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#hematopoiese">Hematopoiese</a>
+    <a class="sl" href="#mieloides">C&eacute;lulas mieloides</a>
+    <a class="sl sub" href="#neutrofilos">Neutr&oacute;filos</a>
+    <a class="sl sub" href="#nets">NETs</a>
+    <a class="sl sub" href="#eosinofilos">Eosin&oacute;filos</a>
+    <a class="sl sub" href="#basofilos-mastocitos">Bas&oacute;filos e Mastoc&iacute;tos</a>
+    <a class="sl sub" href="#monocitos-macrofagos">Mon&oacute;citos e Macr&oacute;fagos</a>
+    <a class="sl sub" href="#celulas-dendriticas">C&eacute;lulas Dendr&iacute;ticas</a>
+    <a class="sl" href="#linfoides">C&eacute;lulas linfoides</a>
+    <a class="sl sub" href="#celulas-nk">C&eacute;lulas NK</a>
+    <a class="sl sub" href="#linfocitos-b">Linf&oacute;citos B</a>
+    <a class="sl sub" href="#linfocitos-t">Linf&oacute;citos T</a>
+    <div class="s-group">Revis&atilde;o</div>
+    <a class="sl" href="#conexoes">Conex&otilde;es</a>
+    <a class="sl" href="#discussao">Discuss&atilde;o</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Refer&ecirc;ncias ABNT</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>M2 &mdash; C&eacute;lulas do Sistema Imune</h1>
+  <p class="doc-meta">Imunologia &middot; PUC &middot; 2026 &middot; Abbas cap. 2 &middot; Aulas: C&eacute;lulas do Sistema Imune Partes 1 e 2</p>
+  <div class="doc-chips">
+    <span class="chip">&#9201; <b>~25 min</b> de leitura</span>
+    <span class="chip">&#128203; Pr&eacute;-requisitos: <b>Hematopoiese, M1 &mdash; &Oacute;rg&atilde;os Linfoides</b></span>
+    <span class="chip">&#128279; Depende de: <b>M1</b></span>
+    <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que o HIV, ao destruir seletivamente os linf&oacute;citos T CD4&thinsp;&#8314;, causa colapso de toda a imunidade adaptativa &mdash; e n&atilde;o apenas da resposta mediada por c&eacute;lulas &mdash; se neutr&oacute;filos, NK e linf&oacute;citos B continuam funcionando?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de depend&ecirc;ncias</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este comp&ecirc;ndio usa</div>
+      <a class="dep-item" href="orgaos-linfoides.html">M1 &mdash; &Oacute;rg&atilde;os Linfoides</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necess&aacute;rio</div>
+      <span class="dep-item">Hematopoiese (conceito externo)</span>
+      <span class="dep-item">Apoptose e ciclo celular</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="imunidade-inata.html">M4 &mdash; Imunidade Inata</a>
+      <a class="dep-item" href="mhc-apresentacao-antigenica.html">M6 &mdash; MHC e Apresenta&ccedil;&atilde;o</a>
+      <a class="dep-item" href="hipersensibilidade.html">M10 &mdash; Hipersensibilidade</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necess&aacute;rios <a class="anc" href="#fundamentos">#</a></h2>
+<div class="g2">
+  <div class="box"><strong>&Oacute;rg&atilde;os prim&aacute;rios e matura&ccedil;&atilde;o</strong><br>Medula &oacute;ssea e timo s&atilde;o os s&iacute;tios onde as c&eacute;lulas deste m&oacute;dulo s&atilde;o geradas e treinadas. Ver <a class="cross-link" href="orgaos-linfoides.html#medula-ossea">M1 &rarr; Medula &oacute;ssea</a> e <a class="cross-link" href="orgaos-linfoides.html#timo">M1 &rarr; Timo</a>.</div>
+  <div class="box"><strong>Progenitores mieloide e linfoide</strong><br>Toda c&eacute;lula imune origina-se de CTH que se comprometem com dois ramos: progenitor mieloide comum (PMC) e progenitor linfoide comum (PLC). Ver <a class="cross-link" href="orgaos-linfoides.html#visao-geral">M1 &rarr; Vis&atilde;o geral</a>.</div>
+  <div class="box"><strong>Fagocitose</strong><br>Processo pelo qual c&eacute;lulas englobam e destroem part&iacute;culas. Envolve reconhecimento (opsoninas ou PRRs), internaliza&ccedil;&atilde;o (fagossomo) e destrui&ccedil;&atilde;o (fus&atilde;o lisoss&ocirc;mica).</div>
+  <div class="box"><strong>Opsoniza&ccedil;&atilde;o</strong><br>Revestimento de um alvo por mol&eacute;culas &mdash; anticorpos (IgG) ou complemento (C3b) &mdash; que facilitam o reconhecimento pelos receptores fagocit&aacute;rios (Fc&gamma;R, CR3). Amplifica dramaticamente a efici&ecirc;ncia da fagocitose.</div>
+  <div class="box"><strong>Citocinas e quimiocinas</strong><br>Citocinas s&atilde;o mediadores proteicos que regulam o comportamento das c&eacute;lulas imunes. Quimiocinas s&atilde;o citocinas quimioatraentes &mdash; guiam a migra&ccedil;&atilde;o celular para s&iacute;tios de inflama&ccedil;&atilde;o.</div>
+  <div class="box"><strong>Apoptose</strong><br>Morte celular programada. Fundamental no controle da homeostasia imune: elimina linf&oacute;citos autorreativos no timo, c&eacute;lulas efetoras ap&oacute;s resolu&ccedil;&atilde;o da infec&ccedil;&atilde;o e c&eacute;lulas infectadas por v&iacute;rus.</div>
+</div>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Neutr&oacute;filo</div><div class="ckd">Gran&uacute;l&oacute;cito mais abundante; primeira c&eacute;lula no s&iacute;tio de infec&ccedil;&atilde;o; mata por fagocitose, ERO e NETs</div></div>
+  <div class="ck-card"><div class="ckt">NETs</div><div class="ckd"><em>Neutrophil Extracellular Traps</em> &mdash; redes de DNA + prote&iacute;nas granulares para capturar pat&oacute;genos extracelulares</div></div>
+  <div class="ck-card"><div class="ckt">Macr&oacute;fago M1/M2</div><div class="ckd">Plasticidade funcional: M1 microbicida (IFN-&gamma;); M2 anti-inflamat&oacute;rio e pr&oacute;-fibrose (IL-4/IL-13)</div></div>
+  <div class="ck-card"><div class="ckt">C&eacute;lula Dendr&iacute;tica</div><div class="ckd">Principal APC profissional; elo entre inata e adaptativa; &uacute;nica capaz de ativar LT na&iuml;ve</div></div>
+  <div class="ck-card"><div class="ckt">Apresenta&ccedil;&atilde;o cruzada</div><div class="ckd">CDs apresentam ant&iacute;genos ex&oacute;genos via MHC-I para ativar LT CD8&thinsp;&#8314; contra c&eacute;lulas infectadas</div></div>
+  <div class="ck-card"><div class="ckt">C&eacute;lulas NK</div><div class="ckd">Linf&oacute;citos cito-t&oacute;xicos inatos; matam c&eacute;lulas com MHC-I ausente ou reduzido (<em>missing self</em>)</div></div>
+  <div class="ck-card"><div class="ckt">LT CD4&thinsp;&#8314; como n&oacute;</div><div class="ckd">Orquestram toda a resposta adaptativa &mdash; sem eles, LT CD8&thinsp;&#8314; e LB perdem efici&ecirc;ncia cr&iacute;tica</div></div>
+  <div class="ck-card"><div class="ckt">Mast&oacute;cito / Bas&oacute;filo</div><div class="ckd">Expressam Fc&epsilon;RI; degranulam ao contato do IgE com alerg&ecirc;no &mdash; efetores da hipersensibilidade I</div></div>
+  <div class="ck-card"><div class="ckt">Eosin&oacute;filo</div><div class="ckd">Especializado em helmintos; libera MBP e peroxidase; recrutado por IL-5 na fase tardia al&eacute;rgica</div></div>
+</div>
+</section>
+
+<section id="hematopoiese">
+<h2>Hematopoiese &mdash; a origem comum de todas as c&eacute;lulas <a class="anc" href="#hematopoiese">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  A hematopoiese como processo hier&aacute;rquico a partir de uma c&eacute;lula-tronco &uacute;nica foi demonstrada por Till e McCulloch em 1961, atrav&eacute;s de experimentos de transplante de medula em camundongos irradiados que geravam col&ocirc;nias identific&aacute;veis no ba&ccedil;o. A divis&atilde;o entre linhagem mieloide e linfoide s&oacute; foi estabelecida na d&eacute;cada de 1970&ndash;80 com o desenvolvimento de ensaios clonais em cultura. A hierarquia completa de progenitores &mdash; PMC, PLC e seus descendentes &mdash; foi mapeada por citometria de fluxo e an&aacute;lise de transplante ao longo dos anos 1990&ndash;2000.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Processo cont&iacute;nuo de gera&ccedil;&atilde;o de c&eacute;lulas sangu&iacute;neas a partir de c&eacute;lulas-tronco hematopoiéticas (CTH &mdash; <em>hematopoietic stem cells</em>) pluripotentes e autorrenovaveis na medula &oacute;ssea. A divis&atilde;o hier&aacute;rquica fundamental &eacute;: CTH &rarr; progenitor mieloide comum (PMC) e progenitor linfoide comum (PLC).
+</div>
+<p>Cada dia s&atilde;o produzidos ~2 &times; 10&sup1;&sup1; eritr&oacute;citos, 10&sup1;&ordm; leuc&oacute;citos e 4 &times; 10&sup1;&sup1; plaquetas. O PMC origina gran&uacute;l&oacute;citos (neutr&oacute;filos, eosin&oacute;filos, bas&oacute;filos), mon&oacute;citos/macr&oacute;fagos, c&eacute;lulas dendríticas mieloides, mastoc&iacute;tos, eritr&oacute;citos e plaquetas. O PLC origina linf&oacute;citos B, T e c&eacute;lulas NK &mdash; al&eacute;m de um subconjunto de c&eacute;lulas dendríticas plasmacitoide.</p>
+</section>
+
+<section id="mieloides">
+<h2>C&eacute;lulas mieloides &mdash; a linha de frente inata <a class="anc" href="#mieloides">#</a></h2>
+<p>As c&eacute;lulas mieloides constituem a maioria dos leuc&oacute;citos circulantes e s&atilde;o os principais efetores da imunidade inata. Agem nas primeiras horas ap&oacute;s a infec&ccedil;&atilde;o, antes que a resposta adaptativa seja estabelecida.</p>
+</section>
+
+<section id="neutrofilos">
+<h2>Neutr&oacute;filos <a class="anc" href="#neutrofilos">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Os gran&uacute;l&oacute;citos foram descritos por Paul Ehrlich no final do s&eacute;culo XIX com base em suas propriedades de colora&ccedil;&atilde;o. Ilya Metchnikoff, contempor&acirc;neo, identificou-os como fagoc&iacute;ticos e prop&ocirc;s que a fagocitose era a principal defesa contra infec&ccedil;&otilde;es &mdash; tese que lhe valeu o Nobel de 1908 (junto com Ehrlich). As NETs foram descobertas apenas em 2004 por Brinkmann et al., reescrevendo a biologia dos neutr&oacute;filos na defesa extracelular.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Gran&uacute;l&oacute;cito mais abundante do sangue (50&ndash;70% dos leuc&oacute;citos) e a primeira c&eacute;lula a chegar ao s&iacute;tio de infec&ccedil;&atilde;o em resposta a quimiocinas como IL-8 (CXCL8). Principal fagoc&iacute;tico da resposta inata aguda.
+</div>
+<p>Sua efic&aacute;cia antimicrobiana depende de dois tipos de gr&acirc;nulos citoplasmáticos: os <strong>gr&acirc;nulos azur&oacute;filos</strong> (prim&aacute;rios) &mdash; que cont&ecirc;m mieloperoxidase, elastase, defensinas e lisozima &mdash; e os <strong>gr&acirc;nulos espec&iacute;ficos</strong> (secund&aacute;rios) &mdash; que cont&ecirc;m lactoferrina, colagenase e fosfatase alcalina. A fus&atilde;o dos gr&acirc;nulos com o fagossomo cria um ambiente altamente microbicida (pH &aacute;cido + esp&eacute;cies reativas de oxig&ecirc;nio + enzimas l&iacute;ticas).</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Condi&ccedil;&atilde;o</th><th>Altera&ccedil;&atilde;o</th><th>Causa comum</th></tr></thead>
+  <tbody>
+    <tr><td>Leucocitose</td><td>&#8593; total de leuc&oacute;citos</td><td>Infec&ccedil;&atilde;o, inflama&ccedil;&atilde;o, leucemia</td></tr>
+    <tr><td>Neutrofilia</td><td>&#8593; % de neutr&oacute;filos segmentados</td><td>Infec&ccedil;&atilde;o bacteriana aguda, corticoides, IAM</td></tr>
+    <tr><td>Desvio &agrave; esquerda</td><td>&#8593; de formas imaturas (bastonetes, metami&eacute;loci&tos)</td><td>Sepse, infec&ccedil;&atilde;o bacteriana intensa</td></tr>
+    <tr><td>Neutropenia leve</td><td>1.000&ndash;1.500/mm&sup3;</td><td>Viral, autoimune, f&aacute;rmacos</td></tr>
+    <tr><td>Neutropenia grave</td><td>&lt; 500/mm&sup3;</td><td>P&oacute;s-quimioterapia &mdash; risco de infec&ccedil;&atilde;o f&uacute;ngica e bacteriana</td></tr>
+  </tbody>
+  <caption>Tabela 1. Altera&ccedil;&otilde;es dos neutr&oacute;filos no hemograma e seus significados cl&iacute;nicos.</caption>
+</table></div>
+</section>
+
+<section id="nets">
+<h2>NETs &mdash; Armadilhas Extracelulares de Neutr&oacute;filos <a class="anc" href="#nets">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  As NETs foram descobertas em 2004 por Brinkmann e colaboradores como mecanismo antimicrobiano ex vivo. A morte do neutr&oacute;filo ao liber&aacute;-las foi inicialmente interpretada como forma de apoptose, mas em 2007 foi demonstrado que constitui uma via de morte distinta, denominada NETose, dependente de NADPH oxidase e PAD4. O envolvimento das NETs em l&uacute;pus, sepse e COVID-19 grave redefiniu sua import&acirc;ncia em patologia inflamat&oacute;ria.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  NETs (<em>Neutrophil Extracellular Traps</em>, armadilhas extracelulares de neutr&oacute;filos): redes de DNA nuclear descondensado, histonas e prote&iacute;nas granulares liberadas pelo neutr&oacute;filo ativado. Funcionam como armadilhas f&iacute;sicas que capturam e matam bact&eacute;rias e fungos que escapariam da fagocitose direta.
+</div>
+<div class="box alerta">
+  <strong>NETs e dano tecidual</strong> &mdash; NETs excessivas contribuem para dano tecidual em sepse (ativa&ccedil;&atilde;o da cascata de coagula&ccedil;&atilde;o), l&uacute;pus (DNA extracelular como autoantig&ecirc;no que ativa LB e CDs) e COVID-19 grave (trombose microvascular). O neutr&oacute;filo morre ao liber&aacute;-las (NETose) &mdash; custo imunol&oacute;gico significativo.
+</div>
+</section>
+
+<section id="eosinofilos">
+<h2>Eosin&oacute;filos <a class="anc" href="#eosinofilos">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Os eosin&oacute;filos foram descritos por Ehrlich em 1879 com base na afinidade por corantes &aacute;cidos (eosina). Sua fun&ccedil;&atilde;o antihelmíntica foi demonstrada nas d&eacute;cadas de 1970&ndash;80, quando se descobriu que a prote&iacute;na b&aacute;sica maior (MBP) era diretamente t&oacute;xica para a parede dos helmintos. A conex&atilde;o com alergias via IL-5 foi estabelecida com o desenvolvimento de anticorpos anti-IL-5 (mepolizumab), aprovados para asma eosinof&iacute;lica em 2015.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Gran&uacute;l&oacute;cito especializado na defesa contra parasitas multicelulares (helmintos) que s&atilde;o grandes demais para ser fagocitados. Libera conte&uacute;do granular t&oacute;xico diretamente sobre o parasita.
+</div>
+<p>Seus gr&acirc;nulos cont&ecirc;m <strong>prote&iacute;na b&aacute;sica maior</strong> (MBP &mdash; <em>major basic protein</em>), <strong>peroxidase eosinof&iacute;lica</strong>, prote&iacute;na cati&ocirc;nica dos eosin&oacute;filos (ECP &mdash; <em>eosinophil cationic protein</em>) e neurotoxina derivada dos eosin&oacute;filos (EDN &mdash; <em>eosinophil-derived neurotoxin</em>) &mdash; todas t&oacute;xicas para a parede dos helmintos e, infelizmente, para os tecidos do hospedeiro quando liberadas em excesso.</p>
+<p>O eosin&oacute;filo expressa receptores de alta afinidade para a por&ccedil;&atilde;o Fc da IgE (Fc&epsilon;RI), conectando-o diretamente &agrave; imunidade do tipo 2 (Th2) e &agrave;s rea&ccedil;&otilde;es al&eacute;rgicas. A IL-5 &eacute; o principal fator de crescimento e ativa&ccedil;&atilde;o eosinofílica.</p>
+<div class="box clinico">
+  <strong>Eosinofilia</strong> (&gt; 500/mm&sup3;) orienta investiga&ccedil;&atilde;o para parasitoses (helmint&iacute;ases), alergias (asma, rinite, dermatite at&oacute;pica), vasculites (granulomatose eosinof&iacute;lica com poliangiite &mdash; GEPA) ou neoplasias. <strong>Eosinopenia</strong> (&lt; 50/mm&sup3;) &eacute; marcador de estresse agudo ou uso de corticoides.
+</div>
+</section>
+
+<section id="basofilos-mastocitos">
+<h2>Bas&oacute;filos e Mastoc&iacute;tos <a class="anc" href="#basofilos-mastocitos">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Os mastoc&iacute;tos foram descritos por Ehrlich em 1878 ("Mastzellen" &mdash; c&eacute;lulas bem alimentadas). Sua centralidade na anafilaxia foi demonstrada em 1953 por Riley e West, que identificaram a histamina como mediador principal da degranula&ccedil;&atilde;o. A liga&ccedil;&atilde;o entre IgE, Fc&epsilon;RI e degranula&ccedil;&atilde;o do mastoc&iacute;to foi estabelecida na d&eacute;cada de 1970, completando o mecanismo da hipersensibilidade tipo I de Gell e Coombs.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Bas&oacute;filos circulam no sangue (&lt; 1% dos leuc&oacute;citos) e s&atilde;o de origem mieloide clássica. Mastoc&iacute;tos residem nos tecidos (pele, mucosas) e se diferenciam localmente a partir de precursores circulantes. Ambos expressam Fc&epsilon;RI e liberam histamina, leucotrienos e prostaglandinas na degranula&ccedil;&atilde;o.
+</div>
+<p>Ambos s&atilde;o os principais efetores da <strong>hipersensibilidade do tipo I</strong> (anafilaxia, asma, rinite al&eacute;rgica): quando IgE ligada &agrave; superf&iacute;cie reconhece o alerg&ecirc;no espec&iacute;fico, ocorre degranula&ccedil;&atilde;o imediata com libera&ccedil;&atilde;o dos mediadores vasoativos e broncoconstritores. Ver <a class="cross-link" href="hipersensibilidade.html#tipo-i">M10 &rarr; Hipersensibilidade tipo I</a>.</p>
+</section>
+
+<section id="monocitos-macrofagos">
+<h2>Mon&oacute;citos e Macr&oacute;fagos <a class="anc" href="#monocitos-macrofagos">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Metchnikoff identificou os macr&oacute;fagos (que chamou de "grandes comedores") como os principais defensores contra infec&ccedil;&otilde;es em 1882. A plasticidade M1/M2 foi formalizada por Gordon e Taylor em 2005, com base em estudos de estimula&ccedil;&atilde;o diferencial por citocinas. O conceito de macr&oacute;fagos residentes tecido-espec&iacute;ficos (c&eacute;lulas de Kupffer no f&iacute;gado, micr&oacute;glia no SNC, osteoeclastos) foi expandido com epigenômica e transcriptômica de c&eacute;lula &uacute;nica nos anos 2010.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Mon&oacute;citos s&atilde;o c&eacute;lulas mononucleares circulantes (3&ndash;8% dos leuc&oacute;citos), precursores de macr&oacute;fagos e c&eacute;lulas dendríticas. Ao migrar para os tecidos em resposta a MCP-1/CCL2, diferenciam-se em <strong>macr&oacute;fagos</strong> &mdash; c&eacute;lulas residentes de vida longa com alta capacidade fagocit&aacute;ria, apresenta&ccedil;&atilde;o antig&ecirc;nica e remodelamento tecidual.
+</div>
+<p>Os macr&oacute;fagos exercem tr&ecirc;s fun&ccedil;&otilde;es centrais: (1) <strong>fagocitose e destrui&ccedil;&atilde;o</strong> de microrganismos; (2) <strong>apresenta&ccedil;&atilde;o de ant&iacute;genos</strong> via MHC-II para linf&oacute;citos T CD4&thinsp;&#8314;; e (3) <strong>remodelamento e reparo</strong> tecidual. S&atilde;o altamente pl&aacute;sticos &mdash; o microambiente define seu fen&oacute;tipo efetoral:</p>
+<div class="g2">
+  <div class="box"><strong>M1 (Classicamente ativado)</strong><br>Induzido por IFN-&gamma; (de Th1 e NK) + LPS. Produz TNF, IL-1&beta;, IL-12, IL-23 e ERO (esp&eacute;cies reativas de oxig&ecirc;nio). Perfil pr&oacute;-inflamat&oacute;rio e microbicida &mdash; ideal para bact&eacute;rias intracelulares.</div>
+  <div class="box"><strong>M2 (Alternativamente ativado)</strong><br>Induzido por IL-4 e IL-13 (de Th2). Produz IL-10, TGF-&beta;, arginase. Perfil anti-inflamat&oacute;rio, pr&oacute;-fibrose e remodelamento. Explorado por tumores para suprimir imunidade (TAMs).</div>
+</div>
+</section>
+
+<section id="celulas-dendriticas">
+<h2>C&eacute;lulas Dendr&iacute;ticas <a class="anc" href="#celulas-dendriticas">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  Ralph Steinman descobriu as c&eacute;lulas dendríticas em 1973 em trabalho conjunto com Zanvil Cohn, observando c&eacute;lulas com morfologia dendr&iacute;tica n&atilde;o fagocit&aacute;rias no ba&ccedil;o murino. A demonstra&ccedil;&atilde;o de que eram as &uacute;nicas APCs capazes de ativar linf&oacute;citos T na&iuml;ve (em vez de apenas c&eacute;lulas B ou macr&oacute;fagos) veio nos anos 1980&ndash;90. Steinman recebeu o Nobel de Fisiologia ou Medicina em 2011 &mdash; p&oacute;stumo, pois faleceu tr&ecirc;s dias antes do an&uacute;ncio.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Principais c&eacute;lulas apresentadoras de ant&iacute;genos (APCs) profissionais do organismo &mdash; especializadas na captura, processamento e apresenta&ccedil;&atilde;o de ant&iacute;genos para linf&oacute;citos T na&iuml;ve. S&atilde;o o el&ocirc; entre imunidade inata e adaptativa.
+</div>
+<p>Estrategicamente posicionadas nas superf&iacute;cies de barreira (pele como c&eacute;lulas de Langerhans, mucosas como CDs intersticiais), capturam ant&iacute;genos por endocitose ou macropinocitose. Ap&oacute;s a captura, sofrem <strong>matura&ccedil;&atilde;o</strong>: <em>upregulam</em> MHC-II, mol&eacute;culas coestimuladoras (CD80/CD86) e receptores de quimiocinas que as dirigem para os linfonodos, onde apresentam o ant&iacute;geno a linf&oacute;citos T na&iuml;ve.</p>
+<p>Uma capacidade exclusiva das CDs mieloides &eacute; a <strong>apresenta&ccedil;&atilde;o cruzada</strong> (<em>cross-presentation</em>): apresenta&ccedil;&atilde;o de ant&iacute;genos ex&oacute;genos (capturados por endocitose) via MHC-I para linf&oacute;citos T CD8&thinsp;&#8314; &mdash; normalmente MHC-I apresenta apenas ant&iacute;genos end&oacute;genos. Esse mecanismo &eacute; essencial para a ativa&ccedil;&atilde;o de c&eacute;lulas T cito-t&oacute;xicas contra c&eacute;lulas infectadas por v&iacute;rus que n&atilde;o infectaram a CD diretamente. Ver <a class="cross-link" href="mhc-apresentacao-antigenica.html#apresentacao-cruzada">M6 &rarr; Apresenta&ccedil;&atilde;o cruzada</a>.</p>
+</section>
+
+<section id="linfoides">
+<h2>C&eacute;lulas linfoides &mdash; especificidade e mem&oacute;ria <a class="anc" href="#linfoides">#</a></h2>
+<p>As c&eacute;lulas linfoides s&atilde;o os efetores da imunidade adaptativa &mdash; linf&oacute;citos B e T &mdash; e da citotoxicidade inata &mdash; c&eacute;lulas NK. Compartilham origem no progenitor linfoide comum, mas divergem radicalmente em fun&ccedil;&atilde;o, localiza&ccedil;&atilde;o e mecanismo de reconhecimento.</p>
+</section>
+
+<section id="celulas-nk">
+<h2>C&eacute;lulas NK &mdash; Natural Killers <a class="anc" href="#celulas-nk">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  As c&eacute;lulas NK foram descobertas independentemente por Kiessling e Herberman em 1975, ao observar que camundongos n&atilde;o imunizados possu&iacute;am c&eacute;lulas capazes de matar c&eacute;lulas tumorais em cultura. A hip&oacute;tese do <em>missing self</em> &mdash; que explica como as NK distinguem c&eacute;lulas saud&aacute;veis de c&eacute;lulas infectadas/tumorais pela presen&ccedil;a ou aus&ecirc;ncia de MHC-I &mdash; foi formulada por K&auml;rre em 1985.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Linf&oacute;citos cito-t&oacute;xicos da imunidade <strong>inata</strong> &mdash; matam c&eacute;lulas infectadas por v&iacute;rus e c&eacute;lulas tumorais sem necessidade de sensibiliza&ccedil;&atilde;o pr&eacute;via nem de reconhecimento espec&iacute;fico via TCR ou BCR. Correspondem a 5&ndash;20% dos linf&oacute;citos circulantes.
+</div>
+<p>A l&oacute;gica de reconhecimento NK &eacute; o oposto do reconhecimento T: enquanto linf&oacute;citos T s&atilde;o ativados pela presen&ccedil;a de MHC-I + pept&iacute;deo, c&eacute;lulas NK s&atilde;o ativadas pela <strong>aus&ecirc;ncia ou redu&ccedil;&atilde;o de MHC-I</strong> &mdash; estrat&eacute;gia usada por c&eacute;lulas tumorais e c&eacute;lulas infectadas por v&iacute;rus para escapar de LT CD8&thinsp;&#8314;. O balan&ccedil;o entre sinais ativadores (NKG2D, receptores de citotoxicidade natural) e inibit&oacute;rios (KIRs, que reconhecem MHC-I pr&oacute;prio) determina se a NK mata ou poupa a c&eacute;lula alvo.</p>
+<p>Ativadas por IL-12 e IL-18 (produzidas por macr&oacute;fagos), as NKs respondem nas primeiras horas de infec&ccedil;&atilde;o &mdash; antes dos LT CD8&thinsp;&#8314; &mdash; secretando IFN-&gamma; (que ativa macr&oacute;fagos M1) e matando por libera&ccedil;&atilde;o de perforina e granzimas.</p>
+</section>
+
+<section id="linfocitos-b">
+<h2>Linf&oacute;citos B <a class="anc" href="#linfocitos-b">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  A divis&atilde;o entre linf&oacute;citos B (bursa-dependentes) e T (timo-dependentes) foi estabelecida por Cooper, Peterson e Good em 1965, usando experimentos com aves que tiveram a bolsa de Fabricius ou o timo removidos. A denomina&ccedil;&atilde;o "linf&oacute;citos B" reflete a bolsa de Fabricius das aves; em mam&iacute;feros, a matura&ccedil;&atilde;o equivalente ocorre na medula &oacute;ssea (<em>bone marrow</em>).
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  &Uacute;nicos produtores de anticorpos. Sua identidade &eacute; definida pelo receptor de c&eacute;lula B (BCR &mdash; uma imunoglobulina de membrana) gerado por rearranjo V(D)J dos genes de imunoglobulina na medula &oacute;ssea. Cada linf&oacute;cito B na&iuml;ve expressa um &uacute;nico BCR com uma especificidade antig&ecirc;nica.
+</div>
+<p>Duas subpopula&ccedil;&otilde;es principais: <strong>linf&oacute;citos B foliculares</strong> (a maioria, residentes nos fol&iacute;culos dos &oacute;rg&atilde;os linfoides secund&aacute;rios, respons&aacute;veis pelas respostas T-dependentes com centro germinativo) e <strong>linf&oacute;citos B da zona marginal</strong> (residentes na zona marginal do ba&ccedil;o, respondem rapidamente a ant&iacute;genos polissacarídicos T-independentes). Ap&oacute;s ativa&ccedil;&atilde;o, diferenciam-se em <strong>plasmoçitos</strong> (f&aacute;brica de anticorpos) ou em <strong>c&eacute;lulas B de mem&oacute;ria</strong>. Ver <a class="cross-link" href="anticorpos-imunidade-humoral.html#ativacao-lb">M7 &rarr; Ativa&ccedil;&atilde;o de linf&oacute;citos B</a>.</p>
+</section>
+
+<section id="linfocitos-t">
+<h2>Linf&oacute;citos T <a class="anc" href="#linfocitos-t">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto hist&oacute;rico</span>
+  A clonotipagem do TCR e a descoberta de que ele reconhece peptídeos apresentados por MHC (e n&atilde;o ant&iacute;genos nativos) foram estabelecidas por Zinkernagel e Doherty em 1974 &mdash; Nobel de 1996 &mdash; e pela identifica&ccedil;&atilde;o molecular do TCR por Hedrick e Davis em 1984. A divis&atilde;o funcional entre CD4&thinsp;&#8314; (helper) e CD8&thinsp;&#8314; (cito-t&oacute;xico) foi formalmente demonstrada com o advento dos anticorpos monoclonais anti-CD nos anos 1980.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  Linf&oacute;citos que reconhecem ant&iacute;genos exclusivamente como pept&iacute;deos apresentados por mol&eacute;culas MHC (nunca ant&iacute;genos nativos sol&uacute;veis). Sua identidade &eacute; definida pelo receptor de c&eacute;lula T (TCR), gerado por rearranjo V(D)J no timo.
+</div>
+<div class="g2">
+  <div class="box"><strong>Linf&oacute;citos T CD4&thinsp;&#8314; (Helper)</strong><br>Reconhecem pept&iacute;deos em MHC-II (expresso em APCs). Orquestram a resposta imune secretando citocinas que ativam macr&oacute;fagos, linf&oacute;citos B e c&eacute;lulas T CD8&thinsp;&#8314;. Diferenciam-se em Th1, Th2, Th17, Tfh, Treg.</div>
+  <div class="box"><strong>Linf&oacute;citos T CD8&thinsp;&#8314; (Cito-t&oacute;xicos)</strong><br>Reconhecem pept&iacute;deos em MHC-I (expresso em todas as c&eacute;lulas nucleadas). Matam c&eacute;lulas infectadas por v&iacute;rus, tumorais ou transplantadas por libera&ccedil;&atilde;o de perforina e granzimas, e por sinaliza&ccedil;&atilde;o de morte via Fas-FasL.</div>
+</div>
+<p>Ver mecanismos de diferencia&ccedil;&atilde;o e fun&ccedil;&otilde;es efetoras completas em <a class="cross-link" href="linfocitos-t-diferenciacao.html#subtipos-th">M8 &rarr; Subtipos Th</a>.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conex&otilde;es com outros m&oacute;dulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M2 &rarr; <a class="cross-link" href="imunidade-inata.html">M4 &mdash; Imunidade Inata</a>:</strong> neutr&oacute;filos, macr&oacute;fagos e c&eacute;lulas NK s&atilde;o os principais efetores da resposta inata. A l&oacute;gica de reconhecimento de padr&otilde;es (PRRs) que ativa essas c&eacute;lulas &eacute; detalhada no M4.</p>
+  <p><strong>M2 &rarr; <a class="cross-link" href="mhc-apresentacao-antigenica.html">M6 &mdash; MHC</a>:</strong> a apresenta&ccedil;&atilde;o de ant&iacute;genos pelas CDs e macr&oacute;fagos depende das mol&eacute;culas MHC &mdash; o mecanismo molecular completo de como o pept&iacute;deo chega ao MHC &eacute; coberto no M6.</p>
+  <p><strong>M2 &rarr; <a class="cross-link" href="hipersensibilidade.html">M10 &mdash; Hipersensibilidade</a>:</strong> mastoc&iacute;tos e bas&oacute;filos s&atilde;o efetores centrais da hipersensibilidade tipo I. Eosin&oacute;filos s&atilde;o recrutados na fase tardia. A conex&atilde;o entre IgE + Fc&epsilon;RI + degranula&ccedil;&atilde;o fica completa com a fisiopatologia da alergia.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discuss&atilde;o <a class="anc" href="#discussao">#</a></h2>
+<p>A converg&ecirc;ncia entre c&eacute;lulas mieloides e linfoides revela uma divis&atilde;o de trabalho que &eacute;, ao mesmo tempo, de velocidade e de especificidade. C&eacute;lulas mieloides (neutr&oacute;filos, macr&oacute;fagos, NKs) respondem em minutos a horas com mecanismos pr&eacute;-formados &mdash; gr&acirc;nulos, ERO, receptores invariantes. C&eacute;lulas linfoides respondem em dias a semanas com mecanismos gerados somaticamente para cada ant&iacute;geno. A c&eacute;lula dendrítica &eacute; o ponto de articula&ccedil;&atilde;o: l&ecirc; os padr&otilde;es do pat&oacute;geno (inata) e traduz essa informa&ccedil;&atilde;o em ativa&ccedil;&atilde;o antig&ecirc;nica espec&iacute;fica (adaptativa).</p>
+<p>A tens&atilde;o mais interessante est&aacute; nos macr&oacute;fagos M1/M2: a mesma c&eacute;lula que mata bact&eacute;rias intracelulares com efici&ecirc;ncia brutal (M1) pode ser reprogramada para suprimir a imunidade e promover fibrose (M2). Tumores exploram ativamente essa plasticidade &mdash; macr&oacute;fagos associados a tumor (TAMs) s&atilde;o predominantemente M2, criando um microambiente imunossupressor. A terapia com inibidores de <em>checkpoint</em> (anti-PD-1, anti-CTLA-4) funciona, em parte, por reverter essa reprograma&ccedil;&atilde;o.</p>
+<p>A implica&ccedil;&atilde;o derivada &eacute; estrutural: o sistema imune n&atilde;o tem uma c&eacute;lula "mais importante" &mdash; tem n&oacute;s de controle. A c&eacute;lula dendrítica &eacute; um n&oacute; entre inata e adaptativa; o linf&oacute;cito T CD4&thinsp;&#8314; &eacute; um n&oacute; entre a detec&ccedil;&atilde;o (APC) e os efetores (B, CD8&thinsp;&#8314;, macr&oacute;fago). Doen&ccedil;as que eliminam esses n&oacute;s &mdash; como o HIV, que destr&oacute;i preferencialmente LT CD4&thinsp;&#8314; &mdash; colapsam toda a rede adaptativa, n&atilde;o apenas um bra&ccedil;o dela. Isso responde a pergunta motivadora: sem os CD4&thinsp;&#8314;, os LB perdem o segundo sinal de ativa&ccedil;&atilde;o e os CD8&thinsp;&#8314; perdem o aux&iacute;lio necess&aacute;rio para prolifera&ccedil;&atilde;o sustentada.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai &middot; Elsevier, 11&ordf; ed. &middot; Cap&iacute;tulo 2. Refer&ecirc;ncia prim&aacute;ria. Cobre biologia de cada c&eacute;lula com profundidade molecular e figuras de alta qualidade.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Kuby Immunology</div>
+    <div class="bm">Punt et al. &middot; Macmillan, 8&ordf; ed. &middot; Cap&iacute;tulo 2. Tabelas comparativas de subpopula&ccedil;&otilde;es s&atilde;o superiores ao Abbas para estudo r&aacute;pido.</div>
+  </div>
+</div>
+<p style="font-size:14px;color:var(--muted);margin-top:12px"><strong>Artigo:</strong> WANG, H. et al. Neutrophil extracellular traps in disease. <em>Signal Transduction and Targeted Therapy</em>, v. 9, p. 235, 2024. DOI: <a href="https://doi.org/10.1038/s41392-024-01933-x" target="_blank" rel="noopener" style="color:var(--ac)">10.1038/s41392-024-01933-x</a></p>
+</section>
+
+<section id="referencias">
+<h2>Refer&ecirc;ncias ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 11. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>BRINKMANN, Volker et al. Neutrophil extracellular traps kill bacteria. <em>Science</em>, v. 303, n. 5663, p. 1532&ndash;1535, 2004. DOI: <a href="https://doi.org/10.1126/science.1092385" target="_blank" rel="noopener">10.1126/science.1092385</a></li>
+  <li>GORDON, Siamon; TAYLOR, Philip R. Monocyte and macrophage heterogeneity. <em>Nature Reviews Immunology</em>, v. 5, p. 953&ndash;964, 2005. DOI: <a href="https://doi.org/10.1038/nri1733" target="_blank" rel="noopener">10.1038/nri1733</a></li>
+  <li>OLIVEIRA, Carlos Eduardo Coral de. <em>Aula: C&eacute;lulas do Sistema Imune</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 06 mar. 2026.</li>
+  <li>PUNT, Jenni et al. <em>Kuby Immunology</em>. 8. ed. New York: Macmillan Higher Education, 2022.</li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: C&eacute;lulas do Sistema Imune &mdash; Parte 2</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 2026.</li>
+  <li>WANG, H. et al. Neutrophil extracellular traps in disease. <em>Signal Transduction and Targeted Therapy</em>, v. 9, p. 235, 2024. DOI: <a href="https://doi.org/10.1038/s41392-024-01933-x" target="_blank" rel="noopener">10.1038/s41392-024-01933-x</a></li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+
+<script>
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function setSidebarState(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.innerHTML = '&#8250;';
+    sessionStorage.setItem('sidebar-collapsed', '1');
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    toggleBtn.innerHTML = '&#8249;';
+    sessionStorage.setItem('sidebar-collapsed', '0');
+  }
+}
+if (sessionStorage.getItem('sidebar-collapsed') === '1') setSidebarState(true);
+toggleBtn.addEventListener('click', function() { setSidebarState(!sidebar.classList.contains('collapsed')); });
+var bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function() {
+  var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+}, { passive: true });
+var sLinks = document.querySelectorAll('#sidebar a.sl[href^="#"]');
+var obs1 = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      sLinks.forEach(function(l) { l.classList.remove('active'); });
+      var a = document.querySelector('#sidebar a.sl[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+var obs2 = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) e.target.classList.add('in-view');
+    else e.target.classList.remove('in-view');
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+document.querySelectorAll('section[id]').forEach(function(s) { obs1.observe(s); obs2.observe(s); });
+sLinks.forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var t = document.querySelector(link.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 7 — Antígenos, Anticorpos e Imunidade Humoral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0c09;--bg2:#17140f;--bg3:#201c15;--border:#3d3020;--text:#ddd5c0;--muted:#b09a78;--blue:#e0a04a;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 0 40px}
+#sidebar .logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--blue);padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
+#sidebar .logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+#sidebar .group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px}
+#sidebar a{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent}
+#sidebar a:hover{color:var(--text)}#sidebar a.active{color:var(--blue);border-left-color:var(--blue)}
+main{flex:1;padding:60px 80px 120px}.content{max-width:72ch;margin:0 auto}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--blue);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:48px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--blue);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+p{margin-bottom:1.1em}strong{color:var(--text);font-weight:600}em{font-style:italic;color:var(--muted)}
+a.cite{color:var(--blue);text-decoration:none;font-size:.85em;vertical-align:super}a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--blue);text-decoration:none;font-size:.82em;font-style:italic;border-bottom:1px dashed var(--blue);opacity:.85}a.cross-link:hover{opacity:1}
+.table-wrap{overflow-x:auto;margin:28px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.fund-card strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}.fund-card p{color:var(--muted);margin:0;line-height:1.6}
+.callout{background:var(--bg3);border-left:3px solid var(--blue);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--blue)}
+.ig-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.ig-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
+.ig-card .ig-name{font-family:var(--font-ui);font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px}
+.ig-card p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}.book-card .book-meta{color:var(--muted);font-size:12px}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}ol.refs li a{color:var(--blue);text-decoration:none}ol.refs li a:hover{text-decoration:underline}
+@media(max-width:1024px){body{flex-direction:column}#sidebar{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;padding:12px 0 0;border-right:none;border-bottom:1px solid var(--border)}#sidebar .logo{border-bottom:none;margin-bottom:0;padding-bottom:8px}#sidebar .group-label{padding:8px 12px 4px}#sidebar a{padding:4px 12px}main{padding:32px 24px 80px}.ig-grid,.fund-grid,.book-grid{grid-template-columns:1fr}}
+@media print{#sidebar{display:none}body{display:block;background:#fff;color:#000}main{padding:0}h1,h2,h3{color:#000}.callout{background:#f5f5f5;border-color:#999;color:#000}table,th,td{border-color:#ccc;color:#000}th{background:#eee}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}.anchor{display:none}}
+</style>
+</head>
+<body>
+<nav id="sidebar">
+  <div class="logo">Imunologia · Módulo 7<a href="index.html">← Índice de Imunologia</a></div>
+  <div class="group-label">Conteúdo</div>
+  <a href="#fundamentos-necessarios">Fundamentos necessários</a>
+  <a href="#antigenos">Antígenos — o que o SI reconhece</a>
+  <a href="#epitopos">Epítopos e imunogenicidade</a>
+  <a href="#haptenos">Haptenos e carreadores</a>
+  <a href="#estrutura-ac">Estrutura dos anticorpos</a>
+  <a href="#regioes">Regiões variável e constante</a>
+  <a href="#classes-ig">Classes de imunoglobulinas</a>
+  <a href="#ativacao-lb">Ativação de linfócitos B</a>
+  <a href="#centro-germinativo">Centro germinativo</a>
+  <a href="#troca-isotipo">Troca de isotipo</a>
+  <a href="#maturacao-afinidade">Maturação de afinidade</a>
+  <a href="#funcoes-ac">Funções efetoras dos anticorpos</a>
+  <a href="#adcc">ADCC e opsonização</a>
+  <a href="#monoclonais">Anticorpos monoclonais</a>
+  <div class="group-label">Revisão</div>
+  <a href="#conexoes">Conexões</a>
+  <a href="#discussao">Discussão</a>
+  <a href="#leituras">Leituras recomendadas</a>
+  <a href="#referencias">Referências ABNT</a>
+</nav>
+<main><div class="content">
+
+<h1>Módulo 7 — Antígenos, Anticorpos e Imunidade Humoral</h1>
+<p class="doc-meta">Imunologia · PUC · 2026 · Abbas cap. 5 · Aula: Antígenos e Anticorpos</p>
+
+<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<div class="fund-grid">
+  <div class="fund-card"><strong>Linfócitos B e maturação</strong><p>Linfócitos B maturam na medula óssea, onde expressam BCR (IgM de membrana). A biologia celular do linfócito B está em <a class="cross-link" href="celulas-sistema-imune.html#linfocitos-b">Módulo 2 → Linfócitos B</a>.</p></div>
+  <div class="fund-card"><strong>Órgãos linfoides secundários</strong><p>Centros germinativos — onde ocorre maturação de afinidade e troca de isotipo — existem em linfonodos, baço e MALT. Anatomia em <a class="cross-link" href="orgaos-linfoides.html#orgaos-secundarios">Módulo 1 → Órgãos secundários</a>.</p></div>
+  <div class="fund-card"><strong>Complemento e CR2</strong><p>C3d ligado ao antígeno é reconhecido por CR2 (CD21) no BCR, amplificando 100× o limiar de ativação do linfócito B. Mecanismo em <a class="cross-link" href="sistema-complemento.html#receptores">Módulo 5 → Receptores do complemento</a>.</p></div>
+  <div class="fund-card"><strong>Citocinas polarizantes</strong><p>IL-4 induz troca para IgE, IL-5 para IgA, IL-6 induz maturação de plasmócito, IL-21 sustenta o centro germinativo. Contexto das citocinas em <a class="cross-link" href="moleculas-sistema-imune.html#interleucinas">Módulo 3 → Interleucinas-chave</a>.</p></div>
+</div>
+
+<h2 id="antigenos">Antígenos — o que o sistema imune reconhece <a class="anchor" href="#antigenos">#</a></h2>
+<p>Antígeno é definido como qualquer macromolécula — proteína, carboidrato complexo, lipídio ou ácido nucleico — capaz de ser reconhecida especificamente por um receptor do sistema imune (BCR, TCR ou anticorpo). O termo é mais amplo que "imunógeno": todo imunógeno é antígeno, mas nem todo antígeno é imunógeno (capaz de induzir resposta imune por si só) <a class="cite" href="#referencias">(OLIVEIRA, 2026)</a>.</p>
+<p>A hierarquia de imunogenicidade por macromolécula é: proteínas > carboidratos complexos > carboidratos simples > lipídios. Proteínas são os antígenos mais potentes porque têm maior heterogeneidade química, são processadas e apresentadas via MHC-II a células T (que fornecem auxílio ao linfócito B), e podem conter múltiplos epítopos distintos. Lipídios são reconhecidos por células NKT via CD1, não via MHC convencional — mecanismo incomum mas relevante em micobactérias.</p>
+
+<h2 id="epitopos">Epítopos e determinantes antigênicos <a class="anchor" href="#epitopos">#</a></h2>
+<p>Epítopo (ou determinante antigênico) é definido como a região específica do antígeno que é reconhecida pelo sítio de ligação do anticorpo ou pelo TCR. Um único antígeno pode conter múltiplos epítopos distintos — cada um reconhecido por um anticorpo ou clone de célula T diferente. Os epítopos reconhecidos por anticorpos são <strong>conformacionais</strong> (dependem da estrutura tridimensional — são destruídos pela desnaturação) ou <strong>lineares</strong> (sequência primária de aminoácidos — acessíveis mesmo após desnaturação). Os epítopos reconhecidos pelo TCR são sempre lineares, pois resultam de processamento proteolítico e apresentação em MHC <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+
+<h2 id="haptenos">Haptenos e carreadores — imunogenicidade adquirida <a class="anchor" href="#haptenos">#</a></h2>
+<p>Haptenos são moléculas pequenas (< 1 kDa) que se ligam a anticorpos com especificidade, mas que por si sós não induzem resposta imune — são não imunogênicas. Quando conjugados a uma proteína carreadora, o complexo hapteno-carreador torna-se imunogênico: o carreador fornece epítopos T (MHC-II + células T CD4⁺ helper), enquanto o hapteno fornece o epítopo B (reconhecido pelo BCR). A resposta resultante inclui anticorpos anti-hapteno. Exemplos clinicamente relevantes: penicilina (hapteno que se liga a proteínas séricas) causa alergias por esse mecanismo; os antígenos de grupos sanguíneos são haptenos carboidratos com proteínas de membrana como carreadores.</p>
+
+<h2 id="estrutura-ac">Estrutura dos anticorpos <a class="anchor" href="#estrutura-ac">#</a></h2>
+<p>Os anticorpos (imunoglobulinas, Ig) são glicoproteínas secretadas por plasmócitos com estrutura básica de quatro cadeias: duas <strong>cadeias pesadas</strong> (heavy, H) idênticas e duas <strong>cadeias leves</strong> (light, L) idênticas, unidas por pontes dissulfeto. A estrutura resulta em duas regiões funcionais: <strong>Fab</strong> (<em>fragment antigen binding</em>) — duas por molécula, responsáveis pelo reconhecimento e ligação ao antígeno; <strong>Fc</strong> (<em>fragment crystallizable</em>) — um por molécula, C-terminal, responsável pelas funções efetoras (ativação do complemento, ligação a receptores Fc de células imunes).</p>
+<p>A <strong>região de dobradiça</strong> entre Fab e Fc é uma sequência rica em prolina e cisteína que confere flexibilidade à molécula — permitindo que os dois sítios Fab se movam independentemente para se adaptar à geometria do antígeno multivalente. As subclasses de IgG diferem principalmente pelo comprimento e flexibilidade dessa região (IgG3 tem dobradiça longa e flexível).</p>
+
+<h2 id="regioes">Regiões variável, constante e CDRs <a class="anchor" href="#regioes">#</a></h2>
+<p>Cada cadeia H e L possui uma <strong>região variável</strong> (V, N-terminal) e uma <strong>região constante</strong> (C, C-terminal). A região variável contém três <strong>regiões hipervariáveis</strong> ou <strong>CDRs</strong> (<em>Complementarity Determining Regions</em>) — loops que formam o sítio de ligação ao antígeno e determinam a especificidade. As CDRs de VH e VL se sobrepõem no espaço formando o sítio de ligação ao antígeno combinatório. As regiões entre CDRs são "frameworks" conservados que mantêm a estrutura. A diversidade do repertório de anticorpos (~10⁹ especificidades) emerge da recombinação aleatória dos genes V, D, J (cadeias H) e V, J (cadeias L) durante a maturação do linfócito B na medula óssea <a class="cite" href="#referencias">(OLIVEIRA, 2026)</a>.</p>
+
+<h2 id="classes-ig">Classes de imunoglobulinas — isotipos e funções <a class="anchor" href="#classes-ig">#</a></h2>
+<div class="ig-grid">
+  <div class="ig-card"><div class="ig-name">IgG — 4 subclasses (G1–G4)</div><p>Ig mais abundante no soro (~75% das Ig circulantes). Meia-vida longa (~21 dias). Opsonização, ativação do complemento (via clássica), neutralização viral. IgG1 e IgG3 melhor ativadores do complemento. IgG atravessa placenta (FcRn) — única imunidade passiva neonatal transplacentária. ADCC via FcγRIII (CD16) em células NK.</p></div>
+  <div class="ig-card"><div class="ig-name">IgA — 2 subclasses (A1, A2)</div><p>Ig dominante em secreções (leite materno, saliva, lágrimas, intestino). Forma dimérica (IgA secretora com peça secretória) resistente à proteólise luminal. Imunidade de mucosas — neutraliza patógenos no lúmen sem ativar complemento (vantajoso para evitar inflamação excessiva nas mucosas). Transmitida ao neonato via leite materno.</p></div>
+  <div class="ig-card"><div class="ig-name">IgM — pentâmero</div><p>Primeiro anticorpo produzido em resposta primária (antes da troca de isotipo). Pentâmero com 10 sítios de ligação — avidez muito alta, afinidade individual baixa. Ativação eficientíssima do complemento (uma molécula de IgM recrutando C1q). BCR de linfócito B naïve (forma monomérica de membrana).</p></div>
+  <div class="ig-card"><div class="ig-name">IgE — monômero</div><p>Concentração sérica muito baixa (~50 ng/mL), mas se liga com altíssima afinidade a receptores FcεRI em mastócitos e basófilos. Defesa contra helmintos (mecanismo via eosinófilos). Principal mediador de hipersensibilidade imediata (tipo I) — alergia, anafilaxia. Meia-vida sérica curta (2 dias), mas meia-vida longa quando ligada ao FcεRI (semanas).</p></div>
+</div>
+<div class="table-wrap"><table>
+  <thead><tr><th>Ig</th><th>Concentração sérica</th><th>Meia-vida</th><th>Ativa complemento</th><th>Atravessa placenta</th></tr></thead>
+  <tbody>
+    <tr><td>IgG</td><td>8–16 mg/mL</td><td>21–28 dias</td><td>Sim (G1, G3)</td><td>Sim (única)</td></tr>
+    <tr><td>IgA</td><td>1,4–4 mg/mL</td><td>5–6 dias</td><td>Não (via clássica)</td><td>Não (leite materno)</td></tr>
+    <tr><td>IgM</td><td>0,5–2 mg/mL</td><td>5–10 dias</td><td>Sim (muito eficiente)</td><td>Não</td></tr>
+    <tr><td>IgE</td><td>0,00005 mg/mL</td><td>2 dias</td><td>Não</td><td>Não</td></tr>
+    <tr><td>IgD</td><td>0,03 mg/mL</td><td>2–3 dias</td><td>Não</td><td>Não</td></tr>
+  </tbody>
+  <caption>Tabela 7. Propriedades comparativas das classes de imunoglobulinas.</caption>
+</table></div>
+
+<h2 id="ativacao-lb">Ativação de linfócitos B — sinal 1, sinal 2 e CD40 <a class="anchor" href="#ativacao-lb">#</a></h2>
+<p>A ativação completa de linfócitos B requer dois sinais: <strong>sinal 1</strong> — ligação do antígeno ao BCR (IgM/IgD de membrana + Igα/Igβ sinalizadores); <strong>sinal 2</strong> — auxílio de células T CD4⁺ via interação CD40 (no linfócito B) com CD40L (no linfócito T ativado) + citocinas. A interação CD40–CD40L é indispensável: mutações em CD40L causam a síndrome de hiper-IgM (ausência de troca de isotipo → acúmulo de IgM com deficiência de IgG, IgA e IgE). O sinal 2 de citocinas determina para qual isotipo ocorrerá a troca: IL-4 → IgE; IL-5 → IgA; IL-2 + IL-4 → IgG1/IgG3.</p>
+<p>O co-receptor CR2 (CD21)–CD19–CD81 amplifica o sinal 1 quando o antígeno está opsonizado com C3d: CR2 liga C3d no antígeno → CD19 sinaliza sinergicamente com o BCR → limiar de ativação cai 100×. Esse é o mecanismo pelo qual o complemento "adjuvante" a resposta humoral.</p>
+
+<h2 id="centro-germinativo">Centro germinativo — o laboratório evolutivo dos anticorpos <a class="anchor" href="#centro-germinativo">#</a></h2>
+<p>O centro germinativo é uma estrutura efêmera que se forma nos folículos dos órgãos linfoides secundários (linfonodos, baço) após ativação de linfócitos B por antígeno T-dependente. Dentro dele, linfócitos B sofrem: (1) <strong>hipermutação somática</strong> — taxa de mutação 10⁶× maior que o genoma em repouso, concentrada nas CDRs; (2) <strong>seleção positiva</strong> — apenas células com mutações que aumentam afinidade recebem sinal de sobrevivência de células T foliculares helper (Tfh via IL-21 + CD40L) e células foliculares dendríticas (apresentando antígenos); (3) <strong>seleção negativa</strong> — células com mutações autorreativas são eliminadas por apoptose. O resultado é uma rápida evolução darwiniana dentro do linfócito B individual — produzindo anticorpos de afinidade crescente a cada rodada.</p>
+
+<h2 id="troca-isotipo">Troca de isotipo — mesmo antígeno, diferentes funções <a class="anchor" href="#troca-isotipo">#</a></h2>
+<p>A troca de isotipo (<em>class switch recombination</em>) é a deleção irreversível de segmentos do locus de cadeia pesada, substituindo a região constante Cμ (IgM) por Cγ, Cα ou Cε — mantendo a mesma região variável (mesma especificidade) com novas funções efetoras. É mediada pela enzima AID (<em>Activation-Induced Cytidine Deaminase</em>). O isotipo resultante depende das citocinas presentes: IFN-γ → IgG1/IgG3; IL-4 → IgG1, IgE; TGF-β → IgA, IgG2. A troca ocorre principalmente no centro germinativo mas pode ocorrer extragerminalmente via BAFF (<em>B-cell Activating Factor</em>) e APRIL em mucosas.</p>
+
+<h2 id="maturacao-afinidade">Maturação de afinidade — o anticorpo melhora com o tempo <a class="anchor" href="#maturacao-afinidade">#</a></h2>
+<p>A maturação de afinidade é o processo pelo qual anticorpos produzidos em fases tardias de uma resposta imune primária — e especialmente em respostas secundárias — têm afinidade progressivamente maior pelo antígeno que os anticorpos iniciais. Resulta das hipermutações somáticas no centro germinativo + seleção positiva pelas células Tfh. O efeito prático: anticorpos de resposta secundária neutralizam vírus com concentrações 10–100× menores que os de resposta primária. É por isso que vacinações de reforço aumentam proteção — cada dose adicional aprofunda a maturação de afinidade <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+
+<h2 id="funcoes-ac">Funções efetoras dos anticorpos <a class="anchor" href="#funcoes-ac">#</a></h2>
+<p>Anticorpos exercem funções efetoras por dois mecanismos: (1) <strong>pelo Fab</strong> — neutralização (bloqueio de ligação do patógeno a receptor celular; ex.: anticorpos anti-hemaglutinina de influenza bloqueiam entrada viral); (2) <strong>pelo Fc</strong> — recrutamento de células e do complemento. As funções via Fc incluem opsonização (FcγRI, FcγRII, FcγRIII em fagócitos e NK), ativação do complemento (IgG e IgM via C1q) e ADCC. A distinção é importante: anticorpos neutralizantes não precisam de células ou complemento — funcionam no plasma; anticorpos opsonizantes precisam de células efetoras presentes.</p>
+
+<h2 id="adcc">ADCC — citotoxicidade celular dependente do anticorpo <a class="anchor" href="#adcc">#</a></h2>
+<p>A citotoxicidade celular dependente do anticorpo (ADCC, <em>Antibody-Dependent Cell-mediated Cytotoxicity</em>) é definida como a lise de células-alvo recobertas de anticorpo (IgG) por células efetoras que expressam FcγRIII (CD16) — principalmente células NK, mas também macrófagos e eosinófilos. O mecanismo: IgG se liga via Fab ao antígeno de superfície da célula-alvo; a região Fc é reconhecida por CD16 da célula NK → ativação da NK → secreção de granzima e perforina → morte da célula-alvo. ADCC é mecanismo de ação de anticorpos terapêuticos como rituximabe (anti-CD20) e trastuzumabe (anti-HER2).</p>
+<div class="callout"><strong>Afinidade vs. Avidez vs. Valência:</strong> <strong>afinidade</strong> é a força de ligação de um único sítio de anticorpo a um único epítopo (Ka); <strong>valência</strong> é o número de sítios de ligação por molécula (IgG = 2, IgM = 10); <strong>avidez</strong> é a força cumulativa de todas as ligações simultâneas de um anticorpo a um antígeno multivalente. É possível um anticorpo ter afinidade individual baixa (IgM em resposta primária) mas avidez muito alta (pela valência 10 do pentâmero).</div>
+
+<h2 id="monoclonais">Anticorpos monoclonais — da pesquisa ao tratamento <a class="anchor" href="#monoclonais">#</a></h2>
+<p>Anticorpos monoclonais (AcMo) são anticorpos produzidos por um único clone de linfócito B — todos idênticos, com a mesma especificidade. Produzidos originalmente pela tecnologia de hibridoma (Köhler e Milstein, 1975 — Nobel 1984): fusão de linfócito B produtor com célula de mieloma → hibridoma imortal. Hoje produzidos principalmente por engenharia genética em células CHO (<em>Chinese Hamster Ovary</em>). Nomenclatura indicativa do grau de humanização: -omabe (murino), -ximabe (quimérico), -zumabe (humanizado), -umabe (totalmente humano). AcMo humanizados têm menor imunogenicidade e meia-vida mais longa (FcRn humano os recicla). Exemplos: infliximabe (anti-TNF, quimérico), adalimumabe (anti-TNF, humano), pembrolizumabe (anti-PD-1, humanizado), atezolizumabe (anti-PD-L1, humanizado).</p>
+
+<h2 id="conexoes">Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>Módulo 7 → Módulo 5 (Complemento):</strong> IgM e IgG1/G3 ativam o complemento pela via clássica. A eficiência excepcional de IgM (um pentâmero basta) explica por que a resposta primária, mesmo com anticorpos de baixa afinidade, ainda assim ativa o complemento vigorosamente. Ver <a class="cross-link" href="sistema-complemento.html#via-classica">Módulo 5 → Via clássica</a>.</p>
+  <p><strong>Módulo 7 → Módulo 8 (Linfócitos T):</strong> a ativação completa do linfócito B depende de auxílio de células T CD4⁺ Tfh (linfócitos T foliculares helper) via CD40–CD40L e citocinas. A diferenciação de Tfh e sua função no centro germinativo está em <a class="cross-link" href="linfocitos-t-diferenciacao.html#tfh">Módulo 8 → Subtipos Th → Tfh</a>.</p>
+  <p><strong>Módulo 7 → Módulo 10 (Hipersensibilidade):</strong> IgE ligada a mastócitos via FcεRI é o mecanismo central da hipersensibilidade tipo I (alergia, anafilaxia). A troca para IgE induzida por IL-4 (Th2) conecta a polarização da resposta T ao tipo de hipersensibilidade que emerge. Ver <a class="cross-link" href="hipersensibilidade.html#tipo-i">Módulo 10 → Hipersensibilidade tipo I</a>.</p>
+</div>
+
+<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
+<p>A convergência entre estrutura e diversidade dos anticorpos revela a solução evolutiva para um problema combinatório: o sistema imune precisa reconhecer potencialmente todos os antígenos possíveis, mas o genoma tem capacidade finita. A solução — recombinação V(D)J aleatória + hipermutação somática + seleção pelo antígeno — gera diversidade > 10⁹ do repertório primário e então afina essa diversidade por pressão seletiva do antígeno no centro germinativo. É evolução darwiniana ocorrendo não entre organismos, mas entre linfócitos dentro de um único indivíduo, em dias.</p>
+<p>A tensão central é entre especificidade e reatividade cruzada. A mesma flexibilidade do sítio de ligação (CDRs) que permite reconhecer um único epítopo com alta afinidade também cria risco de reatividade cruzada com estruturas similares — incluindo autoantígenos. Mimetismo molecular (epítopos bacterianos/virais similares a antígenos próprios) é mecanismo proposto para várias doenças autoimunes: anticorpos anti-estreptocócicos que reagem com miosina cardíaca na febre reumática; anticorpos anti-NMDAR (receptor de glutamato) pós-encefalite viral.</p>
+<p>A implicação derivada mais importante para a medicina contemporânea é que a compreensão mecanicista da estrutura dos anticorpos tornou possível a engenharia de proteínas terapêuticas com funções precisamente projetadas. Anticorpos biespecíficos (dois Fab diferentes que ligam simultaneamente tumor e célula T); fragmentos de anticorpo conjugados a fármacos (ADC — antibody-drug conjugates); anticorpos com Fc editado para estender meia-vida ou modificar função efetora. A imunoglobulina não é mais apenas um produto da resposta imune — é uma plataforma terapêutica.</p>
+
+<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card"><div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed. · Capítulo 5 (Abs) e cap. 12 (Imunidade Humoral)<br>Capítulo 5 cobre estrutura com profundidade estrutural; capítulo 12 cobre ativação de linfócito B, centro germinativo e troca de isotipo de forma integrada.</div></div>
+  <div class="book-card"><div class="book-title">Antibodies: A Laboratory Manual</div><div class="book-meta">Harlow, Lane · Cold Spring Harbor Laboratory Press<br>Referência técnica clássica para produção e caracterização de anticorpos. Útil para compreender a tecnologia de anticorpos monoclonais com detalhe de protocolo.</div></div>
+</div>
+
+<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>DELVES, Peter J. et al. <em>Fundamentos de Imunologia</em>. 13. ed. Rio de Janeiro: Guanabara Koogan, 2018.</li>
+  <li>OLIVEIRA, Carlos Eduardo Coral de. <em>Aula: Antígenos e Anticorpos</em>. PUC-PR, Disciplina Agressão e Defesa, 2026.</li>
+</ol>
+
+</div></main>
+<script>
+const sections=document.querySelectorAll('h2[id],h3[id]');
+const links=document.querySelectorAll('#sidebar a[href^="#"]');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const id=entry.target.id;links.forEach(l=>l.classList.remove('active'));const active=document.querySelector('#sidebar a[href="#'+id+'"]');if(active)active.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+links.forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const target=document.querySelector(link.getAttribute('href'));if(target)target.scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>

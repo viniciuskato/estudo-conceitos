@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hipertensão, SRAA e Anti-hipertensivos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ── DESIGN TOKENS ── */
+  :root {
+    --bg:      #0e0c09;
+    --bg2:     #17140f;
+    --bg3:     #201c15;
+    --border:  #3d3020;
+    --text:    #ddd5c0;   /* ligeiramente menos saturado que #ede3d0 — reduz halation */
+    --muted:   #b09a78;
+    --blue:    #e0a04a;
+    --sidebar-w: 280px;
+
+    /* Escala tipográfica */
+    --fs-body:  16px;
+    --fs-sec:   14px;
+    --fs-ter:   12px;
+    --lh-body:  1.78;
+
+    /* Fonte */
+    --font-body: 'Source Serif 4', Georgia, serif;
+    --font-ui:   'Inter', system-ui, sans-serif;
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── BASE ── */
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    display: flex;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    padding: 24px 0 60px;
+    z-index: 100;
+    font-family: var(--font-ui);
+  }
+  #sidebar .logo {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 0 20px 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #sidebar .group-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 14px 20px 5px;
+  }
+  #sidebar a {
+    display: block;
+    padding: 4px 20px 4px 28px;
+    font-size: var(--fs-ter);
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    line-height: 1.5;
+  }
+  #sidebar a:hover { color: var(--text); }
+  #sidebar a.active { color: var(--blue); border-left-color: var(--blue); }
+
+  /* ── MAIN ── */
+  main { margin-left: var(--sidebar-w); flex: 1; padding: 60px 40px 120px; }
+  .content {
+    max-width: 72ch;   /* ~700px — 60–75 chars por linha */
+    margin: 0 auto;
+  }
+
+  /* ── TIPOGRAFIA ── */
+  h1 {
+    font-family: var(--font-body);
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-family: var(--font-ui);
+    color: var(--muted);
+    font-size: var(--fs-sec);
+    margin-bottom: 52px;
+  }
+
+  h2 {
+    font-family: var(--font-body);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin: 56px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.3;
+    /* âncora */
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  h3 {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 32px 0 10px;
+    line-height: 1.4;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  /* âncoras de seção */
+  .anchor {
+    font-size: 0.75em;
+    color: var(--border);
+    text-decoration: none;
+    font-weight: 400;
+    font-family: var(--font-ui);
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+  h2:hover .anchor,
+  h3:hover .anchor { opacity: 1; color: var(--blue); }
+
+  p { margin-bottom: 1em; }
+
+  /* ── CITAÇÕES ── */
+  .cite {
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 0.83em;
+    font-family: var(--font-ui);
+  }
+  .cite:hover { text-decoration: underline; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--bg3);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 22px 0;
+    font-size: 15px;
+  }
+  .callout strong { color: var(--blue); }
+
+  /* ── FIGURE / CAPTION ── */
+  figure { margin: 28px 0; }
+  figcaption {
+    font-family: var(--font-ui);
+    font-size: var(--fs-ter);
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.6;
+    font-style: normal;
+  }
+  figcaption strong { color: var(--text); }
+
+  /* ── TABELAS ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: var(--fs-sec); font-family: var(--font-ui); }
+  th {
+    background: var(--bg3);
+    color: var(--blue);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    font-size: var(--fs-ter);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+  tr:hover td { background: var(--bg3); }
+
+  /* ── DIAGRAMA ── */
+  .diagram {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 24px 16px;
+    font-family: var(--font-ui);
+  }
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 10px 0; }
+  .box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 13px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .box.hl   { border-color: var(--blue); color: var(--blue); }
+  .box.good { border-color: #7dcea0; color: #7dcea0; }
+  .box.faded { opacity: 0.35; }
+  .arrow   { color: var(--muted); font-size: 18px; }
+  .inhibit { color: #c0392b; font-size: 20px; font-weight: bold; }
+
+  /* ── BAR CHART ── */
+  .bar-item  { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-family: var(--font-ui); }
+  .bar-label { width: 210px; font-size: 13px; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 20px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+  .bar-fill  { height: 100%; background: var(--blue); border-radius: 3px; opacity: 0.7; }
+  .bar-val   { font-size: 12px; color: var(--muted); width: 80px; }
+
+  /* ── DRUG CARDS ── */
+  .drug-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin: 20px 0; }
+  .drug-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; font-family: var(--font-ui); }
+  .drug-class { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-bottom: 6px; }
+  .drug-name  { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; font-family: var(--font-body); }
+  .drug-detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .badge {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    background: var(--bg2);
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-left: 5px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+  }
+
+  /* ── REFERÊNCIAS ── */
+  #referencias ol  { padding-left: 20px; font-size: var(--fs-sec); color: var(--muted); line-height: 1.9; font-family: var(--font-ui); }
+  #referencias li  { margin-bottom: 10px; }
+  #referencias a   { color: var(--blue); text-decoration: none; }
+  #referencias a:hover { text-decoration: underline; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── RESPONSIVIDADE ── */
+  @media (max-width: 1024px) {
+    #sidebar {
+      width: 100%;
+      min-height: auto;
+      position: relative;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    #sidebar .logo { border-bottom: none; margin-bottom: 0; padding-bottom: 8px; width: 100%; }
+    #sidebar .group-label { padding: 8px 16px 4px; }
+    #sidebar a { padding: 3px 16px; }
+    body { flex-direction: column; }
+    main { margin-left: 0; padding: 32px 20px 80px; }
+    .content { max-width: 100%; }
+  }
+
+  /* ── IMPRESSÃO ── */
+  @media print {
+    :root {
+      --bg: #ffffff; --bg2: #f5f5f5; --bg3: #eeeeee;
+      --border: #cccccc; --text: #111111;
+      --muted: #555555; --blue: #8b6914;
+    }
+    #sidebar { display: none; }
+    body { display: block; color: #111; background: #fff; font-size: 11pt; }
+    main { margin-left: 0; padding: 0; }
+    .content { max-width: 100%; }
+    h2 { margin-top: 24pt; page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+    figure { page-break-inside: avoid; }
+    .anchor { display: none; }
+    a[href]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #555; }
+    .cite::after { content: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ SIDEBAR ══════════════════════════ -->
+<nav id="sidebar" aria-label="Navegação do documento">
+  <div class="logo">Farmacologia Clínica</div>
+
+  <div class="group-label">Fundamentos</div>
+  <a href="#fundamentos-necessarios">Determinantes da PA</a>
+  <a href="#fund-tonus">Tônus vascular e cálcio</a>
+  <a href="#fund-rins">Rins e controle de volume</a>
+
+  <div class="group-label">Hipertensão Arterial</div>
+  <a href="#has-definicao">Definição e classificação</a>
+  <a href="#has-tipos">Primária vs. secundária</a>
+  <a href="#has-fisiopato">Fisiopatologia</a>
+  <a href="#has-orgaos">Lesão de órgãos-alvo</a>
+
+  <div class="group-label">SRAA</div>
+  <a href="#sraa-intro">Definição e arquitetura</a>
+  <a href="#sraa-cascata">Cascata molecular</a>
+  <a href="#sraa-efeitos">Efeitos fisiológicos</a>
+  <a href="#sraa-doenca">SRAA na hipertensão</a>
+
+  <div class="group-label">Anti-hipertensivos</div>
+  <a href="#ah-visao">Lógica das classes</a>
+  <a href="#ah-ieca">IECAs</a>
+  <a href="#ah-bra">BRAs</a>
+  <a href="#ah-diur">Diuréticos</a>
+  <a href="#ah-beta">Betabloqueadores</a>
+  <a href="#ah-bcc">Bloqueadores de canal de cálcio</a>
+  <a href="#ah-escolha">Escolha terapêutica</a>
+
+  <div class="group-label">Revisão</div>
+  <a href="#conexoes">Conexões</a>
+  <a href="#discussao">Discussão</a>
+  <a href="#leituras">Leituras recomendadas</a>
+  <a href="#referencias">Referências ABNT</a>
+</nav>
+
+<!-- ══════════════════════════ MAIN ══════════════════════════ -->
+<main>
+<div class="content">
+
+  <h1>Hipertensão Arterial, SRAA e Anti-hipertensivos</h1>
+  <p class="subtitle">Da fisiologia do controle pressórico ao mecanismo de ação dos fármacos — estudo integrado</p>
+
+  <!-- ════════ FUNDAMENTOS ════════ -->
+  <section id="fundamentos-necessarios">
+    <h2>Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+
+    <h3>Determinantes da pressão arterial <a class="anchor" href="#fundamentos-necessarios">#</a></h3>
+    <p>A pressão arterial (PA) é o produto de duas variáveis hemodinâmicas — débito cardíaco (DC) e resistência vascular periférica (RVP):</p>
+
+    <div class="callout">
+      <strong>PA = DC × RVP</strong><br>
+      DC (L/min) = volume sistólico × frequência cardíaca — quanto sangue o coração ejeta por minuto.<br>
+      RVP = oposição ao fluxo nas arteríolas, governada principalmente pelo calibre do lúmen.
+    </div>
+
+    <p>A implicação é direta: qualquer fármaco que reduza o DC <em>ou</em> a RVP <em>ou</em> ambos vai reduzir a PA. É por isso que existem múltiplas classes de anti-hipertensivos — cada uma acessa um ponto diferente da mesma equação.</p>
+  </section>
+
+  <section id="fund-tonus">
+    <h3>Tônus vascular e o papel do cálcio <a class="anchor" href="#fund-tonus">#</a></h3>
+    <p>O calibre das arteríolas é determinado pela contração do músculo liso vascular, processo Ca²⁺-dependente: íons cálcio que entram pelos canais tipo L ativam a cinase de cadeia leve da miosina (MLCK), que contrai o filamento de actina-miosina e estreita o lúmen. Vasoconstrição → RVP aumenta → PA sobe. Esse mecanismo é o alvo direto dos bloqueadores de canal de cálcio (BCCs).</p>
+  </section>
+
+  <section id="fund-rins">
+    <h3>Rins e controle do volume circulante <a class="anchor" href="#fund-rins">#</a></h3>
+    <p>Os rins regulam o volume plasmático controlando a excreção de Na⁺: mais Na⁺ retido → mais água retida osmoticamente → maior volume → maior DC → maior PA. Esse vínculo é o ponto de ação dos diuréticos e, indiretamente, de todo o sistema renina-angiotensina-aldosterona (SRAA) — que regula a retenção de Na⁺ via aldosterona.</p>
+  </section>
+
+  <!-- ════════ HAS DEFINIÇÃO ════════ -->
+  <section id="has-definicao">
+    <h2>Definição e classificação da hipertensão arterial <a class="anchor" href="#has-definicao">#</a></h2>
+
+    <p>A hipertensão arterial sistêmica (HAS) é definida como a condição em que a PA sistólica (PAS) atinge ≥ 140 mmHg e/ou a PA diastólica (PAD) atinge ≥ 90 mmHg, aferidas em pelo menos duas ocasiões distintas com técnica padronizada <a href="#referencias" class="cite">(BARROSO et al., 2021)</a>. O ponto de corte não é biológico — é epidemiológico: representa o nível acima do qual ensaios clínicos demonstraram consistentemente que o tratamento reduz eventos cardiovasculares.</p>
+
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Categoria</th><th>PAS (mmHg)</th><th>PAD (mmHg)</th><th>Conduta</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ótima</td><td>&lt; 120</td><td>&lt; 80</td><td>Manter hábitos saudáveis</td></tr>
+            <tr><td>Normal</td><td>120–129</td><td>80–84</td><td>Monitorar anualmente</td></tr>
+            <tr><td>Normal-alta</td><td>130–139</td><td>85–89</td><td>Mudança de estilo de vida (MEV)</td></tr>
+            <tr><td><strong>HAS estágio 1</strong></td><td><strong>140–159</strong></td><td><strong>90–99</strong></td><td>MEV ± farmacoterapia (conforme risco CV global)</td></tr>
+            <tr><td>HAS estágio 2</td><td>160–179</td><td>100–109</td><td>MEV + fármaco</td></tr>
+            <tr><td>HAS estágio 3</td><td>≥ 180</td><td>≥ 110</td><td>Fármaco imediato</td></tr>
+            <tr><td>Crise hipertensiva</td><td>≥ 180</td><td>≥ 120 (com sintomas)</td><td>Urgência/emergência hospitalar</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><strong>Tabela 1.</strong> Classificação da PA segundo a Diretriz Brasileira de Hipertensão Arterial 2020 (BARROSO et al., 2021). No estágio 1, a decisão de iniciar farmacoterapia depende do risco cardiovascular global — que pondera idade, diabetes, tabagismo, colesterol e presença de lesão de órgão-alvo — e não apenas dos valores isolados de PA. MEV = mudança de estilo de vida; CV = cardiovascular.</figcaption>
+    </figure>
+
+    <p>A PA 140/94 mmHg — contexto que motivou este estudo — está no estágio 1. Nesse estágio, o número isolado não determina a conduta: um paciente jovem sem fatores de risco pode ser manejado inicialmente com MEV; um paciente com diabetes e proteinúria já tem indicação clara de farmacoterapia imediata. A avaliação médica é insubstituível exatamente porque integra essas variáveis.</p>
+  </section>
+
+  <section id="has-tipos">
+    <h3>HAS primária versus secundária <a class="anchor" href="#has-tipos">#</a></h3>
+    <p>Em 90–95% dos casos, a HAS é <em>primária</em> (ou essencial): sem causa única identificável, resultado da interação entre predisposição genética poligênica e fatores ambientais (excesso de sal, obesidade, sedentarismo, estresse crônico). Nos 5–10% restantes, a HAS é <em>secundária</em> — há uma causa tratável: hiperaldosteronismo primário (o mais frequente, ~10% das HAS resistentes), estenose de artéria renal, doença renal parenquimatosa, feocromocitoma, apneia obstrutiva do sono, entre outras. Identificar uma causa secundária pode normalizar a PA sem medicação crônica <a href="#referencias" class="cite">(WILLIAMS et al., 2018)</a>.</p>
+    <p>Sinais de alerta para HAS secundária: início antes dos 30 anos sem fator de risco, HAS refratária a três fármacos em doses plenas, hipocalemia espontânea (sugere hiperaldosteronismo), piora súbita em PA previamente controlada, sopro abdominal (sugere estenose de artéria renal).</p>
+  </section>
+
+  <!-- ════════ FISIOPATOLOGIA ════════ -->
+  <section id="has-fisiopato">
+    <h2>Fisiopatologia da hipertensão essencial <a class="anchor" href="#has-fisiopato">#</a></h2>
+
+    <p>A HAS primária não tem mecanismo único — é a sobreposição de pelo menos cinco disfunções que se retroalimentam. Cada uma representa um alvo terapêutico potencial, e entendê-las explica por que a combinação de fármacos com mecanismos distintos é mais eficaz do que dobrar a dose de um só.</p>
+
+    <h3>1. Hiperatividade simpática <a class="anchor" href="#has-fisiopato">#</a></h3>
+    <p>O sistema nervoso simpático (SNS) eleva a PA simultaneamente por três vias: aumenta frequência e contratilidade cardíacas (↑ DC), constringe arteríolas via receptores α₁ (↑ RVP) e estimula a liberação de renina pelas células justaglomerulares renais via receptores β₁ (ativando o SRAA, detalhado na seção seguinte). Em hipertensos, o tônus simpático basal está cronicamente elevado — evidenciado por maior frequência cardíaca de repouso, maior variabilidade pressórica e níveis elevados de noradrenalina plasmática.</p>
+
+    <h3>2. Disfunção do SRAA <a class="anchor" href="#has-fisiopato">#</a></h3>
+    <p>O SRAA está inapropriadamente ativo na HAS: a renina continua sendo liberada mesmo com a PA elevada, como se o mecanismo de feedback negativo estivesse embotado — produzindo angiotensina II (Ang II) que eleva a RVP, retém Na⁺ e ativa o SNS. O mecanismo completo está detalhado na seção SRAA.</p>
+
+    <h3>3. Disfunção endotelial e déficit de óxido nítrico <a class="anchor" href="#has-fisiopato">#</a></h3>
+    <p>O endotélio saudável sintetiza óxido nítrico (NO) continuamente via óxido nítrico sintase endotelial (eNOS), ativada pelo fluxo laminar e pela bradicinina. O NO difunde para o músculo liso subjacente, ativa a guanilil-ciclase solúvel, eleva o GMP cíclico (GMPc) e promove relaxamento vascular. Na HAS, o estresse oxidativo (superóxido) reage com o NO e o inativa antes de atingir o músculo — a vasodilatação endotélio-dependente diminui e a RVP sobe estruturalmente. O círculo vicioso: PA elevada → mais estresse de cisalhamento turbulento → mais espécies reativas de oxigênio → menos NO → menos vasodilatação → PA mais elevada.</p>
+
+    <h3>4. Reset renal da natriurese pressórica <a class="anchor" href="#has-fisiopato">#</a></h3>
+    <p>Em condições normais, qualquer elevação de PA aumenta proporcionalmente a excreção renal de Na⁺ — fenômeno chamado <em>natriurese pressórica</em>. No rim hipertenso, essa curva está deslocada para a direita: o rim retém Na⁺ em níveis de PA que, num rim normal, já provocariam natriurese, expandindo o volume e sustentando a PA elevada. Diuréticos corrigem esse desvio aumentando a excreção de Na⁺ independentemente da PA.</p>
+
+    <h3>5. Remodelamento vascular estrutural <a class="anchor" href="#has-fisiopato">#</a></h3>
+    <p>Com pressão cronicamente elevada, as arteríolas respondem com hipertrofia e hiperplasia da musculatura lisa — espessamento da parede e redução permanente do lúmen. A RVP passa a estar aumentada estruturalmente, não apenas funcionalmente. É a razão pela qual a HAS de longa data pode não normalizar completamente a PA mesmo com controle dos mecanismos funcionais, e por que o diagnóstico e tratamento precoces têm impacto desproporcional no prognóstico.</p>
+  </section>
+
+  <!-- ════════ ÓRGÃOS-ALVO ════════ -->
+  <section id="has-orgaos">
+    <h2>Lesão de órgãos-alvo <a class="anchor" href="#has-orgaos">#</a></h2>
+
+    <p>A HAS não tratada danifica progressivamente os órgãos mais sensíveis à sobrecarga pressórica crônica — coração, cérebro, rins e retina. Esses danos são silenciosos por anos antes de se manifestar como eventos agudos. O risco aumenta de forma contínua: para cada incremento de 20 mmHg na PAS acima de 115 mmHg (ou 10 mmHg na PAD), o risco de morte por doença cardiovascular dobra — em todas as faixas etárias estudadas <a href="#referencias" class="cite">(LEWINGTON et al., 2002)</a>.</p>
+
+    <figure>
+      <div class="bar-item"><div class="bar-label">AVC isquêmico</div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div><div class="bar-val">~8× maior</div></div>
+      <div class="bar-item"><div class="bar-label">Insuficiência cardíaca</div><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div><div class="bar-val">~6× maior</div></div>
+      <div class="bar-item"><div class="bar-label">Infarto agudo do miocárdio</div><div class="bar-track"><div class="bar-fill" style="width:68%"></div></div><div class="bar-val">~5× maior</div></div>
+      <div class="bar-item"><div class="bar-label">Doença renal crônica</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><div class="bar-val">~4× maior</div></div>
+      <figcaption style="margin-top:12px;"><strong>Figura 1.</strong> Risco relativo aproximado de complicações em hipertensos não tratados versus normotensos, compilado da metanálise de Lewington et al. (2002) com dados individuais de 1 milhão de adultos em 61 estudos prospectivos. O AVC isquêmico é a complicação mais fortemente associada à PA — explicado pela particular vulnerabilidade do endotélio cerebral ao estresse hemodinâmico crônico e à progressão acelerada de aterosclerose em artérias de médio calibre.</figcaption>
+    </figure>
+
+    <p>No coração, a sobrecarga pressórica crônica provoca hipertrofia ventricular esquerda (HVE) — inicialmente adaptativa, mas que progressivamente prejudica o relaxamento diastólico e, em estágios avançados, a contração sistólica. No rim, a hipertensão acelera a glomeruloesclerose, reduzindo a taxa de filtração glomerular (TFG) e gerando proteinúria. Na retina, o espessamento arteriolar e, nos casos graves, o papiledema indicam comprometimento microvascular sistêmico.</p>
+  </section>
+
+  <!-- ════════ SRAA INTRO ════════ -->
+  <section id="sraa-intro">
+    <h2>SRAA: definição e arquitetura <a class="anchor" href="#sraa-intro">#</a></h2>
+
+    <p>O sistema renina-angiotensina-aldosterona (SRAA) é definido como um eixo hormonal neuroendócrino que regula a PA e o equilíbrio hidroeletrolítico por meio de uma cascata enzimática sequencial — cada passo convertendo um precursor menos ativo em um peptídeo de maior potência biológica. Diferentemente do SNS (que age em segundos), o SRAA opera em escala de minutos a horas, sendo o principal responsável pela resposta pressórica sustentada a médio e longo prazo.</p>
+
+    <p>Sua arquitetura conecta quatro órgãos em série: o <strong>rim</strong> (sensor de pressão e fonte da renina), o <strong>fígado</strong> (reservatório contínuo do angiotensinogênio), o <strong>pulmão e endotélio vascular</strong> (local de conversão pela ECA) e a <strong>glândula adrenal</strong> (efetor hormonal final, via aldosterona). Essa distribuição anatômica explica por que bloquear um único passo molecular tem efeitos sistêmicos tão amplos.</p>
+  </section>
+
+  <!-- ════════ SRAA CASCATA ════════ -->
+  <section id="sraa-cascata">
+    <h2>Cascata molecular do SRAA <a class="anchor" href="#sraa-cascata">#</a></h2>
+
+    <figure>
+      <div class="diagram">
+        <p style="font-size:11px; color:var(--muted); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.07em;">Sequência molecular — da detecção renal à resposta sistêmica</p>
+        <div class="flow">
+          <div class="box" style="font-size:12px; line-height:1.5">↓ PA (arteríola aferente)<br>↓ [Na⁺] (mácula densa)<br>↑ Ativação β₁ (SNS)</div>
+          <div class="arrow">→</div>
+          <div class="box hl">Renina<br><span style="font-size:11px">(células JG, rim)</span></div>
+          <div class="arrow">→</div>
+          <div class="box">Angiotensinogênio<br><span style="font-size:11px">(α₂-globulina, fígado)</span></div>
+          <div class="arrow">→</div>
+          <div class="box">Angiotensina I<br><span style="font-size:11px">(decapeptídeo inativo)</span></div>
+        </div>
+        <div class="flow" style="margin-top:10px; padding-left:20px;">
+          <div class="box hl">ECA<br><span style="font-size:11px">(endotélio pulmonar)</span></div>
+          <div class="inhibit" style="margin: 0 4px">⊘ IECAs</div>
+          <div class="arrow">→</div>
+          <div class="box hl">Angiotensina II<br><span style="font-size:11px">(octapeptídeo ativo)</span></div>
+        </div>
+        <div class="flow" style="margin-top:18px;">
+          <div class="box">AT₁R → vasoconstrição<br><span style="font-size:11px">↑ RVP → ↑ PA</span></div>
+          <div class="arrow">←</div>
+          <div class="box hl" style="margin: 0 4px">Ang II</div>
+          <div class="arrow">→</div>
+          <div class="box">AT₁R → aldosterona<br><span style="font-size:11px">(adrenal → retém Na⁺, excreta K⁺)</span></div>
+        </div>
+        <div class="flow" style="margin-top:6px;">
+          <div class="box">AT₁R → SNS central<br><span style="font-size:11px">↑ sede · ↑ ADH · ↑ PA</span></div>
+          <div class="arrow">←</div>
+          <div class="box hl" style="margin: 0 4px">Ang II</div>
+          <div class="arrow">→</div>
+          <div class="box good">AT₂R → vasodilatação<br><span style="font-size:11px">natriurese · antiproliferação</span></div>
+        </div>
+        <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--muted); display:flex; gap:18px; flex-wrap:wrap;">
+          <span><span style="color:#c0392b; font-weight:bold">⊘</span> bloqueio farmacológico</span>
+          <span><span style="color:#7dcea0">verde</span> = efeitos contra-regulatórios</span>
+          <span>JG = células justaglomerulares · ECA = enzima conversora de angiotensina</span>
+        </div>
+      </div>
+      <figcaption><strong>Figura 2.</strong> Cascata molecular do SRAA. A renina, liberada pelas células justaglomerulares (JG) em resposta à queda de PA ou ao estímulo simpático β₁, cliva o angiotensinogênio hepático gerando angiotensina I (inativa). A ECA — predominantemente no endotélio pulmonar — converte angiotensina I em angiotensina II (Ang II), o peptídeo ativo central. A Ang II age em dois receptores: AT₁ (efeitos pró-hipertensivos: vasoconstrição, aldosterona, ativação simpática) e AT₂ (efeitos contra-regulatórios). Os IECAs bloqueiam a ECA; os BRAs bloqueiam diretamente o AT₁R. ADH = hormônio antidiurético.</figcaption>
+    </figure>
+
+    <h3>Passo a passo: os mecanismos por trás de cada etapa <a class="anchor" href="#sraa-cascata">#</a></h3>
+
+    <p><strong>Liberação de renina:</strong> A renina é uma protease aspártica sintetizada e secretada pelas células justaglomerulares (JG) na parede das arteríolas aferentes renais. Três estímulos a liberam: (1) queda da tensão mecânica na parede da arteríola aferente (mecanorreceptor); (2) redução do [Na⁺] no fluido tubular detectada pela mácula densa; (3) ativação de receptores β₁ nas células JG pelo SNS. A renina é o passo limitante de velocidade da cascata: sem ela, o SRAA para.</p>
+
+    <p><strong>Angiotensinogênio → Angiotensina I:</strong> O angiotensinogênio é uma α₂-globulina produzida constitutivamente pelo fígado. A renina cliva especificamente a ligação Leu¹⁰–Val¹¹ do angiotensinogênio, liberando o decapeptídeo angiotensina I — biologicamente inativo nas concentrações fisiológicas.</p>
+
+    <p><strong>Angiotensina I → Angiotensina II pela ECA:</strong> A enzima conversora de angiotensina (ECA) é uma zinco-metaloprotease ectoenzimática, abundante no endotélio capilar pulmonar e também presente em leitos vasculares de coração, rim e cérebro — o que permite produção local de Ang II em tecidos, independente da circulação. A ECA remove os dois aminoácidos C-terminais da Ang I (His⁹–Leu¹⁰), gerando o octapeptídeo Ang II. Além dessa função, a ECA é a principal enzima que degrada a bradicinina — consequência farmacológica central detalhada na seção de IECAs.</p>
+
+    <p><strong>AT₁R — efeitos pró-hipertensivos:</strong> O receptor AT₁ é acoplado à proteína Gq/G₁₂. Via Gq: ativa a fosfolipase C → IP₃ → liberação de Ca²⁺ intracelular → vasoconstrição direta. Nas células da zona glomerulosa adrenal: estimula a síntese de aldosterona. No hipotálamo: aumenta a sede e a liberação de ADH. Nas terminações nervosas simpáticas: facilita a exocitose de noradrenalina. No coração e vasos: via G₁₂ e RhoA, ativa fatores de transcrição que promovem hipertrofia e fibrose — efeito trófico independente da PA.</p>
+
+    <p><strong>AT₂R — contra-regulação:</strong> O receptor AT₂, acoplado à proteína Gi, opõe-se à sinalização de AT₁R: promove vasodilatação (via NO/GMPc e abertura de canais de K⁺), natriurese e inibição de crescimento celular. Ganha relevância clínica com os BRAs, que ao bloquearem AT₁R "desviam" a Ang II acumulada para AT₂R, potencializando efeitos protetores.</p>
+  </section>
+
+  <!-- ════════ SRAA EFEITOS ════════ -->
+  <section id="sraa-efeitos">
+    <h2>Efeitos fisiológicos integrados do SRAA <a class="anchor" href="#sraa-efeitos">#</a></h2>
+
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Órgão/tecido</th><th>Mediador</th><th>Efeito molecular</th><th>Impacto na PA</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Arteríolas sistêmicas</td><td>Ang II / AT₁R</td><td>Gq → IP₃ → ↑ Ca²⁺ intracelular → contração</td><td>↑ RVP → ↑ PA</td></tr>
+            <tr><td>Adrenal (zona glomerulosa)</td><td>Ang II → aldosterona</td><td>↑ ENaC e Na⁺/K⁺-ATPase no túbulo coletor → retém Na⁺, excreta K⁺</td><td>↑ volume → ↑ DC → ↑ PA</td></tr>
+            <tr><td>Rim (túbulo proximal)</td><td>Ang II / AT₁R direto</td><td>↑ trocador Na⁺/H⁺ luminal e Na⁺/K⁺-ATPase basolateral → reabsorção de Na⁺ e HCO₃⁻</td><td>↑ volume → ↑ PA</td></tr>
+            <tr><td>Hipotálamo</td><td>Ang II / AT₁R</td><td>↑ sede (córtex pré-óptico); ↑ liberação de ADH (núcleo supra-óptico)</td><td>↑ ingestão e retenção de água</td></tr>
+            <tr><td>SNS periférico</td><td>Ang II pré-sináptica / AT₁R</td><td>Facilita exocitose de noradrenalina nas fendas sinápticas</td><td>↑ DC e ↑ RVP</td></tr>
+            <tr><td>Coração e vasos (crônico)</td><td>Ang II / AT₁R → RhoA, TGF-β</td><td>Hipertrofia de cardiomiócitos; fibrose intersticial; hipertrofia de músculo liso vascular</td><td>Remodelamento estrutural independente do nível de PA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><strong>Tabela 2.</strong> Efeitos fisiológicos da angiotensina II organizados por órgão. A coluna "efeito molecular" detalha o mecanismo intracelular em cada sítio — permitindo compreender por que o bloqueio do SRAA tem consequências distintas em diferentes tecidos. ENaC = canal epitelial de Na⁺; ADH = hormônio antidiurético; TGF-β = fator de crescimento transformador beta; RVP = resistência vascular periférica; DC = débito cardíaco.</figcaption>
+    </figure>
+
+    <div class="callout">
+      <strong>Aldosterona e o equilíbrio K⁺:</strong> A aldosterona age sobre as células principais do túbulo coletor aumentando a transcrição de ENaC (canal luminal de Na⁺) e de subunidades da Na⁺/K⁺-ATPase basolateral. O Na⁺ entra pelo lúmen, é bombeado para o sangue, e o K⁺ faz o caminho inverso — excretado na urina. Resultado: hiperaldosteronismo → hipocalemia. A implicação terapêutica é simétrica: IECAs e BRAs reduzem aldosterona → menos excreção de K⁺ → <em>hipercalemia</em>, especialmente em pacientes com doença renal crônica ou em uso de outros poupadores de K⁺.
+    </div>
+  </section>
+
+  <!-- ════════ SRAA DOENÇA ════════ -->
+  <section id="sraa-doenca">
+    <h2>O SRAA na hipertensão: ativação inapropriada e efeito trófico <a class="anchor" href="#sraa-doenca">#</a></h2>
+
+    <p>Na HAS essencial, o SRAA comporta-se como um sistema com set point deslocado: a renina é liberada em níveis de PA que, num indivíduo normotenso, a suprimiriam. O feedback negativo fisiológico — Ang II inibe diretamente as células JG via AT₁R — está embotado. O resultado é ativação sustentada que se autoalimenta: mais Ang II → mais vasoconstrição e retenção de Na⁺ → mais PA → mas sem freio proporcional da renina.</p>
+
+    <p>Além do efeito hemodinâmico agudo, a Ang II age como fator mitogênico e fibrótico via AT₁R: ativa o TGF-β e o NF-κB, estimulando hipertrofia de cardiomiócitos, deposição de colágeno no interstício miocárdico e espessamento da parede arteriolar. Esses efeitos ocorrem independentemente do nível de PA — razão pela qual IECAs e BRAs reduzem mortalidade em insuficiência cardíaca e nefropatia diabética mesmo quando a PA já está controlada por outras classes. O estudo SAVE demonstrou redução de 19% na mortalidade com captopril em pós-IAM com disfunção sistólica — efeito atribuído primordialmente ao bloqueio do remodelamento, não à queda adicional de PA <a href="#referencias" class="cite">(PFEFFER et al., 1992)</a>.</p>
+  </section>
+
+  <!-- ════════ ANTI-HIPERTENSIVOS ════════ -->
+  <section id="ah-visao">
+    <h2>Anti-hipertensivos: lógica das classes <a class="anchor" href="#ah-visao">#</a></h2>
+
+    <p>As cinco classes de primeira linha — IECAs, BRAs, diuréticos tiazídicos, betabloqueadores e BCCs — não são intercambiáveis. Cada uma acessa um mecanismo fisiopatológico distinto da equação PA = DC × RVP, e a eficácia da terapia combinada emerge exatamente dessa complementaridade de alvos.</p>
+
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Classe</th><th>Alvo molecular</th><th>Efeito hemodinâmico</th><th>Exemplos</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>IECAs</td><td>Inibem ECA → ↓ Ang II + ↑ bradicinina</td><td>↓ RVP + ↓ volume</td><td>Captopril, enalapril, lisinopril</td></tr>
+            <tr><td>BRAs</td><td>Bloqueiam AT₁R diretamente</td><td>↓ RVP + ↓ volume</td><td>Losartana, valsartana, olmesartana</td></tr>
+            <tr><td>Diuréticos tiazídicos</td><td>Inibem NCC no TCD → ↑ excreção de Na⁺</td><td>↓ volume → ↓ DC</td><td>Hidroclorotiazida, clortalidona</td></tr>
+            <tr><td>Betabloqueadores</td><td>Bloqueiam β₁ cardíaco e β₁ das células JG</td><td>↓ DC + ↓ renina → ↓ Ang II</td><td>Atenolol, metoprolol, bisoprolol</td></tr>
+            <tr><td>BCCs di-hidropiridínicos</td><td>Bloqueiam canais Ca²⁺ tipo L nas arteríolas</td><td>↓ RVP (vasodilatação direta)</td><td>Anlodipino, nifedipino</td></tr>
+            <tr><td>BCCs não di-hidropiridínicos</td><td>Bloqueiam Ca²⁺ no coração e vasos</td><td>↓ FC + ↓ contratilidade + ↓ RVP</td><td>Verapamil, diltiazem</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><strong>Tabela 3.</strong> Classes de anti-hipertensivos de primeira linha e seus alvos moleculares. IECAs e BRAs atacam o SRAA (↓ RVP e volume); diuréticos reduzem o volume circulante (↓ DC); betabloqueadores reduzem DC e cortam a produção de renina; BCCs promovem vasodilatação direta. NCC = cotransportador Na⁺-Cl⁻; TCD = túbulo contorcido distal; JG = justaglomerular; FC = frequência cardíaca.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ════════ IECAs ════════ -->
+  <section id="ah-ieca">
+    <h2>Inibidores da ECA (IECAs) <a class="anchor" href="#ah-ieca">#</a></h2>
+
+    <h3>Mecanismo de ação <a class="anchor" href="#ah-ieca">#</a></h3>
+    <p>Os IECAs são definidos como fármacos que se ligam ao sítio catalítico da ECA — coordenando-se ao íon Zn²⁺ do centro ativo — e a inibem de forma competitiva e reversível, impedindo a conversão de Ang I em Ang II. A queda de Ang II reduz a ativação de AT₁R em todos os tecidos: arteríolas relaxam (↓ RVP), aldosterona cai (↓ retenção de Na⁺ → ↓ volume) e o tônus simpático facilitado pela Ang II diminui. O efeito trófico nocivo sobre coração e vasos também é bloqueado — independentemente da queda de PA.</p>
+
+    <p>A segunda consequência é o acúmulo de bradicinina: a ECA normalmente a degrada; ao ser inibida, deixa de fazê-lo. A bradicinina acumulada age sobre receptores B₂ no endotélio → ativa eNOS → ↑ NO → vasodilatação adicional. Mas o mesmo acúmulo estimula fibras C das vias aéreas via prostaglandina E₂ (PGE₂) → <strong>tosse seca não-produtiva</strong> em 10–20% dos pacientes (mais frequente em mulheres e asiáticos) <a href="#referencias" class="cite">(BRUNTON et al., 2023)</a>. A tosse é de classe, não de dose — não melhora com o tempo nem com redução da dose.</p>
+
+    <figure>
+      <div class="diagram">
+        <p style="font-size:11px; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Duplo efeito dos IECAs sobre a ECA</p>
+        <div class="flow">
+          <div class="box">Ang I</div>
+          <div class="arrow">→</div>
+          <div class="box hl">ECA ⊘</div>
+          <div class="arrow">→</div>
+          <div class="box faded">Ang II (bloqueada)</div>
+          <div class="arrow">→</div>
+          <div class="box faded">AT₁R não ativado</div>
+        </div>
+        <div class="flow" style="margin-top:8px;">
+          <div class="box">Bradicinina</div>
+          <div class="arrow">→</div>
+          <div class="box hl">ECA ⊘</div>
+          <div class="arrow">→</div>
+          <div class="box good">Acumula → B₂ → NO → vasodilatação</div>
+        </div>
+        <div class="flow" style="margin-top:6px;">
+          <div style="width:130px"></div>
+          <div style="font-size:12px; color:var(--muted); margin: 0 6px">↓ também</div>
+          <div class="arrow">→</div>
+          <div class="box" style="border-color:#c0392b; color:#c0392b; font-size:12px">Bradicinina → PGE₂ → tosse seca</div>
+        </div>
+      </div>
+      <figcaption><strong>Figura 3.</strong> Duplo efeito dos IECAs sobre a ECA. Ao inibir a enzima, os IECAs eliminam a síntese de Ang II (efeito terapêutico) e simultaneamente impedem a degradação da bradicinina. A bradicinina acumulada potencializa a vasodilatação via NO endotelial — mas também estimula fibras C das vias aéreas via PGE₂, causando a tosse seca característica em 10–20% dos pacientes. ⊘ = inibição; NO = óxido nítrico; PGE₂ = prostaglandina E₂.</figcaption>
+    </figure>
+
+    <h3>O captopril em detalhe <a class="anchor" href="#ah-ieca">#</a></h3>
+    <p>O captopril foi o primeiro IECA desenvolvido (1977, Ondetti e Cushman, Squibb), projetado racionalmente com base no sítio ativo da ECA de cobras (<em>Bothrops jararaca</em>). É um fármaco ativo que não requer conversão hepática (diferente do enalapril, que é pró-fármaco). Sua meia-vida plasmática é curta (~2 h), impondo 2–3 doses diárias e comprometendo a adesão no tratamento crônico. A vantagem dessa cinética é o início de ação rápido (15–60 min), útil em urgência hipertensiva.</p>
+
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Parâmetro</th><th>Captopril</th><th>Enalapril</th><th>Lisinopril</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Pró-fármaco</td><td>Não (ativo direto)</td><td>Sim (→ enalaprilato)</td><td>Não</td></tr>
+            <tr><td>Meia-vida efetiva</td><td>~2 h</td><td>~11 h (enalaprilato)</td><td>~12 h</td></tr>
+            <tr><td>Posologia típica</td><td>2–3×/dia</td><td>1–2×/dia</td><td>1×/dia</td></tr>
+            <tr><td>Início de ação (VO)</td><td>15–60 min</td><td>1–4 h</td><td>1–4 h</td></tr>
+            <tr><td>Uso em urgência hipertensiva</td><td>Sim (VO ou SL)</td><td>Menos usual</td><td>Menos usual</td></tr>
+            <tr><td>Eliminação</td><td>Renal (~95%)</td><td>Renal (~60%) + biliar</td><td>Renal (intacto)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><strong>Tabela 4.</strong> Comparativo farmacocinético entre três IECAs de uso frequente. O captopril destaca-se pelo início de ação rápido — útil em urgências — mas sua curta meia-vida exige múltiplas doses diárias, reduzindo adesão no tratamento crônico. Todos exigem ajuste de dose na insuficiência renal. VO = via oral; SL = sublingual.</figcaption>
+    </figure>
+
+    <h3>Indicações além da hipertensão <a class="anchor" href="#ah-ieca">#</a></h3>
+    <p>Os IECAs têm benefício independente da queda de PA em três cenários — todos explicados pelo bloqueio do efeito trófico da Ang II: (1) insuficiência cardíaca com fração de ejeção reduzida (FEr) — reduzem remodelamento e mortalidade; (2) pós-infarto agudo do miocárdio com disfunção sistólica — previnem expansão do infarto e remodelamento maladaptativo; (3) nefropatia diabética com proteinúria — a Ang II constringe preferencialmente a arteríola eferente, aumentando a pressão de filtração glomerular; os IECAs relaxam essa arteríola, reduzindo a hipertensão intraglomerular e a progressão da proteinúria.</p>
+
+    <h3>Contraindicações e monitoramento <a class="anchor" href="#ah-ieca">#</a></h3>
+    <p><strong>Gravidez:</strong> fetotoxicidade grave (displasia tubular renal fetal, oligodrâmnio, morte fetal) — contraindicação absoluta. <strong>Angioedema prévio por IECA:</strong> risco de recorrência grave com obstrução de via aérea — contraindicação absoluta à classe. <strong>Estenose bilateral de artéria renal:</strong> a Ang II mantém a filtração glomerular por constrição da arteríola eferente; bloqueá-la pode precipitar insuficiência renal aguda. Monitorar creatinina e K⁺ na 1ª e 4ª semanas de início ou ajuste de dose.</p>
+  </section>
+
+  <!-- ════════ BRAs ════════ -->
+  <section id="ah-bra">
+    <h2>Bloqueadores dos Receptores de Angiotensina II (BRAs) <a class="anchor" href="#ah-bra">#</a></h2>
+
+    <p>Os BRAs são definidos como antagonistas seletivos do receptor AT₁R que bloqueiam competitivamente a ação da Ang II no seu receptor final, sem alterar sua síntese. Como a ECA permanece intacta, a Ang II circulante <em>aumenta</em> com BRAs — mas não consegue ativar AT₁R, sendo desviada para AT₂R e potencializando efeitos contra-regulatórios. Como os BRAs não inibem a ECA, não acumulam bradicinina — eliminando a tosse como efeito adverso.</p>
+
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Característica</th><th>IECAs</th><th>BRAs</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ang II circulante</td><td>↓ (menos síntese)</td><td>↑ (acumula; desviada para AT₂R)</td></tr>
+            <tr><td>Bradicinina</td><td>↑ acumula (ECA inibida)</td><td>Não altera (ECA intacta)</td></tr>
+            <tr><td>Tosse seca</td><td>10–20% dos pacientes</td><td>~1% (indistinguível de placebo)</td></tr>
+            <tr><td>Angioedema</td><td>Raro (~0,1–0,5%)</td><td>Muito raro — mecanismo distinto</td></tr>
+            <tr><td>Ativação de AT₂R</td><td>Mínima (menos Ang II)</td><td>Potencializada (mais Ang II disponível)</td></tr>
+            <tr><td>Gravidez</td><td>Contraindicado</td><td>Contraindicado (mesma fetotoxicidade)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><strong>Tabela 5.</strong> Comparativo mecanístico entre IECAs e BRAs. A principal diferença clínica é a ausência de acúmulo de bradicinina nos BRAs, eliminando a tosse — principal causa de abandono dos IECAs. A combinação IECA + BRA está contraindicada: o estudo ONTARGET (2008) mostrou que, apesar de maior queda de PA, a combinação aumentou significativamente hipotensão, síncope e eventos renais adversos sem reduzir eventos cardiovasculares maiores.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ════════ DIURÉTICOS ════════ -->
+  <section id="ah-diur">
+    <h2>Diuréticos <a class="anchor" href="#ah-diur">#</a></h2>
+
+    <p>Diuréticos são definidos como fármacos que aumentam a excreção renal de Na⁺ e, osmoticamente, de água — reduzindo o volume plasmático e, consequentemente, o DC. Os tiazídicos (hidroclorotiazida, clortalidona) inibem o cotransportador Na⁺-Cl⁻ (NCC) no túbulo contorcido distal (TCD): menos Na⁺ reabsorvido → maior excreção urinária de Na⁺ e água. São a classe de primeira escolha na HAS sem comorbidades específicas pela combinação de eficácia, custo muito baixo e perfil de efeitos adversos manejável.</p>
+
+    <p>Os diuréticos de alça (furosemida) inibem o cotransportador Na⁺-K⁺-2Cl⁻ (NKCC2) na alça ascendente de Henle — são 5–10× mais potentes, mas com natriurese de curta duração e risco de depleção de volume severa; reservados para sobrecarga hídrica (IC descompensada) e TFG &lt; 30 mL/min/1,73m², nos quais tiazídicos perdem eficácia. Os poupadores de K⁺ (espironolactona, eplerenona) antagonizam o receptor de mineralocorticoide no túbulo coletor — retêm K⁺ e bloqueiam o efeito fibrótico da aldosterona no coração, justificando uso em IC com FEr e hiperaldosteronismo primário.</p>
+
+    <div class="callout">
+      <strong>Clortalidona vs. hidroclorotiazida:</strong> apesar de ambas serem tiazídicas, a clortalidona tem meia-vida de 45–60 h (versus ~10 h da hidroclorotiazida) e é 1,5–2× mais potente a doses equivalentes. O estudo ALLHAT (2002) — o maior ensaio de HAS já conduzido, com ~33.000 pacientes — usou clortalidona como comparador ativo e demonstrou superioridade sobre amlodipina e lisinopril em prevenção de insuficiência cardíaca. Evidências observacionais subsequentes sugerem maior redução de eventos cardiovasculares com clortalidona, motivando sua preferência nas diretrizes mais recentes.
+    </div>
+  </section>
+
+  <!-- ════════ BETABLOQUEADORES ════════ -->
+  <section id="ah-beta">
+    <h2>Betabloqueadores <a class="anchor" href="#ah-beta">#</a></h2>
+
+    <p>Betabloqueadores são definidos como antagonistas competitivos dos receptores β-adrenérgicos que reduzem a PA por dois mecanismos distintos e sinérgicos: (1) bloqueio de β₁ cardíacos → ↓ frequência cardíaca e contratilidade → ↓ DC; (2) bloqueio de β₁ nas células JG renais → ↓ liberação de renina → ↓ Ang II → ↓ RVP e volume. O segundo mecanismo os conecta diretamente ao SRAA, criando um elo entre redução de DC e redução de RVP.</p>
+
+    <p>A seletividade β₁ (metoprolol, bisoprolol, atenolol) é relativa e dose-dependente — em doses altas a seletividade diminui, com algum efeito sobre β₂ brônquicos. Mesmo betabloqueadores "seletivos" devem ser usados com cautela em asma moderada a grave ou DPOC com componente reversível.</p>
+
+    <p>Em HAS sem comorbidades, betabloqueadores perderam posição de primeira linha nas diretrizes mais recentes: metanálises mostraram proteção contra AVC ligeiramente inferior à de outras classes — possivelmente porque reduzem a pressão periférica (braquial) sem reduzir proporcionalmente a pressão central (aórtica). A indicação como primeira linha permanece sólida em HAS associada a taquiarritmia, angina estável, pós-IAM ou IC com FEr <a href="#referencias" class="cite">(WILLIAMS et al., 2018)</a>.</p>
+  </section>
+
+  <!-- ════════ BCCs ════════ -->
+  <section id="ah-bcc">
+    <h2>Bloqueadores dos Canais de Cálcio (BCCs) <a class="anchor" href="#ah-bcc">#</a></h2>
+
+    <p>Os BCCs são definidos como fármacos que se ligam a canais de Ca²⁺ tipo L voltagem-dependentes e reduzem o influxo de Ca²⁺, com efeito seletivo sobre músculo liso vascular (di-hidropiridínicos) ou sobre miocárdio e nódulo AV (não di-hidropiridínicos).</p>
+
+    <p>Os <strong>di-hidropiridínicos</strong> (anlodipino, nifedipino, felodipino) têm seletividade vascular: a ligação ao canal no músculo liso arterial é ~100–1.000× maior do que ao canal cardíaco — vasodilatação arteriolar com mínima depressão inotrópica. O anlodipino tem meia-vida de 35–50 h, garantindo controle de PA estável ao longo das 24 h. O nifedipino de liberação imediata deve ser <em>evitado</em> na HAS crônica: absorção rápida causa vasodilatação reflexa abrupta, ativa o barorreflexo e pode precipitar taquicardia reflexa e isquemia coronariana.</p>
+
+    <p>Os <strong>não di-hidropiridínicos</strong> (verapamil, diltiazem) agem predominantemente no coração: reduzem FC, contratilidade e condução AV. São úteis em HAS com fibrilação atrial para controle de frequência. São contraindicados em IC com FEr — a depressão inotrópica piora a disfunção sistólica — e em bloqueio AV de 2º/3º grau.</p>
+  </section>
+
+  <!-- ════════ ESCOLHA TERAPÊUTICA ════════ -->
+  <section id="ah-escolha">
+    <h2>Escolha terapêutica <a class="anchor" href="#ah-escolha">#</a></h2>
+
+    <p>A escolha do anti-hipertensivo é uma síntese do perfil fisiopatológico individual — a comorbidade presente é o indicador clínico mais confiável do mecanismo dominante de HAS naquele paciente <a href="#referencias" class="cite">(BARROSO et al., 2021)</a>.</p>
+
+    <figure>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Situação clínica</th><th>Classe(s) preferencial(is)</th><th>Raciocínio mecanístico</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>HAS sem comorbidade</td><td>IECA ou BRA + tiazídico ou BCC</td><td>Combina dois alvos independentes (SRAA + volume ou SRAA + RVP)</td></tr>
+            <tr><td>HAS + diabetes tipo 2</td><td>IECA ou BRA</td><td>Dilata arteríola eferente → ↓ pressão intraglomerular → retarda nefropatia diabética</td></tr>
+            <tr><td>HAS + IC com FEr</td><td>IECA (ou BRA) + betabloqueador + espironolactona</td><td>Bloqueia SRAA + SNS + aldosterona → remodelamento reverso e redução de mortalidade</td></tr>
+            <tr><td>HAS + doença coronariana / pós-IAM</td><td>Betabloqueador + IECA (± BCC-DHP)</td><td>↓ demanda de O₂ miocárdico + bloqueio do remodelamento pós-infarto</td></tr>
+            <tr><td>HAS + AVC isquêmico prévio</td><td>IECA + tiazídico (perindopril + indapamida)</td><td>Reduz recorrência — base: estudo PROGRESS (2001)</td></tr>
+            <tr><td>HAS sistólica isolada em idosos</td><td>BCC-DHP (anlodipino) ou clortalidona</td><td>Eficácia em reduzir PAS e eventos; menor risco de hipotensão ortostática</td></tr>
+            <tr><td>HAS + FA (controle de frequência)</td><td>BCC não-DHP ou betabloqueador</td><td>Reduzem condução AV → controlam frequência ventricular</td></tr>
+            <tr><td>HAS + gravidez</td><td>Metildopa, nifedipino retard, labetalol</td><td>IECAs e BRAs: fetotóxicos — contraindicados em toda a gestação</td></tr>
+            <tr><td>Tosse intratável por IECA</td><td>Substituir por BRA</td><td>BRAs não acumulam bradicinina — eliminam a causa da tosse</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption><strong>Tabela 6.</strong> Escolha preferencial de anti-hipertensivos por situação clínica. A comorbidade revela o mecanismo fisiopatológico dominante — o fármaco ideal ataca esse mecanismo, obtendo benefício duplo (anti-hipertensivo + cardioprotetor ou nefroprotetor). IC com FEr = insuficiência cardíaca com fração de ejeção reduzida; FA = fibrilação atrial; BCC-DHP = bloqueador de canal de cálcio di-hidropiridínico.</figcaption>
+    </figure>
+
+    <h3>Metas de PA e o caso clínico motivador <a class="anchor" href="#ah-escolha">#</a></h3>
+    <p>A meta atual para a maioria dos adultos hipertensos é PA &lt; 130/80 mmHg (ACC/AHA 2017) ou &lt; 140/90 mmHg (diretriz brasileira 2020 para baixo risco). Em idosos frágeis (&gt; 80 anos), metas mais permissivas (&lt; 150/90 mmHg) previnem hipotensão ortostática e quedas.</p>
+
+    <p>Retomando o contexto clínico: PA 140/94 mmHg no estágio 1 sem sintomas agudos não é emergência hipertensiva. Tomar captopril de forma autônoma expõe a hipotensão de primeira dose (especialmente se o SRAA estiver muito ativado), hipercalemia em doença renal não diagnosticada, e — mais silencioso — a falsa sensação de "resolvido" que pode adiar o diagnóstico adequado e a correção do risco cardiovascular global.</p>
+  </section>
+
+  <!-- ════════ DISCUSSÃO ════════ -->
+  
+  <section id="conexoes">
+    <h2>Conexões com outros materiais <a class="anchor" href="#conexoes">#</a></h2>
+    <div class="connections-box">
+      <h4>Pontes conceituais</h4>
+      <p><strong>SRAA → Trombose e Hemostasia:</strong> a angiotensina II não apenas eleva a pressão arterial — ela ativa o endotélio em direção a um fenótipo protrombótico, aumentando a expressão de PAI-1 e reduzindo a produção de prostaciclina. O mesmo endotélio que regula o tônus vascular (<a href="#sraa-efeitos">Efeitos fisiológicos do SRAA</a>) é o árbitro central do equilíbrio hemostático estudado em <a class="cross-link" href="../../medicina/fisiopatologia/trombose-e-hemostasia.html#endotelio">Trombose e Hemostasia → O endotélio</a>. IECAs e BRAs, ao reduzirem a angiotensina II, têm efeito antitrombótico indireto — mecanismo que justifica seu uso em síndromes coronarianas.</p>
+      <p><strong>SRAA → Trombose e Hemostasia:</strong> aldosterona aumenta o volume circulante pela retenção de sódio e água nos rins. Volume circulante aumentado eleva a viscosidade sanguínea e favorece estase venosa — um dos três vértices da Tríade de Virchow (<a class="cross-link" href="../../medicina/fisiopatologia/trombose-e-hemostasia.html#conceito">Trombose → Conceito e fisiopatologia</a>).</p>
+    </div>
+  </section>
+
+<section id="discussao">
+    <h2>Discussão <a class="anchor" href="#discussao">#</a></h2>
+
+    <h3>Convergência: todos os alvos convergem para sódio e calibre arteriolar <a class="anchor" href="#discussao">#</a></h3>
+    <p>Apesar da diversidade de mecanismos moleculares — inibição enzimática, antagonismo receptor, bloqueio de canal iônico, inibição de cotransportador —, todas as classes convergem para dois denominadores invariantes: redução da carga de Na⁺ no organismo e/ou redução do calibre arteriolar. Esse ponto fundamenta a lógica das combinações: o par mais eficaz não é o de duas drogas com o mesmo alvo (ex.: IECA + BRA, descredenciado pelo ONTARGET), mas o de dois mecanismos complementares — IECA/BRA (ataca SRAA) + BCC ou tiazídico (ataca RVP ou volume) — porque cada componente corrige uma via fisiopatológica distinta.</p>
+
+    <h3>Tensão: o paradoxo do escape da angiotensina <a class="anchor" href="#discussao">#</a></h3>
+    <p>Os IECAs são eficazes no longo prazo — mas após semanas a meses de uso, a Ang II plasmática frequentemente retorna a níveis próximos do basal. Esse "escape da angiotensina" ocorre porque vias ECA-independentes (quimase cardíaca, catepsina G, tonina) continuam convertendo Ang I em Ang II em tecidos como o miocárdio e os rins — estima-se que 40% da produção tecidual de Ang II em certos leitos seja ECA-independente. Se os IECAs perdem a supressão de Ang II no longo prazo, por que continuam sendo cardioprotetores? A hipótese dominante é que o benefício crônico deriva menos da supressão de Ang II e mais do acúmulo de bradicinina — via NO e prostaglandinas vasodilatadoras — efeito que os BRAs não replicam. Isso implicaria que IECAs e BRAs, apesar de funcionalmente similares no curto prazo, têm perfis de benefício tisular distintos. A questão permanece em aberto: ensaios head-to-head (ONTARGET, TRANSCEND) mostraram não-inferioridade de telmisartana em relação a ramipril, mas com heterogeneidade de subgrupos que não permite afirmação definitiva.</p>
+
+    <h3>Implicação derivada: hipertensão é uma doença de integral, não de valor pontual <a class="anchor" href="#discussao">#</a></h3>
+    <p>O corpo deste material organiza tudo em torno do valor da PA em um dado momento. Mas a implicação que emerge de uma análise mais profunda é outra: o dano biológico da HAS não é determinado pelo pico de PA, mas pela <em>integral da pressão ao longo do tempo</em> (PA × anos de exposição). Remodelamento cardíaco, fibrose vascular e nefroesclerose são processos que se instalam lentamente e são apenas parcialmente reversíveis com o tratamento. Cada ano de HAS não tratada é biologicamente permanente em sua fração de lesão estrutural — mesmo que a PA seja depois normalizada. A principal razão para tratar HAS precocemente não é "baixar o número", mas encurtar o tempo de exposição à sobrecarga que o organismo jamais recupera integralmente.</p>
+  </section>
+
+  <!-- ════════ LEITURAS ════════ -->
+  <section id="leituras">
+    <h2>Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+
+    <h3>Livros-texto <a class="anchor" href="#leituras">#</a></h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-class">Farmacologia</div>
+        <div class="drug-name">Rang & Dale's Pharmacology <span class="badge">VOCÊ TEM</span></div>
+        <div class="drug-detail">Rang HG et al. 10ª ed. Elsevier, 2023. Cap. 22–23. Critério: exposição mecanística densa — cada fármaco apresentado a partir de seu alvo molecular, não de sua indicação clínica.</div>
+      </div>
+      <div class="drug-card">
+        <div class="drug-class">Farmacologia clínica avançada</div>
+        <div class="drug-name">Goodman & Gilman's — Pharmacological Basis of Therapeutics</div>
+        <div class="drug-detail">Brunton LL et al. 14ª ed. McGraw-Hill, 2023. Critério: maior densidade de mecanismo molecular por capítulo entre todos os textos de farmacologia — inclui farmacodinâmica intrarrenal, sinalização intracelular dos receptores e dados de subgrupos de ensaios clínicos.</div>
+      </div>
+      <div class="drug-card">
+        <div class="drug-class">Fisiologia</div>
+        <div class="drug-name">Guyton & Hall — Tratado de Fisiologia Médica</div>
+        <div class="drug-detail">Hall JE. 14ª ed. Elsevier. Cap. 19 e 26. Critério: apresenta o SRAA e a natriurese pressórica com modelagem quantitativa — o único texto de fisiologia geral que permite calcular a resposta do sistema a perturbações.</div>
+      </div>
+    </div>
+
+    <h3>Artigos científicos (acesso aberto) <a class="anchor" href="#leituras">#</a></h3>
+    <p>— Lewington S et al. (2002). "Age-specific relevance of usual blood pressure to vascular mortality." <em>The Lancet</em> 360(9349):1903–1913. Metanálise de 1 milhão de adultos; fundamenta o risco contínuo e a relação dose-resposta entre PA e mortalidade cardiovascular. <a href="https://doi.org/10.1016/S0140-6736(02)11911-8" target="_blank" rel="noopener" class="cite">[DOI]</a></p>
+    <p>— Pfeffer MA et al. (1992). "Effect of captopril on mortality and morbidity in patients with left ventricular dysfunction after myocardial infarction." <em>NEJM</em> 327(10):669–677. Estudo SAVE — demonstra benefício do captopril em pós-IAM independente da PA. <a href="https://doi.org/10.1056/NEJM199209033271001" target="_blank" rel="noopener" class="cite">[DOI]</a></p>
+    <p>— PROGRESS Collaborative Group (2001). <em>The Lancet</em> 358(9287):1033–1041. Perindopril + indapamida em AVC prévio. <a href="https://doi.org/10.1016/S0140-6736(01)06178-5" target="_blank" rel="noopener" class="cite">[DOI]</a></p>
+    <p>— Yusuf S et al. ONTARGET (2008). <em>NEJM</em> 358(15):1547–1559. Demonstra por que IECA + BRA é contraindicado. <a href="https://doi.org/10.1056/NEJMoa0801317" target="_blank" rel="noopener" class="cite">[DOI]</a></p>
+
+    <h3>Recursos institucionais <a class="anchor" href="#leituras">#</a></h3>
+    <p>— <a href="https://doi.org/10.36660/abc.20201238" target="_blank" rel="noopener" class="cite">Diretriz Brasileira de Hipertensão Arterial 2020 (SBH/SBC/SBN)</a><br>
+    — <a href="https://doi.org/10.1093/eurheartj/ehy339" target="_blank" rel="noopener" class="cite">ESC/ESH Guidelines for Arterial Hypertension 2018</a><br>
+    — <a href="https://www.ahajournals.org/doi/10.1161/HYP.0000000000000065" target="_blank" rel="noopener" class="cite">ACC/AHA Hypertension Guidelines 2017</a></p>
+  </section>
+
+  <!-- ════════ REFERÊNCIAS ════════ -->
+  <section id="referencias">
+    <h2>Referências <a class="anchor" href="#referencias">#</a></h2>
+    <ol>
+      <li>BARROSO, W. K. S. et al. Diretrizes Brasileiras de Hipertensão Arterial — 2020. <em>Arquivos Brasileiros de Cardiologia</em>, v. 116, n. 3, p. 516–658, 2021. <a href="https://doi.org/10.36660/abc.20201238" target="_blank" rel="noopener">https://doi.org/10.36660/abc.20201238</a></li>
+      <li>BRUNTON, L. L. et al. <em>Goodman & Gilman's: the pharmacological basis of therapeutics</em>. 14. ed. New York: McGraw-Hill, 2023.</li>
+      <li>LEWINGTON, S. et al. Age-specific relevance of usual blood pressure to vascular mortality: a meta-analysis of individual data for one million adults in 61 prospective studies. <em>The Lancet</em>, v. 360, n. 9349, p. 1903–1913, 2002. <a href="https://doi.org/10.1016/S0140-6736(02)11911-8" target="_blank" rel="noopener">https://doi.org/10.1016/S0140-6736(02)11911-8</a></li>
+      <li>PFEFFER, M. A. et al. Effect of captopril on mortality and morbidity in patients with left ventricular dysfunction after myocardial infarction: results of the survival and ventricular enlargement trial. <em>New England Journal of Medicine</em>, v. 327, n. 10, p. 669–677, 1992. <a href="https://doi.org/10.1056/NEJM199209033271001" target="_blank" rel="noopener">https://doi.org/10.1056/NEJM199209033271001</a></li>
+      <li>PROGRESS COLLABORATIVE GROUP. Randomised trial of a perindopril-based blood-pressure-lowering regimen among 6,105 individuals with previous stroke or transient ischaemic attack. <em>The Lancet</em>, v. 358, n. 9287, p. 1033–1041, 2001. <a href="https://doi.org/10.1016/S0140-6736(01)06178-5" target="_blank" rel="noopener">https://doi.org/10.1016/S0140-6736(01)06178-5</a></li>
+      <li>RANG, H. G. et al. <em>Rang & Dale's pharmacology</em>. 9. ed. Edinburgh: Elsevier, 2020.</li>
+      <li>WILLIAMS, B. et al. 2018 ESC/ESH Guidelines for the management of arterial hypertension. <em>European Heart Journal</em>, v. 39, n. 33, p. 3021–3104, 2018. <a href="https://doi.org/10.1093/eurheartj/ehy339" target="_blank" rel="noopener">https://doi.org/10.1093/eurheartj/ehy339</a></li>
+      <li>YUSUF, S. et al. Telmisartan, ramipril, or both in patients at high risk for vascular events. <em>New England Journal of Medicine</em>, v. 358, n. 15, p. 1547–1559, 2008. <a href="https://doi.org/10.1056/NEJMoa0801317" target="_blank" rel="noopener">https://doi.org/10.1056/NEJMoa0801317</a></li>
+    </ol>
+  </section>
+
+</div>
+</main>
+
+<script>
+  // ── IntersectionObserver para sidebar ──
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('#sidebar a[href^="#"]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`#sidebar a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── Scroll suave ──
+  links.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

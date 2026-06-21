@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M8 — Linfócitos T: Diferenciação e Funções</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+.th-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.th-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
+.th-card .th-name{font-family:var(--font-ui);font-size:13px;font-weight:700;color:var(--ac);margin-bottom:4px}
+.th-card .th-signals{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-bottom:8px}
+.th-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+@media(max-width:900px){#mob-bar{display:flex}#sidebar{display:none;position:fixed;z-index:40;height:100%;top:0}#sidebar.open{display:flex}#s-toggle{display:none}#content{padding:24px 20px 80px}.ck-grid{grid-template-columns:repeat(2,1fr)}.th-grid{grid-template-columns:1fr}}
+@media print{#sidebar,#mob-bar,#progress-bar,.anc{display:none}body{background:#fff;color:#000}#content{padding:0}.prose{max-width:100%}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M8 &mdash; Linfócitos T</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776; Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <b>M8 &mdash; Linfócitos T</b>
+      <span>Imunologia &middot; PUC &middot; 2026</span>
+      <a href="index.html">&larr; Índice de Imunologia</a>
+    </div>
+    <div class="s-group">Conteúdo</div>
+    <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#ativacao">Ativação de linfócitos T</a>
+    <a class="sl sub" href="#tres-sinais">Os três sinais</a>
+    <a class="sl sub" href="#anergia">Anergia e tolerância periférica</a>
+    <a class="sl" href="#subtipos-th">Subtipos Th — polarização</a>
+    <a class="sl sub" href="#th1">Th1</a>
+    <a class="sl sub" href="#th2">Th2</a>
+    <a class="sl sub" href="#th17">Th17</a>
+    <a class="sl sub" href="#tfh">Tfh</a>
+    <a class="sl" href="#treg">Tregs e Nobel 2025</a>
+    <a class="sl sub" href="#foxp3">FoxP3 e síndrome IPEX</a>
+    <a class="sl" href="#cd8">Linfócitos T CD8⁺ citotóxicos</a>
+    <a class="sl" href="#memoria">Memória imunológica</a>
+    <div class="s-group">Revisão</div>
+    <a class="sl" href="#conexoes">Conexões</a>
+    <a class="sl" href="#discussao">Discussão</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Referências ABNT</a>
+  </div>
+</nav>
+<div id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Módulo 8 — Linfócitos T: Diferenciação e Funções</h1>
+  <p class="doc-meta">Imunologia · PUC · 2026 · Abbas caps. 9–11 · Nobel de Fisiologia 2025</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~25 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>MHC, citocinas, seleção tímica</b></span>
+    <span class="chip">🔗 Depende de: <b>M6 — MHC, M3 — Moléculas</b></span>
+    <span class="chip">📍 Área: <b>Imunologia · Imunidade adaptativa</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que um paciente com síndrome IPEX desenvolve diabetes mellitus tipo 1 neonatal, enteropatia grave e endocrinopatias múltiplas ao mesmo tempo — e o que isso revela sobre como o sistema imune normalmente evita atacar os próprios tecidos?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="mhc-apresentacao-antigenica.html">M6 — MHC e Apresentação Antigênica</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html">M3 — Moléculas do Sistema Imune</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html">M7 — Anticorpos e Imunidade Humoral</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="orgaos-linfoides.html">M1 — Seleção tímica (positiva e negativa)</a>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 — Marcadores CD de linfócitos T</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="resposta-a-patogenos.html">M9 — Resposta a Patógenos</a>
+      <a class="dep-item" href="hipersensibilidade.html">M10 — Hipersensibilidade</a>
+      <a class="dep-item" href="vacinas-imunidade-protetora.html">M11 — Vacinas e Imunidade Protetora</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários <a class="anc" href="#fundamentos">#</a></h2>
+<p>Quatro conceitos de módulos anteriores são indispensáveis para que cada frase deste compêndio faça sentido sem referência externa.</p>
+<p><strong>MHC e restrição ao MHC próprio.</strong> Linfócitos T reconhecem antígenos exclusivamente como peptídeos apresentados em moléculas do complexo principal de histocompatibilidade (MHC). MHC-II apresenta peptídeos a linfócitos T CD4⁺; MHC-I apresenta peptídeos a linfócitos T CD8⁺. O mecanismo de processamento — via endógena pelo proteasoma e via exógena pelo endossoma — está em <a class="cross-link" href="mhc-apresentacao-antigenica.html#processamento">M6 → Processamento de antígenos</a>.</p>
+<p><strong>Seleção tímica.</strong> Linfócitos T naïve que chegam à periferia passaram por duas seleções no timo: positiva (garante reconhecimento de MHC próprio) e negativa (elimina clones com alta afinidade por autoantígenos). Esse processo está em <a class="cross-link" href="orgaos-linfoides.html#timo">M1 → Timo</a>. A seleção negativa remove a maioria dos autorreativos — mas não todos, o que torna necessária a tolerância periférica discutida neste módulo.</p>
+<p><strong>Citocinas polarizantes.</strong> O destino de um linfócito T CD4⁺ ativado depende do microambiente de citocinas: IL-12 direciona para Th1; IL-4 para Th2; IL-6 + TGF-β para Th17; IL-2 + TGF-β para Treg; IL-21 + ICOS-L para Tfh. Os mecanismos moleculares das citocinas — receptores, vias JAK-STAT, funções — estão em <a class="cross-link" href="moleculas-sistema-imune.html#citocinas">M3 → Citocinas</a>.</p>
+<p><strong>Marcadores de linfócitos T.</strong> CD4⁺ são linfócitos T helper; CD8⁺ são citotóxicos; duplo-positivos (CD4⁺CD8⁺) existem apenas no timo durante maturação. CD25 é a cadeia α do receptor de IL-2 de alta afinidade (IL-2Rα) — marcador de células ativadas e, constitutivamente, de Tregs. Ontogenia e marcadores em <a class="cross-link" href="celulas-sistema-imune.html#linfocitos-t">M2 → Linfócitos T</a>.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Três sinais de ativação T</div>
+    <div class="ckd">TCR–MHC/peptídeo (especificidade) + CD28–CD80/86 (co-estimulação) + citocinas do microambiente (polarização). Sinal 1 sem sinal 2 → anergia.</div>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Subtipos Th e fatores mestres</div>
+    <div class="ckd">Th1/T-bet → IFN-γ; Th2/GATA-3 → IL-4/5/13; Th17/RORγt → IL-17; Tfh/Bcl-6 → IL-21; Treg/FoxP3 → IL-10/TGF-β.</div>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">FoxP3 e Tregs</div>
+    <div class="ckd">Regulador mestre das células T regulatórias. Mutação → síndrome IPEX (autoimunidade multiórgão desde o nascimento). Nobel 2025.</div>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">CTLs — mecanismo citotóxico</div>
+    <div class="ckd">Perforina + granzimas (apoptose intrínseca) e FasL–Fas (apoptose extrínseca). Killing serial: o CTL sobrevive e mata sucessivamente.</div>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Memória imunológica</div>
+    <div class="ckd">TCM (central, CCR7⁺, linfonodos) vs TEM (efetora, CCR7⁻, tecidos). Mantidas por IL-7 e IL-15 independente de antígeno.</div>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">CTLA-4 e ipilimumabe</div>
+    <div class="ckd">CTLA-4 compete com CD28 por CD80/86 com afinidade 20× maior → freio da resposta T. Anti-CTLA-4 bloqueia o freio → imunoterapia do câncer, mas riscos de autoimunidade.</div>
+  </div>
+</div>
+</section>
+
+<section id="ativacao">
+<h2>Ativação de linfócitos T — o princípio da dupla verificação <a class="anc" href="#ativacao">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1975–2000</span>
+  Em 1975, Lafferty e Cunningham propuseram que ativação linfocitária exigia dois sinais independentes — sinal 1 (antígeno) e sinal 2 (co-estimulação). O conceito permaneceu especulativo até 1987, quando Linsley e colaboradores identificaram CD28 como receptor e, em 1992, identificaram CD80/B7 como seu ligante em APCs. Em 1996, Allison demonstrou que CTLA-4 — homólogo inibitório de CD28 — era o freio natural da resposta T. O bloqueio de CTLA-4 com ipilimumabe tornou-se a primeira imunoterapia de checkpoint aprovada (FDA, 2011), gerando o Nobel de Medicina 2018 para Allison e Honjo.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  A ativação plena de um linfócito T naïve requer três sinais simultâneos e independentes: (1) reconhecimento do complexo peptídeo–MHC via TCR (especificidade antigênica); (2) co-estimulação via CD28–CD80/86 (contexto inflamatório); e (3) citocinas do microambiente (polarização funcional). A ausência do sinal 2 na presença do sinal 1 induz anergia clonal — inativação funcional irreversível — e não ativação.
+</div>
+
+<section id="tres-sinais">
+<h3>Os três sinais de ativação <a class="anc" href="#tres-sinais">#</a></h3>
+<p><strong>Sinal 1 — especificidade antigênica.</strong> O TCR (<em>T cell receptor</em>, receptor de células T) reconhece o complexo peptídeo–MHC na superfície da APC (<em>antigen-presenting cell</em>, célula apresentadora de antígenos). Co-receptores amplificam o sinal: CD4 liga o domínio β2 de MHC-II; CD8 liga o domínio α3 de MHC-I. Ambos recrutam Lck, uma tirosina quinase que fosforila ITAMs do complexo CD3, iniciando a cascata intracelular. O sinal 1 isolado não ativa — causa anergia.</p>
+<p><strong>Sinal 2 — co-estimulação.</strong> CD28 no linfócito T liga CD80 (B7-1) ou CD86 (B7-2) na APC. Apenas APCs profissionais maduras — células dendríticas ativadas, macrófagos inflamados, linfócitos B ativados — expressam CD80/86 constitutivamente. Células parenquimatosas não expressam. Isso garante que ativação T plena ocorra apenas em contexto inflamatório: uma célula infectada que não é APC profissional apresenta antígeno via MHC-I sem CD80/86, tornando o CTL anérgico ao invés de ativado. Após ativação, CTLA-4 (CD152) é upregulado e compete com CD28 pelo mesmo ligante com afinidade 20× maior — gerando sinal inibitório e resolução da resposta. Ipilimumabe (anti-CTLA-4) bloqueia esse freio, potencializando respostas antitumorais às custas de autoimunidade.</p>
+<p><strong>Sinal 3 — polarização.</strong> Citocinas produzidas pela APC e pelo microambiente determinam o subtipo efetora para o qual o linfócito T CD4⁺ naïve se diferencia. IL-12 → Th1; IL-4 → Th2; IL-6 + TGF-β (<em>transforming growth factor-beta</em>, fator de crescimento transformante beta) → Th17; IL-2 + TGF-β → Treg; ICOS-L + IL-21 → Tfh. O sinal 3 não é necessário para ativação per se, mas determina a qualidade e direção da resposta imune.</p>
+</section>
+
+<section id="anergia">
+<h3>Anergia e tolerância periférica <a class="anc" href="#anergia">#</a></h3>
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Anergia clonal é o estado de inatividade funcional adquirido por linfócitos T após receberem sinal 1 (TCR–MHC/peptídeo) sem sinal 2 (co-estimulação via CD28). Células anérgicas permanecem viáveis mas são refratárias a reestimulação e incapazes de produzir IL-2.
+</div>
+<p>O mecanismo molecular da anergia envolve E3 ubiquitina-ligases — principalmente Cbl-b e GRAIL — que são upreguladas em ausência de co-estimulação e degradam componentes da via de sinalização do TCR, incluindo PLC-γ1 e PKC-θ. Sem IL-2 (produzida apenas em ativação plena via CD28), a célula anérgica não recebe sinal de sobrevivência e proliferação. A anergia é reversível in vitro com adição de IL-2 exógena.</p>
+<p>Tregs adicionam um segundo mecanismo de tolerância periférica ativo — suprimindo linfócitos T antes que alcancem anergia, ou revertendo células anérgicas que poderiam ser reativadas por IL-2 exógena <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.</p>
+</section>
+</section>
+
+<section id="subtipos-th">
+<h2>Subtipos Th — polarização por citocinas <a class="anc" href="#subtipos-th">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1986</span>
+  Em 1986, Mosmann e Coffman descreveram dois subtipos de linfócitos T CD4⁺ murinos com perfis de citocinas opostos — Th1 (produtor de IFN-γ e IL-2) e Th2 (produtor de IL-4 e IL-5). O paradigma Th1/Th2 revolucionou a imunologia ao mostrar que a qualidade — e não apenas a quantidade — da resposta T determinava o desfecho imunológico. Th17 foi descrito em 2005 por Langrish, Chen e colaboradores, e Tfh em 2000 por Schaerli e Moser, expandindo o paradigma para quatro subtipos efetores principais <a class="cite" href="#referencias">(ABBAS et al., 2023)</a>.
+</div>
+
+<p>Um linfócito T CD4⁺ naïve ativado pode diferenciar-se em múltiplos subtipos efetores funcionalmente distintos — cada um otimizado para combater um tipo diferente de ameaça. A diferenciação não é determinística: a célula lê o microambiente de citocinas e se diferencia de acordo. Cada subtipo expressa um fator de transcrição mestre, um perfil de citocinas produzidas e receptores de migração que o direcionam ao tecido onde é mais útil.</p>
+
+<div class="th-grid">
+  <div class="th-card" id="th1">
+    <div class="th-name">Th1</div>
+    <div class="th-signals">IL-12 + IFN-γ → T-bet → IFN-γ, TNF, IL-2</div>
+    <p>Ativa macrófagos classicamente (M1) via IFN-γ para eliminação de patógenos intracelulares — <em>Mycobacterium tuberculosis</em>, <em>Leishmania</em>, vírus. Induz produção de IgG opsonizantes. Excesso: autoimunidade órgão-específica (esclerose múltipla, diabetes mellitus tipo 1, artrite reumatoide).</p>
+  </div>
+  <div class="th-card" id="th2">
+    <div class="th-name">Th2</div>
+    <div class="th-signals">IL-4 → GATA-3 → IL-4, IL-5, IL-13</div>
+    <p>Defesa contra helmintos: IL-5 ativa eosinófilos; IL-4 e IL-13 induzem contração muscular e secreção de muco; IL-4 promove troca de isotipo para IgE. Excesso: atopia, asma, dermatite atópica — quadros onde a resposta anti-helminto é ativada contra antígenos inócuos.</p>
+  </div>
+  <div class="th-card" id="th17">
+    <div class="th-name">Th17</div>
+    <div class="th-signals">IL-6 + TGF-β → RORγt → IL-17A/F, IL-22 (+ IL-23 para manutenção)</div>
+    <p>Recruta e ativa neutrófilos via IL-17 (induz G-CSF e quimiocinas); mantém integridade de barreiras mucosas via IL-22 (induz peptídeos antimicrobianos em epitélios). Defesa contra fungos (<em>Candida</em>) e bactérias extracelulares em mucosas. Excesso: psoríase, espondilite anquilosante, doença inflamatória intestinal.</p>
+  </div>
+  <div class="th-card" id="tfh">
+    <div class="th-name">Tfh (T folicular <em>helper</em>)</div>
+    <div class="th-signals">ICOS-L + IL-21 + IL-6 → Bcl-6 → IL-21, CXCL13</div>
+    <p>Migra para folículos linfoides via CXCR5–CXCL13. Auxílio indispensável ao linfócito B no centro germinativo: CD40L sustenta hipermutação somática; IL-21 promove seleção por afinidade e sobrevivência de centroblastos. Sem Tfh → sem anticorpos de alta afinidade. Excesso: lúpus eritematoso sistêmico.</p>
+  </div>
+</div>
+
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Subtipo</th><th>Fator mestre</th><th>Citocinas produzidas</th><th>Função principal</th><th>Doença por excesso</th></tr></thead>
+  <tbody>
+    <tr><td>Th1</td><td>T-bet</td><td>IFN-γ, TNF, IL-2</td><td>Ativação de macrófagos; imunidade intracelular</td><td>DM tipo 1, EM, artrite reumatoide</td></tr>
+    <tr><td>Th2</td><td>GATA-3</td><td>IL-4, IL-5, IL-13</td><td>Imunidade anti-helminto; troca para IgE</td><td>Asma, atopia, alergia alimentar</td></tr>
+    <tr><td>Th17</td><td>RORγt</td><td>IL-17A/F, IL-22, IL-21</td><td>Defesa fúngica e bacteriana em mucosas; neutrófilos</td><td>Psoríase, espondilite, DII</td></tr>
+    <tr><td>Tfh</td><td>Bcl-6</td><td>IL-21, IL-4, CXCL13</td><td>Auxílio ao linfócito B no centro germinativo</td><td>Lúpus (excesso)</td></tr>
+    <tr><td>Treg</td><td>FoxP3</td><td>IL-10, TGF-β, IL-35</td><td>Supressão imune; tolerância periférica ativa</td><td>Autoimunidade multiórgão (deficiência)</td></tr>
+  </tbody>
+  <caption>Tabela 8.1. Subtipos de linfócitos T CD4⁺ efetores: fatores de transcrição, citocinas e correlatos clínicos.</caption>
+</table></div>
+</section>
+
+<section id="treg">
+<h2>Tregs — tolerância imunológica e o Nobel 2025 <a class="anc" href="#treg">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1970–2025</span>
+  Na década de 1970, Gershon e Kondo propuseram "células T supressoras" — uma ideia que dominou o campo por quinze anos. Em 1982, o mapeamento genético mostrou que o locus I-J do MHC murino, ao qual as células supressoras estavam ligadas, simplesmente não existia. O campo entrou em colapso. Mas Shimon Sakaguchi manteve a hipótese viva: em 1995 mostrou que transferência de CD4⁺CD25⁻ a camundongos atímicos causava autoimunidade multiórgão, e que a adição de CD4⁺CD25⁺ prevenia completamente a doença. Em 2001, Mary Brunkow e colaboradores identificaram FoxP3 como o gene mutado no camundongo <em>scurfy</em>; em 2003, Fred Ramsdell demonstrou que FoxP3 era o regulador mestre das Tregs. O Nobel de Fisiologia ou Medicina 2025 foi concedido a Brunkow, Ramsdell e Sakaguchi pela descoberta da tolerância imunológica periférica mediada por Tregs <a class="cite" href="#referencias">(SINGH, 2026)</a>.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Células T regulatórias (Tregs) são linfócitos T CD4⁺CD25⁺FoxP3⁺ que suprimem ativamente a ativação e função de outros linfócitos T, mantendo a homeostasia imunológica e prevenindo autoimunidade. Constituem ~5–10% dos linfócitos T CD4⁺ periféricos.
+</div>
+
+<p>As Tregs operam por quatro mecanismos supressores: (1) <strong>secreção de IL-10 e TGF-β</strong> — citocinas imunossupressoras que inibem APCs e linfócitos T efetores; (2) <strong>consumo de IL-2 via CD25 de alta afinidade</strong> — "privando" linfócitos T efetores do principal fator de crescimento e sobrevivência; (3) <strong>CTLA-4 constitutivo</strong> — compete com CD28 em APCs, removendo CD80/86 por trans-endocitose e privando linfócitos T efetores de co-estimulação; (4) <strong>contato célula-célula via LAG-3</strong> — inibe diretamente DCs.</p>
+
+<p>Tregs também têm relevância em oncologia: tumores sólidos recrutam Tregs ativamente para o microambiente tumoral via CCL22–CCR4, suprimindo a resposta antitumoral. A depleção seletiva de Tregs intratumorais é objetivo de estratégias de segunda geração de imunoterapia. Anticorpos anti-CCR4 (mogamulizumabe) estão aprovados para linfomas de células T e em investigação em tumores sólidos.</p>
+
+<section id="foxp3">
+<h3>FoxP3 — regulador mestre e síndrome IPEX <a class="anc" href="#foxp3">#</a></h3>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  FoxP3 (<em>Forkhead box P3</em>) é um fator de transcrição da família forkhead essencial para o desenvolvimento e função das Tregs. É regulador mestre — não apenas marcador: sua transfecção em células T convencionais confere capacidade supressora.
+</div>
+
+<p>FoxP3 upregula CTLA-4 e CD25 e downregula IL-2 e IFN-γ, suprimindo o fenótipo efetor enquanto ativa expressão de IL-10 e TGF-β. A função de FoxP3 foi demonstrada quando Brunkow et al. (2001) mostraram que o camundongo <em>scurfy</em> — com mutação espontânea em FoxP3 — desenvolve síndrome linfoproliferativa fatal em machos hemizigóticos.</p>
+
+<p>A síndrome IPEX (<em>Immune dysregulation, Polyendocrinopathy, Enteropathy, X-linked</em> — desregulação imune, poliendocrinopatia, enteropatia, ligada ao X) é a manifestação humana de mutações em FOXP3. Apresenta-se nos primeiros meses de vida com: diabetes mellitus tipo 1 neonatal (destruição autoimune de ilhotas pancreáticas), enteropatia grave com diarreia e má-absorção, e endocrinopatia múltipla (tireoidite, adrenalite). A sobreposição de órgãos afetados reflete os tecidos onde Tregs são mais necessárias para conter clones autorreativos que escaparam da seleção tímica. Sem FoxP3, não há Tregs; sem Tregs, linfócitos T autorreativos presentes na periferia normal atacam simultaneamente múltiplos órgãos — respondendo à pergunta motivadora deste compêndio <a class="cite" href="#referencias">(SINGH, 2026)</a>.</p>
+
+<div class="box clinico">
+  <strong>Clínica — IPEX:</strong> início no primeiro ano de vida, mortalidade elevada sem transplante de células-tronco hematopoiéticas. Diagnóstico: ausência de células CD4⁺CD25⁺FoxP3⁺ no sangue periférico + mutação em FOXP3. Transplante de medula óssea é curativo ao restaurar o compartimento de Tregs.
+</div>
+</section>
+</section>
+
+<section id="cd8">
+<h2>Linfócitos T CD8⁺ citotóxicos (CTLs) <a class="anc" href="#cd8">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1960–1990</span>
+  A citotoxicidade mediada por linfócitos T foi demonstrada por Govaerts em 1960 em modelos de rejeição renal. Em 1974, Zinkernagel e Doherty descobriram a restrição ao MHC dos CTLs — Nobel de 1996. A perforina foi purificada por Podack e Dennert em 1983; as granzimas, identificadas na década seguinte. O mecanismo Fas-FasL foi elucidado em 1992 por Suda e colaboradores, após a descoberta de que camundongos <em>lpr</em> (sem Fas) desenvolviam linfoproliferação maciça.
+</div>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  Linfócitos T citotóxicos (CTLs, <em>Cytotoxic T Lymphocytes</em>) são linfócitos T CD8⁺ ativados que destroem células-alvo que expressam peptídeos estranhos em MHC-I, induzindo apoptose por dois mecanismos independentes: exocitose de grânulos citotóxicos e via Fas–FasL.
+</div>
+
+<p>A ativação de CTLs requer os mesmos três sinais, mas o sinal 1 é via MHC-I; o sinal 2 pode ser fornecido por DCs que apresentam cruzadamente antígenos exógenos via MHC-I, ou indiretamente por linfócitos T CD4⁺ helper que licenciam APCs via CD40L–CD40.</p>
+
+<p><strong>Via 1 — exocitose de grânulos.</strong> O CTL forma sinapse imunológica com a célula-alvo e secreta grânulos polarizados: perforina oligomeriza na membrana da célula-alvo e forma poros; granzimas A e B entram pelo poro e ativam caspases (caspase-3 via granzima B) → apoptose. O CTL sobrevive e move-se para a próxima célula-alvo em <em>serial killing</em>.</p>
+
+<p><strong>Via 2 — Fas–FasL.</strong> FasL (CD178) expresso no CTL liga Fas (CD95) na célula-alvo → recrutamento de FADD e ativação de caspase-8 → apoptose extrínseca. Importante em células-alvo com baixa sensibilidade à via perforina.</p>
+
+<div class="box alerta">
+  <strong>Defeito clínico — linfohistiocitose hemofagocítica familiar (LHF):</strong> mutações em PRF1 (perforina), UNC13D, STX11 e outros genes dos grânulos causam CTLs incapazes de matar células-alvo. Os CTLs persistem e secretam IFN-γ e TNF em excesso → tempestade de citocinas, hemofagocitose, falência multiórgão. Tratamento: imunossupressão + transplante de medula óssea.
+</div>
+</section>
+
+<section id="memoria">
+<h2>Memória imunológica — o fundamento da vacinação <a class="anc" href="#memoria">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1957–1999</span>
+  Burnet (1957) propôs a teoria da seleção clonal, prevendo que linfócitos sobreviventes de uma resposta primária persistiriam como células de memória. As evidências definitivas vieram com rastreamento clonal por TCR nos anos 1990. Os compartimentos TCM e TEM foram definidos por Sallusto e colaboradores em 1999 com base em expressão diferencial de CCR7 e L-selectina.
+</div>
+
+<p>Após resolução da infecção primária, ~90–95% dos linfócitos T efetores sofrem apoptose na contração clonal — regulada por perda de citocinas de sobrevivência (IL-2, IL-7, IL-15) e upregulação de Bim. Os 5–10% restantes diferenciam-se em células de memória: limiar de ativação mais baixo, resposta mais rápida (horas vs. dias) e distribuição tecidual ampla.</p>
+
+<div class="kbox">
+  <div class="klabel">Dois compartimentos de memória T</div>
+  <strong>TCM</strong> (<em>central memory</em>, memória central) — CCR7⁺, L-selectina⁺; recirculam por linfonodos; alta capacidade proliferativa. <strong>TEM</strong> (<em>effector memory</em>, memória efetora) — CCR7⁻; residem em tecidos periféricos; função efetora imediata. <strong>Trm</strong> (<em>tissue-resident memory</em>, memória residente em tecido) — CD69⁺CD103⁺; não recirculam; provêm defesa in situ.
+</div>
+
+<p>IL-7 e IL-15 mantêm a divisão homeostática das células de memória independentemente do antígeno — explicando por que a memória persiste décadas e por que vacinas conferem proteção duradoura mesmo sem reexposição periódica ao patógeno.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outros módulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M8 → M7 (Anticorpos):</strong> células Tfh são indispensáveis para a maturação do centro germinativo — CD40L e IL-21 sustentam hipermutação somática e seleção de centroblastos de alta afinidade. Sem Tfh, não há anticorpos de alta afinidade nem memória humoral. Ver <a class="cross-link" href="anticorpos-imunidade-humoral.html#centro-germinativo">M7 → Centro germinativo</a>.</p>
+  <p><strong>M8 → M9 (Resposta a patógenos):</strong> Th1 ativa macrófagos para eliminar patógenos intracelulares (<em>M. tuberculosis</em>); Th2 coordena resposta anti-helminto via eosinófilos; Th17 recruta neutrófilos contra fungos em mucosas. Ver <a class="cross-link" href="resposta-a-patogenos.html">M9 → Resposta a patógenos</a>.</p>
+  <p><strong>M8 → M10 (Hipersensibilidade):</strong> excesso de Th2 → hipersensibilidade tipo I e tipo IV alérgica; excesso de Th1 → DTH tipo IV; deficiência de Treg → autoimunidade. Ver <a class="cross-link" href="hipersensibilidade.html">M10 → Hipersensibilidade</a>.</p>
+  <p><strong>M8 → M11 (Vacinas):</strong> TCM e TEM são o alvo biológico das vacinas. Plataformas de mRNA geram resposta MHC-I (CTLs) e MHC-II (Th) simultaneamente. Ver <a class="cross-link" href="vacinas-imunidade-protetora.html">M11 → Vacinas</a>.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão <a class="anc" href="#discussao">#</a></h2>
+<p>A convergência mais reveladora entre os subtipos Th é o eixo Th17–Treg: ambos dependem de TGF-β como sinal de diferenciação, mas o desfecho é diametralmente oposto. Em ambiente inflamatório (IL-6 alto), TGF-β + IL-6 ativam RORγt e geram Th17 pró-inflamatório. Em ambiente homeostático (IL-6 baixo), TGF-β + IL-2 ativam FoxP3 e geram Treg supressor. O mesmo sinal molecular produz efeitos opostos dependendo do contexto inflamatório — redundância inteligente que permite ao sistema imune usar o mesmo "fio condutor" para fins díspares.</p>
+<p>A tensão central é entre tolerância e imunidade. A descoberta das Tregs demonstrou que tolerância periférica não é apenas ausência de ativação (anergia) — é supressão ativa e contínua. O corpo mantém linfócitos T autorreativos na periferia e os controla por Tregs funcionais. A imunoterapia do câncer com bloqueadores de checkpoint (anti-CTLA-4, anti-PD-1) é o relaxamento controlado desse equilíbrio — e os efeitos adversos (colite, tireoidite, pneumonite) são a consequência previsível de remover freios que evoluíram para prevenir exatamente esses quadros.</p>
+<p>A implicação derivada menos enunciada é que FoxP3 é, em sentido estrito, o gene da tolerância periférica — e que autoimunidade não é uma falha do sistema imune, mas a consequência de remover uma camada de controle que opera continuamente em silêncio. O Nobel 2025 reconheceu não apenas um tipo celular, mas um princípio: saúde imunológica é equilíbrio dinâmico entre ativação e supressão, não ausência de resposta. Toda doença autoimune é, em algum nível, desequilíbrio nessa balança; toda imunoterapia, sua manipulação deliberada.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai · Elsevier, 11ª ed., 2023 · Capítulos 9–11<br>Capítulo 9 (ativação T e co-estimulação), capítulo 10 (subtipos Th), capítulo 11 (CTLs, memória). Referência principal deste módulo.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology</div>
+    <div class="bm">Murphy, Weaver · Garland, 10ª ed. · Capítulos 9–10<br>Melhor visualização do centro germinativo e da formação de memória B e T. Perspectiva evolutiva sobre origem de Tregs.</div>
+  </div>
+</div>
+<p style="font-size:13px;color:var(--muted);margin-top:10px"><strong>Artigo Nobel 2025:</strong> SINGH, K. Regulatory T cells: the 2025 Nobel prize in physiology or medicine. <em>Upsala Journal of Medical Sciences</em>, v. 131, e13770, 2026. DOI: <a href="https://doi.org/10.48101/ujms.v131.13770" target="_blank" rel="noopener" style="color:var(--ac)">10.48101/ujms.v131.13770</a></p>
+</section>
+
+<section id="referencias">
+<h2>Referências ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>MOSMANN, Timothy R.; COFFMAN, Robert L. TH1 and TH2 cells: different patterns of lymphokine secretion lead to different functional properties. <em>Annual Review of Immunology</em>, v. 7, p. 145–173, 1989. DOI: <a href="https://doi.org/10.1146/annurev.iy.07.040189.001045" target="_blank" rel="noopener" style="color:var(--ac)">10.1146/annurev.iy.07.040189.001045</a></li>
+  <li>SAKAGUCHI, Shimon et al. Immunologic self-tolerance maintained by activated T cells expressing IL-2 receptor alpha-chains (CD25). <em>Journal of Immunology</em>, v. 155, n. 3, p. 1151–1164, 1995. DOI: <a href="https://doi.org/10.4049/jimmunol.155.3.1151" target="_blank" rel="noopener" style="color:var(--ac)">10.4049/jimmunol.155.3.1151</a></li>
+  <li>SALLUSTO, Federica et al. Two subsets of memory T lymphocytes with distinct homing potentials and effector functions. <em>Nature</em>, v. 401, p. 708–712, 1999. DOI: <a href="https://doi.org/10.1038/44385" target="_blank" rel="noopener" style="color:var(--ac)">10.1038/44385</a></li>
+  <li>SINGH, Kailash. Regulatory T cells: the 2025 Nobel prize in physiology or medicine. <em>Upsala Journal of Medical Sciences</em>, v. 131, e13770, 2026. DOI: <a href="https://doi.org/10.48101/ujms.v131.13770" target="_blank" rel="noopener" style="color:var(--ac)">10.48101/ujms.v131.13770</a></li>
+</ol>
+</section>
+
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+  var saved=sessionStorage.getItem('sidebar-collapsed');
+  var sidebar=document.getElementById('sidebar');
+  var bodyWrap=document.getElementById('body-wrap');
+  var btn=document.getElementById('toggle-btn');
+  function collapse(){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');if(btn){btn.innerHTML='&#8250;';btn.title='Expandir sidebar'}sessionStorage.setItem('sidebar-collapsed','1')}
+  function expand(){sidebar.classList.remove('collapsed');bodyWrap.classList.remove('sidebar-collapsed');if(btn){btn.innerHTML='&#8249;';btn.title='Recolher sidebar'}sessionStorage.removeItem('sidebar-collapsed')}
+  if(saved==='1')collapse();
+  if(btn)btn.addEventListener('click',function(){sidebar.classList.contains('collapsed')?expand():collapse()});
+  var bar=document.getElementById('progress-bar');
+  window.addEventListener('scroll',function(){
+    var st=window.scrollY||document.documentElement.scrollTop;
+    var sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+    bar.style.width=(sh>0?Math.min(100,st/sh*100):0)+'%';
+  },{passive:true});
+  var links=document.querySelectorAll('#sidebar a.sl[href^="#"]');
+  var sections=document.querySelectorAll('section[id]');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.id;
+        links.forEach(function(l){l.classList.remove('active')});
+        var a=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
+        if(a)a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){obs.observe(s)});
+  var obs2=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      e.target.classList.toggle('in-view',e.isIntersecting);
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){obs2.observe(s)});
+})();
+</script>
+</body>
+</html>

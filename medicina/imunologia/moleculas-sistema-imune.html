@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3 &mdash; Mol&eacute;culas do Sistema Imune</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.alerta{border-left:2px solid var(--ac2);background:#1e1208}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:900px){#mob-bar{display:flex}#sidebar{display:none;position:fixed;z-index:40;height:100%;top:0}#sidebar.open{display:flex}#s-toggle{display:none}#content{padding:24px 20px 80px}.ck-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{#sidebar,#mob-bar,#progress-bar,.anc{display:none}body{background:#fff;color:#000}#content{padding:0}.prose{max-width:100%}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">M3 &mdash; Mol&eacute;culas do SI</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776; Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <b>M3 &mdash; Mol&eacute;culas do SI</b>
+      <span>Imunologia &middot; PUC &middot; 2026</span>
+      <a href="index.html">&larr; &Iacute;ndice de Imunologia</a>
+    </div>
+    <div class="s-group">Conte&uacute;do</div>
+    <a class="sl" href="#fundamentos">Fundamentos necess&aacute;rios</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#prrs">PRRs &mdash; Reconhecimento de Padr&atilde;o</a>
+    <a class="sl sub" href="#tlrs">TLRs</a>
+    <a class="sl sub" href="#nlrs-inflamassomo">NLRs e Inflamassomo</a>
+    <a class="sl sub" href="#rlrs-ifn">RLRs e Interferons tipo I</a>
+    <a class="sl sub" href="#clrs">CLRs</a>
+    <a class="sl" href="#citocinas">Citocinas</a>
+    <a class="sl sub" href="#tnf">TNF-&alpha;</a>
+    <a class="sl sub" href="#interleucinas">Interleucinas-chave</a>
+    <a class="sl" href="#quimiocinas">Quimiocinas</a>
+    <a class="sl" href="#moleculas-adesao">Mol&eacute;culas de Ades&atilde;o</a>
+    <a class="sl" href="#mediadores-lipidicos">Mediadores Lip&iacute;dicos</a>
+    <a class="sl" href="#fase-aguda">Prote&iacute;nas de Fase Aguda</a>
+    <a class="sl" href="#mmps">MMPs</a>
+    <div class="s-group">Revis&atilde;o</div>
+    <a class="sl" href="#conexoes">Conex&otilde;es</a>
+    <a class="sl" href="#discussao">Discuss&atilde;o</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Refer&ecirc;ncias ABNT</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>M3 &mdash; Mol&eacute;culas do Sistema Imune</h1>
+  <p class="doc-meta">Imunologia &middot; Medicina &middot; PUC-PR &middot; 2026 &middot; Abbas cap. 3&ndash;4; Aula Reiche 2026</p>
+  <div class="doc-chips">
+    <span class="chip">&#9201; <b>~25 min</b> de leitura</span>
+    <span class="chip">&#128203; Pr&eacute;-requisitos: <b>c&eacute;lulas do SI, cascatas de sinalizac&atilde;o</b></span>
+    <span class="chip">&#128279; Depende de: <b>M1, M2</b></span>
+    <span class="chip">&#128205; &Aacute;rea: <b>Imunologia molecular</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente com lupus eritematoso sist&ecirc;mico (LES) tem n&iacute;veis persistentemente elevados de interferon tipo I no sangue. Por que defici&ecirc;ncias de complemento &mdash; que deveriam &ldquo;ajudar&rdquo; a eliminar detritos celulares &mdash; paradoxalmente aumentam o risco de LES? O que isso revela sobre a rela&ccedil;&atilde;o entre mol&eacute;culas do SI e o limiar entre prote&ccedil;&atilde;o e autoimunidade?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de depend&ecirc;ncias</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este comp&ecirc;ndio usa</div>
+      <a class="dep-item" href="orgaos-linfoides.html">M1 &mdash; &Oacute;rg&atilde;os Linfoides</a>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 &mdash; C&eacute;lulas do SI</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necess&aacute;rio</div>
+      <a class="dep-item" href="#">Cascata NF-&kappa;B (sinalizac&atilde;o)</a>
+      <a class="dep-item" href="#">Via JAK-STAT (interferons)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="imunidade-inata.html">M4 &mdash; Imunidade Inata</a>
+      <a class="dep-item" href="sistema-complemento.html">M5 &mdash; Sistema Complemento</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html">M8 &mdash; Linf&oacute;citos T</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necess&aacute;rios <a class="anc" href="#fundamentos">#</a></h2>
+<p>Toda mol&eacute;cula do sistema imune opera por dois princ&iacute;pios fundamentais: <strong>especificidade receptor&ndash;ligante</strong> e <strong>amplifica&ccedil;&atilde;o em cascata</strong>. Um receptor sozinho n&atilde;o basta &mdash; o mecanismo est&aacute; na cascata intracelular que ele desencadeia. A liga&ccedil;&atilde;o ativa NF-&kappa;B, MAPK ou JAK-STAT, que culminam na transcri&ccedil;&atilde;o de genes de citocinas e mediadores.</p>
+<p><strong>PAMPs</strong> (<em>Pathogen-Associated Molecular Patterns</em>, padr&otilde;es moleculares associados a pat&oacute;genos) s&atilde;o estruturas conservadas entre microrganismos &mdash; LPS, peptidoglicano, RNA de fita dupla. <strong>DAMPs</strong> (<em>Damage-Associated Molecular Patterns</em>, padr&otilde;es de dano) s&atilde;o mol&eacute;culas end&oacute;genas liberadas por c&eacute;lulas lesadas &mdash; HMGB1, ATP, &aacute;cido &uacute;rico, DNA mitocondrial. Os PRRs reconhecem ambos. As c&eacute;lulas produtoras das mol&eacute;culas estudadas aqui &mdash; neutr&oacute;filos, macr&oacute;fagos, c&eacute;lulas dendrit&iacute;cas, linf&oacute;citos &mdash; s&atilde;o detalhadas em <a class="cross-link" href="celulas-sistema-imune.html">M2 &rarr; C&eacute;lulas do SI</a>.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">PRRs</div><div class="ckd">Receptores da imunidade inata que reconhecem PAMPs e DAMPs. TLRs, NLRs, RLRs, CLRs.</div></div>
+  <div class="ck-card"><div class="ckt">Citocinas</div><div class="ckd">Prote&iacute;nas regulat&oacute;rias de comunica&ccedil;&atilde;o inter-celular: aut&oacute;crina, par&aacute;crina, end&oacute;crina.</div></div>
+  <div class="ck-card"><div class="ckt">Quimiocinas</div><div class="ckd">Citocinas quimioatraentes que criam gradientes para migra&ccedil;&atilde;o direcional de leuc&oacute;citos.</div></div>
+  <div class="ck-card"><div class="ckt">Inflamassomo</div><div class="ckd">Complexo NLR + ASC + pr&oacute;-caspase-1 que ativa IL-1&beta; madura e induz piroptose.</div></div>
+  <div class="ck-card"><div class="ckt">Interferons tipo I</div><div class="ckd">IFN-&alpha;/&beta;: resposta antiviral prim&aacute;ria. Ativados por RLRs (RNA viral citoss&oacute;lico).</div></div>
+  <div class="ck-card"><div class="ckt">Mediadores lip&iacute;dicos</div><div class="ckd">Derivados do &aacute;cido araquid&ocirc;nico via COX (prostaglandinas) e LOX (leucotrienos).</div></div>
+</div>
+</section>
+
+<section id="prrs">
+<h2>PRRs &mdash; Receptores de Reconhecimento de Padr&atilde;o <a class="anc" href="#prrs">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  Em 1989, Charles Janeway prop&ocirc;s que o sistema imune inato reconhece "padr&otilde;es moleculares dos pat&oacute;genos" por receptores codificados na linhagem germinativa &mdash; o conceito de PAMP. A hip&oacute;tese era radical: contrapunha-se ao dogma de que especificidade imune era exclusividade da imunidade adaptativa. Em 1997, Jules Hoffmann demonstrou que o gene <em>Toll</em> de <em>Drosophila</em> era essencial para resist&ecirc;ncia a infec&ccedil;&otilde;es f&uacute;ngicas. Em 1998, Charles Janeway e Ruslan Medzhitov identificaram o primeiro TLR humano; em 2011, Hoffmann e Bruce Beutler (que descobriu TLR4 como receptor de LPS) receberam o Nobel de Medicina. O conceito de DAMP foi formalizado por Polly Matzinger em 1994 como <em>danger hypothesis</em>.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p><strong>PRRs</strong> s&atilde;o prote&iacute;nas da imunidade inata que reconhecem estruturas moleculares conservadas (PAMPs) compartilhadas por grandes grupos de microrganismos e mol&eacute;culas end&oacute;genas de dano (DAMPs). S&atilde;o codificadas na linhagem germinativa (n&atilde;o requerem rearranjo som&aacute;tico), amplamente expressas em c&eacute;lulas da imunidade inata e capazes de resposta imediata, sem necessidade de ativa&ccedil;&atilde;o pr&eacute;via.</p>
+</div>
+<p>Os PRRs dividem-se por localiza&ccedil;&atilde;o e estrutura em quatro fam&iacute;lias principais: TLRs (membrana plasm&aacute;tica e endossomial), NLRs (citoss&oacute;licos), RLRs (citoss&oacute;licos) e CLRs (membrana plasm&aacute;tica). A localiza&ccedil;&atilde;o n&atilde;o &eacute; acidental: TLRs endossomiais detectam &aacute;cidos nucleicos internalizados &mdash; o que evita o reconhecimento acidental de DNA/RNA pr&oacute;prios no citoplasma.</p>
+</section>
+
+<section id="tlrs">
+<h2>TLRs &mdash; Mecanismo e Import&acirc;ncia Cl&iacute;nica <a class="anc" href="#tlrs">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  <strong>Bruce Beutler</strong>, em 1998, demonstrou que camundongos com sepse resist&ecirc;ncia ao LPS tinham muta&ccedil;&atilde;o no gene <em>Tlr4</em> &mdash; provando que TLR4 &eacute; o sensor de LPS. Isso conectou diretamente o receptor &agrave; fisiopatologia do choque s&eacute;ptico. Muta&ccedil;&otilde;es em <em>MYD88</em> (adaptador de TLRs) foram depois identificadas em crian&ccedil;as com imunodefi-ci&ecirc;ncias prim&aacute;rias com suscetibilidade espec&iacute;fica a bact&eacute;rias piog&ecirc;nicas.
+</div>
+<p>Os TLRs (<em>Toll-like receptors</em>) s&atilde;o 10 em humanos. O TLR4 reconhece LPS de bact&eacute;rias Gram-negativas (com o co-receptor MD-2) e sinaliza via MyD88 &rarr; IRAK &rarr; TRAF6 &rarr; NF-&kappa;B &rarr; TNF-&alpha;, IL-1&beta; e IL-6. A supera-tiva&ccedil;&atilde;o sist&ecirc;mica desse eixo pelo LPS em infec&ccedil;&otilde;es graves gera tempestade de citocinas &rarr; SIRS (s&iacute;ndrome de resposta inflamat&oacute;ria sist&ecirc;mica) &rarr; choque s&eacute;ptico.</p>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>TLR</th><th>Ligante (PAMP)</th><th>Localiza&ccedil;&atilde;o</th><th>Sinalizac&atilde;o</th></tr></thead>
+  <tbody>
+    <tr><td>TLR2</td><td>Peptidoglicano, lip&oacute;proteins bacterianas</td><td>Superf&iacute;cie</td><td>MyD88 &rarr; NF-&kappa;B</td></tr>
+    <tr><td>TLR4</td><td>LPS (Gram-negativas)</td><td>Superf&iacute;cie</td><td>MyD88 + TRIF &rarr; NF-&kappa;B + IRF3</td></tr>
+    <tr><td>TLR3</td><td>RNA dupla fita viral</td><td>Endossoma</td><td>TRIF &rarr; IRF3 &rarr; IFN-&beta;</td></tr>
+    <tr><td>TLR7/8</td><td>RNA fita simples viral</td><td>Endossoma</td><td>MyD88 &rarr; IRF7 &rarr; IFN-&alpha;</td></tr>
+    <tr><td>TLR9</td><td>DNA CpG bacteriano/viral</td><td>Endossoma</td><td>MyD88 &rarr; IRF7 &rarr; IFN-&alpha;</td></tr>
+    <tr><td>TLR5</td><td>Flagelina bacteriana</td><td>Superf&iacute;cie</td><td>MyD88 &rarr; NF-&kappa;B</td></tr>
+  </tbody>
+  <caption>Tabela 1. Principais TLRs humanos, seus ligantes, localiza&ccedil;&atilde;o e cascata de sinalizac&atilde;o.</caption>
+</table></div>
+<div class="box alerta">
+  <strong>Cl&iacute;nica:</strong> Muta&ccedil;&otilde;es em <em>MYD88</em> causam imunodefici&ecirc;ncia prim&aacute;ria com suscetibilidade aumentada a bact&eacute;rias piog&ecirc;nicas (Streptococcus, Staphylococcus) na inf&acirc;ncia, com melhora progressiva com a idade &mdash; sugerindo que a imunidade adaptativa compensa parcialmente a falha dos TLRs.
+</div>
+</section>
+
+<section id="nlrs-inflamassomo">
+<h2>NLRs e Inflamassomo <a class="anc" href="#nlrs-inflamassomo">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O conceito de inflamassomo foi descrito em 2002 por <strong>J&uuml;rg Tschopp</strong>, que identificou o complexo NLRP1 como ativador de caspase-1. A conex&atilde;o com gota veio em 2006: <strong>Martinon et al.</strong> demonstraram que cristais de urato monosss&oacute;dico ativam o NLRP3, explicando pela primeira vez por que a gota &eacute; inflamat&oacute;ria mesmo sem microorganismos. O alvo terap&ecirc;utico emergiu naturalmente: bloquear IL-1&beta; (anakinra, canakinumabe) tornou-se estrat&eacute;gia em gota refrat&aacute;ria, s&iacute;ndromes autoinflamat&oacute;rias e, recentemente, infarto do mioc&aacute;rdio.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p>O <strong>inflamassomo</strong> &eacute; um complexo proteico citoss&oacute;lico formado por um NLR sensor (NLRP1, NLRP3, NLRC4 ou AIM2), a prote&iacute;na adaptadora ASC e a pr&oacute;-caspase-1. Sua ativa&ccedil;&atilde;o culmina na clivagem de pr&oacute;-IL-1&beta; e pr&oacute;-IL-18 em suas formas maduras ativas, e na indu&ccedil;&atilde;o de <strong>piroptose</strong> &mdash; morte celular inflamat&oacute;ria com libera&ccedil;&atilde;o do conte&uacute;do citoplasm&aacute;tico.</p>
+</div>
+<p>O NLRP3 &eacute; o mais estudado clinicamente. Responde a sinais de dano celular: cristais de urato monosss&oacute;dico (gota), cristais de colesterol (aterosclerose), ATP extracelular, toxinas bacterianas formadoras de poros e part&iacute;culas de s&iacute;lica (silicose). O sinal de ativa&ccedil;&atilde;o final &eacute; o efluxo de K&sup1; intracelular, que &eacute; comum a todos esses est&iacute;mulos diversos. NOD1 e NOD2 (NLRs distintos do inflamassomo) reconhecem peptidoglicano bacteriano citoss&oacute;lico e ativam NF-&kappa;B. Muta&ccedil;&otilde;es com ganho de fun&ccedil;&atilde;o em NOD2 causam doen&ccedil;a de Crohn.</p>
+</section>
+
+<section id="rlrs-ifn">
+<h2>RLRs e Interferons Tipo I <a class="anc" href="#rlrs-ifn">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  Os interferons foram descobertos em 1957 por <strong>Alick Isaacs e Jean Lindenmann</strong> ao observarem que c&eacute;lulas infectadas por v&iacute;rus produzem uma subst&acirc;ncia que &ldquo;interfere&rdquo; com a replica&ccedil;&atilde;o viral em c&eacute;lulas vizinhas. Os receptores citoss&oacute;licos RIG-I e MDA5 foram identificados nos anos 2000 por <strong>Takashi Fujita</strong> como sensores de RNA viral. A conex&atilde;o cl&iacute;nica emergiu com LES: pacientes l&uacute;picos t&ecirc;m ativa&ccedil;&atilde;o cr&ocirc;nica da via de IFN tipo I por DNA pr&oacute;prio &mdash; a "assinatura de interferon".
+</div>
+<p>Os RLRs (<em>RIG-I-like receptors</em>) RIG-I e MDA5 detectam RNA viral no citoplasma. RIG-I reconhece RNA curto de fita simples com 5'-trifosfato (v&iacute;rus de RNA); MDA5 reconhece RNA de fita dupla longo (picornaviridae). A ativa&ccedil;&atilde;o recruta o adaptador MAVS (na mitoc&ocirc;ndria) &rarr; TBK1 &rarr; IRF3/IRF7 &rarr; transcri&ccedil;&atilde;o de IFN-&alpha;/&beta;.</p>
+<div class="kbox">
+  <div class="klabel">Mecanismo dos IFN tipo I</div>
+  <p>IFN-&alpha; (produzido principalmente por c&eacute;lulas dendrit&iacute;cas plasmacitoides) e IFN-&beta; (produzido por c&eacute;lulas infectadas) ligam-se ao receptor IFNAR nas c&eacute;lulas vizinhas &rarr; JAK1/TYK2 &rarr; STAT1/STAT2 &rarr; complexo ISGF3 &rarr; express&atilde;o de genes ISG (<em>interferon-stimulated genes</em>): PKR (bloqueia tradu&ccedil;&atilde;o viral), OAS/RNase L (degrada RNA viral), MX1 (bloqueia montagem viral). Efeito sist&ecirc;mico: ativa&ccedil;&atilde;o de c&eacute;lulas NK e matura&ccedil;&atilde;o de c&eacute;lulas dendrit&iacute;cas.</p>
+</div>
+<div class="box alerta">
+  <strong>Paradoxo do LES:</strong> defici&ecirc;ncias de complemento (especialmente C1q) prejudicam a remo&ccedil;&atilde;o de res&iacute;duos ap&oacute;ptot&icos &mdash; os quais cont&ecirc;m DNA e RNA pr&oacute;prios. Esses detritos acumulados ativam TLR7/9 endoss&ocirc;micos e RLRs citoss&oacute;licos &rarr; produ&ccedil;&atilde;o cr&ocirc;nica de IFN tipo I &rarr; "assinatura de interferon" do LES. O complemento que &ldquo;devia ajudar&rdquo; na defesa, quando ausente, cria o substrato para autoimunidade.
+</div>
+</section>
+
+<section id="clrs">
+<h2>CLRs &mdash; Lectinas Tipo C <a class="anc" href="#clrs">#</a></h2>
+<p>As CLRs (<em>C-type lectin receptors</em>, lectinas tipo C) s&atilde;o PRRs de membrana que reconhecem carboidratos da parede fúngica e bacteriana. Dectina-1 liga-se a &beta;-glucana (parede de <em>Candida</em>, <em>Aspergillus</em>) e ativa resposta Th17 via Card9 &mdash; essencial para recrutamento de neutr&oacute;filos em infec&ccedil;&otilde;es f&uacute;ngicas. Dectina-2 reconhece manana. DC-SIGN (<em>Dendritic Cell-Specific Intercellular adhesion molecule-3-Grabbing Non-integrin</em>) reconhece manose e &eacute; explorado por HIV e <em>Mycobacterium tuberculosis</em> para entrada em c&eacute;lulas dendrit&iacute;cas. Defici&ecirc;ncias de Dectina-1 ou Card9 causam suscetibilidade a infec&ccedil;&otilde;es f&uacute;ngicas sistêmicas. Ver <a class="cross-link" href="resposta-a-patogenos.html#fungos">M9 &rarr; Imunidade antif&uacute;ngica</a>.</p>
+</section>
+
+<section id="citocinas">
+<h2>Citocinas &mdash; A Linguagem Entre as C&eacute;lulas <a class="anc" href="#citocinas">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O termo &ldquo;citocina&rdquo; foi proposto em 1974 por Stanley Cohen para englobar linfocinas e monoquinas. A clonagem molecular das citocinas nos anos 1980 revelou pleiotropia inesperada: a mesma mol&eacute;cula tinha nomes diferentes dependendo do laborat&oacute;rio que a descreveu. A IL-1 foi chamada de fator ativador de linf&oacute;citos, fator end&oacute;geno de pir&eacute;xia e fator indutor de prote&iacute;nas de fase aguda &mdash; o mesmo gene. A nomenclatura "interleucina" foi adotada em 1979 para organizar o caos nomenclatural.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p><strong>Citocinas</strong> s&atilde;o prote&iacute;nas regulat&oacute;rias secretadas por c&eacute;lulas imunes (e n&atilde;o imunes) que modulam a fun&ccedil;&atilde;o de outras c&eacute;lulas via liga&ccedil;&atilde;o a receptores espec&iacute;ficos. S&atilde;o <strong>pleitr&oacute;picas</strong> (a mesma citocina age em m&uacute;ltiplos alvos), <strong>redundantes</strong> (v&aacute;rias citocinas t&ecirc;m efeitos sobrepostos), e atuam de forma aut&oacute;crina, par&aacute;crina ou end&oacute;crina.</p>
+</div>
+<p>O balan&ccedil;o entre citocinas pr&oacute;-inflamat&oacute;rias (IL-1&beta;, TNF-&alpha;, IL-6, IL-12, IL-17, IL-23) e anti-inflamat&oacute;rias (IL-10, TGF-&beta;, IL-35) determina a intensidade e dura&ccedil;&atilde;o da resposta imune. Desequil&iacute;brios cronicamente pr&oacute;-inflamat&oacute;rios causam dano tecidual; desequil&iacute;brios cronicamente anti-inflamat&oacute;rios causam imunossupressão e suscetibilidade infecciosa.</p>
+</section>
+
+<section id="tnf">
+<h2>TNF-&alpha; &mdash; O Mediador Central da Inflama&ccedil;&atilde;o Aguda <a class="anc" href="#tnf">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  Em 1975, <strong>Lloyd Old</strong> identificou uma atividade s&eacute;rica capaz de necrosar tumores em camundongos infectados com BCG e depois expostos a LPS &mdash; batizou-a de fator de necrose tumoral (<em>tumor necrosis factor</em>, TNF). A clonagem do gene em 1984 por <strong>Bruce Beutler e Lloyd Old</strong> revelou que TNF era id&ecirc;ntico &agrave; caquexina &mdash; o mediador da caquexia em infec&ccedil;&otilde;es cr&ocirc;nicas. A era terap&ecirc;utica come&ccedil;ou em 1998 com a aprova&ccedil;&atilde;o do etanercepte para artrite reumatoide &mdash; hoje, anti-TNF s&atilde;o os biol&oacute;gicos mais vendidos no mundo.
+</div>
+<p>O TNF-&alpha; &eacute; produzido principalmente por macr&oacute;fagos ativados por LPS via TLR4. Suas a&ccedil;&otilde;es biol&oacute;gicas incluem: ativa&ccedil;&atilde;o endotelial com upregula&ccedil;&atilde;o de mol&eacute;culas de ades&atilde;o (recrutamento de leuc&oacute;citos), indu&ccedil;&atilde;o de febre via PGE&#8322; hipotal&acirc;mico, coagula&ccedil;&atilde;o intravascular e, em altas concentra&ccedil;&otilde;es sist&ecirc;micas, hipotens&atilde;o grave e falência m&uacute;ltipla de &oacute;rg&atilde;os.</p>
+<div class="box alerta">
+  <strong>Anti-TNF e reativa&ccedil;&atilde;o de tuberculose:</strong> granulomas de TB s&atilde;o mantidos por TNF. Biolog&iacute;cos anti-TNF (infliximabe, adalimumabe, etanercepte) podem dissolver esses granulomas e reativar TB latente. Triagem obrigat&oacute;ria antes de iniciar anti-TNF inclui PPD ou IGRA.
+</div>
+</section>
+
+<section id="interleucinas">
+<h2>Interleucinas-chave e Seus Pap&eacute;is <a class="anc" href="#interleucinas">#</a></h2>
+<div class="tbl-wrap"><table>
+  <thead><tr><th>Citocina</th><th>Principal fonte</th><th>Alvo e efeito</th><th>Relev&acirc;ncia cl&iacute;nica</th></tr></thead>
+  <tbody>
+    <tr><td><strong>IL-1&beta;</strong></td><td>Macr&oacute;fagos, DC</td><td>Febre, ativa&ccedil;&atilde;o endotelial, s&iacute;ntese de APP</td><td>Gota (NLRP3); anakinra, canakinumabe</td></tr>
+    <tr><td><strong>IL-6</strong></td><td>Macr&oacute;fagos, endot&eacute;lio</td><td>F&iacute;gado &rarr; APP; diferen&ccedil;ia&ccedil;&atilde;o de plasm&oacute;citos; eixo Th17</td><td>COVID-19 grave; tocilizumabe (anti-IL-6R)</td></tr>
+    <tr><td><strong>IL-10</strong></td><td>Macr&oacute;fagos M2, Tregs</td><td>Inibe citocinas pr&oacute;-inflamat&oacute;rias; anti-inflamat&oacute;rio sist&ecirc;mico</td><td>Defici&ecirc;ncia de IL-10 &rarr; DII grave em lactentes</td></tr>
+    <tr><td><strong>IL-12</strong></td><td>Macr&oacute;fagos, DC</td><td>Diferencia&ccedil;&atilde;o Th1; ativa&ccedil;&atilde;o NK &rarr; IFN-&gamma;</td><td>Defici&ecirc;ncia &rarr; suscetibilidade a micobact&eacute;rias</td></tr>
+    <tr><td><strong>IL-17</strong></td><td>Th17</td><td>Recrutamento de neutr&oacute;filos; defesa em mucosas</td><td>Psor&iacute;ase; ixequizumabe, secuquinumabe</td></tr>
+    <tr><td><strong>IFN-&gamma;</strong></td><td>Th1, NK, CD8&sup1;</td><td>Ativa&ccedil;&atilde;o cl&aacute;ssica de macr&oacute;fagos (M1); MHC-I e II &uarr;</td><td>Essencial para TB e Leishmania</td></tr>
+    <tr><td><strong>TGF-&beta;</strong></td><td>Tregs, macr&oacute;fagos M2</td><td>Diferencia&ccedil;&atilde;o de Tregs e Th17; supressão imune; fibrose</td><td>Fibrose pulmonar; imunossupressão tumoral</td></tr>
+  </tbody>
+  <caption>Tabela 2. Principais citocinas do SI: fontes, alvos e relev&acirc;ncia cl&iacute;nica.</caption>
+</table></div>
+</section>
+
+<section id="quimiocinas">
+<h2>Quimiocinas &mdash; Os Guias da Migra&ccedil;&atilde;o <a class="anc" href="#quimiocinas">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  As quimiocinas foram descobertas nos anos 1980 como pequenas prote&iacute;nas quimioatraentes. A organiza&ccedil;&atilde;o sistem&aacute;tica das subfam&iacute;lias CC e CXC pela posi&ccedil;&atilde;o das ciste&iacute;nas veio nos anos 1990. A conex&atilde;o com HIV emergiu em 1996: <strong>Feng, Broder e Berger</strong> demonstraram que CXCR4 &eacute; o co-receptor necess&aacute;rio para entrada do HIV-1 em linf&oacute;citos T CD4&sup1;. O bloqueio de CXCR4 (maraviroque) e CCR5 tornou-se estrat&eacute;gia antirretroviral.
+</div>
+<div class="kbox">
+  <div class="klabel">Defini&ccedil;&atilde;o formal</div>
+  <p><strong>Quimiocinas</strong> s&atilde;o citocinas quimioatraentes de baixo peso molecular (8&ndash;10 kDa) que criam gradientes de concentra&ccedil;&atilde;o guiando a migra&ccedil;&atilde;o direcional (<em>chemotaxis</em>) de leuc&oacute;citos para s&iacute;tios espec&iacute;ficos. Subfam&iacute;lias: <strong>CC</strong> (dois res&iacute;duos de ciste&iacute;na adjacentes) e <strong>CXC</strong> (separados por um amino&aacute;cido).</p>
+</div>
+<p>Exemplos funcionais: CCL2 (MCP-1) recruta mon&oacute;citos para focos inflamat&oacute;rios; CCL5 (RANTES) recruta eosin&oacute;filos e linf&oacute;citos T de mem&oacute;ria; CXCL8 (IL-8) &eacute; o principal quimioatraente de neutr&oacute;filos; CXCL12 (SDF-1) mant&eacute;m c&eacute;lulas hematopoiéticas na medula &oacute;ssea via CXCR4. O HIV explora CXCR4 e CCR5 como co-receptores de entrada em CD4&sup1;. Indiv&iacute;duos homozigots para a dele&ccedil;&atilde;o &Delta;32 no gene <em>CCR5</em> s&atilde;o praticamente resistentes &agrave; infec&ccedil;&atilde;o por HIV-1 cepa R5 &mdash; base do tratamento do &ldquo;paciente de Berl&iacute;m&rdquo;.</p>
+</section>
+
+<section id="moleculas-adesao">
+<h2>Mol&eacute;culas de Ades&atilde;o &mdash; O Tr&acirc;nsito Celular <a class="anc" href="#moleculas-adesao">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  O processo de <em>rolling</em> de leuc&oacute;citos no endot&eacute;lio foi observado microscopicamente no s&eacute;culo XIX, mas o mecanismo molecular foi elucidado apenas nos anos 1990. <strong>Timothy Springer</strong> demonstrou o papel das selectinas e integrinas no recrutamento de leuc&oacute;citos, trabalho que contribuiu para o desenvolvimento do natalizumabe (anticorpo anti-&alpha;4-integrina) para esclerose m&uacute;ltipla. Defici&ecirc;ncia de mol&eacute;culas de ades&atilde;o de leuc&oacute;citos (LAD, <em>Leukocyte Adhesion Deficiency</em>) causa infec&ccedil;&otilde;es bacterianas graves por incapacidade de recrutamento de neutr&oacute;filos.
+</div>
+<p>A migra&ccedil;&atilde;o de leuc&oacute;citos do sangue para tecidos inflamados ocorre em quatro etapas orquestradas: (1) <strong>rolamento</strong> &mdash; selectinas E e P no end&oacute;telio ativado ligam-se a sialil-Lewis&sup1; nos leuc&oacute;citos; (2) <strong>ativa&ccedil;&atilde;o</strong> &mdash; quimiocinas apresentadas na superf&iacute;cie endotelial ativam integrinas dos leuc&oacute;citos; (3) <strong>ades&atilde;o firme</strong> &mdash; integrinas ativadas LFA-1 e Mac-1 ligam-se a ICAM-1/2; (4) <strong>transmigra&ccedil;&atilde;o</strong> (diapedese) &mdash; o leuc&oacute;cito atravessa a parede vascular.</p>
+<div class="box clinico">
+  <strong>LAD tipo I:</strong> defici&ecirc;ncia hereditária de CD18 (subunidade &beta;2 das integrinas LFA-1 e Mac-1) &rarr; neutr&oacute;filos n&atilde;o aderem ao end&oacute;telio &rarr; infec&ccedil;&otilde;es bacterianas graves desde a inf&acirc;ncia com leucocitose marcada mas pus ausente. Coto umbilical com queda tardia (&gt;30 dias) &eacute; sinal cl&aacute;ssico.
+</div>
+</section>
+
+<section id="mediadores-lipidicos">
+<h2>Mediadores Lip&iacute;dicos do &Aacute;cido Araquid&ocirc;nico <a class="anc" href="#mediadores-lipidicos">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  As prostaglandinas foram descobertas em 1935 por <strong>Ulf von Euler</strong> em secre&ccedil;&otilde;es de pr&oacute;stata (da&iacute; o nome). A ciclooxigenase (COX) foi purificada nos anos 1970. Em 1971, <strong>John Vane</strong> demonstrou que a aspirina inibe a s&iacute;ntese de prostaglandinas por acetila&ccedil;&atilde;o irrevers&iacute;vel de COX-1 &mdash; Nobel de 1982. A descoberta de COX-2 nos anos 1990 abriu a era dos inibidores seletivos (coxibes), cujo excesso de risco cardiovascular levou &agrave; retirada do rofecoxibe (Vioxx) em 2004.
+</div>
+<p>O &aacute;cido araquid&ocirc;nico (AA) &eacute; liberado da membrana plasm&aacute;tica pela fosfolipase A&#8322; e metabolizado por duas vias: <strong>cicloxigenase (COX)</strong> &rarr; prostaglandinas (PGE&#8322;, PGI&#8322;: vasodilatac&atilde;o, dor, febre) e tromboxano A&#8322; (TXA&#8322;: agrega&ccedil;&atilde;o plaquetária); <strong>lipoxigenase (LOX)</strong> &rarr; leucotrienos (LTB&#8324;: recruta neutr&oacute;filos; LTC&#8324;, LTD&#8324;: broncoconstricc&atilde;o &mdash; mediadores centrais da asma) e lipoxinas/resolvinas (moléculas pr&oacute;-resolutivas, bloqueiam inflix de neutr&oacute;filos e iniciam resolu&ccedil;&atilde;o da inflama&ccedil;&atilde;o).</p>
+<div class="g2">
+  <div class="box">
+    <strong>Inibidores de COX</strong><br>
+    AINEs n&atilde;o seletivos (ibuprofeno, naproxeno) inibem COX-1 e COX-2. Aspirina: inibe COX-1 irreversivelmente (antiagregante plaquetário). Inibidores seletivos de COX-2 (celecoxibe) poupam a produ&ccedil;&atilde;o de PGI&#8322; (antitromb&oacute;tica) mas n&atilde;o de TXA&#8322; &rarr; risco cardiovascular.
+  </div>
+  <div class="box">
+    <strong>Inibidores de LOX</strong><br>
+    Montelucaste e zafirlucaste bloqueiam os receptores de leucotrienos (LTRA) &rarr; broncodilata&ccedil;&atilde;o na asma. Zileutom bloqueia 5-LOX diretamente. Cortic&oacute;ides inibem a fosfolipase A&#8322;, bloqueando toda a cascata do AA.
+  </div>
+</div>
+</section>
+
+<section id="fase-aguda">
+<h2>Prote&iacute;nas de Fase Aguda <a class="anc" href="#fase-aguda">#</a></h2>
+<div class="hist">
+  <span class="hl">Hist&oacute;rico</span>
+  A PCR foi descoberta em 1930 por <strong>William Tillett e Thomas Francis</strong> como uma prote&iacute;na que precipitava o polissacar&iacute;deo C do pneumococo no soro de pacientes com pneumonia aguda &mdash; da&iacute; o nome. S&oacute; nos anos 1980 sua origem hep&aacute;tica e o papel da IL-6 foram esclarecidos. A PCR ultrassens&iacute;vel (PCR-us) para estratifica&ccedil;&atilde;o de risco cardiovascular foi validada nos estudos JUPITER (2008).
+</div>
+<p>As prote&iacute;nas de fase aguda s&atilde;o prote&iacute;nas plasm&aacute;ticas cuja concentra&ccedil;&atilde;o se altera &gt;25% em resposta &agrave; inflama&ccedil;&atilde;o sist&ecirc;mica, controlada por IL-6 e IL-1&beta; no f&iacute;gado. <strong>Positivas</strong> (aumentam): PCR, fibrinog&ecirc;nio, C3, prote&iacute;na s&eacute;rica amil&oacute;ide A (SAA), ferritina, ceruloplasmina, &alpha;&#8321;-antitripsina. <strong>Negativas</strong> (diminuem): albumina, transferrina, pr&eacute;-albumina &mdash; o f&iacute;gado prioriza a s&iacute;ntese de APP positivas sob est&iacute;mulo de IL-6.</p>
+<div class="kbox">
+  <div class="klabel">PCR &mdash; fun&ccedil;&atilde;o biol&oacute;gica e uso cl&iacute;nico</div>
+  <p>A PCR &eacute; uma pentraxina hep&aacute;tica. Biologicamente, opsoniza bact&eacute;rias (liga-se a fosfocolina da parede bacteriana) e ativa o complemento pela via cl&aacute;ssica. Na pr&aacute;tica: PCR de fase aguda pode chegar a 100&ndash;400 mg/L em infec&ccedil;&otilde;es graves. PCR ultrassens&iacute;vel (PCR-us) mede inflama&ccedil;&atilde;o subacl&iacute;nica: &lt;1 mg/L = baixo risco cardiovascular; 1&ndash;3 mg/L = intermedi&aacute;rio; &gt;3 mg/L = alto risco &mdash; independente do colesterol.</p>
+</div>
+</section>
+
+<section id="mmps">
+<h2>Metaloproteinases de Matriz (MMPs) <a class="anc" href="#mmps">#</a></h2>
+<p>As MMPs s&atilde;o endopeptidases zinco-dependentes que degradam componentes da matriz extracelular (col&aacute;geno, fibronectina, laminina). Em baixa express&atilde;o, participam da remodelac&atilde;o tecidual fisiol&oacute;gica. Sob est&iacute;mulo de IL-1&beta; e TNF-&alpha; em s&iacute;tios inflamat&oacute;rios, facilitam a transmigra&ccedil;&atilde;o de leuc&oacute;citos e contribuem para dano tecidual em artrite, aterosclerose e met&aacute;stase. MMP-9 &eacute; marcador de instabilidade de placa ateroscler&oacute;tica; MMP-13 degrada col&aacute;geno tipo II (cart&iacute;lago) e est&aacute; implicada na progress&atilde;o da osteoartrite.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conex&otilde;es com Outros M&oacute;dulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Pontes conceituais</h4>
+  <p><strong>M3 &rarr; M4 (Imunidade Inata):</strong> PRRs s&atilde;o os sensores; citocinas e mediadores s&atilde;o a resposta. O M4 integra esses elementos na resposta inata completa, com as tr&ecirc;s fases temporais (0&ndash;4h, 4&ndash;96h, &gt;96h). Ver <a class="cross-link" href="imunidade-inata.html">M4 &rarr; Imunidade Inata</a>.</p>
+  <p><strong>M3 &rarr; M5 (Complemento):</strong> PCR ativa o complemento pela via cl&aacute;ssica &mdash; conectando biomarcador e sistema efetor. A defici&ecirc;ncia de C1q &eacute; o elo entre clearance de detritos e &ldquo;assinatura de interferon&rdquo; no LES. Ver <a class="cross-link" href="sistema-complemento.html">M5 &rarr; Sistema Complemento</a>.</p>
+  <p><strong>M3 &rarr; M8 (Linf&oacute;citos T):</strong> IL-12 (Th1), IL-4 (Th2), IL-6+TGF-&beta; (Th17), TGF-&beta; isolado (Treg) s&atilde;o os sinais polarizantes de c&eacute;lulas T CD4&sup1;. Compreender as citocinas aqui &eacute; pr&eacute;-requisito direto para o M8. Ver <a class="cross-link" href="linfocitos-t-diferenciacao.html">M8 &rarr; Linf&oacute;citos T</a>.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discuss&atilde;o <a class="anc" href="#discussao">#</a></h2>
+<p>A converg&ecirc;ncia entre PRRs, citocinas, mediadores lip&iacute;dicos e mol&eacute;culas de ades&atilde;o revela um princ&iacute;pio organizador: a inflama&ccedil;&atilde;o &eacute; um estado de sinaliza&ccedil;&atilde;o em cascata, n&atilde;o uma resposta bin&aacute;ria. Cada camada amplifica e refina a anterior &mdash; do reconhecimento molecular (PRR) &agrave; ativa&ccedil;&atilde;o celular (citocinas) ao recrutamento local (quimiocinas, mol&eacute;culas de ades&atilde;o) &agrave; fase sist&ecirc;mica (APP). A especificidade emerges da combina&ccedil;&atilde;o, n&atilde;o de cada mol&eacute;cula isolada.</p>
+<p>A tens&atilde;o mais clinicamente relevante: as mesmas mol&eacute;culas que protegem em infec&ccedil;&atilde;o causam dano em excesso ou fora de contexto. TNF controla granulomas de TB &mdash; e causa choque s&eacute;ptico. IL-6 coordena a resposta de fase aguda &mdash; e sustenta a tempestade de citocinas em COVID-19 grave. Interferons tipo I s&atilde;o a defesa antiviral prim&aacute;ria &mdash; e s&atilde;o o mediador da autoimunidade no LES. O sistema n&atilde;o tem mol&eacute;culas &ldquo;boas&rdquo; ou &ldquo;ruins&rdquo; &mdash; tem contextos certos e errados.</p>
+<p>A implica&ccedil;&atilde;o derivada que n&atilde;o foi enunciada explicitamente no corpo: toda terapia imunol&oacute;gica moderna &eacute; modula&ccedil;&atilde;o de contexto, n&atilde;o abla&ccedil;&atilde;o. Anti-TNF n&atilde;o elimina TNF &mdash; reduz seu excesso cr&ocirc;nico. Montelucaste n&atilde;o bloqueia a resposta imune &mdash; bloqueia um efetor espec&iacute;fico na mucosa brônquica. A farmacologia imunol&oacute;gica &eacute; essencialmente a arte de encontrar o n&iacute;vel certo para cada contexto &mdash; que &eacute;, paradoxalmente, o mesmo problema que o sistema imune tenta resolver por conta pr&oacute;pria.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras Recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Abbas, Lichtman, Pillai &middot; Elsevier, 11&ordf; ed. &middot; Cap. 3&ndash;4<br>Cap. 3: reconhecimento inato com profundidade molecular. Cap. 4: citocinas com tabelas completas de fontes e receptores. Melhor fonte &uacute;nica para este m&oacute;dulo.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology</div>
+    <div class="bm">Murphy, Weaver &middot; Garland, 10&ordf; ed. &middot; Cap. 3&ndash;4<br>Melhor apresenta&ccedil;&atilde;o da l&oacute;gica evolutiva dos PRRs e hist&oacute;rico de Janeway/Hoffmann. Inflamassomo com mais contexto que o Abbas.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">The Danger Model (artigo seminal)</div>
+    <div class="bm">Matzinger, P. <em>Science</em>, 1994 &mdash; A hip&oacute;tese do perigo: por que o SI reconhece dano pr&oacute;prio. Leitura fundamental para entender DAMPs. Acesso aberto via PubMed.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Rang &amp; Dale's Pharmacology <span class="badge-tem">VOC&Ecirc; TEM</span></div>
+    <div class="bm">Ritter et al. &middot; Elsevier, 10&ordf; ed. &middot; Cap. 17 (anti-inflamat&oacute;rios)<br>Excelente cobertura de AINEs, coxibes, cortic&oacute;ides e biol&oacute;gicos do ponto de vista farmacol&oacute;gico.</div>
+  </div>
+</div>
+</section>
+
+<section id="referencias">
+<h2>Refer&ecirc;ncias ABNT <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 11. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>AKIRA, Shizuo; UEMATSU, Satoshi; TAKEUCHI, Osamu. Pathogen recognition and innate immunity. <em>Cell</em>, v. 124, n. 4, p. 783&ndash;801, 2006. DOI: <a href="https://doi.org/10.1016/j.cell.2006.02.015" target="_blank" rel="noopener">10.1016/j.cell.2006.02.015</a></li>
+  <li>MARTINON, F&aacute;bio; BURNS, Karen; TSCHOPP, J&uuml;rg. The inflammasome: a molecular platform triggering activation of inflammatory caspases and processing of proIL-beta. <em>Molecular Cell</em>, v. 10, n. 2, p. 417&ndash;426, 2002. DOI: <a href="https://doi.org/10.1016/s1097-2765(02)00599-3" target="_blank" rel="noopener">10.1016/s1097-2765(02)00599-3</a></li>
+  <li>MATZINGER, Polly. Tolerance, danger, and the extended family. <em>Annual Review of Immunology</em>, v. 12, p. 991&ndash;1045, 1994. DOI: <a href="https://doi.org/10.1146/annurev.iy.12.040194.005015" target="_blank" rel="noopener">10.1146/annurev.iy.12.040194.005015</a></li>
+  <li>REICHE, Edna Maria Vissoci. <em>Aula: Mol&eacute;culas do sistema imune</em>. PUC-PR, Disciplina Agress&atilde;o e Defesa, 2026.</li>
+  <li>ROSA NETO, N. S.; CARVALHO, J. F. O uso de provas de atividade inflamat&oacute;ria em reumatologia. <em>Revista Brasileira de Reumatologia</em>, v. 49, n. 4, p. 413&ndash;430, 2009.</li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+<script>
+const sidebar=document.getElementById('sidebar');
+const bodyWrap=document.getElementById('body-wrap');
+const toggleBtn=document.getElementById('toggle-btn');
+if(sessionStorage.getItem('sidebar-collapsed')==='1'){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');toggleBtn.textContent='›'}
+toggleBtn.addEventListener('click',()=>{const c=sidebar.classList.toggle('collapsed');bodyWrap.classList.toggle('sidebar-collapsed',c);toggleBtn.textContent=c?'›':'‹';sessionStorage.setItem('sidebar-collapsed',c?'1':'0')});
+const pb=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('#sidebar a.sl');
+const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs1.observe(s));
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs2.observe(s));
+</script>
+</body>
+</html>
