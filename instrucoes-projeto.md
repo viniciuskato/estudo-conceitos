@@ -6,6 +6,10 @@ Todo material do projeto é um **compêndio** — documento de estudo que cobre 
 
 **Postura de evolução:** agir como organismo em adaptação contínua. Correções pontuais e padrões claros: incorporar silenciosamente. Mudanças sistêmicas ou de intenção ambígua: propor ao usuário antes de incorporar. Nunca esperar o usuário perceber. Quando o usuário aprovar ou sugerir uma regra nova de comportamento, avaliar imediatamente se ela pertence a estas instruções — e aplicar sem esperar solicitação explícita.
 
+## Fonte de verdade das instruções
+
+`instrucoes-projeto.md` na raiz do repositório é a fonte de verdade. A memory (`project_instrucoes_operacionais.md`) é uma cópia de trabalho para acesso rápido — deve ser sincronizada após qualquer atualização das instruções. Em caso de divergência, o arquivo do repositório prevalece.
+
 ## Troca de sessão
 
 Antes de iniciar qualquer tarefa nova e bem delimitada (novo compêndio, migração de material, modo Anki, reescrita de instruções), avisar o usuário para abrir uma sessão nova — nunca executar primeiro.
@@ -39,7 +43,7 @@ Ao iniciar qualquer sessão, antes de qualquer trabalho substantivo:
 
 1. Ler [[project-estado]] para verificar pendências, dívida técnica e status de migração.
 2. Ler [[project-mapa-materiais]] para mapear dependências e evitar reexplicar conceitos cobertos.
-3. Se houver dívida técnica crítica registrada (ver seção abaixo), informar o usuário antes de prosseguir — nunca silenciosamente acumular.
+3. Se houver dívida técnica crítica registrada em `DEBT.md`, informar o usuário antes de prosseguir — nunca silenciosamente acumular.
 
 Este protocolo não se aplica quando a primeira mensagem já é uma tarefa direta — nesse caso, executar e só informar pendências críticas ao final.
 
@@ -57,11 +61,28 @@ Nunca perguntar sobre: formato (sempre compêndio), livros (já conhecidos), pro
 4. Gerar o HTML completo na subpasta temática em kebab-case. Criar a subpasta se não existir.
 5. **Critério arquivar vs. editar:** sobrescrever (com archive) quando a mudança afeta ≥30% do conteúdo ou altera estrutura de seções; editar no lugar quando é correção pontual, adição de parágrafo ou fix de bug. Em caso de sobrescrita, arquivar em `_archive/` com sufixo de data antes de qualquer escrita.
 6. **Verificação obrigatória após qualquer escrita ou reescrita de HTML:** confirmar via bash que (a) o arquivo fecha com `</body>` e `</html>`; (b) o bloco `<script>` do toggle sidebar está presente (`sessionStorage`); (c) a contagem de linhas é compatível com o conteúdo esperado; (d) não há erros de sintaxe JS óbvios — checar `const const`, `var var`, declarações duplicadas com `grep "const const\|var var"`; (e) acentuação PT-BR intacta — `grep -c "ã\|ç\|é\|ê\|ó\|ô\|í\|ú\|à"` deve retornar valor > 0. Se qualquer verificação falhar, corrigir antes de prosseguir.
-7. **Verificação de padrão antes de concluir correção:** ao identificar erro recorrente (ex: acentuação corrompida, elemento CSS ausente), rodar grep nos demais HTMLs antes de marcar a tarefa como concluída — nunca corrigir apenas o arquivo em foco.
-8. Atualizar `index.html` na raiz na mesma operação — nunca como etapa posterior.
-9. Atualizar [[project-mapa-materiais]] com os conceitos centrais do novo material.
-10. Atualizar [[project-estado]] se o status de migração, badge ou dívida técnica mudar.
-11. **Sincronização com GitHub:** ao concluir qualquer material, lembrar o usuário de rodar o `push.bat` na raiz da pasta do projeto (duplo clique) para enviar ao repositório `https://github.com/viniciuskato/estudo-conceitos`.
+7. **Verificação visual (opcional mas recomendada para novos compêndios):** após verificação bash, abrir o arquivo no Chrome via Claude in Chrome (`navigate` → `get_page_text` ou screenshot) para confirmar renderização — sidebar visível, barra de progresso, acentuação correta no browser. Executar especialmente quando há mudança de CSS ou estrutura nova.
+8. **Verificação de padrão antes de concluir correção:** ao identificar erro recorrente (ex: acentuação corrompida, elemento CSS ausente), rodar grep nos demais HTMLs antes de marcar a tarefa como concluída — nunca corrigir apenas o arquivo em foco.
+9. Atualizar `index.html` na raiz na mesma operação — nunca como etapa posterior. Ver seção **Formato do index.html** abaixo.
+10. Atualizar `MIGRATION.md` se o status de migração do material mudar.
+11. Atualizar `DEBT.md` com qualquer inconsistência identificada mas não corrigida na sessão.
+12. Atualizar [[project-mapa-materiais]] com os conceitos centrais do novo material.
+13. **Sincronização com GitHub — passo obrigatório:** ao concluir qualquer material ou atualização significativa, rodar `push.bat` na raiz da pasta do projeto (duplo clique). O script faz `git add -A && git commit && git push` para `https://github.com/viniciuskato/estudo-conceitos`. Lembrar o usuário explicitamente — não assumir que ele fará sem aviso.
+
+## Checklist de saturação
+
+Antes de fechar qualquer compêndio, responder mentalmente:
+
+- [ ] Todo conceito mencionado por nome tem mecanismo desenvolvido (não apenas citado)?
+- [ ] A pergunta motivadora está explicitamente fechada na Discussão?
+- [ ] Há pelo menos 3 perguntas em aberto genuinamente não resolvidas na literatura?
+- [ ] Os limites do modelo principal estão marcados em `.kbox`?
+- [ ] Cross-links apontam para âncoras de seção específica (não topo do arquivo)?
+- [ ] O campo "Última revisão" no cabeçalho está com a data atual?
+- [ ] `index.html` e `MIGRATION.md` foram atualizados?
+- [ ] `DEBT.md` está limpo ou atualizado com pendências desta sessão?
+
+Se qualquer item falhar: corrigir antes de marcar o compêndio como concluído.
 
 ## Eficiência operacional
 
@@ -93,6 +114,30 @@ Regras para evitar truncamentos, retrabalho e consumo desnecessário de tokens.
 Cabeçalho (h1 + meta + chips) → Pergunta motivadora → Painel de dependências → Fundamentos necessários → Conceitos-chave → [conteúdo principal] → Conexões → Perguntas em aberto → Discussão → Leituras recomendadas → Referências ABNT.
 
 A sidebar reflete essa ordem: grupo "Conteúdo" começa com Fundamentos necessários; grupo "Revisão" contém Perguntas em aberto, Discussão, Leituras recomendadas e Referências ABNT.
+
+## Convenção de IDs de âncoras
+
+Todo `<section>` deve ter `id` em kebab-case derivado do título da seção, em português sem acentos. Regras:
+
+- Letras minúsculas, sem acentos, palavras separadas por hífen
+- Prefixo de grupo quando ambíguo: `sec-`, `fund-`, etc. — não obrigatório se o ID já for único
+- Exemplos canônicos: `id="fundamentos"`, `id="conceitos-chave"`, `id="cascata-coagulacao"`, `id="imunidade-inata"`, `id="perguntas-abertas"`, `id="discussao"`, `id="leituras"`, `id="referencias"`
+- Cross-links devem apontar para esses IDs: `href="../caminho/arquivo.html#cascata-coagulacao"`
+- Ao criar novo compêndio: definir IDs antes de escrever cross-links — garantir que o ID exista no arquivo alvo antes de linkar
+
+## Formato do index.html
+
+O `index.html` na raiz é o portal do projeto. Estrutura obrigatória de cada entrada:
+
+```html
+<a class="card" href="caminho/relativo/arquivo.html">
+  <div class="card-area">Área · Subárea</div>
+  <div class="card-title">Título do Compêndio</div>
+  <div class="card-meta">~X min · Última revisão: YYYY-MM-DD</div>
+</a>
+```
+
+Entradas agrupadas por área (medicina, investimentos, automóveis...). Ordem dentro de cada grupo: mais recente primeiro. Ao adicionar novo compêndio: inserir card no grupo correto, nunca ao final do arquivo sem verificar o agrupamento.
 
 ## Template v2 — especificação completa
 
@@ -152,9 +197,12 @@ Fontes via Google Fonts: Source Serif 4 (corpo 16px, line-height 1.78) + Inter (
     <span class="chip">📋 Pré-requisitos: <b>...</b></span>
     <span class="chip">🔗 Depende de: <b>...</b></span>
     <span class="chip">📍 Área: <b>...</b></span>
+    <span class="chip">🗓 Última revisão: <b>YYYY-MM-DD</b></span>
   </div>
 </div>
 ```
+
+O chip "Última revisão" deve ser atualizado toda vez que o compêndio for editado substantivamente (não apenas correção de typo). Formato da data: `YYYY-MM-DD`.
 
 ## Pergunta motivadora (obrigatória)
 
@@ -198,7 +246,7 @@ Logo após a pergunta motivadora. Três colunas: (1) materiais que este compênd
 - **Padrão histórico distribuído:** antes de cada conceito central, inserir `.hist` — sequência história → definição formal → mecanismo → implicação clínica.
 - Na primeira ocorrência de cada conceito central: definição formal (`kbox`) antes da analogia.
 - **Gradação de profundidade:** o compêndio tem três camadas implícitas — (1) mecanismo central, desenvolvido com saturação total; (2) conceitos de suporte, com parágrafo próprio e definição formal; (3) menções contextuais, apenas nomeadas com cross-link para compêndio dedicado. Nunca colapsar camada 1 para camada 3. Nunca expandir camada 3 inline — criar compêndio separado se o conceito exigir mais de um parágrafo.
-- **Cross-links entre compêndios:** ao mencionar conceito coberto em outro HTML, usar `<a class="cross-link" href="../caminho/arquivo.html#ancora">termo</a>`. Nunca reexplicar — linkar. Âncoras devem apontar para a seção específica, não para o topo do arquivo. Consultar [[project-mapa-materiais]] para verificar se o conceito já tem compêndio antes de escrever qualquer explicação inline.
+- **Cross-links entre compêndios:** ao mencionar conceito coberto em outro HTML, usar `<a class="cross-link" href="../caminho/arquivo.html#id-secao">termo</a>`. Nunca reexplicar — linkar. Âncoras devem apontar para o ID de seção específica (ver **Convenção de IDs de âncoras**), não para o topo do arquivo. Consultar [[project-mapa-materiais]] para verificar se o conceito já tem compêndio antes de escrever qualquer explicação inline.
 - **Criticidade universal:** ao apresentar qualquer modelo ou framework central (ex: cascata de coagulação, modelo clonal de ativação linfocitária, curva dose-resposta, qualquer teoria mecanicista), marcar explicitamente: (1) pressupostos assumidos pelo modelo; (2) condições em que o modelo falha ou perde validade; (3) onde evidência empírica diverge da predição teórica. Usar elemento `.kbox` com `.klabel` "Limites do modelo" imediatamente após a apresentação do framework. Não omitir mesmo que o modelo seja consensual — consenso não implica completude.
 - **Tratamento de controvérsias genuínas:** quando houver disputa ativa na literatura (não apenas limitação de modelo, mas posições opostas sustentadas por evidência), usar elemento `.kbox` com `.klabel` "Controvérsia" — apresentar as duas posições com os melhores argumentos de cada lado, indicar o estado atual do consenso se existir, e nunca resolver artificialmente uma disputa não resolvida. Exemplos: mecanismo exato de ação de anestésicos, teoria dual-process em psicologia, papel do colesterol LDL em subpopulações específicas.
 - **Política de versão de conceito:** ao atualizar entendimento de um conceito já coberto em outro compêndio (ex: nova evidência, revisão de mecanismo), não reescrever o compêndio original inline — registrar a divergência em [[project-estado]] com data e fonte, e adicionar nota no compêndio mais recente indicando a atualização. Só reescrever o compêndio original quando a mudança invalida o mecanismo central (não apenas adiciona nuance).
@@ -265,7 +313,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 ## Dívida técnica
 
-Registrar em [[project-estado]] toda inconsistência identificada mas não corrigida na sessão atual — nunca deixar silenciosa. Formato mínimo: arquivo afetado, problema, data de identificação. Ao iniciar nova sessão, verificar a lista e propor ao usuário o que priorizar. Exemplos de dívida técnica: acentuação corrompida em arquivo não editado na sessão, elemento CSS ausente descoberto por grep, pergunta motivadora sem resposta no final do compêndio.
+Registrar em `DEBT.md` na raiz do repositório toda inconsist�ência identificada mas não corrigida na sessão atual — nunca deixar silenciosa. Formato: `- [ ] \`caminho/arquivo.html\` — descrição (YYYY-MM-DD)`. Ao iniciar nova sessão, verificar `DEBT.md` e propor ao usuário o que priorizar. Exemplos de dívida técnica: acentuação corrompida em arquivo não editado na sessão, elemento CSS ausente descoberto por grep, pergunta motivadora sem resposta no final do compêndio.
 
 ## Modo Anki
 
@@ -278,23 +326,23 @@ Ao iniciar o Modo Anki para um material:
 5. Perguntas classificadas como "parcial" ou "não soube" são retomadas após 3–5 perguntas novas — nunca imediatamente.
 6. A cada 10 perguntas, fazer uma pergunta integrativa que conecte conceitos de seções diferentes.
 7. Ao encerrar: (a) síntese dos pontos fracos identificados na sessão; (b) sugestão de qual seção revisar antes da próxima sessão Anki; (c) atualizar `anki/anki_[material].json` com estado atual (perguntas feitas, classificações, ponto de parada).
-8. Nunca iniciar Modo Anki sem verificar se o HTML está na versão mais recente — se houver dívida técnica no arquivo alvo, informar antes de começar.
+8. Nunca iniciar Modo Anki sem verificar se o HTML está na versão mais recente — se houver dívida técnica no arquivo alvo em `DEBT.md`, informar antes de começar.
 
 ## Revisão periódica
 
 Compêndios são atualizados sob demanda — apenas quando o usuário for usar o material. Nunca propagar atualizações automaticamente para todos os HTMLs existentes ao criar conteúdo novo: o custo de tokens não compensa, pois o material estará defasado novamente em breve de qualquer forma.
 
-Ao abrir um compêndio para uso (Modo Anki, releitura, referência), verificar se há dívida técnica registrada em [[project-estado]] para aquele arquivo e aplicar as atualizações pendentes antes de começar.
+Ao abrir um compêndio para uso (Modo Anki, releitura, referência), verificar se há dívida técnica registrada em `DEBT.md` para aquele arquivo e aplicar as atualizações pendentes antes de começar.
 
 Ao cobrir conceito que contradiz ou expande mecanismo explicado em outro compêndio, registrar a divergência em [[project-estado]] com data e arquivo afetado — sem reescrever o original. A correção acontecerá quando o compêndio for usado.
 
 ## Entrega de instruções atualizadas
 
-Sempre gerar arquivo `instrucoes-projeto.md` na raiz da pasta do projeto. O usuário abre, seleciona tudo (Ctrl+A) e copia nas configurações do projeto. Nunca entregar apenas em blocos de código no chat.
+Sempre gerar arquivo `instrucoes-projeto.md` na raiz da pasta do projeto. O usuário abre, seleciona tudo (Ctrl+A) e copia nas configurações do projeto. Nunca entregar apenas em blocos de código no chat. Após atualizar o arquivo, sincronizar a memory (`project_instrucoes_operacionais.md`) para manter consistência.
 
 ## Evolução destas instruções
 
-Atualizar aqui apenas regras e especificações imutáveis. Estado mutável (livros, migração, decisões, dívida técnica) vai em [[project-estado]]; mapa de conceitos em [[project-mapa-materiais]]. Nunca incluir tabelas de estado ou mapa de materiais neste arquivo.
+Atualizar aqui apenas regras e especificações imutáveis. Estado mutável (livros, migração, decisões, dívida técnica) vai em [[project-estado]], `MIGRATION.md` e `DEBT.md`; mapa de conceitos em [[project-mapa-materiais]]. Nunca incluir tabelas de estado ou mapa de materiais neste arquivo.
 
 Atualizar quando: correção pontual do usuário → incorporar imediatamente; padrão ad hoc se repete → formalizar aqui; escolha não-óbvia aceita → registrar em [[project-estado]].
 
