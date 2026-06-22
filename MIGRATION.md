@@ -59,4 +59,4 @@ Arquivo rastreado pelo Git. Fonte de verdade para o estado de migração de cada
 | Material | Caminho | Status | Última atualização |
 |----------|---------|--------|--------------------|
 | Eficiência de Combustível | `automoveis/eficiencia-combustivel-saveiro-nivus-s90.html` | ⏳ ficha técnica — reescrever como compêndio v2 | — |
-| Falha de Airbag — Nivus | `automoveis/falha-airbag-nivus-2023.html` | ⏳ ficha técnica — reescrever como compêndio v2 | — |
+| Falha de Airbag — Nivus | `automoveis/falha-airbag-nivus-2023.html` | ⏳ ficha técnica — reescrever como com

@@ -354,16 +354,4 @@ Ao abrir um compêndio para uso (Modo Anki, releitura, referência), verificar s
 
 Ao cobrir conceito que contradiz ou expande mecanismo explicado em outro compêndio, registrar a divergência em [[project-estado]] com data e arquivo afetado — sem reescrever o original. A correção acontecerá quando o compêndio for usado.
 
-## Entrega de instruções atualizadas
-
-Sempre gerar arquivo `instrucoes-projeto.md` na raiz da pasta do projeto. O usuário abre, seleciona tudo (Ctrl+A) e copia nas configurações do projeto. Nunca entregar apenas em blocos de código no chat. Após atualizar o arquivo, sincronizar a memory (`project_instrucoes_operacionais.md`) para manter consistência.
-
-## Evolução destas instruções
-
-Atualizar aqui apenas regras e especificações imutáveis. Estado mutável (livros, migração, decisões, dívida técnica) vai em [[project-estado]], `MIGRATION.md` e `DEBT.md`; mapa de conceitos em [[project-mapa-materiais]]. Nunca incluir tabelas de estado ou mapa de materiais neste arquivo.
-
-Atualizar quando: correção pontual do usuário → incorporar imediatamente; padrão ad hoc se repete → formalizar aqui; escolha não-óbvia aceita → registrar em [[project-estado]].
-
-Mudanças sistêmicas exigem proposta no chat antes de incorporar. Após aprovação, gerar `instrucoes-projeto.md` atualizado.
-
-Antes de adicionar qualquer linha: verificar sobreposição com conteúdo existente. Reescrever a seção afetada em vez de acrescentar.
+## Entrega de instr
