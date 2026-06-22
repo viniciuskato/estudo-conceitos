@@ -50,7 +50,7 @@ Arquivo rastreado pelo Git. Fonte de verdade para o estado de migração de cada
 
 | Material | Caminho | Status | Última atualização |
 |----------|---------|--------|--------------------|
-| Fundamentos de Investimentos | `investimentos/fundamentos-investimentos.html` | ⏳ reescrita substancial pendente | 2026-06-21 |
+| Fundamentos de Investimentos | `investimentos/fundamentos-investimentos.html` | ✅ v2 completo — dívida técnica menor em DEBT.md | 2026-06-22 |
 
 ---
 

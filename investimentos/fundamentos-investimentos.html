@@ -150,10 +150,12 @@ a.cite:hover{text-decoration:underline}
     <a class="sl" href="#evidencia-empirica">Evidencia empirica de longo prazo</a>
     <a class="sl" href="#custos">O papel dos custos</a>
     <a class="sl" href="#retirada-segura">Regra de retirada segura</a>
+    <a class="sl" href="#bazin">Método Bazin &mdash; DY como renda</a>
     <a class="sl" href="#tributacao">Tributação</a>
     <a class="sl" href="#inflacao-e-juros">Inflacao e juros reais</a>
     <a class="sl" href="#perfil-investidor">Perfil do investidor</a>
     <a class="sl" href="#capm">CAPM &mdash; modelo e limites</a>
+    <a class="sl" href="#objetivo-pessoal">Objetivo: aportar e retirar 6%</a>
     <a class="sl" href="#financas-comportamentais">Finanças comportamentais</a>
     <a class="sl" href="#cdi-selic">Mecanismo CDI e Selic</a>
     <a class="sl" href="#debentures">Debentures</a>
@@ -172,15 +174,16 @@ a.cite:hover{text-decoration:underline}
 <h1>Fundamentos de Investimentos</h1>
 <p class="doc-meta">Finanças Pessoais &middot; Economia &middot; 2026</p>
 <div class="doc-chips">
-  <span class="chip">&#9200; <b>~75 min</b> de leitura</span>
+  <span class="chip">&#9200; <b>~90 min</b> de leitura</span>
   <span class="chip">&#128203; Pré-requisitos: <b>aritmética básica, percentuais</b></span>
   <span class="chip">&#128279; Depende de: <b>nenhum material anterior</b></span>
   <span class="chip">&#128205; Área: <b>Finanças Pessoais</b></span>
+  <span class="chip">&#128197; Última revisão: <b>2026-06-22</b></span>
 </div>
 
 <div class="pergunta">
   <div class="plabel">Pergunta motivadora</div>
-  <p>Você recebe R$ 50.000 de herança e precisa tomar uma decisão. Poupança, Tesouro IPCA+, ETF de ações, CDB de banco pequeno ou imóvel &mdash; qual escolha é racionalmente defensável, e como você avalia isso sem ser enganado pela taxa nominal na vitrine, pelos custos ocultos que corroem o retorno composto ou pela falsa sensação de que pode identificar ativos subprecificados num mercado que processa informação mais rápido do que você?</p>
+  <p>Como construir e manter uma carteira que, ao longo de décadas de aportes regulares, gere retorno real suficiente para financiar retiradas de até 6% ao ano sem consumir o principal &mdash; preservando valor real independentemente de ciclos de inflação, Selic e volatilidade de mercado? E o que os modelos de Markowitz, Fama-French, Bengen e Bazin realmente dizem sobre essa possibilidade &mdash; incluindo onde cada um falha?</p>
 </div>
 
 <div class="dep-panel">
@@ -515,8 +518,46 @@ a.cite:hover{text-decoration:underline}
 <p>O Estudo Trinity (1998) testou múltiplas combinações de alocação (de 100% ações a 100% bonds) e múltiplas taxas de retirada (de 3% a 12%) sobre todos os períodos históricos de 15, 20 e 30 anos desde 1925. Conclusão: para portfólios com ao menos 50% em ações e taxa de retirada de 4%, a taxa de sucesso (portfólio não zerado ao final) foi de 95-100% em horizontes de 30 anos. A 5% de retirada, a taxa de sucesso cai para ~80%.</p>
 <div class="formula">Patrimonio necessario = Despesas anuais / Taxa de retirada segura</div>
 <p>Exemplo: despesas anuais de R$ 60.000 com taxa de retirada de 4%: patrimônio necessário = R$ 60.000 / 0,04 = R$ 1.500.000. Esse valor ficou conhecido na comunidade de independência financeira como o <strong>número FI</strong> (<em>financial independence number</em>).</p>
-<h3>O metodo Bazin &mdash; diferenca conceitual <a class="anchor" href="#bazin">#</a></h3>
-<p>No contexto brasileiro, o investidor e jornalista Décio Bazin popularizou no livro <em>Faça Fortuna com Ações</em> (1992) um critério simples para selecionar ações: só comprar ações com <em>dividend yield</em> acima de 6% ao ano. O critério de 6% de Bazin não é equivalente à taxa de retirada segura do Estudo Trinity: um é critério de seleção de ativos individuais; o outro é uma propriedade emergente de portfólios históricos completos.</p>
+</section>
+
+<section id="bazin">
+<h2>Método Bazin &mdash; dividend yield como renda perpétua <a class="anchor" href="#bazin">#</a></h2>
+<div class="hist">
+  <span class="hl">&#128220; Contexto histórico</span>
+  Décio Bazin foi investidor e jornalista brasileiro que publicou <em>Faça Fortuna com Ações</em> em 1992, época de hiperinflação terminal no Brasil &mdash; o Plano Real viria em 1994. Seu critério de 6% de <em>dividend yield</em> foi formulado num contexto em que a renda fixa real era extremamente volátil e imprevisível, tornando os dividendos reais de empresas sólidas uma âncora mais confiável de renda. O livro permanece influente entre investidores de longo prazo no Brasil, embora o contexto macroeconômico tenha mudado substancialmente.
+</div>
+<div class="kbox">
+  <div class="klabel">Mecanismo &mdash; a lógica dos 6% de Bazin</div>
+  O critério de Bazin parte de uma lógica de <strong>renda perpétua</strong>: se uma ação paga dividendo de 6% ao ano sobre o preço de compra, o investidor recupera o capital em ~16,7 anos apenas com proventos, independentemente da oscilação do preço da ação. O <em>dividend yield</em> (DY) de 6% funciona como piso de rentabilidade exigida &mdash; abaixo disso, o prêmio de risco da renda variável não justifica abandonar alternativas de renda fixa. Formalmente: DY = Dividendo por ação / Preço por ação &times; 100%.
+</div>
+<div class="kbox">
+  <div class="klabel">Definição formal &mdash; Modelo de Gordon e o DY como sinal</div>
+  O Modelo de Gordon (Gordon Growth Model, 1956) precifica uma ação como perpetuidade de dividendos crescentes: P = D₁ / (r &minus; g), onde P é o preço justo, D₁ é o dividendo esperado no próximo período, r é a taxa de retorno exigida pelo investidor e g é a taxa de crescimento perpétuo dos dividendos. Rearranjando: r = D₁/P + g = DY + g. Portanto, o <em>dividend yield</em> não é o retorno total &mdash; é o retorno total <em>menos</em> o crescimento esperado dos dividendos. Uma ação com DY de 8% e g de 0% entrega o mesmo retorno esperado que uma ação com DY de 3% e g de 5%. O critério de Bazin (DY &ge; 6%) implica, via fórmula de Gordon, que o mercado está precificando crescimento baixo ou nulo para essas empresas &mdash; o que é coerente com o perfil de <em>value stocks</em> maduras, mas não é necessariamente uma barganha.
+</div>
+<p>O critério tem uma lógica de preservação de renda: ao viver dos dividendos sem consumir o principal, o investidor preserva o poder gerativo do capital. Se os dividendos crescerem com a inflação &mdash; porque as empresas repassam inflação aos preços e lucros &mdash; a renda real é preservada sem precisar vender ativos. Esse mecanismo tem uma analogia estrutural com a regra dos 4% de Bengen, mas com diferença conceitual crucial.</p>
+
+<h3>Distinção entre Bazin e Bengen <a class="anchor" href="#bazin-vs-bengen">#</a></h3>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Aspecto</th><th>Bazin (6% DY)</th><th>Bengen / Trinity (4% SWR)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>O que é</strong></td><td>Critério de seleção de ações individuais</td><td>Propriedade emergente de portfólio histórico completo</td></tr>
+      <tr><td><strong>Mecanismo</strong></td><td>Viver apenas dos dividendos, sem tocar no principal</td><td>Retirar % fixo do patrimônio inicial, corrigido pela inflação a cada ano</td></tr>
+      <tr><td><strong>Pressuposto central</strong></td><td>Dividendos crescem com a inflação (preservação real)</td><td>Portfólio diversificado sobrevive à retirada por 30 anos</td></tr>
+      <tr><td><strong>Risco principal</strong></td><td>Corte de dividendos em crises; concentração em empresas pagadoras</td><td>Risco de sequência &mdash; crise nos primeiros anos esgota o capital</td></tr>
+      <tr><td><strong>Aplicabilidade no Brasil</strong></td><td>Relevante &mdash; há empresas com DY &gt; 6% no Ibovespa</td><td>Calibrada com dados EUA; taxa segura para Brasil provavelmente menor</td></tr>
+    </tbody>
+    <caption>Tabela 8. Comparação estrutural entre o método Bazin e a regra de retirada segura de Bengen/Trinity.</caption>
+  </table>
+</div>
+<div class="kbox">
+  <div class="klabel">Limites críticos do método Bazin</div>
+  <p style="margin-bottom:0.6em"><strong>Trade-off entre DY alto e crescimento composto:</strong> empresas com <em>dividend yield</em> elevado tendem a ser maduras e com pouco crescimento de lucros. O investidor que prioriza DY &gt; 6% sacrifica exposição a empresas em crescimento que reinvestem o lucro em vez de distribuí-lo &mdash; e que, historicamente, geram maior retorno total (preço + dividendo composto). O DY é a carcaça da fórmula de Gordon: DY = (Dividendo / Preço) &approx; (Taxa de retorno exigida &minus; Taxa de crescimento dos dividendos). Se uma empresa tem DY &gt; 6%, ou o mercado está subprecificando-a ou o crescimento esperado é baixo ou negativo.</p>
+  <p style="margin-bottom:0.6em"><strong>Dividendos podem ser cortados:</strong> em crises, empresas reduzem ou suspendem dividendos. O DY calculado com os últimos 12 meses pode superestimar a renda futura. Empresas altamente alavancadas que pagam DY elevado podem estar distribuindo caixa que seria melhor retido para honrar dívidas.</p>
+  <p style="margin-bottom:0.6em"><strong>O critério de 6% não é calibrado empiricamente como a SWR:</strong> Bengen testou todas as janelas históricas desde 1926 e encontrou 4% como o piso de sucesso. Bazin estabeleceu 6% por raciocínio qualitativo &mdash; não há backtesting formal que valide que uma carteira de ações brasileiras com DY &ge; 6% seja sustentável ao longo de 30 anos com diferentes cenários de corte de dividendos.</p>
+  <p style="margin-bottom:0"><strong>Concentração setorial:</strong> o universo de ações com DY consistentemente &ge; 6% no Brasil concentra-se em setores específicos (energia elétrica, bancos, algumas utilities). Isso implica exposição a riscos regulatórios e de ciclo econômico que uma carteira diversificada evitaria.</p>
+</div>
+
 <div class="kbox">
   <div class="klabel">Limites criticos da regra dos 4%</div>
   <p style="margin-bottom:0.6em"><strong>Viés de sobrevivência dos dados:</strong> a regra foi calibrada com dados americanos, o melhor resultado histórico documentado. Para mercados com menor retorno ou maior volatilidade, a SWR segura pode ser significativamente menor &mdash; estimativas para mercados globais sugerem 3,0-3,5%.</p>
@@ -541,7 +582,7 @@ a.cite:hover{text-decoration:underline}
       <tr><td>FIIs (rendimento mensal)</td><td>Isento (condições específicas)</td><td>Não</td><td>Ganho de capital na venda de cotas: 20%</td></tr>
       <tr><td>ETFs de renda variável</td><td>15% sobre ganho de capital</td><td>Não</td><td>Sem isenção de R$ 20.000/mês</td></tr>
     </tbody>
-    <caption>Tabela 8. Resumo tributário dos principais investimentos para pessoa física no Brasil (2026). Legislação sujeita a alteração.</caption>
+    <caption>Tabela 9. Resumo tributário dos principais investimentos para pessoa física no Brasil (2026). Legislação sujeita a alteração.</caption>
   </table>
 </div>
 <p>A tabela regressiva do IR para renda fixa cria incentivo de longo prazo: manter aplicações por mais de 720 dias reduz a alíquota de 22,5% para 15%.</p>
@@ -601,7 +642,7 @@ a.cite:hover{text-decoration:underline}
       <tr><td>0 &lt; &beta; &lt; 1</td><td>Menos volátil que o mercado</td><td>Ações defensivas (utilidades, alimentos)</td></tr>
       <tr><td>&beta; &gt; 1</td><td>Mais volátil que o mercado</td><td>Ações de tecnologia, <em>small caps</em></td></tr>
     </tbody>
-    <caption>Tabela 9. Interpretação do beta e exemplos por faixa.</caption>
+    <caption>Tabela 10. Interpretação do beta e exemplos por faixa.</caption>
   </table>
 </div>
 
@@ -616,6 +657,37 @@ a.cite:hover{text-decoration:underline}
   <p style="margin-bottom:0.6em"><strong>O portfólio de mercado não é observável:</strong> a teoria exige o portfólio de todos os ativos com risco na economia (não só ações). Na prática, usa-se um índice de ações como proxy &mdash; o que introduz erro de mensuração que invalida testes empíricos (crítica de Roll, 1977).</p>
   <p style="margin-bottom:0.6em"><strong>Anomalias empíricas persistentes:</strong> Fama e French (1992) testaram formalmente o CAPM com dados de 1963 a 1990 e concluíram que o beta não explica significativamente a seção transversal de retornos de ações americanas &mdash; tamanho e book-to-market têm muito maior poder explicativo. O CAPM é empiricamente refutado como modelo preditivo.</p>
   <p style="margin-bottom:0"><strong>Valor normativo persiste:</strong> mesmo sem validade empírica plena, o CAPM organiza o raciocínio sobre risco e retorno de forma útil. O conceito de que risco específico não deve ser remunerado &mdash; porque pode ser diversificado &mdash; é uma das ideias mais poderosas de toda a teoria de finanças <a class="cite" href="#referencias">(FAMA; FRENCH, 1992)</a>.</p>
+</div>
+</section>
+
+<section id="objetivo-pessoal">
+<h2>Aplicação prática: aportar ganhos e viver de até 6% ao ano <a class="anchor" href="#objetivo-pessoal">#</a></h2>
+<div class="kbox">
+  <div class="klabel">Objetivo declarado</div>
+  Aportar os ganhos financeiros gerados (salário, bônus, renda de trabalho) e utilizar até 6% do patrimônio acumulado por ano, preservando o valor real do capital ao longo do tempo. Esse objetivo combina duas metas distintas: <strong>acumulação ativa</strong> (aportes recorrentes) e <strong>distribuição sustentável</strong> (retirada que não esgote o principal em termos reais).
+</div>
+<h3>A lógica dos 6%: onde se situa no espectro de risco <a class="anchor" href="#seis-por-cento">#</a></h3>
+<p>A taxa de retirada de 6% ao ano está acima da taxa de 4% de Bengen e acima dos 5% que o Estudo Trinity associa a ~80% de sucesso em 30 anos com dados americanos. Para entender o que isso implica, é preciso decompor o que "preservar valor real" significa num portfólio com aportes ativos.</p>
+<p>O objetivo não é o cenário clássico de Bengen &mdash; onde há um patrimônio fixo e apenas retiradas. Com <strong>aportes recorrentes</strong>, o risco de esgotamento é substancialmente menor: cada aporte compra ativos no preço corrente de mercado, funcionando como mecanismo automático de rebalanceamento e redução do risco de sequência. Matematicamente, a taxa de retirada sustentável de um portfólio com aportes ativos é maior do que a de um portfólio estático.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Cenário</th><th>Taxa de retirada</th><th>Viabilidade (dados históricos globais)</th></tr></thead>
+    <tbody>
+      <tr><td>Portfólio estático, 30 anos (EUA)</td><td>4%</td><td>~95–100% de sucesso histórico</td></tr>
+      <tr><td>Portfólio estático, 30 anos (global, ex-EUA)</td><td>2,5–3,5%</td><td>~80–90% de sucesso histórico</td></tr>
+      <tr><td>Portfólio com aportes ativos, horizonte aberto</td><td>5–7% (estimativa qualitativa)</td><td>Sem backtesting formal — inferência baseada na redução do risco de sequência por aportes recorrentes</td></tr>
+      <tr><td>Carteira de dividendos Bazin-like (Brasil)</td><td>DY &ge; 6%</td><td>Sustentável se dividendos crescem com inflação; concentração setorial é risco</td></tr>
+    </tbody>
+    <caption>Tabela 11. Taxas de retirada e sustentabilidade por cenário. *Linha de aportes ativos é estimativa qualitativa sem respaldo empírico direto equivalente ao de Bengen/Trinity. Dados: Bengen (1994), Cooley et al. (1998), Pfau (2012), Dimson et al. (2024).</caption>
+  </table>
+</div>
+<h3>Como os conceitos deste compêndio se articulam nesse objetivo <a class="anchor" href="#articulacao-objetivo">#</a></h3>
+<p>Para que 6% ao ano preserve valor real, o portfólio precisa crescer ao menos 6% em termos reais (acima do IPCA). Isso implica retorno nominal de IPCA + 6% — um patamar que, no Brasil, pode ser atingido por: Tesouro IPCA+ em patamares históricos recentes (IPCA + 6–7% tem sido ofertado em alguns períodos), mas não é garantido; ou portfólio com alocação em renda variável suficiente para capturar o prêmio de risco de ações histórico de ~4–6% reais ao ano, assumindo que o Brasil eventualmente converge para retornos mais próximos dos mercados desenvolvidos.</p>
+<div class="kbox">
+  <div class="klabel">Tensão estrutural do objetivo de 6%</div>
+  <p style="margin-bottom:0.6em">Um Tesouro IPCA+ a IPCA + 6% garante 6% real sem risco de mercado &mdash; mas apenas se carregado até o vencimento, e a disponibilidade desse patamar depende do ciclo de política monetária. Em patamares de Selic mais baixos (como visto em 2020–2021), o Tesouro IPCA+ pode estar abaixo de IPCA + 3%, tornando 6% de retirada insustentável sem consumir principal.</p>
+  <p style="margin-bottom:0.6em">Um portfólio diversificado com exposição a ações tem retorno real esperado superior a 6% no longo prazo com dados históricos &mdash; mas com volatilidade que pode tornar os primeiros anos de retirada arriscados (<em>sequence of returns risk</em>). A solução convencional é manter um <strong>colchão de liquidez</strong> equivalente a 2–3 anos de despesas em ativos de alta liquidez e baixo risco (Tesouro Selic ou CDB com liquidez diária), suficiente para financiar retiradas durante quedas prolongadas do mercado acionário sem precisar vender ativos desvalorizados. O colchão deve ser recomposto nos anos em que o portfólio de risco superar o retorno-alvo, ou via aportes novos direcionados prioritariamente a ele.</p>
+  <p style="margin-bottom:0">Na fase com aportes ativos, a tensão é menor: os aportes recorrentes reduzem a dependência de retirar em momentos ruins. O risco cresce quando os aportes cessam e o portfólio passa a ser a única fonte de renda &mdash; esse é o momento em que a taxa de 6% precisa ser reavaliada com base no patrimônio real acumulado e nas condições de mercado vigentes.</p>
 </div>
 </section>
 
@@ -670,8 +742,9 @@ a.cite:hover{text-decoration:underline}
       <tr><td><strong>Viés de familiaridade (<em>home bias</em>)</strong></td><td>Preferência por ativos conhecidos ou do próprio país</td><td>Portfólios superconcentrados em ações brasileiras quando diversificação global reduziria risco</td></tr>
       <tr><td><strong>Contabilidade mental</strong></td><td>Tratar dinheiro de fontes diferentes como não-fungível</td><td>"Dinheiro da bonificação" investido em ativos de alto risco que nunca seriam comprados com salário</td></tr>
       <tr><td><strong>Viés de confirmação</strong></td><td>Buscar informação que confirma crenças existentes</td><td>Seguir analistas que confirmam posições já tomadas; ignorar informação contrária</td></tr>
-      <tr><td><strong>Miopia de perdas</strong></td><td>Monitoramento excessivamente frequente que amplifica aversão à perda</td><td>Investidor que verifica o     </tbody>
-    <caption>Tabela 10. Principais vieses comportamentais e suas manifestações em decisões de investimento.</caption>
+      <tr><td><strong>Miopia de perdas</strong></td><td>Monitoramento excessivamente frequente que amplifica aversão à perda</td><td>Investidor que verifica a carteira diariamente experimenta perdas com frequência muito maior do que o investidor que verifica mensalmente — mesmo com retorno de longo prazo idêntico — o que aumenta a ansiedade e a probabilidade de vender em pânico</td></tr>
+    </tbody>
+    <caption>Tabela 12. Principais vieses comportamentais e suas manifestações em decisões de investimento.</caption>
   </table>
 </div>
 
@@ -716,7 +789,7 @@ a.cite:hover{text-decoration:underline}
       <tr><td><strong>Taxa DI (CDI)</strong></td><td>Média das operações CDI interbancárias de 1 dia</td><td>Mercado privado (B3)</td><td>Selic efetiva &minus; ~0,10 p.p.</td></tr>
       <tr><td><strong>TLP</strong></td><td>Taxa de Longo Prazo, referência do BNDES pós-2018</td><td>Tesouro Nacional</td><td>IPCA + taxa real pré-fixada</td></tr>
     </tbody>
-    <caption>Tabela 11. Hierarquia das taxas de referência do sistema financeiro brasileiro.</caption>
+    <caption>Tabela 13. Hierarquia das taxas de referência do sistema financeiro brasileiro.</caption>
   </table>
 </div>
 
@@ -746,7 +819,7 @@ a.cite:hover{text-decoration:underline}
       <tr><td><strong>Incentivada (Lei 12.431)</strong></td><td>Destinada a projetos de infraestrutura; isenta de IR para PF</td><td><strong>Isento</strong></td><td>Rodovias, energia, saneamento, telecomunicações</td></tr>
       <tr><td><strong>Debêntures de infraestrutura (pós 2022)</strong></td><td>Evolução das incentivadas; isentas de IR para PF e IRPJ/CSLL para PJ</td><td><strong>Isento</strong></td><td>Projetos prioritários de infraestrutura</td></tr>
     </tbody>
-    <caption>Tabela 12. Tipos de debêntures e características tributárias para investidor pessoa física.</caption>
+    <caption>Tabela 14. Tipos de debêntures e características tributárias para investidor pessoa física.</caption>
   </table>
 </div>
 
@@ -767,7 +840,7 @@ a.cite:hover{text-decoration:underline}
       <tr><td>BB</td><td>Especulativo; vulneravel a mudancas economicas</td><td>2,5% &ndash; 4,5% a.a.</td></tr>
       <tr><td>B ou abaixo</td><td>Alto risco; probabilidade significativa de inadimplência</td><td>4,5% a.a. ou mais</td></tr>
     </tbody>
-    <caption>Tabela 13. Escala de rating e spreads típicos para debêntures brasileiras (referência: mercado 2024-2026).</caption>
+    <caption>Tabela 15. Escala de rating e spreads típicos para debêntures brasileiras (referência: mercado 2024-2026).</caption>
   </table>
 </div>
 
@@ -810,7 +883,7 @@ a.cite:hover{text-decoration:underline}
       <tr><td><strong>Híbrido</strong></td><td>Calendário + banda (rebalancear no período só se o desvio for maior que a banda)</td><td>Balanceia frequência e precisão</td><td>Ligeiramente mais complexo de implementar</td></tr>
       <tr><td><strong>Por aportes</strong></td><td>Novo capital é direcionado para a classe subponderada</td><td>Sem custo de venda; sem IR realizado</td><td>Funciona melhor na fase de acumulação, não na de retirada</td></tr>
     </tbody>
-    <caption>Tabela 14. Estratégias de rebalanceamento: gatilho, vantagem e limitação.</caption>
+    <caption>Tabela 16. Estratégias de rebalanceamento: gatilho, vantagem e limitação.</caption>
   </table>
 </div>
 
@@ -875,7 +948,8 @@ a.cite:hover{text-decoration:underline}
 
 <div class="resposta">
   <div class="rlabel">Resposta a pergunta motivadora</div>
-  <p>Com R$ 50.000 de herança, a decisão racional segue três etapas. Primeiro: separe de 3 a 6 meses de despesas em Tesouro Selic ou CDB com liquidez diária &mdash; isso não é investimento, é seguro. Segundo: calcule o retorno líquido de cada opção usando a equação de Fisher e a tabela de IR &mdash; LCIs a 10% brutas valem mais que CDBs a 11% brutos com prazo de 1 ano (10% isentos contra 8,8% líquidos do CDB); debêntures incentivadas de alta qualidade (AA ou AAA) a IPCA + 5% são equivalentes tributariamente a Tesouro IPCA+ a IPCA + 6%. Terceiro: para horizontes superiores a 5-10 anos, defina uma SAA com pesos-alvo e disciplina de rebalanceamento &mdash; o Tesouro IPCA+ garante taxa real positiva travada, e ETFs de ações têm prêmio de risco historicamente positivo nesse horizonte. O retorno de um ETF de baixo custo (0,3% a.a.) supera o de um fundo ativo com taxa de 2% mesmo com desempenho bruto idêntico, pois os custos compõem negativamente por décadas. E o viés de disposição vai tentar convencer você a vender os ativos em ganho e segurar os em perda &mdash; o rebalanceamento por calendário remove essa decisão do escopo emocional.</p>
+  <p>Com R$ 50.000 de herança, a decisão racional segue três etapas. Primeiro: separe de 3 a 6 meses de despesas em Tesouro Selic ou CDB com liquidez diária &mdash; isso não é investimento, é seguro. Segundo: calcule o retorno líquido de cada opção usando a equação de Fisher e a tabela de IR &mdash; LCIs a 10% brutas valem mais que CDBs a 11% brutos com prazo de 1 ano (10% isentos contra 8,8% líquidos do CDB); debêntures incentivadas de alta qualidade (AA ou AAA) a IPCA + 5% são equivalentes tributariamente a Tesouro IPCA+ a IPCA + 6%. Terceiro: para horizontes superiores a 5–10 anos, defina uma SAA com pesos-alvo e disciplina de rebalanceamento &mdash; o Tesouro IPCA+ garante taxa real positiva travada, e ETFs de ações têm prêmio de risco historicamente positivo nesse horizonte. O retorno de um ETF de baixo custo (0,3% a.a.) supera o de um fundo ativo com taxa de 2% mesmo com desempenho bruto idêntico, pois os custos compõem negativamente por décadas. E o viés de disposição vai tentar convencer você a vender os ativos em ganho e segurar os em perda &mdash; o rebalanceamento por calendário remove essa decisão do escopo emocional.</p>
+  <p style="margin-top:0.8em">Para quem tem o objetivo de aportar ganhos e viver de até 6% do patrimônio ao ano: enquanto os aportes estão ativos, 6% é factível porque cada aporte reduz o risco de sequência &mdash; você não depende exclusivamente de retiradas do patrimônio acumulado. O portfólio precisa crescer ao menos IPCA + 6% nominalmente para preservar valor real: Tesouro IPCA+ em patamares históricos recentes pode atingir isso; uma carteira diversificada com renda variável também, mas com volatilidade que exige colchão de liquidez de 2–3 anos. O método Bazin (ações com DY &ge; 6%) resolve parcialmente o problema &mdash; viver de dividendos sem consumir principal é conceitualmente sólido &mdash; mas carrega concentração setorial e risco de corte de dividendos que uma carteira mais ampla com rebalanceamento ativo evita. A resposta não é Bazin <em>ou</em> Bengen: é entender que ambos apontam para o mesmo princípio &mdash; o retorno do portfólio precisa superar a taxa de retirada em termos reais para que o capital seja preservado &mdash; e calibrar a carteira para esse objetivo com a máxima diversificação e o mínimo custo.</p>
 </div>
 </section>
 
@@ -923,7 +997,7 @@ a.cite:hover{text-decoration:underline}
   <strong>Fama (1970)</strong> &mdash; "Efficient Capital Markets: A Review of Theory and Empirical Work" &mdash; base da HME. <em>Journal of Finance</em>, 25(2), 383-417. Disponivel via JSTOR.<br><br>
   <strong>Fama; French (1993)</strong> &mdash; "Common Risk Factors in the Returns on Stocks and Bonds" &mdash; modelo de tres fatores. <em>Journal of Financial Economics</em>, 33(1), 3-56.<br><br>
   <strong>Kahneman; Tversky (1979)</strong> &mdash; "Prospect Theory: An Analysis of Decision Under Risk" &mdash; fundamento de finanças comportamentais. <a href="https://doi.org/10.2307/1914185" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.2307/1914185</a><br><br>
-  <strong>Barber; Odean (2000)</strong> &mdash; "Trading Is Hazardous to Your Wealth" &mdash; evidencia empirica sobre excesso de negociacao. <a href="https://doi.org/10.1111/0022-1082.00226" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.1111/0022-1082.00226</a><br><br>
+  <strong>Barber; Odean (2000)</strong> &mdash; "Trading Is Hazardous to Your Wealt  <strong>Barber; Odean (2000)</strong> &mdash; "Trading Is Hazardous to Your Wealth" &mdash; evidencia empirica sobre excesso de negociacao. <a href="https://doi.org/10.1111/0022-1082.00226" target="_blank" rel="noopener" style="color:var(--ac)">doi.org/10.1111/0022-1082.00226</a><br><br>
   <strong>Bengen (1994)</strong> &mdash; "Determining Withdrawal Rates Using Historical Data" &mdash; origem da regra dos 4%. <em>Journal of Financial Planning</em>, 7(4), 171-180.<br><br>
   <strong>Cooley, Hubbard, Walz (1998)</strong> &mdash; "Retirement Savings: Choosing a Withdrawal Rate That Is Sustainable" &mdash; Estudo Trinity. <em>AAII Journal</em>, 20(2), 16-21.
 </p>
@@ -946,6 +1020,7 @@ a.cite:hover{text-decoration:underline}
   <p>BRINSON, Gary P.; HOOD, L. Randolph; BEEBOWER, Gilbert L. Determinants of portfolio performance. <strong>Financial Analysts Journal,</strong> v. 42, n. 4, p. 39-44, jul./ago. 1986.</p>
   <p>COOLEY, Philip L.; HUBBARD, Carl M.; WALZ, Daniel T. Retirement savings: choosing a withdrawal rate that is sustainable. <strong>AAII Journal,</strong> v. 20, n. 2, p. 16-21, fev. 1998.</p>
   <p>DIMSON, Elroy; MARSH, Paul; STAUNTON, Mike. <strong>Triumph of the optimists:</strong> 101 years of global investment returns. Princeton: Princeton University Press, 2002.</p>
+  <p>DIMSON, Elroy; MARSH, Paul; STAUNTON, Mike. <strong>Global investment returns yearbook 2024.</strong> Zurique: UBS, 2024. Disponível em: <a href="https://www.ubs.com/global/en/investment-bank/in-focus/2024/global-investment-returns-yearbook.html" target="_blank" rel="noopener">ubs.com/global-investment-returns-yearbook</a>. Acesso em: 22 jun. 2026.</p>
   <p>FAMA, Eugene F. Efficient capital markets: a review of theory and empirical work. <strong>The Journal of Finance,</strong> v. 25, n. 2, p. 383-417, maio 1970. Disponivel em: <a href="https://doi.org/10.2307/2975974" target="_blank" rel="noopener">https://doi.org/10.2307/2975974</a>. Acesso em: 21 jun. 2026.</p>
   <p>FAMA, Eugene F.; FRENCH, Kenneth R. The cross-section of expected stock returns. <strong>The Journal of Finance,</strong> v. 47, n. 2, p. 427-465, jun. 1992. Disponivel em: <a href="https://doi.org/10.1111/j.1540-6261.1992.tb04398.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1540-6261.1992.tb04398.x</a>. Acesso em: 21 jun. 2026.</p>
   <p>FAMA, Eugene F.; FRENCH, Kenneth R. Common risk factors in the returns on stocks and bonds. <strong>Journal of Financial Economics,</strong> v. 33, n. 1, p. 3-56, fev. 1993. Disponivel em: <a href="https://doi.org/10.1016/0304-405X(93)90023-5" target="_blank" rel="noopener">https://doi.org/10.1016/0304-405X(93)90023-5</a>. Acesso em: 21 jun. 2026.</p>
