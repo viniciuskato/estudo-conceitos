@@ -13,18 +13,41 @@ Antes de iniciar qualquer tarefa nova e bem delimitada (novo compêndio, migraç
 **Formato obrigatório do aviso — aviso e frase de retomada são inseparáveis e automáticos:**
 
 > "Recomendo abrir uma sessão nova antes — [motivo em uma linha]. Quer continuar aqui mesmo assim?"
-> "Para retomar, cole na nova sessão: '[frase exata que retoma a tarefa]'"
 
-Exemplo completo:
-> "Recomendo abrir uma sessão nova antes — migrações de HTML acumulam contexto pesado. Quer continuar aqui mesmo assim?"
-> "Para retomar, cole na nova sessão: 'Continue a migração de imunologia para template v2. Próximo é M10 — `hipersensibilidade.html`.'"
+A frase de retomada vem **em bloco de código** (com botão de cópia nativo), sem instrução extra:
 
-A frase de retomada deve ser gerada automaticamente, sem o usuário pedir. Nunca emitir o aviso sem ela.
+```
+Continue a migração de imunologia para template v2. Próximo é M10 — hipersensibilidade.html.
+```
+
+A frase de retomada deve ser gerada automaticamente, sem o usuário pedir. Nunca emitir o aviso sem ela. Nunca usar aspas ou prosa — sempre bloco de código.
 
 Sinais de "tarefa nova": novo HTML, migração de material para template v2, início de modo Anki, geração de arquivo de instruções do zero.
 Sinais de "iteração" (não trocar): ajuste pontual em arquivo já trabalhado na sessão, correção de bug, resposta a dúvida conceitual.
 
-**Exceção crítica — não avisar quando:** a primeira mensagem da sessão já é uma frase de retomada (ex: "Continue a migração de X", "Próximo é M10", "Crie o compêndio de Y"). Nesse caso, o usuário já abriu a sessão nova — executar diretamente.
+**Frase de retomada para atualização de instruções** — quando a sessão cair no meio de uma atualização, indicar módulos já aplicados e pendentes:
+
+```
+Aplique os módulos restantes nas instruções operacionais. Já aplicados: H, E, M. Faltam: B, C, A.
+```
+
+**Exceção crítica — não avisar quando:** a primeira mensagem da sessão já é uma tarefa direta e bem delimitada — qualquer instrução de ação imediata (ex: "Atualize o compêndio de X", "Continue a migração de X", "Crie o compêndio de Y", "Próximo é M10"). Se a sessão acabou de abrir e a primeira mensagem é uma tarefa, o usuário já tomou a decisão de abrir uma sessão nova — executar diretamente, sem avisar.
+
+## Protocolo de primeira abertura de sessão
+
+Ao iniciar qualquer sessão, antes de qualquer trabalho substantivo:
+
+1. Ler [[project-estado]] para verificar pendências, dívida técnica e status de migração.
+2. Ler [[project-mapa-materiais]] para mapear dependências e evitar reexplicar conceitos cobertos.
+3. Se houver dívida técnica crítica registrada (ver seção abaixo), informar o usuário antes de prosseguir — nunca silenciosamente acumular.
+
+Este protocolo não se aplica quando a primeira mensagem já é uma tarefa direta — nesse caso, executar e só informar pendências críticas ao final.
+
+## Pré-geração: questionamento de pertinência
+
+Antes de gerar qualquer compêndio novo, fazer **no máximo uma pergunta composta** para calibrar o material — e só se a resposta mudar materialmente o documento. Perguntar: o que motivou o tema e onde você já se situa nele? (motivação específica: disciplina, caso clínico, prova? lacuna declarada: o que já sabe? conexão desejada: algum compêndio existente para referenciar?)
+
+Nunca perguntar sobre: formato (sempre compêndio), livros (já conhecidos), profundidade (sempre máxima). Se o tema e contexto forem autoevidentese, pular direto para a geração.
 
 ## Fluxo de trabalho
 
@@ -32,17 +55,44 @@ Sinais de "iteração" (não trocar): ajuste pontual em arquivo já trabalhado n
 2. Consultar [[project-mapa-materiais]] para identificar conceitos já cobertos — linkar em vez de reexplicar.
 3. Consultar [[project-estado]] para verificar livros com badge confirmado e status de migração do material.
 4. Gerar o HTML completo na subpasta temática em kebab-case. Criar a subpasta se não existir.
-5. Antes de sobrescrever arquivo existente, arquivar em `_archive/` com sufixo de data.
-6. **Verificação obrigatória após qualquer escrita ou reescrita de HTML:** confirmar via bash que (a) o arquivo fecha com `</body>` e `</html>`; (b) o bloco `<script>` do toggle sidebar está presente (`sessionStorage`); (c) a contagem de linhas é compatível com o conteúdo esperado; (d) não há erros de sintaxe JS óbvios — checar `const const`, `var var`, declarações duplicadas com `grep "const const\|var var"`. Se qualquer verificação falhar, corrigir antes de prosseguir.
-7. Atualizar `index.html` na raiz na mesma operação — nunca como etapa posterior.
-8. Atualizar [[project-mapa-materiais]] com os conceitos centrais do novo material.
-9. Atualizar [[project-estado]] se o status de migração ou badge mudar.
+5. **Critério arquivar vs. editar:** sobrescrever (com archive) quando a mudança afeta ≥30% do conteúdo ou altera estrutura de seções; editar no lugar quando é correção pontual, adição de parágrafo ou fix de bug. Em caso de sobrescrita, arquivar em `_archive/` com sufixo de data antes de qualquer escrita.
+6. **Verificação obrigatória após qualquer escrita ou reescrita de HTML:** confirmar via bash que (a) o arquivo fecha com `</body>` e `</html>`; (b) o bloco `<script>` do toggle sidebar está presente (`sessionStorage`); (c) a contagem de linhas é compatível com o conteúdo esperado; (d) não há erros de sintaxe JS óbvios — checar `const const`, `var var`, declarações duplicadas com `grep "const const\|var var"`; (e) acentuação PT-BR intacta — `grep -c "ã\|ç\|é\|ê\|ó\|ô\|í\|ú\|à"` deve retornar valor > 0. Se qualquer verificação falhar, corrigir antes de prosseguir.
+7. **Verificação de padrão antes de concluir correção:** ao identificar erro recorrente (ex: acentuação corrompida, elemento CSS ausente), rodar grep nos demais HTMLs antes de marcar a tarefa como concluída — nunca corrigir apenas o arquivo em foco.
+8. Atualizar `index.html` na raiz na mesma operação — nunca como etapa posterior.
+9. Atualizar [[project-mapa-materiais]] com os conceitos centrais do novo material.
+10. Atualizar [[project-estado]] se o status de migração, badge ou dívida técnica mudar.
+11. **Sincronização com GitHub:** ao concluir qualquer material, lembrar o usuário de rodar o `push.bat` na raiz da pasta do projeto (duplo clique) para enviar ao repositório `https://github.com/viniciuskato/estudo-conceitos`.
+
+## Eficiência operacional
+
+Regras para evitar truncamentos, retrabalho e consumo desnecessário de tokens.
+
+**Granularidade de edição (regra crítica):** nunca inserir mais de ~150 linhas em um único bloco `new_string` da ferramenta `Edit`. Seções longas devem ser inseridas em operações sequenciais — inserir um bloco, verificar, inserir o próximo. Após qualquer inserção acima de 80 linhas, executar `wc -l` + `tail -5` antes de prosseguir. Violação desta regra é a principal causa de truncamentos silenciosos.
+
+**Estratégia Edit vs Write vs append:**
+- `Edit` → para substituições pontuais e inserções de até ~150 linhas. Ferramenta padrão.
+- `Write` → apenas para criação de arquivo novo ou reescrita completa deliberada de arquivo pequeno (<300 linhas). Nunca usar para arquivos grandes existentes — reescreve o arquivo inteiro e descarta histórico de edições.
+- `bash append` (`echo/cat >>`) → para adicionar conteúdo ao final de arquivo já verificado como íntegro. Útil quando `Edit` atingiu o limite de payload e o conteúdo precisa ser completado. Sempre verificar após o append.
+
+**Verificação imediata após Write ou Edit longo:** após qualquer chamada `Write` — mesmo em arquivo novo — executar imediatamente `wc -l` + `tail -5` + verificar fechamento correto. `Write` pode truncar silenciosamente se o conteúdo exceder o payload. O mesmo vale para `Edit` que insira bloco >20 linhas — executar `tail -5` antes de prosseguir. Nunca assumir que o arquivo está íntegro sem verificar.
+
+**Estratégia de blocos para arquivos criados do zero (>150 linhas):** nunca tentar criar arquivo grande com um único `Write`. Fluxo obrigatório: (1) `Write` com cabeçalho e estrutura inicial (~100–150 linhas); (2) verificar integridade; (3) `Edit` ou `bash append` para cada bloco subsequente de até ~150 linhas; (4) verificar após cada bloco. Crescimento incremental verificado é mais seguro do que Write monolítico.
+
+**Protocolo de recuperação de falha — Write truncado:** se `tail -5` revelar que o arquivo termina antes de `</body></html>`, não tentar corrigir com append cego. Fluxo: (1) `head -n N` para identificar o ponto de truncamento exato; (2) avaliar se o conteúdo restante cabe em um `Edit` (<150 linhas) — se sim, inserir com `Edit`; (3) se não couber, deletar o arquivo truncado, recriar com `Write` até o ponto seguro, depois continuar com blocos incrementais. Append cego sobre arquivo truncado produz HTML inválido.
+
+**Verificação de duplicação após append em arquivos .md com blocos de código:** ao usar `bash append` em arquivos Markdown que contêm blocos de código (` ``` `), verificar com `grep -n '^\`\`\`' arquivo.md | tail -10` que os delimitadores de código estão balanceados após o append. Append pode duplicar o delimitador de fechamento se o arquivo já terminava com ` ``` `.
+
+**Verificação incremental:** verificar integridade do arquivo após cada etapa de edição significativa, não apenas no final. Padrão mínimo após cada bloco inserido: `wc -l` (contagem compatível com o esperado) + `tail -5` (arquivo não está truncado). Verificação completa (fecha `</body></html>`, `sessionStorage` presente, sem JS duplicado) apenas ao concluir a sessão de edição.
+
+**Leitura seletiva:** em qualquer arquivo >150 linhas, identificar a âncora de edição com `grep -n` antes de usar `Read` com `offset` e `limit`. Nunca reler o arquivo inteiro a cada etapa — grep primeiro, Read seletivo depois. Ler o arquivo inteiro é permitido apenas na abertura da sessão ou quando o contexto completo for estritamente necessário.
+
+**Planejamento de inserção:** antes de inserir seção longa, dividir mentalmente em blocos temáticos independentes e executar um por vez. Exemplo: CAPM como bloco 1 → verificar → finanças comportamentais como bloco 2 → verificar → etc. Nunca agrupar seções não relacionadas em um único `new_string`.
 
 ## Ordem das seções (obrigatória)
 
-Cabeçalho (h1 + meta + chips) → Pergunta motivadora → Painel de dependências → Fundamentos necessários → Conceitos-chave → [conteúdo principal] → Conexões → Discussão → Leituras recomendadas → Referências ABNT.
+Cabeçalho (h1 + meta + chips) → Pergunta motivadora → Painel de dependências → Fundamentos necessários → Conceitos-chave → [conteúdo principal] → Conexões → Perguntas em aberto → Discussão → Leituras recomendadas → Referências ABNT.
 
-A sidebar reflete essa ordem: grupo "Conteúdo" começa com Fundamentos necessários; grupo "Revisão" contém Discussão, Leituras recomendadas e Referências ABNT.
+A sidebar reflete essa ordem: grupo "Conteúdo" começa com Fundamentos necessários; grupo "Revisão" contém Perguntas em aberto, Discussão, Leituras recomendadas e Referências ABNT.
 
 ## Template v2 — especificação completa
 
@@ -108,7 +158,7 @@ Fontes via Google Fonts: Source Serif 4 (corpo 16px, line-height 1.78) + Inter (
 
 ## Pergunta motivadora (obrigatória)
 
-Antes dos Fundamentos necessários. Pergunta clínica/científica concreta que o conteúdo vai responder — gera ancoragem cognitiva e tensão intelectual antes de qualquer conceito formal.
+Antes dos Fundamentos necessários. Pergunta clínica/científica concreta que o conteúdo vai responder — gera ancoragem cognitiva e tensão intelectual antes de qualquer conceito formal. **A pergunta deve ser fechada ao final do compêndio** — na seção Discussão ou em parágrafo explícito após o conteúdo principal, articulando a resposta com os conceitos desenvolvidos.
 
 ```html
 <div class="pergunta">
@@ -143,11 +193,17 @@ Logo após a pergunta motivadora. Três colunas: (1) materiais que este compênd
 
 ## Conteúdo
 
+- **Contextualização ao perfil:** gerar sempre adequado ao contexto do usuário, nunca genérico. Isso significa: (1) pergunta motivadora ancorada em cenário clínico real; (2) implicações clínicas com profundidade de mecanismo, não mencionadas de passagem; (3) leituras recomendadas partindo dos livros do usuário (Abbas, Murray, Rang & Dale, Machado) antes de sugerir externos. A contextualização não reduz profundidade — cobrir mecanismo até ser explicável sem referência externa é inegociável.
 - Partir sempre do porquê antes do o quê.
 - **Padrão histórico distribuído:** antes de cada conceito central, inserir `.hist` — sequência história → definição formal → mecanismo → implicação clínica.
 - Na primeira ocorrência de cada conceito central: definição formal (`kbox`) antes da analogia.
+- **Gradação de profundidade:** o compêndio tem três camadas implícitas — (1) mecanismo central, desenvolvido com saturação total; (2) conceitos de suporte, com parágrafo próprio e definição formal; (3) menções contextuais, apenas nomeadas com cross-link para compêndio dedicado. Nunca colapsar camada 1 para camada 3. Nunca expandir camada 3 inline — criar compêndio separado se o conceito exigir mais de um parágrafo.
+- **Cross-links entre compêndios:** ao mencionar conceito coberto em outro HTML, usar `<a class="cross-link" href="../caminho/arquivo.html#ancora">termo</a>`. Nunca reexplicar — linkar. Âncoras devem apontar para a seção específica, não para o topo do arquivo. Consultar [[project-mapa-materiais]] para verificar se o conceito já tem compêndio antes de escrever qualquer explicação inline.
+- **Criticidade universal:** ao apresentar qualquer modelo ou framework central (ex: cascata de coagulação, modelo clonal de ativação linfocitária, curva dose-resposta, qualquer teoria mecanicista), marcar explicitamente: (1) pressupostos assumidos pelo modelo; (2) condições em que o modelo falha ou perde validade; (3) onde evidência empírica diverge da predição teórica. Usar elemento `.kbox` com `.klabel` "Limites do modelo" imediatamente após a apresentação do framework. Não omitir mesmo que o modelo seja consensual — consenso não implica completude.
+- **Tratamento de controvérsias genuínas:** quando houver disputa ativa na literatura (não apenas limitação de modelo, mas posições opostas sustentadas por evidência), usar elemento `.kbox` com `.klabel` "Controvérsia" — apresentar as duas posições com os melhores argumentos de cada lado, indicar o estado atual do consenso se existir, e nunca resolver artificialmente uma disputa não resolvida. Exemplos: mecanismo exato de ação de anestésicos, teoria dual-process em psicologia, papel do colesterol LDL em subpopulações específicas.
+- **Política de versão de conceito:** ao atualizar entendimento de um conceito já coberto em outro compêndio (ex: nova evidência, revisão de mecanismo), não reescrever o compêndio original inline — registrar a divergência em [[project-estado]] com data e fonte, e adicionar nota no compêndio mais recente indicando a atualização. Só reescrever o compêndio original quando a mudança invalida o mecanismo central (não apenas adiciona nuance).
 - Cada bloco deve avançar o raciocínio — nunca repetir, resumir ou parafrasear seção anterior.
-- Profundidade: cobrir até o mecanismo ser explicável sem referência externa. Ao revisitar material existente, varrer o corpo em busca de conceitos mencionados por nome sem mecanismo desenvolvido — esses são candidatos automáticos a novas seções, não a novas citações inline. Incrementar o arquivo existente quando overlap conceitual > 40% — não criar arquivo separado.
+- Profundidade: cobrir até o mecanismo ser explicável sem referência externa. O critério de parada não é tamanho — é saturação: quando não há mais conceito mencionado por nome sem mecanismo desenvolvido, o compêndio está completo para aquele estado do conhecimento. Ao criar ou revisar qualquer compêndio, varrer ativamente o corpo em busca desses conceitos — todo candidato identificado deve ser expandido em seção ou parágrafo próprio, nunca em citação inline. Crescimento por saturação, não por meta de linhas: mais é melhor aqui desde que cada adição avance o mecanismo. Incrementar o arquivo existente quando overlap conceitual > 40% — não criar arquivo separado.
 - Siglas: por extenso na primeira ocorrência.
 - Terminologia: usar como na literatura. Inglês quando é o padrão da área — sem forçar tradução. Na primeira ocorrência de cada termo estrangeiro: itálico + tradução entre parênteses — ex: *shear* (tensão de cisalhamento), *tissue plasminogen activator* (ativador tecidual do plasminogênio). Ocorrências subsequentes: apenas o termo original, sem repetir a tradução.
 - Tabelas e figuras: incluir sempre que melhorarem compreensão comparativa. Legenda numerada imediatamente abaixo.
@@ -186,13 +242,20 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .dep-group{flex:1;min-width:160px}
 .dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
 .dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+/* Perguntas em aberto */
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
 ```
 
 ## Seções finais
 
 **Fundamentos necessários:** conceitos de áreas adjacentes indispensáveis. Critério de entrada: ausência tornaria frase opaca. Critério de saída: ativar exige mais de um parágrafo → mover para seção adequada.
 
-**Discussão:** três movimentos — (1) convergência; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
+**Perguntas em aberto (obrigatória):** seção entre Conexões e Discussão. Lista de 3–5 questões que o campo ainda não resolveu — fronteiras do conhecimento, não gaps do compêndio. Cada pergunta em `.qa-block`. Critério: deve ser genuinamente aberta (sem resposta consensual na literatura), não apenas difícil. Exemplos: mecanismos de resistência a medicamentos sem explicação molecular completa, controvérsias de causalidade vs. correlação em epidemiologia, lacunas experimentais conhecidas. Ao revisar compêndio existente, verificar se as perguntas ainda estão abertas — fechar as que tiverem sido respondidas e adicionar novas da literatura recente.
+
+**Discussão:** três movimentos — (1) convergência, fechando a pergunta motivadora com os conceitos desenvolvidos; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
 
 **Leituras recomendadas:** livros-texto, artigos (links acesso aberto), recursos online. Critério: densidade de mecanismo por página — não fama ou adoção curricular. Consultar [[project-estado]] para badge VOCÊ TEM; consultar [[user-livros-medicos]] para lista completa de livros do usuário. Não limitar às obras do usuário — incluir o melhor disponível.
 
@@ -200,9 +263,30 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 **Citações inline:** autor-data NBR 10520:2023 — formato `(SOBRENOME; SOBRENOME, ano)` para até dois autores; `(SOBRENOME et al., ano)` para três ou mais. Nunca numeração `[1]`, `[2]`. Classe `.cite`, `color:var(--ac)`, ancorado em `#referencias`. Múltiplas referências na mesma citação separadas por ponto e vírgula dentro dos parênteses: `(AUTOR A, ano; AUTOR B, ano)`.
 
+## Dívida técnica
+
+Registrar em [[project-estado]] toda inconsistência identificada mas não corrigida na sessão atual — nunca deixar silenciosa. Formato mínimo: arquivo afetado, problema, data de identificação. Ao iniciar nova sessão, verificar a lista e propor ao usuário o que priorizar. Exemplos de dívida técnica: acentuação corrompida em arquivo não editado na sessão, elemento CSS ausente descoberto por grep, pergunta motivadora sem resposta no final do compêndio.
+
 ## Modo Anki
 
-Ao iniciar, ler `anki/anki_[material].json` para carregar estado da sessão anterior. Ao encerrar, atualizar o arquivo. Seguir ordem lógica do HTML — seção por seção. Uma pergunta aberta por vez. Classificar: "dominada", "parcial" ou "não soube". Parciais e não soube retomadas após 3–5 perguntas novas. Síntese integrativa ao encerrar.
+Ao iniciar o Modo Anki para um material:
+
+1. Verificar se existe `anki/anki_[material].json` — se sim, carregar para retomar do ponto anterior. Se não, criar o arquivo ao encerrar.
+2. Seguir ordem lógica do HTML — seção por seção, sem pular.
+3. Uma pergunta aberta por vez. Nunca dar a resposta antes da tentativa do usuário.
+4. Classificar cada resposta como "dominada", "parcial" ou "não soube". Nunca classificar como dominada sem o usuário ter articulado o mecanismo (não apenas o nome).
+5. Perguntas classificadas como "parcial" ou "não soube" são retomadas após 3–5 perguntas novas — nunca imediatamente.
+6. A cada 10 perguntas, fazer uma pergunta integrativa que conecte conceitos de seções diferentes.
+7. Ao encerrar: (a) síntese dos pontos fracos identificados na sessão; (b) sugestão de qual seção revisar antes da próxima sessão Anki; (c) atualizar `anki/anki_[material].json` com estado atual (perguntas feitas, classificações, ponto de parada).
+8. Nunca iniciar Modo Anki sem verificar se o HTML está na versão mais recente — se houver dívida técnica no arquivo alvo, informar antes de começar.
+
+## Revisão periódica
+
+Compêndios são atualizados sob demanda — apenas quando o usuário for usar o material. Nunca propagar atualizações automaticamente para todos os HTMLs existentes ao criar conteúdo novo: o custo de tokens não compensa, pois o material estará defasado novamente em breve de qualquer forma.
+
+Ao abrir um compêndio para uso (Modo Anki, releitura, referência), verificar se há dívida técnica registrada em [[project-estado]] para aquele arquivo e aplicar as atualizações pendentes antes de começar.
+
+Ao cobrir conceito que contradiz ou expande mecanismo explicado em outro compêndio, registrar a divergência em [[project-estado]] com data e arquivo afetado — sem reescrever o original. A correção acontecerá quando o compêndio for usado.
 
 ## Entrega de instruções atualizadas
 
@@ -210,7 +294,7 @@ Sempre gerar arquivo `instrucoes-projeto.md` na raiz da pasta do projeto. O usu�
 
 ## Evolução destas instruções
 
-Atualizar aqui apenas regras e especificações imutáveis. Estado mutável (livros, migração, decisões) vai em [[project-estado]]; mapa de conceitos em [[project-mapa-materiais]]. Nunca incluir tabelas de estado ou mapa de materiais neste arquivo.
+Atualizar aqui apenas regras e especificações imutáveis. Estado mutável (livros, migração, decisões, dívida técnica) vai em [[project-estado]]; mapa de conceitos em [[project-mapa-materiais]]. Nunca incluir tabelas de estado ou mapa de materiais neste arquivo.
 
 Atualizar quando: correção pontual do usuário → incorporar imediatamente; padrão ad hoc se repete → formalizar aqui; escolha não-óbvia aceita → registrar em [[project-estado]].
 
