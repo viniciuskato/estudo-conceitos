@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hipotensão Pós-Exercício e Controle Barorreflexo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78}
+a{color:var(--ac);text-decoration:none}
+h1{font-size:2rem;font-weight:600;line-height:1.2;margin-bottom:10px}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:2.4rem 0 .9rem;padding-bottom:4px;border-bottom:1px solid var(--border)}
+h3{font-size:1.08rem;font-weight:600;color:var(--ac);margin:1.6rem 0 .5rem}
+h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:1.2rem 0 .4rem;text-transform:uppercase;letter-spacing:.05em}
+p{margin-bottom:1rem}
+ul,ol{margin:0 0 1rem 1.4rem}
+li{margin-bottom:.3rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.4rem;font-size:.9rem;font-family:var(--font-ui)}
+th{background:var(--bg3);color:var(--muted);font-weight:600;text-align:left;padding:8px 12px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+code{font-family:monospace;background:var(--bg3);padding:2px 6px;border-radius:3px;font-size:.88em}
+
+/* Layout */
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0;transition:width .25s}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px;line-height:1}
+#toggle-btn:hover{color:var(--text);background:var(--bg3)}
+.s-inner{flex:1;overflow-y:auto;overflow-x:hidden;width:280px;padding-bottom:20px}
+.s-logo{padding:16px 16px 8px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;opacity:1;transition:opacity .2s}
+.s-group{margin:0 8px 6px}
+.s-group-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;padding:6px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);padding:5px 8px;border-radius:4px;transition:background .15s,color .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:1}
+a.sl:hover{background:var(--bg3);color:var(--text)}
+a.sl.active{background:var(--ac2bg);color:var(--ac)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed .s-group-label,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Progress bar */
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+
+/* Chips */
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;display:inline-block}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;margin-bottom:36px}
+.doc-header{padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:36px}
+
+/* Pergunta motivadora */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Painel de dependências */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+/* Nota histórica */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+/* Key-concept box */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* Conceitos-chave grid */
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+
+/* Cross-link inline */
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+/* Perguntas em aberto */
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+/* Citation */
+.cite{color:var(--ac);font-size:.88em}
+
+/* Mobile */
+#mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);padding:10px 16px;z-index:50}
+#mob-menu-btn{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
+
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;top:0;left:0;height:100vh;z-index:200}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #mob-bar{display:flex;align-items:center;gap:12px}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  #body-wrap.sidebar-collapsed #content{padding:24px 20px 80px}
+}
+
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#progress-bar,#mob-bar,#s-toggle{display:none!important}
+  #content{padding:20px}
+  a::after{content:" ("attr(href)")";font-size:.8em;color:#555}
+  a.cross-link::after,a.sl::after{content:""}
+}
+
+section{scroll-margin-top:24px}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="body-wrap">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">◀</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Fisiologia · Cardiovascular</div>
+    <div class="s-group">
+      <div class="s-group-label">Conteúdo</div>
+      <a class="sl" href="#fundamentos-necessarios">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#debito-cardiaco-exercicio">Débito cardíaco no exercício</a>
+      <a class="sl" href="#redistribuicao-fluxo">Redistribuição do fluxo</a>
+      <a class="sl" href="#vasodilatacao-cutanea">Vasodilatação cutânea</a>
+      <a class="sl" href="#hipotensao-pos-exercicio">Hipotensão pós-exercício</a>
+      <a class="sl" href="#barorreflexo">Barorreflexo — arco completo</a>
+      <a class="sl" href="#reflexo-imersao">Reflexo de imersão</a>
+      <a class="sl" href="#interacao-exercicio-imersao">Interação exercício + imersão</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Revisão</div>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências ABNT</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTEÚDO -->
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Hipotensão Pós-Exercício e Controle Barorreflexo</h1>
+  <p class="doc-meta">Medicina · Fisiologia Cardiovascular · Universidade · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>potencial de ação, anatomia cardiovascular básica</b></span>
+    <span class="chip">🔗 Depende de: <b>fisiologia cardíaca, SNA</b></span>
+    <span class="chip">📍 Área: <b>Fisiologia Cardiovascular</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-22</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Após uma partida de vôlei intensa, você toma banho de chuva fria e em seguida mergulha numa piscina — e sua pressão arterial cai ao ponto de causar tontura. Por que o exercício intenso baixa a pressão arterial por horas depois, como o barorreflexo falha em compensar inteiramente essa queda, e o que o contato com água fria adiciona ao quadro?</p>
+</div>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../farmacologia/hipertensao_sraa_anti-hipertensivos.html#fund-tonus">SRAA e tônus vascular</a>
+      <a class="dep-item" href="#">Anatomia cardiovascular básica</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Sistema nervoso autônomo</a>
+      <a class="dep-item" href="#">Potencial de ação cardíaco</a>
+      <a class="dep-item" href="#">Termorregulação básica</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Choque circulatório (P5)</a>
+      <a class="dep-item" href="#">Insuficiência cardíaca (P3)</a>
+      <a class="dep-item" href="#">Farmacologia cardiovascular (F4)</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- FUNDAMENTOS NECESSÁRIOS -->
+<section id="fundamentos-necessarios">
+<h2>Fundamentos necessários</h2>
+
+<p>A pressão arterial (PA) resulta do produto entre débito cardíaco (DC) e resistência vascular periférica (RVP): <strong>PA = DC × RVP</strong>. Qualquer queda sustentada implica redução de um ou de ambos os fatores sem compensação adequada pelo outro. Rastrear cada variável separadamente é o ponto de partida.</p>
+
+<p>O <strong>débito cardíaco</strong> é DC = volume sistólico (VS) × frequência cardíaca (FC). O VS depende de três determinantes: pré-carga (volume diastólico final, governado pelo retorno venoso), contratilidade miocárdica (inotropismo) e pós-carga (resistência que o ventrículo enfrenta na ejeção). A <strong>lei de Frank-Starling</strong> estabelece que o alongamento das fibras miocárdicas pelo aumento da pré-carga aumenta a força de contração — mecanismo intrínseco, independente de inervação.</p>
+
+<p>O <strong>sistema nervoso autônomo</strong> (SNA) modula FC, contratilidade e tônus vascular. O ramo simpático libera noradrenalina em receptores β₁ cardíacos (cronotrópico e inotrópico positivo) e α₁ vasculares (vasoconstricção). O ramo parassimpático (vagal) libera acetilcolina em receptores M₂, reduzindo a FC. Em repouso, tônus vagal domina: a FC de ~70 bpm é a FC intrínseca do nó sinoatrial (~100 bpm) freada pelo vago.</p>
+
+<p>O <strong>tônus vasomotor</strong> resulta do equilíbrio entre vasoconstrictores (noradrenalina via α₁, angiotensina II, endotelina-1, vasopressina/ADH) e vasodilatadores (óxido nítrico/NO, prostaciclina/PGI₂, bradicinina, adenosina, CO₂ local). O endotélio sintetiza NO continuamente via eNOS (óxido nítrico sintase endotelial), que ativa guanilil ciclase → ↑ GMPc → relaxamento do músculo liso. O <em>shear stress</em> (tensão de cisalhamento) — força exercida pelo fluxo sobre a parede — é o principal estímulo mecânico para eNOS.</p>
+
+<p>A <strong>termorregulação</strong> usa o leito cutâneo como radiador variável: vasodilatação cutânea aumenta o fluxo periférico, dissipando calor. O hipotálamo anterior integra sinais térmicos e comanda neurônios simpáticos que modulam dilatação cutânea ativa via substâncias vasoativas locais (VIP, NO) além das glândulas sudoríparas.</p>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Débito cardíaco</div>
+    <p>DC = VS × FC. Quintuplicável no exercício máximo (~5 → ~25 L/min em atletas).</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">HPE</div>
+    <p>Hipotensão pós-exercício: queda ≥ 10 mmHg por 30 min a 12 h após esforço. Mecanismo multifatorial.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Barorreflexo</div>
+    <p>Arco curto: barorreceptores → NTS → núcleo ambíguo + RVLM → resposta autonômica em &lt; 1 s.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Vasodilatação ativa cutânea</div>
+    <p>Via simpática colinérgica + NO + VIP — distinta da vasodilatação passiva por retirada de vasoconstricção.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Reflexo de imersão</div>
+    <p>Apneia + frio facial → bradicardia vagal + vasoconstricção periférica — o <em>diving reflex</em>.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Pooling venoso</div>
+    <p>Acúmulo pós-esforço nas vênulas musculares → queda do retorno venoso → queda do VS.</p>
+  </div>
+</div>
+</section>
+
+<!-- DÉBITO CARDÍACO NO EXERCÍCIO -->
+<section id="debito-cardiaco-exercicio">
+<h2>Débito cardíaco no exercício</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1870</span>
+  Adolf Fick estabeleceu em 1870 o princípio que leva seu nome: DC = consumo de O₂ / (CaO₂ − CvO₂), onde CaO₂ e CvO₂ são os conteúdos arterial e venoso de oxigênio. Pela primeira vez foi possível medir o débito cardíaco em humanos sem cateterismo direto. O princípio de Fick continua sendo padrão-ouro para medida do DC em laboratório de função cardíaca.
+</div>
+
+<p>Em repouso, o DC médio é de 4–5 L/min em adulto de 70 kg. No exercício máximo progressivo, esse valor pode chegar a 20–25 L/min em sedentários e até 35–40 L/min em atletas de endurance de elite — um aumento de 4 a 8 vezes. Esse incremento é obtido pela combinação de taquicardia (FC sobe de ~70 para 180–200 bpm) e elevação do VS (de ~70 para ~110–130 mL/batimento no exercício submáximo).</p>
+
+<h3>Mecanismos de aumento do VS no exercício</h3>
+
+<p><strong>Pré-carga aumentada:</strong> a contração rítmica dos músculos esqueléticos comprime as vênulas intramusculares, funcionando como bomba muscular. As válvulas venosas unidirecionais direcionam esse fluxo em sentido centrípeto, aumentando o retorno venoso ao átrio direito. Concomitantemente, a bomba respiratória — queda da pressão intratorácica na inspiração — aspira sangue para a veia cava e aumenta o enchimento do ventrículo direito. Pelo mecanismo de Frank-Starling, o estiramento diastólico aumentado resulta em maior VS.</p>
+
+<p><strong>Inotropismo aumentado:</strong> a ativação simpática libera noradrenalina em receptores β₁ miocárdicos, aumentando a sensibilidade da troponina C ao Ca²⁺ e acelerando a recaptação de Ca²⁺ pelo retículo sarcoplasmático (via fosfolambano fosforilado pela PKA). O resultado é uma curva de Frank-Starling deslocada para cima: para qualquer volume diastólico final, o VS é maior.</p>
+
+<p><strong>Redução da pós-carga:</strong> a vasodilatação metabólica nos músculos ativos reduz a RVP global, facilitando a ejeção. A PA sistólica sobe (por aumento do DC), mas a diastólica cai ou se mantém, refletindo a queda da resistência periférica.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>O modelo Frank-Starling implica que maior pré-carga sempre produz maior VS. No exercício muito intenso (&gt; 85% VO₂máx), a taquicardia extrema encurta tanto a diástole que o enchimento ventricular é comprometido — o VS pode <em>cair</em> mesmo com retorno venoso adequado. Além disso, o modelo pressupõe contratilidade constante, o que não ocorre: fadiga miocárdica pode reduzir o inotropismo em exercícios de longa duração (&gt; 3 horas), embora o mecanismo ainda seja debatido.</p>
+</div>
+
+<h3>Comando central e ajuste antecipatório</h3>
+
+<p>O aumento do DC no exercício não é apenas reflexo — ele é em grande parte <em>feedforward</em> (antecipatório). Neurônios motores no córtex motor enviam cópias eferentes (comando central) para o centro cardiovascular no bulbo, elevando FC e DC <em>antes</em> de qualquer alteração detectável de PA ou gases arteriais. Isso explica por que a FC sobe nos primeiros segundos do exercício, antes que os músculos tenham consumido O₂ suficiente para alterar a PO₂ arterial. O refinamento posterior é feito por ergoceptores musculares (fibras do grupo III/IV, sensíveis a metabólitos como H⁺, K⁺, adenosina e lactato) que sinalizam o estado metabólico periférico ao bulbo via nervos aferentes.</p>
+</section>
+
+<!-- REDISTRIBUIÇÃO DO FLUXO -->
+<section id="redistribuicao-fluxo">
+<h2>Redistribuição do fluxo sanguíneo no exercício</h2>
+
+<p>O aumento do DC no exercício não basta para suprir os músculos ativos se o fluxo não for redistribuído. Em repouso, a musculatura esquelética recebe ~15–20% do DC. No exercício máximo, recebe 80–85%. Essa redistribuição é feita por vasodilatação local nos músculos ativos e vasoconstricção mediada por simpático nos leitos esplâncnico, renal e cutâneo (inicialmente).</p>
+
+<table>
+  <thead>
+    <tr><th>Leito vascular</th><th>Repouso (% DC)</th><th>Exercício máximo (% DC)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Músculo esquelético</td><td>15–20%</td><td>80–85%</td></tr>
+    <tr><td>Coração</td><td>4–5%</td><td>4–5% (fluxo absoluto ↑↑)</td></tr>
+    <tr><td>Pele</td><td>8–10%</td><td>Variável: ↓ inicial, ↑↑ tardio</td></tr>
+    <tr><td>Rim</td><td>20%</td><td>2–4%</td></tr>
+    <tr><td>Esplâncnico</td><td>25%</td><td>3–5%</td></tr>
+    <tr><td>Cérebro</td><td>13–15%</td><td>3–4% (fluxo absoluto estável)</td></tr>
+  </tbody>
+</table>
+<p style="font-size:13px;color:var(--muted);margin-top:-10px">Tabela 1. Distribuição percentual do débito cardíaco em repouso e no exercício máximo. Fonte: Rowell (1993), modificado.</p>
+
+<h3>Vasodilatação metabólica local</h3>
+
+<p>No músculo ativo, a vasodilatação é iniciada por metabólitos que se acumulam com a atividade: CO₂, H⁺ (queda de pH), K⁺ extracelular, adenosina (produto da hidrólise do ATP), lactato e osmolaridade aumentada. Esses metabólitos agem diretamente sobre o músculo liso arteriolar, causando hiperpolarização via canais K⁺-ATP (sensíveis à adenosina e ao H⁺) e vasodilatação. O shear stress gerado pelo aumento de fluxo estimula eNOS no endotélio, liberando NO que amplifica e propaga a vasodilatação ao longo da arteríola (vasodilatação conduzida endotelial).</p>
+
+<p>O resultado é uma redução dramática da resistência vascular muscular — de ~30 unidades de resistência em repouso para 1–2 unidades no pico do exercício — que por si só reduziria a PA sistêmica se o coração não elevasse proporcionalmente o DC. É essa corrida entre aumento do DC e queda da resistência periférica que determina o comportamento da PA durante o exercício progressivo.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — vasodilatação simpática ativa</div>
+  <p>Por décadas o modelo dominante atribuía a vasodilatação muscular exclusivamente a metabólitos locais, com o simpático apenas "liberando o freio" (retirando vasoconstricção basal). Evidências mais recentes sugerem que fibras simpáticas colinérgicas podem liberar acetilcolina → NO endotelial nos vasos musculares — a chamada vasodilatação simpática ativa. Em humanos, esse componente é provavelmente pequeno; em roedores, é mais evidente. O debate sobre sua relevância funcional no exercício humano permanece aberto.</p>
+</div>
+</section>
+
+<!-- VASODILATAÇÃO CUTÂNEA -->
+<section id="vasodilatacao-cutanea">
+<h2>Vasodilatação cutânea e termorregulação</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1930s–1960s</span>
+  Sir Thomas Lewis e colaboradores demonstraram na década de 1930 que o rubor cutâneo ao calor não era mediado apenas pela retirada da vasoconstricção adrenérgica — havia um componente ativo, abolido pela atropina (bloqueador muscarínico) mas não pela simpatectomia química com guanetidina. Décadas depois, Roddie, Shepherd e Whelan (1957) quantificaram o fluxo cutâneo por pletismografia venosa e confirmaram a existência de dois mecanismos distintos: passivo (retirada de noradrenalina) e ativo (fibras simpáticas colinérgicas).
+</div>
+
+<p>A pele é o maior órgão termorregulador do corpo. Em repouso termoneutro, recebe ~300–500 mL/min. No exercício intenso em ambiente quente, esse valor pode atingir 6–8 L/min — cerca de 25–30% do DC total — para dissipar calor suficiente. Essa demanda competitiva entre músculo ativo e pele cria o chamado conflito cardiovascular: o coração precisa suprir simultaneamente leitos que competem pelo mesmo débito.</p>
+
+<h3>Dois mecanismos de vasodilatação cutânea</h3>
+
+<p><strong>1. Vasodilatação passiva (retirada de vasoconstricção adrenérgica):</strong> em condições frias, as arteríolas cutâneas estão sob vasoconstricção tônica mediada por fibras simpáticas adrenérgicas (α₁). O aquecimento central inibe esses neurônios — menos noradrenalina → menos contração do músculo liso → vasodilatação. Esse mecanismo opera principalmente no frio e em temperaturas moderadas e é responsável pelo primeiro grau de vasodilatação cutânea.</p>
+
+<p><strong>2. Vasodilatação ativa:</strong> em hipertermia significativa (temperatura central &gt; 37,5°C), um segundo mecanismo é recrutado: fibras simpáticas colinérgicas especializadas liberam acetilcolina e co-transmissores (VIP — peptídeo vasoativo intestinal, e CGRP — peptídeo relacionado ao gene da calcitonina) que causam dilatação marcada das vênulas e arteríolas cutâneas. O NO endotelial é necessário — bloqueadores de NOS reduzem em ~30% a vasodilatação cutânea ativa. Esse mecanismo é responsável pela maior parte do rubor intenso do exercício e não é bloqueado pela simpatectomia adrenérgica, mas é abolido pela simpatectomia total da pele.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal — vasodilatação ativa cutânea</div>
+  <p>Vasodilatação cutânea ativa é o aumento do fluxo sanguíneo cutâneo mediado por fibras simpáticas colinérgicas e seus co-transmissores (VIP, CGRP), independente da retirada de vasoconstricção adrenérgica, ocorrendo em resposta ao aumento da temperatura corporal central. Distingue-se funcionalmente da vasodilatação passiva pela latência mais longa (minutos, não segundos), pela dependência de temperatura central &gt; 37,5°C e pela sensibilidade ao bloqueio colinérgico.</p>
+</div>
+
+<h3>Implicações hemodinâmicas do calor</h3>
+
+<p>Quando o fluxo cutâneo sobe abruptamente — como ao parar o exercício em ambiente quente — o volume sanguíneo "efetivo" disponível para o coração cai porque o leito cutâneo dilatado retém grande quantidade de sangue. As vênulas cutâneas são altamente distensíveis e funcionam como reservatório: a vasodilatação ativa aumenta sua capacitância (volume por unidade de pressão), deslocando sangue da circulação central para a periferia. Esse fenômeno, somado ao pooling venoso muscular pós-exercício, é um dos determinantes centrais da hipotensão pós-exercício.</p>
+
+<p>Além disso, o suor representa perda hídrica que pode chegar a 2 L/hora em exercício intenso — hipovolemia progressiva que reduz a pré-carga e o VS, contribuindo para o quadro hipotensivo.</p>
+</section>
+
+<!-- HIPOTENSÃO PÓS-EXERCÍCIO -->
+<section id="hipotensao-pos-exercicio">
+<h2>Hipotensão pós-exercício (HPE)</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1989</span>
+  Linda Pescatello e colaboradores publicaram em 1989 no <em>Hypertension</em> a primeira descrição sistemática da hipotensão pós-exercício em hipertensos: após 30 min de caminhada a 50% VO₂máx, a PA sistólica caiu em média 8 mmHg e permaneceu reduzida por 1–3 horas. O fenômeno, antes considerado clínico curiosidade, passou a ser estudado como mecanismo terapêutico da hipertensão. Meta-análises posteriores confirmaram a HPE como efeito robusto e reprodutível, mais pronunciado em hipertensos do que em normotensos.
+</div>
+
+<p>A HPE é definida como a queda da PA sistólica ≥ 10 mmHg e/ou da PA diastólica ≥ 5 mmHg em relação aos valores pré-exercício, persistindo por 30 minutos a 12 horas após o término do exercício. Em indivíduos hipertensos, a queda média da PA sistólica é de 10–20 mmHg; em normotensos, de 5–10 mmHg. O fenômeno é dose-dependente (exercício mais intenso e mais longo produz HPE maior) e mais marcado após exercício aeróbico do que resistido.</p>
+
+<h3>Mecanismos da HPE — múltiplas vias convergentes</h3>
+
+<p><strong>1. Vasodilatação muscular pós-exercício persistente:</strong> após o término do exercício, os metabólitos vasodilatadores (adenosina, K⁺, H⁺, NO) persistem nos tecidos musculares por 30–60 minutos. As arteríolas musculares continuam dilatadas, mantendo a RVP baixa. Esse é provavelmente o mecanismo mais importante e mais rápido.</p>
+
+<p><strong>2. Redistribuição venosa — pooling:</strong> com o fim do exercício, a bomba muscular cessa imediatamente. O sangue que estava sendo propelido centripetamente pelos músculos ativos agora permanece nas vênulas pós-capilares musculares, que estão dilatadas e com capacitância aumentada. Esse pooling reduz o retorno venoso ao coração, diminui a pré-carga e, pela lei de Frank-Starling, reduz o VS. A FC pode subir reflexamente, mas frequentemente não compensa inteiramente a queda do VS, resultando em queda do DC.</p>
+
+<p><strong>3. Vasodilatação cutânea persistente:</strong> a temperatura corporal central continua elevada por 20–40 minutos após o exercício (inércia térmica). O hipotálamo mantém o comando de vasodilatação cutânea ativa durante esse período, mantendo parte do leito cutâneo dilatado e reduzindo a resistência periférica.</p>
+
+<p><strong>4. Redução do tônus simpático pós-exercício:</strong> estudos com microneurografia (registro direto da atividade de nervos simpáticos em humanos por microeletrodo) demonstraram que a atividade nervosa simpática muscular (ANSM) cai abaixo dos valores de repouso por 60–90 minutos após exercício moderado. O mecanismo não está totalmente esclarecido, mas envolve opióides endógenos (β-endorfina) liberados durante o exercício e peptídeos natriuréticos (BNP, ANP) que inibem o centro cardiovascular bulbar.</p>
+
+<p><strong>5. Vasodilatação mediada por prostaglandinas:</strong> o exercício estimula a síntese de prostaglandinas vasodilatadoras (PGI₂, PGE₂) pelo endotélio muscular. A meia-vida dessas prostaglandinas é de horas, mantendo vasodilatação arteriolar mesmo após cessação do esforço. Estudos com indometacina (inibidor de COX) reduzem parcialmente a HPE, confirmando esse componente.</p>
+
+<p><strong>6. Hipovolemia relativa por suor:</strong> a perda hídrica pelo suor não é reposta instantaneamente — o volume plasmático permanece reduzido nas primeiras horas após exercício prolongado, contribuindo com queda do VS por redução de pré-carga.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo — HPE multifatorial</div>
+  <p>A contribuição relativa de cada mecanismo varia com a intensidade e duração do exercício, o estado de treinamento, a temperatura ambiente e o estado de hidratação. Não existe um mecanismo único dominante: estudos que bloqueiam seletivamente prostaglandinas, opióides ou NO conseguem atenuar a HPE parcialmente, mas nunca abolir completamente — indicando convergência e redundância entre as vias. Isso torna difícil prever a magnitude da HPE em um indivíduo específico apenas pela fisiopatologia.</p>
+</div>
+</section>
+
+<!-- BARORREFLEXO -->
+<section id="barorreflexo">
+<h2>Barorreflexo — arco completo</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1866–1923</span>
+  Étienne-Jules Marey descreveu em 1866 a relação inversa entre PA e FC (lei de Marey): quando a PA sobe, a FC cai. O mecanismo foi esclarecido por Heinrich Hering e Carl Ludwig nas décadas seguintes. Em 1923, Hering identificou os nervos do seio carotídeo como portadores do sinal aferente — o nervo de Hering (ramo do glossofaríngeo). Francis Bainbridge havia descrito em 1915 o reflexo oposto: aumento do volume venoso → taquicardia (reflexo de Bainbridge ou cardiopulmonar), integrando o controle cardíaco em ambas as direções.
+</div>
+
+<p>O barorreflexo arterial é o principal mecanismo de controle a curto prazo da PA. Opera em escala de segundos e é capaz de amortecer variações agudas de PA com notável precisão. Não é, porém, um regulador de nível absoluto — ele se adapta ao nível de PA vigente (fenômeno de <em>resetting</em>), o que é fundamental para entender por que falha em corrigir completamente a HPE.</p>
+
+<h3>Braço aferente — detecção da PA</h3>
+
+<p>Os <strong>barorreceptores arteriais</strong> são terminações nervosas mecanossensíveis localizadas na parede da aorta (arco aórtico) e nos seios carotídeos (bifurcação da carótida comum). Estruturalmente, são terminações não-mielinizadas ou levemente mielinizadas (fibras Aδ e C) envoltas em tecido elástico. O mecanismo de transdução é mecanoelétrico: o estiramento da parede arterial pela pressão de pulso distorce a membrana das terminações nervosas, abrindo canais iônicos mecanossensíveis (possivelmente da família Piezo), gerando potenciais de receptor que disparam potenciais de ação.</p>
+
+<p>A frequência de disparo aumenta linearmente com a PA dentro de uma faixa de operação — tipicamente 60–180 mmHg — e é sensível tanto ao nível médio de PA quanto à taxa de variação (dP/dt): variações rápidas geram resposta mais intensa. Abaixo do limiar (~60 mmHg), as fibras silenciam; acima do teto (~180 mmHg), saturam. Os sinais aferentes trafegam pelo nervo de Hering (ramo do glossofaríngeo IX, dos seios carotídeos) e pelo nervo de Cyon e Ludwig / nervo depressor aórtico (ramo do vago X, do arco aórtico).</p>
+
+<h3>Centro de integração — núcleo do trato solitário (NTS)</h3>
+
+<p>As fibras aferentes barorreceptoras fazem sinapse no <strong>núcleo do trato solitário</strong> (NTS), na medula oblonga dorsomedial. O NTS é o primeiro relé de praticamente toda aferência visceral cardiovascular e respiratória. Os neurônios do NTS liberam glutamato como neurotransmissor excitatório principal e projetam para dois destinos funcionalmente opostos:</p>
+
+<p><strong>a) Núcleo ambíguo e núcleo motor dorsal do vago (DMNV):</strong> neurônios parassimpáticos pré-ganglionares que, ao serem ativados, liberam acetilcolina nos gânglios intrínsecos cardíacos → acetilcolina em receptores M₂ do nó sinoatrial → abertura de canais K⁺ (IKACh) → hiperpolarização → bradicardia. Esse caminho é excitado pelo NTS quando a PA está alta.</p>
+
+<p><strong>b) Área rostroventrolateral do bulbo (RVLM):</strong> neurônios simpáticos pré-ganglionares tonicamente ativos que mantêm a vasoconstricção basal. O NTS, via interneurônios inibitórios no núcleo ventrolateral caudal (CVLM), inibe a RVLM quando a PA está alta. Inibição da RVLM → menos noradrenalina → vasodilatação + redução da contratilidade cardíaca.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal — RVLM</div>
+  <p>A área rostroventrolateral do bulbo (RVLM) é a principal região geradora de tônus simpático cardiovascular em mamíferos. Seus neurônios C1 (colocalizando noradrenalina e adrenalina) são tonicamente ativos e responsáveis pela vasoconstricção basal de repouso. A RVLM recebe inibição do NTS (via barorreflexo) e excitação de múltiplas regiões hipotalâmicas e corticais. Lesão bilateral da RVLM causa colapso cardiovascular irreversível — confirmando seu papel de marca-passo simpático central.</p>
+</div>
+
+<h3>Braço eferente — resposta cardiovascular</h3>
+
+<p>O braço eferente simpático desce pela medula espinal, faz sinapse no gânglio simpático (cadeia paravertebral e gânglios pré-vertebrais) e libera noradrenalina em três alvos principais: coração (β₁ → cronotropismo e inotropismo positivo), vasos de resistência (α₁ → vasoconstricção arteriolar) e vasos de capacitância (α₁ → vasoconstricção venular → aumento do retorno venoso). O braço eferente parassimpático age predominantemente no coração via nervos vagos bilaterais.</p>
+
+<p>A resposta integrada a uma queda de PA é: (1) redução da frequência de disparo dos barorreceptores → (2) menor ativação do NTS → (3) menor inibição da RVLM + menor ativação vagal → (4) taquicardia reflexa + vasoconstricção generalizada + aumento do inotropismo → (5) restauração da PA. Em humanos saudáveis, esse arco opera em &lt; 1 segundo e pode compensar quedas agudas de 20–30 mmHg em 5–10 segundos.</p>
+
+<h3>Ganho e resetting do barorreflexo</h3>
+
+<p>O <strong>ganho</strong> do barorreflexo é a variação da FC (ou ANSM) por unidade de variação da PA — tipicamente expresso como ms de intervalo RR por mmHg. Em adultos jovens, o ganho barorreflex cardíaco é de 15–25 ms/mmHg. O treinamento aeróbico aumenta o ganho (maior sensibilidade); a idade e a hipertensão crônica o reduzem.</p>
+
+<p>O <strong>resetting</strong> é a capacidade do barorreflexo de se adaptar a um novo nível de PA operacional. Se a PA sobe cronicamente (hipertensão), os barorreceptores "reajustam" seu ponto de operação para o nível mais alto — passam a disparar com menor frequência na PA elevada, como se aquele fosse o novo "normal". Esse fenômeno é mediado tanto por adaptação mecânica da parede arterial (rigidez aumentada atenua a transdução) quanto por alterações na excitabilidade central do NTS. O resetting ocorre também em curto prazo — no exercício, o ponto de operação do barorreflexo é "reajustado" para cima pelo comando central, permitindo que a PA e a FC subam sem que o reflexo tente contrariá-las.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo — barorreflexo não corrige HPE completamente</div>
+  <p>O barorreflexo detecta a queda de PA na HPE e tenta compensar com taquicardia e vasoconstricção. Por que falha em restaurar a PA completamente? Dois motivos principais: (1) <em>resetting</em> pós-exercício — o ponto de operação do barorreflexo permanece levemente rebaixado por 30–60 min após o exercício, possivelmente por opióides endógenos e prostaglandinas que modulam o NTS, reduzindo o ganho do reflexo; (2) os vasodilatadores metabólicos locais (adenosina, K⁺, NO) nos músculos e pele contrapõem-se à vasoconstricção mediada pelo simpático — é uma batalha entre vasodilatação local e vasoconstricção central, e o local frequentemente vence nos leitos ativos. O barorreflexo consegue impedir um colapso, mas não restaura a PA ao nível pré-exercício até que os metabólitos sejam eliminados e a temperatura central caia.</p>
+</div>
+</section>
+
+<!-- REFLEXO DE IMERSÃO -->
+<section id="reflexo-imersao">
+<h2>Reflexo de imersão — <em>diving reflex</em></h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1870</span>
+  Paul Bert observou em 1870 que patos submersos apresentavam bradicardia extrema, mantendo o consumo de O₂ cerebral às custas de vasoconstricção periférica intensa. A resposta foi depois sistematizada por Johan Schreiner e Laurence Irving como "resposta de mergulho" — conservação seletiva de O₂ para coração e cérebro durante apneia subaquática. Em humanos, foi descrita por Claude Lenfant e colaboradores em 1961, com bradicardia de até 50% da FC basal em mergulhadores experientes.
+</div>
+
+<p>O reflexo de imersão é uma resposta autonômica coordenada disparada por dois estímulos concomitantes: <strong>apneia</strong> (ausência de ventilação pulmonar) e <strong>imersão facial em água fria</strong>. Ambos os estímulos são necessários — a água fria sozinha ou a apneia sozinha produzem respostas menores. Em animais mergulhadores (focas, pinguins, cetáceos), o reflexo é muito mais pronunciado e permite apneias de dezenas de minutos.</p>
+
+<h3>Arco aferente do reflexo de imersão</h3>
+
+<p>O principal estímulo aferente é o resfriamento e o contato aquático com a pele da face, especialmente da região periorbital e nasal (território do ramo oftálmico do trigêmeo, V₁). Os receptores frios (TRPM8) da face geram impulsos que trafegam pelo nervo trigêmeo (V) até o núcleo sensitivo do trigêmeo no tronco encefálico, que projeta para o NTS e para o centro respiratório bulbar. A apneia retira o estímulo respiratório inibitório sobre os neurônios vagais, liberando o tônus parassimpático cardíaco.</p>
+
+<h3>Resposta eferente — bradicardia e vasoconstricção</h3>
+
+<p><strong>Bradicardia vagal:</strong> o NTS ativa os neurônios do núcleo ambíguo e DMNV → aumento do tônus vagal cardíaco → bradicardia. A FC pode cair de 20% a 50% em relação ao valor pré-imersão em humanos treinados, chegando a 30–40 bpm em mergulhadores experientes. Em neonatos e crianças pequenas, a resposta é mais intensa — bradicardia abaixo de 60 bpm é possível.</p>
+
+<p><strong>Vasoconstricção periférica:</strong> concomitantemente, a ativação simpática aumenta o tônus α₁ nos vasos de resistência dos membros (músculo esquelético, pele, vísceras), elevando a RVP. O fluxo é redirecionado seletivamente para coração e cérebro — os únicos leitos com autorregulação metabólica capaz de manter fluxo adequado mesmo com vasoconstrição periférica generalizada.</p>
+
+<p>O resultado hemodinâmico é paradoxal: a FC cai (reduzindo o DC) mas a PA pode se manter ou até subir levemente (pelo aumento da RVP). Em mergulhadores com apneia prolongada, o DC pode cair para 30–40% do valor de repouso enquanto coração e cérebro continuam sendo perfundidos adequadamente.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo — variabilidade humana</div>
+  <p>Em humanos, a magnitude do reflexo de imersão é muito variável: em estudos controlados, a bradicardia varia de 5% a 50% da FC basal entre indivíduos sob condições idênticas. Fatores modulatórios incluem temperatura da água (mais frio → reflexo mais intenso), área de imersão facial, treinamento em apneia, idade (crianças &gt; adultos) e estado autonômico basal. A resposta de vasoconstricção periférica é mais consistente do que a bradicardia. Não há evidência de que o reflexo de imersão em humanos gere apneias terapeuticamente úteis — sua função fisiológica predominante pode ser mais protetora durante submersão acidental do que para mergulho voluntário.</p>
+</div>
+</section>
+
+<!-- INTERAÇÃO EXERCÍCIO + IMERSÃO -->
+<section id="interacao-exercicio-imersao">
+<h2>Interação exercício + banho de chuva + imersão — por que a pressão caiu</h2>
+
+<p>O cenário — vôlei intenso, seguido de chuva fria, seguido de imersão em piscina — é um exemplo de três perturbações hemodinâmicas sequenciais com efeitos em parte opostos e em parte sobrepostos. Entender a soma desses efeitos exige analisar cada transição.</p>
+
+<h3>Fase 1 — durante o vôlei</h3>
+
+<p>O exercício intenso (vôlei é exercício aeróbico intervalado com picos de esforço máximo em saltos e deslocamentos rápidos) eleva o DC para 3–5× o repouso, redistribui fluxo para os músculos ativos, eleva a temperatura corporal e inicia vasodilatação cutânea ativa progressiva. A PA sistólica sobe (maior DC), mas a diastólica cai ou se mantém (maior vasodilatação periférica). O barorreflexo está em <em>resetting</em> para cima — a taquicardia e a elevação da PA são toleradas e necessárias.</p>
+
+<h3>Fase 2 — cessação do exercício e chuva fria</h3>
+
+<p>Ao parar o vôlei, a bomba muscular cessa abruptamente. O pooling venoso muscular e cutâneo instala-se em segundos — retorno venoso cai → pré-carga cai → VS cai → DC cai. A HPE começa a se instalar. A chuva fria sobre a pele causa vasoconstrição cutânea reflexa por dois mecanismos: (1) resfriamento local ativa receptores frios (TRPM8) que disparam vasoconstrição α₁ simpática via reflexo axonal e reflexo espinal; (2) a queda da temperatura cutânea reduz a demanda de dissipação de calor, retirando o comando hipotalâmico de vasodilatação ativa. Essa vasoconstricção cutânea aguda pelo frio aumenta transitoriamente o retorno venoso e pode atenuar momentaneamente a HPE — o sangue que estava no leito cutâneo é "espremido" de volta à circulação central.</p>
+
+<p>No entanto, a temperatura corporal central ainda está elevada — o calor acumulado nos músculos e no núcleo não é dissipado instantaneamente pelo frio externo. O hipotálamo continua detectando hipertermia central e pode reiniciar vasodilatação cutânea ativa assim que o estímulo frio superficial diminuir.</p>
+
+<h3>Fase 3 — imersão na piscina</h3>
+
+<p>A imersão dispara o reflexo de imersão: o contato da face com água fria ativa receptores trigeminais → bradicardia vagal + vasoconstricção periférica. O reflexo de imersão, isoladamente, deveria <em>aumentar</em> a PA por vasoconstricção. Porém, há um conflito com o estado pós-exercício:</p>
+
+<p>A vasoconstricção simpática do reflexo de imersão compete com a vasodilatação metabólica muscular residual (que persiste por 30–60 min). Nos músculos que acabaram de trabalhar, os metabólitos vasodilatadores (adenosina, K⁺, NO) superam o estímulo adrenérgico central — fenômeno conhecido como <strong>simpaticólise funcional</strong>: a capacidade do simpático de produzir vasoconstricção muscular está atenuada após exercício intenso porque os vasodilatadores locais abrem canais K⁺ e hiperpolarizam o músculo liso, reduzindo a sensibilidade à noradrenalina.</p>
+
+<p>Ao mesmo tempo, a bradicardia do reflexo de imersão reduz a FC que estava compensando parcialmente a queda do VS pós-exercício (taquicardia reflexa do barorreflexo). Quando a bradicardia vagal sobrepõe-se a uma FC já elevada por barorreflexo, o DC pode cair de forma mais pronunciada.</p>
+
+<div class="kbox">
+  <div class="klabel">Síntese — por que a tontura ocorreu</div>
+  <p>A hipotensão com tontura resulta da soma de: (1) pooling venoso pós-exercício → queda de VS; (2) vasodilatação metabólica residual muscular → queda de RVP, resistente à vasoconstricção simpática (simpaticólise funcional); (3) hipovolemia relativa por suor; (4) bradicardia do reflexo de imersão → queda adicional de DC; (5) barorreflexo em resetting pós-exercício com ganho reduzido — incapaz de compensar inteiramente. O sistema nervoso periférico "enviou" a PA para baixo por múltiplas vias simultâneas que o barorreflexo, atuando isolado, não conseguiu contrabalançar.</p>
+</div>
+
+<h3>Simpaticólise funcional — mecanismo detalhado</h3>
+
+<p>A simpaticólise funcional (<em>functional sympatholysis</em>) é a atenuação da vasoconstricção adrenérgica no músculo ativo. Descoberta por Remensnyder, Mitchell e Sarnoff em 1962 e extensamente estudada por Mark Joyner e colegas nas décadas seguintes, é mediada por:</p>
+
+<ul>
+  <li><strong>Adenosina:</strong> ativa receptores A₁ e A₂a no músculo liso arteriolar, abrindo canais K⁺-ATP → hiperpolarização → vasodilatação que compensa α₁.</li>
+  <li><strong>K⁺ extracelular:</strong> hiperpolariza o músculo liso via Na⁺/K⁺-ATPase e canais K⁺ de retificação interna.</li>
+  <li><strong>Óxido nítrico:</strong> gerado pelo shear stress e pela contração muscular; ativa PKG → desfosforila MLCK (quinase de cadeia leve de miosina) → relaxamento.</li>
+  <li><strong>Prostaglandinas (PGI₂):</strong> ativam receptores IP acoplados a Gs → ↑ AMPc → PKA → vasodilatação.</li>
+</ul>
+
+<p>Em conjunto, esses mediadores deslocam a curva dose-resposta da noradrenalina para a direita nos vasos musculares — é necessária muito mais noradrenalina para produzir o mesmo grau de vasoconstricção que ocorreria em músculo em repouso. Após o exercício intenso, esse estado persiste enquanto os metabólitos são eliminados (30–60 minutos), criando uma janela de vulnerabilidade hipotensiva mesmo com atividade simpática aumentada.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões com outros temas</h2>
+
+<p><strong>SRAA e controle da PA a longo prazo:</strong> o barorreflexo controla a PA segundo a segundo; o <a class="cross-link" href="../farmacologia/hipertensao_sraa_anti-hipertensivos.html#sraa-cascata">SRAA</a> o faz em escala de minutos a dias, principalmente regulando o volume plasmático via aldosterona e retenção de Na⁺. A HPE pode reduzir a atividade do SRAA indiretamente — exercício crônico diminui a atividade de renina plasmática em hipertensos, contribuindo para o efeito anti-hipertensivo do treinamento.</p>
+
+<p><strong>Choque distributivo:</strong> a HPE intensa é funcionalmente similar ao choque distributivo — queda da RVP com DC inicialmente compensador. Em atletas bem hidratados, o sistema compensa. Em indivíduos vulneráveis (hipovolêmicos, com disfunção autonômica, idosos com barorreflexo atenuado), a mesma sequência pode evoluir para síncope vasovagal ou, raramente, para colapso cardiovascular. A fronteira entre HPE fisiológica e patológica é a capacidade do barorreflexo de compensar.</p>
+
+<p><strong>Hipotensão ortostática:</strong> mecanismo parcialmente sobreposto — insuficiência do barorreflexo em compensar a queda de retorno venoso ao mudar de posição. O pooling pós-exercício agrava a ortostase, razão pela qual é recomendado "desaquecer" progressivamente após exercício intenso, mantendo movimento leve para preservar a bomba muscular.</p>
+
+<p><strong>Farmacologia — β-bloqueadores e HPE:</strong> β-bloqueadores usados em hipertensos bloqueiam a taquicardia compensatória do barorreflexo. Em usuários de β-bloqueadores, o exercício pode não elevar a FC adequadamente e a HPE pode ser mais pronunciada pois a compensação cronotrópica é abolida.</p>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 1</div>
+  <p>Qual é o mecanismo exato do <em>resetting</em> do barorreflexo no exercício? Sabe-se que o ponto de operação se desloca para cima durante o esforço e se normaliza gradualmente após, mas a sinalização molecular que instrui o NTS a tolerar PA mais alta (e FC mais alta) durante o exercício permanece mal compreendida. Opióides endógenos, prostaglandinas e command central são candidatos, mas nenhum estudo bloqueou todos simultaneamente com resultados definitivos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 2</div>
+  <p>A simpaticólise funcional é o resultado de vasodilatação local competindo com vasoconstricção central, ou existe também supressão central do tônus simpático muscular durante e após o exercício? Microneurografia mostra queda da ANSM pós-exercício, sugerindo componente central, mas a contribuição relativa dos dois mecanismos não está quantificada de forma consistente entre estudos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 3</div>
+  <p>O reflexo de imersão em humanos tem função protetora clinicamente relevante? Em neonatos submersos acidentalmente em água fria, casos de sobrevivência após &gt; 30 min foram documentados — o reflexo de imersão é o principal mecanismo proposto. Em adultos, a magnitude do reflexo é variável e modesta. Não está claro se o treinamento voluntário (apneístas) modifica o reflexo por adaptação central ou por condicionamento autonômico periférico.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 4</div>
+  <p>A HPE pode ser explorada terapeuticamente de forma mais precisa? Meta-análises mostram que exercício aeróbico reduz a PA em hipertensos por efeito agudo (HPE acumulada) e crônico (adaptações estruturais vasculares). Porém, não existe protocolo individualizado que maximize a HPE sem risco de síncope — a fronteira segura entre HPE terapêutica e HPE sintomática não foi definida por fenótipo autonômico.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 5</div>
+  <p>Qual é a contribuição da vasodilatação simpática ativa (fibras colinérgicas musculares) no humano durante exercício real? Estudos em roedores mostram componente significativo; estudos em humanos com microneurografia e bloqueio colinérgico seletivo dão resultados conflitantes. O debate sobre se humanos possuem inervação simpática colinérgica funcional nos vasos musculares ou se esse traço evolutivo foi perdido permanece sem consenso.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>A pergunta motivadora pede que se explique por que, após vôlei intenso, banho de chuva e imersão em piscina, a pressão arterial caiu. A resposta, construída ao longo deste compêndio, é que o evento foi a soma de cinco perturbações simultâneas sobre um sistema de controle autonômico já sobrecarregado.</p>
+
+<p>O exercício intenso esgotou a capacidade do barorreflexo de manter o ponto de operação em nível normal — o sistema estava em resetting para cima durante o esforço e precisa de tempo (30–60 min) para retornar ao set point de repouso. Ao parar o exercício, o pooling venoso e a vasodilatação residual instalaram-se antes que o barorreflexo pudesse reajustar seu ganho. A chuva produziu vasoconstrição cutânea transitória, mas não suficiente para compensar a queda de retorno venoso muscular. A imersão adicionou bradicardia vagal por reflexo de imersão — justamente quando o sistema dependia de taquicardia compensatória para manter o DC diante de um VS reduzido. E a simpaticólise funcional tornou o leito muscular resistente à vasoconstricção simpática que o barorreflexo tentava impor.</p>
+
+<p>O paradoxo fundamental desse quadro é que o sistema nervoso autônomo estava funcionando corretamente em cada componente — o barorreflexo detectou a queda e tentou compensar, o reflexo de imersão funcionou como esperado, o simpático disparou adequadamente. O problema não foi falha de um mecanismo, mas a confluência de perturbações múltiplas que ultrapassaram a capacidade integrativa de um sistema projetado para lidar com perturbações isoladas. Sistemas de controle fisiológico têm ganho finito — quando múltiplos distúrbios convergem simultaneamente, a soma pode superar a capacidade de compensação mesmo com todos os reflexos intactos.</p>
+
+<p>A implicação prática é direta: após exercício intenso, especialmente em calor, resfriamento abrupto e imersão devem ser feitos gradualmente e com movimentação ativa dos membros para preservar a bomba muscular. A postura ortostática imediata é o maior fator de risco para síncope pós-exercício — deitar ou sentar com as pernas elevadas após o esforço é suficiente para reverter o pooling e restaurar o retorno venoso em minutos.</p>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<p><strong>Rang &amp; Dale's Pharmacology, 10ª ed. — Capítulos sobre SNA e farmacologia cardiovascular</strong> <span style="font-size:11px;color:var(--ac);font-family:var(--font-ui);background:var(--ac2bg);border:1px solid var(--ac2);border-radius:12px;padding:2px 8px;margin-left:6px">VOCÊ TEM</span><br>
+Capítulos 14 (sistema nervoso autônomo) e 21–22 (fármacos cardiovasculares) — melhor introdução farmacológica ao controle autonômico com mecanismo molecular claro.</p>
+
+<p><strong>Rowell LB — Human Cardiovascular Control (1993, Oxford University Press)</strong><br>
+O livro de referência sobre controle cardiovascular no exercício e no calor. Capítulos 3 (barorreflexo), 8 (vasodilatação cutânea) e 11 (integração no exercício) são densos mas insuperáveis em profundidade mecanística.</p>
+
+<p><strong>Pescatello LS et al. — "Exercise and hypertension" (Medicine &amp; Science in Sports &amp; Exercise, 2004)</strong><br>
+Posicionamento do ACSM sobre HPE e exercício como anti-hipertensivo. Disponível em acesso aberto via PubMed.</p>
+
+<p><strong>Joyner MJ, Dietz NM — "Nitric oxide and vasodilation in human limbs" (Journal of Applied Physiology, 1997)</strong><br>
+Artigo seminal sobre o papel do NO na vasodilatação funcional muscular e na simpaticólise. Acesso aberto.</p>
+
+<p><strong>Dyckman DJ, Ray CA — "Human trigeminocardiac reflex" (American Journal of Physiology, 2012)</strong><br>
+Revisão sobre o reflexo trigeminocardíaco e sua relação com o reflexo de imersão em humanos.</p>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências ABNT</h2>
+
+<p>BOULPAEP, E. L.; BORON, W. F. (ed.). <strong>Medical Physiology</strong>. 3. ed. Philadelphia: Elsevier, 2017.</p>
+
+<p>DYCKMAN, D. J.; RAY, C. A. Human trigeminocardiac reflex. <strong>American Journal of Physiology — Heart and Circulatory Physiology</strong>, v. 304, n. 9, p. H1-H8, 2012. DOI: <a href="https://doi.org/10.1152/ajpheart.00500.2012" target="_blank" rel="noopener" style="color:var(--ac)">10.1152/ajpheart.00500.2012</a></p>
+
+<p>JOYNER, M. J.; DIETZ, N. M. Nitric oxide and vasodilation in human limbs. <strong>Journal of Applied Physiology</strong>, v. 83, n. 6, p. 1785–1796, 1997. DOI: <a href="https://doi.org/10.1152/jappl.1997.83.6.1785" target="_blank" rel="noopener" style="color:var(--ac)">10.1152/jappl.1997.83.6.1785</a></p>
+
+<p>PESCATELLO, L. S. et al. Exercise and hypertension. <strong>Medicine &amp; Science in Sports &amp; Exercise</strong>, v. 36, n. 3, p. 533–553, 2004. DOI: <a href="https://doi.org/10.1249/01.MSS.0000115224.88514.3A" target="_blank" rel="noopener" style="color:var(--ac)">10.1249/01.MSS.0000115224.88514.3A</a></p>
+
+<p>RANG, H. P. et al. <strong>Rang &amp; Dale's Pharmacology</strong>. 10. ed. Edinburgh: Elsevier, 2023.</p>
+
+<p>ROWELL, L. B. <strong>Human Cardiovascular Control</strong>. New York: Oxford University Press, 1993.</p>
+
+<p>SERAVALLE, G.; GRASSI, G. Sympathetic nervous system and hypertension: new evidences from direct microneurographic recordings. <strong>Current Hypertension Reports</strong>, v. 22, n. 3, p. 24, 2020. DOI: <a href="https://doi.org/10.1007/s11906-020-1033-9" target="_blank" rel="noopener" style="color:var(--ac)">10.1007/s11906-020-1033-9</a></p>
+
+<p>TSCHAKOVSKY, M. E.; JOYNER, M. J. Nitric oxide and muscle blood flow in exercise. <strong>Applied Physiology, Nutrition, and Metabolism</strong>, v. 33, n. 1, p. 151–161, 2008. DOI: <a href="https://doi.org/10.1139/H07-148" target="_blank" rel="noopener" style="color:var(--ac)">10.1139/H07-148</a></p>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<!-- MOBILE BAR -->
+<div id="mob-bar">
+  <button id="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">Hipotensão Pós-Exercício e Barorreflexo</span>
+</div>
+
+<script>
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const sInner = document.querySelector('.s-inner');
+
+function setSidebar(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.textContent = '▶';
+    sessionStorage.setItem('sidebar-collapsed', '1');
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    toggleBtn.textContent = '◀';
+    sessionStorage.setItem('sidebar-collapsed', '0');
+  }
+}
+
+if (sessionStorage.getItem('sidebar-collapsed') === '1') setSidebar(true);
+
+toggleBtn.addEventListener('click', () => {
+  setSidebar(!sidebar.classList.contains('collapsed'));
+});
+
+// Progress bar
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const pct = document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+// Sidebar active link + section highlight
+const sections = document.querySelectorAll('section[id]');
+const sideLinks = document.querySelectorAll('a.sl');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      sideLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+const observer2 = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    entry.target.classList.toggle('in-view', entry.isIntersecting);
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer2.observe(s));
+</script>
+
+<style>
+section.in-view > h2 { color: var(--ac); transition: color .3s; }
+</style>
+
+</body>
+</html>
