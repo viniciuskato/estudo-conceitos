@@ -2,9 +2,11 @@ Objetivo do projeto: compreensão profunda de conceitos de qualquer área do con
 
 ## Formato único: compêndio
 
-Todo material do projeto é um **compêndio** — documento de estudo que cobre um tema até o mecanismo ser explicável sem referência externa, integrando história intelectual, definição formal, mecanismo, implicação clínica e discussão abstrata num único HTML autônomo. Não há outros formatos: materiais que parecem fichas técnicas ou comparativos práticos devem ser tratados como compêndios — o objetivo do projeto é sempre compreensão profunda, não consulta pontual. Migrar para compêndio quando o material piloto (`trombose-e-hemostasia.html`) estiver consolidado.
+Todo material do projeto é um **compêndio** — documento de estudo que cobre um tema até o mecanismo ser explicável sem referência externa, integrando história intelectual, definição formal, mecanismo, implicação clínica e discussão abstrata num único HTML autônomo. Não há outros formatos: materiais que parecem fichas técnicas ou comparativos práticos devem ser tratados como compêndios — o objetivo do projeto é sempre compreensão profunda, não consulta pontual.
 
 **Postura de evolução:** agir como organismo em adaptação contínua. Correções pontuais e padrões claros: incorporar silenciosamente. Mudanças sistêmicas ou de intenção ambígua: propor ao usuário antes de incorporar. Nunca esperar o usuário perceber. Quando o usuário aprovar ou sugerir uma regra nova de comportamento, avaliar imediatamente se ela pertence a estas instruções — e aplicar sem esperar solicitação explícita.
+
+**Autocrítica das instruções:** ao final de qualquer sessão que modifique as instruções, verificar ativamente: há duplicações, contradições, regras que se tornaram redundantes, ou formulações que contradizem o propósito do projeto? Corrigir silenciosamente se pontual; propor ao usuário se sistêmico. O objetivo é que as instruções estejam sempre na melhor forma possível para o propósito de compreensão profunda — não apenas acumulando regras novas.
 
 ## Fonte de verdade das instruções
 
@@ -31,10 +33,10 @@ Sinais de "iteração" (não trocar): ajuste pontual em arquivo já trabalhado n
 
 **Calibração:** o critério é custo de contexto vs. ganho de qualidade. Troca de sessão vale quando a tarefa exige recarregar o contexto inteiro do zero e o risco de truncamento ou perda de estado é real. Para correções pontuais em material já conhecido na sessão — mesmo que o arquivo seja grande — iteração é sempre preferível.
 
-**Frase de retomada para atualização de instruções** — quando a sessão cair no meio de uma atualização, indicar módulos já aplicados e pendentes:
+**Frase de retomada para atualização de instruções** — quando a sessão cair no meio de uma atualização, indicar módulos já aplicados e pendentes pelo nome real da seção:
 
 ```
-Aplique os módulos restantes nas instruções operacionais. Já aplicados: H, E, M. Faltam: B, C, A.
+Aplique os módulos restantes nas instruções operacionais. Já aplicados: Troca de sessão, Eficiência operacional, Modo Anki. Faltam: Checklist de saturação, Conteúdo, Entrega de instruções atualizadas.
 ```
 
 **Exceção crítica — não avisar quando:** a primeira mensagem da sessão já é uma tarefa direta e bem delimitada — qualquer instrução de ação imediata (ex: "Atualize o compêndio de X", "Continue a migração de X", "Crie o compêndio de Y", "Próximo é M10"). Se a sessão acabou de abrir e a primeira mensagem é uma tarefa, o usuário já tomou a decisão de abrir uma sessão nova — executar diretamente, sem avisar.
@@ -53,7 +55,7 @@ Este protocolo não se aplica quando a primeira mensagem já é uma tarefa diret
 
 Antes de gerar qualquer compêndio novo, fazer **no máximo uma pergunta composta** para calibrar o material — e só se a resposta mudar materialmente o documento. Perguntar: o que motivou o tema e onde você já se situa nele? (motivação específica: disciplina, caso clínico, prova? lacuna declarada: o que já sabe? conexão desejada: algum compêndio existente para referenciar?)
 
-Nunca perguntar sobre: formato (sempre compêndio), livros (já conhecidos), profundidade (sempre máxima). Se o tema e contexto forem autoevidentese, pular direto para a geração.
+Nunca perguntar sobre: formato (sempre compêndio), livros (já conhecidos), profundidade (sempre máxima). Se o tema e contexto forem autoevidentes, pular direto para a geração.
 
 ## Fluxo de trabalho
 
@@ -62,7 +64,7 @@ Nunca perguntar sobre: formato (sempre compêndio), livros (já conhecidos), pro
 3. Consultar [[project-estado]] para verificar livros com badge confirmado e status de migração do material.
 4. Gerar o HTML completo na subpasta temática em kebab-case. Criar a subpasta se não existir.
 5. **Critério arquivar vs. editar:** sobrescrever (com archive) quando a mudança afeta ≥30% do conteúdo ou altera estrutura de seções; editar no lugar quando é correção pontual, adição de parágrafo ou fix de bug. Em caso de sobrescrita, arquivar em `_archive/` com sufixo de data antes de qualquer escrita.
-6. **Verificação obrigatória após qualquer escrita ou reescrita de HTML:** confirmar via bash que (a) o arquivo fecha com `</body>` e `</html>`; (b) o bloco `<script>` do toggle sidebar está presente (`sessionStorage`); (c) a contagem de linhas é compatível com o conteúdo esperado; (d) não há erros de sintaxe JS óbvios — checar `const const`, `var var`, declarações duplicadas com `grep "const const\|var var"`; (e) acentuação PT-BR intacta — `grep -c "ã\|ç\|é\|ê\|ó\|ô\|í\|ú\|à"` deve retornar valor > 0. Se qualquer verificação falhar, corrigir antes de prosseguir.
+6. **Verificação obrigatória após qualquer escrita ou reescrita de HTML:** confirmar via bash que (a) o arquivo fecha com `</body>` e `</html>`; (b) o bloco `<script>` do toggle sidebar está presente (`sessionStorage`); (c) a contagem de linhas é compatível com o conteúdo esperado; (d) não há erros de sintaxe JS óbvios — checar `const const`, `var var`, declarações duplicadas com `grep "const const\|var var"`; (e) acentuação PT-BR intacta — `grep -c "ã\|ç\|é\|ê\|ó\|ô\|í\|ú\|à"` deve retornar valor > 0; (f) ausência de artefatos de desenvolvimento — `grep -i "placeholder\|TODO\|FIXME\|debug\|rascunho"` deve retornar vazio. Se qualquer verificação falhar, corrigir antes de prosseguir.
 7. **Verificação visual (opcional mas recomendada para novos compêndios):** após verificação bash, abrir o arquivo no Chrome via Claude in Chrome (`navigate` → `get_page_text` ou screenshot) para confirmar renderização — sidebar visível, barra de progresso, acentuação correta no browser. Executar especialmente quando há mudança de CSS ou estrutura nova.
 8. **Verificação de padrão antes de concluir correção:** ao identificar erro recorrente (ex: acentuação corrompida, elemento CSS ausente), rodar grep nos demais HTMLs antes de marcar a tarefa como concluída — nunca corrigir apenas o arquivo em foco.
 9. Atualizar `index.html` na raiz na mesma operação — nunca como etapa posterior. Ver seção **Formato do index.html** abaixo.
@@ -80,16 +82,17 @@ Antes de fechar qualquer compêndio, responder mentalmente:
 - [ ] Há pelo menos 3 perguntas em aberto genuinamente não resolvidas na literatura?
 - [ ] Os limites do modelo principal estão marcados em `.kbox`?
 - [ ] Cross-links apontam para âncoras de seção específica (não topo do arquivo)?
-- [ ] Cross-links saem do arquivo são verificáveis? (IDs de destino existem nos HTMLs alvo — grep antes de fechar)
+- [ ] Cross-links que saem do arquivo são verificáveis? (IDs de destino existem nos HTMLs alvo — grep antes de fechar)
+- [ ] (opcional) Compêndios existentes que referenciam conceitos centrais deste material se beneficiariam de cross-link de entrada? Verificar [[project-mapa-materiais]] — se sim, adicionar o link no compêndio existente antes de fechar.
 - [ ] O campo "Última revisão" no cabeçalho está com a data atual?
 - [ ] `index.html` e `MIGRATION.md` foram atualizados?
 - [ ] `DEBT.md` está limpo ou atualizado com pendências desta sessão?
 
-Se qualquer item falhar: corrigir antes de marcar o compêndio como concluído.
+Se qualquer item obrigatório falhar: corrigir antes de marcar o compêndio como concluído.
 
 ## Sugestão de melhoria pós-entrega (obrigatória)
 
-Após qualquer geração ou atualização substantiva de HTML, ou atualização de instruções/memória, oferecer ao usuário até 3 sugestões concretas de melhoria. O escopo é amplo: conteúdo do compêndio recém-entregue (lacunas, conceitos mencionados sem mecanismo, conexões não exploradas), organização estrutural do projeto, eficiência de tokens e tempo de resposta, padrões que poderiam ser formalizados, dívida técnica identificada.
+Após qualquer geração ou atualização substantiva de HTML, ou atualização de instruções/memória, oferecer sugestões concretas de melhoria. O escopo: organização estrutural do projeto, eficiência de tokens e tempo de resposta, padrões que poderiam ser formalizados, dívida técnica identificada. Lacunas de conteúdo do compêndio recém-entregue não pertencem aqui — devem ser corrigidas durante a geração (ver **Regra de lacuna identificada durante geração** abaixo).
 
 **Formato obrigatório:**
 
@@ -98,9 +101,13 @@ Após qualquer geração ou atualização substantiva de HTML, ou atualização 
 > 2. [sugestão] — [razão em uma linha]
 > 3. [sugestão] — [razão em uma linha]
 
-**Quando NÃO emitir:** correções pontuais de typo, edits cirúrgicos pequenos (< 10 linhas), respostas a dúvidas conceituais, atualizações de chip de data isoladas.
+**Quando NÃO emitir:** quando não houver sugestão genuinamente útil — omitir silenciosamente em vez de gerar sugestão vaga. As sugestões devem ser acionáveis e específicas, nunca genéricas como "adicionar mais detalhes" ou "melhorar a organização".
 
-**Regra de qualidade:** as sugestões devem ser acionáveis e específicas — nunca genéricas como "adicionar mais detalhes" ou "melhorar a organização". Se não houver sugestão genuinamente útil, omitir silenciosamente em vez de gerar sugestão vaga.
+**Regra de lacuna identificada durante geração:** se durante a criação ou revisão de um compêndio for identificada uma lacuna de conteúdo que está dentro do escopo da tarefa (conceito mencionado sem mecanismo, tabela que clarificaria, seção incompleta), corrigir imediatamente no material — não listar como sugestão pós-entrega. Sugestão pós-entrega de algo que poderia ter sido incluído é retrabalho disfarçado de recomendação. Sugestões pós-entrega são reservadas para o que está genuinamente fora do escopo da tarefa atual ou exige decisão do usuário.
+
+**Regra de exaustividade:** trazer tudo na primeira resposta. Não guardar observações para rodadas subsequentes. Se houver mais de 3 sugestões genuinamente úteis, listar todas — o limite de 3 é um mínimo de esforço, não um teto. O usuário não deve precisar perguntar "tem mais alguma coisa?" para receber o conjunto completo.
+
+**Restrição obrigatória:** nunca sugerir criação de novo compêndio ou novo material. Progressão curricular pertence ao `project_estado.md`. Sugerir novo material cria ciclo potencialmente infinito — cada material novo gera dependências que geram mais materiais. As sugestões devem ser acionáveis dentro do que já existe.
 
 ## Eficiência operacional
 
@@ -115,11 +122,15 @@ Regras para evitar truncamentos, retrabalho e consumo desnecessário de tokens.
 
 **Verificação imediata após Write ou Edit longo:** após qualquer chamada `Write` — mesmo em arquivo novo — executar imediatamente `wc -l` + `tail -5` + verificar fechamento correto. `Write` pode truncar silenciosamente se o conteúdo exceder o payload. O mesmo vale para `Edit` que insira bloco >20 linhas — executar `tail -5` antes de prosseguir. Nunca assumir que o arquivo está íntegro sem verificar.
 
-**Estratégia de blocos para arquivos criados do zero (>150 linhas):** nunca tentar criar arquivo grande com um único `Write`. Fluxo obrigatório: (1) `Write` com cabeçalho e estrutura inicial (~100–150 linhas); (2) verificar integridade; (3) `Edit` ou `bash append` para cada bloco subsequente de até ~150 linhas; (4) verificar após cada bloco. Crescimento incremental verificado é mais seguro do que Write monolítico.
+**Protocolo canônico para HTML novo >300 linhas:** `Write` com cabeçalho e estrutura inicial (~150 linhas) → verificar integridade → Python escreve restante em `/tmp/bloco.html` → `cat /tmp/bloco.html >> arquivo.html` → verificar integridade final. Este é o fluxo obrigatório para HTMLs grandes; `Edit` incremental é reservado para arquivos já existentes. Nunca tentar criar HTML >300 linhas com um único `Write`.
+
+**Preferir Python sobre bash append para conteúdo com caracteres especiais PT-BR:** acentos (ã, ç, é, ê, ó, ô, í, ú, à), símbolos tipográficos (→, ≥, ≤, ₂, ×) e entidades HTML devem ser escritos via script Python (`open(..., 'w', encoding='utf-8')`), nunca via `echo` ou heredoc bash — bash pode corromper encoding dependendo do locale do sistema.
 
 **Protocolo de recuperação de falha — Write truncado:** se `tail -5` revelar que o arquivo termina antes de `</body></html>`, não tentar corrigir com append cego. Fluxo: (1) `head -n N` para identificar o ponto de truncamento exato; (2) avaliar se o conteúdo restante cabe em um `Edit` (<150 linhas) — se sim, inserir com `Edit`; (3) se não couber, deletar o arquivo truncado, recriar com `Write` até o ponto seguro, depois continuar com blocos incrementais. Append cego sobre arquivo truncado produz HTML inválido.
 
 **Verificação de duplicação após append em arquivos .md com blocos de código:** ao usar `bash append` em arquivos Markdown que contêm blocos de código (` ``` `), verificar com `grep -n '^\`\`\`' arquivo.md | tail -10` que os delimitadores de código estão balanceados após o append. Append pode duplicar o delimitador de fechamento se o arquivo já terminava com ` ``` `.
+
+**Verificação preditiva de wc -l antes de Edit longo:** antes de qualquer `Edit` com `new_string` >80 linhas, calcular o número de linhas esperado após a inserção (linhas atuais + linhas do bloco − linhas substituídas). Após o `Edit`, executar `wc -l` e comparar — abortar e investigar se o resultado divergir ±5 linhas do esperado. Divergência indica truncamento silencioso.
 
 **Verificação incremental:** verificar integridade do arquivo após cada etapa de edição significativa, não apenas no final. Padrão mínimo após cada bloco inserido: `wc -l` (contagem compatível com o esperado) + `tail -5` (arquivo não está truncado). Verificação completa (fecha `</body></html>`, `sessionStorage` presente, sem JS duplicado) apenas ao concluir a sessão de edição.
 
@@ -157,105 +168,9 @@ O `index.html` na raiz é o portal do projeto. Estrutura obrigatória de cada en
 
 Entradas agrupadas por área (medicina, investimentos, automóveis...). Ordem dentro de cada grupo: mais recente primeiro. Ao adicionar novo compêndio: inserir card no grupo correto, nunca ao final do arquivo sem verificar o agrupamento.
 
-## Template v2 — especificação completa
+## Template v2
 
-### Paleta C
-```css
-:root{
-  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
-  --text:#e2ddd6;--muted:#9e9890;
-  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
-  --font-body:'Source Serif 4',Georgia,serif;
-  --font-ui:'Inter',system-ui,sans-serif;
-}
-```
-Fontes via Google Fonts: Source Serif 4 (corpo 16px, line-height 1.78) + Inter (interface).
-
-### Layout
-- `#sidebar`: `width:280px`, sticky, `height:100vh`, `overflow:hidden`, `display:flex; flex-direction:column`, `transition:width .25s`
-- `#sidebar.collapsed`: `width:44px`
-- `#s-toggle`: fora do `.s-inner`, sempre visível mesmo colapsado
-- `.s-inner`: `flex:1; overflow-y:auto; width:280px`
-- `#content`: `flex:1; padding:52px 72px 120px; transition:padding .25s`
-- `.prose`: `max-width:88ch; margin:0 auto; transition:max-width .25s`
-- `#body-wrap.sidebar-collapsed #content`: `padding:52px 100px 120px`
-- `#body-wrap.sidebar-collapsed .prose`: `max-width:114ch`
-
-### Sidebar colapsável
-- Botão `#toggle-btn` dentro de `#s-toggle`, fora do `.s-inner` — nunca some ao colapsar
-- Estado persistido em `sessionStorage('sidebar-collapsed')`
-- Colapsar: `sidebar.classList.add('collapsed')` + `bodyWrap.classList.add('sidebar-collapsed')`
-- `.s-logo`, `.s-group`, `a.sl` recebem `opacity:0; pointer-events:none` quando colapsado
-
-### Barra de progresso
-- `#progress-bar`: `position:fixed; top:0; left:0; height:2px; background:var(--ac); z-index:100`
-- Atualizada via evento `scroll` passivo: `width = scrollTop/(scrollHeight-clientHeight)*100+'%'`
-
-### Highlight de seção ativa
-- Segundo `IntersectionObserver` com `rootMargin:'-20% 0px -70% 0px'`
-- Seção visível recebe `.in-view` → `section.in-view > h2 { color:var(--ac); transition:color .3s }`
-- Primeiro observer destaca `.active` na sidebar
-
-### Mobile (`max-width:900px`)
-- Sidebar `display:none` por padrão, `display:block` quando `.open`
-- `#mob-bar` visível com botão ☰; `#s-toggle` oculto
-- `#content`: `padding:24px 20px 80px`; `.ck-grid`: `repeat(2,1fr)`
-
-### Print
-- Fundo branco, texto preto, sidebar e âncoras ocultas, URLs após links
-
-## Cabeçalho de cada compêndio
-
-```html
-<div class="doc-header">
-  <h1>Título</h1>
-  <p class="doc-meta">Área · Subárea · Instituição · Ano · Fonte</p>
-  <div class="doc-chips">
-    <span class="chip">⏱ <b>~X min</b> de leitura</span>
-    <span class="chip">📋 Pré-requisitos: <b>...</b></span>
-    <span class="chip">🔗 Depende de: <b>...</b></span>
-    <span class="chip">📍 Área: <b>...</b></span>
-    <span class="chip">🗓 Última revisão: <b>YYYY-MM-DD</b></span>
-  </div>
-</div>
-```
-
-O chip "Última revisão" deve ser atualizado toda vez que o compêndio for editado substantivamente (não apenas correção de typo). Formato da data: `YYYY-MM-DD`.
-
-## Pergunta motivadora (obrigatória)
-
-Antes dos Fundamentos necessários. Pergunta clínica/científica concreta que o conteúdo vai responder — gera ancoragem cognitiva e tensão intelectual antes de qualquer conceito formal. **A pergunta deve ser fechada ao final do compêndio** — na seção Discussão ou em parágrafo explícito após o conteúdo principal, articulando a resposta com os conceitos desenvolvidos.
-
-```html
-<div class="pergunta">
-  <div class="plabel">Pergunta motivadora</div>
-  <p>...</p>
-</div>
-```
-
-## Painel de dependências (obrigatório)
-
-Logo após a pergunta motivadora. Três colunas: (1) materiais que este compêndio usa; (2) pré-requisitos externos; (3) materiais futuros que dependem deste. Preencher com base em [[project-mapa-materiais]].
-
-```html
-<div class="dep-panel">
-  <div class="dep-label">Mapa de dependências</div>
-  <div class="dep-row">
-    <div class="dep-group">
-      <div class="dgt">Este compêndio usa</div>
-      <a class="dep-item" href="...">Material X</a>
-    </div>
-    <div class="dep-group">
-      <div class="dgt">Leia antes se necessário</div>
-      <a class="dep-item" href="#">Conceito Y</a>
-    </div>
-    <div class="dep-group">
-      <div class="dgt">Materiais que dependem deste</div>
-      <a class="dep-item" href="#">Material Z</a>
-    </div>
-  </div>
-</div>
-```
+Para criar novo compêndio, consultar especificação completa do template: `template-v2-spec.md`.
 
 ## Conteúdo
 
@@ -274,60 +189,6 @@ Logo após a pergunta motivadora. Três colunas: (1) materiais que este compênd
 - Terminologia: usar como na literatura. Inglês quando é o padrão da área — sem forçar tradução. Na primeira ocorrência de cada termo estrangeiro: itálico + tradução entre parênteses — ex: *shear* (tensão de cisalhamento), *tissue plasminogen activator* (ativador tecidual do plasminogênio). Ocorrências subsequentes: apenas o termo original, sem repetir a tradução.
 - Tabelas e figuras: incluir sempre que melhorarem compreensão comparativa. Legenda numerada imediatamente abaixo.
 - Unidades: valor primário em SI; fabricante como referência secundária.
-
-## Elementos visuais (CSS de referência)
-
-```css
-/* Nota histórica */
-.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
-.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
-
-/* Key-concept box */
-.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
-.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-
-/* Conceitos-chave grid */
-.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
-.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
-.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
-
-/* Cross-link inline */
-a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
-
-/* Chips de metadados */
-.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
-
-/* Pergunta motivadora */
-.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
-.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-
-/* Painel de dependências */
-.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
-.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
-.dep-row{display:flex;gap:10px;flex-wrap:wrap}
-.dep-group{flex:1;min-width:160px}
-.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
-.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
-
-/* Perguntas em aberto */
-.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
-.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.qa-block p{margin:0;color:var(--muted);font-size:15px}
-```
-
-## Seções finais
-
-**Fundamentos necessários:** conceitos de áreas adjacentes indispensáveis. Critério de entrada: ausência tornaria frase opaca. Critério de saída: ativar exige mais de um parágrafo → mover para seção adequada.
-
-**Perguntas em aberto (obrigatória):** seção entre Conexões e Discussão. Lista de 3–5 questões que o campo ainda não resolveu — fronteiras do conhecimento, não gaps do compêndio. Cada pergunta em `.qa-block`. Critério: deve ser genuinamente aberta (sem resposta consensual na literatura), não apenas difícil. Exemplos: mecanismos de resistência a medicamentos sem explicação molecular completa, controvérsias de causalidade vs. correlação em epidemiologia, lacunas experimentais conhecidas. Ao revisar compêndio existente, verificar se as perguntas ainda estão abertas — fechar as que tiverem sido respondidas e adicionar novas da literatura recente.
-
-**Discussão:** três movimentos — (1) convergência, fechando a pergunta motivadora com os conceitos desenvolvidos; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
-
-**Leituras recomendadas:** livros-texto, artigos (links acesso aberto), recursos online. Critério: densidade de mecanismo por página — não fama ou adoção curricular. Consultar [[project-estado]] para badge VOCÊ TEM; consultar [[user-livros-medicos]] para lista completa de livros do usuário. Não limitar às obras do usuário — incluir o melhor disponível.
-
-**Referências ABNT:** NBR 6023:2018. DOIs e URLs como links (`target="_blank" rel="noopener"`, `color:var(--ac)`). Ordem alfabética por autor-data.
-
-**Citações inline:** autor-data NBR 10520:2023 — formato `(SOBRENOME; SOBRENOME, ano)` para até dois autores; `(SOBRENOME et al., ano)` para três ou mais. Nunca numeração `[1]`, `[2]`. Classe `.cite`, `color:var(--ac)`, ancorado em `#referencias`. Múltiplas referências na mesma citação separadas por ponto e vírgula dentro dos parênteses: `(AUTOR A, ano; AUTOR B, ano)`.
 
 ## Dívida técnica
 
@@ -356,7 +217,21 @@ Ao cobrir conceito que contradiz ou expande mecanismo explicado em outro compên
 
 ## Entrega de instruções atualizadas
 
-Sempre gerar arquivo `instrucoes-projeto.md` na raiz da pasta do projeto. O usuário abre, seleciona tudo (Ctrl+A) e copia nas configurações do projeto. Nunca entregar apenas em blocos de código no chat. Após atualizar o arquivo, sincronizar a memory (`project_instrucoes_operacionais.md`) para manter consistência.
+Sempre gerar o arquivo `instrucoes-projeto.md` na raiz da pasta do projeto — nunca entregar apenas em blocos de código no chat. O usuário então abre o arquivo, seleciona tudo (Ctrl+A) e cola nas configurações do projeto. Este fluxo manual é necessário porque o Claude não tem acesso direto às configurações — não há atalho. Após atualizar o arquivo, sincronizar a memory (`project_instrucoes_operacionais.md`) para manter consistência.
+
+## Qualidade de entrega
+
+Para compêndios novos e reescritas ≥30% do conteúdo, aplicar obrigatoriamente o protocolo de refinamento pós-geração:
+
+1. Gerar o HTML completo
+2. Reler seção por seção com foco em: mecanismo claro? ordem lógica? saltos de raciocínio? conceitos mencionados por nome sem desenvolvimento?
+3. Corrigir o que identificar
+4. Repetir a releitura — se surgir nova correção, aplicar e reler; se a releitura não produzir correções, encerrar
+5. Só então apresentar ao usuário
+
+O critério de parada é uma releitura limpa (sem novas correções). Para correções pontuais (fix de typo, adição de parágrafo isolado, atualização de chip), o protocolo não se aplica.
+
+Além disso, antes de entregar qualquer resposta ou material, passar por uma rodada interna de reavaliação: o que está aqui poderia ser melhorado sem custo adicional para o usuário? Se sim, melhorar antes de entregar — nunca entregar primeiro rascunho como resultado final. Isso não é um protocolo reportável; é uma postura de qualidade que deve ser invisível ao usuário.
 
 ## Evolução destas instruções
 

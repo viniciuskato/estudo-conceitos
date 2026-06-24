@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choque Circulatório — Compêndio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%}
+#body-wrap{display:flex;min-height:100vh}
+
+/* Sidebar */
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 10px 6px;display:flex;justify-content:flex-end;flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);border-radius:4px;color:var(--muted);cursor:pointer;font-size:14px;padding:4px 8px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:0 0 24px}
+.s-logo{padding:0 16px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-logo a{font-family:var(--font-ui);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.05em}
+.s-logo a:hover{color:var(--ac)}
+.s-group{margin-bottom:6px}
+.s-group-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:5px 16px;border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+
+/* Content */
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Mobile */
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}
+  #sidebar.open{display:flex;position:fixed;z-index:200;height:100vh}
+  #mob-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:150}
+  #mob-menu-btn{background:none;border:1px solid var(--border);border-radius:4px;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 10px}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)!important}
+  #s-toggle{display:none}
+}
+
+/* Typography */
+h1{font-size:2rem;font-weight:600;line-height:1.25;color:var(--text);margin-bottom:10px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:2.4em 0 .8em;padding-top:.4em}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:1.8em 0 .5em}
+h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:1.4em 0 .4em;font-family:var(--font-ui)}
+p{margin-bottom:1.1em}
+ul,ol{margin:0 0 1.1em 1.4em}
+li{margin-bottom:.35em}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic;color:var(--muted)}
+section{margin-bottom:2.8em}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0}
+
+/* Doc header */
+.doc-header{margin-bottom:2.4em}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+/* Pergunta motivadora */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Painel de dependências */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+
+/* Hist */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+/* Key concept box */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* Conceitos-chave grid */
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+
+/* Cross-link */
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+
+/* Perguntas em aberto */
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+/* Tabelas */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;font-family:var(--font-ui)}
+th{background:var(--bg3);color:var(--ac);font-weight:600;text-align:left;padding:8px 12px;border-bottom:2px solid var(--border)}
+td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:nth-child(even) td{background:var(--bg2)}
+caption{font-size:12px;color:var(--muted);text-align:left;margin-bottom:6px;font-style:italic}
+
+/* Citações inline */
+.cite{color:var(--ac);font-size:.85em}
+
+/* Seção ativa */
+section.in-view>h2{color:var(--ac);transition:color .3s}
+
+/* Referências */
+.ref-list{list-style:none;margin:0;padding:0}
+.ref-list li{font-size:14px;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);line-height:1.6}
+.ref-list a{color:var(--ac)}
+
+/* Print */
+@media print{
+  body{background:white;color:black}
+  #sidebar,#mob-bar,#progress-bar,#s-toggle{display:none}
+  #content{padding:0}
+  a.cross-link::after{content:" (" attr(href) ")";font-size:.8em;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <button id="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Choque Circulatório</span>
+</div>
+
+<div id="body-wrap">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">←</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <a href="../../../index.html">← Estudo de Conceitos</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-label">Conteúdo</div>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#definicao">Definição e fisiopatologia geral</a>
+      <a class="sl" href="#hipovolemico">Choque hipovolêmico</a>
+      <a class="sl" href="#distributivo">Choque distributivo</a>
+      <a class="sl" href="#cardiogenico">Choque cardiogênico</a>
+      <a class="sl" href="#obstrutivo">Choque obstrutivo</a>
+      <a class="sl" href="#compensacao">Compensação autonômica</a>
+      <a class="sl" href="#descompensacao">Descompensação e falência</a>
+      <a class="sl" href="#tratamento">Tratamento por tipo</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-label">Revisão</div>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências ABNT</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Choque Circulatório</h1>
+  <p class="doc-meta">Medicina · Fisiopatologia · Fisiologia Cardiovascular · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~55 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>débito cardíaco, barorreflexo, SRAA</b></span>
+    <span class="chip">🔗 Depende de: <b>barorreflexo, hemostasia, SRAA</b></span>
+    <span class="chip">📍 Área: <b>Fisiopatologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-22</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente chega ao PS com PA 80×40 mmHg, FC 130 bpm, pele fria e pegajosa, tempo de enchimento capilar 4 segundos e confusão mental. O lactato sérico é 6 mmol/L. Com base no exame clínico, como você diferencia choque hipovolêmico de cardiogênico — e por que o tratamento de um piora o outro?</p>
+</div>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../../fisiologia/hipotensao-pos-exercicio-barorreflexo.html#barorreflexo">Barorreflexo e controle cardiovascular</a>
+      <a class="dep-item" href="../../farmacologia/hipertensao_sraa_anti-hipertensivos.html#sraa-cascata">SRAA — cascata e efeitos</a>
+      <a class="dep-item" href="../trombose-e-hemostasia.html#cid">CID — coagulação intravascular disseminada</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="../../fisiologia/hipotensao-pos-exercicio-barorreflexo.html#debito-cardiaco-exercicio">Débito cardíaco e Frank-Starling</a>
+      <a class="dep-item" href="../../imunologia/imunidade-inata.html#sepse">Sepse e resposta inflamatória sistêmica</a>
+      <a class="dep-item" href="../trombose-e-hemostasia.html#fundamentos">Trombose e hemostasia — fundamentos</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">P3 — Insuficiência cardíaca (futuro)</a>
+      <a class="dep-item" href="#">F4 — Fármacos cardiovasculares (futuro)</a>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTOS NECESSÁRIOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>O choque circulatório só pode ser compreendido a partir de dois princípios hemodinâmicos centrais que governam a entrega de oxigênio tecidual. O primeiro é a equação do débito cardíaco: DC = VS × FC, onde VS (volume sistólico) depende de pré-carga (retorno venoso), pós-carga (resistência vascular periférica — RVP) e contratilidade miocárdica. O segundo é a equação de entrega de oxigênio: DO₂ = DC × CaO₂, onde CaO₂ = (Hb × 1,34 × SaO₂) + (PaO₂ × 0,003). Quando a DO₂ cai abaixo do consumo tecidual (VO₂), instaura-se hipóxia celular — o substrato fisiopatológico comum a todos os tipos de choque.</p>
+
+<p>A pressão arterial média (PAM) é determinada pela relação PAM = DC × RVP. Uma queda na PAM ativa imediatamente o <a class="cross-link" href="../../fisiologia/hipotensao-pos-exercicio-barorreflexo.html#barorreflexo">barorreflexo</a>: barorreceptores de alta pressão no seio carotídeo e arco aórtico detectam a hipotensão e reduzem o tônus vagal enquanto amplificam o fluxo simpático eferente pelo RVLM (núcleo rostroventrolateral medular). O resultado é taquicardia reflexa, vasoconstrição periférica (aumenta RVP) e aumento da contratilidade — os três pilares da resposta compensatória primária ao choque.</p>
+
+<p>O <a class="cross-link" href="../../farmacologia/hipertensao_sraa_anti-hipertensivos.html#sraa-cascata">SRAA</a> é ativado em paralelo: queda na pressão de perfusão renal, estímulo simpático β₁ nas células justaglomerulares e redução na oferta de NaCl à mácula densa convergem para liberação de renina → angiotensina II → aldosterona. A angiotensina II é vasoconstritora sistêmica e estimula a liberação de ADH (vasopressina), que por sua vez promove retenção hídrica e vasoconstrição via receptores V₁. Em conjunto, esses mecanismos buscam restaurar o volume intravascular e a PAM.</p>
+
+<p>Do ponto de vista metabólico, quando DO₂ é insuficiente, as células migram do metabolismo aeróbico para a glicólise anaeróbica, acumulando piruvato que é reduzido a lactato pela lactato desidrogenase (LDH). O lactato sérico elevado (>2 mmol/L) é, portanto, um marcador bioquímico de hipoperfusão tecidual — e a depuração do lactato ao longo do tratamento é usada clinicamente para monitorar a eficácia da ressuscitação.</p>
+</section>
+
+<!-- CONCEITOS-CHAVE (placeholder removido — já está correto) -->
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Choque circulatório</div>
+    <p>Falência circulatória aguda com inadequação entre oferta e demanda de O₂ tecidual, levando a disfunção celular e orgânica.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Lactato e hipoperfusão</div>
+    <p>Produto da glicólise anaeróbica; lactato >2 mmol/L indica hipoperfusão; >4 mmol/L é critério de choque séptico.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Pré-carga e pós-carga</div>
+    <p>Pré-carga = retorno venoso (volume diastólico final); pós-carga = resistência ao esvaziamento ventricular (RVP). Opostos na equação de Frank-Starling.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">DO₂ crítico</div>
+    <p>Limiar abaixo do qual o VO₂ passa a ser dependente da oferta; acima dele, VO₂ é independente de DO₂ (platô fisiológico).</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">ScvO₂ e SvO₂</div>
+    <p>Saturação venosa central (ScvO₂) ou mista (SvO₂) refletem o balanço entre oferta e consumo de O₂; ScvO₂ <70% indica extração aumentada — DO₂ insuficiente.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Choque frio vs choque quente</div>
+    <p>Choque frio = vasoconstricção compensatória (hipovolêmico, cardiogênico, obstrutivo). Choque quente = vasodilatação distributiva (séptico precoce, anafilático).</p>
+  </div>
+</div>
+</section>
+
+<!-- DEFINIÇÃO E FISIOPATOLOGIA GERAL -->
+<section id="definicao">
+<h2>Definição e fisiopatologia geral</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  O termo "choque" foi popularizado por George W. Crile em 1899 para descrever o colapso circulatório em feridos de guerra. Durante a Primeira Guerra Mundial, Thomas Latta e William Cannon observaram que a reposição de soro salino melhorava sobrevivência — antecipando a compreensão de que o choque hipovolêmico era o mais prevalente no contexto de trauma. A classificação fisiopatológica em quatro tipos (hipovolêmico, distributivo, cardiogênico, obstrutivo) foi sistematizada apenas nos anos 1970–1980, com o desenvolvimento da monitorização hemodinâmica invasiva por cateter de artéria pulmonar (Swan-Ganz, 1970).
+</div>
+
+<p>O choque circulatório é definido como uma síndrome de falência circulatória aguda resultando em hipóxia celular generalizada. A definição operacional mais aceita, derivada do consenso europeu de 2014 <span class="cite">(VINCENT; DE BACKER, 2013)</span>, incorpora três elementos: (1) hipotensão arterial (PAM <65 mmHg ou queda ≥40 mmHg da pressão sistólica basal); (2) sinais de hipoperfusão tecidual (extremidades frias, mottling cutâneo, oligúria <0,5 mL/kg/h, confusão mental, lactato >2 mmol/L); e (3) necessidade de intervenção terapêutica urgente.</p>
+
+<p>A hipoperfusão resulta de uma ou mais falhas no circuito cardiovascular. O débito cardíaco pode ser insuficiente por queda no volume intravascular circulante efetivo, por disfunção da bomba miocárdica ou por obstrução mecânica ao fluxo. Alternativamente — e de forma menos intuitiva —, o DC pode estar normal ou mesmo elevado, mas a perfusão tecidual ser inadequada por vasodilatação patológica com maldistribuição do fluxo: é o choque distributivo, em que sangue passa pelos tecidos sem transferir O₂ adequadamente (disfunção microcirculatória e <em>shunting</em> arteriovenoso).</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal — classificação fisiopatológica</div>
+  <p>Os quatro tipos de choque diferem no determinante hemodinâmico primário da falência circulatória: <strong>hipovolêmico</strong> (↓ pré-carga por déficit de volume), <strong>distributivo</strong> (↓ RVP por vasodilatação patológica), <strong>cardiogênico</strong> (↓ contratilidade ou débito cardíaco intrínseco) e <strong>obstrutivo</strong> (↓ fluxo por barreira mecânica extra ou intracardíaca). Cada tipo gera um perfil hemodinâmico distinto que orienta o diagnóstico diferencial e o tratamento.</p>
+</div>
+
+<p>A consequência final de qualquer choque sustentado é a mesma: privação de O₂ mitocondrial, falência da cadeia respiratória, depleção de ATP, colapso do gradiente iônico transmembrana (bomba Na⁺/K⁺-ATPase), acúmulo de Ca²⁺ intracelular, ativação de fosfolipases e proteases, e — se não revertido — morte celular por necrose ou apoptose. No nível orgânico, os órgãos de choque clássicos são: rim (necrose tubular aguda — NTA), intestino (isquemia da mucosa com translocação bacteriana), fígado (necrose centrolobular por hipóxia da veia centrolobular), pulmão (lesão alveolar difusa — SARA) e encéfalo (encefalopatia anóxica).</p>
+</section>
+
+<!-- CHOQUE HIPOVOLÊMICO -->
+<section id="hipovolemico">
+<h2>Choque hipovolêmico</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  A compreensão do choque hipovolêmico como perda de volume circulante foi consolidada durante a Segunda Guerra Mundial por Alfred Blalock, que demonstrou que cães exsanguinados morriam não de "toxinas" circulantes, mas de colapso hemodinâmico por déficit de volume. Blalock propôs que a reposição de sangue e fluidos era o tratamento causal do choque hemorrágico — base do protocolo de ressuscitação em trauma até hoje.
+</div>
+
+<p>O choque hipovolêmico resulta de redução absoluta do volume intravascular efetivo, com consequente queda na pré-carga ventricular, redução do VS e do DC. A causa mais comum é hemorrágica (trauma, hemorragia digestiva, rotura de aneurisma), mas o mecanismo é idêntico em perdas não hemorrágicas: desidratação grave por vômitos ou diarreia, queimaduras extensas (perda de plasma para o interstício), peritonite e pancreatite aguda grave (sequestro de líquido no "terceiro espaço").</p>
+
+<h3>Classificação ATLS da hemorragia</h3>
+<table>
+  <caption>Tabela 1. Classificação ATLS do choque hemorrágico (adulto 70 kg)</caption>
+  <tr><th>Classe</th><th>Vol. perdido</th><th>FC (bpm)</th><th>PA</th><th>FR</th><th>SNC</th></tr>
+  <tr><td>I</td><td>&lt;750 mL (&lt;15%)</td><td>&lt;100</td><td>Normal</td><td>14–20</td><td>Levemente ansioso</td></tr>
+  <tr><td>II</td><td>750–1500 mL (15–30%)</td><td>100–120</td><td>Pressão de pulso ↓</td><td>20–30</td><td>Ansioso</td></tr>
+  <tr><td>III</td><td>1500–2000 mL (30–40%)</td><td>120–140</td><td>PA sistólica ↓</td><td>30–40</td><td>Confuso</td></tr>
+  <tr><td>IV</td><td>&gt;2000 mL (&gt;40%)</td><td>&gt;140</td><td>PA muito baixa</td><td>&gt;35</td><td>Letárgico/inconsciente</td></tr>
+</table>
+
+<p>O perfil hemodinâmico característico: DC baixo, RVP alta (vasoconstricção simpática compensatória), PVC baixa (pré-carga reduzida), POAP baixa. A diferenciação do cardiogênico faz-se pelas veias jugulares: ingurgitadas no cardiogênico (pressão de enchimento alta), colabadas no hipovolêmico.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo ATLS</div>
+  <p>A classificação em quatro classes assume perda aguda em indivíduo jovem e hígido. Idosos e pacientes betabloqueados têm FC basal distorcida — taquicardia pode estar mascarada e a classificação subestima a gravidade. Hemorragia interna não tem estimativa visual confiável. Lactato e ScvO₂ são marcadores mais objetivos de hipoperfusão nessas situações.</p>
+</div>
+</section>
+
+<!-- CHOQUE DISTRIBUTIVO -->
+<section id="distributivo">
+<h2>Choque distributivo</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  A noção de que o choque pode coexistir com DC elevado foi contra-intuitiva por décadas. Roger Bone et al. (1989) formalizaram o conceito de SIRS e sua relação com vasodilatação mediada por citocinas. O Sepsis-3 (2016) reformulou a definição ao exigir disfunção orgânica — tornando o choque séptico um fenômeno de hipoperfusão, não apenas hemodinâmico.
+</div>
+
+<p>O choque distributivo é caracterizado por vasodilatação sistêmica patológica com maldistribuição do fluxo, resultando em hipoperfusão tecidual apesar de DC frequentemente normal ou elevado. O denominador comum é a queda na RVP, que reduz a PAM mesmo com coração preservado. Os três subtipos principais são séptico, anafilático e neurogênico.</p>
+
+<h3>Choque séptico</h3>
+<p>O mecanismo central envolve o reconhecimento de PAMPs (LPS bacteriano, peptidoglicano, flagelina) por TLRs em macrófagos e células endoteliais, ativando NF-κB e desencadeando tempestade de citocinas pró-inflamatórias: TNF-α, IL-1β, IL-6. Essas citocinas induzem expressão de óxido nítrico sintase induzível (iNOS — NOS2) no endotélio e músculo liso vascular. O NO produzido ativa guanilil ciclase solúvel → ↑ GMPc → desfosforilação da miosina → relaxamento do músculo liso. Em concentrações altas e sustentadas, NO reage com superóxido para formar peroxinitrito (ONOO⁻), altamente citotóxico.</p>
+
+<p>Citocinas inflamatórias também causam miocardite séptica — disfunção ventricular com DC paradoxalmente reduzido em fases avançadas — e aumentam a permeabilidade capilar (hipovolemia relativa por edema). O perfil hemodinâmico clássico do choque séptico <em>precoce</em>: DC elevado, RVP baixa, ScvO₂ elevada (disfunção microcirculatória e <em>shunting</em> AV). O "choque quente": pele quente, taquicardia. Na evolução tardia, miocardite e hipovolemia levam a DC baixo — o "choque frio" tardio.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição operacional — Sepsis-3 (2016)</div>
+  <p>Choque séptico = sepse com necessidade de vasopressor para manter PAM ≥65 mmHg após ressuscitação volêmica adequada, e lactato sérico >2 mmol/L. Mortalidade hospitalar >40%.</p>
+</div>
+
+<h3>Choque anafilático</h3>
+<p>Hipersensibilidade tipo I mediada por IgE: alérgeno → crosslinking de IgE em FcεRI de mastócitos → degranulação maciça → histamina (vasodilatação sistêmica, ↑ permeabilidade capilar, broncoespasmo), triptase, prostaglandinas e leucotrienos. O mecanismo é misto: distributivo + hipovolêmico relativo. Causas: fármacos (penicilinas, AINEs, contrastes), alimentos (amendoim, frutos do mar), himenópteros.</p>
+
+<h3>Choque neurogênico</h3>
+<p>Lesão medular cervical ou torácica alta (acima de T6) interrompe o tônus simpático vasomotor descendente → vasodilatação maciça (↓ RVP) e bradicardia (ausência de taquicardia reflexa — pista diagnóstica). Contexto: trauma raquimedular, anestesia espinhal alta.</p>
+</section>
+
+<!-- CHOQUE CARDIOGÊNICO -->
+<section id="cardiogenico">
+<h2>Choque cardiogênico</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  O SHOCK Trial (1999) demonstrou pela primeira vez que revascularização coronariana emergencial (ICP ou cirurgia) reduzia mortalidade em 30 dias no choque cardiogênico pós-IAM, mudando definitivamente a prática. O cateter de Swan-Ganz (1970) havia permitido estabelecer o perfil hemodinâmico de baixo DC + alta pressão de enchimento que definiu o tipo clinicamente.
+</div>
+
+<p>O choque cardiogênico resulta de falência primária da bomba cardíaca com queda do DC independente do volume intravascular. A etiologia mais comum é IAM extenso (perda de >40% da massa do VE), mas inclui também: miocardite aguda, cardiomiopatia dilatada descompensada, arritmias graves, insuficiência mitral aguda (rotura de músculo papilar), CIV pós-IAM e contusão miocárdica.</p>
+
+<p>O mecanismo é um círculo vicioso: ↓ DC → ↓ perfusão coronariana (diastólica — depende de PAD − PTDVE) → isquemia subendocárdica → piora da função ventricular → VE falido eleva PTDVE → retrotransmissão para capilares pulmonares → edema pulmonar → hipoxemia → piora da isquemia. A resposta neuro-humoral (vasoconstricção + taquicardia) aumenta pós-carga e consumo de O₂ miocárdico, perpetuando o ciclo.</p>
+
+<div class="kbox">
+  <div class="klabel">Perfil hemodinâmico — choque cardiogênico</div>
+  <p>DC baixo · RVP alta · PVC alta · POAP alta (pressão de enchimento elevada — distingue do hipovolêmico onde POAP é baixa) · ScvO₂ baixa · Veias jugulares ingurgitadas · Estertores pulmonares. Clinicamente: "frio e úmido" — extremidades frias + congestão pulmonar.</p>
+</div>
+
+<h3>Diagnóstico diferencial: cardiogênico vs hipovolêmico</h3>
+<p>Ambos cursam com hipotensão, taquicardia, pele fria e lactato elevado — mas divergem em dois achados: (1) pressão de enchimento: no hipovolêmico, PVC e POAP são baixas (jugulares colabadas, pulmões limpos); no cardiogênico, altas (jugulares ingurgitadas, estertores). (2) Resposta à expansão volêmica: no hipovolêmico, cristaloides melhoram o DC; no cardiogênico, pioram o edema pulmonar sem aumentar o DC.</p>
+
+<h3>Suporte circulatório mecânico</h3>
+<p>Quando refratário a vasopressores e inotrópicos: o BIAC (balão intra-aórtico de contrapulsação) infla na diástole (↑ perfusão coronariana) e desinfla na sístole (↓ pós-carga) — mas o IABP-SHOCK II (2012) não demonstrou benefício em mortalidade. Dispositivos de fluxo axial (Impella) e ECMO venoarterial (VA-ECMO) provêm suporte mais robusto em centros especializados.</p>
+</section>
+
+<!-- CHOQUE OBSTRUTIVO -->
+<section id="obstrutivo">
+<h2>Choque obstrutivo</h2>
+
+<p>O choque obstrutivo resulta de barreira mecânica ao fluxo que impede enchimento ou esvaziamento adequado do coração, reduzindo o DC a despeito de contratilidade e volume intravascular preservados. As causas principais: TEP maciço, tamponamento cardíaco e pneumotórax hipertensivo.</p>
+
+<h3>Tromboembolismo pulmonar maciço</h3>
+<p>TEP maciço (obstrução ≥50% da vasculatura pulmonar com instabilidade hemodinâmica) eleva abruptamente a resistência vascular pulmonar → sobrecarga do VD (paredes finas, não adaptadas) → dilatação do VD → desvio do septo interventricular para a esquerda (interdependência ventricular) → compressão da cavidade VE → ↓ pré-carga VE → ↓ DC sistêmico. Hipóxia por colapso V/Q e hipotensão comprometem a perfusão coronariana do VD, agravando isquemia. Clinicamente: taquicardia, hipotensão, ingurgitamento jugular, hipoxemia, <em>ausência</em> de estertores (distingue do cardiogênico). Ver <a class="cross-link" href="../trombose-e-hemostasia.html#cid">tromboembolismo</a> para estratificação e tratamento.</p>
+
+<h3>Tamponamento cardíaco</h3>
+<p>Fluido no pericárdio comprime câmaras de baixa pressão (AD e VD primeiro) — a velocidade de acúmulo importa mais que o volume (200 mL em minutos causam tamponamento; 2 L em semanas podem ser tolerados). Resultado: restrição ao enchimento → ↓ DC. Tríade de Beck: hipotensão + ingurgitamento jugular + abafamento de bulhas (sensibilidade ~30%). Pulso paradoxal (queda da PA sistólica >10 mmHg na inspiração) e colapso diastólico de AD/VD ao ecocardiograma são achados diagnósticos. Tratamento: pericardiocentese.</p>
+
+<div class="kbox">
+  <div class="klabel">Pulso paradoxal — mecanismo</div>
+  <p>Na inspiração, pressão intratorácica cai → VD expande → septo desviado para esquerda → compressão VE → ↓ VS → ↓ PA sistólica. No tamponamento, pericárdio tenso exacerba esse desvio → queda exagerada da PA sistólica na inspiração (>10 mmHg). Ocorre também em broncoespasmo grave e pericardite constritiva.</p>
+</div>
+
+<h3>Pneumotórax hipertensivo</h3>
+<p>Ar acumula no espaço pleural sob pressão positiva (mecanismo valvar), colapsando o pulmão e desviando o mediastino — comprime veias cavas e interrompe o retorno venoso → ↓ pré-carga → ↓ DC. Diagnóstico clínico em trauma instável: ausência de murmúrio vesicular, desvio de traqueia, ingurgitamento jugular, hipotensão, enfisema subcutâneo. Aguardar radiografia é contraindicado. Tratamento imediato: agulha no 2º EIC linha hemiclavicular + drenagem torácica.</p>
+</section>
+
+<!-- COMPENSAÇÃO AUTONÔMICA -->
+<section id="compensacao">
+<h2>Compensação autonômica</h2>
+
+<p>Independentemente da etiologia, o choque ativa uma cascata neuro-humoral estereotipada em três camadas temporais.</p>
+
+<h3>Imediata (segundos a minutos): barorreflexo</h3>
+<p>A queda na PAM reduz o estiramento dos barorreceptores de alta pressão no seio carotídeo (IX) e arco aórtico (X). O sinal aferente ao NTS reduz o tônus vagal (↑ FC) e aumenta a descarga simpática pelo RVLM: (1) taquicardia reflexa via β₁ no nódulo SA; (2) ↑ contratilidade via β₁ no miocárdio; (3) vasoconstricção arterial periférica via α₁ em pele, músculo e esplâncnico (↑ RVP); (4) venoconstricção (↑ retorno venoso). Os barorreceptores de baixa pressão (cardiopulmonares — AD, VD, capilares pulmonares) detectam queda de volume e ativam ADH, que causa vasoconstricção (V₁) e retenção de água livre (V₂).</p>
+
+<h3>Intermediária (minutos a horas): SRAA</h3>
+<p>Queda na perfusão renal + estímulo β₁ justaglomerular + redução de NaCl na mácula densa ativam o <a class="cross-link" href="../../farmacologia/hipertensao_sraa_anti-hipertensivos.html#sraa-cascata">SRAA</a>: renina → Ang I → ECA → Ang II. A Ang II: vasoconstrição sistêmica (↑ RVP), estímulo à aldosterona (↑ reabsorção de Na⁺ e H₂O no néfron distal), amplificação do simpático central, estímulo à sede. Adrenalina e noradrenalina da medula adrenal amplificam vasoconstrição e mobilizam glicogênio hepático (hiperglicemia de estresse).</p>
+
+<h3>Tardia (horas a dias): reposição de volume intersticial</h3>
+<p>Vasoconstricção capilar reduz pressão hidrostática nos capilares sistêmicos → gradiente favorável à reabsorção de fluido intersticial para o intravascular (lei de Starling). EPO estimulada por hipóxia inicia a recuperação da capacidade de carreamento de O₂.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites da compensação</div>
+  <p>Vasoconstrição compensatória tem custo biológico: isquemia esplâncnica → translocação bacteriana; isquemia renal → NTA; taquicardia → ↑ consumo de O₂ miocárdico em coração já hipoperfundido. Quando o limite temporal é superado, instala-se a descompensação.</p>
+</div>
+</section>
+
+<!-- DESCOMPENSAÇÃO -->
+<section id="descompensacao">
+<h2>Descompensação e falência de múltiplos órgãos</h2>
+
+<p>A transição de choque compensado para descompensado é um continuum de disfunção celular progressiva com janelas de reversibilidade que se estreitam com o tempo — fundamento dos "bundles" de ressuscitação com metas temporais (1h, 3h, 6h no choque séptico).</p>
+
+<h3>Acidose metabólica</h3>
+<p>O acúmulo de lactato e H⁺ gera acidose metabólica com ânion-gap elevado. A acidemia tem efeitos deletérios diretos: (1) depressão miocárdica — pH <7,2 reduz responsividade aos catecolaminas, diminuindo afinidade do receptor β₁ pela noradrenalina; (2) vasodilatação arteriolar por hiperpolarização mediada por H⁺; (3) deslocamento da curva de dissociação da Hb para a direita (efeito Bohr — paradoxalmente benéfico em tecidos mas prejudicial para captação pulmonar). pH <7,1 é marcador de choque grave.</p>
+
+<h3>Coagulação intravascular disseminada</h3>
+<p>Choque prolongado — especialmente séptico e hemorrágico grave — ativa a <a class="cross-link" href="../trombose-e-hemostasia.html#cid">CID</a>: isquemia endotelial expõe fator tecidual; lesão celular libera DAMPs; consumo de fatores e plaquetas leva a coagulopatia consumptiva. No trauma grave, a "tríade letal" (hipotermia + acidose + coagulopatia) é a principal causa de morte prevenível: cada componente exacerba os outros.</p>
+
+<h3>Síndrome da disfunção de múltiplos órgãos (SDMO)</h3>
+<p>Falência sequencial de ≥2 órgãos. Sequência mais comum: pulmão (SARA — neutrófilos ativados + citocinas) → rim (NTA — isquemia tubular proximal) → fígado (citólise, colestase) → intestino (translocação bacteriana) → hematopoiese (coagulopatia) → encéfalo (encefalopatia). A pontuação SOFA quantifica disfunção de 6 sistemas e prediz mortalidade; SOFA ≥2 define disfunção orgânica em Sepsis-3. A SDMO no choque não é apenas hipóxia prolongada — envolve imunossupressão paradoxal (CARS — apoptose de linfócitos), disfunção mitocondrial primária por NO e peroxinitrito, e disfunção microcirculatória persistente mesmo após restauração do DC macroscópico.</p>
+</section>
+
+<!-- TRATAMENTO POR TIPO -->
+<section id="tratamento">
+<h2>Tratamento por tipo</h2>
+
+<p>O princípio organizador é corrigir o determinante primário da falência circulatória enquanto se mantém a perfusão de órgãos-alvo com vasopressores e O₂ suplementar. Tratar choque cardiogênico com expansão volêmica agressiva é iatrogênico; tratar choque distributivo com vasopressores sem reposição de volume é insuficiente.</p>
+
+<table>
+  <caption>Tabela 2. Perfil hemodinâmico e tratamento por tipo de choque</caption>
+  <tr><th>Tipo</th><th>DC</th><th>RVP</th><th>POAP/PVC</th><th>Tratamento primário</th></tr>
+  <tr><td>Hipovolêmico</td><td>↓</td><td>↑</td><td>↓</td><td>Reposição de volume (cristaloides, sangue)</td></tr>
+  <tr><td>Distributivo (séptico)</td><td>↑ ou N</td><td>↓↓</td><td>N ou ↓</td><td>Antibióticos + volume + vasopressores</td></tr>
+  <tr><td>Cardiogênico</td><td>↓↓</td><td>↑</td><td>↑↑</td><td>Inotrópicos, revascularização, SCM</td></tr>
+  <tr><td>Obstrutivo (TEP)</td><td>↓</td><td>↑ pulmonar</td><td>PVC ↑, POAP ↓</td><td>Trombólise ou embolectomia; pericardiocentese no tamponamento</td></tr>
+</table>
+
+<h3>Choque hipovolêmico: ressuscitação volêmica</h3>
+<p>No choque hemorrágico, reanimação hemostática prioriza sangue sobre cristaloides: plasma fresco congelado (PFC), concentrado de hemácias (CH) e plaquetas na proporção 1:1:1. Cristaloides isotônicos (Ringer lactato preferido ao SF 0,9% — evita acidose hiperclorêmica) são usados como ponte. Ácido tranexâmico (ATX), inibidor da fibrinólise, reduz mortalidade quando administrado nas primeiras 3 horas do trauma hemorrágico (CRASH-2, 2010). A responsividade a fluidos é avaliada dinamicamente por <em>pulse pressure variation</em> (PPV), <em>stroke volume variation</em> (SVV) ou <em>passive leg raise</em> (PLR — elevação dos MMII a 45° por 1 min; aumento >10% no DC prediz responsividade).</p>
+
+<h3>Choque distributivo: vasopressores e controle do foco</h3>
+<p>Noradrenalina é o vasopressor de primeira linha no choque séptico (agonista α₁ com menor efeito cronotrópico que adrenalina). Meta: PAM ≥65 mmHg. Vasopressina (V₁) pode ser adicionada como poupadora de noradrenalina quando dose ≥0,25 µg/kg/min. Adrenalina é reservada ao choque séptico refratário e ao choque anafilático (epinefrina IM 0,3–0,5 mg no vasto lateral — tratamento primário da anafilaxia). Controle do foco infeccioso (drenagem, remoção de cateter, cirurgia) é tão crítico quanto antibióticos. "Hour-1 Bundle" (Surviving Sepsis Campaign 2018): hemoculturas + antibióticos + 30 mL/kg cristaloide + vasopressor se necessário — tudo na primeira hora. Corticoides (hidrocortisona 200 mg/dia) no choque refratário a vasopressores.</p>
+
+<h3>Choque cardiogênico: inotrópicos e revascularização</h3>
+<p>Dobutamina (agonista β₁ com leve vasodilatação β₂) aumenta o DC e reduz a POAP — inotrópico de escolha. Milrinona (inibidor de PDE3) tem perfil similar mas meia-vida mais longa, evitada em hipotensão grave. Noradrenalina necessária quando PA sistólica <80 mmHg para manter perfusão coronariana antes de adicionar inotrópico. Revascularização coronariana emergencial (ICP primária ou cirurgia) no IAM com choque — único tratamento que modifica a história natural (SHOCK Trial, 1999). Diuréticos (furosemida) reduzem congestão pulmonar com cautela para não reduzir excessivamente a pré-carga.</p>
+
+<h3>Choque obstrutivo: tratamento da causa</h3>
+<p>TEP maciço: trombólise sistêmica (alteplase 100 mg em 2h) em instabilidade hemodinâmica confirmada. Embolectomia cirúrgica ou aspiração percutânea (cateter) em contraindicação à trombólise. HNF IV concomitantemente. Tamponamento: pericardiocentese guiada por ecocardiografia (abordagem subxifoide) ou drenagem cirúrgica. Pneumotórax hipertensivo: descompressão imediata com agulha calibrosa no 2º EIC linha hemiclavicular + drenagem torácica.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões</h2>
+
+<p>O choque circulatório é o nó integrador da fisiopatologia cardiovascular. A resposta do <a class="cross-link" href="../../fisiologia/hipotensao-pos-exercicio-barorreflexo.html#barorreflexo">barorreflexo</a> ao choque é o mesmo arco reflexo do exercício — acionado com intensidade máxima e por tempo sustentado, revelando seus limites. O <a class="cross-link" href="../../farmacologia/hipertensao_sraa_anti-hipertensivos.html#sraa-cascata">SRAA</a>, benéfico na compensação aguda, torna-se maladaptativo na manutenção crônica — é o mesmo sistema que IECAs e BRAs bloqueiam na hipertensão e ICC. A <a class="cross-link" href="../trombose-e-hemostasia.html#cid">CID</a> fecha o triângulo: hipoperfusão → lesão endotelial → ativação da coagulação → microtrombose → piora da isquemia. A <a class="cross-link" href="../../imunologia/imunidade-inata.html#sepse">resposta inflamatória sistêmica na sepse</a> — com NF-κB, iNOS, TLR4 — é o substrato molecular do choque distributivo. Compêndios futuros: insuficiência cardíaca crônica (P3), aterosclerose (P4), vasopressores e inotrópicos (F4).</p>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 1</div>
+  <p>Qual o papel da disfunção microcirculatória como mecanismo independente de mortalidade no choque séptico? Estudos com microscopia de campo escuro (<em>side-stream dark field</em>) mostram que restaurar o DC macroscópico não corrige a heterogeneidade do fluxo capilar — mas não há intervenção validada para disfunção microcirculatória per se.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 2</div>
+  <p>Qual o alvo ótimo de PAM no choque séptico em hipertensos crônicos? O SEPSISPAM (2014) comparou PAM 80–85 vs 65–70 mmHg sem diferença em mortalidade global, mas com menos NTA em hipertensos no grupo de PA mais alta. A questão permanece aberta para subgrupos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 3</div>
+  <p>Cristaloides ou coloides na ressuscitação volêmica? O CRISTAL (2013) e SAFE (2004) não demonstraram superioridade de albumina 4% na maioria dos pacientes, mas subanálises em sepse são sugestivas de benefício. Solução salina hipertônica (7,5%) mostrou resultados promissores no trauma mas não confirmados em fase 3.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 4</div>
+  <p>O VA-ECMO melhora sobrevivência no choque cardiogênico refratário? O ECMO-CS (2023) e dados de registros sugerem benefício em centros experientes, mas a evidência de ensaios randomizados é ainda limitada — estudos como ANCHOR (em andamento) devem responder essa questão.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>Voltando à pergunta motivadora: PA 80×40, FC 130, pele fria e seca, TEC 4 segundos, lactato 6 mmol/L, confusão mental. O lactato elevado confirma hipoperfusão tecidual — choque estabelecido, independentemente da etiologia. A pele fria indica vasoconstricção simpática compensatória ativa — afasta choque distributivo precoce (que cursaria com pele quente). A distinção entre hipovolêmico e cardiogênico depende de dois achados físicos: veias jugulares e ausculta pulmonar. Jugulares colabadas + pulmões limpos = hipovolêmico. Jugulares ingurgitadas + estertores = cardiogênico. A infusão de 500 mL de cristaloide em bolus pode ser o teste terapêutico à beira leito: melhora de PA no hipovolêmico, piora da dispneia no cardiogênico.</p>
+
+<p>O tratamento de um piora o outro porque os determinantes hemodinâmicos primários são opostos. No hipovolêmico, o problema é pré-carga insuficiente — solução é volume. No cardiogênico, a pré-carga já está alta e o problema é contratilidade — adicionar volume piora edema pulmonar sem aumentar DC (o VE falido não consegue responder a mais pré-carga com mais VS). Vasopressores sem volume no hipovolêmico aumentam pós-carga sem pré-carga — podem piorar o DC.</p>
+
+<p>A emergência do choque como síndrome unificada revela um princípio clínico fundamental: a pressão arterial não é objetivo terapêutico — é proxy de perfusão. O lactato, ScvO₂ e sinais de hipoperfusão orgânica (oligúria, confusão, mottling) são marcadores mais fiéis do estado real da célula. Restaurar a PA sem restaurar a perfusão microcirculatória é tratar o número, não o paciente.</p>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<h3>Livros-texto fundamentais</h3>
+<ul>
+  <li><strong>Rang &amp; Dale's Pharmacology (10ª ed.)</strong> 🏷️ VOCÊ TEM — Capítulos sobre fármacos cardiovasculares: vasopressores, inotrópicos, diuréticos. Rang HR et al. Elsevier, 2024.</li>
+  <li><strong>Harrison's Principles of Internal Medicine (21ª ed.)</strong> — Seção "Shock and Cardiac Arrest" (Cap. 296–299). McGraw-Hill, 2022. Referência de profundidade clínica.</li>
+  <li><strong>Principles of Critical Care (4ª ed.)</strong> — Hall JB, Schmidt GA, Kress JP. McGraw-Hill, 2015. Cobertura exaustiva de monitorização hemodinâmica e manejo por tipo.</li>
+</ul>
+
+<h3>Artigos fundamentais</h3>
+<ul>
+  <li>VINCENT; DE BACKER. Circulatory shock. <em>NEJM</em>, 369:1726–1734, 2013. DOI: <a href="https://doi.org/10.1056/NEJMra1208943" target="_blank" rel="noopener" style="color:var(--ac)">10.1056/NEJMra1208943</a></li>
+  <li>SINGER et al. Sepsis-3. <em>JAMA</em>, 315(8):801–810, 2016. DOI: <a href="https://doi.org/10.1001/jama.2016.0287" target="_blank" rel="noopener" style="color:var(--ac)">10.1001/jama.2016.0287</a></li>
+  <li>HOCHMAN et al. SHOCK Trial. <em>NEJM</em>, 341:625–634, 1999. DOI: <a href="https://doi.org/10.1056/NEJM199908263410901" target="_blank" rel="noopener" style="color:var(--ac)">10.1056/NEJM199908263410901</a></li>
+</ul>
+</section>
+
+<!-- REFERÊNCIAS ABNT -->
+<section id="referencias">
+<h2>Referências ABNT</h2>
+<ol class="ref-list">
+  <li>BONE, R.C. et al. Definitions for sepsis and organ failure. <em>Chest</em>, v. 101, n. 6, p. 1644–1655, 1992. DOI: <a href="https://doi.org/10.1378/chest.101.6.1644" target="_blank" rel="noopener">10.1378/chest.101.6.1644</a></li>
+  <li>CRASH-2 TRIAL COLLABORATORS. Effects of tranexamic acid on death, vascular occlusive events, and blood transfusion in trauma patients. <em>Lancet</em>, v. 376, p. 23–32, 2010. DOI: <a href="https://doi.org/10.1016/S0140-6736(10)60835-5" target="_blank" rel="noopener">10.1016/S0140-6736(10)60835-5</a></li>
+  <li>HOCHMAN, J.S. et al. Early revascularization in acute myocardial infarction complicated by cardiogenic shock. <em>NEJM</em>, v. 341, n. 9, p. 625–634, 1999. DOI: <a href="https://doi.org/10.1056/NEJM199908263410901" target="_blank" rel="noopener">10.1056/NEJM199908263410901</a></li>
+  <li>LEVY, B. et al. SEPSISPAM. <em>NEJM</em>, v. 370, p. 1583–1593, 2014. DOI: <a href="https://doi.org/10.1056/NEJMoa1312173" target="_blank" rel="noopener">10.1056/NEJMoa1312173</a></li>
+  <li>SINGER, M. et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). <em>JAMA</em>, v. 315, n. 8, p. 801–810, 2016. DOI: <a href="https://doi.org/10.1001/jama.2016.0287" target="_blank" rel="noopener">10.1001/jama.2016.0287</a></li>
+  <li>VINCENT, J.L.; DE BACKER, D. Circulatory shock. <em>NEJM</em>, v. 369, p. 1726–1734, 2013. DOI: <a href="https://doi.org/10.1056/NEJMra1208943" target="_blank" rel="noopener">10.1056/NEJMra1208943</a></li>
+</ol>
+</section>
+
+</div><!-- end .prose -->
+</main>
+</div><!-- end #body-wrap -->
+
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('progress-bar');
+  const h=document.documentElement;
+  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  el.style.width=pct+'%';
+},{passive:true});
+
+// Sidebar toggle
+const sidebar=document.getElementById('sidebar');
+const bodyWrap=document.getElementById('body-wrap');
+const btn=document.getElementById('toggle-btn');
+function applySidebar(collapsed){
+  if(collapsed){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');btn.textContent='→';}
+  else{sidebar.classList.remove('collapsed');bodyWrap.classList.remove('sidebar-collapsed');btn.textContent='←';}
+}
+applySidebar(sessionStorage.getItem('sidebar-collapsed')==='1');
+btn.addEventListener('click',()=>{
+  const c=!sidebar.classList.contains('collapsed');
+  sessionStorage.setItem('sidebar-collapsed',c?'1':'0');
+  applySidebar(c);
+});
+
+// Active sidebar link
+const slinks=document.querySelectorAll('a.sl');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      slinks.forEach(l=>l.classList.remove('active'));
+      const match=document.querySelector('a.sl[href="#'+e.target.id+'"]');
+      if(match)match.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+
+// H2 highlight
+const h2obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting)e.target.classList.add('in-view');
+    else e.target.classList.remove('in-view');
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>h2obs.observe(s));
+</script>
+</body>
+</html>

@@ -23,6 +23,7 @@ Arquivo rastreado pelo Git. Fonte de verdade para o estado de migração de cada
 | Material | Caminho | Status | Última atualização |
 |----------|---------|--------|--------------------|
 | Trombose e Hemostasia | `medicina/fisiopatologia/trombose-e-hemostasia.html` | ✅ material piloto | 2026-06-20 |
+| Choque Circulatório | `medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html` | ✅ v2 completo | 2026-06-22 |
 
 ### Farmacologia
 
