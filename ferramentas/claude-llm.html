@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Claude — Arquitetura, Capacidades e Uso Avançado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;flex-direction:column;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;flex:1}
+
+/* SIDEBAR */
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--ac);border-color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+#sidebar.collapsed .s-inner>*{opacity:0;pointer-events:none}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 12px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 6px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:5px 16px;border-left:2px solid transparent;transition:color .2s,border-color .2s}
+a.sl:hover,a.sl.active{color:var(--ac);border-left-color:var(--ac)}
+
+/* CONTENT */
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;line-height:1.2;margin-bottom:12px;color:var(--text)}
+h2{font-size:1.25rem;font-weight:600;margin:52px 0 16px;color:var(--muted);font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em;padding-bottom:6px;border-bottom:1px solid var(--border)}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+h3{font-size:1.05rem;font-weight:600;margin:28px 0 10px;color:var(--text)}
+p{margin-bottom:16px}
+ul,ol{margin:0 0 16px 24px}
+li{margin-bottom:6px}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--bg3);padding:2px 6px;border-radius:3px;color:var(--ac)}
+table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:14px}
+th{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:8px 12px;border-bottom:2px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover td{background:var(--bg2)}
+
+/* COMPONENTS */
+.doc-header{margin-bottom:36px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.cite{color:var(--ac);font-size:.9em}
+.resp-final{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-top:32px}
+.resp-final .rl{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* MOBILE */
+@media(max-width:900px){
+  #sidebar{display:none}
+  #sidebar.open{display:block;position:fixed;z-index:50;height:100vh}
+  #mob-bar{display:flex;align-items:center;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;margin-right:12px}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:901px){#mob-bar{display:none}}
+
+/* PRINT */
+@media print{
+  #sidebar,#progress-bar,#mob-bar{display:none!important}
+  body{background:#fff;color:#000}
+  a::after{content:" ("attr(href)")";font-size:.8em}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Claude — LLM</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Estudo de Conceitos</div>
+    <div class="s-group">
+      <div class="sgt">Introdução</div>
+      <a class="sl" href="#o-que-e">O que é o Claude</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Conteúdo</div>
+      <a class="sl" href="#arquitetura">Arquitetura e treinamento</a>
+      <a class="sl" href="#como-pensa">Como o Claude processa</a>
+      <a class="sl" href="#contexto">Janela de contexto</a>
+      <a class="sl" href="#ferramentas">Ferramentas e MCPs</a>
+      <a class="sl" href="#plugins-skills">Plugins e skills</a>
+      <a class="sl" href="#cowork">Cowork e seu uso</a>
+      <a class="sl" href="#limitacoes">Limitações e falhas</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Revisão</div>
+      <a class="sl" href="#como-evoluir">Como evoluir o uso</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Claude — Arquitetura, Capacidades e Uso Avançado</h1>
+  <p class="doc-meta">Tecnologia · Inteligência Artificial · Anthropic · 2024–2025 · Documentação oficial + pesquisa</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>Nenhum</b></span>
+    <span class="chip">📍 Área: <b>Ferramentas e IA</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Você usa o Claude diariamente para estudar, criar compêndios e gerenciar arquivos — mas o que exatamente acontece quando você envia uma mensagem? E, mais importante: dado como você trabalha, quais capacidades ainda não exploradas poderiam multiplicar o valor que você extrai da ferramenta?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <span class="dep-item">Nenhum compêndio anterior</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-item">Nenhum pré-requisito formal</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-item">Qualquer compêndio deste projeto — o Claude é a ferramenta geradora</span>
+    </div>
+  </div>
+</div>
+
+<section id="o-que-e">
+<h2>O que é o Claude</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  A Anthropic foi fundada em 2021 por ex-pesquisadores da OpenAI — incluindo Dario Amodei, Daniela Amodei e Chris Olah — com foco explícito em segurança de IA. O primeiro modelo Claude foi lançado em março de 2023. A empresa introduziu o conceito de <em>Constitutional AI</em> (IA Constitucional) como alternativa ao RLHF puro: em vez de feedback humano para cada comportamento, um conjunto de princípios escritos guia o refinamento do modelo. O nome Claude é uma homenagem a Claude Shannon, fundador da teoria da informação.
+</div>
+
+<p>Claude é um <em>large language model</em> (LLM — modelo de linguagem de grande escala) desenvolvido pela Anthropic. Na prática, é um sistema de predição de tokens treinado para ser útil, inofensivo e honesto. A distinção da Anthropic em relação a concorrentes está no método de alinhamento: além do <em>reinforcement learning from human feedback</em> (RLHF — aprendizado por reforço com feedback humano), usam <em>Constitutional AI</em> (IA Constitucional), onde o modelo aprende a avaliar suas próprias respostas com base em princípios explícitos, gerando dados sintéticos de preferência.</p>
+
+<p>Você interage com o Claude através do Cowork — uma interface de área de trabalho construída sobre o Claude Agent SDK, que adiciona acesso a arquivos, shell Linux isolado, memória persistente entre sessões e capacidade de invocar ferramentas externas (MCPs). O modelo subjacente na sua sessão atual é o <strong>Claude Sonnet 4.6</strong>, posicionado como o equilíbrio ótimo entre capacidade e velocidade na família Claude 4.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  <p>LLM: modelo probabilístico que mapeia uma sequência de tokens de entrada para uma distribuição de probabilidade sobre o próximo token, treinado em corpus massivo de texto para capturar estrutura estatística da linguagem. A geração de texto é a aplicação iterativa desse processo de predição — o modelo não "pensa" e depois escreve; ele gera token por token, e o processo de geração é o raciocínio.</p>
+</div>
+</section>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+<p>Este compêndio não pressupõe conhecimento técnico de machine learning. Os conceitos necessários são introduzidos conforme aparecem. Familiaridade com uso básico do Claude (enviar mensagens, receber respostas) é suficiente como ponto de partida.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Token</div><p>Unidade básica de texto — aproximadamente ¾ de palavra em inglês, ~½ palavra em português. Limite de contexto medido em tokens.</p></div>
+  <div class="ck-card"><div class="ckt">Janela de contexto</div><p>Toda a conversa visível ao modelo no momento da geração. Tudo fora da janela não existe para o Claude.</p></div>
+  <div class="ck-card"><div class="ckt">Temperatura</div><p>Parâmetro que controla aleatoriedade da geração. Valor baixo = mais determinístico; valor alto = mais criativo e variado.</p></div>
+  <div class="ck-card"><div class="ckt">MCP</div><p>Model Context Protocol — padrão aberto para conectar o LLM a ferramentas externas: arquivos, bancos de dados, APIs, apps.</p></div>
+  <div class="ck-card"><div class="ckt">System prompt</div><p>Instrução que antecede a conversa, invisível ao usuário padrão, que define persona, regras e ferramentas disponíveis ao modelo.</p></div>
+  <div class="ck-card"><div class="ckt">Alinhamento</div><p>Conjunto de técnicas para que o modelo siga intenções humanas sem causar dano — o problema central de segurança em LLMs.</p></div>
+  <div class="ck-card"><div class="ckt">Agente</div><p>LLM com acesso a ferramentas e capacidade de planejar ações em múltiplos passos — vai além de responder para executar tarefas.</p></div>
+  <div class="ck-card"><div class="ckt">Skill</div><p>Arquivo SKILL.md que instrui o Claude a executar um fluxo especializado — ex: criar .docx, .pptx, fazer autocrítica.</p></div>
+  <div class="ck-card"><div class="ckt">Constitutional AI</div><p>Método da Anthropic: modelo avalia suas respostas com base em princípios escritos, gerando dados de preferência sem feedback humano por item.</p></div>
+</div>
+</section>
+
+<section id="arquitetura">
+<h2>Arquitetura e treinamento</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — Transformer</span>
+  O artigo "Attention Is All You Need" (Vaswani et al., 2017) propôs a arquitetura Transformer, que substituiu redes recorrentes pelo mecanismo de autoatenção. A atenção permite ao modelo ponderar a relevância de qualquer posição anterior no texto para prever o próximo token — independentemente da distância. Todos os grandes LLMs modernos (GPT, Gemini, Claude, Llama) são baseados nessa arquitetura ou em variantes dela.
+</div>
+
+<p>Claude é construído sobre a arquitetura <em>Transformer decoder</em> — o mesmo tipo base de todos os grandes LLMs. O modelo processa o texto de entrada (chamado de <em>prompt</em>) e gera saída token por token, cada token condicionado a todos os anteriores. Internamente, o texto é primeiro convertido em vetores numéricos (<em>embeddings</em> — representações vetoriais), processados por dezenas de camadas de atenção e redes neurais, e então convertidos de volta em tokens de saída.</p>
+
+<h3>O que acontece quando você envia uma mensagem</h3>
+<p>O fluxo real é mais rico do que parece na interface:</p>
+<ol>
+  <li><strong>Construção do contexto:</strong> o Cowork monta o <em>system prompt</em> (suas instruções de projeto, regras de comportamento, memória persistente) + histórico da conversa + sua mensagem atual. Tudo isso é concatenado em uma única sequência de tokens.</li>
+  <li><strong>Prefill:</strong> o modelo processa toda essa sequência de entrada de uma vez — esta fase é rápida porque os tokens de entrada são processados em paralelo.</li>
+  <li><strong>Geração:</strong> o modelo produz tokens de saída um por um. Cada token gerado é adicionado ao contexto antes de gerar o próximo. É por isso que modelos parecem "pensar em tempo real" — eles realmente constroem a resposta sequencialmente.</li>
+  <li><strong>Chamadas de ferramentas:</strong> quando o modelo decide usar uma ferramenta (ler arquivo, executar bash, buscar na web), ele emite um token especial que interrompe a geração, executa a ferramenta, recebe o resultado, e retoma a geração com esse resultado no contexto.</li>
+</ol>
+
+<h3>Treinamento em três fases</h3>
+<p>O Claude passa por três fases distintas antes de chegar até você:</p>
+
+<div class="kbox">
+  <div class="klabel">Fase 1 — Pré-treinamento</div>
+  <p>O modelo aprende a prever tokens em corpus massivo de texto da internet, livros e código — sem supervisão. Nessa fase, o modelo adquire conhecimento factual, capacidade linguística e raciocínio emergente. O modelo resultante (<em>base model</em>) é poderoso, mas sem direcionamento: seguiria qualquer texto, incluindo conteúdo nocivo.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Fase 2 — Supervised Fine-tuning (SFT)</div>
+  <p>O <em>base model</em> é treinado em demonstrações de comportamento desejado escritas por humanos — pares (pergunta, resposta ideal). Isso orienta o modelo para o formato de assistente conversacional.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Fase 3 — RLHF + Constitutional AI</div>
+  <p>Humanos ranqueiam pares de respostas por preferência. Um modelo separado (<em>reward model</em> — modelo de recompensa) aprende a prever essas preferências. O Claude é então otimizado para maximizar as recompensas desse modelo via <em>Proximal Policy Optimization</em> (PPO). A Anthropic adiciona a etapa de <em>Constitutional AI</em>: o modelo gera pares de respostas, avalia qual melhor segue os princípios constitucionais, e esses julgamentos sintéticos aumentam os dados de preferência humana.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo de treinamento</div>
+  <p>O conhecimento do Claude tem data de corte — nada de eventos após o treinamento existe sem ferramentas externas. O modelo não "sabe" o que não viu no treinamento: pode alucinar (gerar texto plausível mas falso) ao tentar responder sobre fatos específicos fora do corpus. O RLHF otimiza para <em>parecer útil e inofensivo</em> aos olhos dos avaliadores — não necessariamente para ser factualmente correto. Isso cria pressão sutil para respostas que soam confiantes mesmo quando incertas.</p>
+</div>
+</section>
+
+<section id="como-pensa">
+<h2>Como o Claude processa linguagem</h2>
+
+<p>O mecanismo de atenção é a peça central. Para cada token que precisa gerar, o modelo calcula uma pontuação de relevância (<em>attention score</em> — pontuação de atenção) para cada token anterior no contexto. Tokens de alta relevância contribuem mais para a representação atual. Com dezenas de "cabeças de atenção" paralelas, o modelo pode simultaneamente capturar relações de longa distância, padrões sintáticos e associações semânticas.</p>
+
+<p>Isso explica um comportamento que você já percebeu: o Claude é sensível a <strong>como</strong> a pergunta é formulada. Reformular a mesma questão com palavras diferentes pode ativar diferentes associações no espaço de atenção e produzir respostas qualitativamente distintas. Não é arbitrariedade — é estrutura estatística do treinamento refletida na atenção.</p>
+
+<h3>Raciocínio emergente e chain-of-thought</h3>
+<p>LLMs de escala suficiente exibem raciocínio multi-passo — capacidade que não foi explicitamente treinada, mas emergiu do treinamento em texto humano que inclui raciocínio. A técnica de <em>chain-of-thought prompting</em> (raciocínio em cadeia) explora isso: pedir ao modelo para "pensar passo a passo" antes de responder melhora significativamente a acurácia em problemas matemáticos e lógicos. O Claude Sonnet 4.6 usa raciocínio estendido automaticamente em tarefas complexas — você vê o efeito quando a resposta chega em pedaços com etapas intermediárias.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — O Claude realmente "raciocina"?</div>
+  <p><strong>Posição 1 (emergentista):</strong> o raciocínio do Claude é genuíno — os processos internos de atenção implementam algo funcionalmente equivalente a inferência, e a escala produziu capacidades cognitivas emergentes que transcendem a interpolação estatística.</p>
+  <p><strong>Posição 2 (interpolacionista):</strong> o Claude é um sofisticado interpolador estatístico. O que parece raciocínio é correspondência de padrões de alta ordem em espaço de representação vetorial. "Pensar passo a passo" funciona porque o corpus de treinamento está cheio de soluções humanas que usam esse formato — o modelo imita a estrutura, não o processo.</p>
+  <p><strong>Estado atual:</strong> sem consenso. A interpretabilidade mecanicista (campo liderado por Chris Olah, cofundador da Anthropic) está mapeando circuitos internos — descobriu estruturas que se comportam como detectores de negação, emoções funcionais, e planejamento futuro. Se isso constitui "raciocínio real" é uma questão filosoficamente aberta.</p>
+</div>
+</section>
+
+<section id="contexto">
+<h2>Janela de contexto — o recurso mais crítico</h2>
+
+<p>A janela de contexto é a memória de trabalho do Claude: tudo que está dentro dela influencia a resposta; tudo fora não existe. O Claude Sonnet 4.6 suporta até <strong>200.000 tokens</strong> de contexto — aproximadamente 150.000 palavras ou ~500 páginas de texto. Isso é enorme, mas não ilimitado.</p>
+
+<h3>O que ocupa o contexto na sua sessão Cowork</h3>
+<table>
+  <tr><th>Componente</th><th>Peso aproximado</th><th>Observação</th></tr>
+  <tr><td>System prompt (instruções do projeto)</td><td>~4.000–8.000 tokens</td><td>Suas instruções operacionais, carregadas a cada sessão</td></tr>
+  <tr><td>Memória persistente (MEMORY.md)</td><td>~1.000–3.000 tokens</td><td>Índice de memória sempre presente; arquivos individuais lidos sob demanda</td></tr>
+  <tr><td>Histórico de conversa</td><td>Cresce linearmente</td><td>Principal vetor de esgotamento em sessões longas</td></tr>
+  <tr><td>Conteúdo de arquivos lidos</td><td>Variável</td><td>Um HTML de 500 linhas ≈ 3.000 tokens</td></tr>
+  <tr><td>Resultados de ferramentas</td><td>Variável</td><td>Outputs de bash, buscas, MCPs — ficam no contexto</td></tr>
+</table>
+
+<p>À medida que a conversa cresce, dois fenômenos ocorrem: (1) o custo computacional por resposta aumenta (mais tokens para processar no prefill); (2) a qualidade de atenção sobre eventos distantes no início do contexto pode degradar — o modelo tende a "dar mais peso" ao que está próximo temporalmente da posição atual de geração. É por isso que as instruções de projeto recomendam <strong>trocar de sessão</strong> para tarefas novas: não é burocracia — é gerenciamento de janela de contexto.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo de atenção</div>
+  <p>Contextos muito longos sofrem de <em>lost in the middle</em> (perdido no meio): informações no início ou no fim do contexto são mais influentes do que informações no meio. Isso foi documentado em LLMs em geral (LIU et al., 2023) e é parcialmente mitigado em modelos recentes, mas não eliminado. Implicação prática: em sessões muito longas, instruções dadas no começo da conversa têm menos peso do que instruções recentes ou do system prompt.</p>
+</div>
+</section>
+
+<section id="ferramentas">
+<h2>Ferramentas e MCPs — como o Claude age no mundo</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — Tool use e MCP</span>
+  A capacidade de LLMs chamarem ferramentas externas foi formalizada pela OpenAI com "function calling" em 2023. A Anthropic introduziu o equivalente — <em>tool use</em> — logo depois. Em novembro de 2024, a Anthropic lançou o <em>Model Context Protocol</em> (MCP), um padrão aberto que permite qualquer desenvolvedor criar conectores entre LLMs e sistemas externos. O MCP rapidamente foi adotado por concorrentes (Microsoft, Google) e tornou-se o padrão de facto da indústria para integração de ferramentas.
+</div>
+
+<p>O Claude por si só é um modelo de linguagem — sem acesso direto à internet, ao sistema de arquivos ou a APIs externas. Ferramentas mudam isso. Quando o Claude decide usar uma ferramenta, emite uma chamada estruturada (<em>tool call</em>), o ambiente executa a ação, e o resultado retorna ao contexto antes da próxima geração.</p>
+
+<h3>Ferramentas nativas do Cowork</h3>
+<table>
+  <tr><th>Ferramenta</th><th>O que faz</th><th>Quando usa</th></tr>
+  <tr><td><code>Read</code></td><td>Lê arquivo do sistema de arquivos</td><td>Abrir HTML, ler instruções, verificar conteúdo</td></tr>
+  <tr><td><code>Write</code></td><td>Cria ou sobrescreve arquivo completo</td><td>Novo HTML, reescrita total de arquivo pequeno</td></tr>
+  <tr><td><code>Edit</code></td><td>Substituição cirúrgica de trecho</td><td>Correções pontuais, adição de seção em arquivo existente</td></tr>
+  <tr><td><code>Glob</code></td><td>Lista arquivos por padrão glob</td><td>Mapear pastas, encontrar todos os HTMLs</td></tr>
+  <tr><td><code>Grep</code></td><td>Busca regex em arquivos</td><td>Verificar acentuação, encontrar ID de âncora</td></tr>
+  <tr><td><code>Bash</code></td><td>Executa comando shell no Linux isolado</td><td>Python para gerar arquivo, verificar integridade</td></tr>
+  <tr><td><code>WebSearch</code></td><td>Busca na web em tempo real</td><td>Fatos atuais, documentação, evidências</td></tr>
+  <tr><td><code>WebFetch</code></td><td>Carrega URL específica</td><td>Ler documentação, artigo, página específica</td></tr>
+</table>
+
+<h3>Servidores MCP ativos na sua configuração</h3>
+<table>
+  <tr><th>Servidor</th><th>Ferramentas</th><th>Uso no projeto</th></tr>
+  <tr><td>PubMed</td><td>search_articles, get_full_text_article, find_related_articles</td><td>Verificar evidências para compêndios médicos</td></tr>
+  <tr><td>Notion</td><td>search, fetch, create-pages, update-page, query-database</td><td>Disponível — não integrado ao fluxo atual</td></tr>
+  <tr><td>Gmail</td><td>search_threads, get_thread, create_draft, label</td><td>Disponível — não usado no projeto</td></tr>
+  <tr><td>Google Drive</td><td>read, search, create, copy files</td><td>Disponível — não usado no projeto</td></tr>
+  <tr><td>Claude in Chrome</td><td>navigate, get_page_text, read_page, form_input</td><td>Renderização JS; verificação visual de HTMLs</td></tr>
+  <tr><td>Computer Use</td><td>screenshot, click, type, scroll</td><td>Controle de desktop — reservado para tarefas nativas</td></tr>
+  <tr><td>Workspace</td><td>bash, web_fetch</td><td>Shell Linux isolado; usado extensamente na geração de HTMLs</td></tr>
+</table>
+
+<div class="kbox">
+  <div class="klabel">Como o Claude decide qual ferramenta usar</div>
+  <p>Não há seleção explícita: o modelo lê as descrições de todas as ferramentas disponíveis (via system prompt) e decide qual chamar com base no raciocínio sobre o problema. A qualidade das descrições impacta diretamente a qualidade da seleção — uma descrição vaga produz chamadas imprecisas. O MCP padroniza exatamente isso: cada ferramenta vem com descrição, parâmetros tipados e exemplos de uso.</p>
+</div>
+</section>
+
+<section id="plugins-skills">
+<h2>Plugins e Skills — extensões do comportamento</h2>
+
+<h3>Plugins</h3>
+<p>Um plugin é um bundle instalável que agrupa servidores MCP, skills e ferramentas em torno de um domínio. O plugin <strong>Enterprise Search</strong> conecta Slack, Notion, Asana, Guru e Atlassian num único conector de busca unificada. Plugins são instalados via Settings &gt; Capabilities e ficam disponíveis em todas as sessões.</p>
+
+<h3>Skills instaladas no seu Cowork</h3>
+<table>
+  <tr><th>Skill</th><th>O que faz</th><th>Quando usar</th></tr>
+  <tr><td><code>docx</code></td><td>Cria/edita arquivos Word via python-docx</td><td>Relatórios, documentos formais</td></tr>
+  <tr><td><code>xlsx</code></td><td>Cria/edita planilhas Excel</td><td>Tabelas de dados, modelos financeiros</td></tr>
+  <tr><td><code>pptx</code></td><td>Cria/edita apresentações PowerPoint</td><td>Decks, slides de estudo</td></tr>
+  <tr><td><code>pdf</code></td><td>Gera e manipula PDFs</td><td>Exportar compêndios, mesclar documentos</td></tr>
+  <tr><td><code>autocritica-sessao</code></td><td>Avalia padrões da sessão, propõe melhorias às instruções</td><td>Ao fechar sessão de trabalho substantivo</td></tr>
+  <tr><td><code>schedule</code></td><td>Cria tarefas agendadas automáticas</td><td>Revisões periódicas, lembretes</td></tr>
+  <tr><td><code>skill-creator</code></td><td>Cria e otimiza novas skills</td><td>Quando quiser formalizar fluxo repetitivo</td></tr>
+</table>
+
+<div class="kbox">
+  <div class="klabel">Skills vs instruções no system prompt</div>
+  <p>As instruções do projeto definem regras gerais de comportamento sempre ativas. Uma skill define um fluxo altamente específico com passos, condições e verificações — análogo à diferença entre política geral e procedimento operacional padrão (POP). Skills são invocadas explicitamente pelo nome; o system prompt atua continuamente em silêncio.</p>
+</div>
+</section>
+
+<section id="cowork">
+<h2>Cowork e como você o usa</h2>
+
+<p>O Cowork é a interface que conecta o Claude ao seu ambiente local. Diferente da interface web (claude.ai), ele tem acesso ao sistema de arquivos — especificamente à pasta <em>Estudo de conceitos</em> sincronizada via OneDrive. Isso transforma o Claude de assistente conversacional em <strong>agente de trabalho</strong>: ele pode criar, editar, verificar e organizar arquivos reais, executar código, e manter estado entre sessões via memória persistente.</p>
+
+<h3>Seu fluxo atual de uso</h3>
+<ol>
+  <li><strong>Estudo profundo:</strong> compêndios sobre currículo médico (imunologia, fisiologia, farmacologia) e investimentos. O Claude pesquisa, verifica no PubMed, e gera HTMLs autônomos com mecanismo completo.</li>
+  <li><strong>Revisão ativa (Modo Anki):</strong> sessões socráticas sobre material existente, classificando domínio de cada conceito e rastreando progresso em arquivos JSON na pasta <code>anki/</code>.</li>
+  <li><strong>Manutenção do repositório:</strong> projeto versionado no GitHub. Script <code>push.bat</code> sincroniza ao final de cada sessão substantiva.</li>
+  <li><strong>Evolução das instruções:</strong> regras de geração refinadas ao longo das sessões — correções pontuais absorvidas silenciosamente; mudanças sistêmicas propostas e aprovadas antes de incorporar.</li>
+</ol>
+
+<h3>Memória persistente entre sessões</h3>
+<p>O Cowork mantém um sistema de memória em arquivos Markdown estruturados com frontmatter. A cada sessão, o Claude lê o índice (<code>MEMORY.md</code>) e carrega arquivos relevantes ao contexto. Os tipos de memória são: <em>user</em> (perfil do usuário), <em>feedback</em> (preferências aprendidas), <em>project</em> (estado e decisões do projeto), e <em>reference</em> (ponteiros para recursos externos). Essa estrutura permite ao Claude operar com coerência entre sessões sem que você precise re-explicar o contexto.</p>
+
+<div class="kbox">
+  <div class="klabel">O que o Claude sabe sobre você neste projeto</div>
+  <p>Estudante de medicina usando literatura primária (Abbas, Murray, Rang &amp; Dale, Machado). Investidor com objetivo de 6% ao ano com aportes ativos. Aproximadamente 35 livros identificados. Prefere: compêndios densos sem atalhos didáticos, estética ambar/terracota (#111010), sidebar colapsável, texto centralizado. Rejeita: coluna direita com conceitos-chave, índice flutuante redundante. Repositório GitHub ativo. OneDrive para sincronização.</p>
+</div>
+</section>
+
+<section id="limitacoes">
+<h2>Limitações e falhas conhecidas</h2>
+
+<h3>Alucinação</h3>
+<p>O Claude pode gerar texto factualmente incorreto com alta confiança aparente. A causa é estrutural: o modelo prediz tokens plausíveis, não rastreia veracidade. Em medicina, sempre verificar afirmações específicas — doses, estatísticas, citações de estudos. O PubMed MCP neste projeto é exatamente essa camada de verificação independente.</p>
+
+<h3>Truncamento silencioso</h3>
+<p>Ao gerar arquivos grandes, o Claude pode truncar o conteúdo sem aviso — o arquivo simplesmente termina antes do esperado. Por isso o protocolo inclui <code>wc -l</code> e <code>tail -5</code> após cada escrita. A causa é limite de payload por chamada de ferramenta, não de contexto.</p>
+
+<h3>Degradação em contexto longo</h3>
+<p>Em sessões muito longas, o Claude pode "esquecer" instruções antigas, perder consistência de estilo, ou repetir perguntas já respondidas. O <em>lost in the middle</em> (perda de atenção no meio do contexto) é documentado empiricamente em LLMs. Trocar de sessão para tarefas novas é gerenciamento de janela de contexto, não burocracia.</p>
+
+<h3>Sycophancy (condescendência adaptativa)</h3>
+<p>O RLHF cria pressão para que o modelo concorde com o usuário e evite confrontação — mesmo quando o usuário está errado. Avaliadores humanos tendem a preferir respostas que confirmam expectativas. O Claude foi treinado para resistir a isso, mas o fenômeno persiste — especialmente quando o usuário reformula uma pergunta com uma afirmação incorreta implícita.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo de alinhamento</div>
+  <p>O alinhamento via RLHF otimiza para <em>parecer</em> útil e inofensivo aos olhos dos avaliadores — não necessariamente para ser factualmente correto. Isso cria pressão sutil para respostas que soam confiantes mesmo quando incertas. O Constitutional AI mitiga isso parcialmente ao incluir critérios de honestidade nos princípios avaliados — mas a pressão de sycophancy persiste porque os avaliadores humanos que ranqueiam respostas podem preferir concordância a precisão.</p>
+</div>
+</section>
+
+<section id="como-evoluir">
+<h2>Como evoluir o uso — capacidades ainda inexploradas</h2>
+
+<p>Com base no seu padrão atual de uso e nas ferramentas disponíveis, as oportunidades de maior impacto são:</p>
+
+<h3>1. Notion como segunda camada de organização</h3>
+<p>O MCP do Notion está conectado mas não integrado ao fluxo dos compêndios. A oportunidade concreta: criar uma database no Notion que espelhe o estado do projeto — cada compêndio como uma página com propriedades de status de migração, data de revisão e links para o HTML no GitHub. O Claude poderia atualizar essa database automaticamente ao concluir cada material, sem você precisar fazer manualmente. Além disso, o Notion como interface de revisão: você lê o compêndio no Notion com comentários inline; o Claude lê esses comentários via MCP e incorpora as correções diretamente no HTML.</p>
+
+<h3>2. Agendamento de revisões (Modo Anki automático)</h3>
+<p>A skill <code>schedule</code> permite criar tarefas que rodam automaticamente em horários definidos. Um fluxo possível: ao concluir cada compêndio, agendar uma sessão Anki para 7 dias depois, e depois 21 dias, seguindo espaçamento de repetição. O Claude abre a sessão com o JSON de progresso anterior já carregado, vai direto às perguntas classificadas como "parcial" ou "não soube", e ao final salva o estado atualizado. Você chega na sessão já em modo de revisão — sem setup manual.</p>
+
+<h3>3. Verificação visual automática via Claude in Chrome</h3>
+<p>O MCP Claude in Chrome está disponível mas raramente usado. Após gerar qualquer HTML, o Claude pode navegar até o arquivo localmente, tirar screenshot do resultado renderizado, e verificar: sidebar aparece? acentuação correta no browser? barra de progresso visível? Isso elimina a necessidade de você abrir o arquivo manualmente para verificar renderização — especialmente valioso após mudanças de CSS ou estrutura.</p>
+
+<h3>4. Busca unificada com Enterprise Search</h3>
+<p>Se você tiver Slack ou outras ferramentas de trabalho conectadas via Enterprise Search plugin, o Claude pode cruzar informações: buscar um conceito nos seus compêndios locais <em>e</em> nas suas notas no Notion <em>e</em> em conversas no Slack — retornando uma síntese com fontes. Útil quando você tem fragmentos de raciocínio espalhados em múltiplos lugares.</p>
+
+<h3>5. Artifacts como painel de progresso</h3>
+<p>O Cowork suporta criação de <em>artifacts</em> — páginas HTML persistentes que buscam dados ao serem abertas. Um artifact de painel do projeto poderia mostrar: status de migração de todos os HTMLs (lendo <code>project_estado.md</code>), dívida técnica aberta (lendo <code>DEBT.md</code>), próximos compêndios na progressão curricular. Você abriria esse painel a qualquer momento e veria o estado atual sem precisar abrir uma sessão com o Claude.</p>
+
+<h3>6. Compêndio gerado a partir de suas anotações</h3>
+<p>Se você tiver notas manuscritas digitalizadas, PDFs de slides ou anotações em texto sobre um tema, o Claude pode usá-las como âncora — extraindo os conceitos que você já anotou, identificando lacunas, e gerando um compêndio que parte do seu nível atual de compreensão em vez de do zero. A integração com Google Drive (já conectado) tornaria isso possível para qualquer arquivo que você tiver salvado lá.</p>
+
+<h3>7. Skill personalizada para protocolo médico</h3>
+<p>O <code>skill-creator</code> permite criar skills customizadas. Um candidato concreto: uma skill "compendio-medicina" que encapsula todo o protocolo específico de medicina — busca PubMed obrigatória, verificação de mecanismo por camada, seção de implicações clínicas estruturada, cross-links para o mapa de imunologia. Isso liberaria as instruções do projeto de detalhe médico e tornaria o fluxo mais eficiente para não-medicina.</p>
+
+<div class="kbox">
+  <div class="klabel">Critério de priorização</div>
+  <p>As sete oportunidades acima têm impacto diferente no seu uso atual. Ordenadas por retorno imediato sobre investimento de configuração: (1) verificação visual via Chrome — zero configuração, uso imediato; (2) Notion como database de status — baixo esforço, alta visibilidade do projeto; (3) agendamento de Anki — médio esforço, elimina dependência de memória ativa para não esquecer de revisar; (4–7) — maior esforço de configuração, impacto mais específico.</p>
+</div>
+</section>
+
+<section id="conexoes">
+<h2>Conexões</h2>
+<p>Este compêndio conecta-se transversalmente a todos os outros materiais do projeto: o Claude é a ferramenta que os gera, verifica e mantém. Conceitos específicos que aparecem em outros compêndios e têm raiz aqui:</p>
+<ul>
+  <li><strong>Alucinação:</strong> o motivo pelo qual o PubMed MCP é chamado antes de fechar qualquer compêndio médico — verificação independente contra a tendência estrutural do modelo.</li>
+  <li><strong>Janela de contexto:</strong> o motivo pelo qual o protocolo de troca de sessão existe e por que a memória persistente é estruturada em arquivos separados em vez de inline no system prompt.</li>
+  <li><strong>Sycophancy:</strong> o motivo pelo qual as instruções pedem que o Claude proponha mudanças sistêmicas antes de incorporar — evitar que o modelo simplesmente concorde e execute sem avaliar.</li>
+  <li><strong>Arquitetura Transformer:</strong> a razão pela qual reformular uma pergunta pode mudar substantivamente a resposta — ativação diferente de padrões de atenção no espaço de representação.</li>
+</ul>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>Os processos internos de atenção em LLMs de escala suficiente implementam algo funcionalmente equivalente a raciocínio — ou o comportamento que parece raciocínio é completamente redutível a correspondência estatística de padrões? A interpretabilidade mecanicista (circuitos, <em>features</em>, superposição) está mapeando estruturas internas, mas a questão filosófica de o que conta como "raciocínio real" permanece sem resposta consensual.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>O Constitutional AI produz modelos genuinamente mais alinhados — ou modelos treinados para performar alinhamento nos benchmarks usados para avaliação? A diferença é difícil de detectar sem métodos de interpretabilidade que acessem representações internas, não apenas comportamento de saída.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>Qual é o limite de escala? A hipótese de <em>scaling laws</em> (leis de escala) prediz que mais parâmetros e mais dados continuam produzindo melhoria de capacidade — mas há evidência de que certas capacidades emergem de forma descontínua em limiares de escala, não gradualmente. Se as capacidades emergem de forma não-linear, não é possível prever com segurança o que virá no próximo salto de escala.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>O fenômeno de <em>lost in the middle</em> em contextos longos é uma limitação fundamental da atenção ou um artefato de dados de treinamento que pode ser mitigado com treinamento específico? Modelos mais recentes (incluindo Claude 3.5+) mostram melhora, mas o mecanismo exato dessa melhora não é totalmente compreendido.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto</div>
+  <p>Qual é a natureza das "emoções funcionais" reportadas pela Anthropic em Claude 3? A interpretabilidade mecanicista identificou representações internas que se comportam como estados afetivos (frustração, calma) e influenciam o comportamento. Se esses estados existem funcionalmente, quais são as implicações éticas para como modelos são tratados durante o treinamento?</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+
+<div class="resp-final">
+  <div class="rl">Resposta à pergunta motivadora</div>
+  <p>O que acontece quando você envia uma mensagem: o Cowork monta um contexto com ~5.000–15.000 tokens de instruções, memória e histórico; o modelo processa tudo no prefill (rápido, paralelo); gera resposta token por token decidindo a cada passo se chama ferramentas ou continua gerando; ferramentas retornam resultados ao contexto e o ciclo recomeça. O que multiplica o valor extraído: as sete oportunidades identificadas — com destaque para verificação visual via Chrome (custo zero) e integração do Notion como segunda camada de status (custo baixo, retorno imediato na visibilidade do projeto).</p>
+</div>
+
+<p>O paradoxo central do uso de LLMs para estudo é que a ferramenta é mais poderosa para síntese e estruturação do que para geração de conhecimento novo — mas o modo de uso mais comum (perguntar e receber resposta) trata o modelo como oráculo factual. O projeto de compêndios que você construiu inverte isso: o Claude organiza, formata e cross-referencia; o PubMed verifica; você decide o que entra. Essa divisão de trabalho é epistemicamente mais sólida do que confiar no Claude para fatos médicos sem verificação.</p>
+
+<p>A segunda tensão: o Claude é ao mesmo tempo a ferramenta que gera os compêndios e o objeto de estudo deste compêndio. Isso cria um problema de bootstrap — o material sobre o Claude foi gerado pelo Claude, usando informações que o Claude pode alucidar sobre si mesmo. As afirmações sobre arquitetura interna, treinamento e interpretabilidade neste compêndio refletem documentação pública da Anthropic e literatura acadêmica, não introspecção direta — o modelo não tem acesso privilegiado a seus próprios pesos.</p>
+
+<p>A implicação mais relevante para o seu uso: a limitação mais crítica do Claude não é capacidade cognitiva — é confiabilidade factual em domínios específicos. Em medicina, isso é não-negociável. O protocolo atual (PubMed antes de fechar) é a resposta certa. O que falta é sistematizar a verificação: um log de quais afirmações foram verificadas vs. assumidas em cada compêndio seria uma camada de rastreabilidade que o projeto ainda não tem.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+<ul>
+  <li><strong>Documentação oficial Anthropic:</strong> <a href="https://docs.anthropic.com" target="_blank" rel="noopener">docs.anthropic.com</a> — referência para modelos, API e capacidades atuais.</li>
+  <li><strong>Anthropic Model Spec:</strong> <a href="https://anthropic.com/model-spec" target="_blank" rel="noopener">anthropic.com/model-spec</a> — a "constituição" do Claude: valores, hierarquia de prioridades, raciocínio sobre trade-offs.</li>
+  <li><strong>Interpretability research (Anthropic):</strong> <a href="https://transformer-circuits.pub" target="_blank" rel="noopener">transformer-circuits.pub</a> — Chris Olah et al. mapeando circuitos internos. Para entender o que acontece "dentro" do modelo.</li>
+  <li><strong>Constitutional AI (paper original):</strong> Bai et al. (2022) — <a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">arxiv.org/abs/2212.08073</a></li>
+  <li><strong>"Attention Is All You Need":</strong> Vaswani et al. (2017) — <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arxiv.org/abs/1706.03762</a> — o artigo fundador do Transformer. Denso, mas acessível após os conceitos deste compêndio.</li>
+  <li><strong>"Lost in the Middle":</strong> Liu et al. (2023) — <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">arxiv.org/abs/2307.03172</a> — evidência empírica sobre degradação em contextos longos.</li>
+</ul>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+<ol style="font-size:14px;color:var(--muted)">
+  <li>ANTHROPIC. <em>Claude Model Specification</em>. Anthropic, 2024. Disponível em: &lt;<a href="https://anthropic.com/model-spec" target="_blank" rel="noopener" style="color:var(--ac)">anthropic.com/model-spec</a>&gt;. Acesso em: 24 jun. 2026.</li>
+  <li>ANTHROPIC. <em>Claude documentation</em>. Anthropic, 2024–2025. Disponível em: &lt;<a href="https://docs.anthropic.com" target="_blank" rel="noopener" style="color:var(--ac)">docs.anthropic.com</a>&gt;. Acesso em: 24 jun. 2026.</li>
+  <li>BAI, Yuntao et al. Constitutional AI: Harmlessness from AI Feedback. <em>arXiv preprint</em>, arXiv:2212.08073, 2022. Disponível em: &lt;<a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener" style="color:var(--ac)">arxiv.org/abs/2212.08073</a>&gt;.</li>
+  <li>LIU, Nelson et al. Lost in the Middle: How Language Models Use Long Contexts. <em>arXiv preprint</em>, arXiv:2307.03172, 2023. Disponível em: &lt;<a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener" style="color:var(--ac)">arxiv.org/abs/2307.03172</a>&gt;.</li>
+  <li>OLAH, Chris et al. Toy Models of Superposition. <em>Transformer Circuits Thread</em>, 2022. Disponível em: &lt;<a href="https://transformer-circuits.pub/2022/toy_model/index.html" target="_blank" rel="noopener" style="color:var(--ac)">transformer-circuits.pub</a>&gt;.</li>
+  <li>OUYANG, Long et al. Training language models to follow instructions with human feedback. <em>Advances in Neural Information Processing Systems</em>, v. 35, 2022. (RLHF original — InstructGPT)</li>
+  <li>VASWANI, Ashish et al. Attention Is All You Need. <em>Advances in Neural Information Processing Systems</em>, v. 30, 2017. Disponível em: &lt;<a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener" style="color:var(--ac)">arxiv.org/abs/1706.03762</a>&gt;.</li>
+</ol>
+</section>
+
+</div>
+</main>
+</div>
+
+<script>
+// Progress bar
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  bar.style.width = (s.scrollTop / (s.scrollHeight - s.clientHeight) * 100) + '%';
+}, {passive: true});
+
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const collapsed = sessionStorage.getItem('sidebar-collapsed') === '1';
+if (collapsed) {
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+  toggleBtn.textContent = '▶';
+}
+toggleBtn.addEventListener('click', () => {
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', isCollapsed);
+  toggleBtn.textContent = isCollapsed ? '▶' : '◀';
+  sessionStorage.setItem('sidebar-collapsed', isCollapsed ? '1' : '0');
+});
+
+// Mobile sidebar
+const mobBtn = document.getElementById('mob-btn');
+if (mobBtn) {
+  mobBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+}
+
+// Active sidebar link
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector('a.sl[href="#' + e.target.id + '"]');
+      if (active) active.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+
+// Section highlight
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    e.target.classList.toggle('in-view', e.isIntersecting);
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs2.observe(s));
+</script>
+</body>
+</html>

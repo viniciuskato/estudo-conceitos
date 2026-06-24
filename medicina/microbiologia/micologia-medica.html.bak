@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Micologia Médica — Compêndio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;flex-direction:column;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+#body-wrap{display:flex;flex:1;min-height:0}
+
+/* Sidebar */
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:8px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;border-radius:4px;width:28px;height:28px;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui)}
+#toggle-btn:hover{border-color:var(--ac);color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:12px 0}
+#sidebar.collapsed .s-inner>*{opacity:0;pointer-events:none}
+.s-logo{padding:4px 14px 12px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em}
+.s-group{margin-bottom:16px}
+.s-group-title{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 14px;margin-bottom:4px}
+a.sl{display:block;padding:5px 14px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac)}
+
+/* Content */
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;overflow-y:auto}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Header */
+.doc-header{margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.doc-header h1{font-family:var(--font-body);font-size:2.1rem;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.3}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+/* Pergunta motivadora */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Painel de dependências */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+/* Tipografia */
+h2{font-size:1.45rem;font-weight:600;color:var(--text);margin:48px 0 16px;padding-top:8px}
+h3{font-size:1.15rem;font-weight:600;color:var(--ac);margin:32px 0 12px}
+h4{font-size:1rem;font-weight:600;color:var(--muted);margin:24px 0 8px;font-family:var(--font-ui)}
+p{margin-bottom:1.2em}
+ul,ol{padding-left:1.4em;margin-bottom:1.2em}
+li{margin-bottom:.4em}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic;color:var(--muted)}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+
+/* Elementos especiais */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.cite{color:var(--ac);font-size:.88em}
+
+/* Tabela */
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;font-family:var(--font-ui)}
+th{background:var(--bg3);color:var(--ac);font-weight:600;text-align:left;padding:8px 12px;border-bottom:2px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:hover td{background:var(--bg2)}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:6px;margin-bottom:20px;font-style:italic}
+
+/* Referências */
+#referencias ol{padding-left:1.2em}
+#referencias li{font-size:14px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+#referencias a{color:var(--ac);text-decoration:none}
+#referencias a:hover{text-decoration:underline}
+
+/* Mobile */
+@media(max-width:900px){
+  #sidebar{display:none}
+  #sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--bg2)}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  .doc-header h1{font-size:1.6rem}
+}
+@media(min-width:901px){#mob-bar{display:none}}
+
+/* Print */
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#progress-bar,#mob-bar{display:none}
+  #content{padding:20px}
+  a::after{content:" (" attr(href) ")";font-size:11px;color:#555}
+  a.cross-link::after,a.sl::after{content:""}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <button id="mob-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;border-radius:4px;width:28px;height:28px;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui)">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-left:10px">Micologia Médica</span>
+</div>
+
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">◀</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Microbiologia</div>
+    <div class="s-group">
+      <div class="s-group-title">Neste compêndio</div>
+      <a class="sl" href="#pergunta-motivadora">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#biologia-fungica">Biologia fúngica</a>
+      <a class="sl" href="#parede-celular">Parede celular</a>
+      <a class="sl" href="#morfologia">Morfologia e dimorfismo</a>
+      <a class="sl" href="#reproducao">Reprodução e ciclo</a>
+      <a class="sl" href="#patogenese">Patogênese geral</a>
+      <a class="sl" href="#micoses-superficiais">Micoses superficiais</a>
+      <a class="sl" href="#micoses-subcutaneas">Micoses subcutâneas</a>
+      <a class="sl" href="#micoses-sistemicas">Micoses sistêmicas</a>
+      <a class="sl" href="#micoses-oportunistas">Micoses oportunistas</a>
+      <a class="sl" href="#diagnostico">Diagnóstico</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Micologia Médica</h1>
+  <p class="doc-meta">Medicina · Microbiologia · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~45 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>Biologia celular básica</b></span>
+    <span class="chip">🔗 Depende de: <b>Imunologia M9 (Resposta a Patógenos)</b></span>
+    <span class="chip">📍 Área: <b>Microbiologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<section id="pergunta-motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente HIV-positivo com CD4 de 40 células/mm³ desenvolve cefaleia progressiva e febre baixa. A punção lombar revela pressão de abertura elevada e tinta da China positiva no LCR. Por que um fungo que é inofensivo para 99% da população consegue cruzar a barreira hematoencefálica e causar meningite fatal neste paciente — e quais propriedades moleculares tornam isso possível?</p>
+</div>
+</section>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../imunologia/resposta-a-patogenos.html#fungos">M9 — Resposta a Patógenos (fungos)</a>
+      <a class="dep-item" href="../imunologia/imunidade-inata.html">M4 — Imunidade Inata</a>
+      <a class="dep-item" href="../imunologia/linfocitos-t-diferenciacao.html#th17">M8 — Th17 (resposta antifúngica)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Biologia celular — membrana e parede</a>
+      <a class="dep-item" href="#">Bioquímica — esterol e ergosterol</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Farmacologia F6 — Antifúngicos (futuro)</a>
+      <a class="dep-item" href="#">Patologia — Granulomas (futuro)</a>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTOS NECESSÁRIOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>Fungos são eucariotos — compartilham com células humanas o núcleo membranoso, mitocôndrias, ribossomos 80S e vias de sinalização intracelular. Essa proximidade filogenética é o principal obstáculo ao desenvolvimento de antifúngicos seletivos: alvos exclusivos do fungo são raros, o que explica a toxicidade inerente de vários fármacos da classe.</p>
+
+<p>A diferença estrutural mais explorada terapeuticamente é a composição da membrana plasmática: células humanas contêm <strong>colesterol</strong>, enquanto fungos contêm <strong>ergosterol</strong> — um esterol similar em estrutura mas com duplas ligações extras que conferem propriedades físicas distintas. Essa diferença é o alvo da anfotericina B e dos azóis.</p>
+
+<p>A parede celular fúngica — ausente em células humanas — é uma segunda vantagem terapêutica. Ela é composta principalmente por <strong>β-1,3-glucana</strong>, <strong>quitina</strong> e <strong>mananas</strong>. A síntese de β-1,3-glucana é inibida pelas equinocandinas. A parede também é o principal <a class="cross-link" href="../imunologia/resposta-a-patogenos.html#fungos">padrão molecular reconhecido pela imunidade inata</a> — Dectin-1 e Dectin-2 são receptores CLR que reconhecem β-glucana e mananas, respectivamente.</p>
+
+<p>O conceito de <strong>dimorfismo</strong> — a capacidade de alternar entre forma filamentosa (hifa) e leveduriforme — é central à patogênese das micoses sistêmicas. O gatilho é a temperatura: 25°C favorece a forma micelial (sapróbia, no ambiente), 37°C favorece a forma leveduriforme (parasitária, no hospedeiro). Essa transição envolve reprogramação genética profunda e é indispensável à virulência.</p>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Ergosterol</div><p>Esterol da membrana fúngica — alvo dos azóis (inibição da síntese) e da anfotericina B (ligação direta). Ausente em células humanas.</p></div>
+  <div class="ck-card"><div class="ckt">β-1,3-glucana</div><p>Polissacarídeo estrutural da parede celular fúngica. Ligante de Dectin-1 na imunidade inata. Alvo das equinocandinas.</p></div>
+  <div class="ck-card"><div class="ckt">Dimorfismo</div><p>Capacidade de alternar morfologia entre hifa (25°C, ambiente) e levedura (37°C, hospedeiro). Essencial à virulência das micoses sistêmicas endêmicas.</p></div>
+  <div class="ck-card"><div class="ckt">Cápsula de glucuronoxilomanana</div><p>Estrutura exclusiva de <em>Cryptococcus</em>. Inibe fagocitose, suprime ativação do complemento e modula resposta Th1→Th2 desfavorável.</p></div>
+  <div class="ck-card"><div class="ckt">Hifa vs. levedura</div><p>Hifas invadem tecido e evitam fagocitose por tamanho. Leveduras são fagocitadas mas podem sobreviver intracelularmente — mecanismo "Trojan horse".</p></div>
+  <div class="ck-card"><div class="ckt">Deficiência de Th17</div><p>Principal imunodeficiência predisponente a micoses mucocutâneas. IL-17 e IL-22 coordenam a defesa epitelial e o recrutamento de neutrófilos.</p></div>
+  <div class="ck-card"><div class="ckt">Micose oportunista</div><p>Infecção por fungo de baixa virulência intrínseca que só causa doença em hospedeiro imunossuprimido. Ex: candidíase invasiva em neutropenia, criptococose em AIDS.</p></div>
+  <div class="ck-card"><div class="ckt">Galactomanana</div><p>Antígeno de parede de <em>Aspergillus</em>. Detectável no soro e no lavado broncoalveolar dias antes da manifestação clínica — biomarcador diagnóstico chave.</p></div>
+  <div class="ck-card"><div class="ckt">β-D-glucana sérica</div><p>Biomarcador panfúngico (exceto Cryptococcus e Mucorales). Positivo em candidíase invasiva, aspergilose, pneumocistose. Sensível mas pouco específico.</p></div>
+</div>
+</section>
+
+<!-- BIOLOGIA FÚNGICA -->
+<section id="biologia-fungica">
+<h2>Biologia fúngica — por que fungos são distintos</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1835–1910</span>
+  Agostino Bassi (1835) foi o primeiro a demonstrar que um microrganismo — <em>Beauveria bassiana</em> — causava doença em insetos, antecipando a teoria dos germes. Em humanos, David Gruby descreveu <em>Microsporum audouinii</em> em tinea capitis (1843) e identificou <em>Candida albicans</em> como agente do "muguet" (1842). Raymond Sabouraud sistematizou a dermatofitologia no início do século XX, desenvolvendo o ágar que leva seu nome — ainda usado hoje. A era moderna da micologia médica começou em 1951, quando Chester Emmons isolou <em>Histoplasma capsulatum</em> do solo, estabelecendo o conceito de fungo dimórfico de habitat definido.
+</div>
+
+<p>O reino Fungi é tão distante evolutivamente de bactérias quanto de animais. Fungos são <strong>heterotróficos por absorção</strong> — secretam enzimas hidrolíticas no ambiente e absorvem os produtos. Essa estratégia é central à patogênese: as proteases, lipases e fosfolipases secretadas para digerir tecido vegetal ou matéria orgânica no solo são as mesmas que degradam tecidos do hospedeiro.</p>
+
+<p>Existem estimativas de 2,2 a 3,8 milhões de espécies fúngicas, das quais menos de 300 causam doença em humanos, e apenas cerca de 20 são responsáveis pela grande maioria das infecções clínicas <span class="cite">(STRICKLAND; SHI, 2021)</span>. Esse número pequeno reflete não a raridade de fungo patogênico, mas a eficácia da imunidade inata e adaptativa em conter o que seriam potenciais patógenos.</p>
+
+<p>A grande divisão taxonômica relevante para a medicina é entre <strong>Ascomycota</strong> (inclui <em>Candida</em>, <em>Aspergillus</em>, <em>Histoplasma</em>, <em>Coccidioides</em>, <em>Pneumocystis</em>) e <strong>Basidiomycota</strong> (inclui <em>Cryptococcus</em>). Os <strong>Mucorales</strong> (agentes de mucormicose) pertencem a um filo basal, Mucoromycota, com características distintas que explicam sua resistência a equinocandinas e azóis de primeira geração.</p>
+</section>
+
+<!-- PAREDE CELULAR -->
+<section id="parede-celular">
+<h2>Parede celular — estrutura e alvos terapêuticos</h2>
+
+<p>A parede celular fúngica é uma malha dinâmica e estratificada, indispensável à integridade osmótica e à forma celular. Ao contrário do que o nome sugere, não é rígida — ela se remodela continuamente durante crescimento, divisão e transição dimórfica. Sua composição varia por espécie e por fase de crescimento, mas três polímeros são universais entre fungos patogênicos:</p>
+
+<p><strong>β-1,3-glucana</strong> forma o esqueleto estrutural interno. É sintetizada pela enzima <em>β-1,3-glucana sintase</em> (codificada pelo gene <em>FKS1</em>), um complexo na membrana plasmática que usa UDP-glicose como substrato. Mutações no domínio "hot spot" de FKS1 conferem resistência às equinocandinas — mecanismo de resistência emergente em <em>Candida glabrata</em> (hoje reclassificada como <em>Nakaseomyces glabrata</em>). A β-glucana é também o principal <strong>PAMP</strong> (<em>pathogen-associated molecular pattern</em>) fúngico, reconhecida pelo receptor Dectin-1 (CLR) em macrófagos e neutrófilos, desencadeando fagocitose, explosão oxidativa e produção de IL-17.</p>
+
+<p><strong>Quitina</strong> é um polímero de N-acetilglicosamina (GlcNAc) ligado em β-1,4 — o mesmo monômero que compõe o peptideoglicano bacteriano, embora com arranjo diferente. Em fungos, a quitina forma microfibrilas entrelaçadas na parede interna, conferindo rigidez. É sintetizada pelas <strong>quitina sintases</strong> (CHS1–CHS7 em <em>C. albicans</em>). Embora seja alvo atraente (ausente em mamíferos), inibidores de quitina sintase não alcançaram uso clínico por dificuldades farmacocinéticas.</p>
+
+<p><strong>Mananas e glicoproteínas</strong> compõem a camada externa da parede, voltada para o ambiente. As manoproteínas são altamente glicosiladas e conferem à parede suas propriedades de superfície — adesão a células do hospedeiro, resistência à fagocitose e modulação imune. Em <em>Candida</em>, as proteínas da família <em>Als</em> (<em>agglutinin-like sequence</em>) são adesinas que se ligam a fibronectina, laminina e células epiteliais. Em <em>Aspergillus</em>, as rodletas (<em>RodA</em>) na superfície dos conídios mascaram β-glucana e retardam o reconhecimento imune por horas — janela crítica para estabelecimento inicial da infecção.</p>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — parede como alvo estático</div>
+  <p>A concepção da parede como estrutura fixa subestima sua plasticidade. Em resposta a equinocandinas, <em>C. albicans</em> aumenta a espessura de quitina — mecanismo de tolerância que não envolve mutação (é fenotípico, não genético) e que pode permitir sobrevivência enquanto mutações em FKS1 não surgem. Isso cria um fenômeno de "tolerância paradoxal" (<em>paradoxical growth</em>) observado in vitro mas de significância clínica ainda debatida.</p>
+</div>
+</section>
+
+<!-- MORFOLOGIA E DIMORFISMO -->
+<section id="morfologia">
+<h2>Morfologia e dimorfismo térmico</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1934</span>
+  William Rhoda demonstrou em 1934 que <em>Histoplasma capsulatum</em> crescia como fungo filamentoso em temperatura ambiente mas como levedura a 37°C — o primeiro relato experimental do dimorfismo térmico. A base molecular só seria elucidada décadas depois, quando Howard e colaboradores identificaram reguladores transcricionais (como Ryp1/2/3 em <em>Histoplasma</em>) que mediam a transição de fases.
+</div>
+
+<p>A morfologia fúngica pode ser dividida em dois grandes paradigmas: <strong>leveduras</strong> e <strong>fungos filamentosos</strong> (bolores). As leveduras são células unicelulares esféricas a ovoides, que se reproduzem por brotamento. Os fungos filamentosos crescem por extensão apical de hifas tubulares que se ramificam e entrelaçam formando o <strong>micélio</strong>.</p>
+
+<p>Uma terceira forma morfológica relevante clinicamente é o <strong>pseudomicélio</strong> de <em>Candida albicans</em>: cadeias de células alongadas que não se separam completamente após o brotamento, formando estruturas similares a hifas mas sem o septação típica. O <strong>micélio verdadeiro</strong> de <em>C. albicans</em> — com hifas compartimentadas e tubo germinativo distinto — é produzido sob condições específicas (pH neutro-alcalino, soro, 37°C, CO₂ elevado) e é crítico para invasão tecidual: hifas ativam genes de virulência como <em>HWP1</em> (proteína de parede que media adesão ao epitélio por ligação covalente à transglutaminase do hospedeiro) e <em>ECE1</em> (precursor de candidalisina, peptídeo lítico que perfura membranas epiteliais) <span class="cite">(LOPES; LIONAKIS, 2022)</span>.</p>
+
+<h3>O switch levedura↔hifa em <em>Candida albicans</em></h3>
+
+<p>A transição morfológica em <em>C. albicans</em> é regulada por uma rede de sinalização complexa. O sinal extracelular mais estudado é a temperatura (37°C) combinada com soro (que contém fatores séricos não completamente identificados). A cascata intracelular envolve a via <strong>Ras1-cAMP-PKA</strong>: ativação de Ras1 → adenilato ciclase (Cyr1) → cAMP → PKA → fosforilação de Efg1, principal fator de transcrição pro-hifal. Paralelamente, a via <strong>MAPK Cek1/Hog1</strong> integra estresse da parede celular com a decisão morfológica.</p>
+
+<p>No hospedeiro, a forma hifal é mais invasiva mas mais imunogênica: a β-glucana fica exposta nas hifas, enquanto nas leveduras é parcialmente mascarada por manoproteínas. A resposta imune do hospedeiro tem que lidar com dois alvos morfologicamente distintos: neutrófilos formam NETs (<em>neutrophil extracellular traps</em>) para capturar hifas grandes demais para ser fagocitadas, enquanto macrófagos fagocitam leveduras.</p>
+
+<h3>Dimorfismo nas micoses endêmicas</h3>
+
+<p>Nos fungos dimórficos patogênicos — <em>Histoplasma capsulatum</em>, <em>Coccidioides immitis/posadasii</em>, <em>Blastomyces dermatitidis</em>, <em>Paracoccidioides brasiliensis</em> e <em>Sporothrix schenckii</em> — o dimorfismo é térmico e ocorre em resposta à temperatura corporal (37°C). A forma micelial no solo produz propágulos infectantes (<strong>microconídios</strong> em <em>Histoplasma</em>; <strong>artroconídios</strong> em <em>Coccidioides</em>) que, quando inalados, convertem-se à forma leveduriforme (ou, em <em>Coccidioides</em>, a esférulas) nos pulmões.</p>
+
+<p>Esta conversão é essencial à patogenicidade — mutantes que não completam a transição são avirulentos. Os mecanismos moleculares incluem o gene <em>DRK1</em> (histidina quinase), conservado entre fungos dimórficos, que regula a expressão de <em>Ryp1</em>, <em>Ryp2</em> e <em>Ryp3</em> — fatores de transcrição que reprogramam o metabolismo, a composição da parede celular e a expressão de fatores de virulência da forma leveduriforme.</p>
+
+<table>
+  <thead><tr><th>Fungo</th><th>Forma ambiental (25°C)</th><th>Forma parasitária (37°C)</th><th>Propágulo infectante</th></tr></thead>
+  <tbody>
+    <tr><td><em>Histoplasma capsulatum</em></td><td>Micélio (hifas e microconídios)</td><td>Levedura intracelular (2–4 µm)</td><td>Microconídio ou fragmento de hifa</td></tr>
+    <tr><td><em>Coccidioides immitis</em></td><td>Micélio (artroconídios)</td><td>Esférula com endósporos</td><td>Artroconídio (3–5 µm)</td></tr>
+    <tr><td><em>Blastomyces dermatitidis</em></td><td>Micélio</td><td>Levedura de brotamento largo (8–15 µm)</td><td>Conídio</td></tr>
+    <tr><td><em>Paracoccidioides brasiliensis</em></td><td>Micélio</td><td>Levedura "roda de leme" (multibrotamento)</td><td>Conídio</td></tr>
+    <tr><td><em>Candida albicans</em></td><td>Levedura (sapróbia/comensal)</td><td>Levedura + hifas (patogênica)</td><td>N/A (comensal endógeno)</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 1. Dimorfismo nos principais fungos patogênicos humanos.</p>
+</section>
+
+<!-- REPRODUÇÃO E CICLO -->
+<section id="reproducao">
+<h2>Reprodução e ciclo de vida</h2>
+
+<p>Fungos se reproduzem por esporos — estruturas resistentes produzidas sexualmente ou assexualmente. A maioria dos fungos medicamente relevantes se reproduz principalmente por via <strong>assexual</strong> no ambiente clínico, embora formas sexuais existam (e sejam taxonomicamente importantes).</p>
+
+<p>Na reprodução assexual, os esporos são chamados <strong>conídios</strong> quando produzidos externamente em estruturas especializadas (<em>conidióforos</em>) — como em <em>Aspergillus</em> — ou <strong>artroconídios</strong> quando formados por fragmentação de hifas — como em <em>Coccidioides</em> e dermatófitos. Em <em>Cryptococcus</em>, a forma de dispersão é o basidiósporo, produzido sexualmente por reprodução de basidiomiceto (<em>Cryptococcus</em> tem fase sexual com <em>Filobasidiella neoformans</em>), mas os basidiósporos dessecados no ambiente são os propágulos inalados.</p>
+
+<p>O tamanho dos esporos é clinicamente relevante: conídios de <em>Aspergillus fumigatus</em> medem 2–3 µm — ideais para deposição alveolar. Artroconídios de <em>Coccidioides</em> medem 3–5 µm. Ambos atingem os alvéolos e escapam à maioria dos filtros mucociliares. Por contraste, os macroconídios de dermatófitos (30–100 µm) não alcançam os pulmões e ficam restritos à superfície cutânea.</p>
+</section>
+
+<!-- PATOGÊNESE GERAL -->
+<section id="patogenese">
+<h2>Patogênese geral das micoses</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1976</span>
+  O conceito de "tríade epidemiológica do hospedeiro" para micoses foi formalizado por John Utz nos anos 1970, reconhecendo que a maioria das micoses sistêmicas era oportunista — dependente de imunocomprometimento — e não de alta virulência intrínseca. Esse entendimento foi transformado pela epidemia de AIDS nos anos 1980, que revelou a escala das infecções fúngicas quando a imunidade Th1/Th17 colapsa.
+</div>
+
+<p>A patogênese fúngica pode ser analisada em três momentos: (1) aquisição e estabelecimento inicial, (2) invasão e disseminação, (3) resposta imune do hospedeiro e desfecho.</p>
+
+<h3>Aquisição e vias de entrada</h3>
+
+<p>A maioria das micoses começa por uma das três vias: <strong>inalação</strong> de esporos (via mais comum — <em>Aspergillus</em>, <em>Cryptococcus</em>, <em>Histoplasma</em>, <em>Coccidioides</em>), <strong>inoculação cutânea</strong> por trauma (esporotricose, cromomicose, micetoma) ou <strong>endógena</strong> por translocação do microbioma commensal (<em>Candida</em> do trato gastrintestinal na candidíase invasiva). A via inalatória é epidemiologicamente mais importante: fungos do solo e de dejetos de animais produzem esporos que se tornam aerossóis e são respirados inadvertidamente.</p>
+
+<h3>Fatores de virulência</h3>
+
+<p>Diferentemente de bactérias patogênicas que possuem toxinas e fatores de virulência de alta potência, a maioria dos fungos patogênicos é de <strong>virulência intrínseca baixa a moderada</strong> — sua capacidade de causar doença depende fortemente do estado imune do hospedeiro. Os principais fatores de virulência são:</p>
+
+<p><strong>Termotolerância a 37°C</strong> parece trivial mas é, de fato, um filtro poderoso: dos milhões de espécies fúngicas existentes, apenas uma fração cresce bem a temperatura corporal. <em>Aspergillus fumigatus</em> cresce até 50°C — adaptação provavelmente selecionada por crescimento em compostagem (55–60°C) que coincidentemente o habilita ao pulmão humano.</p>
+
+<p><strong>Melanina</strong> é produzida por várias espécies patogênicas (<em>Cryptococcus</em>, <em>Aspergillus fumigatus</em>, <em>Histoplasma</em>). Ela neutraliza espécies reativas de oxigênio (ROS) geradas pelo burst oxidativo dos fagócitos, inibe a apoptose da célula fúngica e confere resistência a antifúngicos anfotericina B (reduz a permeabilidade da membrana). Em <em>Cryptococcus</em>, a síntese de melanina usa substratos do hospedeiro (L-DOPA no SNC — daí a predileção pelo sistema nervoso central).</p>
+
+<p><strong>Cápsula de glucuronoxilomanana (GXM)</strong> de <em>Cryptococcus neoformans</em> é o paradigma de evasão imune fúngica <span class="cite">(STRICKLAND; SHI, 2021)</span>. A GXM: (a) inibe a fagocitose ao interferir com opsonização por C3b; (b) inibe apresentação de antígenos; (c) induz produção de IL-10 (citocina anti-inflamatória) e suprime IL-12 (pró-Th1); (d) ativa FasL em células T, induzindo apoptose linfocitária. O resultado é uma desvio imune de Th1 (protetora) para Th2/regulatória (permissiva), explicando a incapacidade do hospedeiro em conter a infecção.</p>
+
+<p><strong>Candidalisina</strong> é um peptídeo de 31 aminoácidos derivado da proteína Ece1p de <em>C. albicans</em>, secretado por hifas. Ele perfora a membrana plasmática de células epiteliais, causando influxo de cálcio, ativação de MAPK e liberação de IL-1α. É o principal determinante de dano tecidual mediado por hifas em mucosas.</p>
+
+<p><strong>Proteases secretadas</strong> — especialmente as secreted aspartyl proteases (SAPs, SAP1–SAP10 em <em>C. albicans</em>) — degradam proteínas do hospedeiro: IgA secretora (prejudicando imunidade de mucosa), fibronectina, colágeno IV (facilitando invasão da membrana basal) e proteínas do complemento C3 e C4b (evasão da opsonização).</p>
+
+<p><strong>Biofilme</strong>: <em>Candida</em> forma biofilmes em dispositivos médicos (cateteres venosos, próteses valvares, sondas). O biofilme é uma comunidade sessil de leveduras e hifas embebidas em matriz extracelular rica em β-glucana e mananas. Esta matriz: (a) impede a penetração de antifúngicos (concentrações inibitórias mínimas 100–1000× maiores no biofilme vs. células planctônicas); (b) protege contra fagocitose; (c) serve como reservatório de células resistentes. A formação de biofilme é o principal fator de risco para candidemia associada a cateter.</p>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — virulência como continuum</div>
+  <p>A divisão entre "patógeno primário" (causa doença em imunocompetentes — <em>Histoplasma</em>, <em>Coccidioides</em>) e "oportunista" (requer imunocomprometimento — <em>Candida</em>, <em>Aspergillus</em>) é didática mas simplificadora. <em>Candida auris</em>, por exemplo, causa surtos nosocomiais mesmo em unidades sem pacientes gravemente imunossuprimidos. <em>Cryptococcus gattii</em> (distinto do <em>neoformans</em>) causa criptococose em imunocompetentes na ilha de Vancouver e no Pacífico Noroeste. A virulência é um contínuo influenciado por cepa, inoculo, porta de entrada e suscetibilidade individual.</p>
+</div>
+
+<h3>Disseminação</h3>
+
+<p>A disseminação hematogênica de fungos exige sobrevivência no sangue — ambiente hostil com complemento ativado, neutrófilos circulantes e macrófagos esplênicos. O mecanismo mais fascinante é o <strong>"Trojan horse"</strong>: fagócitos (macrófagos e células dendríticas) ingerem esporos/leveduras mas são incapazes de destruí-los — o fungo sobrevive e replica intracelularmente, sendo transportado pelo próprio fagócito para órgãos distantes. <em>Cryptococcus neoformans</em> é o exemplo mais estudado: sobrevive em macrófagos alveolares e é transportado ao SNC, onde traversa a barreira hematoencefálica de três formas: (1) passagem transcelular direta (transcitose); (2) passagem entre células endoteliais (via paracelular, facilitada por proteases e fosfolipases); (3) carregado por macrófagos infectados <span class="cite">(STRICKLAND; SHI, 2021)</span>.</p>
+</section>
+
+<!-- MICOSES SUPERFICIAIS -->
+<section id="micoses-superficiais">
+<h2>Micoses superficiais e cutâneas</h2>
+
+<p>Micoses superficiais afetam estruturas queratinizadas (pele, unhas, cabelo) sem invasão do tecido vivo subjacente. A lesão é causada por enzimas fúngicas que degradam queratina e por resposta inflamatória do hospedeiro. São as micoses mais prevalentes globalmente.</p>
+
+<h3>Dermatofitoses (tineas)</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1841–1910</span>
+  Johann Lukas Schönlein descreveu a tinea favosa em 1839. David Gruby identificou o agente como fungo em 1841. Raymond Sabouraud, em sua monografia de 1910, classificou os dermatófitos nos gêneros <em>Trichophyton</em>, <em>Microsporum</em> e <em>Epidermophyton</em> — classificação que permanece em uso com modificações menores.
+</div>
+
+<p>Os dermatófitos (<em>Trichophyton</em>, <em>Microsporum</em> e <em>Epidermophyton</em>) são fungos altamente especializados que parasitam queratina. Possuem queratinases específicas (cerinase, subtilisina) que clivam a queratina em peptídeos absorvíveis. A invasão é estritamente limitada à camada córnea — barreira de células mortas — impedida de progredir para derme viva por: (a) pH ácido do sebo, (b) proteínas com atividade antifúngica (transferrina insaturada, que quelata ferro necessário ao fungo), (c) temperatura da derme viva (36–37°C é inibitória para crescimento micelial de dermatófitos que crescem melhor a 25–28°C), (d) resposta imune mediada por células na derme.</p>
+
+<p>A nomenclatura das tineas segue a localização anatômica: <em>tinea capitis</em> (couro cabeludo), <em>tinea pedis</em> (pé — "pé de atleta"), <em>tinea unguium</em> ou onicomicose (unhas), <em>tinea corporis</em> (tronco e membros), <em>tinea cruris</em> (região inguinal), <em>tinea versicolor</em> (nota: causada por <em>Malassezia</em>, não por dermatófito — ver abaixo).</p>
+
+<p>O diagnóstico clínico é suportado pelo exame microscópico de raspados com hidróxido de potássio (KOH) a 10–20% — que dissolve as células humanas mas preserva as hifas fúngicas — e cultura em ágar Sabouraud (pH 5,6, cloranfenicol para inibir bactérias).</p>
+
+<h3>Candidíase cutânea e oral</h3>
+
+<p><em>Candida albicans</em> é comensal da mucosa oral, vaginal e gastrintestinal em 30–70% dos adultos saudáveis. A candidíase oral ("muguet") ocorre quando fatores locais perturbam o equilíbrio comensal: antibióticos (eliminam bactérias competidoras), corticoides inalatórios (supressão imune local), xerostomia (reduz IgA e péptideos antimicrobianos salivares), prótese dentária (suporte físico para biofilme). Clinicamente, são placas brancas removíveis aderidas à mucosa, revelando base eritematosa quando destacadas.</p>
+
+<p>A candidíase vulvovaginal (CVV) afeta ~75% das mulheres ao longo da vida. Fatores predisponentes: gravidez (↑ glicogênio epitelial, fonte de carbono), antibióticos sistêmicos, diabetes mellitus. CVV recorrente (≥4 episódios/ano) afeta ~8% das mulheres e pode indicar deficiência imune de Th17 ou polimorfismo em receptores de reconhecimento de padrões (Dectin-1).</p>
+
+<h3>Pitiríase versicolor (<em>Malassezia</em>)</h3>
+
+<p><em>Malassezia furfur</em> e espécies relacionadas são leveduras lipofílicas que fazem parte do microbioma cutâneo normal. A pitiríase versicolor representa uma proliferação excessiva, favorecida por calor, umidade e seborréia. O fungo produz ácido azelaico que inibe a tirosinase melanocítica, causando máculas hipopigmentadas (em pele mais escura) ou eritematosas (em pele mais clara). O diagnóstico é feito pelo exame de KOH que revela o padrão clássico "espaguete com almôndegas" (hifas curtas e esporos arredondados).</p>
+</section>
+
+<!-- MICOSES SUBCUTÂNEAS -->
+<section id="micoses-subcutaneas">
+<h2>Micoses subcutâneas</h2>
+
+<p>As micoses subcutâneas resultam de inoculação traumática de fungos do solo ou vegetação, geralmente por espinhos, farpas ou detritos vegetais. Caracteristicamente, o fungo fica confinado ao tecido subcutâneo e estruturas adjacentes, com disseminação sistêmica rara (exceto em imunossuprimidos).</p>
+
+<h3>Esporotricose (<em>Sporothrix schenckii</em>)</h3>
+
+<p>A esporotricose é a micose subcutânea mais prevalente globalmente, com epidemia atual no Rio de Janeiro relacionada à transmissão zoonótica por gatos domésticos — superando em muito a forma clássica de inoculação por espinhos de rosa. <em>Sporothrix schenckii</em> é um fungo dimórfico: micélio com conídios piriformes ("pétalas de margarida") no ambiente, levedura oval de brotamento único a 37°C no tecido.</p>
+
+<p>A forma mais comum é a <strong>linfocutânea</strong>: lesão primária no local de inoculação (pápula que evolui para úlcera), seguida de lesões nodulares ao longo dos vasos linfáticos ascendentes ("rosário linfático"). A disseminação sistêmica é rara e ocorre principalmente em pacientes com AIDS ou etilismo grave.</p>
+
+<h3>Cromomicose e micetoma</h3>
+
+<p>A <strong>cromomicose</strong> é causada por fungos dematiáceos (<em>Fonsecaea pedrosoi</em>, <em>Cladophialophora carrionii</em>) que produzem melanina abundante, conferindo cor marrom-escura às células fúngicas no tecido (<strong>células escleróticas</strong> ou corpos de Medlar — patognomônicas). A doença é de evolução lenta, décadas, com lesões verrucosas e fibrose progressiva no membro inferior.</p>
+
+<p>O <strong>micetoma</strong> pode ser fúngico (eumicetoma, causado por <em>Madurella mycetomatis</em>) ou bacteriano (actinomicetoma, por <em>Nocardia</em> e <em>Actinomadura</em>). A apresentação clínica é semelhante — tríade de tumor, trajetos fistulosos e grãos drenados — mas o tratamento é distinto, daí a importância diagnóstica. Os grãos brancos sugerem actinomicetoma; grãos negros sugerem eumicetoma.</p>
+</section>
+
+<!-- MICOSES SISTÊMICAS ENDÊMICAS -->
+<section id="micoses-sistemicas">
+<h2>Micoses sistêmicas endêmicas</h2>
+
+<p>As micoses sistêmicas endêmicas são causadas por fungos dimórficos com distribuição geográfica definida pelo habitat do fungo no solo. Causam doença em hospedeiros imunocompetentes (quando a carga de exposição é suficiente), mas são muito mais graves em imunossuprimidos. A porta de entrada é sempre a via inalatória.</p>
+
+<h3>Histoplasmose (<em>Histoplasma capsulatum</em>)</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1906</span>
+  Samuel Darling descreveu em 1906, no Panamá, um caso de "protozoário" intracelular em macrófagos de um paciente com doença disseminada. A natureza fúngica foi confirmada por William DeMonbreun em 1934, ao cultivar o agente e demonstrar o dimorfismo.
+</div>
+
+<p><em>Histoplasma capsulatum</em> habita solos ricos em fezes de aves e morcegos (especialmente em áreas úmidas como vales de rios). Endêmico no vale dos rios Ohio e Mississippi (EUA), Américas Central e do Sul. No Brasil, é endêmico em quase todo o território, com maior prevalência nos estados do sul e nordeste.</p>
+
+<p>Os microconídios (2–5 µm) são inalados e depositados nos alvéolos. A resposta inicial é fagocitose por macrófagos alveolares — mas o fungo <strong>sobrevive e replica no interior de fagossomos</strong>, impedindo a acidificação e fusão com lisossoma. Essa sobrevivência intracelular é mediada por: (a) síntese de proteína de choque térmico Hsp60 que interfere com maturação do fagossomo; (b) secreção de moléculas que elevam o pH do fagossomo; (c) captação de ferro do ferro intracelular pela sideróforo.</p>
+
+<p>A resolução depende da <strong>imunidade Th1</strong>: macrófagos ativados por IFN-γ formam fagolisossomos funcionais e eliminam o fungo. O granuloma bem formado é o substrato anatomopatológico da infecção controlada — nódulos calcificados pulmonares são sequela comum de histoplasmose primária assintomática. Em imunodeprimidos Th1 (AIDS com CD4 < 150, transplantados, anti-TNF), a histoplasmose disseminada progressiva é fatal sem tratamento.</p>
+
+<h3>Coccidioidomicose (<em>Coccidioides immitis</em> e <em>C. posadasii</em>)</h3>
+
+<p>Endêmica em solos áridos e semiáridos: Vale Central da Califórnia, sudoeste dos EUA, México, Argentina. Os artroconídios (<em>barrel-shaped</em>, 3–5 µm) são produzidos por fragmentação de hifas no solo seco e se tornam aerossóis durante ventos e perturbações do solo. Uma característica única: no tecido, o fungo não forma leveduras, mas <strong>esférulas</strong> de 20–200 µm, preenchidas com centenas de endósporos. Quando a esférula rompe, os endósporos são liberados e cada um pode formar nova esférula — multiplicação geométrica no tecido.</p>
+
+<p>A maioria das infecções (60%) é assintomática. Sintomática, apresenta-se como pneumonia atípica ("febre do vale"). A disseminação extrapulmonar (<1% nos imunocompetentes) é mais comum em pacientes de origem africana e filipina — associação com polimorfismos em genes de imunidade inata — e em gravidez. A meningite coccidioidal é a complicação mais grave, frequentemente fatal sem tratamento prolongado com fluconazol.</p>
+
+<h3>Paracoccidioidomicose (<em>Paracoccidioides brasiliensis</em> e <em>P. lutzii</em>)</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1908</span>
+  Adolfo Lutz descreveu em 1908 a "blastomicose americana" em dois pacientes brasileiros. Carlos Paracoccidioides complementou a descrição em 1912. A espécie <em>P. lutzii</em> foi descrita em 2009 como espécie distinta, mais prevalente no Brasil Central.
+</div>
+
+<p>A paracoccidioidomicose (PCM) é a micose sistêmica mais prevalente na América Latina — endêmica no Brasil, Venezuela, Colômbia e Argentina. O fungo habita solo argiloso de regiões de mata úmida subtropical. A forma leveduriforme a 37°C é reconhecida pelo padrão de "roda de leme": célula central com múltiplas células-filhas brotando radialmente — patognomônico em exame direto.</p>
+
+<p>Uma particularidade importante é a <strong>influência hormonal</strong>: estrogênios inibem a transição micelar→leveduriforme, explicando porque a PCM é 13× mais frequente em homens do que em mulheres em idade reprodutiva (a proteção hormonal feminina desaparece após a menopausa). Esta relação tem base molecular: o fungo possui um receptor de estrogênio funcional que, quando ligado ao hormônio, suprime genes de virulência da fase leveduriforme.</p>
+
+<p>A PCM ocorre em duas formas: <strong>aguda/subaguda</strong> (forma juvenil, predomina em crianças e jovens — hiperativação de sistema mononuclear fagocitário, hepatoesplenomegalia, linfonodos, imunossupressão relativa) e <strong>crônica</strong> (forma adulta, >90% dos casos — envolvimento pulmonar com fibrose progressiva, lesões mucosas orofaríngeas características, lesões cutâneas). A fibrose pulmonar sequela é a principal causa de morbidade a longo prazo.</p>
+</section>
+
+<!-- MICOSES OPORTUNISTAS -->
+<section id="micoses-oportunistas">
+<h2>Micoses oportunistas</h2>
+
+<p>Micoses oportunistas são causadas por fungos de baixa virulência intrínseca que causam infecções graves quase exclusivamente em hospedeiros com deficiências imunes específicas. A expansão global de pacientes imunossuprimidos — por HIV, quimioterapia, transplante, biológicos — criou populações numerosas de hospedeiros suscetíveis, tornando as micoses oportunistas emergência de saúde pública: estimam-se 1,5 a 2 milhões de mortes anuais por infecções fúngicas invasivas <span class="cite">(STRICKLAND; SHI, 2021)</span>.</p>
+
+<h3>Candidíase invasiva</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1950s–1980s</span>
+  A candidíase sistêmica era rara até o advento da medicina moderna intensiva. Os primeiros surtos nosocomiais de candidemia foram descritos nos anos 1950-60 em pacientes cirúrgicos e oncológicos recebendo antibióticos de amplo espectro. A candidíase sistêmica tornou-se epidêmica nos anos 1980 com o aumento de procedimentos invasivos (cateteres centrais, NPT), transplantes e quimioterapia citotóxica.
+</div>
+
+<p>A candidemia (presença de <em>Candida</em> na corrente sanguínea) tem mortalidade de 30–40% mesmo com tratamento adequado. O principal mecanismo é translocação intestinal: em neutropênico, a mucosa intestinal perde integridade por quimioterapia (mucosite) e bactérias/fungos comensais atravessam a barreira. Em paciente com cateter venoso central, o biofilme no cateter é fonte alternativa.</p>
+
+<p><em>Candida albicans</em> permanece a espécie mais frequente, mas <em>C. glabrata</em> (resistência intrínseca a fluconazol), <em>C. parapsilosis</em> (associada a cateteres e mãos de profissionais), <em>C. tropicalis</em> (neutropenia) e <em>C. krusei</em> (resistência intrínseca a fluconazol) têm importância crescente. <em>Candida auris</em>, espécie emergente identificada em 2009, é particularmente preocupante: resistente a múltiplas classes de antifúngicos, causa surtos nosocomiais com transmissão entre pacientes — comportamento incomum em Candida <span class="cite">(IYADORAI et al., 2024)</span>.</p>
+
+<p>A candidíase disseminada crônica (antes chamada hepatoesplênica) ocorre em leucêmicos após recuperação da neutropenia (síndrome de reconstituição imune fúngica): múltiplos abscessos hepáticos e esplênicos, febre persistente, ↑ fosfatase alcalina. O paradoxo diagnóstico — piora clínica quando a neutropenia melhora — reflete resposta inflamatória exuberante contra focos fúngicos estabelecidos durante a aplasia.</p>
+
+<h3>Aspergilose invasiva (<em>Aspergillus fumigatus</em>)</h3>
+
+<p>A aspergilose invasiva (AI) é a segunda micose oportunista mais importante em prevalência hospitalar. <em>Aspergillus fumigatus</em> está ubíquo no ambiente — todo ser humano inala dezenas de conídios diariamente, que são eliminados pelos macrófagos alveolares e neutrófilos sem nenhum sintoma. Em neutropênico (<500 células/mm³, especialmente <100) ou em uso de corticoides em altas doses por >3 semanas, esse mecanismo falha.</p>
+
+<p>A patogênese da AI tem duas fases: (1) conídios depositados nos alvéolos germinam em hifas (6–8h), ultrapassando a capacidade de eliminação dos macrófagos; (2) hifas invadem a parede alveolar, atingem vasos sanguíneos e causam <strong>angioinvasão</strong> — a assinatura da AI. Trombo fúngico → infarto hemorrágico pulmonar. A TC de tórax revela o sinal do "halo" (halo de vidro fosco ao redor de nódulo, representando hemorragia perilesional) — precoce — e o sinal da "meia-lua" — tardio, quando tecido necrótico se retrai.</p>
+
+<p>A galactomanana sérica e no LBA é o principal biomarcador diagnóstico: galactomanana é componente da parede celular de <em>Aspergillus</em>, liberada durante crescimento ativo das hifas. Sensibilidade ~80% em neutropênico, menor em transplantado de órgão sólido. Falsos positivos com piperacilina-tazobactam (contaminação da produção) e algumas dietas <span class="cite">(SAMANTA; CLANCY; NGUYEN, 2021)</span>.</p>
+
+<p>A aspergilose broncopulmonar alérgica (ABPA) é distinta da AI: não é invasão mas hipersensibilidade a antígenos de <em>Aspergillus</em> em asma grave ou fibrose cística. Tipo I (IgE imediata) + tipo III (imunocomplexos) combinados. Eosinofilia, IgE total elevada, infiltrados migratórios, bronquiectasias proximais. Tratamento: corticoides + itraconazol.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — aspergilose em COVID-19 grave (CAPA)</div>
+  <p>A "COVID-19-associated pulmonary aspergillosis" (CAPA) emergiu como entidade em 2020. Dados iniciais sugeriam incidência de 10–35% em pacientes em UTI com COVID-19 grave. Contudo, a maioria dos estudos usou critérios diagnósticos adaptados de guidelines de neutropênico sem validação em imunocompetente viral. A questão central debatida: CAPA é realmente aspergilose invasiva (com angioinvasão) ou colonização/traqueobronquite sem invasão tecidual, inflacionada por critérios diagnósticos não validados? A distinção tem implicação terapêutica direta.</p>
+</div>
+
+<h3>Criptococose (<em>Cryptococcus neoformans</em> e <em>C. gattii</em>)</h3>
+
+<p>A criptococose é a causa mais comum de meningite fúngica em adultos e a terceira causa mais frequente de morte associada ao HIV globalmente. <em>Cryptococcus neoformans</em> habita fezes de pombos (Columbia livia) e outros pássaros; <em>C. gattii</em> habita árvores de eucalipto e outras espécies, com expansão geográfica documentada para o Pacífico Noroeste americano desde 1999.</p>
+
+<p>Após inalação, a maioria das infecções primárias é autolimitada em imunocompetentes — o fungo é contido por granulomas pulmonares. Em imunossuprimidos Th1 (CD4 <100 em HIV; corticoterapia; transplante), ocorre reativação de focos latentes ou progressão da infecção primária, com disseminação hematogênica para o SNC.</p>
+
+<p>O tropismo pelo SNC se deve a múltiplos fatores que convergem: (1) o LCR tem concentrações de L-DOPA (substrato para melanina), ácido úrico e tiamina que favorecem o crescimento do fungo; (2) temperatura do SNC (37°C) é permissiva; (3) o SNC é relativamente imunoprivilegiado — menor vigilância imune adaptativa; (4) a cápsula de GXM protege o fungo dos mecanismos de defesa locais. A meningite criptocócica se manifesta com síndrome de hipertensão intracraniana progressiva — cefaleia, náuseas, alteração do nível de consciência — mais do que com síndrome meníngea clássica (ausente em 1/3 dos casos).</p>
+
+<p>O diagnóstico pelo <strong>teste de antígeno criptocócico</strong> (CrAg) em LCR e soro tem sensibilidade e especificidade >95% — supera a tinta da China em sensibilidade e é mais rápido. A tinta da China revela a cápsula como halo claro ao redor das células fúngicas — quando positiva, é virtualmente diagnóstica.</p>
+
+<h3>Pneumocistose (<em>Pneumocystis jirovecii</em>)</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1942–1988</span>
+  <em>Pneumocystis carinii</em> foi descrito em 1909 por Chagas e Carini mas assumido ser protozoário até 1988, quando análise de RNA ribossomal 18S demonstrou inequivocamente que era fungo — reclassificado como Ascomycota. A espécie humana foi renomeada <em>P. jirovecii</em> em 2002, em homenagem ao parasitologista tcheco Otto Jirovec. Historicamente, PCP (pneumocistose) foi o sinal sentinela da epidemia de AIDS — os primeiros 5 casos de PCP em homens homossexuais em Los Angeles, publicados no MMWR em junho de 1981, marcaram o início documentado da pandemia de HIV/AIDS.
+</div>
+
+<p><em>Pneumocystis jirovecii</em> é um fungo atípico com características que dificultaram sua identificação: não cresce em cultura convencional (exige células de mamífero como hospedeiro), tem parede celular com quitina mas sem ergosterol (resistente a azóis e anfotericina B por isso), e apresenta tropismo pulmonar exclusivo. A PCP (pneumonia por <em>Pneumocystis</em>) é infecção exclusiva de imunodeprimidos com deficiência de linfócitos T CD4 (<200 células/mm³ em HIV; depleção de CD4 em transplantados; corticoterapia crônica).</p>
+
+<p>A patogênese envolve ligação de glicoproteína de superfície do fungo (<em>Msg</em>) à fibronectina e vitronectina da matriz extracelular alveolar, seguida de proliferação de trofozoítos no espaço alveolar. A resposta imune dos pulmões (macrófagos alveolares ativados por IFN-γ de CD4) normalmente elimina o fungo; com CD4 <200, essa resposta falha. O preenchimento alveolar por trofozoítos e cistos causa insuficiência respiratória hipoxêmica. Radiologicamente, o padrão clássico é infiltrado intersticial bilateral difuso, frequentemente com aspecto de "vidro fosco" na TC.</p>
+
+<p>O tratamento é <strong>sulfametoxazol-trimetoprima</strong> (SMX-TMP) em altas doses — único agente com eficácia robustamente estabelecida. A ausência de ergosterol torna inúteis os antifúngicos convencionais. A profilaxia primária com SMX-TMP em dose baixa é indicada quando CD4 <200 células/mm³ em HIV — responsável pela redução de ~95% da mortalidade por PCP na era do tratamento antirretroviral.</p>
+
+<h3>Mucormicose (<em>Rhizopus</em>, <em>Mucor</em>, <em>Lichtheimia</em>)</h3>
+
+<p>A mucormicose (antes zigomicose) é causada por fungos da ordem Mucorales — distintos filogeneticamente de Ascomycota e Basidiomycota. Essa distância filogenética tem implicação direta: os Mucorales têm ergosterol na membrana e parede com quitina, mas têm pouca β-glucana — resistentes a equinocandinas. O voriconazol, azol padrão para aspergilose, tem atividade mínima contra Mucorales — fato de importância prática quando ambas são diagnósticos diferenciais.</p>
+
+<p>Os fatores de risco clássicos são diabetes mellitus (especialmente cetoacidose diabética — acidose metabólica aumenta ferro livre sérico, substrato crítico para o fungo), neutropenia e transplante de medula. A hiperglicemia e a cetoacidose prejudicam a quimiotaxia e a capacidade oxidativa dos neutrófilos, e aumentam ferro livre sérico (o fungo tem alta demanda de ferro — expressão de sideróforos e ferroxidases durante infecção).</p>
+
+<p>A forma <strong>rino-orbital-cerebral</strong> é a apresentação mais dramática: esporos inalados germinam na mucosa nasal e seios paranasais → hifas invadem vasos sanguíneos → trombose e necrose da mucosa (escara negra característica) → invasão orbital e intracraniana por extensão direta. A angioinvasão é marca dos Mucorales — mais agressiva ainda que em <em>Aspergillus</em>. Mortalidade >50% mesmo com tratamento agressivo (anfotericina B lipossomal + desbridamento cirúrgico radical).</p>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+<h2>Diagnóstico laboratorial</h2>
+
+<p>O diagnóstico micológico integra exame direto, cultura, histopatologia e métodos não-culturais (biomarcadores, PCR). A escolha depende da urgência clínica, do fungo suspeito e dos recursos disponíveis.</p>
+
+<p>O <strong>exame direto</strong> com KOH 10–20% é o mais rápido: dissolve queratina e células humanas, revelando elementos fúngicos. Variações incluem o KOH com calcofluor white (fluorocromo que se liga a quitina — aumenta a sensibilidade em microscopia de fluorescência) e a tinta da China (criptococose — revela a cápsula).</p>
+
+<p>A <strong>cultura</strong> permanece padrão-ouro para identificação de espécie e antibiograma. Limitações: lenta (fungos de crescimento lento como <em>Histoplasma</em> podem levar 6 semanas), sensibilidade limitada em infecção disseminada (hemoculturas positivas em apenas 50% das candidemias), risco de infecção laboratorial com fungos dimórficos. Meios utilizados: ágar Sabouraud (pH 5,6, 25°C — padrão), ágar Mycosel (com cicloheximida — inibe Cryptococcus e Candida tropicalis, útil para dermatófitos), BHI (favore crescimento de dimórficos a 37°C).</p>
+
+<p>A <strong>histopatologia</strong> com colorações especiais é essencial para confirmar invasão tecidual: PAS (ácido periódico-Schiff — cora parede de polissacarídeos, carmin) e GMS (metenamina prata de Grocott — cora parede fúngica de negro sobre fundo verde, mais sensível). A morfologia no tecido é diagnóstica em muitos casos: levedura com gemulação de base estreita (<em>Histoplasma</em>), pseudohifas e leveduras (<em>Candida</em>), hifas com ramificação em ângulo de 45° e septos (<em>Aspergillus</em>), hifas sem septos com ramificação em ângulo reto (<em>Mucorales</em> — paucisseptadas, "ribbon-like").</p>
+
+<p>Os <strong>biomarcadores séricos</strong> revolucionaram o diagnóstico precoce em imunodeprimidos. A <strong>β-D-glucana</strong> (BDG) é componente da parede de maioria dos fungos (exceto <em>Cryptococcus</em>, que a tem em quantidade pequena, e Mucorales). Um valor >80 pg/mL (ensaio Fungitell) tem sensibilidade ~75–80% e especificidade ~80% para infecção fúngica invasiva — usado como rastreio em populações de alto risco (neutropênico, transplante). A <strong>galactomanana</strong> é específica de <em>Aspergillus</em>. O <strong>CrAg</strong> (antígeno criptocócico) por aglutinação de látex ou imunocromatografia tem desempenho excelente na meningite criptocócica.</p>
+
+<p>O <strong>PCR</strong> fúngico para <em>Aspergillus</em>, <em>Candida</em> e <em>Pneumocystis</em> está incorporado em diretrizes europeias (ESCMID), mas a falta de padronização entre plataformas limita a adoção global. Para <em>Pneumocystis</em>, o PCR no lavado broncoalveolar tem sensibilidade superior ao exame direto com imunofluorescência direta (referência) — especialmente útil porque não há culture convencional disponível.</p>
+
+<table>
+  <thead><tr><th>Biomarcador</th><th>Fungos detectados</th><th>Sensibilidade</th><th>Especificidade</th><th>Uso clínico</th></tr></thead>
+  <tbody>
+    <tr><td>β-D-glucana sérica</td><td>Maioria (exceto Mucorales, Cryptococcus)</td><td>75–80%</td><td>~80%</td><td>Rastreio em alto risco</td></tr>
+    <tr><td>Galactomanana sérica</td><td><em>Aspergillus</em></td><td>~80% (neutropênico)</td><td>~90%</td><td>Monitorização em neutropênico</td></tr>
+    <tr><td>CrAg (LCR e soro)</td><td><em>Cryptococcus</em></td><td>>95%</td><td>>95%</td><td>Diagnóstico de meningite criptocócica</td></tr>
+    <tr><td>PCR <em>Pneumocystis</em> (LBA)</td><td><em>P. jirovecii</em></td><td>>95%</td><td>~90%</td><td>Diagnóstico de PCP</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 2. Biomarcadores não-culturais em micoses invasivas.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões</h2>
+
+<p>A resposta imune a fungos é integrada no <a class="cross-link" href="../imunologia/resposta-a-patogenos.html#fungos">módulo M9 — Resposta a Patógenos</a>, que descreve a cooperação entre Dectin-1/2, Th17, neutrófilos e NETs. A deficiência de <a class="cross-link" href="../imunologia/linfocitos-t-diferenciacao.html#th17">Th17</a> como predisposição específica às candidíases mucocutâneas está desenvolvida no M8. O granuloma como mecanismo de controle em histoplasmose e PCM conecta com a <a class="cross-link" href="../imunologia/hipersensibilidade.html#granuloma">hipersensibilidade tipo IV</a>. O conceito de "missing self" das células NK que patrulha células infectadas por vírus tem análogo fúngico menos estudado. Farmacologicamente, os antifúngicos (azóis, equinocandinas, polienos) serão detalhados no futuro compêndio F6 — Antifúngicos.</p>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 1</div>
+  <p>Por que <em>Aspergillus fumigatus</em>, um fungo termotolerante ubíquo no ambiente, não causa doença em hospedeiros imunocompetentes mesmo com exposição constante, enquanto <em>Coccidioides immitis</em> causa pneumonia em 40% dos expostos imunocompetentes? Os determinantes moleculares da diferença entre patógeno primário e oportunista ainda não estão completamente esclarecidos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 2</div>
+  <p>Qual é a contribuição real da CAPA (aspergilose associada a COVID-19) em termos de invasão tecidual verdadeira vs. colonização/traqueobronquite sem invasão? Os critérios diagnósticos de aspergilose invasiva foram desenvolvidos para neutropênico e podem superestimar doença invasiva em pacientes virais com imunomodulação diferente.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 3</div>
+  <p><em>Candida auris</em> demonstra capacidade de transmissão nosocomial incomum para <em>Candida</em> e resistência a múltiplas classes. Quais mecanismos moleculares explicam sua persistência em superfícies hospitalares (por semanas) quando outras espécies de <em>Candida</em> têm sobrevivência ambiental limitada? Há elementos de quorum sensing ou formação de biofilme seco distintos?</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 4</div>
+  <p>A imunidade inata "treinada" — epigenética de macrófagos após exposição fúngica — documentada para BCG e β-glucana de <em>Candida</em> pode ser utilizada terapeuticamente para proteger populações de alto risco (neutropênico, transplantado) de infecções fúngicas subsequentes? Ensaios clínicos com β-glucana oral estão em andamento mas sem conclusão.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 5</div>
+  <p>O microbioma intestinal modula a suscetibilidade a candidíase invasiva e a outros fungos sistêmicos? Há evidência de que a composição do microbioma — especialmente a presença de bactérias como <em>Lactobacillus</em> e <em>Clostridiales</em> — regula a transição de <em>Candida</em> de comensal a patógena, mas os mecanismos e a tradução clínica permanecem ativos campos de pesquisa.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>Retornando à pergunta motivadora: o paciente HIV com CD4 de 40 células/mm³ sucumbe à meningite por <em>Cryptococcus neoformans</em> porque a resposta imune que controla o fungo em 99% da população — granuloma mediado por Th1 com macrófagos ativados por IFN-γ — está estruturalmente colapsada. Sem linfócitos T CD4 funcionais, não há produção de IFN-γ, não há ativação eficiente de macrófagos, não há formação de granuloma. O fungo não se torna mais virulento — o hospedeiro perde sua defesa específica.</p>
+
+<p>A travessia da barreira hematoencefálica integra três mecanismos não mutuamente exclusivos: transcitose mediada pela cápsula de GXM que se liga a receptores endoteliais, passagem paracelular facilitada por proteases e fosfolipases secretadas, e o "Trojan horse" — macrófagos infectados que cruzam a BHE carregando o fungo. A melanina sintetizada usando L-DOPA do SNC como substrato explica tanto o tropismo pelo SNC quanto a produção de melanina in situ — um exemplo de parasitismo adaptado ao nicho metabólico do hospedeiro.</p>
+
+<p>O paradoxo fundamental da micologia médica é que fungos patogênicos são, na maioria, oportunistas que coexistiram com humanos por milhares de anos sem causar doença — a doença emerge quando a imunidade falha, não quando o fungo muda. Isso contrasta com vírus emergentes e bactérias resistentes onde o patógeno evolui ativamente para superar defesas. A exceção — <em>Candida auris</em> — sugere que essa distinção pode não ser permanente: um fungo com capacidade de transmissão nosocomial e resistência multipla que surgiu simultaneamente em quatro continentes em 2009-2012 levanta questões sobre se a pressão seletiva de ambientes hospitalares e de uso massivo de antifúngicos está selecionando fungos com virulência genuinamente nova.</p>
+
+<p>A implicação terapêutica mais profunda é que o tratamento de micoses oportunistas sem recuperação imune é essencialmente paliativo. Sem reconstituição de CD4 (pela terapia antirretroviral em HIV) ou sem recuperação da neutropenia (após quimioterapia), o antifúngico suprime mas raramente cura. Isso explica as longas durações de tratamento, as recidivas frequentes e a mortalidade persistentemente alta — o antifúngico cobre o tempo necessário para o sistema imune se recuperar.</p>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<p><strong>🔖 VOCÊ TEM</strong> — Murray, P. R.; Rosenthal, K. S.; Pfaller, M. A. <em>Medical Microbiology</em>. 10. ed. Elsevier, 2021. Capítulos 72–78 (micologia). Excelente cobertura dos principais patógenos, com ênfase em mecanismos e correlação clínica. Ponto de partida ideal.</p>
+
+<p>Mandell, G. L.; Bennett, J. E.; Dolin, R. (eds.). <em>Principles and Practice of Infectious Diseases</em>. 9. ed. Elsevier, 2020. Seção sobre micologia (capítulos 266–309). Referência de consulta clínica e mecanicista de primeira linha.</p>
+
+<p>Casadevall, A.; Pirofski, L. <em>Virulence Factors and Their Mechanisms of Action: The View from a Damage-Response Framework</em>. Journal of Water and Health, 2009. Artigo conceptual que propõe o framework "damage-response" — útil para entender por que patogenicidade é propriedade relacional (fungo + hospedeiro) e não absoluta.</p>
+
+<p>Lopes, J. P.; Lionakis, M. S. <em>Pathogenesis and virulence of Candida albicans</em>. Virulence, v. 13, n. 1, p. 89–121, 2022. DOI: <a href="https://doi.org/10.1080/21505594.2021.2019950" target="_blank" rel="noopener">10.1080/21505594.2021.2019950</a>. Revisão excelente e recente do NIAID cobrindo virulência de <em>C. albicans</em> com nível mecanicista.</p>
+
+<p>Strickland, A. B.; Shi, M. <em>Mechanisms of fungal dissemination</em>. Cell Mol Life Sci, v. 78, n. 7, p. 3219–3238, 2021. DOI: <a href="https://doi.org/10.1007/s00018-020-03736-z" target="_blank" rel="noopener">10.1007/s00018-020-03736-z</a>. Revisão focada em disseminação — mecanismos moleculares de travessia de barreiras, Trojan horse, transcitose.</p>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências</h2>
+<ol>
+  <li>IYADORAI, T. et al. A review of the epidemiology of invasive fungal infections in Asian patients with hematological malignancies (2011-2021). <em>Epidemiologic Reviews</em>, v. 46, n. 1, p. 1–12, 2024. DOI: <a href="https://doi.org/10.1093/epirev/mxae003" target="_blank" rel="noopener">10.1093/epirev/mxae003</a>.</li>
+  <li>LOPES, J. P.; LIONAKIS, M. S. Pathogenesis and virulence of <em>Candida albicans</em>. <em>Virulence</em>, v. 13, n. 1, p. 89–121, 2022. DOI: <a href="https://doi.org/10.1080/21505594.2021.2019950" target="_blank" rel="noopener">10.1080/21505594.2021.2019950</a>.</li>
+  <li>MURRAY, P. R.; ROSENTHAL, K. S.; PFALLER, M. A. <em>Medical Microbiology</em>. 10. ed. Philadelphia: Elsevier, 2021.</li>
+  <li>SAMANTA, P.; CLANCY, C. J.; NGUYEN, M. H. Fungal infections in lung transplantation. <em>Journal of Thoracic Disease</em>, v. 13, n. 11, p. 6695–6707, 2021. DOI: <a href="https://doi.org/10.21037/jtd-2021-26" target="_blank" rel="noopener">10.21037/jtd-2021-26</a>.</li>
+  <li>STRICKLAND, A. B.; SHI, M. Mechanisms of fungal dissemination. <em>Cellular and Molecular Life Sciences</em>, v. 78, n. 7, p. 3219–3238, 2021. DOI: <a href="https://doi.org/10.1007/s00018-020-03736-z" target="_blank" rel="noopener">10.1007/s00018-020-03736-z</a>.</li>
+</ol>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// Progress bar
+const bar = document.getElementById('progress-bar');
+document.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = d.scrollTop / (d.scrollHeight - d.clientHeight) * 100;
+  bar.style.width = pct + '%';
+}, {passive: true});
+
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const btn = document.getElementById('toggle-btn');
+function applyCollapse(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    btn.textContent = '▶';
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    btn.textContent = '◀';
+  }
+  sessionStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0');
+}
+btn.addEventListener('click', () => {
+  applyCollapse(!sidebar.classList.contains('collapsed'));
+});
+if (sessionStorage.getItem('sidebar-collapsed') === '1') applyCollapse(true);
+
+// Active sidebar link (IntersectionObserver)
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl[href^="#"]');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector('a.sl[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+
+// Section highlight
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    e.target.classList.toggle('in-view', e.isIntersecting);
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs2.observe(s));
+</script>
+</body>
+</html>

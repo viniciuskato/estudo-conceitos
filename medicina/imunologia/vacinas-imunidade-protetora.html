@@ -8,173 +8,538 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e0c09;--bg2:#17140f;--bg3:#201c15;--border:#3d3020;--text:#ddd5c0;--muted:#b09a78;--blue:#e0a04a;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
-#sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;padding:28px 0 40px}
-#sidebar .logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--blue);padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
-#sidebar .logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
-#sidebar .group-label{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px}
-#sidebar a{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent}
-#sidebar a:hover{color:var(--text)}#sidebar a.active{color:var(--blue);border-left-color:var(--blue)}
-main{flex:1;padding:60px 80px 120px}.content{max-width:72ch;margin:0 auto}
-h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--blue);line-height:1.3;margin-bottom:10px}
-.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:48px}
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ac);z-index:200;transition:width .1s linear}
+#mob-bar{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 16px;font-family:var(--font-ui);font-size:13px;color:var(--muted);position:sticky;top:0;z-index:100}
+#body-wrap{display:flex;flex:1}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;z-index:50}
+#sidebar.collapsed{width:44px}
+#toggle-btn{width:44px;height:44px;flex-shrink:0;background:none;border:none;border-bottom:1px solid var(--border);color:var(--muted);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s}
+#toggle-btn:hover{color:var(--text)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding-bottom:40px}
+#sidebar.collapsed .s-inner{overflow:hidden;opacity:0;pointer-events:none}
+.s-logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac);padding:16px 20px;border-bottom:1px solid var(--border);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.s-logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:2px;letter-spacing:0;text-transform:none}
+.s-group{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px;white-space:nowrap}
+a.sl{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s;border-left:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+a.sl:hover{color:var(--text)}
+a.sl.active{color:var(--ac);border-left-color:var(--ac)}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--ac);line-height:1.3;margin-bottom:10px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;margin-top:8px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.chip.chip-rev{border-color:var(--ac);color:var(--ac)}
 h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+section.in-view>h2{color:var(--ac);transition:color .3s}
 h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
-h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--blue);text-decoration:none;font-weight:400;transition:opacity .15s}
-h2:hover .anchor,h3:hover .anchor{opacity:1}
-p{margin-bottom:1.1em}strong{color:var(--text);font-weight:600}em{font-style:italic;color:var(--muted)}
-a.cite{color:var(--blue);text-decoration:none;font-size:.85em;vertical-align:super}a.cite:hover{text-decoration:underline}
-a.cross-link{color:var(--blue);text-decoration:none;font-size:.82em;font-style:italic;border-bottom:1px dashed var(--blue);opacity:.85}a.cross-link:hover{opacity:1}
+a.anc{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover a.anc,h3:hover a.anc{opacity:1}
+p{margin-bottom:1.1em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+a.cite{color:var(--ac);text-decoration:none;font-size:.85em;vertical-align:super}
+a.cite:hover{text-decoration:underline}
+a.cross-link{color:var(--ac);text-decoration:none;font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);opacity:.9}
+a.cross-link:hover{opacity:1}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.kbox p{margin-bottom:.6em;font-size:15px}
+.kbox p:last-child{margin-bottom:0}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
 .table-wrap{overflow-x:auto;margin:28px 0}
 table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
 th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
 td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
-tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
-.fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
-.fund-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
-.fund-card strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}.fund-card p{color:var(--muted);margin:0;line-height:1.6}
-.callout{background:var(--bg3);border-left:3px solid var(--blue);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
-.callout strong{color:var(--blue)}
-.vac-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
-.vac-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:16px 18px}
-.vac-card .vac-type{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
-.vac-card p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:0;line-height:1.6}
-.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
-.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
-.connections-box p{font-size:15px;margin-bottom:.8em}.connections-box p:last-child{margin-bottom:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
+.box strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}
+.box p{color:var(--muted);margin:0;line-height:1.6}
+.callout{background:var(--bg3);border-left:3px solid var(--ac);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--ac)}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:0;line-height:1.55}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
 .book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
 .book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
-.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}.book-card .book-meta{color:var(--muted);font-size:12px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .book-meta{color:var(--muted);font-size:12px}
 .badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#2a3a1a;color:#9dcc70;border:1px solid #4a6a2a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
-ol.refs{padding-left:1.2em}ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}ol.refs li a{color:var(--blue);text-decoration:none}ol.refs li a:hover{text-decoration:underline}
-@media(max-width:1024px){body{flex-direction:column}#sidebar{width:100%;height:auto;position:static;display:flex;flex-wrap:wrap;padding:12px 0 0;border-right:none;border-bottom:1px solid var(--border)}#sidebar .logo{border-bottom:none;margin-bottom:0;padding-bottom:8px}#sidebar .group-label{padding:8px 12px 4px}#sidebar a{padding:4px 12px}main{padding:32px 24px 80px}.vac-grid,.fund-grid,.book-grid{grid-template-columns:1fr}}
-@media print{#sidebar{display:none}body{display:block;background:#fff;color:#000}main{padding:0}h1,h2,h3{color:#000}.callout{background:#f5f5f5;border-color:#999;color:#000}table,th,td{border-color:#ccc;color:#000}th{background:#eee}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}.anchor{display:none}}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+ol.refs li a:hover{text-decoration:underline}
+@media(max-width:900px){#mob-bar{display:block}#sidebar{display:none}#content{padding:24px 20px 80px}.g2,.book-grid{grid-template-columns:1fr}.ck-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{#sidebar,#progress-bar{display:none}body{display:block;background:#fff;color:#000}#content{padding:0}h1,h2,h3{color:#000}.hist,.kbox,.pergunta,.dep-panel,.callout{background:#f5f5f5;color:#000}.anc{display:none}a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
 </style>
 </head>
 <body>
+<div id="progress-bar"></div>
+<div id="mob-bar">Imunologia · M11 — Vacinas e Imunidade Protetora</div>
+<div id="body-wrap">
+
 <nav id="sidebar">
-  <div class="logo">Imunologia · Módulo 11<a href="index.html">← Índice de Imunologia</a></div>
-  <div class="group-label">Conteúdo</div>
-  <a href="#fundamentos-necessarios">Fundamentos necessários</a>
-  <a href="#principio-vacinal">Princípio imunológico da vacinação</a>
-  <a href="#tipos-vacinas">Tipos de vacinas</a>
-  <a href="#atenuadas">Vivas atenuadas</a>
-  <a href="#inativadas">Inativadas e subunidades</a>
-  <a href="#conjugadas">Vacinas conjugadas</a>
-  <a href="#mrna">Vacinas de mRNA e DNA</a>
-  <a href="#vetores">Vacinas de vetores virais</a>
-  <a href="#adjuvantes">Adjuvantes</a>
-  <a href="#imunidade-coletiva">Imunidade coletiva (herd immunity)</a>
-  <a href="#falhas">Falhas vacinais e desafios</a>
-  <a href="#vacinas-cancer">Vacinas antitumorais</a>
-  <div class="group-label">Revisão</div>
-  <a href="#conexoes">Conexões</a>
-  <a href="#discussao">Discussão</a>
-  <a href="#leituras">Leituras recomendadas</a>
-  <a href="#referencias">Referências ABNT</a>
+  <button id="toggle-btn">&#8249;</button>
+  <div class="s-inner">
+    <div class="s-logo">Imunologia · M11<a href="index.html">← Índice de Imunologia</a></div>
+    <div class="s-group">Conteúdo</div>
+    <a class="sl" href="#fundamentos-necessarios">Fundamentos necessários</a>
+    <a class="sl" href="#principio-vacinal">Princípio imunológico</a>
+    <a class="sl" href="#plasmocitos-longa-duracao">Plasmócitos de longa duração</a>
+    <a class="sl" href="#tipos-vacinas">Tipos de vacinas</a>
+    <a class="sl" href="#atenuadas">Vivas atenuadas</a>
+    <a class="sl" href="#inativadas">Inativadas e subunidades</a>
+    <a class="sl" href="#conjugadas">Vacinas conjugadas</a>
+    <a class="sl" href="#mrna">Vacinas de mRNA</a>
+    <a class="sl" href="#vetores">Vetores virais</a>
+    <a class="sl" href="#adjuvantes">Adjuvantes</a>
+    <a class="sl" href="#imunidade-coletiva">Imunidade coletiva</a>
+    <a class="sl" href="#falhas">Falhas vacinais</a>
+    <a class="sl" href="#vacinas-cancer">Vacinas antitumorais</a>
+    <div class="s-group">Revisão</div>
+    <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+    <a class="sl" href="#conexoes">Conexões</a>
+    <a class="sl" href="#discussao">Discussão</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Referências ABNT</a>
+  </div>
 </nav>
-<main><div class="content">
+
+<div id="content">
+<div class="prose">
 
 <h1>Módulo 11 — Vacinas e Imunidade Protetora</h1>
-<p class="doc-meta">Imunologia · PUC · 2026 · Abbas cap. 17 · Aula: Vacinas</p>
-
-<h2 id="fundamentos-necessarios">Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
-<div class="fund-grid">
-  <div class="fund-card"><strong>Memória imunológica</strong><p>Vacinação induz memória em linfócitos T e B. Na reexposição, células de memória respondem mais rápido e com maior eficiência — fundamento imunológico de toda vacina. Ver <a class="cross-link" href="linfocitos-t-diferenciacao.html#memoria">Módulo 8 → Memória imunológica</a>.</p></div>
-  <div class="fund-card"><strong>Maturação de afinidade e troca de isotipo</strong><p>Vacinas de reforço aprofundam a maturação de afinidade no centro germinativo, produzindo anticorpos de afinidade crescente. Troca de isotipo define qual classe de Ig é protetora. Ver <a class="cross-link" href="anticorpos-imunidade-humoral.html#maturacao-afinidade">Módulo 7 → Maturação de afinidade</a>.</p></div>
-  <div class="fund-card"><strong>Apresentação via MHC-I e MHC-II</strong><p>Vacinas vivas/mRNA ativam tanto MHC-I (CTLs) quanto MHC-II (Th). Vacinas inativadas ativam predominantemente MHC-II. A via de processamento determina o tipo de resposta. Ver <a class="cross-link" href="mhc-apresentacao-antigenica.html#via-endogena">Módulo 6 → Vias endógena e exógena</a>.</p></div>
-  <div class="fund-card"><strong>PRRs e adjuvantes</strong><p>Adjuvantes ativam PRRs (TLR4 via LPS/MPL, TLR9 via CpG, inflamassomo via alúmen) — gerando sinal de "perigo" necessário para maturação de DCs e ativação T plena. Ver <a class="cross-link" href="moleculas-sistema-imune.html#prrs">Módulo 3 → PRRs</a>.</p></div>
+<div class="doc-chips">
+  <span class="chip">Imunologia · PUC · 2026</span>
+  <span class="chip">Abbas cap. 17</span>
+  <span class="chip">⏱ ~35 min de leitura</span>
+  <span class="chip chip-rev">Última revisão: 2026-06-24</span>
 </div>
 
-<h2 id="principio-vacinal">Princípio imunológico da vacinação — induzir sem adoecer <a class="anchor" href="#principio-vacinal">#</a></h2>
-<p>Vacinação é definida como a administração intencional de um agente imunizante — patógeno atenuado, inativado ou seus componentes — para induzir memória imunológica contra um patógeno específico sem causar doença. O princípio foi estabelecido empiricamente por Edward Jenner em 1796, ao observar que ordenheiras imunizadas naturalmente pelo cowpox eram protegidas contra varíola — e confirmado por Pasteur ao atenuar culturas bacterianas por passagens repetidas.</p>
-<p>O objetivo imunológico preciso de uma vacina é: (1) induzir anticorpos de alta afinidade e longa duração (preferencialmente neutralizantes); (2) gerar células T de memória (Th e CTL conforme o patógeno); (3) estabelecer plasmócitos de longa duração na medula óssea que secretam anticorpos continuamente — garantindo proteção antes da reexposição. A distinção crucial é que memória não é suficiente — é preciso plasmócitos persistentes para ter anticorpos pré-existentes no momento da reexposição <a class="cite" href="#referencias">(REICHE, 2026)</a>.</p>
-
-<h2 id="tipos-vacinas">Tipos de vacinas — plataformas tecnológicas <a class="anchor" href="#tipos-vacinas">#</a></h2>
-<div class="vac-grid">
-  <div class="vac-card"><div class="vac-type">Vivas Atenuadas</div><p>Patógeno com virulência reduzida por passagens repetidas. Replica lentamente. Induz resposta humoral + celular + memória de longa duração. Contraindicadas em imunossuprimidos e gestantes (risco de doença). Ex.: BCG, febre amarela, sarampo-caxumba-rubéola (SCR), varicela, polio oral (VOP/Sabin).</p></div>
-  <div class="vac-card"><div class="vac-type">Inativadas</div><p>Patógeno morto por calor, formalina ou irradiação. Segura para imunossuprimidos. Resposta predominantemente humoral (MHC-II). Requer múltiplas doses e adjuvantes. Ex.: VIP (polio injetável/Salk), hepatite A, gripe inativada, raiva.</p></div>
-  <div class="vac-card"><div class="vac-type">Subunidades</div><p>Antígeno purificado (proteína ou polissacarídeo) sem patógeno completo. Alta segurança. Requer adjuvante e doses de reforço. Ex.: hepatite B recombinante (HBsAg), HPV (VLPs de L1), vacinas pneumocócicas polissacarídicas.</p></div>
-  <div class="vac-card"><div class="vac-type">mRNA e DNA</div><p>Instrução genética para o hospedeiro sintetizar o antígeno. mRNA traduzido no citoplasma → proteína → apresentada em MHC-I e II → CTLs + anticorpos. Sem DNA integrado no genoma. Ex.: COVID-19 Comirnaty® (Pfizer/BioNTech), Spikevax® (Moderna).</p></div>
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que algumas vacinas conferem proteção por décadas com uma única dose (febre amarela, sarampo), enquanto outras precisam de reforços anuais (influenza) ou perdem eficácia progressivamente (COVID-19 mRNA) — e o que na imunologia determina essa diferença?</p>
 </div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html#memoria">M8 — Memória imunológica (Th e CTL)</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html#centro-germinativo">M7 — Centro germinativo e maturação de afinidade</a>
+      <a class="dep-item" href="mhc-apresentacao-antigenica.html#via-endogena">M6 — Vias endógena e exógena de MHC</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html#prrs">M3 — PRRs e PAMPs</a>
+      <a class="dep-item" href="imunidade-inata.html#imunidade-treinada">M4 — Imunidade inata treinada</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Conceitos de base</div>
+      <a class="dep-item" href="celulas-sistema-imune.html#celulas-dendriticas">Células dendríticas e maturação</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html#troca-isotipo">Troca de isotipo (AID, citocinas)</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html#nlrs-inflamassomo">Inflamassomo NLRP3</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Imunoterapia oncológica (futuro)</a>
+      <a class="dep-item" href="#">Imunodeficiências e vacinação (futuro)</a>
+    </div>
+  </div>
+</div>
+
+
+<section id="fundamentos-necessarios">
+<h2>Fundamentos necessários <a class="anc" href="#fundamentos-necessarios">#</a></h2>
+<div class="g2">
+  <div class="box"><strong>Memória imunológica</strong><p>Vacinação induz linfócitos T e B de memória. Na reexposição, respondem mais rápido e com maior eficiência (curva de resposta secundária). Ver <a class="cross-link" href="linfocitos-t-diferenciacao.html#memoria">M8 → Memória imunológica</a>.</p></div>
+  <div class="box"><strong>Maturação de afinidade e troca de isotipo</strong><p>Reforços vacinais aprofundam a maturação de afinidade no centro germinativo (hipermutação somática + seleção por Tfh). A troca de isotipo (AID) define qual classe de Ig é protetora. Ver <a class="cross-link" href="anticorpos-imunidade-humoral.html#maturacao-afinidade">M7 → Maturação de afinidade</a>.</p></div>
+  <div class="box"><strong>Apresentação via MHC-I e MHC-II</strong><p>Vacinas vivas e de mRNA ativam MHC-I (CTLs via via endógena) e MHC-II (Th via exógena). Inativadas ativam predominantemente MHC-II. A via de processamento determina o tipo de resposta. Ver <a class="cross-link" href="mhc-apresentacao-antigenica.html#via-endogena">M6 → Vias endógena/exógena</a>.</p></div>
+  <div class="box"><strong>PRRs e sinal de perigo</strong><p>Adjuvantes ativam PRRs nas APCs (TLR4 via MPL, TLR9 via CpG, NLRP3 via alúmen) — criando o contexto inflamatório necessário para maturação de DCs e co-estimulação de células T (sinal 2). Sem esse contexto, antígenos isolados induzem tolerância, não imunidade. Ver <a class="cross-link" href="moleculas-sistema-imune.html#prrs">M3 → PRRs</a>.</p></div>
+</div>
+</section>
+
+<section id="principio-vacinal">
+<h2>Princípio imunológico da vacinação <a class="anc" href="#principio-vacinal">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico — 1796–1885</span>
+  Edward Jenner (1796) observou que ordenheiras infectadas por <em>cowpox</em> (varíola bovina) eram resistentes à varíola humana — e testou intencionalmente a hipótese ao inocular o jovem James Phipps. Noventa anos depois, Louis Pasteur generalizou o princípio ao atenuar bacilos de cólera aviária por passagens repetidas a alta temperatura e propôs o termo "vaccine" em homenagem a Jenner (<em>vacca</em> = vaca). A vacinação antirábica de Joseph Meister (1885) demonstrou que o princípio funcionava mesmo após exposição — inaugurando a era das vacinas terapêuticas.
+</div>
+
+<p>Vacinação é a administração intencional de um agente imunizante — patógeno atenuado, inativado ou seus componentes moleculares — para induzir memória imunológica específica sem causar a doença. O objetivo imunológico preciso tem três componentes distintos:</p>
+
+<p><strong>(1) Anticorpos neutralizantes de alta afinidade</strong> — que bloqueiam o patógeno antes de infectar células. A afinidade é crítica: anticorpos de alta afinidade neutralizam com menores concentrações e mantêm proteção mesmo com queda de título ao longo dos meses. <strong>(2) Células T de memória</strong> — T CD4⁺ de memória (Tcm e Tem) que aceleram ativação de células B e CTLs na reexposição; T CD8⁺ citotóxicos de memória que eliminam células infectadas. <strong>(3) Plasmócitos de longa duração na medula óssea</strong> — que secretam anticorpos continuamente, sem necessitar de reestimulação antigênica, garantindo proteção imediata antes de qualquer resposta de memória ser mobilizada.</p>
+
+<div class="kbox">
+  <div class="klabel">Distinção crítica — memória vs. plasmócitos de longa duração</div>
+  <p>Memória B e plasmócitos de longa duração são entidades distintas com papéis diferentes. Células B de memória ficam quiescentes até reexposição ao antígeno — levam dias para gerar plasmócitos e elevar título de anticorpos. Plasmócitos de longa duração (LLPC — <em>long-lived plasma cells</em>) alojam-se em nichos da medula óssea, sustentados por células estromais e APRIL/BAFF, e secretam anticorpos continuamente por anos a décadas — sem nova exposição ao antígeno. É essa população que determina se há anticorpos protetores no momento exato da exposição ao patógeno. Vacinas que induzem LLPC robustos (febre amarela, sarampo) conferem proteção por décadas. Vacinas que falham em formar LLPC duradouros (influenza, algumas COVID-19) têm proteção que declina em meses.</p>
+</div>
+</section>
+
+<section id="plasmocitos-longa-duracao">
+<h2>Plasmócitos de longa duração — o determinante da duração da proteção <a class="anc" href="#plasmocitos-longa-duracao">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Descoberta — 1990–2010</span>
+  Até o final dos anos 1980, acreditava-se que anticorpos duradouros resultavam de estimulação antigênica repetida (reexposição ou reinfecção). Maki Slifka e Rafi Ahmed (1998) demonstraram em camundongos que plasmócitos específicos para vírus de coriomeningite linfocítica (LCMV) persistiam na medula óssea por meses após clareamento do vírus — sem nova exposição. O conceito de LLPC como célula secretora autônoma e de vida longa foi então consolidado.
+</div>
+
+<p>Após a vacinação, linfócitos B ativados por antígeno no centro germinativo diferenciam-se em dois destinos: (1) células B de memória, que circulam como células quiescentes de vida longa; (2) plasmócitos, que migram para medula óssea e secretam anticorpos. A migração depende de CXCR4 — que responde ao gradiente de CXCL12 secretado por células estromais do nicho medular. Uma vez alojados no nicho, os LLPC são mantidos por sinais de sobrevivência como APRIL (proliferation-inducing ligand), BAFF e IL-6 estromal — e secretam anticorpos de forma contínua, independente de antígeno.</p>
+
+<p>A sobrevivência dos LLPC no nicho medular é dependente de CXCR4 ativo na superfície do plasmócito. Um estudo publicado em <em>Immunity</em> (2026) <a class="cite" href="#referencias">(ZHU et al., 2026)</a> demonstrou que o jejum intermitente depleta seletivamente LLPCs — poupando células B de memória — via mecanismo mediado pelo corpo cetônico β-hidroxibutirato: elevação de β-OHB ativa o receptor HCAR2 nos plasmócitos → via Gαi-adenilato ciclase → redução de cAMP → downregulation de CXCR4 → saída do nicho medular → apoptose periférica. O efeito é específico para LLPCs (que expressam HCAR2 abundantemente) e não ocorre em células B de memória (que não expressam). Implicação direta: fatores metabólicos — dieta, jejum, doenças metabólicas — podem silenciosamente esvaziar o compartimento protetor de anticorpos vacinais, sem afetar os títulos de células B de memória que os testes sorológicos convencionais não medem.</p>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — o que não sabemos sobre LLPCs</div>
+  <p><strong>Duração real em humanos:</strong> estudos de anticorpos anti-sarampo detectáveis por 26 anos após vacinação sugerem LLPCs de vida muito longa; estudos de anti-varicela mostram declínio progressivo. Não há como distinguir em vivo se anticorpos persistentes originam de LLPCs estacionários ou de reestimulação antígeno-independente por antígenos arquivados em FDCs (células dendríticas foliculares dos folículos linfoides).</p>
+  <p><strong>Capacidade do nicho:</strong> o nicho medular tem capacidade limitada de LLPCs. Novos plasmócitos podem deslocar antigos — potencialmente "empurrando" LLPCs de vacinas antigas ao serem gerados por nova vacinação ou infecção. Essa competição por nicho pode explicar por que reforços vacinais às vezes reduzem anticorpos de resposta antiga enquanto elevam a nova.</p>
+</div>
+</section>
+
+<section id="tipos-vacinas">
+<h2>Tipos de vacinas — plataformas tecnológicas <a class="anc" href="#tipos-vacinas">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Vivas Atenuadas</div><p>Patógeno com virulência reduzida por passagens repetidas ou mutação dirigida. Replica lentamente, ativa PRRs em múltiplos compartimentos. Resposta humoral + celular + memória de longa duração. Contraindicadas em imunossuprimidos. Ex.: BCG, febre amarela, SCR, varicela, polio oral (Sabin).</p></div>
+  <div class="ck-card"><div class="ckt">Inativadas</div><p>Patógeno morto por calor, formaldeído ou irradiação. Segura para imunossuprimidos. Resposta predominantemente humoral (MHC-II). Requer múltiplas doses e adjuvante. Ex.: VIP (Salk), hepatite A, gripe inativada, raiva.</p></div>
+  <div class="ck-card"><div class="ckt">Subunidades / Toxoides</div><p>Antígeno purificado (proteína, polissacarídeo) ou toxina inativada (toxoide). Alta segurança. Requer adjuvante potente. Ex.: hepatite B (HBsAg recombinante), HPV (VLPs de L1), difteria-tétano (DT), pneumocócica polissacarídica.</p></div>
+  <div class="ck-card"><div class="ckt">Conjugadas</div><p>Polissacarídeo bacteriano conjugado a proteína carreadora — converte resposta T-independente em T-dependente. Gera memória B e IgG de alta afinidade em lactentes. Ex.: PCV13/PCV20 (pneumococo), Hib, meningococo ACWY.</p></div>
+  <div class="ck-card"><div class="ckt">mRNA / DNA</div><p>Sequência genética para que o hospedeiro sintetize o antígeno. mRNA traduzido no citoplasma → proteína → apresentada em MHC-I e II. Sem DNA viral, sem integração genômica. Ex.: Comirnaty® (BioNTech), Spikevax® (Moderna).</p></div>
+  <div class="ck-card"><div class="ckt">Vetores Virais</div><p>Vírus não-replicante (adenovírus, lentivírus) carregando gene do antígeno. Transdu transdu a célula → expressão do antígeno → apresentação MHC-I + II. Ex.: Vaxzevria® (AstraZeneca), Ad26.COV2.S (Janssen).</p></div>
+</div>
+
 <div class="table-wrap"><table>
-  <thead><tr><th>Tipo</th><th>Resposta CD4⁺</th><th>Resposta CD8⁺</th><th>Anticorpos</th><th>Doses</th><th>Segurança imunossuprimido</th></tr></thead>
+  <thead><tr><th>Tipo</th><th>CD4⁺ (Th)</th><th>CD8⁺ (CTL)</th><th>Anticorpos</th><th>Doses</th><th>Seguro em imunossuprimido</th></tr></thead>
   <tbody>
     <tr><td>Viva atenuada</td><td>Alta</td><td>Alta</td><td>Altos, duradouros</td><td>1 (geralmente)</td><td>Contraindicada</td></tr>
-    <tr><td>Inativada</td><td>Moderada</td><td>Baixa</td><td>Moderados</td><td>Múltiplas</td><td>Segura</td></tr>
-    <tr><td>Subunidade</td><td>Moderada</td><td>Baixa</td><td>Moderados-altos com adjuvante</td><td>Múltiplas</td><td>Segura</td></tr>
-    <tr><td>mRNA</td><td>Alta</td><td>Alta</td><td>Altos</td><td>2 primárias + reforços</td><td>Segura</td></tr>
-    <tr><td>Vetor viral</td><td>Alta</td><td>Alta</td><td>Altos</td><td>1–2</td><td>Risco baixo (vetores não-replicantes)</td></tr>
+    <tr><td>Inativada</td><td>Moderada</td><td>Baixa</td><td>Moderados</td><td>Múltiplas + reforços</td><td>Segura</td></tr>
+    <tr><td>Subunidade/toxoide</td><td>Moderada</td><td>Baixa</td><td>Mod.-altos com adjuvante</td><td>Múltiplas</td><td>Segura</td></tr>
+    <tr><td>Conjugada</td><td>Alta (T-dep.)</td><td>Baixa</td><td>IgG alta afinidade</td><td>3–4 em lactentes</td><td>Segura</td></tr>
+    <tr><td>mRNA (LNP)</td><td>Alta</td><td>Alta</td><td>Altos (declínio em meses)</td><td>2 primárias + reforços</td><td>Segura</td></tr>
+    <tr><td>Vetor viral</td><td>Alta</td><td>Alta</td><td>Altos</td><td>1–2</td><td>Risco muito baixo</td></tr>
   </tbody>
-  <caption>Tabela 11. Comparação de plataformas vacinais por tipo de resposta imune induzida.</caption>
+  <caption>Tabela 11.1. Comparação de plataformas vacinais por tipo de resposta imune induzida.</caption>
+</table></div>
+</section>
+
+<section id="atenuadas">
+<h2>Vacinas vivas atenuadas — a plataforma mais potente <a class="anc" href="#atenuadas">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Atenuação — Pasteur (1880) e Sabin (1957)</span>
+  Pasteur descobriu que culturas de <em>Pasteurella multocida</em> (cólera aviária) envelhecidas perdiam virulência mas mantinham imunogenicidade — princípio da atenuação por passagens. Albert Sabin (1957) desenvolveu a vacina oral de pólio (VOP) por passagens repetidas em cultura celular a temperatura subótima, selecionando mutantes menos neurotrópicos. A VOP gerou imunidade de mucosa (IgA secretora) e imunidade coletiva via transmissão fecal-oral — mas ao custo de raros casos de poliomielite associada à vacina (VAPP), hoje eliminados com a substituição pela VIP (Salk) inativada.
+</div>
+
+<p>Vacinas atenuadas produzem a resposta imune mais completa porque mimetizam a infecção natural: o patógeno replica (lentamente), ativa PRRs em múltiplos compartimentos celulares e anatômicos (citoplasma, endossoma, espaço extracelular), é processado via ambas as vias de MHC, e induz todas as populações de memória — Th1, Th2, CTL e plasmócitos de longa duração robustos. Uma única dose geralmente confere imunidade por décadas ou vida toda (febre amarela, SCR).</p>
+
+<p>A desvantagem é o risco de reversão para virulência — raro mas documentado com VOP (1 caso/750.000 primeiras doses; risco maior em imunossuprimidos). Em pacientes com imunossupressão grave (p. ex., imunodeficiência combinada grave — SCID), vacinação com BCG pode causar BCGite disseminada fatal. BCG tem efeitos não específicos adicionais: imunidade inata treinada (modificações epigenéticas em macrófagos via H3K4me3 e H3K27ac em promotores de genes inflamatórios), com redução de mortalidade geral em neonatos — efeito não explicado pelo alvo específico anti-<em>Mycobacterium tuberculosis</em>. Ver <a class="cross-link" href="imunidade-inata.html#imunidade-treinada">M4 → Imunidade inata treinada</a>.</p>
+</section>
+
+<section id="inativadas">
+<h2>Inativadas e subunidades — segurança com custo em potência <a class="anc" href="#inativadas">#</a></h2>
+
+<p>Vacinas inativadas e de subunidades são as mais seguras — sem risco de infecção, indicadas em qualquer grau de imunossupressão. A inativação química (formaldeído) ou por calor destrói a capacidade replicativa mas preserva epítopos de superfície. O problema é que antígenos inativados são processados quase exclusivamente pela via exógena (endossoma → MHC-II → CD4⁺) — gerando boa resposta de Th e anticorpos, mas resposta CD8⁺/CTL modesta. Isso as torna menos eficazes contra patógenos intracelulares (onde CTLs são essenciais) e contra vírus que mutam rapidamente.</p>
+
+<p><strong>Toxoides</strong> são um subconjunto de subunidades: toxinas bacterianas inativadas por formaldeído (toxoide tetânico — TT; toxoide diftérico — DT). A resposta imune neutraliza a toxina, não a bactéria. A proteção reside em anticorpos neutralizantes de alta afinidade (IgG) que bloqueiam a toxina antes de se ligar ao receptor celular — a tetanospasmina liga-se a gangliosídeos em neurônios motores; o anticorpo neutralizante compete por esse sítio de ligação. Importante: a vacina não elimina a colonização por <em>Clostridium tetani</em> no ambiente ou no organismo — apenas neutraliza a toxina produzida.</p>
+
+<div class="kbox">
+  <div class="klabel">Apresentação cruzada — a exceção que permite CTL a partir de inativadas</div>
+  <p>Células dendríticas CD141⁺ (BDCA-3⁺ em humanos) têm a capacidade de apresentação cruzada (<em>cross-presentation</em>): internalizam antígenos exógenos e os apresentam via MHC-I, ativando CD8⁺. Esse mecanismo é ativo, mas ineficiente com antígenos solúveis; adjuvantes que recrutam DCs CD141⁺ (como AS01) amplificam essa via. Vacinas de mRNA contornam completamente essa limitação — ao produzir antígeno no citoplasma, entram naturalmente na via endógena de MHC-I. Ver <a class="cross-link" href="mhc-apresentacao-antigenica.html#cross">M6 → Apresentação cruzada</a>.</p>
+</div>
+</section>
+
+<section id="conjugadas">
+<h2>Vacinas conjugadas — superando a limitação dos polissacarídeos <a class="anc" href="#conjugadas">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Inovação — John Robbins e Rachel Schneerson (1970s–1980s)</span>
+  Na década de 1970, crianças menores de 2 anos não respondiam às vacinas polissacarídicas anti-Hib (<em>Haemophilus influenzae</em> tipo b) — principal causa de meningite bacteriana infantil à época. John Robbins e Rachel Schneerson no NIH desenvolveram a solução: conjugar o polissacarídeo capsular de Hib ao toxoide tetânico, transformando a resposta de T-independente em T-dependente. A vacina Hib conjugada (Hib-TT), licenciada em 1987, reduziu a incidência de meningite por Hib em 99% nos países que a adotaram — um dos maiores sucessos da história vacinal pediátrica.
+</div>
+
+<p>Polissacarídeos bacterianos são antígenos T-independentes tipo 2 (TI-2): ativam linfócitos B diretamente via BCR (sem auxílio de Th) por crosslinking repetitivo do BCR. Consequências: sem centro germinativo, sem hipermutação somática, sem maturação de afinidade, sem troca de isotipo (predomina IgM, alguma IgG), sem memória B de longa duração, e resposta mínima em crianças &lt; 2 anos (que têm resposta TI-2 imatura por desenvolvimento incompleto da zona marginal esplênica).</p>
+
+<p>A conjugação química do polissacarídeo a uma proteína carreadora (TT, DT, OMP) transforma a resposta em T-dependente: a proteína carreadora é processada via MHC-II → Th CD4⁺ reconhece peptídeos carreadores → expressão de CD40L → sinal 2 para linfócito B → entrada em centro germinativo → maturação de afinidade do anticorpo anti-polissacarídeo → troca de isotipo para IgG de alta afinidade → memória B duradoura. As vacinas PCV13 (pneumococo 13 sorotipos) e PCV20 (20 sorotipos) reduziram pneumonias invasivas em lactentes em &gt;70% em países de alta renda.</p>
+</section>
+
+<section id="mrna">
+<h2>Vacinas de mRNA — mecanismo e revolução tecnológica <a class="anc" href="#mrna">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Karikó e Weissman — 2005–2020</span>
+  A ideia de usar mRNA como vacina surgiu nos anos 1990, mas esbarrou em dois obstáculos: (1) mRNA não modificado é imediatamente degradado por RNases e desencadeia resposta inflamatória intensa via TLR7/TLR8 e MDA5, que diminui a tradução; (2) dificuldade de entrega intracelular. Katalin Karikó e Drew Weissman (UPenn) publicaram em 2005 que a substituição de uridina por pseudouridina (e depois por N1-metilpseudouridina — m1Ψ) reduzia o reconhecimento por TLRs sem comprometer a tradução. O sistema de entrega por nanopartículas lipídicas (LNP) foi desenvolvido paralelamente pela Alnylam e pela Moderna. Essa combinação (mRNA com m1Ψ + LNP ionizável) tornou possível as vacinas COVID-19 aprovadas em 2020 — Karikó e Weissman receberam o Nobel de Fisiologia ou Medicina em 2023.
+</div>
+
+<p>O mecanismo das vacinas de mRNA em quatro etapas:</p>
+
+<p><strong>1. Encapsulamento e entrega:</strong> o mRNA é encapsulado em nanopartículas lipídicas (LNPs) compostas por lipídio ionizável (pKa ~6,2 — neutro em pH fisiológico, catiônico em pH endossomal), lipídio auxiliar (DSPC), colesterol e lipídio PEGilado. As LNPs têm diâmetro ~80–100 nm, protegem o mRNA de RNases extracelulares e facilitam captação por endocitose em células musculares e APCs no sítio de injeção intramuscular.</p>
+
+<p><strong>2. Escape endossomal e tradução:</strong> o lipídio ionizável adquire carga positiva no pH ácido do endossoma, destabiliza a membrana e libera o mRNA no citoplasma — onde ribossomos traduzem a sequência em proteína spike (ou outro antígeno). As modificações m1Ψ reduzem o reconhecimento por TLR7/TLR8 no endossoma (que reconhecem ssRNA não modificado) e aumentam a estabilidade e eficiência de tradução. O mRNA não integra ao genoma (RNA não tem acesso ao núcleo e não pode ser transcrito reversamente sem transcriptase reversa viral).</p>
+
+<p><strong>3. Apresentação via MHC-I e MHC-II:</strong> a proteína spike traduzida no citoplasma entra na via endógena → proteasoma → TAP → ER → MHC-I → CTLs CD8⁺. Parte da proteína secretada ou de células apoptóticas é captada por DCs → via exógena/apresentação cruzada → MHC-II → Th CD4⁺. O resultado é resposta humoral (anticorpos anti-spike neutralizantes) + celular (CTLs anti-spike + Th).</p>
+
+<p><strong>4. A LNP como adjuvante:</strong> estudos recentes <a class="cite" href="#referencias">(VERBEKE et al., 2022)</a> demonstraram que a LNP em si ativa resposta inflamatória inata — independente do mRNA. Os lipídios ionizáveis ativam o inflamassomo NLRP3 e estimulam produção de IL-1β e IL-18; as LNPs também recrutam e ativam DCs e macrófagos no sítio de injeção. Assim, as vacinas de mRNA não requerem adjuvante adicional — as LNPs funcionam como adjuvante intrínseco, embora com perfil inflamatório diferente dos adjuvantes clássicos. Ver <a class="cross-link" href="moleculas-sistema-imune.html#nlrs-inflamassomo">M3 → Inflamassomo NLRP3</a>.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo mRNA — questões não resolvidas</div>
+  <p><strong>Duração da proteção:</strong> títulos de anticorpos anti-spike declinam com meia-vida de ~2–4 meses após dose primária — muito mais rápido que vacinas vivas. A causa não está completamente elucidada: pode refletir menor formação de LLPCs (comparado à infecção natural ou vacinas vivas), competição por nicho medular, ou diferenças na qualidade do centro germinativo. Reforços restauram temporariamente o título.</p>
+  <p><strong>Resposta a variantes:</strong> anticorpos anti-spike original têm eficácia reduzida contra variantes com mutações no sítio de ligação à ACE2 (Ômicron B.1.1.529 acumulou &gt;30 mutações no spike). Vacinas bivalentes (spike original + Ômicron BA.4/5) tentaram resolver isso; a resposta foi dominada pelo imprinting imunológico (original antigenic sin) — anticorpos pré-existentes orientam a resposta de memória para o epitopo original.</p>
+  <p><strong>Efeitos adversos mediados por PEG:</strong> o lipídio PEGilado das LNPs pode gerar anti-PEG IgM pré-existente (encontrada em ~25–40% da população por exposição cosmética/alimentar), causando fenômeno de clareamento acelerado (ABC — accelerated blood clearance) e raras anafilaxias. Ver <a class="cross-link" href="hipersensibilidade.html#anafilaxia">M10 → Anafilaxia</a>.</p>
+</div>
+</section>
+
+<section id="vetores">
+<h2>Vacinas de vetores virais <a class="anc" href="#vetores">#</a></h2>
+
+<p>Vacinas de vetores virais usam adenovírus ou outros vírus geneticamente modificados (tornados não-replicantes por deleção de genes essenciais de replicação) como veículo para entregar o gene do antígeno. Vaxzevria® (AstraZeneca/Oxford) usa adenovírus de chimpanzé (ChAdOx1) com gene spike SARS-CoV-2 sob promotor de CMV. Ad26.COV2.S (Janssen) usa adenovírus humano Ad26. O adenovírus infecta a célula, o DNA viral (que inclui o transgene do antígeno) é transportado ao núcleo → transcrito em mRNA → traduzido em proteína spike → apresentação via MHC-I e MHC-II → resposta humoral e celular.</p>
+
+<p>A limitação crítica é a <strong>imunidade pré-existente ao vetor</strong>: anticorpos anti-adenovírus humano (Ad5, Ad26) estão presentes em 40–80% dos adultos (prevalência varia por região), podendo neutralizar o vetor antes que infecte células suficientes, reduzindo a imunogenicidade. O uso de adenovírus de chimpanzé (Vaxzevria) contorna esse problema — humanos têm anticorpos anti-ChAdOx1 em menos de 1%. Após vacinação com vetor adenoviral, a resposta imune contra o vetor dificulta o uso de doses de reforço com o mesmo vetor (o vetor é neutralizado antes de entregar o antígeno). Esse problema foi relevante durante COVID-19, quando muitos países usaram Vaxzevria como dose primária e mRNA como reforço — estratégia heteróloga que se mostrou imunogenicamente superior à homóloga.</p>
+</section>
+
+<section id="adjuvantes">
+<h2>Adjuvantes — o sinal de perigo artificial <a class="anc" href="#adjuvantes">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Adjuvantes — Gaston Ramon (1925) e Charles Janeway (1989)</span>
+  Em 1925, Gaston Ramon observou que cavalos com abscessos no sítio de injeção produziam mais antitoxina diftérica — o princípio de que inflamação local potencializa a resposta imune. Ramon passou a adicionar farinha de tapioca ou pão velho nas injeções para induzir abscesso intencional — metodologia primitiva que prefigurou os adjuvantes modernos. Sessenta anos depois, Charles Janeway (1989) formalizou o conceito com a hipótese do "self versus non-self" — propondo que o sistema imune reconhece patógenos via sinais de "perigo" (PAMPs) e não apenas via reconhecimento de antígenos. Polly Matzinger expandiu isso com a teoria do perigo (<em>danger theory</em>, 1994) — incluindo DAMPs. Esse arcabouço é a base racional do desenvolvimento de adjuvantes modernos.
+</div>
+
+<p>Adjuvantes são componentes de vacinas que potencializam a resposta imune ao antígeno sem serem antígenos. O mecanismo unificador é a ativação de PRRs nas APCs — criando o contexto inflamatório necessário para maturação de DCs, upregulation de moléculas co-estimulatórias (CD80, CD86, CD40) e produção de citocinas que definem o perfil Th da resposta. Sem adjuvante, antígenos solúveis (subunidades, toxoides) são apresentados em contexto tolerogênico — induzindo Tregs ou anergia em vez de imunidade efetora. Segundo a revisão de Ben-Akiva et al. (2025) <a class="cite" href="#referencias">(BEN-AKIVA et al., 2025)</a> publicada na <em>Science Immunology</em>, os mecanismos de ação de adjuvantes divergem muito entre plataformas, com lacunas críticas no entendimento de como os eventos celulares e moleculares precoces no sítio de injeção se traduzem na qualidade e duração da resposta protetora.</p>
+
+<div class="table-wrap"><table>
+  <thead><tr><th>Adjuvante</th><th>Componente ativo</th><th>Receptor / Via</th><th>Perfil Th</th><th>Exemplo de vacina</th></tr></thead>
+  <tbody>
+    <tr><td>Alúmen (Al(OH)₃)</td><td>Cristais de alumínio</td><td>NLRP3 inflamassomo (cristais como DAMPs) + dano celular local</td><td>Th2 (IL-4, IL-5) → IgG1/IgE; fraca resposta CTL</td><td>Hepatite B, DTP, HPV, pneumococo</td></tr>
+    <tr><td>AS04 (GSK)</td><td>MPL + alúmen</td><td>TLR4 (MPL — forma detoxificada de LPS) + NLRP3 (alúmen)</td><td>Th1/Th2 balanceado; IgG de alta afinidade</td><td>Cervarix® (HPV), HBsAg Fendrix®</td></tr>
+    <tr><td>CpG (ODN)</td><td>Oligonucleotídeo CpG sintético</td><td>TLR9 (DNA bacteriano metilado em CpG) → pDCs → IFN-α + IL-12</td><td>Th1 dominante; resposta CTL</td><td>Heplisav-B® (hepatite B), vacinas anti-HIV em desenvolvimento</td></tr>
+    <tr><td>AS01B (GSK)</td><td>MPL + QS-21 em lipossomos</td><td>TLR4 (MPL) + mecanismo desconhecido de QS-21 (saponina de <em>Quillaja saponaria</em>)</td><td>Th1 forte; CTL; CD4⁺ de alta afinidade</td><td>Shingrix® (varicela-zóster), RTS,S (malária)</td></tr>
+    <tr><td>MF59 (Novartis)</td><td>Esqualeno em emulsão O/A</td><td>Recruta e ativa células no sítio de injeção; via de sinalização não-TLR</td><td>Th1/Th2; amplifica centro germinativo</td><td>Fluad® (influenza idosos)</td></tr>
+    <tr><td>LNP (mRNA)</td><td>Lipídio ionizável</td><td>NLRP3 (direto) + sinalização inata via lipídio</td><td>Th1 + Th2; CTL robusto</td><td>Comirnaty®, Spikevax®</td></tr>
+  </tbody>
+  <caption>Tabela 11.2. Adjuvantes aprovados em humanos: componente ativo, receptor ativado, perfil de resposta e exemplos de vacinas.</caption>
 </table></div>
 
-<h2 id="atenuadas">Vacinas vivas atenuadas — a mais potente plataforma clássica <a class="anchor" href="#atenuadas">#</a></h2>
-<p>Vacinas atenuadas produzem a resposta imune mais completa porque mimetizam a infecção natural: o patógeno replica (lentamente), ativa PRRs em múltiplos compartimentos, é processado via ambas as vias de MHC, e induz todas as populações de memória (Th1, CTL, plasmócitos de longa duração). Uma única dose geralmente confere imunidade por décadas ou vida toda (febre amarela, SCR). A desvantagem é o risco de reversão para virulência selvagem — raro, mas documentado com VOP (1 caso/750.000 primeiras doses). A BCG (bacilo Calmette-Guérin) tem efeitos não específicos adicionais: imunidade inata treinada, aumento de IFN-γ e proteção cruzada contra outras infecções respiratórias <a class="cite" href="#referencias">(REICHE, 2026)</a>.</p>
+<div class="kbox">
+  <div class="klabel">Lacuna crítica — adjuvantes e formação de LLPCs</div>
+  <p>O mecanismo pelo qual diferentes adjuvantes influenciam a formação de plasmócitos de longa duração na medula óssea permanece pouco compreendido. Sabe-se que AS01 (com QS-21) é superior ao alúmen nesse aspecto — evidenciado pela maior durabilidade de anticorpos anti-HBsAg com Fendrix® comparado a vacinas com alúmen isolado. O mecanismo específico — se via amplificação do centro germinativo, produção de fatores de sobrevivência estromal, ou migração de plasmócitos para o nicho medular — ainda é debatido na literatura segundo Ben-Akiva et al. (2025) <a class="cite" href="#referencias">(BEN-AKIVA et al., 2025)</a>.</p>
+</div>
+</section>
 
-<h2 id="inativadas">Inativadas e subunidades — segurança com custo em potência <a class="anchor" href="#inativadas">#</a></h2>
-<p>Vacinas inativadas e de subunidades são as mais seguras — sem risco de infecção. A inativação química (formaldeído) ou por calor destrói a capacidade replicativa mas preserva epítopos de superfície para reconhecimento por anticorpos. O problema é que antígenos inativados são processados principalmente pela via exógena (MHC-II) — gerando boa resposta de anticorpos e Th, mas resposta CD8⁺/CTL modesta. Isso os torna menos eficazes contra patógenos intracelulares que requerem CTLs para eliminação. Adjuvantes compensam parcialmente ao criar um microambiente inflamatório que intensifica a resposta.</p>
-<p>Toxoides são toxinas bacterianas inativadas (formaldeído): DT (difteria) e TT (tétano) — a resposta imune neutraliza a toxina, não a bactéria. A proteção é a anticorpos neutralizantes de alta afinidade que bloqueiam a toxina antes de se ligar ao receptor celular. A vacina não elimina a colonização por <em>Clostridium tetani</em> — apenas neutraliza a tetanospasmina que causa a doença.</p>
+<section id="imunidade-coletiva">
+<h2>Imunidade coletiva — proteção além do vacinado <a class="anc" href="#imunidade-coletiva">#</a></h2>
 
-<h2 id="conjugadas">Vacinas conjugadas — superando a limitação dos polissacarídeos <a class="anchor" href="#conjugadas">#</a></h2>
-<p>Polissacarídeos bacterianos são antígenos T-independentes — ativam linfócitos B diretamente sem auxílio de células T CD4⁺. Isso significa: sem centro germinativo, sem maturação de afinidade, sem troca de isotipo, sem memória B de longa duração, e resposta mínima em crianças < 2 anos (que têm resposta T-independente imatura). A solução foi a conjugação química do polissacarídeo a uma proteína carreadora (toxoide tetânico, diftérico, OMP) — transformando o antígeno em T-dependente, com todas as vantagens: centro germinativo, memória B, IgG de alta afinidade, eficácia em lactentes. As vacinas conjugadas para pneumococo (PCV13, PCV20), Hib (Haemophilus influenzae tipo b) e meningococo são os exemplos mais impactantes em pediatria.</p>
+<p>Imunidade coletiva (<em>herd immunity</em>) ocorre quando a proporção imune de uma população é suficiente para interromper a cadeia de transmissão — tornando a propagação de surtos matematicamente impossível. O limiar de cobertura depende do número reprodutivo básico (R₀) do patógeno — definido como o número médio de casos secundários gerados por um infectado em população totalmente suscetível. O limiar de imunidade coletiva é H = 1 − 1/R₀:</p>
 
-<h2 id="mrna">Vacinas de mRNA — a revolução tecnológica da pandemia <a class="anchor" href="#mrna">#</a></h2>
-<p>Vacinas de RNA mensageiro (mRNA) foram desenvolvidas décadas antes da pandemia, mas tiveram sua primeira aprovação clínica em larga escala com as vacinas COVID-19 (Comirnaty® de Pfizer/BioNTech e Spikevax® da Moderna, ambas aprovadas em 2020–2021). O mecanismo: mRNA encapsulado em nanopartículas lipídicas (LNPs) é internalizado por células musculares e APCs no sítio de injeção → traduzido em proteína spike do SARS-CoV-2 → proteína expressa na membrana → processada via MHC-I (CTLs) e secretada/fagocitada → processada via MHC-II (Th) → resposta humoral e celular completa.</p>
-<p>O mRNA utilizado nas vacinas contém modificações (substituição de uridina por N1-metilpseudouridina) que reduzem reconhecimento por PRRs (TLR7, TLR8) e aumentam estabilidade — sem integrar ao genoma. As LNPs protegem o mRNA de degradação por RNases e facilitam captação celular. Vantagens sobre plataformas clássicas: produção rápida (meses, não anos), ausência de patógeno vivo ou inativado, resposta CD8⁺ robusta (via MHC-I), adaptabilidade a variantes emergentes por simples modificação da sequência.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Patógeno</th><th>R₀ estimado</th><th>Limiar H (%)</th><th>Cobertura vacinal atual (global)</th></tr></thead>
+  <tbody>
+    <tr><td>Sarampo</td><td>12–18</td><td>92–95%</td><td>~86% (abaixo do limiar em muitas regiões)</td></tr>
+    <tr><td>Caxumba</td><td>4–7</td><td>75–86%</td><td>~84%</td></tr>
+    <tr><td>Poliomielite</td><td>5–7</td><td>80–86%</td><td>&gt;90% nos programas de erradicação</td></tr>
+    <tr><td>COVID-19 (cepa original)</td><td>2–3</td><td>50–67%</td><td>Variável; limiares elevados por variantes</td></tr>
+    <tr><td>COVID-19 (Ômicron)</td><td>8–15</td><td>88–93%</td><td>Não atingido em nenhuma população</td></tr>
+    <tr><td>Varíola</td><td>5–7</td><td>80–86%</td><td>Erradicada (1980) — cobertura histórica &gt;80%</td></tr>
+  </tbody>
+  <caption>Tabela 11.3. R₀, limiar de imunidade coletiva e status vacinal selecionados.</caption>
+</table></div>
 
-<h2 id="vetores">Vacinas de vetores virais <a class="anchor" href="#vetores">#</a></h2>
-<p>Vacinas de vetores virais usam adenovírus ou outros vírus geneticamente modificados (não-replicantes) como veículo para entregar genes de antígenos antigênicos. O adenovírus penetra a célula, o gene do antígeno é transcrito e traduzido → mesma apresentação via MHC-I e II. Exemplos: Vaxzevria® (AstraZeneca/Oxford — vetor adenovírus chimpanzé Ad26 com gene spike SARS-CoV-2), Ad26.COV2.S (Janssen). A limitação é a imunidade pré-existente ao vetor viral — anticorpos anti-adenovírus humano podem reduzir eficácia de vacinas que usam adenovírus humano; daí o uso de adenovírus de chimpanzé.</p>
+<p>A imunidade coletiva protege os que não podem ser vacinados — imunossuprimidos graves, neonatos, alérgicos a componentes vacinais. Quando a cobertura cai abaixo do limiar — por desinformação, hesitância ou acesso precário — surtos ressurgem em populações previamente controladas. O Reino Unido perdeu o status "livre de sarampo" da OMS em 2019 por queda de cobertura vacinal MMR abaixo de 95%, associada à falsa hipótese de ligação entre MMR e autismo (propagada a partir do artigo fraudulento de Wakefield, 1998, retratado pela <em>Lancet</em> em 2010 após investigação de má conduta científica).</p>
 
-<h2 id="adjuvantes">Adjuvantes — o sinal de perigo artificial <a class="anchor" href="#adjuvantes">#</a></h2>
-<p>Adjuvantes são componentes das vacinas que potencializam a resposta imune ao antígeno sem serem antígenos. O mecanismo unificador é a ativação de PRRs nas APCs — criando o contexto inflamatório necessário para maturação de DCs e co-estimulação de células T. Sais de alumínio (Alúmen) — os adjuvantes mais usados — ativam o inflamassomo NLRP3 via cristais e promovem necrose celular (DAMP) → resposta Th2 e anticorpos IgG1. AS04 (MPL + alúmen) ativa TLR4 + inflamassomo → resposta mais balanceada Th1/Th2. CpG (oligonucleotídeos sintéticos de DNA bacteriano) ativa TLR9 → resposta Th1 e CTL — indicado para vacinas que precisam de resposta celular. AS01B (MPL + QS-21 em lipossomos — em Shingrix® e RTS,S anti-malária) é um dos adjuvantes mais potentes aprovados.</p>
+<div class="kbox">
+  <div class="klabel">Limite do conceito — imunidade coletiva vs. escape antigênico</div>
+  <p>O modelo clássico de H = 1 − 1/R₀ pressupõe que imunidade de vacina e imunidade natural são igualmente protetoras contra a transmissão. Para SARS-CoV-2, vacinas de mRNA reduzem drasticamente a doença grave mas têm eficácia menor contra infecção/transmissão — especialmente com variantes de escape imune. Isso implica que o limiar H efetivo é diferente do H teórico. Para patógenos com escape antigênico rápido (influenza, HIV), o conceito de imunidade coletiva permanente simplesmente não se aplica — a imunidade é temporária e específica por variante.</p>
+</div>
+</section>
 
-<h2 id="imunidade-coletiva">Imunidade coletiva — proteção além do vacinado <a class="anchor" href="#imunidade-coletiva">#</a></h2>
-<p>Imunidade coletiva (herd immunity) ocorre quando uma proporção suficiente da população está imune a um patógeno — impedindo que surtos se propaguem. A cobertura necessária depende do número reprodutivo básico (R₀) do patógeno: sarampo (R₀ = 12–18) requer 92–95% de cobertura; poliomielite (R₀ = 5–7) requer 80–85%; COVID-19 cepa original (R₀ ≈ 2–3) requer ~60–67%, mas variantes mais transmissíveis elevam esse limiar. A imunidade coletiva protege indivíduos que não podem ser vacinados (imunossuprimidos, neonatos) — o que torna a vacinação um ato coletivo, não apenas individual. A queda de cobertura vacinal abaixo do limiar — por desinformação ou recusa — pode reativar epidemias de doenças previamente controladas (casos de sarampo em países com alta cobertura prévia) <a class="cite" href="#referencias">(REICHE, 2026)</a>.</p>
+<section id="falhas">
+<h2>Falhas vacinais e desafios para novos alvos <a class="anc" href="#falhas">#</a></h2>
 
-<h2 id="falhas">Falhas vacinais e desafios para novos alvos <a class="anchor" href="#falhas">#</a></h2>
-<p>Alguns patógenos resistem ao desenvolvimento de vacinas eficazes por razões imunológicas específicas. <strong>HIV:</strong> alta taxa de mutação (~10⁻⁴ erros/ciclo), variabilidade do envelope até 35% entre cepas, latência em células T de memória (reservatório imune), e a própria célula-alvo (CD4⁺) é destruída pela infecção — o sistema de resposta à vacina é danificado. <strong>HCV:</strong> variabilidade genética extrema (6 genótipos, múltiplos subtipos), evasão de resposta T mediada por mutações de escape, e ausência de modelo animal adequado. <strong>Influenza A:</strong> deriva antigênica (<em>antigenic drift</em> — mutações pontuais) e desvio antigênico (<em>shift</em> — reassortment de segmentos de RNA) requerem reformulação anual da vacina. <strong>Tuberculose:</strong> BCG protege eficazmente neonatos contra formas graves mas tem eficácia variável contra TB pulmonar em adultos — o alvo principal. Vacinas de subunidade com AS01 (M72/AS01E) mostraram 50% de eficácia em adultos com TB latente — resultado promissor, mas insuficiente.</p>
+<p>Alguns patógenos resistem ao desenvolvimento de vacinas eficazes por razões imunológicas específicas que emergem da biologia do patógeno e dos limites do sistema imune.</p>
 
-<h2 id="vacinas-cancer">Vacinas antitumorais — a nova fronteira <a class="anchor" href="#vacinas-cancer">#</a></h2>
-<p>Vacinas antitumorais dividem-se em preventivas e terapêuticas. <strong>Preventivas:</strong> HPV (Gardasil® 9V — previne câncer cervical, orofaríngeo, anal, vulvar, peniano causados por HPV 6, 11, 16, 18, 31, 33, 45, 52, 58) e HBV (previne hepatocarcinoma HBV-associado) são as mais impactantes. <strong>Terapêuticas:</strong> sipuleucel-T (Provenge® — células dendríticas autólogas pulsadas com antígeno de câncer de próstata PAP-GM-CSF — FDA aprovado 2010); T-VEC (Imlygic® — vírus herpes oncolítico para melanoma). Vacinas de neoantígenos (mutações específicas do tumor de cada paciente, identificadas por sequenciamento e produzidas como mRNA) estão em ensaios clínicos avançados com resultados promissores em melanoma e câncer de pâncreas.</p>
+<h3>HIV</h3>
+<div class="hist">
+  <span class="hl">40 anos de tentativas frustradas</span>
+  Desde o isolamento do HIV-1 em 1983 (Barré-Sinoussi e Montagnier — Nobel 2008), mais de 200 ensaios clínicos de vacina falharam. O único com resultado positivo foi o RV144 no Tailândia (2009): regime prime-boost com ALVAC + AIDSVAX mostrou 31,2% de eficácia — biologicamente significativa mas insuficiente para uso clínico. As falhas subsequentes (HVTN702 em 2020, Imbokodo em 2021) confirmaram que não existe estratégia eficaz aprovada.
+</div>
+<p>Os obstáculos imunológicos do HIV são múltiplos e interdependentes: (1) <strong>Alta taxa de mutação</strong> (~10⁻⁴ erros por sítio por ciclo de replicação — 10⁵× maior que DNA viral com polimerase de revisão), gerando diversidade quase infinita de epítopos; (2) <strong>Envelope (gp120/gp41) altamente glicosilado</strong> — "escudo de glicanos" cobre os sítios de ligação mais acessíveis ao BCR, e os sítios conservados (RBS — receptor binding site para CD4) estão profundamente recuados na trímero; (3) <strong>Latência em células T CD4⁺ de memória</strong> — reservatório imunologicamente silencioso que não é eliminado por CTLs (sem expressão de antígenos virais durante latência); (4) <strong>Destruição da célula-alvo da vacina</strong> — o HIV destrói CD4⁺, a própria população que deve orquestrar a resposta vacinal. Anticorpos amplamente neutralizantes (bNAbs — como VRC01, 3BNC117) que reconhecem sítios conservados do gp120 existem em ~1–2% dos infectados crônicos, mas sua indução por vacinação requer maturação de afinidade extraordinária ao longo de anos — ainda não replicável com nenhuma plataforma vacinal.</p>
 
-<h2 id="conexoes">Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
-<div class="connections-box">
-  <h4>Pontes conceituais</h4>
-  <p><strong>Módulo 11 → Módulo 7 (Anticorpos):</strong> vacinação é fundamentalmente um processo de indução de anticorpos de alta afinidade e longa duração. A eficácia de uma vacina é frequentemente medida pelo título de anticorpos neutralizantes específicos — que dependem de maturação de afinidade e troca de isotipo. Ver <a class="cross-link" href="anticorpos-imunidade-humoral.html#maturacao-afinidade">Módulo 7 → Maturação de afinidade</a>.</p>
-  <p><strong>Módulo 11 → Módulo 4 (Imunidade inata treinada):</strong> BCG é o paradigma de imunidade inata treinada — induz modificações epigenéticas em macrófagos que amplificam respostas futuras a outros patógenos. Ver <a class="cross-link" href="imunidade-inata.html#conceito-inata">Módulo 4 → Imunidade inata treinada</a>.</p>
-  <p><strong>Módulo 11 → Módulo 9 (Resposta a patógenos):</strong> o entendimento dos mecanismos de imunidade protetora para cada tipo de patógeno (anticorpos neutralizantes para vírus; CTLs para intracelulares; Th17 para fungos) determina qual plataforma vacinal escolher. Ver <a class="cross-link" href="resposta-a-patogenos.html">Módulo 9 → Resposta a Patógenos</a>.</p>
+<h3>Influenza — o problema do drift e shift</h3>
+<p>Influenza A acumula mutações pontuais em hemaglutinina (HA) e neuraminidase (NA) por pressão seletiva de anticorpos (<em>antigenic drift</em>). Adicionalmente, por segmentação do genoma (8 segmentos de RNA), dois vírus influenza de espécies diferentes podem infectar a mesma célula e trocar segmentos genômicos (<em>antigenic shift</em> — <em>reassortment</em>) — gerando vírus quimera com proteínas de superfície completamente novas para o sistema imune humano (ex.: H1N1 pandêmico de 2009 resultou de reassortment de vírus humano, aviário e suíno). Drift requer reformulação anual da vacina trivalente/quadrivalente; shift exige resposta pandêmica de emergência. Vacinas de influenza universais que alvejam HA conservada (pedúnculo/stalk) estão em desenvolvimento mas ainda sem aprovação.</p>
+
+<h3>Tuberculose — o paradoxo da BCG</h3>
+<p>BCG (Bacilo Calmette-Guérin — <em>M. bovis</em> atenuado) confere proteção excelente (&gt;80%) contra formas graves de TB em lactentes (meningite tuberculosa, TB miliar). No entanto, sua eficácia contra TB pulmonar em adultos varia de 0 a 80% entre estudos em diferentes regiões — variabilidade inexplicada, possivelmente relacionada a exposição prévia a micobactérias ambientais não-tuberculosas (que "bloqueiam" o efeito protetor de BCG por desensibilização de memória imune). A vacina de subunidade M72/AS01E demonstrou 50% de eficácia em adultos com TB latente em ensaio clínico de fase IIb (MTBVAC trial, 2019) — resultado promissor mas insuficiente sem reforço. A BCG é utilizada também como imunoterápico intravesical em câncer de bexiga (estimulação de resposta Th1 antitumoral local).</p>
+</section>
+
+<section id="vacinas-cancer">
+<h2>Vacinas antitumorais — a nova fronteira <a class="anc" href="#vacinas-cancer">#</a></h2>
+
+<div class="hist">
+  <span class="hl">Da imunologia tumoral à terapia — 1890–2010</span>
+  William Coley (1893) observou regressão de sarcomas em pacientes que desenvolviam erisipela (<em>Streptococcus pyogenes</em>) no pós-operatório — e começou a injetar misturas bacterianas inativadas ("toxinas de Coley") com resultados variáveis. O mecanismo só foi compreendido um século depois: estimulação de TLRs e inflamassomo por PAMPs bacterianos ativa imunidade antitumoral. Steven Rosenberg (NCI) demonstrou nos anos 1980 que linfócitos infiltrantes de tumor (TILs) podiam ser expandidos ex vivo e transferidos de volta com efeito antitumoral. O conceito de vacina terapêutica antitumoral foi realizado clinicamente com sipuleucel-T (aprovado FDA 2010).
 </div>
 
-<h2 id="discussao">Discussão <a class="anchor" href="#discussao">#</a></h2>
-<p>A convergência entre todas as plataformas vacinais é a mesma: simular a resposta imune protetora sem causar a doença. As diferenças entre plataformas refletem diferentes soluções para a tensão entre segurança e potência imunogênica. Vacinas vivas são as mais potentes porque mimetizam mais fielmente a infecção — mas ao custo de segurança em imunossuprimidos. Vacinas inativadas e de subunidade são seguras universalmente — ao custo de menor potência e necessidade de adjuvante. Vacinas de mRNA resolvem parcialmente essa tensão: segurança de subunidade com potência próxima à de vacinas vivas — mas requerem cadeia de frio rigorosa (‑80°C para algumas formulações iniciais).</p>
-<p>A tensão mais relevante é entre a velocidade da evolução antigênica dos patógenos e a duração da memória vacinal induzida. HIV muta mais rápido que a imunidade pode ser mantida; influenza necessita reformulação anual; SARS-CoV-2 gerou variantes com escape parcial de anticorpos anti-spike (especialmente Ômicron). A resposta tecnológica — plataformas de mRNA adaptáveis em semanas — representa uma mudança de paradigma: não mais vacinas fixas desenvolvidas por anos, mas plataformas que podem ser reprogramadas em resposta a emergências.</p>
-<p>A implicação derivada mais importante é filosófica: vacinas são a única intervenção médica que age não apenas sobre o indivíduo vacinado, mas sobre a rede de transmissão de uma população inteira. A decisão de se vacinar ou não é, portanto, tanto individual quanto coletiva — e a recusa individual tem consequências que se estendem a indivíduos vulneráveis que não podem ser protegidos por vacinas. A imunidade coletiva é um bem público que depende de escolhas individuais — e sua erosão é consequência direta de falhas na comunicação pública sobre mecanismos imunológicos que este módulo explica.</p>
+<p>Vacinas antitumorais dividem-se em preventivas e terapêuticas com mecanismos e contextos distintos:</p>
 
-<h2 id="leituras">Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<p><strong>Preventivas (maior impacto em saúde pública):</strong> vacina HPV (Gardasil® 9-valente — previne infecção por HPV 6, 11, 16, 18, 31, 33, 45, 52, 58; baseada em VLPs — partículas semelhantes a vírus de proteína L1 sem DNA viral; resposta de anticorpos neutralizantes anti-L1 bloqueia a infecção inicial antes de integração viral ao genoma hospedeiro) e vacina HBV (HBsAg recombinante — previne hepatite B crônica e carcinoma hepatocelular associado). Essas duas vacinas são, de fato, vacinas preventivas de câncer — previnem as infecções virais que precedem a transformação maligna.</p>
+
+<p><strong>Terapêuticas (tratam câncer existente):</strong> Sipuleucel-T (Provenge® — FDA 2010, câncer de próstata metastático): células dendríticas autólogas do paciente são coletadas por leucaférese, incubadas ex vivo com o antígeno PA2024 (proteína de fusão entre fosfatase ácida prostática — PAP — e GM-CSF), ativadas, e reinfundidas — esperando que DCs pulsadas com antígeno tumoral ativem CTLs anti-próstata in vivo. Eficácia: 4,1 meses de sobrevida adicional no ensaio IMPACT (2010). T-VEC (Imlygic® — FDA 2015, melanoma): vírus herpes simplex 1 geneticamente modificado (deletado de genes ICP34.5 e ICP47; inserido com gene GM-CSF) que replica seletivamente em células tumorais (com déficit de resposta ao IFN) → lise oncolítica → liberação de antígenos tumorais + GM-CSF → ativação de DCs tumorais → resposta imune sistêmica.</p>
+
+<p><strong>Vacinas de neoantígenos (ensaios clínicos):</strong> neoantigenos são peptídeos resultantes de mutações somáticas específicas do tumor de cada paciente — invisíveis à tolerância central (timicamente, apenas peptídeos self são apresentados; mutações somáticas não são self). O processo: sequenciamento de exoma do tumor (DNA tumoral vs. DNA normal) → identificação de mutações não-sinônimas → predição de peptídeos mutados com alta afinidade para HLA do paciente → síntese de vacina de mRNA ou peptídeo personalizada → imunização. Ensaio de fase IIb de vacina de neoantígeno mRNA (BioNTech/Merck — mRNA-4157/V940 + pembrolizumabe) mostrou redução de 44% no risco de recorrência ou morte em melanoma de alto risco em 2023 — resultado clinicamente significativo que motivou ensaios de fase III.</p>
+
+<div class="kbox">
+  <div class="klabel">Desafio central das vacinas terapêuticas antitumorais — o tumor como adversário ativo</div>
+  <p>Vacinas preventivas funcionam num contexto imunológico virgem (sem tumor, sem imunossupressão tumoral). Vacinas terapêuticas operam num microambiente tumoral ativo (TME — <em>tumor microenvironment</em>) que sabota a resposta imune: Tregs abundantes (suprimem CTLs), TAMs M2 (secretam IL-10, TGF-β), expressão de PD-L1 em células tumorais (bloqueia PD-1 nos CTLs), escape de apresentação MHC-I (downregulation de β2-microglobulina em ~40% dos melanomas), e seleção clonal de variantes tumorais sem neoantígenos-alvo. A combinação de vacinas com inibidores de checkpoint (anti-PD-1, anti-CTLA-4) tenta reverter o TME supressor enquanto a vacina gera especificidade antitumoral — estratégia que domina os ensaios clínicos atuais.</p>
+</div>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto <a class="anc" href="#perguntas-abertas">#</a></h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 1 — Duração e LLPCs</div>
+  <p>O que determina a longevidade dos plasmócitos de longa duração após vacinação — e por que vacinas vivas (febre amarela) formam LLPCs por décadas enquanto vacinas mRNA (COVID-19) parecem formar LLPCs de vida mais curta? O nicho medular é competitivo (deslocamento de LLPCs antigos por novos) ou aditivo? Esses mecanismos são suficientemente compreendidos para serem manipulados farmacologicamente?</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão 2 — Anticorpos amplamente neutralizantes e HIV</div>
+  <p>Os anticorpos amplamente neutralizantes (bNAbs) anti-HIV existem naturalmente em ~1–2% dos infectados crônicos após anos de maturação de afinidade extrema. Qual a estratégia vacinação prime-boost seria capaz de induzir bNAbs de qualidade equivalente em meses em vez de anos? O problema é estrutural (o epítopo está ocluído no trímero viral) ou cinético (requer mais tempo de centro germinativo)?</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão 3 — Adjuvantes e mecanismo de QS-21</div>
+  <p>AS01 (MPL + QS-21) é o adjuvante mais potente aprovado, mas o mecanismo de QS-21 (saponina de <em>Quillaja saponaria</em>) ainda não está completamente elucidado. Como QS-21 amplifica a formação de LLPCs e centros germinativos? Há receptor celular específico? A compreensão do mecanismo permitiria sintesar adjuvantes análogos?</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão 4 — Vacinas de neoantígenos e imprinting</div>
+  <p>Vacinas de neoantígenos personalizadas mostram resultados promissores em melanoma, mas o TME pode selecionar clones tumorais que perdem os neoantígenos-alvo (immune editing). Vacinas com múltiplos neoantígenos simultâneos resolveriam isso ou apenas retardariam o escape? Qual o número ótimo de neoantígenos para cobrir a heterogeneidade intratumoral?</p>
+</div>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outros módulos <a class="anc" href="#conexoes">#</a></h2>
+<div class="dep-panel">
+  <div class="dep-label">Pontes conceituais</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Vacinas → Anticorpos (M7)</div>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html#centro-germinativo">Centro germinativo e maturação de afinidade — mecanismo central de toda vacina eficaz</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html#troca-isotipo">Troca de isotipo — adjuvantes e citocinas determinam qual classe de Ig é protetora</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Vacinas → Resposta a Patógenos (M9)</div>
+      <a class="dep-item" href="resposta-a-patogenos.html#bacterias-intracelulares">Por que BCG não protege bem adultos — imunidade a intracelulares exige CTL + Th1 robustos</a>
+      <a class="dep-item" href="resposta-a-patogenos.html#evasao-viral">Evasão viral e escape antigênico — limitações de vacinas contra HIV, HCV, influenza</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Vacinas → Hipersensibilidade (M10)</div>
+      <a class="dep-item" href="hipersensibilidade.html#anafilaxia">Anafilaxia vacinal — anti-PEG, látex em seringas, gelatina como estabilizante</a>
+      <a class="dep-item" href="hipersensibilidade.html#tipo-iv">Hipersensibilidade tipo IV — PPD Mantoux como diagnóstico, não vacina; granuloma BCGite</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão <a class="anc" href="#discussao">#</a></h2>
+
+<p><strong>Fechando a pergunta motivadora:</strong> a diferença de durabilidade entre vacinas reflete primariamente a capacidade de cada plataforma de gerar plasmócitos de longa duração (LLPCs) robustos na medula óssea. Vacinas vivas atenuadas (febre amarela, sarampo) mimetizam a infecção natural — replicação controlada em múltiplos compartimentos, ativação de PRRs amplamente distribuídos, contexto inflamatório prolongado — e geram LLPCs duradouros com meia-vida de décadas. Vacinas de mRNA geram resposta imune intensa e rápida, mas a inflamação é transitória (LNPs são eliminadas em dias, mRNA em horas) e LLPCs formados parecem ter vida mais curta — daí o declínio de anticorpos em meses e a necessidade de reforços. Vacinas de influenza falham adicionalmente por um problema anterior: o antígeno alvo (HA, NA) muta entre a formulação anual e a circulação real — sendo o declínio de eficácia imunológico (LLPCs) e antigênico (mutação) simultaneamente.</p>
+
+<p><strong>Tensão central:</strong> toda vacina deve equilibrar segurança e potência. Vacinas vivas são as mais potentes e as mais perigosas para imunossuprimidos. A era das plataformas de mRNA e vetores virais representa uma tentativa de capturar a potência das vivas (apresentação via MHC-I + II, adjuvante intrínseco das LNPs) com a segurança das inativadas (sem patógeno replicante). O resultado foi parcialmente bem-sucedido: proteção robusta contra doença grave, inferior contra infecção e transmissão, com durabilidade limitada comparada às vivas. Essa tensão irresolvida é o motor do desenvolvimento de adjuvantes de nova geração que prolonguem o centro germinativo e aumentem a qualidade dos LLPCs.</p>
+
+<p><strong>Implicação derivada:</strong> vacinas são o único instrumento médico que opera simultaneamente em dois níveis — o indivíduo vacinado (proteção direta) e a rede epidemiológica (imunidade coletiva, proteção de suscetíveis). Isso cria uma assimetria ética singular: o risco do vacinado (ainda que mínimo) beneficia principalmente terceiros que não podem ser vacinados. A erosão da cobertura vacinal por desinformação não é apenas uma escolha individual — é uma externalidade negativa que impõe risco a imunossuprimidos, neonatos e populações vulneráveis que não têm escolha. Compreender a imunologia vacinal não resolve essa assimetria ética, mas fundamenta o discurso científico que pode informá-la.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anc" href="#leituras">#</a></h2>
 <div class="book-grid">
-  <div class="book-card"><div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed. · Capítulo 17<br>Princípios imunológicos da vacinação com cobertura de novas plataformas. Inclui vacinas de mRNA e perspectivas futuras.</div></div>
-  <div class="book-card"><div class="book-title">Plotkin's Vaccines</div><div class="book-meta">Orenstein, Offit, Edwards · Elsevier, 7ª ed.<br>Referência definitiva em vacinas — cobre cada vacina individualmente com mecanismo, eficácia, esquema e contraindicações. Padrão de referência para clínica e saúde pública.</div></div>
+  <div class="book-card"><div class="book-title">Cellular and Molecular Immunology <span class="badge-tem">VOCÊ TEM</span></div><div class="book-meta">Abbas, Lichtman, Pillai · Elsevier, 11ª ed. · Capítulo 17<br>Cobertura rigorosa dos princípios imunológicos da vacinação, incluindo plataformas de mRNA e perspectivas de vacinas antitumorais. Ponto de entrada recomendado.</div></div>
+  <div class="book-card"><div class="book-title">Plotkin's Vaccines</div><div class="book-meta">Orenstein, Offit, Edwards · Elsevier, 7ª ed.<br>Referência definitiva — cada vacina individualmente com mecanismo, eficácia, esquema e contraindicações. Padrão para clínica e saúde pública.</div></div>
 </div>
-<p style="font-size:14px;color:var(--muted)"><strong>Revisão:</strong> PARDI, N. et al. mRNA vaccines — a new era in vaccinology. <em>Nature Reviews Drug Discovery</em>, v. 17, p. 261–279, 2018. DOI: <a href="https://doi.org/10.1038/nrd.2017.243" target="_blank" rel="noopener" style="color:var(--blue)">10.1038/nrd.2017.243</a></p>
+<p style="font-size:14px;color:var(--muted);margin-top:16px"><strong>Artigos fundamentais (acesso aberto):</strong></p>
+<p style="font-size:14px;color:var(--muted)">VERBEKE, R. et al. Innate immune mechanisms of mRNA vaccines. <em>Immunity</em>, v. 55, n. 11, p. 1993–2005, 2022. DOI: <a href="https://doi.org/10.1016/j.immuni.2022.10.014" target="_blank" rel="noopener" style="color:var(--ac)">10.1016/j.immuni.2022.10.014</a></p>
+<p style="font-size:14px;color:var(--muted)">BEN-AKIVA, E. et al. Linking vaccine adjuvant mechanisms of action to function. <em>Science Immunology</em>, v. 10, n. 104, 2025. DOI: <a href="https://doi.org/10.1126/sciimmunol.ado5937" target="_blank" rel="noopener" style="color:var(--ac)">10.1126/sciimmunol.ado5937</a></p>
+<p style="font-size:14px;color:var(--muted)">PARDI, N. et al. mRNA vaccines — a new era in vaccinology. <em>Nature Reviews Drug Discovery</em>, v. 17, p. 261–279, 2018. DOI: <a href="https://doi.org/10.1038/nrd.2017.243" target="_blank" rel="noopener" style="color:var(--ac)">10.1038/nrd.2017.243</a></p>
+</section>
 
-<h2 id="referencias">Referências ABNT <a class="anchor" href="#referencias">#</a></h2>
+<section id="referencias">
+<h2>Referências ABNT <a class="anc" href="#referencias">#</a></h2>
 <ol class="refs">
   <li>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <em>Imunologia Celular e Molecular</em>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+  <li>BEN-AKIVA, Elana et al. Linking vaccine adjuvant mechanisms of action to function. <em>Science Immunology</em>, v. 10, n. 104, p. eado5937, fev. 2025. DOI: <a href="https://doi.org/10.1126/sciimmunol.ado5937" target="_blank" rel="noopener">10.1126/sciimmunol.ado5937</a></li>
   <li>PARDI, Norbert et al. mRNA vaccines — a new era in vaccinology. <em>Nature Reviews Drug Discovery</em>, v. 17, p. 261–279, 2018. DOI: <a href="https://doi.org/10.1038/nrd.2017.243" target="_blank" rel="noopener">10.1038/nrd.2017.243</a></li>
   <li>REICHE, Edna Maria Vissoci. <em>Aula: Vacinas</em>. PUC-PR, Disciplina Agressão e Defesa, 2026.</li>
+  <li>TOMALKA, Jeffrey A. et al. Fighting the SARS-CoV-2 pandemic requires a global approach to understanding the heterogeneity of vaccine responses. <em>Nature Immunology</em>, v. 23, n. 3, p. 360–370, 2022. DOI: <a href="https://doi.org/10.1038/s41590-022-01130-4" target="_blank" rel="noopener">10.1038/s41590-022-01130-4</a></li>
+  <li>VERBEKE, Rein et al. Innate immune mechanisms of mRNA vaccines. <em>Immunity</em>, v. 55, n. 11, p. 1993–2005, nov. 2022. DOI: <a href="https://doi.org/10.1016/j.immuni.2022.10.014" target="_blank" rel="noopener">10.1016/j.immuni.2022.10.014</a></li>
+  <li>ZHU, Yiming et al. Fasting impairs humoral immunological memory by &beta;-hydroxybutyrate-mediated depletion of plasma cells. <em>Immunity</em>, v. 59, n. 4, p. 1006–1024, fev. 2026. DOI: <a href="https://doi.org/10.1016/j.immuni.2026.01.002" target="_blank" rel="noopener">10.1016/j.immuni.2026.01.002</a></li>
 </ol>
+</section>
 
-</div></main>
+</div><!-- .prose -->
+</div><!-- #content -->
+</div><!-- #body-wrap -->
 <script>
-const sections=document.querySelectorAll('h2[id],h3[id]');
-const links=document.querySelectorAll('#sidebar a[href^="#"]');
-const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){const id=entry.target.id;links.forEach(l=>l.classList.remove('active'));const active=document.querySelector('#sidebar a[href="#'+id+'"]');if(active)active.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>observer.observe(s));
-links.forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const target=document.querySelector(link.getAttribute('href'));if(target)target.scrollIntoView({behavior:'smooth'})})});
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function setSidebarState(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.innerHTML = '&#8250;';
+    sessionStorage.setItem('sidebar-collapsed', '1');
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    toggleBtn.innerHTML = '&#8249;';
+    sessionStorage.setItem('sidebar-collapsed', '0');
+  }
+}
+if (sessionStorage.getItem('sidebar-collapsed') === '1') setSidebarState(true);
+toggleBtn.addEventListener('click', function() { setSidebarState(!sidebar.classList.contains('collapsed')); });
+var bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function() {
+  var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+}, { passive: true });
+var sLinks = document.querySelectorAll('#sidebar a.sl[href^="#"]');
+var obs1 = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      sLinks.forEach(function(l) { l.classList.remove('active'); });
+      var a = document.querySelector('#sidebar a.sl[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+var obs2 = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) e.target.classList.add('in-view');
+    else e.target.classList.remove('in-view');
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+document.querySelectorAll('section[id]').forEach(function(s) { obs1.observe(s); obs2.observe(s); });
+sLinks.forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var t = document.querySelector(link.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
 </script>
 </body>
 </html>

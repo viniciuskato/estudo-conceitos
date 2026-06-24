@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Instruções de Projeto no Cowork — Estrutura e Otimização</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;-webkit-font-smoothing:antialiased}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:12px 8px 8px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+.s-logo{padding:0 16px 16px;font-family:var(--font-ui);font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:20px;padding:0 8px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 8px;margin-bottom:6px}
+a.sl{display:block;padding:5px 8px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-radius:4px;transition:background .15s,color .15s}
+a.sl:hover,a.sl.active{background:var(--bg3);color:var(--text)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+.doc-header{margin-bottom:48px}
+h1{font-size:2rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+section{margin-bottom:56px}
+h2{font-size:1.3rem;font-weight:600;color:var(--text);margin-bottom:20px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 12px}
+h4{font-family:var(--font-ui);font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin:22px 0 8px}
+p{margin-bottom:18px}
+ul,ol{margin:0 0 18px 22px}
+li{margin-bottom:6px}
+code{font-family:'Fira Mono','Cascadia Code',monospace;font-size:.83em;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:1px 5px;color:var(--ac)}
+pre{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:16px 18px;overflow-x:auto;margin:14px 0 20px;font-family:'Fira Mono','Cascadia Code',monospace;font-size:.82em;line-height:1.6}
+pre code{background:none;border:none;padding:0;color:var(--text)}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic;color:var(--muted)}
+hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.9em}
+th{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border);padding:8px 12px;text-align:left}
+td{padding:9px 12px;border-bottom:1px solid var(--bg3);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;margin:0;color:var(--muted)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.cite{color:var(--ac);font-size:.9em}
+.ref-item{margin-bottom:12px;font-size:.92em}
+.antipattern{background:#1a1414;border:1px solid #3a2020;border-left:2px solid #8b2020;border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.antipattern .alabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:#c05050;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.good{background:#141a14;border:1px solid #203a20;border-left:2px solid #208b20;border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.good .glabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:#50c050;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+@media(max-width:900px){
+  #sidebar{display:none}
+  #sidebar.open{display:flex}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  #mob-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+  #s-toggle{display:none}
+}
+@media(min-width:901px){#mob-bar{display:none}}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#progress-bar{display:none}
+  #content{padding:20px}
+  a::after{content:" ("attr(href)")";font-size:.8em;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 8px;border-radius:4px;cursor:pointer">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Instruções de Projeto</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">‹</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Ferramentas &amp; IA</div>
+    <div class="s-group">
+      <div class="sgt">Conteúdo</div>
+      <a class="sl" href="#fundamentos">Fundamentos</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#o-que-sao">O que são instruções</a>
+      <a class="sl" href="#anatomia">Anatomia de boas instruções</a>
+      <a class="sl" href="#elementos-estruturais">Elementos estruturais</a>
+      <a class="sl" href="#mecanismo-cognitivo">Mecanismo cognitivo</a>
+      <a class="sl" href="#fluxo-de-trabalho">Fluxo de trabalho</a>
+      <a class="sl" href="#antipadroes">Antipadrões</a>
+      <a class="sl" href="#manutencao">Manutenção e evolução</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Revisão</div>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Instruções de Projeto no Cowork</h1>
+  <p class="doc-meta">Ferramentas &amp; IA · Engenharia de Prompts · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~25 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>familiaridade com o Cowork</b></span>
+    <span class="chip">🔗 Depende de: <b>Claude — Arquitetura e Capacidades</b></span>
+    <span class="chip">📍 Área: <b>Ferramentas &amp; IA</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que dois projetos com o mesmo Claude e prompts similares produzem resultados radicalmente diferentes — e o que determina se as instruções de projeto se tornam uma alavanca ou um ruído de fundo que o modelo aprende a ignorar?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="claude-llm.html">Claude — Arquitetura e Capacidades</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Noções de system prompt e tokens</a>
+      <a class="dep-item" href="#">Como o contexto funciona em LLMs</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">(nenhum ainda)</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<h3>O que é o system prompt e por que ele importa</h3>
+<p>Toda interação com o Claude começa com um <strong>system prompt</strong> — um bloco de texto inserido antes de qualquer mensagem do usuário que estabelece o contexto, os objetivos, os limites e a personalidade com que o modelo vai operar. No Cowork, as <em>instruções de projeto</em> são o mecanismo pelo qual o usuário escreve e controla esse system prompt para uma pasta específica.</p>
+
+<p>O system prompt não é um menu de opções — é uma especificação comportamental. O modelo o lê uma vez a cada nova sessão, junto com as mensagens do usuário, e tenta satisfazer simultaneamente todos os objetivos nele declarados. Isso tem consequências diretas: instruções contraditórias criam comportamento instável; instruções vagas são resolvidas pelo julgamento do modelo (que pode não coincidir com o do usuário); instruções precisas reduzem o espaço de interpretação e produzem saídas mais previsíveis.</p>
+
+<h3>Atenção como recurso escasso</h3>
+<p>Modelos de linguagem processam texto por meio de mecanismos de atenção — cada token influencia e é influenciado por outros tokens na janela de contexto. Em termos práticos, isso significa que o conteúdo colocado no início do contexto (início do system prompt, início de uma seção longa) recebe peso de atenção maior do que conteúdo no meio. Essa propriedade, documentada empiricamente sob o nome de <em>lost in the middle</em>, explica por que instruções críticas enterradas no parágrafo 15 de um system prompt de 20 parágrafos tendem a ser seguidas com menos fidelidade <span class="cite">(LIU et al., 2023)</span>.</p>
+
+<h3>Tokens, janela e custo cognitivo</h3>
+<p>Cada caractere do system prompt consome tokens da janela de contexto e, indiretamente, do orçamento de atenção disponível para a conversa. Um system prompt de 10.000 tokens é viável tecnicamente (a janela do Claude 3 Sonnet é de 200.000 tokens), mas enfrenta dois problemas práticos: (1) a atenção se dilui — regras enterradas em textos longos são processadas com menor peso relativo; (2) o carregamento aumenta a latência de cada resposta, pois todo o prefill é reprocessado. A tensão entre completude e eficiência é inerente ao design de instruções.</p>
+
+<h3>Generalização vs. especificidade</h3>
+<p>O Claude foi treinado para generalizar: diante de uma situação não prevista nas instruções, ele infere o comportamento mais plausível dado o contexto. Isso é uma funcionalidade, não um bug — significa que não é necessário especificar todos os casos possíveis. Mas a generalização também significa que instruções ambíguas serão resolvidas por inferência, e a inferência do modelo pode divergir do que o usuário pretendia. A arte de escrever instruções de projeto está em saber o que especificar explicitamente e o que confiar à generalização.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">System Prompt</div>
+    <p>Texto inserido antes de qualquer mensagem do usuário; define o comportamento base do modelo para a sessão.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Instrução de Projeto</div>
+    <p>Conteúdo das configurações de projeto no Cowork; é injetado como system prompt em toda sessão da pasta.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Especificidade de Instrução</div>
+    <p>Grau em que a instrução delimita o espaço de respostas possíveis — do genérico ao prescritivo.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Lost in the Middle</div>
+    <p>Fenômeno pelo qual conteúdo posicionado no meio de contextos longos recebe menos atenção efetiva do modelo.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Grounding</div>
+    <p>Ancoragem do modelo em fatos, formatos ou restrições concretas; oposto de instrução abstrata.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Drift Instrucional</div>
+    <p>Degradação gradual da aderência às instruções ao longo de uma sessão longa, à medida que o contexto acumula tokens.</p>
+  </div>
+</div>
+</section>
+
+<section id="o-que-sao">
+<h2>O que são instruções de projeto</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico</span>
+  A ideia de condicionar o comportamento de um sistema de IA por meio de instruções textuais pré-fixadas remonta aos primeiros modelos de chat baseados em transformers (2018–2020), mas ganhou precisão prática com o surgimento de modelos instruídos (<em>instruction-tuned</em>) como o InstructGPT em 2022 e os modelos Claude em 2023. O Cowork formaliza essa capacidade como "instruções de projeto" — um system prompt persistente por pasta, que o usuário controla sem precisar editar código.
+</div>
+
+<p>No Cowork, as instruções de projeto são um bloco de texto livre que o usuário configura em cada pasta de trabalho. A cada nova sessão naquela pasta, esse bloco é inserido automaticamente no início do contexto, antes de qualquer mensagem. O Claude as lê como especificação do "contrato" com o usuário para aquela pasta: o que fazer, como fazer, o que nunca fazer, qual formato adotar, qual vocabulário usar, que suposições carregar.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  <p>Instrução de projeto é um <strong>system prompt controlado pelo usuário</strong> que persiste entre sessões de uma pasta do Cowork. Ele estabelece objetivos, formato de saída, restrições comportamentais e contexto de domínio antes de qualquer turno de conversa. O modelo o lê em cada sessão junto com as mensagens subsequentes e tenta satisfazer todos os seus requisitos simultaneamente.</p>
+</div>
+
+<p>A diferença entre uma instrução de projeto e um prompt ad hoc enviado na conversa é a persistência e a posição no contexto. System prompts são processados antes de qualquer mensagem do usuário e recebem peso de atenção inicial elevado. Prompts enviados na conversa competem com o histórico de mensagens e tendem a ser "diluídos" à medida que a sessão cresce.</p>
+
+<h3>O que as instruções podem controlar</h3>
+
+<p>As instruções de projeto podem influenciar quatro dimensões do comportamento do modelo:</p>
+
+<p><strong>Formato e estilo de saída</strong> — extensão das respostas, uso de markdown, tom (formal, técnico, conversacional), idioma, estrutura de entrega (prosa vs. listas, headers vs. sem headers). O modelo segue especificações de formato com alta fidelidade quando são concretas e exemplificadas.</p>
+
+<p><strong>Domínio e contexto</strong> — área de conhecimento relevante, vocabulário esperado, nível de profundidade, referências canônicas do campo. Isso reduz o espaço de interpretação quando uma pergunta é ambígua: o modelo resolve a ambiguidade usando o domínio declarado nas instruções.</p>
+
+<p><strong>Fluxo de trabalho</strong> — sequência de etapas para tarefas recorrentes, critérios de qualidade, regras de verificação, protocolos de entrega. Quanto mais o usuário tem um workflow repetível, mais o modelo pode segui-lo automaticamente — sem precisar ser lembrado a cada sessão.</p>
+
+<p><strong>Restrições e limites</strong> — o que nunca fazer, o que confirmar antes de executar, que tipos de conteúdo não produzir, quando pedir esclarecimentos. Restrições claras reduzem a necessidade de correções posteriores.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>Instruções de projeto não sobrescrevem os valores e treinamentos fundamentais do Claude. Regras de segurança, recusa de conteúdo prejudicial e princípios éticos do modelo têm precedência sobre o system prompt. Além disso, o modelo não é determinístico — instrução precisa reduz variabilidade, mas não a elimina. Em sessões muito longas, o <em>drift instrucional</em> pode degradar a aderência mesmo com instruções bem escritas.</p>
+</div>
+</section>
+
+<section id="anatomia">
+<h2>Anatomia de boas instruções</h2>
+
+<h3>O princípio da especificidade progressiva</h3>
+<p>Boas instruções operam em três níveis de especificidade, do mais amplo ao mais prescritivo. O erro mais comum é usar apenas um nível — instruções puramente abstratas (que o modelo generaliza de forma imprevisível) ou puramente prescritivas (que não escalam para casos não previstos).</p>
+
+<p><strong>Nível 1 — Objetivo e contexto:</strong> por que este projeto existe, qual problema ele resolve, para quem e em que circunstâncias. Essa informação âncora a generalização do modelo: quando encontrar um caso não coberto explicitamente, ele inferirá com base no objetivo declarado.</p>
+
+<p><strong>Nível 2 — Formato e padrões:</strong> como a saída deve ser estruturada, que convenções usar, que tom adotar. Exemplos concretos valem mais do que descrições abstratas de formato.</p>
+
+<p><strong>Nível 3 — Regras e restrições específicas:</strong> o que fazer em casos particulares, o que nunca fazer, quando pedir confirmação antes de agir. Este nível é prescritivo e deve ser reservado para situações que a generalização resolveria errado.</p>
+
+<div class="good">
+  <div class="glabel">Exemplo bem estruturado</div>
+  <p><em>Objetivo:</em> "Este projeto é para elaboração de laudos técnicos em perícia contábil judicial. O leitor é o juiz — formação jurídica, sem familiaridade com contabilidade avançada."</p>
+  <p style="margin-top:8px"><em>Formato:</em> "Cada laudo começa com síntese executiva de no máximo 3 parágrafos. Termos técnicos são definidos na primeira ocorrência. Conclusões são numeradas e marcadas com grau de certeza (definitivo / provável / inconclusivo)."</p>
+  <p style="margin-top:8px"><em>Restrições:</em> "Nunca emitir opinião sobre mérito jurídico — apenas sobre fatos contábeis. Antes de calcular valores retroativos, confirmar o período e a taxa de correção a usar."</p>
+</div>
+
+<h3>Instrução orientada a mecanismo, não a resultado</h3>
+<p>Uma instrução que descreve o <em>mecanismo</em> de raciocínio (como pensar sobre o problema) é mais robusta do que uma que descreve apenas o resultado desejado (o que produzir). Isso porque o mecanismo se generaliza para casos novos; o resultado, não.</p>
+
+<div class="antipattern">
+  <div class="alabel">Fraco — orientado a resultado</div>
+  <p>"Produza relatórios completos e bem formatados."</p>
+</div>
+
+<div class="good">
+  <div class="glabel">Forte — orientado a mecanismo</div>
+  <p>"Antes de escrever qualquer relatório: (1) identifique a decisão que o leitor precisa tomar; (2) estruture as evidências do mais para o menos relevante para essa decisão; (3) termine com recomendação explícita ou com os critérios que faltam para tomá-la."</p>
+</div>
+
+<h3>Exemplos como especificação</h3>
+<p>O Claude generaliza a partir de exemplos com mais fidelidade do que a partir de descrições abstratas. Isso é consequência direta do treinamento por <em>few-shot learning</em>: um ou dois exemplos de formato desejado ancoram o modelo melhor do que um parágrafo explicando o formato. Sempre que uma convenção for não-óbvia ou crítica, incluir um exemplo — não apenas uma descrição.</p>
+
+<div class="kbox">
+  <div class="klabel">Princípio</div>
+  <p>Mostre, não apenas descreva. Para formatos, nomenclaturas, estruturas de entrega e níveis de detalhe: inclua pelo menos um exemplo representativo nas instruções. O modelo replica padrões demonstrados com maior precisão do que padrões narrados.</p>
+</div>
+</section>
+
+<section id="elementos-estruturais">
+<h2>Elementos estruturais de instruções eficazes</h2>
+
+<h3>Cabeçalho de contexto</h3>
+<p>O bloco inicial — idealmente o primeiro parágrafo — deve estabelecer o contexto do projeto em linguagem direta: o que é, para quem é, qual o objetivo central. Isso cria o frame de interpretação que o modelo usará para resolver ambiguidades ao longo de toda a sessão. Posicionar informação crítica no início não é apenas boa prática de leitura humana — é otimização para a distribuição de atenção do modelo.</p>
+
+<h3>Formato único ou formato principal</h3>
+<p>Projetos com um formato de saída dominante (um tipo de documento, uma estrutura recorrente) se beneficiam de declarar esse formato explicitamente e referenciá-lo como padrão. Quando há variações, descrevê-las como desvios do padrão (não como alternativas igualmente válidas) facilita a inferência do modelo em casos limítrofes.</p>
+
+<h3>Fluxo de trabalho sequencial</h3>
+<p>Para projetos com etapas recorrentes (pesquisa → rascunho → revisão → entrega, por exemplo), declarar a sequência explicitamente reduz a probabilidade de etapas serem puladas ou reordenadas. O ponto crítico é indicar não apenas o que fazer em cada etapa, mas <em>quando passar para a próxima</em> — critério de conclusão de etapa.</p>
+
+<h3>Hierarquia de prioridades</h3>
+<p>Quando houver risco de conflito entre objetivos (velocidade vs. completude, brevidade vs. precisão, formalidade vs. acessibilidade), as instruções devem declarar explicitamente qual prevalece. O Claude resolverá conflitos implícitos por inferência — e a inferência pode não coincidir com a prioridade real do usuário.</p>
+
+<h3>Protocolo de incerteza</h3>
+<p>Definir o que o modelo deve fazer quando não sabe algo é tão importante quanto definir o que deve fazer quando sabe. As três opções canônicas são: (a) pedir esclarecimento antes de agir; (b) declarar a incerteza e agir assim mesmo; (c) recusar a tarefa até receber informação adicional. A escolha depende do domínio e do custo de erro — um laudo pericial exige (a); um rascunho de email pode aceitar (b).</p>
+
+<h3>Glossário e convenções de nomenclatura</h3>
+<p>Em projetos de nicho (especialidade médica, área jurídica, terminologia interna de uma empresa), definir os termos específicos do domínio e a nomenclatura esperada elimina uma fonte relevante de variabilidade. O modelo conhece múltiplos usos do mesmo termo em contextos diferentes — o glossário nas instruções força a escolha correta para aquele projeto.</p>
+
+<h3>Separação entre regras permanentes e contexto variável</h3>
+<p>Uma instrução de projeto bem estruturada distingue o que nunca muda (regras, formato, valores do projeto) do que pode variar por sessão (contexto específico, material de referência, objetivo pontual). O que varia por sessão deve ser enviado na mensagem, não embutido nas instruções — para não torná-las obsoletas a cada novo caso.</p>
+
+<div class="kbox">
+  <div class="klabel">Heurística de separação</div>
+  <p>Se você se pega abrindo as configurações do projeto para alterar algo a cada nova tarefa, isso é sinal de que aquele conteúdo pertence à mensagem, não às instruções. Instruções de projeto são para o que é verdadeiro em <em>qualquer</em> sessão do projeto.</p>
+</div>
+</section>
+
+<section id="mecanismo-cognitivo">
+<h2>Mecanismo cognitivo: como o Claude processa instruções</h2>
+
+<div class="hist">
+  <span class="hl">Por trás do processamento</span>
+  O entendimento de como modelos de linguagem processam system prompts evoluiu significativamente entre 2022 e 2025. Trabalhos de interpretabilidade mecanicista (Anthropic, EleutherAI, DeepMind) revelaram que a atenção não é uniforme — há "cabeças" de atenção especializadas em diferentes tipos de relação semântica. Isso explica por que certas formulações de instrução são sistematicamente mais eficazes do que outras, independentemente do conteúdo.
+</div>
+
+<h3>Processamento sequencial com bias posicional</h3>
+<p>O transformer processa o contexto em paralelo via atenção multi-cabeça, mas mantém codificação posicional que preserva a ordem dos tokens. Em termos práticos, tokens no início do contexto estabelecem um "frame" que influencia a interpretação de tokens subsequentes — análogo ao efeito de ancoragem em cognição humana. Instruções críticas posicionadas no início são processadas com mais peso relativo do que as mesmas instruções no meio ou no fim.</p>
+
+<h3>Resolução de conflitos implícitos</h3>
+<p>Quando duas instruções ou uma instrução e uma mensagem do usuário conflitam, o modelo aplica uma hierarquia implícita aprendida durante o treinamento: (1) princípios de segurança e valores fundamentais; (2) system prompt; (3) mensagem do usuário; (4) inferência a partir do contexto geral. Isso significa que a mensagem do usuário pode sobrescrever instrução de projeto em casos ambíguos — especialmente se a instrução não for explícita o suficiente para que o modelo a identifique como regra a preservar.</p>
+
+<div class="kbox">
+  <div class="klabel">Consequência prática</div>
+  <p>Regras que não devem ser sobrescritas por mensagens do usuário precisam ser formuladas como obrigações explícitas — não como preferências. "Sempre confirme antes de deletar" é mais resistente à sobrescrita do que "é preferível confirmar antes de deletar". O verbo modal importa.</p>
+</div>
+
+<h3>Drift instrucional em sessões longas</h3>
+<p>À medida que uma sessão acumula tokens (mensagens longas, arquivos anexados, saídas extensas), o peso relativo do system prompt no contexto total diminui. Isso produz o <em>drift instrucional</em>: a aderência às instruções degrada progressivamente, não porque o modelo "esquece", mas porque a atenção disponível para o system prompt diminui proporcionalmente ao crescimento do contexto de mensagens. Projetos com sessões longas se beneficiam de instruções mais curtas e de reafirmação periódica de regras críticas.</p>
+
+<h3>Instrução negativa vs. positiva</h3>
+<p>Instruções negativas ("não faça X") são processadas com menor fidelidade do que instruções positivas ("faça Y") — fenômeno documentado em múltiplos estudos de ablação em modelos de linguagem. Isso ocorre porque processar uma negação requer que o modelo ative a representação do comportamento proibido antes de inibi-lo. A versão robusta de uma restrição formula o comportamento desejado positivamente: em vez de "não use bullet points", usar "escreva em prosa contínua".</p>
+
+<div class="antipattern">
+  <div class="alabel">Menos eficaz — instrução negativa</div>
+  <p>"Não seja prolixo. Não adicione disclaimers desnecessários. Não use linguagem corporativa."</p>
+</div>
+
+<div class="good">
+  <div class="glabel">Mais eficaz — instrução positiva equivalente</div>
+  <p>"Respostas diretas: responda exatamente o que foi perguntado, sem preâmbulos ou ressalvas não solicitadas. Tom: técnico e preciso, vocabulário do domínio sem jargão corporativo."</p>
+</div>
+
+<h3>Ancoragem por exemplos vs. ancoragem por descrição</h3>
+<p>A distinção entre instrução descritiva e instrução por exemplo tem base na mecânica de atenção: exemplos criam padrões de ativação concretos que o modelo pode replicar diretamente; descrições abstratas exigem que o modelo infira o padrão. Para formatos de saída, a diferença de fidelidade entre "forneça um exemplo" e "descreva o formato" é substancial — exemplos bem escolhidos reduzem a variabilidade de output em 30–50% em benchmarks de formatação <span class="cite">(BROWN et al., 2020)</span>.</p>
+</section>
+
+<section id="fluxo-de-trabalho">
+<h2>Fluxo de trabalho: da primeira versão à instrução madura</h2>
+
+<h3>Fase 1 — Rascunho mínimo viável</h3>
+<p>A primeira versão das instruções deve responder apenas três perguntas: (1) O que este projeto é? (2) Qual é o formato padrão de saída? (3) Há alguma restrição absoluta? Tudo o mais pode ser adicionado depois, quando o uso real revelar lacunas. Instruções iniciais excessivamente detalhadas tendem a conter regras especulativas — formuladas antes de o usuário saber o que o modelo fará por padrão — e essas regras muitas vezes são desnecessárias ou contraproducentes.</p>
+
+<h3>Fase 2 — Acumulação orientada por fricção</h3>
+<p>A forma mais eficiente de amadurecer instruções de projeto é iterar a partir da fricção real: toda vez que o modelo produzir algo inesperado ou indesejado, perguntar se o comportamento poderia ser prevenido por uma instrução. Se sim, adicionar a instrução. Se não (comportamento emergente de generalização ruim ou limitação do modelo), registrar para não criar expectativas falsas. Instruções que surgem de fricção real são quase sempre mais úteis do que instruções especulativas.</p>
+
+<h3>Fase 3 — Poda e consolidação</h3>
+<p>Instruções acumuladas ao longo de muitos meses tendem a desenvolver redundâncias, contradições e regras obsoletas. Uma revisão periódica com a pergunta "esta regra ainda é necessária?" elimina ruído que dilui a atenção disponível para o restante. O critério de poda é simples: se remover a regra não mudaria o comportamento do modelo (porque já está coberta por outra regra ou pela generalização padrão), ela deve ser removida.</p>
+
+<h3>Separação de estado mutável e imutável</h3>
+<p>Um dos erros estruturais mais comuns em projetos de longa duração é misturar nas instruções conteúdo que muda a cada sessão (status atual, lista de pendências, material de referência) com conteúdo permanente (regras, formato, objetivo). O conteúdo mutável embutido nas instruções exige que o usuário abra as configurações a cada sessão — e instrução desatualizada é pior do que instrução ausente porque ativamente desinforma o modelo. Estado mutável pertence a arquivos externos que o usuário carrega na mensagem, não às instruções de projeto.</p>
+
+<div class="kbox">
+  <div class="klabel">Arquitetura de estado</div>
+  <p>Instruções de projeto → o que é sempre verdadeiro. Mensagem inicial → o que é verdadeiro nesta sessão. Arquivos anexados → material de referência específico desta tarefa. Essa separação mantém as instruções estáveis e a sessão flexível.</p>
+</div>
+
+<h3>Versionamento e autocrítica</h3>
+<p>Projetos sérios se beneficiam de tratar as instruções como código: manter um arquivo de registro das mudanças e a razão de cada uma. Isso serve a dois propósitos — evitar regressões (readicionar regras que foram removidas por boas razões) e construir entendimento de quais instruções resolvem quais problemas. A autocrítica ao final de cada sessão é o mecanismo de fechar o loop: o que funcionou, o que não funcionou, o que as instruções precisam de ajuste.</p>
+</section>
+
+<section id="antipadroes">
+<h2>Antipadrões frequentes</h2>
+
+<h3>Antipadrão 1 — Instrução como lista de desejos</h3>
+<p>O sistema de instruções não é um canal para expressar preferências genéricas ("seja criativo", "seja preciso", "entenda o contexto"). O modelo já tenta maximizar essas qualidades por padrão — instrução que repete o comportamento padrão consome espaço sem adicionar valor. Instruções úteis especificam o que o modelo não faria por padrão ou como resolver casos ambíguos em que há múltiplas respostas razoáveis.</p>
+
+<div class="antipattern">
+  <div class="alabel">Antipadrão — preferência sem operacionalização</div>
+  <p>"Seja sempre preciso e detalhado nas suas respostas. Demonstre conhecimento profundo do assunto. Evite superficialidade."</p>
+</div>
+
+<p>Essas instruções não mudam nada — o modelo já tenta ser preciso. O que muda o comportamento é especificar o que "preciso" significa naquele projeto: "cite a fonte primária quando fizer afirmação empírica" ou "defina todo termo técnico na primeira ocorrência".</p>
+
+<h3>Antipadrão 2 — Regras sem critério de aplicação</h3>
+<p>Uma regra sem critério de quando se aplica é interpretada pelo modelo como regra universal — com frequência produzindo comportamento indesejado em casos que não eram o alvo. "Sempre peça confirmação antes de agir" é perigoso se não especificar que tipo de ação requer confirmação: o modelo pode parar para confirmar até tarefas triviais.</p>
+
+<h3>Antipadrão 3 — Instrução por exclusão cumulativa</h3>
+<p>Construir instruções como uma lista crescente de proibições ("não faça A, não faça B, não faça C...") é menos eficaz do que descrever o comportamento positivo desejado. Além da questão cognitiva de processar negações, listas de proibição tendem a crescer indefinidamente — cada novo problema gera uma nova proibição — enquanto o comportamento positivo desejado permanece implícito e impreciso.</p>
+
+<h3>Antipadrão 4 — Misturar domínios em um único projeto</h3>
+<p>Um projeto cujas instruções precisam cobrir comportamentos radicalmente diferentes para tarefas diferentes (laudos técnicos E emails informais E análises de código, por exemplo) está mal delimitado. A solução é criar pastas de projeto separadas com instruções específicas — não adicionar mais condicionais às instruções existentes. Instruções condicionais ("se a tarefa for X, faça A; se for Y, faça B") são processadas com menor fidelidade do que instruções incondicionais.</p>
+
+<h3>Antipadrão 5 — Instrução de projeto como substituto para contexto na mensagem</h3>
+<p>Instrução de projeto não é o lugar para informação que varia por tarefa. Usuários que descrevem o histórico de cada projeto, as preferências do cliente do momento ou os detalhes da tarefa corrente nas instruções de projeto estão usando o mecanismo errado — e produzindo instruções que ficam obsoletas a cada novo caso. Essas informações pertencem à mensagem, onde podem ser atualizadas sem tocar nas configurações.</p>
+</section>
+
+<section id="manutencao">
+<h2>Manutenção e evolução das instruções</h2>
+
+<h3>Quando atualizar</h3>
+<p>Três eventos justificam atualização das instruções: (1) comportamento indesejado que se repete em múltiplas sessões — o que indica lacuna nas instruções, não acidente; (2) mudança no objetivo ou no formato padrão do projeto; (3) descoberta de que uma instrução existente está produzindo comportamento indesejado em casos secundários (efeito colateral de regra excessivamente ampla). Atualização por curiosidade ("e se eu tentar X?") é válida como experimento, mas o resultado deve ser avaliado antes de ser incorporado permanentemente.</p>
+
+<h3>Quando não atualizar</h3>
+<p>Comportamento inesperado em uma única sessão raramente justifica mudança nas instruções — pode ser artefato de sessão longa, material de referência incomum ou caso genuinamente fora do escopo do projeto. O critério para atualização é recorrência: o problema se repetiu em condições normais? Se não, a resposta é ajustar a mensagem da sessão, não as instruções permanentes.</p>
+
+<h3>Testando mudanças</h3>
+<p>Instruções são código: mudanças devem ser testadas antes de serem consideradas definitivas. A forma mais simples de teste é iniciar uma nova sessão com as instruções atualizadas e executar a tarefa que causou o problema original — verificar se foi resolvida, sem introduzir novos problemas. Mudanças complexas (reformulação de múltiplas seções) merecem teste em pelo menos dois ou três casos representativos do projeto antes de serem definitivas.</p>
+
+<h3>Documentação de decisões</h3>
+<p>O risco de manter instruções ao longo do tempo sem documentação é acumular regras sem contexto: semanas depois, o usuário não sabe mais por que aquela restrição existe e pode removê-la por engano. A solução é incluir comentários inline nas instruções — não para o modelo (que os lerá junto com tudo o mais), mas para o usuário que revisará as instruções no futuro. O formato natural é um arquivo auxiliar de changelog ou simplesmente uma seção de "histórico de decisões" no início das instruções.</p>
+
+<h3>Limites do refinamento</h3>
+<p>Existe um ponto de retornos decrescentes no refinamento de instruções. Após atingir um nível de especificidade adequado para o domínio do projeto, adições marginais tendem a aumentar a complexidade das instruções sem melhorar proporcionalmente a qualidade das saídas — e frequentemente introduzem novos conflitos. O sinal de que chegou nesse ponto é quando as iterações de ajuste resolvem um problema e criam outro. Nesse caso, a resposta é simplificar, não adicionar.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões</h2>
+<p>As instruções de projeto são aplicação direta do conceito de <a class="cross-link" href="claude-llm.html#ferramentas">system prompt e tool use</a> — o mecanismo pelo qual o Claude recebe contexto de comportamento antes de interagir com o usuário. A compreensão do fenômeno de <em>lost in the middle</em> e do <em>drift instrucional</em> conecta-se diretamente à arquitetura de atenção descrita em <a class="cross-link" href="claude-llm.html#arquitetura">arquitetura do modelo</a>.</p>
+
+<p>A distinção entre instrução positiva e instrução negativa tem paralelos em cognição humana: a psicologia da instrução (<em>ironic process theory</em> de Wegner, 1994) documenta que instruções negativas ativam representações do comportamento proibido antes de inibi-lo — com frequência aumentando a probabilidade do comportamento que tentam prevenir. O Claude exibe fenômeno análogo por razões arquiteturais diferentes, mas com efeito prático similar.</p>
+
+<p>O ciclo de refinamento de instruções descrito neste compêndio — rascunho mínimo, acumulação por fricção, poda periódica — é estruturalmente idêntico ao ciclo de melhoria contínua em engenharia de software (<em>refactoring</em>): código mínimo funcional, expansão orientada por casos reais, simplificação periódica para eliminar acúmulo de débito técnico.</p>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 1</div>
+  <p>Qual é o efeito preciso da posição de uma instrução dentro do system prompt sobre sua taxa de aderência? Os estudos de <em>lost in the middle</em> (Liu et al., 2023) documentaram o fenômeno para recuperação de informação em contexto, mas a extensão para seguimento de instruções comportamentais permanece pouco estudada experimentalmente.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 2</div>
+  <p>Existe um tamanho ótimo de instrução de projeto — após o qual a adição de mais conteúdo começa a degradar a aderência às regras existentes? A intuição do campo sugere que sim, mas os limiares documentados variam significativamente entre modelos e versões, e não há consenso sobre métricas de "saturação instrucional".</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 3</div>
+  <p>Como o modelo resolve conflitos implícitos entre system prompt e mensagem do usuário quando ambos são tecnicamente válidos? A hierarquia formal é conhecida (system prompt tem precedência), mas os mecanismos de atenção que determinam qual instrução "vence" em casos borderline não estão completamente mapeados pela interpretabilidade mecanicista atual.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 4</div>
+  <p>Instruções escritas em linguagem natural estruturada (com headers, listas, numeração) são processadas com maior fidelidade do que instruções em prosa contínua? Estudos preliminares de prompt engineering sugerem vantagem do formato estruturado para modelos modernos, mas os resultados são inconsistentes entre diferentes tipos de tarefa.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>A pergunta motivadora deste compêndio — por que projetos com o mesmo Claude produzem resultados radicalmente diferentes — tem uma resposta técnica e uma resposta estrutural. A resposta técnica é mecanicista: a distribuição de atenção, o bias posicional e o processamento diferenciado de negações vs. afirmações explicam por que certas formulações de instrução são processadas com mais fidelidade. Mas a resposta mais importante é estrutural: instruções eficazes são eficazes porque refletem uma compreensão clara do projeto — do que o projeto é, do que não é, e de como resolver os casos ambíguos. Instruções ineficazes são ineficazes porque o usuário ainda não sabe exatamente o que quer, e nenhuma formulação salva uma especificação vaga.</p>
+
+<p>Isso aponta para uma tensão fundamental: as instruções de projeto são escritas no momento em que o usuário ainda tem menos informação sobre o projeto do que terá depois de meses de uso. A solução não é escrever instruções perfeitas de início — é aceitar que as instruções são um artefato vivo, que matura junto com o projeto, e construir o hábito de revisão periódica. Projetos que tratam as instruções como configuração inicial e depois as esquecem tendem a acumular regras obsoletas que desorientam o modelo, ou a nunca desenvolver as instruções que resolveriam os problemas recorrentes.</p>
+
+<p>O paradoxo final é que as melhores instruções de projeto são invisíveis na prática: quando estão bem calibradas, o modelo se comporta exatamente como o usuário esperaria — e o usuário deixa de notar as instruções porque nunca precisa corrigi-las. O esforço de refinamento fica escondido na fluidez das interações. Isso cria um problema de valorização: usuários que nunca investiram em instruções tendem a subestimar seu impacto, porque não têm como comparar. A forma de resolver esse viés é deliberada — testar, medir o número de correções por sessão, e observar como esse número diminui à medida que as instruções amadurecem.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<p><strong>Prompt Engineering Guide</strong> — DAIR.AI. Recurso de referência continuamente atualizado sobre técnicas de prompting para LLMs modernos, incluindo seções sobre system prompts e few-shot learning. Acesso aberto: <a href="https://www.promptingguide.ai" target="_blank" rel="noopener" style="color:var(--ac)">promptingguide.ai</a>.</p>
+
+<p><strong>Anthropic Prompt Engineering Documentation</strong> — Documentação oficial do Claude sobre boas práticas de prompting, incluindo exemplos de system prompts e guias de formatação. Acesso aberto: <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener" style="color:var(--ac)">docs.anthropic.com</a>.</p>
+
+<p><strong>"Lost in the Middle: How Language Models Use Long Contexts"</strong> — Liu et al. (2023). Estudo empírico que documenta o viés posicional em modelos de linguagem — conteúdo no meio de contextos longos recebe menos atenção efetiva. Acesso aberto: <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener" style="color:var(--ac)">arxiv.org/abs/2307.03172</a>.</p>
+
+<p><strong>"Language Models are Few-Shot Learners"</strong> — Brown et al. (2020). Artigo seminal do GPT-3 que demonstrou a eficácia de exemplos (few-shot) em comparação com descrições abstratas para orientar o comportamento de modelos de linguagem. Acesso aberto: <a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener" style="color:var(--ac)">arxiv.org/abs/2005.14165</a>.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+
+<div class="ref-item">BROWN, T. et al. <strong>Language models are few-shot learners</strong>. In: <em>Advances in Neural Information Processing Systems</em>, v. 33, p. 1877–1901, 2020. Disponível em: <a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener" style="color:var(--ac)">https://arxiv.org/abs/2005.14165</a>.</div>
+
+<div class="ref-item">LIU, N. F. et al. <strong>Lost in the middle: how language models use long contexts</strong>. <em>Transactions of the Association for Computational Linguistics</em>, v. 12, p. 157–173, 2023. Disponível em: <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener" style="color:var(--ac)">https://arxiv.org/abs/2307.03172</a>.</div>
+
+<div class="ref-item">WEGNER, D. M. <strong>Ironic processes of mental control</strong>. <em>Psychological Review</em>, v. 101, n. 1, p. 34–52, 1994.</div>
+
+<div class="ref-item">ANTHROPIC. <strong>Claude's Model Specification</strong>. San Francisco: Anthropic, 2024. Disponível em: <a href="https://www.anthropic.com/research/model-spec" target="_blank" rel="noopener" style="color:var(--ac)">https://www.anthropic.com/research/model-spec</a>.</div>
+
+<div class="ref-item">ANTHROPIC. <strong>Prompt engineering overview</strong>. In: <em>Claude Documentation</em>. Disponível em: <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener" style="color:var(--ac)">https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview</a>. Acesso em: 24 jun. 2026.</div>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// Progresso
+const pb = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  pb.style.width = pct + '%';
+}, {passive: true});
+
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggle-btn');
+const bodyWrap = document.getElementById('body-wrap');
+function applySidebar(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.textContent = '›';
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    toggleBtn.textContent = '‹';
+  }
+}
+const saved = sessionStorage.getItem('sidebar-collapsed');
+if (saved === 'true') applySidebar(true);
+toggleBtn.addEventListener('click', () => {
+  const c = sidebar.classList.contains('collapsed');
+  applySidebar(!c);
+  sessionStorage.setItem('sidebar-collapsed', String(!c));
+});
+
+// IntersectionObserver para highlight ativo na sidebar
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+const obsOpts = {rootMargin: '-20% 0px -70% 0px'};
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    const link = document.querySelector('a.sl[href="#' + e.target.id + '"]');
+    if (link) link.classList.toggle('active', e.isIntersecting);
+    if (e.isIntersecting) e.target.classList.add('in-view');
+    else e.target.classList.remove('in-view');
+  });
+}, obsOpts);
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

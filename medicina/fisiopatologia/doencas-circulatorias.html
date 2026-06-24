@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patologia das Doenças Circulatórias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+
+/* ── MOB BAR ── */
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+
+/* ── LAYOUT ── */
+#body-wrap{display:flex;flex:1;min-height:0}
+
+/* ── SIDEBAR ── */
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;transition:width .25s}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 10px 0;display:flex;justify-content:flex-end;flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);border-radius:4px;width:26px;height:26px;cursor:pointer;color:var(--muted);font-size:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:14px 0 40px}
+.s-logo{padding:8px 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.s-logo a{font-family:var(--font-ui);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.06em;text-transform:uppercase}
+.s-group{margin-bottom:18px;padding:0 10px}
+.s-group-title{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 6px;margin-bottom:6px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:5px 10px;border-radius:4px;transition:background .15s,color .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+a.sl:hover,a.sl.active{background:var(--bg3);color:var(--text)}
+a.sl.active{color:var(--ac)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed .s-inner a.sl{opacity:0;pointer-events:none}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+
+/* ── CONTENT ── */
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* ── TYPOGRAPHY ── */
+h1{font-size:2rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
+h2{font-size:1.35rem;font-weight:600;color:var(--muted);margin:56px 0 18px;padding-top:10px;border-top:1px solid var(--border);transition:color .3s}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+h4{font-size:.95rem;font-weight:600;color:var(--ac);margin:24px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em;font-size:.8rem}
+p{margin-bottom:18px}
+ul,ol{margin:0 0 18px 22px}
+li{margin-bottom:6px}
+em{font-style:italic}
+strong{font-weight:600;color:var(--text)}
+section.in-view > h2{color:var(--ac)}
+table{width:100%;border-collapse:collapse;margin:20px 0 24px;font-size:14px}
+th{background:var(--bg3);color:var(--ac);font-family:var(--font-ui);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:-16px;margin-bottom:24px;font-style:italic}
+
+/* ── COMPONENTES ── */
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.cite{color:var(--ac);font-size:.88em}
+.ref-list{font-size:14px;line-height:1.7}
+.ref-list p{margin-bottom:10px}
+.ref-list a{color:var(--ac)}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  #mob-bar{display:flex}
+  #sidebar{display:none;position:fixed;top:0;left:0;height:100vh;z-index:40}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  h1{font-size:1.5rem}
+}
+
+/* ── PRINT ── */
+@media print{
+  #sidebar,#mob-bar,#progress-bar,#s-toggle{display:none!important}
+  body{background:#fff;color:#000}
+  a.cross-link::after{content:" (" attr(href) ")";font-size:.75em}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <span class="mb-title">Doenças Circulatórias</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Índice</button>
+</div>
+
+<div id="body-wrap">
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">‹</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo"><a href="../../index.html">← Voltar ao índice</a></div>
+
+    <div class="s-group">
+      <div class="s-group-title">Introdução</div>
+      <a class="sl" href="#pergunta">Pergunta motivadora</a>
+      <a class="sl" href="#dependencias">Dependências</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-title">Distúrbios hemodinâmicos</div>
+      <a class="sl" href="#congestion">Congestão</a>
+      <a class="sl" href="#edema">Edema</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-title">Hemostasia e trombose</div>
+      <a class="sl" href="#hemostasia">Hemostasia</a>
+      <a class="sl" href="#trombose">Trombose</a>
+      <a class="sl" href="#embolia">Embolia</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-title">Lesão vascular crônica</div>
+      <a class="sl" href="#aterosclerose">Aterosclerose</a>
+      <a class="sl" href="#infarto">Infarto</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-group-title">Fechamento</div>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ CONTENT ══ -->
+<main id="content">
+<article class="prose">
+
+<div class="doc-header">
+  <h1>Patologia das Doenças Circulatórias</h1>
+  <p class="doc-meta">Medicina · Patologia · Fisiopatologia · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~90 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>Histologia vascular, fisiologia cardíaca básica</b></span>
+    <span class="chip">📍 Área: <b>Patologia · Fisiopatologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<!-- ══ PERGUNTA MOTIVADORA ══ -->
+<section id="pergunta">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um homem de 58 anos com hipertensão arterial e tabagismo chega ao pronto-socorro com dor torácica em aperto de início súbito. O ECG mostra supradesnivelamento de ST. Por que a placa que estava em sua coronária havia décadas se rompeu exatamente agora — e o que acontece nos minutos e horas seguintes no músculo cardíaco privado de oxigênio? Como cada distúrbio circulatório estudado neste compêndio — congestão, edema, trombose, embolia, aterosclerose e infarto — participa desse cenário?</p>
+</div>
+</section>
+
+<!-- ══ DEPENDÊNCIAS ══ -->
+<section id="dependencias">
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../fisiopatologia/choque-circulatorio/choque-circulatorio.html">Choque Circulatório</a>
+      <a class="dep-item" href="../imunologia/moleculas-sistema-imune.html#mediadores-lipidicos">Mediadores lipídicos (prostaglandinas, LTB4)</a>
+      <a class="dep-item" href="../imunologia/imunidade-inata.html#inflamacao">Inflamação local — sinais cardinais</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Histologia vascular (endotélio, camadas arteriais)</a>
+      <a class="dep-item" href="#">Fisiologia cardíaca — débito cardíaco e Frank-Starling</a>
+      <a class="dep-item" href="#">Bioquímica dos lipídeos — LDL, HDL, oxidação</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Farmacologia — Anticoagulantes e antiagregantes (F7)</a>
+      <a class="dep-item" href="#">Farmacologia — Fármacos cardiovasculares (F4)</a>
+      <a class="dep-item" href="#">Patologia — Insuficiência cardíaca</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ FUNDAMENTOS ══ -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>A circulação é um sistema de pressão fechado: o coração bombeia sangue contra uma resistência periférica variável, e o endotélio vascular mantém ativamente um equilíbrio entre fluxo, coagulação e tônus vasomotor. Quando qualquer um desses três pilares — pressão, parede vascular ou composição do sangue — falha, surgem as doenças circulatórias descritas neste compêndio.</p>
+
+<p><strong>Endotélio como órgão ativo.</strong> O endotélio não é membrana passiva. Produz óxido nítrico (<em>NO</em>) e prostaciclina (PGI₂), que mantêm vasodilatação e inibem a agregação plaquetária; sintetiza <em>trombomodulina</em>, que desvia a trombina para a via anticoagulante; expressa <em>heparan-sulfato</em>, que potencializa a antitrombina III; e secreta <em>fator de von Willebrand</em> (FvW) em condições de lesão, ancorado à membrana basal. O equilíbrio entre esses papéis anticoagulante e pró-coagulante determina se um vaso responde a uma lesão com tampão hemostático controlado ou com trombose patológica.</p>
+
+<p><strong>Forças de Starling.</strong> A troca de líquido entre o capilar e o interstício é governada por quatro pressões: pressão hidrostática capilar (P<sub>c</sub>), pressão hidrostática intersticial (P<sub>i</sub>), pressão oncótica do plasma (π<sub>c</sub>) e pressão oncótica intersticial (π<sub>i</sub>). O fluxo líquido para fora do capilar é <em>J</em> = K<sub>f</sub> × [(P<sub>c</sub> − P<sub>i</sub>) − σ(π<sub>c</sub> − π<sub>i</sub>)]. Em condições fisiológicas, o excesso que escapa para o interstício é drenado pelos linfáticos. Qualquer desequilíbrio nessas forças ou colapso da drenagem linfática gera edema.</p>
+
+<p><strong>Cascata de coagulação — visão integrativa.</strong> A hemostasia secundária opera por duas vias convergentes no fator X ativado (Xa): a <em>via extrínseca</em> (fator tecidual + fator VII → VIIa) e a <em>via intrínseca</em> (XII → XI → IX → VIII). Ambas culminam em Xa que, com Va (complexo protrombinase), converte protrombina em trombina. A trombina cliva fibrinogênio em fibrina, ativa o fator XIII (para reticulação) e amplifica a coagulação ativando V e VIII. A fibrinólise desfaz o coágulo: ativadores do plasminogênio (tPA, uPA) geram plasmina, que degrada fibrina em produtos de degradação — os D-dímeros, biomarcadores laboratoriais de coagulação ativa.</p>
+</section>
+
+<!-- ══ CONCEITOS-CHAVE ══ -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Congestão</div><p>Aumento de sangue venoso em um tecido por drenagem prejudicada — passiva (falência cardíaca) ou ativa (hiperemia inflamatória).</p></div>
+  <div class="ck-card"><div class="ckt">Edema</div><p>Acúmulo de líquido no interstício ou cavidades por desequilíbrio das forças de Starling ou drenagem linfática insuficiente.</p></div>
+  <div class="ck-card"><div class="ckt">Hemostasia</div><p>Processo fisiológico de contenção de sangramento: vasoconstrição + tampão plaquetário primário + coagulação secundária.</p></div>
+  <div class="ck-card"><div class="ckt">Tríade de Virchow</div><p>Os três fatores que predispõem à trombose patológica: lesão endotelial, estase/turbulência e hipercoagulabilidade.</p></div>
+  <div class="ck-card"><div class="ckt">Embolia</div><p>Massa intravascular sólida, líquida ou gasosa transportada pelo sangue até impactar um vaso menor. TEP é a forma mais letal.</p></div>
+  <div class="ck-card"><div class="ckt">Aterosclerose</div><p>Doença inflamatória crônica da íntima arterial: disfunção endotelial → estria lipídica → placa fibrosa → ruptura → evento agudo.</p></div>
+  <div class="ck-card"><div class="ckt">Infarto</div><p>Necrose isquêmica por oclusão arterial. Branco (anemia) em órgãos terminais; vermelho (hemorrágico) em órgãos com dupla irrigação.</p></div>
+  <div class="ck-card"><div class="ckt">CID</div><p>Coagulação intravascular disseminada: ativação sistêmica da hemostasia com consumo de fatores e risco de sangramento paradoxal.</p></div>
+  <div class="ck-card"><div class="ckt">Reperfusão</div><p>Paradoxo: a restauração do fluxo após isquemia acrescenta dano adicional por burst de ROS, sobrecarga de Ca²⁺ e abertura do mPTP.</p></div>
+</div>
+</section>
+
+
+<!-- ══ CONGESTÃO ══ -->
+<section id="congestion">
+<h2>Congestão (Hiperemia Passiva)</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  Rudolf Virchow, ao sistematizar a patologia celular em 1858, descreveu a congestão como o acúmulo de sangue venoso em tecidos com drenagem prejudicada, distinguindo-a da hiperemia ativa (arterial, inflamatória) — distinção que permanece clinicamente útil até hoje.
+</div>
+
+<p>Congestão e hiperemia designam o mesmo fenômeno macroscópico — tecido com excesso de sangue e coloração avermelhada-azulada — mas por mecanismos opostos. Na <strong>hiperemia ativa</strong> (fisiológica na maioria dos casos), ocorre vasodilatação arteriolar com aumento do afluxo arterial; exemplos incluem o rubor da inflamação aguda ou o blush muscular no exercício. Na <strong>congestão passiva</strong> (patológica), o problema é o represamento venoso por saída prejudicada — o sangue chega, mas não drena.</p>
+
+<h3>Mecanismos e causas de congestão passiva</h3>
+
+<p>A via final comum da congestão passiva é o aumento da pressão venosa a montante de uma obstrução ou bomba insuficiente. As causas principais são:</p>
+
+<ul>
+  <li><strong>Insuficiência cardíaca esquerda:</strong> pressão diastólica final do VE elevada retropropaga para o átrio esquerdo, veias pulmonares e capilares alveolares — congestão pulmonar aguda (EAP) e crônica.</li>
+  <li><strong>Insuficiência cardíaca direita:</strong> pressão venosa central elevada → congestão hepática, esplênica e de membros inferiores.</li>
+  <li><strong>Obstrução venosa local:</strong> trombose venosa profunda, compressão extrínseca por tumor, cirrose com hipertensão portal.</li>
+</ul>
+
+<h3>Congestão pulmonar</h3>
+
+<p>Aguda: capilares alveolares dilatados e ingurgitados, edema alveolar, sufusões hemorrágicas. Crônica: além da dilatação capilar, os eritrócitos extravasados são fagocitados por macrófagos alveolares, que acumulam hemossiderina — as células de "insuficiência cardíaca" (<em>heart failure cells</em>), identificáveis pelo azul da prússia na histologia. A parede alveolar torna-se espessa e fibrótica com o tempo, comprometendo a difusão gasosa.</p>
+
+<h3>Congestão hepática</h3>
+
+<p>No fígado, a congestão crônica produz o padrão histológico da <em>noz-moscada</em>: as veias centrolobulares e as sinusóides da zona 3 (centrilobular) ficam repletas e apresentam necrose por hipóxia relativa — o hepatócito centrilobular é o mais vulnerável porque recebe sangue já parcialmente desoxigenado. As zonas periportais (zona 1), mais próximas da tríade portal e do fluxo arterial, sobrevivem e parecem pálidas ao corte, criando o padrão mosqueado vermelho-claro que nomeia a lesão. Em casos graves e prolongados (síndrome de Budd-Chiari, ICC crônica severa), a necrose e a fibrose centrilobular evoluem para <em>cirrose cardíaca</em>.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>A distinção hiperemia ativa vs. passiva é útil didaticamente, mas na prática frequentemente coexistem: a inflamação local (hiperemia ativa) pode reduzir drenagem venosa e gerar congestão passiva secundária. Além disso, o "padrão noz-moscada" hepático pode ser indistinguível de síndrome de Budd-Chiari sem correlação clínica.</p>
+</div>
+</section>
+
+<!-- ══ EDEMA ══ -->
+<section id="edema">
+<h2>Edema</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  Ernest Starling formulou as forças que controlam a troca capilar em 1896, descrevendo a pressão oncótica do plasma como contrapeso à pressão hidrostática. O modelo foi refinado por Michel em 1997, que demonstrou que as forças intersticiais são dinamicamente reguladas — e que o clássico "modelo de Starling" subestimava a importância do glicocálice endotelial como barreira oncótica.
+</div>
+
+<p>Edema é o acúmulo anormal de líquido no espaço intersticial (edema intersticial) ou em cavidades corporais (edema de cavidade: <em>ascite</em> no peritoneal, <em>hidrotórax</em> no pleural, <em>hidropericárdio</em> no pericárdico). Quando generalizado, denomina-se <em>anasarca</em>.</p>
+
+<h3>Os quatro mecanismos do edema</h3>
+
+<p>Todo edema resulta de um ou mais dos seguintes desequilíbrios:</p>
+
+<h4>1. Aumento da pressão hidrostática capilar</h4>
+<p>Quando a pressão venosa sobe (insuficiência cardíaca, trombose venosa, hipertensão portal), a pressão hidrostática capilar aumenta, favorecendo a filtração de líquido para fora do vaso. Exemplo clínico: edema bilateral de membros inferiores na insuficiência cardíaca direita, pior ao final do dia (após ortostatismo prolongado) e aliviado pelo decúbito.</p>
+
+<h4>2. Redução da pressão oncótica plasmática (hipoalbuminemia)</h4>
+<p>A albumina é responsável por ~80% da pressão oncótica plasmática (π<sub>c</sub> ≈ 25 mmHg). Quando seus níveis caem — por perda renal (síndrome nefrótica), síntese hepática insuficiente (cirrose, desnutrição) ou perda gastrointestinal — a força de retenção de água no vaso diminui e o líquido escapa para o interstício. Na síndrome nefrótica, é comum ascite e edema facial (periorbital) matinal além do edema periférico.</p>
+
+<h4>3. Obstrução linfática</h4>
+<p>Os linfáticos normalmente drenam 2–4 L de linfa/dia, recuperando proteínas e líquido que escaparam dos capilares. Quando obstruídos — por filariose (<em>Wuchereria bancrofti</em>, causa de elefantíase), dissecção cirúrgica de linfonodos, radioterapia ou invasão tumoral — o líquido rico em proteínas acumula no interstício. O edema linfático (linfedema) é particularmente rico em proteínas e propenso a inflamação e fibrose crônica, criando a consistência borrachosa característica.</p>
+
+<h4>4. Aumento da permeabilidade vascular</h4>
+<p>Na inflamação, a histamina, a bradicinina, o C3a/C5a, o LTB4 e o VEGF contraem as células endoteliais, abrindo junções intercelulares e aumentando a passagem de proteínas para o interstício. Isso reduz o gradiente oncótico (proteínas no interstício aumentam π<sub>i</sub>) e agrava o vazamento. O edema inflamatório é caracteristicamente rico em proteínas (<em>exsudato</em>), ao contrário do edema por pressão ou oncótico (<em>transudato</em>).</p>
+
+<table>
+  <tr><th>Mecanismo</th><th>Proteínas no líquido</th><th>Exemplo clínico</th></tr>
+  <tr><td>↑ Pressão hidrostática</td><td>Baixas (transudato)</td><td>ICC, trombose venosa</td></tr>
+  <tr><td>↓ Pressão oncótica</td><td>Baixas (transudato)</td><td>Síndrome nefrótica, cirrose</td></tr>
+  <tr><td>Obstrução linfática</td><td>Altas (linfático)</td><td>Filariose, pós-mastectomia</td></tr>
+  <tr><td>↑ Permeabilidade vascular</td><td>Altas (exsudato)</td><td>Inflamação aguda, anafilaxia</td></tr>
+</table>
+<p class="table-caption">Tabela 1. Mecanismos de edema e características do líquido resultante.</p>
+
+<h3>Consequências funcionais</h3>
+
+<p>O impacto do edema depende da localização. Edema subcutâneo é desfigurante e compromete a cicatrização, mas raramente letal. Edema pulmonar compromete trocas gasosas de forma potencialmente fatal: o líquido alveolar cria shunt intrapulmonar (sangue passa por alvéolos não ventilados) e aumenta o trabalho respiratório. Edema cerebral (<em>herniação transtentorial</em>) é imediatamente letal por compressão de estruturas do tronco encefálico. Edema de glote (<em>angioedema</em>) é emergência por obstrução de vias aéreas.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — Modelo de Starling revisado</div>
+  <p>O modelo clássico de Starling prediz reabsorção de líquido na extremidade venosa do capilar. Estudos desde 1997 (Michel; Levick &amp; Michel, 2010) mostram que, na maioria dos leitos capilares em estado estacionário, a reabsorção venosa é mínima ou nula — o retorno de líquido é quase exclusivamente linfático. O modelo revisado ("glicocálice") posiciona o glicocálice endotelial (e não a membrana plasmática) como a barreira oncótica real. Isso tem implicações para ressuscitação com coloides: a eficácia esperada pela teoria clássica pode ser superestimada.</p>
+</div>
+</section>
+
+
+<!-- ══ HEMOSTASIA ══ -->
+<section id="hemostasia">
+<h2>Hemostasia</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  A distinção entre hemostasia primária e secundária emergiu progressivamente no século XX. A descoberta das plaquetas por Bizzozero (1882), do fibrinogênio por Schmidt (1892) e dos fatores de coagulação numerados no Simpósio de Berna (1954–1958) organizou o campo. O modelo clássico de cascata (Macfarlane; Davie &amp; Ratnoff, 1964) foi substituído pelo modelo baseado em células (Monroe &amp; Hoffman, 1990s–2000s), que explica melhor a hemostasia in vivo.
+</div>
+
+<p>Hemostasia é o conjunto de mecanismos fisiológicos que detém o sangramento após lesão vascular enquanto mantém a fluidez do sangue no restante da circulação. Falha por déficit gera hemorragia; falha por excesso gera trombose. O equilíbrio depende de três componentes integrados: parede vascular, plaquetas e proteínas plasmáticas de coagulação.</p>
+
+<h3>Etapa 1 — Vasoconstrição reflexa</h3>
+<p>Nos primeiros segundos após lesão, a musculatura lisa vascular contrai por reflexo miogênico local e por liberação de endotelina-1 (produzida pelo endotélio lesado). Essa vasoconstrição reduz temporariamente o fluxo sanguíneo, comprando tempo para a formação do tampão plaquetário.</p>
+
+<h3>Etapa 2 — Hemostasia primária (tampão plaquetário)</h3>
+
+<p><strong>Adesão:</strong> a lesão expõe o colágeno subendotelial e a membrana basal. O <em>fator de von Willebrand</em> (FvW), liberado dos grânulos de Weibel-Palade das células endoteliais, liga-se ao colágeno e muda de conformação, expondo um domínio A1 que captura o receptor GpIb-IX-V das plaquetas. Esse vínculo ocorre mesmo em alto shear, funcionando como "gancho" inicial.</p>
+
+<p><strong>Ativação:</strong> após adesão, as plaquetas são ativadas pelo colágeno (via GpVI e integrina α2β1), pela trombina (via PAR-1 e PAR-4) e pelo ADP (via P2Y1 e P2Y12). A ativação desencadeia três eventos simultâneos: (1) mudança de forma (de discóide para esférica com pseudópodes), (2) desgranulação — grânulos α liberam FvW, fibrinogênio, fator V e P-selectina; grânulos densos liberam ADP, serotonina e Ca²⁺ —, e (3) síntese de tromboxano A₂ (TXA₂) via COX-1 e ácido araquidônico. O ADP e o TXA₂ recrutam e ativam plaquetas adicionais em alça de amplificação.</p>
+
+<p><strong>Agregação:</strong> a ativação plaquetária induz mudança conformacional da integrina GpIIb-IIIa (αIIbβ3), que assume alta afinidade pelo fibrinogênio. Como o fibrinogênio é bivalente, ele forma pontes entre plaquetas adjacentes, construindo o tampão primário — hemostático mas ainda friável. O receptor GpIIb-IIIa é o alvo dos antiagregantes mais potentes (abciximabe, eptifibatida, tirofibana).</p>
+
+<h3>Etapa 3 — Hemostasia secundária (coagulação)</h3>
+
+<p>O modelo baseado em células divide a coagulação em três fases sobrepostas:</p>
+
+<p><strong>Iniciação (na célula portadora de Fator Tecidual):</strong> células subendoteliais (fibroblastos, células musculares lisas) expressam constitutivamente o Fator Tecidual (FT, ou Fator III). Após lesão, o FT é exposto ao sangue e complexa-se com o Fator VIIa circulante, formando o complexo FT-VIIa. Este ativa diretamente o Fator X → Xa e o Fator IX → IXa. O Xa, com Va como cofator (complexo protrombinase), gera uma pequena quantidade de trombina — insuficiente para coagulação plena, mas fundamental para a amplificação.</p>
+
+<p><strong>Amplificação (na superfície plaquetária):</strong> a trombina gerada na iniciação ativa as plaquetas e os cofatores V e VIII, além do Fator XI. O complexo tenase intrínseco (IXa + VIIIa, na superfície fosfolipídica plaquetária ativada) ativa Xa em quantidade muito maior. Isso supera a inibição pelo TFPI (inibidor da via do fator tecidual) que havia limitado a produção de Xa na fase de iniciação.</p>
+
+<p><strong>Propagação (na superfície plaquetária):</strong> Xa + Va (protrombinase) converte protrombina em grandes quantidades de trombina — o "burst" de trombina. A trombina cliva fibrinogênio → fibrina, ativa o Fator XIII → XIIIa (reticulação de fibrina em rede estável) e reforça a ativação plaquetária. O resultado é a conversão do tampão primário friável em um coágulo de fibrina estável.</p>
+
+<h3>Anticoagulação fisiológica — os três freios</h3>
+
+<p>Sem freios, a coagulação se propagaria por todo o sistema circulatório. Três sistemas a contêm:</p>
+
+<ul>
+  <li><strong>Antitrombina III (ATIII):</strong> inibidora de serina-protease que neutraliza trombina, Xa, IXa, XIa. Potencializada 1.000× pelo heparan-sulfato do endotélio (e pela heparina exógena). Deficiência hereditária → trombofilia.</li>
+  <li><strong>Via da proteína C:</strong> a trombina, ao se ligar à trombomodulina endotelial, muda de substrato — deixa de clivar fibrinogênio e passa a ativar a Proteína C. A Proteína C ativada (APC), com seu cofator Proteína S, degrada os fatores Va e VIIIa, extinguindo a amplificação. Deficiências de Proteína C ou S → trombofilia. A resistência à APC pelo Fator V de Leiden é a trombofilia hereditária mais comum.</li>
+  <li><strong>TFPI (Tissue Factor Pathway Inhibitor):</strong> inibe o complexo FT-VIIa-Xa, limitando a fase de iniciação. Produzido pelo endotélio.</li>
+</ul>
+
+<h3>Fibrinólise</h3>
+
+<p>O coágulo de fibrina é transitório. O tPA (<em>tissue plasminogen activator</em>), liberado pelo endotélio em resposta à fibrina, converte plasminogênio (aprisionado no coágulo) em plasmina. A plasmina degrada a fibrina em produtos de degradação — entre eles os <strong>D-dímeros</strong>, gerados quando a XIIIa havia reticulado a fibrina. A detecção de D-dímeros no plasma indica coagulação ativa (mas é inespecífica — qualquer condição inflamatória ou pós-cirúrgica os eleva). A α₂-antiplasmina inibe a plasmina livre, localizando a fibrinólise ao coágulo. Os fibrinolíticos terapêuticos (alteplase, tenecteplase) funcionam potencializando essa via.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo baseado em células</div>
+  <p>O modelo de células explica bem a hemostasia in vivo, mas subestima o papel da via intrínseca (Fator XII) em contextos específicos — trombose induzida por superfícies artificiais (catéteres, circulação extracorpórea) e possivelmente na trombose venosa por estase. O Fator XII é necessário in vitro (alarga o TTPa em sua deficiência) mas sua deficiência não causa sangramento, sugerindo papel redundante na hemostasia primária e papel não-negligenciável na trombose patológica.</p>
+</div>
+</section>
+
+<!-- ══ TROMBOSE ══ -->
+<section id="trombose">
+<h2>Trombose</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  Rudolf Virchow descreveu em 1856 os três fatores predisponentes à trombose — que seriam designados "Tríade de Virchow" apenas décadas depois. Ironicamente, Virchow inicialmente acreditava que embolia pulmonar surgia por inflamação primária no pulmão, não por trombos migrados — erro que ele próprio corrigiu depois ao demonstrar que coágulos venosos embolizavam para o pulmão.
+</div>
+
+<p>Trombose é a formação patológica de um coágulo (<em>trombo</em>) dentro de um vaso vivo. A distinção crucial em relação à hemostasia é que, nesta, o coágulo é localizado e proporcional à lesão; na trombose, a resposta é excessiva, desproporcional ou ocorre em ausência de lesão significativa.</p>
+
+<h3>Tríade de Virchow</h3>
+
+<p>Qualquer combinação dos três fatores abaixo pode precipitar trombose:</p>
+
+<h4>1. Lesão endotelial</h4>
+<p>O mais importante, especialmente para trombose arterial. Pode ser mecânica (aterosclerose, cateter, hipertensão), inflamatória (vasculite, sepse), ou por disfunção funcional sem lesão anatômica visível (hipercolesterolemia, tabagismo, diabetes — todos reduzem NO e aumentam expressão de moléculas de adesão e FT). O endotélio lesado perde suas propriedades antitrombóticas e passa a expressar FT e FvW anormalmente, ativando a coagulação.</p>
+
+<h4>2. Estase ou turbulência do fluxo</h4>
+<p>O fluxo laminar mantém as plaquetas e os fatores de coagulação no centro do vaso, longe do endotélio. Estase (imobilização, insuficiência cardíaca, varizes) e turbulência (bifurcações, aneurismas, estenoses) perturbam essa estratificação, acumulam fatores ativados localmente e impedem a chegada de inibidores. A estase também promove hipóxia endotelial local. É o principal fator na trombose venosa profunda (TVP) pós-cirúrgica ou por imobilização.</p>
+
+<h4>3. Hipercoagulabilidade</h4>
+<p>Primária (hereditária): Fator V de Leiden (resistência à APC — ~5% dos caucasianos), mutação da protrombina G20210A, deficiência de ATIII, proteína C ou S, hiperhomocisteinemia. Secundária (adquirida): síndrome antifosfolipídeo (SAF), gravidez, contraceptivos orais, neoplasias (células tumorais expressam FT e mucinas pró-coagulantes), síndrome nefrótica (perde ATIII e proteínas C/S na urina).</p>
+
+<h3>Morfologia dos trombos: arterial vs. venoso</h3>
+
+<table>
+  <tr><th>Característica</th><th>Trombo arterial ("branco")</th><th>Trombo venoso ("vermelho")</th></tr>
+  <tr><td>Principal fator predisponente</td><td>Lesão endotelial (aterosclerose)</td><td>Estase + hipercoagulabilidade</td></tr>
+  <tr><td>Composição</td><td>Rico em plaquetas (pauci-fibrina)</td><td>Rico em fibrina e hemácias aprisionadas</td></tr>
+  <tr><td>Linhas de Zahn</td><td>Presentes (camadas de plaquetas + fibrina)</td><td>Ausentes (coágulo homogêneo)</td></tr>
+  <tr><td>Fluxo no momento da formação</td><td>Alto shear (artérias)</td><td>Baixo shear (veias)</td></tr>
+  <tr><td>Tratamento alvo</td><td>Antiagregantes (AAS, clopidogrel)</td><td>Anticoagulantes (heparina, NOACs)</td></tr>
+</table>
+<p class="table-caption">Tabela 2. Diferenças entre trombose arterial e venosa.</p>
+
+<p>As linhas de Zahn são estrias alternadas de plaquetas+fibrina (pálidas) e eritrócitos (escuras) que formam um padrão listrado característico dos trombos formados sob fluxo — servem para distinguir trombo ante-mortem de coágulo post-mortem (que não tem linhas de Zahn).</p>
+
+<h3>Destinos do trombo</h3>
+<ul>
+  <li><strong>Propagação:</strong> crescimento progressivo, ocluindo vasos maiores.</li>
+  <li><strong>Embolização:</strong> fragmento se desprende e migra distalmente.</li>
+  <li><strong>Dissolução:</strong> fibrinólise remove o coágulo — base dos fibrinolíticos terapêuticos.</li>
+  <li><strong>Organização e recanalização:</strong> células musculares lisas e fibroblastos invadema; novos canais revasculam parcialmente o trombo (recanalização).</li>
+</ul>
+
+<h3>Trombofilias hereditárias e adquiridas</h3>
+
+<p><strong>Fator V de Leiden:</strong> mutação pontual (R506Q) que torna o Fator Va resistente à clivagem pela Proteína C ativada. Heterozigótico aumenta risco de TVP em 5–8×; homozigótico em 80×. Presente em ~5% dos europeus — a trombofilia hereditária mais prevalente.</p>
+
+<p><strong>Síndrome Antifosfolipídeo (SAF):</strong> anticorpos (anti-β₂GP1, anticardiolipina, anticoagulante lúpico) que paradoxalmente causam trombose apesar do nome "anticoagulante lúpico". O mecanismo envolve ativação plaquetária, inibição da proteína C e perturbação da coagulação dependente de fosfolipídios. Clinicamente: trombose arterial e venosa recorrente, abortos de repetição (trombose placentária) e, em laboratório, TTPa alargado que não corrige com plasma normal (pelo anticorpo inibidor).</p>
+
+<p><strong>CID — Coagulação Intravascular Disseminada:</strong> ativação sistêmica e descontrolada da coagulação, paradoxalmente levando a sangramento. Precipitada por sepse grave (LPS → FT em monócitos/endotélio), trauma massivo (<a class="cross-link" href="choque-circulatorio/choque-circulatorio.html#descompensacao">tríade letal</a>), líquido amniótico (rico em FT), hemólise maciça (transfusão incompatível), neoplasias (leucemia promielocítica M3 — grânulos leucêmicos com FT). O consumo de fatores e plaquetas leva a coagulopatia de consumo — hemorragia com coágulos microvasculares simultaneamente.</p>
+</section>
+
+<!-- ══ EMBOLIA ══ -->
+<section id="embolia">
+<h2>Embolia</h2>
+
+<p>Embolia é o transporte intravascular de material (<em>êmbolo</em>) que se aloja em um vaso distante de sua origem. Pelo menos 99% dos êmbolos são de origem trombótica — daí o termo <em>tromboembolia</em>. Os demais são sólidos não-trombóticos, líquidos ou gasosos.</p>
+
+<h3>Tromboembolismo Pulmonar (TEP)</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  Virchow demonstrou em cadáveres que coágulos em veias pélvicas eram contínuos com êmbolos pulmonares — prova direta da origem venosa do TEP. A anticoagulação com heparina (Howell &amp; McLean, 1916; uso clínico por Murray e Best, 1937) transformou o prognóstico da TVP e do TEP.
+</div>
+
+<p>O TEP resulta tipicamente da embolização de TVP proximal (ilíaca, femoral ou poplítea) — trombos de veias da panturrilha raramente embolizam. O êmbolo percorre o sistema venoso, passa pelo coração direito e se aloja na artéria pulmonar ou em seus ramos.</p>
+
+<p><strong>Consequências hemodinâmicas:</strong> a obstrução pulmonar aumenta a resistência vascular pulmonar (RVP). O VD, câmara de baixa pressão não preparada para resistência elevada, dilata agudamente. A dilatação do VD empurra o septo interventricular para a esquerda (interdependência ventricular), comprimindo o VD e reduzindo o enchimento do VE → queda do débito cardíaco. Em TEP maciço (>50% da circulação pulmonar obstruída), isso evolui para choque obstrutivo e parada cardíaca.</p>
+
+<p><strong>Estratificação de risco:</strong></p>
+<ul>
+  <li><strong>TEP maciço:</strong> hipotensão (PAS &lt;90 mmHg) ou choque — mortalidade ~30%. Anticoagulação + fibrinólise sistêmica ou embolectomia.</li>
+  <li><strong>TEP submaciço:</strong> normotenso mas com disfunção de VD (ecocardiograma) e/ou elevação de troponina/BNP. Anticoagulação; trombólise dirigida por cateter em casos selecionados.</li>
+  <li><strong>TEP de baixo risco:</strong> normotenso, sem disfunção de VD, troponina normal. Anticoagulação ambulatorial com NOACs.</li>
+</ul>
+
+<h3>Outros tipos de êmbolo</h3>
+
+<p><strong>Êmbolo gorduroso:</strong> após fraturas de ossos longos ou lipoaspiração extensa, gotículas de gordura da medula óssea entram na circulação venosa. Pequenas gotículas passam pelos capilares pulmonares ou por shunts (forame oval patente) e chegam à circulação sistêmica. A síndrome de embolia gordurosa manifesta-se 24–72h após a fratura com a tríade: hipoxemia, confusão mental e petéquias (na conjuntiva, pele do tronco — por oclusão de capilares dérmicos). Fisiopatologia: obstrução mecânica + ação de ácidos graxos livres no endotélio pulmonar (lesão direta, inflamação).</p>
+
+<p><strong>Êmbolo gasoso:</strong> ar (ou N₂ em descompressão brusca de mergulhadores — <em>doença da descompressão</em>) forma bolhas que obstruem capilares e causam isquemia distal. Em cirurgias cardíacas e de cabeça/pescoço, a entrada de ar na circulação venosa pode ser fatal se o volume ultrapassar ~100 mL por geração rápida de espuma no VD (<em>air lock</em>).</p>
+
+<p><strong>Êmbolo de líquido amniótico:</strong> raro mas catastrófico. Ocorre no periparto quando líquido amniótico (rico em FT fetal, células escamosas fetais e mecônio) entra nas veias uterinas. Causa SDRA fulminante, CID e choque — mortalidade >60%. Fisiopatologicamente comporta-se como reação anafilactoide grave + CID.</p>
+
+<p><strong>Êmbolo séptico:</strong> fragmentos de vegetações valvares (endocardite infecciosa) ou trombos infectados embolizam, levando não apenas isquemia distal mas também infecção — abscessos pulmonares (<em>Staph. aureus</em> endocardite tricúspide em usuários de drogas IV) ou infartos cerebrais infectados.</p>
+</section>
+
+
+<!-- ══ ATEROSCLEROSE ══ -->
+<section id="aterosclerose">
+<h2>Aterosclerose</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  Rudolph Virchow descreveu as lesões ateroscleróticas como "incrustation" de detritos na parede arterial (teoria trombogênica, 1858). Carl von Rokitansky havia proposto teoria similar décadas antes. A revolução conceitual ocorreu com a hipótese de "resposta à lesão" de Ross &amp; Glomset (1973, reformulada por Ross em 1999 como resposta inflamatória crônica). O estudo de Framingham (1948–presente) estabeleceu os fatores de risco epidemiológicos. Os ensaios de estatinas (4S, 1994; WOSCOPS, 1995) provaram causalidade entre LDL e eventos cardiovasculares.
+</div>
+
+<p>Aterosclerose é uma doença inflamatória crônica da íntima de artérias elásticas e musculares de médio calibre (aorta, coronárias, carótidas, ilíacas). Não é simplesmente um depósito passivo de lipídeos — é um processo ativo, com recrutamento imune, remodelação da parede e risco de ruptura aguda que precipita eventos isquêmicos.</p>
+
+<h3>Progressão da lesão: cinco estágios</h3>
+
+<h4>Estágio 1 — Disfunção endotelial (pré-lesão visível)</h4>
+<p>Fatores de risco clássicos — LDL elevado, hipertensão, tabagismo, diabetes, inflamação sistêmica — convertem o endotélio de estado anti-inflamatório para estado pró-inflamatório sem lesão macroscópica. O mecanismo central é a redução da produção de NO (por inativação do eNOS, estresse oxidativo) e aumento da expressão de moléculas de adesão (VCAM-1, ICAM-1, selectina-E) via NF-κB. LDL oxidado (oxLDL) liga-se a receptores LOX-1 endoteliais e amplifica esse processo.</p>
+
+<h4>Estágio 2 — Estria lipídica (<em>fatty streak</em>)</h4>
+<p>Monócitos circulantes, atraídos pela MCP-1 (CCL2) e aderidos via VCAM-1, transmigram para a íntima e se diferenciam em macrófagos sob ação do M-CSF. Os macrófagos internalizam o LDL oxidado via receptores <em>scavenger</em> (SR-A, CD36) — via não saturável e não regulada pelo mecanismo de feedback do receptor de LDL clássico (que seria suprimido por excesso de colesterol). O colesterol acumula-se em vacúolos citoplasmáticos, transformando o macrófago em <em>célula espumosa</em> (<em>foam cell</em>). Aglomerados de células espumosas formam as estrias lipídicas — visíveis como linhas amareladas na íntima, presentes desde a infância e adolescência, mas reversíveis.</p>
+
+<h4>Estágio 3 — Placa intermediária e fibrótica</h4>
+<p>Com a progressão, a lesão ganha complexidade. As células espumosas morrem (por apoptose e necroptose), liberando colesterol livre que forma cristais de colesterol — esses cristais ativam o inflamassomo NLRP3 em macrófagos adjacentes, gerando IL-1β e ampliando a inflamação. Células musculares lisas (CML) da média migram para a íntima sob estímulo do PDGF e TGF-β, proliferam e sintetizam colágeno, proteoglicanos e elastina — formando a <em>capa fibrosa</em>, que recobre o núcleo lipídico/necrótico. Simultaneamente, neovascularização intrínseca (vasa vasorum) penetra na placa, trazendo mais células inflamatórias.</p>
+
+<h4>Estágio 4 — Placa vulnerável</h4>
+<p>A placa vulnerável tem características estruturais que a predispõem à ruptura: núcleo necrótico lipídico grande (&gt;40% do volume da placa), capa fibrosa fina (&lt;65 μm), alta densidade de macrófagos na capa (que secretam MMPs — metaloproteinases — degradando o colágeno) e neovascularização abundante. Paradoxalmente, essas placas frequentemente não causam estenose hemodinâmica significativa (remodelação positiva de Glagov — o vaso dilata externamente para acomodar a placa sem reduzir o lúmen), razão pela qual não são detectadas por angiografia coronariana e precipitam infartos "inesperados".</p>
+
+<div class="kbox">
+  <div class="klabel">Paradoxo clínico — a placa não obstrutiva que mata</div>
+  <p>Estudos de autopsia e tomografia coronariana mostram que a maioria dos infartos ocorre em placas que causavam &lt;50% de estenose antes do evento — placas vulneráveis, não detectáveis pela angiografia (que só vê o lúmen). A placa mais estenótica não é necessariamente a mais perigosa. Isso explica por que revascularização eletiva (stent, bypass) reduz angina mas não reduz mortalidade global em doença estável — o risco persiste nas placas não tratadas.</p>
+</div>
+
+<h4>Estágio 5 — Ruptura ou erosão da placa → evento agudo</h4>
+<p>A ruptura da placa expõe o núcleo necrótico trombogênico (rico em FT derivado de macrófagos apoptóticos) ao sangue. Isso desencadeia a hemostasia em modo máximo, formando trombo oclusivo em minutos. O gatilho da ruptura inclui: esforço físico súbito, estresse emocional (liberação de catecolaminas → aumento de shear stress), variação circadiana (manhã — pico de pressão, cortisol e agregação plaquetária — explica maior incidência de IAM pela manhã) e estados inflamatórios sistêmicos (infecções respiratórias agudas aumentam risco de IAM por dias a semanas).</p>
+
+<p>A <em>erosão</em> da placa (sem ruptura franca) é responsável por ~30–40% dos eventos coronarianos agudos, especialmente em mulheres jovens e em fumantes. Ocorre sobre placa rica em proteoglicanos, com menos lipídeo e inflamação — o mecanismo é menos compreendido, possivelmente envolvendo NETose de neutrófilos e desnudamento endotelial <span class="cite">(BAATEN et al., 2024)</span>.</p>
+
+<h3>Localização preferencial</h3>
+<p>As placas formam-se preferencialmente em zonas de <em>baixo shear oscilatório</em>: bifurcações (coronárias, carótidas, ilíacas), curvaturas e origem de ramos — onde o fluxo não é laminar e o eNOS é subexpresso. Zonas de alto shear laminar são paradoxalmente protetoras.</p>
+
+<h3>Fatores de risco e mecanismos</h3>
+<ul>
+  <li><strong>LDL elevado:</strong> mais LDL disponível para oxidação e captação por macrófagos. Meta de LDL &lt;70 mg/dL em alto risco; estatinas reduzem eventos 30–40% independentemente do nível basal.</li>
+  <li><strong>Hipertensão arterial:</strong> aumento do shear stress e tensão na parede → ativa NF-κB no endotélio → expressão de VCAM-1, ICAM-1; acelera permeação de LDL.</li>
+  <li><strong>Tabagismo:</strong> acarbonilação proteica, estresse oxidativo, redução de NO, ativação plaquetária, aumento de fibrinogênio.</li>
+  <li><strong>Diabetes:</strong> glicação de LDL (aumenta captação por scavenger receptors), AGEs ativam RAGE no endotélio → inflamação; disfunção autonômica.</li>
+  <li><strong>Microbiota intestinal:</strong> produção de TMAO (trimetilamina-N-óxido) a partir de lecitina/carnitina dietética — associação epidemiológica com aterosclerose; mecanismo ainda em estudo <span class="cite">(JEBARI-BENSLAIMAN et al., 2022)</span>.</li>
+</ul>
+</section>
+
+<!-- ══ INFARTO ══ -->
+<section id="infarto">
+<h2>Infarto</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica</span>
+  O diagnóstico clínico do infarto do miocárdio foi descrito por Herrick (1912) com base em observações clínicas e ECG — sem marcadores enzimáticos (CK-MB só disponível nos anos 1970; troponina na década de 1990). A intervenção coronariana percutânea primária (ICPP) como padrão-ouro foi estabelecida pelos ensaios PAMI (1993) e GUSTO IIb (1997).
+</div>
+
+<p>Infarto é uma área de necrose isquêmica causada por obstrução arterial. O tipo depende da arquitetura vascular do órgão afetado:</p>
+
+<ul>
+  <li><strong>Infarto branco (anêmico):</strong> em órgãos com circulação terminal sem anastomoses (coração, rins, baço, encéfalo). A obstrução arterial priva completamente o território e a necrose é sólida. Macroscopicamente: área pálida, forma cunhada com ápice para o vaso obstruído.</li>
+  <li><strong>Infarto vermelho (hemorrágico):</strong> em órgãos com dupla irrigação (pulmão — arterial + bronquial; fígado — portal + hepática) ou com tecido frouxo que permite extravasamento (intestino). Também ocorre quando um infarto branco é reperfundido — o sangue flui de volta pela vasculatura danificada, extravasando para a zona necrótica.</li>
+</ul>
+
+<h3>Infarto do miocárdio — sequência temporal</h3>
+
+<p>O coração é o paradigma do infarto branco em órgão terminal. A sequência de alterações morfológicas após oclusão coronariana obedece uma cronologia previsível:</p>
+
+<table>
+  <tr><th>Tempo após oclusão</th><th>Alteração morfológica</th><th>Achado histológico</th></tr>
+  <tr><td>0–30 min</td><td>Reversível; sem alteração macro ou micro visível</td><td>Ondulação de fibras (em cortes transversais), tumefação mitocondrial ao ME</td></tr>
+  <tr><td>30 min – 4 h</td><td>Início da necrose de coagulação (irreversível após ~20–40 min sem O₂)</td><td>Eosinofilia citoplasmática, perda de núcleos, bandas de contração</td></tr>
+  <tr><td>4–12 h</td><td>Área pálida com bordas hemorrágicas; possível mottling</td><td>Neutrófilos começam a infiltrar (resposta inflamatória)</td></tr>
+  <tr><td>1–3 dias</td><td>Área amarelada, amolecida (pico de risco de ruptura)</td><td>Necrose de coagulação estabelecida; infiltrado neutrofílico intenso</td></tr>
+  <tr><td>3–7 dias</td><td>Amolecimento máximo (maior risco de ruptura miocárdica)</td><td>Macrófagos substituindo neutrófilos; início da remoção de debris</td></tr>
+  <tr><td>1–3 semanas</td><td>Tecido de granulação (avermelhado, vascularizado)</td><td>Fibroblastos, neovascularização, colágeno imaturo</td></tr>
+  <tr><td>Meses</td><td>Cicatriz fibrosa densa cinza-esbranquiçada</td><td>Colágeno denso, sem miócitos, sem vasos</td></tr>
+</table>
+<p class="table-caption">Tabela 3. Cronologia das alterações morfológicas no infarto do miocárdio.</p>
+
+<p><strong>Por que o período de 3–7 dias é o pico de risco de ruptura?</strong> A necrose de coagulação mantém temporariamente a estrutura macroscópica, mas os macrófagos secretam MMPs que degradam a matriz extracelular antes de haver colágeno suficiente para substituí-la. O miocárdio é estruturalmente mais fraco nesse intervalo do que em qualquer outro momento — daí a tamponamento cardíaco por hemopericárdio ser uma complicação do infarto transmural em dias 3–5.</p>
+
+<h3>Zonas do infarto: transmural vs. subendocárdico</h3>
+<p>O subendocárdio é a região mais vulnerável à isquemia por ser a mais distante da irrigação epicárdica e ter maior pressão de parede (que comprime capilares durante a sístole). Isquemia global (hipotensão, vasoespasmo difuso) causa infarto subendocárdico circunferencial sem oclusão coronariana focal — importante na diferenciação de IAM com e sem supradesnivelamento de ST. O infarto transmural (toda a espessura da parede) é quase sempre associado a oclusão completa de artéria epicárdica.</p>
+
+<h3>Lesão de reperfusão — o paradoxo do salvamento</h3>
+
+<p>A reabertura da artéria ocluída (por ICPP ou fibrinólise) é o principal objetivo terapêutico — mas o retorno do fluxo paradoxalmente acrescenta dano adicional ao miocárdio já lesado. A lesão de reperfusão é estimada em 30–40% do tamanho final do infarto <span class="cite">(ALGOET et al., 2022)</span>. Mecanismos:</p>
+
+<ul>
+  <li><strong>Burst de espécies reativas de oxigênio (ROS):</strong> a reintrodução de O₂ em mitocôndrias com cadeia transportadora de elétrons disfuncional gera explosão de radicais livres — peroxidação lipídica, dano ao DNA, abertura de poros.</li>
+  <li><strong>Sobrecarga de Ca²⁺:</strong> durante a isquemia, a bomba Na⁺/K⁺-ATPase falha por depleção de ATP, acumulando Na⁺ intracelular. O trocador Na⁺/Ca²⁺ (NCX), tentando expulsar Na⁺, introduz Ca²⁺. Com a reperfusão, esse processo é amplificado. O Ca²⁺ excessivo ativa calpaínas, contrai maximamente os miofilamentos (bandas de contração) e abre o poro de transição de permeabilidade mitocondrial (mPTP).</li>
+  <li><strong>Abertura do mPTP:</strong> o poro de transição mitocondrial (complexo ANT-VDAC-CyP-D) abre quando convergem: alto Ca²⁺, ROS e pH normalizado. Ao abrir, dissipa o gradiente de membrana mitocondrial → falha da síntese de ATP → necrose por déficit energético ou apoptose.</li>
+  <li><strong>Inflamação acelerada:</strong> neutrófilos e complemento ativados entram na zona reperfundida, liberando proteases e ROS adicionais.</li>
+</ul>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — proteção miocárdica na reperfusão</div>
+  <p>Dezenas de estratégias que protegiam o miocárdio em modelos animais (pré-condicionamento isquêmico, bloqueadores do mPTP como ciclosporina A, inibidores de caspase, hipotermia) falharam na translação clínica. A hipótese corrente é que a comorbidade e inflamação sistêmica dos pacientes modificam a resposta à intervenção de um modo que os modelos em animais jovens e saudáveis não replicam. O ciclosporina A (inibidor de CyP-D) foi o caso mais promissor e falhou no ensaio CIRCUS (2015) e no CYCLE (2016). O campo permanece sem tratamento adjunto à reperfusão com eficácia comprovada.</p>
+</div>
+</section>
+
+
+<!-- ══ CONEXÕES ══ -->
+<section id="conexoes">
+<h2>Conexões</h2>
+
+<p>Os temas deste compêndio formam uma cadeia patogênica que vai da disfunção molecular à catástrofe clínica. A aterosclerose começa com disfunção endotelial e inflamação — processos idênticos aos descritos na <a class="cross-link" href="../imunologia/moleculas-sistema-imune.html#moleculas-adesao">expressão de VCAM-1 e ICAM-1</a> e na <a class="cross-link" href="../imunologia/imunidade-inata.html#inflamacao">inflamação local mediada por macrófagos</a>. A placa aterosclerótica vulnerável, ao romper, ativa a hemostasia — cujos mecanismos integram-se ao manejo do <a class="cross-link" href="choque-circulatorio/choque-circulatorio.html#cardiogenico">choque cardiogênico</a>. O TEP, por sua vez, é a forma mais dramática de choque obstrutivo descrita no mesmo material.</p>
+
+<p>A CID conecta trombose e hemostasia com fisiopatologia da sepse (<a class="cross-link" href="../imunologia/resposta-a-patogenos.html#sepse">Sepsis-3 e cascata de LPS</a>) e com o choque distributivo. O edema pulmonar é a expressão da congestão passiva na insuficiência cardíaca que frequentemente sucede ao infarto — conectando os distúrbios hemodinâmicos aos eventos isquêmicos.</p>
+</section>
+
+<!-- ══ PERGUNTAS EM ABERTO ══ -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 1</div>
+  <p>Por que a proteção miocárdica contra a lesão de reperfusão, amplamente eficaz em modelos animais, falha sistematicamente na tradução clínica? O problema é o modelo animal (jovem, saudável, sem comorbidades) ou a janela terapêutica humana é estreita demais para intervenção adjunta à ICPP?</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 2</div>
+  <p>Qual a contribuição exata da microbiota intestinal (via TMAO, ácidos biliares secundários, metabólitos de aminoácidos) à progressão da aterosclerose em humanos? Os estudos epidemiológicos são promissores, mas intervenções direcionadas à microbiota para reduzir eventos cardiovasculares ainda carecem de evidência de fase III robusta.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 3</div>
+  <p>O modelo de Starling revisado (Michel, 1997; Levick &amp; Michel, 2010) questiona a reabsorção venosa capilar clássica e a eficácia teórica de coloides na ressuscitação. Em que medida isso deve mudar protocolos clínicos de ressuscitação com albumina e soluções coloides?</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 4</div>
+  <p>Placa erosão (sem ruptura franca) é responsável por 30–40% dos eventos coronarianos, mais comum em mulheres jovens e fumantes. Seu mecanismo molecular — diferente da ruptura clássica — permanece incerto. Como identificá-la in vivo (OCT intracoronariano é promissor) e o tratamento ótimo difere da ruptura?</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão 5</div>
+  <p>A inflamação residual após controle do LDL (colchicina, inibidores de IL-1β como canakinumabe — CANTOS trial) reduz eventos cardiovasculares independentemente do efeito lipídico. Mas qual o limiar de inflamação (PCR-us?) que justifica antiinflamatório cardiovascular, e em qual subpopulação o benefício supera o risco infeccioso?</p>
+</div>
+</section>
+
+<!-- ══ DISCUSSÃO ══ -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p><strong>Fechando a pergunta motivadora.</strong> O homem de 58 anos com dor torácica em aperto exemplifica como os sete distúrbios deste compêndio convergem em um único evento. Sua aterosclerose havia décadas foi silenciosa porque a placa era vulnerável — núcleo lipídico grande com capa fina — e não estenótica o suficiente para causar angina de esforço. A ruptura ocorreu provavelmente de manhã, no pico circadiano de cortisol e agregação plaquetária, com um aumento súbito de pressão. O núcleo necrótico rico em fator tecidual desencadeou hemostasia máxima, formando trombo oclusivo em minutos. A zona de miocárdio dependente dessa artéria — privada de O₂ — iniciou necrose de coagulação irreversível após 20–40 minutos de isquemia. Se não reperfundida rapidamente, a necrose se expande em ondas concêntricas da zona subendocárdica (mais vulnerável) para o subepicárdio. A congestão pulmonar e o edema subsequente são a expressão da falência sistólica do VE lesado — pressão diastólica final que se retropropaga até os capilares alveolares.</p>
+
+<p><strong>Tensão central do campo.</strong> Existe uma assimetria entre o que sabemos patologicamente e o que conseguimos traduzir em intervenções. A lesão de reperfusão é mecanisticamente bem compreendida, mas continua sem antídoto clínico. A placa vulnerável é identificável por tomografia coronariana ou OCT, mas não sabemos quais tratar preventivamente antes do evento. O paradoxo da placa não-obstrutiva — que não aparece na angiografia e precipita a maioria dos infartos — desafia o modelo de tratamento baseado em estenose.</p>
+
+<p><strong>Implicação emergente.</strong> Aterosclerose, trombose, inflamação e edema não são compartimentos isolados — são estados diferentes da mesma disfunção de barreira vascular. A perspectiva que unifica o campo é a do endotélio como regulador central: quando ele falha em qualquer de suas funções (barreira seletiva, anticoagulação, tônus vasomotor, permeabilidade oncótica), os demais distúrbios se encadeiam. Tratar o endotélio — com estatinas, controle pressórico, cessação do tabagismo, redução da inflamação sistêmica — é simultaneamente prevenir aterosclerose, edema, trombose e infarto.</p>
+</section>
+
+<!-- ══ LEITURAS ══ -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<ul>
+  <li><strong>Robbins &amp; Cotran — Pathologic Basis of Disease</strong> (10ª ed.) — Capítulos 4 (Distúrbios hemodinâmicos e choque) e 11 (Vasos sanguíneos). Referência-padrão em patologia; mecanismo com profundidade e imagens macroscópicas/histológicas excelentes.</li>
+  <li><strong>Harrison's Principles of Internal Medicine</strong> (21ª ed.) — Parte 10 (Doenças cardiovasculares). Para correlação clínica detalhada pós-mecanismo.</li>
+  <li><strong>Rang &amp; Dale's Pharmacology</strong> (10ª ed.) 🏷 VOCÊ TEM — Capítulos 23 (anticoagulantes) e 21 (fármacos cardiovasculares): farmacologia integrada ao mecanismo patológico estudado aqui.</li>
+  <li><strong>Kumar V. et al. — Robbins Basic Pathology</strong> (11ª ed.) — versão condensada; ideal para revisão pré-prova dos mesmos capítulos.</li>
+  <li>Jebari-Benslaiman S. et al. "Pathophysiology of Atherosclerosis." <em>Int J Mol Sci</em>. 2022. <a href="https://doi.org/10.3390/ijms23063346" target="_blank" rel="noopener">DOI: 10.3390/ijms23063346</a> — revisão abrangente incluindo papel de microbiota e miRNA.</li>
+  <li>Algoet M. et al. "Myocardial ischemia-reperfusion injury and the influence of inflammation." <em>Trends Cardiovasc Med</em>. 2022. <a href="https://doi.org/10.1016/j.tcm.2022.02.005" target="_blank" rel="noopener">DOI: 10.1016/j.tcm.2022.02.005</a> — mecanismos de reperfusão e fracasso das intervenções.</li>
+</ul>
+</section>
+
+<!-- ══ REFERÊNCIAS ══ -->
+<section id="referencias">
+<h2>Referências ABNT</h2>
+<div class="ref-list">
+<p>ALGOET, M. et al. Myocardial ischemia-reperfusion injury and the influence of inflammation. <em>Trends in Cardiovascular Medicine</em>, v. 33, n. 6, p. 357–366, 2022. DOI: <a href="https://doi.org/10.1016/j.tcm.2022.02.005" target="_blank" rel="noopener">10.1016/j.tcm.2022.02.005</a>.</p>
+
+<p>BAATEN, C. C. F. M. J. et al. Platelet biology and function: plaque erosion vs. rupture. <em>European Heart Journal</em>, v. 45, n. 1, p. 18–31, 2024. DOI: <a href="https://doi.org/10.1093/eurheartj/ehad720" target="_blank" rel="noopener">10.1093/eurheartj/ehad720</a>.</p>
+
+<p>GUAN, Z.; LI, X.; ZHU, X. Emerging Insights of Management of Venous Thromboembolism in Patients With Cancer. <em>Clinical and Applied Thrombosis/Hemostasis</em>, v. 32, p. 10760296261454788, 2026. DOI: <a href="https://doi.org/10.1177/10760296261454788" target="_blank" rel="noopener">10.1177/10760296261454788</a>.</p>
+
+<p>JEBARI-BENSLAIMAN, S. et al. Pathophysiology of Atherosclerosis. <em>International Journal of Molecular Sciences</em>, v. 23, n. 6, p. 3346, 2022. DOI: <a href="https://doi.org/10.3390/ijms23063346" target="_blank" rel="noopener">10.3390/ijms23063346</a>.</p>
+
+<p>KUMAR, V.; ABBAS, A. K.; ASTER, J. C. <em>Robbins &amp; Cotran Pathologic Basis of Disease</em>. 10. ed. Philadelphia: Elsevier, 2021.</p>
+
+<p>LEVICK, J. R.; MICHEL, C. C. Microvascular fluid exchange and the revised Starling principle. <em>Cardiovascular Research</em>, v. 87, n. 2, p. 198–210, 2010. DOI: <a href="https://doi.org/10.1093/cvr/cvq062" target="_blank" rel="noopener">10.1093/cvr/cvq062</a>.</p>
+
+<p>ROSS, R. Atherosclerosis — an inflammatory disease. <em>New England Journal of Medicine</em>, v. 340, n. 2, p. 115–126, 1999. DOI: <a href="https://doi.org/10.1056/NEJM199901143400207" target="_blank" rel="noopener">10.1056/NEJM199901143400207</a>.</p>
+
+<p>SIDDALL, E. C.; RADHAKRISHNAN, J. The pathophysiology of edema formation in the nephrotic syndrome. <em>Kidney International</em>, v. 82, n. 6, p. 635–642, 2012. DOI: <a href="https://doi.org/10.1038/ki.2012.180" target="_blank" rel="noopener">10.1038/ki.2012.180</a>.</p>
+
+<p>VIRCHOW, R. <em>Die Cellularpathologie in ihrer Begründung auf physiologische und pathologische Gewebelehre</em>. Berlin: Hirschwald, 1858.</p>
+</div>
+</section>
+
+</article>
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// ── SIDEBAR ──
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const COLLAPSED = 'collapsed';
+
+(function init(){
+  if(sessionStorage.getItem('sidebar-collapsed')==='1'){
+    sidebar.classList.add(COLLAPSED);
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.textContent='›';
+  }
+})();
+
+toggleBtn.addEventListener('click',()=>{
+  const c = sidebar.classList.toggle(COLLAPSED);
+  bodyWrap.classList.toggle('sidebar-collapsed',c);
+  toggleBtn.textContent = c ? '›' : '‹';
+  sessionStorage.setItem('sidebar-collapsed', c?'1':'0');
+});
+
+// ── PROGRESS BAR ──
+const pb = document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{
+  const t=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  pb.style.width=(h>0?t/h*100:0)+'%';
+},{passive:true});
+
+// ── INTERSECTION OBSERVERS ──
+const sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+const sections  = document.querySelectorAll('section[id]');
+
+const obsActive = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    const link = document.querySelector('a.sl[href="#'+e.target.id+'"]');
+    if(link) link.classList.toggle('active', e.isIntersecting);
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+
+const obsInView = new IntersectionObserver(entries=>{
+  entries.forEach(e=>e.target.classList.toggle('in-view',e.isIntersecting));
+},{rootMargin:'-20% 0px -70% 0px'});
+
+sections.forEach(s=>{obsActive.observe(s);obsInView.observe(s);});
+</script>
+</body>
+</html>
