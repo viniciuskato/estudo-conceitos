@@ -90,6 +90,22 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 #back-btn:hover{background:var(--bg3)}
 @media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
 #mob-bar{display:none}
+/* Lightbox */
+.plate-block img{cursor:zoom-in}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);align-items:center;justify-content:center;padding:20px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:92vw;max-height:88vh;object-fit:contain;border-radius:4px;box-shadow:0 4px 32px rgba(0,0,0,.6)}
+#lightbox-caption{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:var(--muted);font-family:var(--font-ui);font-size:11px;padding:6px 14px;border-radius:20px;max-width:80vw;text-align:center;pointer-events:none}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+/* Inline tables */
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
 @media(max-width:900px){
   #sidebar{display:none}#sidebar.open{display:flex}
   #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
@@ -233,6 +249,55 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <h3>Valva aórtica</h3>
 <p>Localiza-se na via de saída do VE, com três cúspides semilunares: direita (coronariana direita), esquerda (coronariana esquerda) e posterior (não coronariana). Entre cada cúspide e a parede aórtica há dilatações chamadas <em>seios de Valsalva</em> (ou seios aórticos); é dos seios direito e esquerdo que emergem as artérias coronárias. O fluxo para as coronárias ocorre predominantemente na diástole, quando a valva aórtica está fechada e o seio cria um turbilhão que direciona o sangue aos óstios coronarianos — mecanismo passivo e engenhoso que dispensa bomba acessória para perfundir o próprio miocárdio.</p>
 
+
+<table class="data-table" aria-label="Comparativo das valvas cardíacas">
+  <thead>
+    <tr>
+      <th>Valva</th>
+      <th>Posição</th>
+      <th>Folhetos</th>
+      <th>Aparato subvalvar</th>
+      <th>Pressão de fechamento</th>
+      <th>Relevância clínica principal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-label">Tricúspide</td>
+      <td>Óstio AV direito</td>
+      <td>3 (ant., post., septal)</td>
+      <td>Cordas + mm. papilares</td>
+      <td>~25 mmHg (sistólica VD)</td>
+      <td>Folheto septal adjacente ao nó AV → risco de BAV em cirurgia</td>
+    </tr>
+    <tr>
+      <td class="td-label">Mitral</td>
+      <td>Óstio AV esquerdo</td>
+      <td>2 (ant., post.)</td>
+      <td>Cordas + mm. papilares</td>
+      <td>~120 mmHg (sistólica VE)</td>
+      <td>Mm. papilar posteromedial: suprimento único → IM isquêmica</td>
+    </tr>
+    <tr>
+      <td class="td-label">Pulmonar</td>
+      <td>Via de saída VD (infundíbulo)</td>
+      <td>3 cúspides semilunares</td>
+      <td>Nenhum</td>
+      <td>~10 mmHg (diastólica AP)</td>
+      <td>Insuficiência hemodinamicamente tolerada por anos</td>
+    </tr>
+    <tr>
+      <td class="td-label">Aórtica</td>
+      <td>Via de saída VE</td>
+      <td>3 cúspides semilunares</td>
+      <td>Nenhum</td>
+      <td>~80 mmHg (diastólica aórtica)</td>
+      <td>Seios de Valsalva → origem das coronárias; estenose = alta mortalidade</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 1 — Comparativo estrutural e funcional das quatro valvas cardíacas. AV = atrioventricular; AP = artéria pulmonar; BAV = bloqueio atrioventricular; IM = insuficiência mitral.</p>
+
 <div class="ck-grid">
   <div class="ck-card">
     <div class="ckt">Mitral</div>
@@ -337,6 +402,49 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <h2>Pericárdio</h2>
 <p>O pericárdio é o saco fibroseroso que envolve o coração e a raiz dos grandes vasos. Compõe-se de duas camadas: <em>pericárdio fibroso</em> externo (tecido conjuntivo denso, inextensível, fundido com o diafragma inferiormente e com a adventícia dos grandes vasos superiormente) e <em>pericárdio seroso</em>, subdividido em lâmina parietal (forra internamente o fibroso) e lâmina visceral — o <em>epicárdio</em> — que adere ao miocárdio.</p>
 
+
+<table class="data-table" aria-label="Derrame pericárdico: acúmulo rápido vs. lento">
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Acúmulo rápido</th>
+      <th>Acúmulo lento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-label">Volume crítico</td>
+      <td>150–200 mL</td>
+      <td>1.000–2.000 mL</td>
+    </tr>
+    <tr>
+      <td class="td-label">Mecanismo</td>
+      <td>Pericárdio fibroso inextensível → pressão sobe abruptamente</td>
+      <td>Pericárdio se adapta (creep viscoelástico) → pressão sobe devagar</td>
+    </tr>
+    <tr>
+      <td class="td-label">Câmaras comprimidas</td>
+      <td>Câmaras direitas primeiro (menor pressão intracavitária)</td>
+      <td>Idem, mas progressivo — colapso do AD na diástole é sinal precoce</td>
+    </tr>
+    <tr>
+      <td class="td-label">Consequência hemodinâmica</td>
+      <td>Tamponamento cardíaco agudo (emergência)</td>
+      <td>Tamponamento subagudo/crônico (apresentação insidiosa)</td>
+    </tr>
+    <tr>
+      <td class="td-label">Exemplos clínicos</td>
+      <td>Hemopericárdio pós-trauma, dissecção aórtica tipo A</td>
+      <td>Derrame neoplásico, tuberculose, hipotireoidismo</td>
+    </tr>
+    <tr>
+      <td class="td-label">Tríade de Beck</td>
+      <td colspan="2" style="text-align:center">Hipotensão · Turgência jugular · Abafamento de bulhas (classicamente no tamponamento agudo)</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 2 — Derrame pericárdico: diferenças fisiopatológicas entre acúmulo rápido e lento. A velocidade de acúmulo importa mais que o volume absoluto.</p>
+
 <p>O espaço pericárdico entre as duas lâminas serosas contém 15–50 mL de líquido lubrificante. O acúmulo patológico desse líquido é o <em>derrame pericárdico</em>. A rigidez do pericárdio fibroso é determinante: acúmulo rápido de 150–200 mL pode elevar a pressão intrapericárdica a ponto de comprimir as câmaras direitas (tamponamento cardíaco), enquanto acúmulo lento pode atingir 1–2 L sem colapso hemodinâmico, pois o pericárdio fibroso se adapta progressivamente.</p>
 
 <p>A inervação sensitiva do pericárdio parietal é feita pelo nervo frênico (C3–C5), explicando a dor pericárdica referida ao ombro e região cervical — e o soluço como manifestação de irritação pericárdica. A lâmina visceral não tem inervação sensitiva.</p>
@@ -367,6 +475,39 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <section id="parede">
 <h2>Parede cardíaca — camadas e faces</h2>
 <p>A parede cardíaca é composta por três camadas, de fora para dentro:</p>
+
+<table class="data-table" aria-label="Camadas da parede cardíaca">
+  <thead>
+    <tr>
+      <th>Camada</th>
+      <th>Estrutura</th>
+      <th>Função principal</th>
+      <th>Patologia associada</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-label">Epicárdio</td>
+      <td>Lâmina visceral do pericárdio seroso; tecido adiposo subepicárdico com coronárias, veias e nervos</td>
+      <td>Redução de atrito; reservatório de gordura com atividade metabólica e inflamatória</td>
+      <td>Pericardite (inflamação do epicárdio/pericárdio); tecido adiposo epicárdico associado à FA e doença coronariana</td>
+    </tr>
+    <tr>
+      <td class="td-label">Miocárdio</td>
+      <td>Cardiomiócitos estriados, núcleo central único, discos intercalares (desmossomos + gap junctions); fibras helicoidais em camadas</td>
+      <td>Contração (sístole) e relaxamento (diástole); sincício funcional por condução elétrica célula a célula</td>
+      <td>Infarto (necrose isquêmica); miocardite (inflamação); cardiomiopatias (hipertrófica, dilatada, restritiva)</td>
+    </tr>
+    <tr>
+      <td class="td-label">Endocárdio</td>
+      <td>Endotélio + tecido conjuntivo subendotelial; contínuo com endotélio vascular; reveste câmaras e valvas</td>
+      <td>Barreira hemocompatível; superfície antitrombogênica em condições normais</td>
+      <td>Endocardite infecciosa (lesão por jato de alta velocidade → colonização bacteriana); endocardite de Libman-Sacks (lúpus)</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 3 — Camadas da parede cardíaca: estrutura, função e patologia. FA = fibrilação atrial.</p>
+
 <ul>
   <li><strong>Epicárdio:</strong> lâmina visceral do pericárdio seroso. Contém tecido adiposo subepicárdico onde percorrem as artérias coronárias, veias e nervos. O tecido adiposo epicárdico tem atividade metabólica e inflamatória própria, com papel emergente na patogênese da doença coronariana e FA.</li>
   <li><strong>Miocárdio:</strong> camada muscular, responsável pela função contrátil. Composto por cardiomiócitos — células musculares estriadas, geralmente com um único núcleo central, interconectadas por discos intercalares que garantem condução elétrica rápida de célula a célula (sincício funcional). O miocárdio ventricular é organizado em camadas helicoidais de fibras com orientações distintas, o que permite a torção sistólica que aumenta a eficiência de ejeção. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">→ Ciclo cardíaco: fisiologia da contração</a>.</li>
@@ -484,6 +625,12 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 </div><!-- .prose -->
 </main>
 </div><!-- #body-wrap -->
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
 <button id="back-btn" onclick="goBack()">← Voltar à leitura</button>
 <script>
 (function(){
@@ -535,6 +682,33 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
   updateActive();
 
   // navFig: salva posição e navega para a figura
+
+  // Lightbox
+  function openLightbox(img){
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCap = document.getElementById('lightbox-caption');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    var cap = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
+    lbCap.textContent = cap ? cap.textContent.trim() : '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if(e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
+  document.querySelectorAll('.plate-block img').forEach(function(img){
+    img.addEventListener('click', function(){ openLightbox(this); });
+  });
+
   window._readPos = null;
   window.navFig = function(anchor){
     window._readPos = window.scrollY;
@@ -545,7 +719,34 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
   window.goBack = function(){
     if(window._readPos !== null){
       window.scrollTo({top: window._readPos, behavior:'smooth'});
-      window._readPos = null;
+    
+  // Lightbox
+  function openLightbox(img){
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCap = document.getElementById('lightbox-caption');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    var cap = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
+    lbCap.textContent = cap ? cap.textContent.trim() : '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if(e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
+  document.querySelectorAll('.plate-block img').forEach(function(img){
+    img.addEventListener('click', function(){ openLightbox(this); });
+  });
+
+  window._readPos = null;
     }
     document.getElementById('back-btn').style.display = 'none';
   };
