@@ -1,4 +1,4 @@
-=== ATLAS — ESTADO DA SESSÃO ===
+=== COMPÊNDIOS — ESTADO DA SESSÃO ===
 Última sessão: 2026-06-30 (sessão 3)
 
 === Histórico ===
@@ -10,16 +10,4 @@
              Verificação visual pendente (Chrome desconectado).
 2026-06-30 — Primeiro compêndio de medicina criado: atlas/medicina/cardiologia-anatomia.html
              Anatomia Cardíaca (câmaras, valvas, grandes vasos, coronárias, sistema de
-             condução, pericárdio, topografia, parede cardíaca). 496 linhas. Verificação
-             bash OK. Verificação visual pendente.
-             Skills usadas: atlas + atlas-medicina-basica.
-
-=== Pendências ===
-- Criar demais compêndios de cardiologia: fisiologia cardíaca, semiologia, valvopatias,
-  IC, HAS, ECG, coronariopatias, arritmias
-- Criar mapas de campo para outras áreas de medicina (imunologia, farmacologia, fisiologia,
-  fisiopatologia, microbiologia)
-- Criar index.html do atlas/
-
-=== Dívida ===
-Ver _docs/DEBT.md
+      

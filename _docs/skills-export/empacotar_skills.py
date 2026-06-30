@@ -1,18 +1,20 @@
 """
 Empacota as skills do projeto como arquivos .skill (ZIP).
 Execute com duplo clique ou: python empacotar_skills.py
-Os arquivos .skill serão gerados nesta mesma pasta.
+Os arquivos .skill serao gerados nesta mesma pasta.
 
 Skills geradas:
-  - atlas.skill              (skill estrutural — mapas de campo)
-  - mecanismo.skill          (skill estrutural — compêndios de mecanismo)
+  - atlas.skill
+  - mecanismo.skill
   - atlas-medicina-basica.skill
   - atlas-medicina-clinica.skill
   - atlas-investimentos.skill
+  - atlas-ia.skill
   - mecanismo-medicina-basica.skill
   - mecanismo-medicina-clinica.skill
+  - autocritica-sessao.skill
 
-Instalação: Settings > Capabilities > Skills no Claude desktop.
+Instalacao: Settings > Capabilities > Skills no Claude desktop.
 """
 import zipfile
 from pathlib import Path
@@ -25,6 +27,7 @@ skills = [
     "atlas-medicina-basica",
     "atlas-medicina-clinica",
     "atlas-investimentos",
+    "atlas-ia",
     "mecanismo-medicina-basica",
     "mecanismo-medicina-clinica",
     "autocritica-sessao",
@@ -33,7 +36,7 @@ skills = [
 for skill in skills:
     skill_dir = script_dir / skill
     if not skill_dir.exists():
-        print(f"AVISO: pasta não encontrada — {skill_dir}")
+        print(f"AVISO: pasta nao encontrada -- {skill_dir}")
         continue
 
     output_file = script_dir / f"{skill}.skill"
@@ -45,5 +48,4 @@ for skill in skills:
 
     print(f"Criado: {output_file.name}")
 
-print("\nPronto! Instale cada .skill via Settings > Capabilities > Skills.")
-input("Pressione Enter para fechar...")
+print("Pronto! Instale cada .skill via Settings > Capabilities > Skills.")

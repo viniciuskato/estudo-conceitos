@@ -3,14 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estudo de Conceitos — Índice</title>
-<link rel="manifest" href="_config/manifest.json">
-<meta name="theme-color" content="#0e0c09">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Conceitos">
-<link rel="apple-touch-icon" href="_config/icon-192.png">
+<title>Base de Estudos — Índice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
@@ -19,309 +12,301 @@
   --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
   --text:#e2ddd6;--muted:#9e9890;
   --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --ac-atlas:#5b8dd9;--ac-atlas-bg:#0f1e38;
   --font-body:'Source Serif 4',Georgia,serif;
   --font-ui:'Inter',system-ui,sans-serif;
-  /* aliases para código legado */
-  --blue: var(--ac);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--font-ui); font-size: 15px; line-height: 1.6; }
 
-/* ── Layout ─────────────────────────────────────── */
 .page { max-width: 1100px; margin: 0 auto; padding: 56px 40px 100px; }
-h1 { font-family: var(--font-body); font-size: 1.8rem; color: var(--blue); margin-bottom: 6px; font-weight: 600; }
-.subtitle { color: var(--muted); font-size: 13px; margin-bottom: 40px; }
+h1 { font-family: var(--font-body); font-size: 1.8rem; color: var(--ac); margin-bottom: 6px; font-weight: 600; }
+.subtitle { color: var(--muted); font-size: 13px; margin-bottom: 48px; }
 
 /* ── Tabs ───────────────────────────────────────── */
-.tabs { display: flex; gap: 4px; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+.tabs { display: flex; gap: 4px; margin-bottom: 40px; border-bottom: 1px solid var(--border); }
 .tab-btn { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--muted); background: none; border: none; padding: 10px 18px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s, border-color 0.15s; letter-spacing: 0.03em; }
 .tab-btn:hover { color: var(--text); }
-.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-btn.active { color: var(--ac); border-bottom-color: var(--ac); }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* ── Mapa (grafo) ───────────────────────────────── */
-#graph-wrap { position: relative; width: 100%; }
-#graph-svg { width: 100%; height: 560px; display: block; }
-.graph-edge { stroke: var(--border); stroke-width: 1.5; fill: none; transition: stroke 0.2s, stroke-width 0.2s; }
-.graph-edge.highlighted { stroke: var(--blue); stroke-width: 2.5; }
-.node-circle { fill: var(--bg2); stroke: var(--border); stroke-width: 1.5; cursor: pointer; transition: fill 0.18s, stroke 0.18s; r: 52; }
-.node-circle:hover, .node-circle.hovered { fill: var(--bg3); stroke: var(--blue); stroke-width: 2; }
-.node-label { font-family: var(--font-ui); font-size: 12px; font-weight: 600; fill: var(--text); text-anchor: middle; pointer-events: none; }
-.node-sublabel { font-family: var(--font-ui); font-size: 10px; fill: var(--muted); text-anchor: middle; pointer-events: none; }
-.node-tag { font-family: var(--font-ui); font-size: 9px; font-weight: 700; fill: var(--blue); text-anchor: middle; pointer-events: none; text-transform: uppercase; letter-spacing: 0.06em; }
+/* ── Modo badge ─────────────────────────────────── */
+.mode-badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.07em; text-transform: uppercase; vertical-align: middle; margin-left: 6px; }
+.badge-atlas { background: var(--ac-atlas-bg); color: var(--ac-atlas); border: 1px solid var(--ac-atlas); }
+.badge-mec   { background: var(--ac2bg); color: var(--ac2); border: 1px solid var(--ac2); }
 
-/* Tooltip */
-#tooltip {
-  position: fixed; display: none; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 5px; padding: 12px 16px; max-width: 300px; font-size: 13px;
-  font-family: var(--font-ui); color: var(--text); z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5); pointer-events: none; line-height: 1.6;
-}
-#tooltip strong { color: var(--blue); display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-#tooltip .tip-label { color: var(--muted); font-size: 11px; margin-top: 6px; font-style: italic; }
-
-/* Graph legend */
-.graph-legend { display: flex; gap: 24px; margin-top: 16px; padding: 12px 0; border-top: 1px solid var(--border); }
-.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.legend-line { width: 24px; height: 2px; }
-
-/* ── Cards (visão lista) ────────────────────────── */
-.area-group { margin-bottom: 40px; }
-.area-title { font-family: var(--font-ui); font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+/* ── Grupos e cards ─────────────────────────────── */
+.area-group { margin-bottom: 44px; }
+.area-title { font-family: var(--font-ui); font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
 .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 16px 18px; text-decoration: none; color: var(--text); display: block; transition: border-color 0.15s, background 0.15s; }
 .card:hover { border-color: var(--ac); background: var(--bg3); }
 .card:visited { color: var(--text); }
 .card:visited .card-title { color: var(--muted); }
+.card.atlas { border-left: 2px solid var(--ac-atlas); }
+.card.atlas:hover { border-color: var(--ac-atlas); }
 .card-title { font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
 .card-meta { font-size: 12px; color: var(--muted); }
 .card-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; }
 .card-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 3px; background: var(--bg3); color: var(--muted); border: 1px solid var(--border); letter-spacing: 0.04em; }
-.badge-v2 { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; background: var(--ac2bg); color: var(--ac2); border: 1px solid var(--ac2); letter-spacing: 0.05em; margin-left: 6px; vertical-align: middle; }
-.card-entry { border-left: 2px solid var(--ac); }
+
+/* ── Seção "Como funciona" ──────────────────────── */
+.how-box { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+.how-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 20px 22px; }
+.how-item h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.how-item.atlas h3 { color: var(--ac-atlas); }
+.how-item.mec h3 { color: var(--ac2); }
+.how-item p { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
 @media (max-width: 700px) {
   .page { padding: 32px 20px 80px; }
   .tabs { flex-wrap: wrap; }
-  .graph-legend { flex-wrap: wrap; gap: 12px; }
-  /* Ocultar aba Mapa em mobile — grafo SVG não é navegável por toque */
-  .tab-btn[data-tab="mapa"] { display: none; }
-  #tab-mapa { display: none !important; }
-  /* Garantir que Lista seja a aba ativa em mobile */
-  #tab-lista { display: block !important; }
+  .how-box { grid-template-columns: 1fr; }
 }
 @media print {
   body { background: #fff; color: #000; }
   .tabs { display: none; }
   .tab-panel { display: block !important; }
-  #graph-wrap { display: none; }
 }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <h1>Estudo de Conceitos</h1>
-  <p class="subtitle">Atualizado em 2026-06-20 · 16 materiais · 4 áreas temáticas</p>
+  <h1>Base de Estudos</h1>
+  <p class="subtitle">Índice de compêndios · Atualizado em 2026-06-30</p>
 
   <div class="tabs">
-    <button class="tab-btn active" data-tab="mapa">Mapa de conexões</button>
-    <button class="tab-btn" data-tab="lista">Lista de materiais</button>
+    <button class="tab-btn active" data-tab="todos">Todos os materiais</button>
+    <button class="tab-btn" data-tab="atlas">Compêndios de área</button>
+    <button class="tab-btn" data-tab="mecanismos">Mecanismos</button>
   </div>
 
-  <!-- ── TAB: MAPA ───────────────────────────────────────────────────────── -->
-  <div class="tab-panel active" id="tab-mapa">
-    <div id="graph-wrap">
-      <svg id="graph-svg" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L6,3 z" fill="#3d3020"/>
-          </marker>
-          <marker id="arr-hi" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L6,3 z" fill="#e0a04a"/>
-          </marker>
-        </defs>
+  <!-- ── TAB: TODOS ──────────────────────────────────────────────────────── -->
+  <div class="tab-panel active" id="tab-todos">
 
-        <!-- Arestas geradas dinamicamente via JS a partir do array edges -->
-      </svg>
-    </div>
-
-    <div class="graph-legend">
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#2a1810;border:1.5px solid #c0604a"></div>
-        Medicina
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#1a1919;border:1.5px solid #d4924a"></div>
-        Automóveis
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#1a1919;border:1.5px solid #27ae60"></div>
-        Investimentos
-      </div>
-      <div class="legend-item">
-        <div class="legend-line" style="background:#333131"></div>
-        Dependência conceitual real (hover para ver a ponte)
-      </div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:10px;">Passe o mouse sobre os nós para ver descrição · Clique para abrir o material · Passe sobre as arestas para ver a ponte conceitual</p>
-  </div>
-
-  <!-- ── TAB: LISTA ──────────────────────────────────────────────────────── -->
-  <div class="tab-panel" id="tab-lista">
-
+    <!-- IA — Compêndio -->
     <div class="area-group">
-      <div class="area-title">Medicina · Microbiologia</div>
+      <div class="area-title">IA <span class="mode-badge badge-atlas">Compêndio</span></div>
       <div class="cards">
-        <a class="card" href="medicina/microbiologia/virologia-geral.html">
-          <div class="card-area">Medicina · Microbiologia</div>
-          <div class="card-title">Virologia Geral</div>
-          <div class="card-meta">~55 min · Última revisão: 2026-06-24</div>
-        </a>
-        <a class="card" href="medicina/microbiologia/micologia-medica.html">
-          <div class="card-area">Medicina · Microbiologia</div>
-          <div class="card-title">Micologia Médica</div>
-          <div class="card-meta">~45 min · Última revisão: 2026-06-24</div>
+        <a class="card atlas" href="atlas/ia/inteligencia-artificial.html">
+          <div class="card-title">Inteligência Artificial — Mapa de Campo</div>
+          <div class="card-meta">Compêndio de área · 2026-06-30</div>
+          <div class="card-tags">
+            <span class="card-tag">ML</span>
+            <span class="card-tag">Deep Learning</span>
+            <span class="card-tag">LLMs</span>
+            <span class="card-tag">Visão Computacional</span>
+            <span class="card-tag">ética IA</span>
+          </div>
         </a>
       </div>
     </div>
 
+    <!-- Investimentos — Compêndio -->
     <div class="area-group">
-      <div class="area-title">Medicina · Imunologia</div>
+      <div class="area-title">Investimentos <span class="mode-badge badge-atlas">Compêndio</span></div>
+      <div class="cards">
+        <a class="card atlas" href="atlas/investimentos/fundamentos-investimentos.html">
+          <div class="card-title">Fundamentos de Investimentos</div>
+          <div class="card-meta">Compêndio de área · 2026-06-22</div>
+          <div class="card-tags">
+            <span class="card-tag">Renda fixa</span>
+            <span class="card-tag">Renda variável</span>
+            <span class="card-tag">Risco e retorno</span>
+            <span class="card-tag">Finanças comportamentais</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cardiologia — Compêndio -->
+    <div class="area-group">
+      <div class="area-title">Medicina · Cardiologia <span class="mode-badge badge-atlas">Compêndio</span></div>
+      <div class="cards">
+        <a class="card atlas" href="atlas/medicina/cardiologia-anatomia.html">
+          <div class="card-title">Anatomia Cardíaca</div>
+          <div class="card-meta">Compêndio de área · 2026-06-30</div>
+          <div class="card-tags">
+            <span class="card-tag">Câmaras</span>
+            <span class="card-tag">Valvas</span>
+            <span class="card-tag">Coronárias</span>
+            <span class="card-tag">Sistema de condução</span>
+            <span class="card-tag">Pericárdio</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Imunologia — Mecanismos -->
+    <div class="area-group">
+      <div class="area-title">Medicina · Imunologia <span class="mode-badge badge-mec">Mecanismos</span></div>
       <div class="cards">
         <a class="card" href="medicina/imunologia/index.html">
           <div class="card-title">Imunologia — Índice de Módulos</div>
-          <div class="card-meta">11 módulos · Atualizado 2026-06-20</div>
-          <div class="card-tags">
-            <span class="card-tag">Órgãos linfoides</span>
-            <span class="card-tag">Anticorpos</span>
-            <span class="card-tag">Hipersensibilidade</span>
-            <span class="card-tag">Vacinas</span>
-          </div>
+          <div class="card-meta">13 módulos · 2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Índice</span></div>
         </a>
-        <a class="card card-entry" href="medicina/imunologia/orgaos-linfoides.html">
-          <div class="card-title">M1 · Órgãos Linfoides e Desenvolvimento Linfocitário <span title="Ponto de entrada recomendado">🚪</span></div>
-          <div class="card-meta">Atualizado 2026-06-20 · <em>Comece aqui</em></div>
+        <a class="card" href="medicina/imunologia/orgaos-linfoides.html">
+          <div class="card-title">M1 · Órgãos Linfoides e Desenvolvimento Linfocitário</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">Timo</span><span class="card-tag">Seleção tímica</span></div>
         </a>
         <a class="card" href="medicina/imunologia/celulas-sistema-imune.html">
           <div class="card-title">M2 · Células do Sistema Imune</div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">Linfócitos</span><span class="card-tag">NK</span><span class="card-tag">DCs</span></div>
         </a>
         <a class="card" href="medicina/imunologia/moleculas-sistema-imune.html">
-          <div class="card-title">M3 · Moléculas do Sistema Imune <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M3 · Moléculas do Sistema Imune</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">PRRs</span><span class="card-tag">Citocinas</span><span class="card-tag">TLRs</span></div>
         </a>
         <a class="card" href="medicina/imunologia/imunidade-inata.html">
-          <div class="card-title">M4 · Imunidade Inata <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M4 · Imunidade Inata</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">Inflamação</span><span class="card-tag">IFN</span><span class="card-tag">ILCs</span></div>
         </a>
         <a class="card" href="medicina/imunologia/sistema-complemento.html">
-          <div class="card-title">M5 · Sistema Complemento <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M5 · Sistema Complemento</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">C3/C5</span><span class="card-tag">MAC</span><span class="card-tag">HPN</span></div>
         </a>
         <a class="card" href="medicina/imunologia/mhc-apresentacao-antigenica.html">
-          <div class="card-title">M6 · MHC e Apresentação Antigênica <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M6 · MHC e Apresentação Antigênica</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">MHC-I/II</span><span class="card-tag">HLA</span></div>
         </a>
         <a class="card" href="medicina/imunologia/anticorpos-imunidade-humoral.html">
-          <div class="card-title">M7 · Anticorpos e Imunidade Humoral <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M7 · Anticorpos e Imunidade Humoral</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">IgG/IgE</span><span class="card-tag">Centro germinativo</span></div>
         </a>
         <a class="card" href="medicina/imunologia/linfocitos-t-diferenciacao.html">
-          <div class="card-title">M8 · Linfócitos T — Diferenciação e Função <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
-          <div class="card-tags"><span class="card-tag">Tregs</span><span class="card-tag">FoxP3</span><span class="card-tag">Nobel 2025</span></div>
+          <div class="card-title">M8 · Linfócitos T — Diferenciação e Função</div>
+          <div class="card-meta">2026-06-20</div>
+          <div class="card-tags"><span class="card-tag">Tregs</span><span class="card-tag">FoxP3</span></div>
         </a>
         <a class="card" href="medicina/imunologia/resposta-a-patogenos.html">
-          <div class="card-title">M9 · Resposta a Patógenos <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M9 · Resposta a Patógenos</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">M. tb</span><span class="card-tag">Vírus</span><span class="card-tag">Sepse</span></div>
         </a>
         <a class="card" href="medicina/imunologia/hipersensibilidade.html">
-          <div class="card-title">M10 · Hipersensibilidade <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
+          <div class="card-title">M10 · Hipersensibilidade</div>
+          <div class="card-meta">2026-06-20</div>
           <div class="card-tags"><span class="card-tag">Tipo I–IV</span><span class="card-tag">IgE</span><span class="card-tag">LES</span></div>
         </a>
         <a class="card" href="medicina/imunologia/vacinas-imunidade-protetora.html">
           <div class="card-title">M11 · Vacinas e Imunidade Protetora</div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
-          <div class="card-tags"><span class="card-tag">mRNA</span><span class="card-tag">Adjuvantes</span><span class="card-tag">Herd immunity</span></div>
+          <div class="card-meta">2026-06-20</div>
+          <div class="card-tags"><span class="card-tag">mRNA</span><span class="card-tag">Adjuvantes</span></div>
+        </a>
+        <a class="card" href="medicina/imunologia/respostas-th1-th2-th17.html">
+          <div class="card-title">M12 · Respostas Th1, Th2 e Th17</div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Th1</span><span class="card-tag">Th2</span><span class="card-tag">Th17</span><span class="card-tag">Biológicos</span></div>
         </a>
         <a class="card" href="medicina/imunologia/citocinas-visao-integradora.html">
           <div class="card-title">M13 · Citocinas — Visão Integradora</div>
-          <div class="card-meta">~35 min · Última revisão: 2026-06-24</div>
+          <div class="card-meta">2026-06-24</div>
           <div class="card-tags"><span class="card-tag">JAK-STAT</span><span class="card-tag">TNF/IL-6/IFN</span><span class="card-tag">Biológicos</span></div>
-        </a>
-        <a class="card" href="medicina/imunologia/respostas-th1-th2-th17.html">
-          <div class="card-title">M12 · Respostas Th1, Th2 e Th17 <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-24</div>
-          <div class="card-tags"><span class="card-tag">Th1</span><span class="card-tag">Th2</span><span class="card-tag">Th17</span><span class="card-tag">Biológicos</span></div>
         </a>
       </div>
     </div>
 
+    <!-- Farmacologia — Mecanismos -->
     <div class="area-group">
-      <div class="area-title">Medicina · Farmacologia</div>
+      <div class="area-title">Medicina · Farmacologia <span class="mode-badge badge-mec">Mecanismos</span></div>
       <div class="cards">
-        <a class="card" href="medicina/farmacologia/antifungicos.html">
-          <div class="card-title">Antifúngicos</div>
-          <div class="card-meta">Atualizado 2026-06-24</div>
-          <div class="card-tags">
-            <span class="card-tag">Farmacologia</span>
-            <span class="card-tag">Ergosterol</span>
-            <span class="card-tag">Micologia</span>
-          </div>
+        <a class="card" href="medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html">
+          <div class="card-title">Hipertensão, SRAA e Anti-hipertensivos</div>
+          <div class="card-meta">2026-06-20</div>
+          <div class="card-tags"><span class="card-tag">SRAA</span><span class="card-tag">IECA</span><span class="card-tag">BRA</span><span class="card-tag">Diuréticos</span></div>
         </a>
         <a class="card" href="medicina/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html">
           <div class="card-title">Antiagregantes, Anticoagulantes e Trombolíticos</div>
-          <div class="card-meta">Atualizado 2026-06-24</div>
-          <div class="card-tags">
-            <span class="card-tag">Farmacologia</span>
-            <span class="card-tag">Hemostasia</span>
-            <span class="card-tag">Coagulação</span>
-          </div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Hemostasia</span><span class="card-tag">Coagulação</span><span class="card-tag">Fibrinólise</span></div>
         </a>
-        <a class="card" href="medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html">
-          <div class="card-title">Hipertensão, SRAA e Anti-hipertensivos</div>
-          <div class="card-meta">Atualizado 2026-06-20</div>
-          <div class="card-tags">
-            <span class="card-tag">SRAA</span>
-            <span class="card-tag">Farmacologia</span>
-            <span class="card-tag">Fisiopatologia</span>
-          </div>
+        <a class="card" href="medicina/farmacologia/antifungicos.html">
+          <div class="card-title">Antifúngicos</div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Ergosterol</span><span class="card-tag">Azóis</span><span class="card-tag">Anfotericina B</span></div>
         </a>
       </div>
     </div>
 
+    <!-- Fisiologia — Mecanismos -->
     <div class="area-group">
-      <div class="area-title">Medicina · Fisiologia</div>
+      <div class="area-title">Medicina · Fisiologia <span class="mode-badge badge-mec">Mecanismos</span></div>
       <div class="cards">
+        <a class="card" href="medicina/fisiologia/ciclo-cardiaco.html">
+          <div class="card-title">Ciclo Cardíaco</div>
+          <div class="card-meta">2026-06-30</div>
+          <div class="card-tags"><span class="card-tag">Pressões</span><span class="card-tag">Bulhas</span><span class="card-tag">ECG</span></div>
+        </a>
         <a class="card" href="medicina/fisiologia/hipotensao-pos-exercicio-barorreflexo.html">
           <div class="card-title">Hipotensão Pós-Exercício e Controle Barorreflexo</div>
-          <div class="card-meta">~35 min · Última revisão: 2026-06-22</div>
-          <div class="card-tags">
-            <span class="card-tag">Barorreflexo</span>
-            <span class="card-tag">HPE</span>
-            <span class="card-tag">Reflexo de imersão</span>
-          </div>
+          <div class="card-meta">2026-06-22</div>
+          <div class="card-tags"><span class="card-tag">Barorreflexo</span><span class="card-tag">HPE</span></div>
         </a>
       </div>
     </div>
 
+    <!-- Fisiopatologia — Mecanismos -->
     <div class="area-group">
-      <div class="area-title">Medicina · Fisiopatologia</div>
+      <div class="area-title">Medicina · Fisiopatologia <span class="mode-badge badge-mec">Mecanismos</span></div>
       <div class="cards">
         <a class="card" href="medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html">
-          <div class="card-title">Choque Circulatório <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-22</div>
-          <div class="card-tags">
-            <span class="card-tag">Hipovolêmico</span>
-            <span class="card-tag">Distributivo</span>
-            <span class="card-tag">Cardiogênico</span>
-            <span class="card-tag">Obstrutivo</span>
-          </div>
+          <div class="card-title">Choque Circulatório</div>
+          <div class="card-meta">2026-06-22</div>
+          <div class="card-tags"><span class="card-tag">Hipovolêmico</span><span class="card-tag">Distributivo</span><span class="card-tag">Cardiogênico</span><span class="card-tag">Obstrutivo</span></div>
         </a>
         <a class="card" href="medicina/fisiopatologia/doencas-circulatorias.html">
-          <div class="card-title">Patologia das Doenças Circulatórias <span class="badge-v2">v2</span></div>
-          <div class="card-meta">Atualizado 2026-06-24</div>
-          <div class="card-tags">
-            <span class="card-tag">Congestão</span>
-            <span class="card-tag">Edema</span>
-            <span class="card-tag">Hemostasia</span>
-            <span class="card-tag">Trombose</span>
-            <span class="card-tag">Embolia</span>
-            <span class="card-tag">Aterosclerose</span>
-            <span class="card-tag">Infarto</span>
-          </div>
+          <div class="card-title">Patologia das Doenças Circulatórias</div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Edema</span><span class="card-tag">Trombose</span><span class="card-tag">Embolia</span><span class="card-tag">Aterosclerose</span></div>
+        </a>
+        <a class="card" href="medicina/fisiopatologia/trombose-e-hemostasia.html">
+          <div class="card-title">Trombose e Hemostasia</div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Cascata coagulação</span><span class="card-tag">TEP</span><span class="card-tag">TEV</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Microbiologia — Mecanismos -->
+    <div class="area-group">
+      <div class="area-title">Medicina · Microbiologia <span class="mode-badge badge-mec">Mecanismos</span></div>
+      <div class="cards">
+        <a class="card" href="medicina/microbiologia/virologia-geral.html">
+          <div class="card-title">Virologia Geral</div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Estrutura viral</span><span class="card-tag">Replicação</span><span class="card-tag">Antivirais</span></div>
+        </a>
+        <a class="card" href="medicina/microbiologia/micologia-medica.html">
+          <div class="card-title">Micologia Médica</div>
+          <div class="card-meta">2026-06-24</div>
+          <div class="card-tags"><span class="card-tag">Fungos</span><span class="card-tag">Micoses sistêmicas</span><span class="card-tag">Diagnóstico</span></div>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /tab-todos -->
+
+  <!-- ── TAB: COMPÊNDIOS ────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="tab-atlas">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">Compêndios de área — cobrem um campo inteiro em largura e profundidade.</p>
+
+    <div class="area-group">
+      <div class="area-title">IA</div>
+      <div class="cards">
+        <a class="card atlas" href="atlas/ia/inteligencia-artificial.html">
+          <div class="card-title">Inteligência Artificial — Mapa de Campo</div>
+          <div class="card-meta">2026-06-30</div>
+          <div class="card-tags"><span class="card-tag">ML</span><span class="card-tag">Deep Learning</span><span class="card-tag">LLMs</span><span class="card-tag">Visão Computacional</span></div>
         </a>
       </div>
     </div>
@@ -329,202 +314,119 @@ h1 { font-family: var(--font-body); font-size: 1.8rem; color: var(--blue); margi
     <div class="area-group">
       <div class="area-title">Investimentos</div>
       <div class="cards">
-        <a class="card" href="investimentos/fundamentos-investimentos.html">
+        <a class="card atlas" href="atlas/investimentos/fundamentos-investimentos.html">
           <div class="card-title">Fundamentos de Investimentos</div>
-          <div class="card-meta">Atualizado 2026-06-22</div>
-          <div class="card-tags">
-            <span class="card-tag">Renda fixa</span>
-            <span class="card-tag">Renda variável</span>
-            <span class="card-tag">Risco e retorno</span>
-          </div>
+          <div class="card-meta">2026-06-22</div>
+          <div class="card-tags"><span class="card-tag">Renda fixa</span><span class="card-tag">Renda variável</span><span class="card-tag">Risco</span></div>
         </a>
       </div>
     </div>
 
     <div class="area-group">
-      <div class="area-title">Automóveis</div>
+      <div class="area-title">Medicina · Cardiologia</div>
       <div class="cards">
-        <a class="card" href="automoveis/eficiencia-combustivel-saveiro-nivus-s90.html">
-          <div class="card-title">Eficiência de Combustível</div>
-          <div class="card-meta">Saveiro, Nivus e S90 · Atualizado 2026-06-20</div>
-          <div class="card-tags">
-            <span class="card-tag">Ciclo Otto</span>
-            <span class="card-tag">RPM</span>
-            <span class="card-tag">Consumo</span>
-          </div>
+        <a class="card atlas" href="atlas/medicina/cardiologia-anatomia.html">
+          <div class="card-title">Anatomia Cardíaca</div>
+          <div class="card-meta">2026-06-30</div>
+          <div class="card-tags"><span class="card-tag">Câmaras</span><span class="card-tag">Valvas</span><span class="card-tag">Coronárias</span><span class="card-tag">Condução</span></div>
         </a>
-        <a class="card" href="automoveis/falha-airbag-nivus-2023.html">
-          <div class="card-title">Falha de Airbag — Nivus 2023</div>
-          <div class="card-meta">Sistema SRS · Recall 2025 · Atualizado 2026-06-20</div>
-          <div class="card-tags">
-            <span class="card-tag">SRS</span>
-            <span class="card-tag">Diagnóstico</span>
-            <span class="card-tag">Recall</span>
-          </div>
+      </div>
+    </div>
+  </div><!-- /tab-atlas -->
+
+  <!-- ── TAB: MECANISMOS ─────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="tab-mecanismos">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">Compêndios de mecanismo — cobrem um conceito único em profundidade máxima.</p>
+
+    <div class="area-group">
+      <div class="area-title">Imunologia</div>
+      <div class="cards">
+        <a class="card" href="medicina/imunologia/index.html">
+          <div class="card-title">Índice dos 13 módulos de Imunologia</div>
+          <div class="card-meta">2026-06-24</div>
         </a>
       </div>
     </div>
 
     <div class="area-group">
-      <div class="area-title">IA · Fundamentos</div>
+      <div class="area-title">Farmacologia</div>
       <div class="cards">
-        <a class="card" href="ia/fundamentos/ia-para-estudar.html">
-          <div class="card-area">IA · Fundamentos</div>
-          <div class="card-title">IA como Ferramenta de Estudo</div>
-          <div class="card-meta">~25 min · Última revisão: 2026-06-25</div>
-          <div class="card-tags">
-            <span class="card-tag">Diagnóstico</span>
-            <span class="card-tag">Retrieval</span>
-            <span class="card-tag">Protocolo</span>
-          </div>
+        <a class="card" href="medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html">
+          <div class="card-title">Hipertensão, SRAA e Anti-hipertensivos</div>
+          <div class="card-meta">2026-06-20</div>
         </a>
-        <a class="card" href="ia/fundamentos/introducao-ia.html">
-          <div class="card-area">IA · Fundamentos</div>
-          <div class="card-title">Introdução à Inteligência Artificial</div>
-          <div class="card-meta">~35 min · Última revisão: 2026-06-25</div>
-          <div class="card-tags">
-            <span class="card-tag">ML</span>
-            <span class="card-tag">Deep Learning</span>
-            <span class="card-tag">LLMs</span>
-            <span class="card-tag">Transformer</span>
-          </div>
+        <a class="card" href="medicina/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html">
+          <div class="card-title">Antiagregantes, Anticoagulantes e Trombolíticos</div>
+          <div class="card-meta">2026-06-24</div>
+        </a>
+        <a class="card" href="medicina/farmacologia/antifungicos.html">
+          <div class="card-title">Antifúngicos</div>
+          <div class="card-meta">2026-06-24</div>
         </a>
       </div>
     </div>
 
     <div class="area-group">
-      <div class="area-title">Ferramentas &amp; IA</div>
+      <div class="area-title">Fisiologia</div>
       <div class="cards">
-        <a class="card" href="ia/instrucoes-skills-agentes.html">
-          <div class="card-title">Instruções, Skills e Agentes — Como Programar o Claude</div>
-          <div class="card-meta">Ferramentas · Claude · ~22 min · Última revisão: 2026-06-25</div>
-          <div class="card-tags">
-            <span class="card-tag">System Prompt</span>
-            <span class="card-tag">Skills</span>
-            <span class="card-tag">Agentes</span>
-            <span class="card-tag">Tool Use</span>
-          </div>
+        <a class="card" href="medicina/fisiologia/ciclo-cardiaco.html">
+          <div class="card-title">Ciclo Cardíaco</div>
+          <div class="card-meta">2026-06-30</div>
         </a>
-        <a class="card" href="ia/instrucoes-projeto-cowork.html">
-          <div class="card-title">Instruções de Projeto no Cowork — Estrutura e Otimização</div>
-          <div class="card-meta">Ferramentas &amp; IA · 2026</div>
-          <div class="card-tags">
-            <span class="card-tag">Prompt Engineering</span>
-            <span class="card-tag">System Prompt</span>
-            <span class="card-tag">Cowork</span>
-          </div>
-        </a>
-        <a class="card" href="ia/claude-llm.html">
-          <div class="card-title">Claude — Arquitetura, Capacidades e Uso Avançado</div>
-          <div class="card-meta">Anthropic · 2024–2025 · Atualizado 2026-06-24</div>
-          <div class="card-tags">
-            <span class="card-tag">LLM</span>
-            <span class="card-tag">MCP</span>
-            <span class="card-tag">Constitutional AI</span>
-            <span class="card-tag">Cowork</span>
-          </div>
+        <a class="card" href="medicina/fisiologia/hipotensao-pos-exercicio-barorreflexo.html">
+          <div class="card-title">Hipotensão Pós-Exercício e Barorreflexo</div>
+          <div class="card-meta">2026-06-22</div>
         </a>
       </div>
     </div>
 
-  </div><!-- /tab-lista -->
+    <div class="area-group">
+      <div class="area-title">Fisiopatologia</div>
+      <div class="cards">
+        <a class="card" href="medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html">
+          <div class="card-title">Choque Circulatório</div>
+          <div class="card-meta">2026-06-22</div>
+        </a>
+        <a class="card" href="medicina/fisiopatologia/doencas-circulatorias.html">
+          <div class="card-title">Patologia das Doenças Circulatórias</div>
+          <div class="card-meta">2026-06-24</div>
+        </a>
+        <a class="card" href="medicina/fisiopatologia/trombose-e-hemostasia.html">
+          <div class="card-title">Trombose e Hemostasia</div>
+          <div class="card-meta">2026-06-24</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="area-group">
+      <div class="area-title">Microbiologia</div>
+      <div class="cards">
+        <a class="card" href="medicina/microbiologia/virologia-geral.html">
+          <div class="card-title">Virologia Geral</div>
+          <div class="card-meta">2026-06-24</div>
+        </a>
+        <a class="card" href="medicina/microbiologia/micologia-medica.html">
+          <div class="card-title">Micologia Médica</div>
+          <div class="card-meta">2026-06-24</div>
+        </a>
+      </div>
+    </div>
+  </div><!-- /tab-mecanismos -->
+
 </div><!-- /page -->
 
-<div id="tooltip"></div>
-
 <script>
-// ── Dados dos nós ──────────────────────────────────────────────────────────
-const nodes = [
-  {
-    id: 'imuno',
-    label: ['Imunologia', '(11 módulos)'],
-    sublabel: 'Medicina',
-    tag: 'Medicina',
-    cx: 180, cy: 360,
-    href: 'medicina/imunologia/index.html',
-    desc: '11 módulos — de órgãos linfoides e reconhecimento até hipersensibilidade e vacinas. Inclui Nobel 2025 (Tregs/FoxP3), mRNA vaccines, e resposta a patógenos.',
-    color: '#c0604a'
-  },
-  {
-    id: 'sraa',
-    label: ['SRAA &', 'Anti-hipertensivos'],
-    sublabel: 'Farmacologia',
-    tag: 'Medicina',
-    cx: 180, cy: 160,
-    href: 'medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html',
-    desc: 'Sistema renina-angiotensina-aldosterona, fisiopatologia da hipertensão e classes de anti-hipertensivos (IECA, BRA, diuréticos, betabloqueadores, BCCs).',
-    color: '#c0604a'
-  },
-  {
-    id: 'trombose',
-    label: ['Trombose &', 'Hemostasia'],
-    sublabel: 'Fisiopatologia',
-    tag: 'Medicina',
-    cx: 380, cy: 270,
-    href: 'medicina/fisiopatologia/trombose-e-hemostasia.html',
-    desc: 'Hemostasia primária e secundária, cascata de coagulação, TEP, TEV e fármacos que atuam na hemostasia (antiplaquetários, anticoagulantes, fibrinolíticos).',
-    color: '#c0604a'
-  },
-  {
-    id: 'invest',
-    label: ['Fundamentos de', 'Investimentos'],
-    sublabel: 'Finanças',
-    tag: 'Investimentos',
-    cx: 530, cy: 160,
-    href: 'investimentos/fundamentos-investimentos.html',
-    desc: 'Valor do dinheiro no tempo, risco e retorno, classes de ativos, renda fixa e variável, diversificação, tributação e perfil do investidor.',
-    color: '#27ae60'
-  },
-  {
-    id: 'efic',
-    label: ['Eficiência de', 'Combustível'],
-    sublabel: 'Automóveis',
-    tag: 'Automóveis',
-    cx: 700, cy: 190,
-    href: 'automoveis/eficiencia-combustivel-saveiro-nivus-s90.html',
-    desc: 'Ciclo Otto, faixas ótimas de RPM, comparativo Saveiro · Nivus · Volvo S90 e técnicas de condução eficiente.',
-    color: '#d4924a'
-  },
-  {
-    id: 'airbag',
-    label: ['Falha de Airbag', 'Nivus 2023'],
-    sublabel: 'Automóveis',
-    tag: 'Automóveis',
-    cx: 760, cy: 380,
-    href: 'automoveis/falha-airbag-nivus-2023.html',
-    desc: 'Sistema SRS, causas de falha (fiação, clock spring, sensores, módulo J234), recall VW Brasil 2025 e protocolo de diagnóstico.',
-    color: '#d4924a'
-  }
-];
-
-const edges = [
-  // Dependências derivadas dos painéis de dependência dos compêndios
-  {
-    from: 'sraa', to: 'trombose',
-    label: 'Angiotensina II → disfunção endotelial protrombótica · Aldosterona → volume circulante → estase venosa (Virchow) · Aldosterona → fibrose cardíaca'
-  },
-  {
-    from: 'imuno', to: 'trombose',
-    label: 'M7: anticorpos IgG opsonizam plaquetas (PTI) · M9: sepse → CID (coagulação intravascular disseminada) · M10: LES → síndrome antifosfolipídeo (SAF); vasculite imune; Tipo II anti-plaquetário'
-  },
-  {
-    from: 'imuno', to: 'sraa',
-    label: 'M4: IL-6 e TNF ativam SRAA em sepse · M3: angiotensina II tem receptores AT1 em linfócitos (modula Th17/Treg) · M9: resposta inflamatória sistêmica → liberação de renina'
-  },
-  {
-    from: 'efic', to: 'airbag',
-    label: 'Mesmo veículo (Nivus) · Combustão Otto ↔ reação pirotécnica do squib · OBD-II compartilhado entre motor e SRS'
-  }
-];
-
-// ── SVG helpers ───────────────────────────────────────────────────────────
-const svg = document.getElementById('graph-svg');
-const NS = 'http://www.w3.org/2000/svg';
-
-function svgEl(tag, attrs) {
-  const el = document.createElementNS(NS, tag);
-  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-  return el;
-}
-
-// ── Draw edges ───────�
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
