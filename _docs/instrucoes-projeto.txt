@@ -57,6 +57,30 @@ Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
 - 4-6 pranchas por compêndio, uma por seção principal
 - Imagens carregam da Wikimedia com conexão à internet
 
+=== Integração imagem-texto (padrão do projeto) ===
+Todo compêndio HTML deve seguir estes padrões ao criar ou revisar:
+- Pranchas com float:right, width:42%, margem esquerda de 28px (texto corre ao lado)
+- Cada prancha com id="fig-NNN" para âncoras
+- Referências (Fig. NNN) clicáveis no texto nos pontos onde a imagem é relevante (não só no início da seção)
+- onclick="navFig(this)" nas referências — salva posição de leitura antes de navegar
+- Botão fixo "← Voltar à leitura" (#back-btn) que retorna ao ponto salvo
+- Lightbox ao clicar na imagem: overlay escuro, legenda, fecha com ESC ou clique fora
+- Em mobile (max-width:900px): float:none, width:100%
+
+=== Auditoria visual proativa ===
+Ao revisar qualquer compêndio HTML (não apenas ao criar), verificar OBRIGATORIAMENTE cada seção:
+1. A seção tem prancha Gray's? Se sim, está integrada com float e referências no texto?
+2. A seção sem prancha tem tabela ou outro recurso visual útil?
+3. Para seções comparativas (estruturas, síndromes, mecanismos): preferir tabela HTML (.data-table) a lista de bullets.
+4. Seções que tipicamente precisam de tabela: valvas (comparativo), camadas (estrutura/função/patologia), territórios coronarianos, sistema de condução.
+Adicionar o que faltar sem esperar que o usuário peça.
+
+=== Tabelas HTML inline (.data-table) ===
+Recurso visual complementar às pranchas Gray's, para conteúdo comparativo onde imagem externa não existe ou não ajudaria.
+CSS mínimo obrigatório: .data-table, th (background:var(--bg3), color:var(--ac)), td com border-bottom, tr:hover.
+Sempre incluir <p class="table-caption"> logo após a tabela com número e legenda.
+Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferencial clínico, tabela de territórios/classificações.
+
 === Eficiência operacional (regras compartilhadas) ===
 - Edit: nunca >~150 linhas por bloco new_string. Backup antes de editar HTML.
 - Write: arquivo novo ou reescrita completa <300 linhas.
@@ -77,11 +101,12 @@ Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
 Corrigir antes de prosseguir.
 
 === Verificação visual ===
-Novos arquivos e reescritas ≥30%: abrir no Chrome via Claude in Chrome — sidebar, barra de progresso, acentuação no browser.
+Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.
+ANTES de encerrar a sessão, Claude deve propor ativamente: "A mudança foi ≥30% — quer verificar no browser via surge antes de fechar?"
 Workflow para arquivos locais (Chrome não abre file://):
   1. Usuário roda no CMD: surge "<caminho_pasta>" <subdominio>.surge.sh
   2. Claude abre https://<subdominio>.surge.sh/<arquivo>.html no Chrome
-  3. Verificar: layout, sidebar, imagens, acentuação
+  3. Verificar: layout, sidebar, float das pranchas, lightbox, botão de retorno, tabelas, acentuação
   Subd.: cardiologia-anatomia-atlas.surge.sh -> atlas/medicina/
   Conta surge: vinicius.kato.734@gmail.com (token no Windows)
 

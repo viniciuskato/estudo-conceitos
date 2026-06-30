@@ -80,21 +80,10 @@ Melhorias aplicadas: N
 1. [Ponto de melhoria] → [O que mudou]
 2. ...
 
-Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Copie o conteúdo nas configurações do projeto (Project Instructions) para que as mudanças entrem em vigor na próxima sessão.
+Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Após reportar, exibir o conteúdo completo do arquivo no chat para que o usuário possa copiar diretamente nas configurações do projeto (Project Instructions) sem precisar abrir o arquivo manualmente.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
 
 Sempre encerrar com checklist de pendências do usuário, por exemplo:
 - [ ] Copiar instrucoes-projeto.txt nas configurações do projeto (Project Instructions)
 - [ ] Reempacotar skills modificadas: `python empacotar_skills.py` em `_docs/skills-export/`
-- [ ] Reinstalar skills via Settings > Capabilities > Skills
-- [ ] Rodar `push.bat` na raiz para sincronizar com o GitHub
-Incluir apenas os itens que se aplicam à sessão atual.
-
-Regras da skill
-
-Nunca pular o Passo 1 mesmo que a sessão pareça ter corrido bem — melhorias sutis existem.
-Nunca aplicar mudanças sem aprovação via AskUserQuestion (Passo 2.5) — sem exceções.
-O foco é sempre o objetivo declarado nas instruções: cada mudança deve aproximar as instruções desse objetivo.
-Nunca reportar "nenhuma melhoria" sem ter verificado ativamente cada categoria do Passo 1.
-Não reformular instruções que funcionaram bem só para "melhorar o estilo" — mudanças devem ter origem em gap real.
-Usar sempre python3 com heredoc `- << 'PYEOF'` (não `<< 'EOF'`) para evitar conflito com aspas simples no código Python.
+- [ ] Reinstalar ski
