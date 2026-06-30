@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antiagregantes, Anticoagulantes e Trombolíticos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:200;width:0%}
+#sidebar{width:280px;min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;display:flex;flex-direction:column;overflow:hidden;transition:width .25s;z-index:100}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:12px 10px 0;flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;cursor:pointer;font-size:14px;padding:4px 8px;width:100%}
+#sidebar.collapsed #toggle-btn{width:28px;padding:4px 6px}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 60px}
+#sidebar.collapsed .s-logo,
+#sidebar.collapsed .s-group,
+#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{font-family:var(--font-ui);font-size:11px;color:var(--muted);padding:10px 18px 16px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.s-group{margin-bottom:6px;padding:0 10px}
+.s-group-title{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;padding:8px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:4px;transition:background .15s,color .15s}
+a.sl:hover,a.sl.active{background:var(--bg3);color:var(--text)}
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;height:44px;background:var(--bg2);border-bottom:1px solid var(--border);z-index:150;align-items:center;padding:0 14px}
+#mob-bar button{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 10px;cursor:pointer;font-size:14px}
+#body-wrap{margin-left:280px;flex:1;transition:margin-left .25s}
+#body-wrap.sidebar-collapsed{margin-left:44px}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+section{margin-bottom:56px;scroll-margin-top:24px}
+h1{font-size:2em;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.25}
+h2{font-size:1.35em;font-weight:600;color:var(--text);margin-bottom:16px;margin-top:40px}
+h3{font-size:1.1em;font-weight:600;color:var(--ac);margin-bottom:10px;margin-top:28px}
+h4{font-size:.95em;font-weight:600;color:var(--muted);margin-bottom:8px;margin-top:20px;font-family:var(--font-ui)}
+p{margin-bottom:16px}
+ul,ol{margin:0 0 16px 1.4em}
+li{margin-bottom:4px}
+em{font-style:italic}
+strong{font-weight:600;color:var(--text)}
+code{font-family:monospace;font-size:.88em;background:var(--bg3);padding:1px 5px;border-radius:3px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:32px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;margin:0;color:var(--muted)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.cite{color:var(--ac);font-size:.9em}
+table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:14px}
+thead th{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.07em;padding:7px 10px;border-bottom:1px solid var(--border);text-align:left}
+tbody td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+.tlegend{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:-12px;margin-bottom:20px}
+section.in-view > h2{color:var(--ac);transition:color .3s}
+@media(max-width:900px){
+  #sidebar{display:none}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #mob-bar{display:flex}
+  #body-wrap{margin-left:0}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  #sidebar,#mob-bar,#progress-bar,#s-toggle{display:none}
+  #body-wrap{margin-left:0}
+  body{background:#fff;color:#000}
+  a::after{content:" (" attr(href) ")"}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<nav id="sidebar" aria-label="Navegação">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Recolher sidebar">&#9776;</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Farmacologia · Hemostasia</div>
+    <div class="s-group">
+      <div class="s-group-title">Introdução</div>
+      <a class="sl" href="#pergunta-motivadora">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-title">Antiagregantes</div>
+      <a class="sl" href="#antiagregantes">Visão geral</a>
+      <a class="sl" href="#aas">AAS — Inibidor de COX</a>
+      <a class="sl" href="#p2y12">Inibidores de P2Y12</a>
+      <a class="sl" href="#gpiibiia">Inibidores de GpIIb-IIIa</a>
+      <a class="sl" href="#resistencia-antiagregante">Resistência</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-title">Anticoagulantes</div>
+      <a class="sl" href="#anticoagulantes">Visão geral</a>
+      <a class="sl" href="#heparina">Heparina (HNF e HBPM)</a>
+      <a class="sl" href="#varfarina">Varfarina e ant. VK</a>
+      <a class="sl" href="#noacs">NOACs</a>
+      <a class="sl" href="#reversao">Reversão e antídotos</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-title">Trombolíticos</div>
+      <a class="sl" href="#tromboliticos">Visão geral</a>
+      <a class="sl" href="#alteplase">Alteplase e rtPA</a>
+      <a class="sl" href="#tenecteplase">Tenecteplase e gerações</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-title">Síntese</div>
+      <a class="sl" href="#monitoramento">Monitoramento laboratorial</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências ABNT</a>
+    </div>
+  </div>
+</nav>
+<div id="body-wrap">
+<div id="mob-bar">
+  <button id="mob-btn">&#9776;</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-left:12px">Antiagregantes, Anticoagulantes e Trombolíticos</span>
+</div>
+<main id="content">
+<article class="prose">
+
+<div class="doc-header">
+  <h1>Antiagregantes, Anticoagulantes e Trombolíticos</h1>
+  <p class="doc-meta">Farmacologia · Hemostasia e Coagulação · Rang &amp; Dale · 2024</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~60 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>Hemostasia, coagulação, plaquetas</b></span>
+    <span class="chip">📍 Área: <b>Farmacologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<section id="pergunta-motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um homem de 62 anos chega ao pronto-socorro com dor torácica típica há 40 minutos. O ECG confirma infarto do miocárdio com supra de ST (IAMCSSST). A equipe aciona a hemodinâmica, mas enquanto isso são administrados AAS 300 mg e ticagrelor 180 mg, além de heparina não fracionada intravenosa. Horas mais tarde, neste mesmo dia, outro paciente chega com AVC isquêmico há 2 horas — e o neurologista solicita alteplase intravenosa. Como cada um desses fármacos age sobre o coágulo — e por que a escolha entre antiagregante, anticoagulante e trombolítico não é intercambiável?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../fisiopatologia/trombose-e-hemostasia.html#primaria">Hemostasia primária (plaquetas)</a>
+      <a class="dep-item" href="../fisiopatologia/trombose-e-hemostasia.html#cascata">Cascata de coagulação</a>
+      <a class="dep-item" href="../fisiopatologia/trombose-e-hemostasia.html#fibrinolise">Fibrinólise fisiológica</a>
+      <a class="dep-item" href="../fisiopatologia/trombose-e-hemostasia.html#arterial-vs-venosa">Trombose arterial vs venosa</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="../fisiopatologia/trombose-e-hemostasia.html">Trombose e Hemostasia</a>
+      <a class="dep-item" href="hipertensao_sraa_anti-hipertensivos.html">Hipertensão e SRAA</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Farmacologia do IAM (futuro)</a>
+      <a class="dep-item" href="#">Farmacologia do AVC (futuro)</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+<p>Para que o mecanismo dos fármacos faça sentido é necessário ter em mente os dois tipos de trombo: o <strong>trombo branco</strong> (arterial), formado principalmente por plaquetas sobre placas ateroscleróticas rompidas em vasos de alto cisalhamento, e o <strong>trombo vermelho</strong> (venoso), rico em fibrina e hemácias, formado sob fluxo lento. Essa distinção determina qual classe farmacológica é mais eficaz em cada cenário — antiagregantes agem sobre o componente plaquetário; anticoagulantes interrompem a cascata antes da geração de fibrina; trombolíticos dissolvem a fibrina já formada. (Desenvolvido com profundidade em <a class="cross-link" href="../fisiopatologia/trombose-e-hemostasia.html#arterial-vs-venosa">Trombose arterial vs venosa</a>.)</p>
+
+<p><strong>Hemostasia primária:</strong> adesão ocorre quando o fator de von Willebrand (FvW) liga a glicoproteína Ib (GpIb) plaquetária ao colágeno subendotelial exposto. A ativação plaquetária libera ADP (grânulos densos), sintetiza tromboxane A₂ (TXA₂) e expõe GpIIb-IIIa — o receptor que, ligando fibrinogênio entre plaquetas adjacentes, forma o plug plaquetário. (<a class="cross-link" href="../fisiopatologia/trombose-e-hemostasia.html#primaria">Hemostasia primária</a>.)</p>
+
+<p><strong>Cascata de coagulação:</strong> a via extrínseca (fator tecidual + FVII) e a via intrínseca (FXII→XI→IX) convergem no Fator X, que com FVa forma a protrombinase, convertendo protrombina em trombina (FIIa). A trombina cliva fibrinogênio em fibrina e ativa FXIII (reticulação). A anticoagulação fisiológica envolve: ATIII (inibe trombina e FXa); Proteína C ativada + Proteína S (inativam FVa e FVIIIa); TFPI (inibe FVIIa–FT). (<a class="cross-link" href="../fisiopatologia/trombose-e-hemostasia.html#cascata">Cascata de coagulação</a>.)</p>
+
+<p><strong>Fibrinólise:</strong> o tPA (<em>tissue plasminogen activator</em>, ativador tecidual do plasminogênio) converte plasminogênio em plasmina, que degrada fibrina em produtos de degradação da fibrina (PDFs) e D-dímero. O PAI-1 (<em>plasminogen activator inhibitor-1</em>) inibe o tPA fisiologicamente, controlando o equilíbrio pró/anti-fibrinolítico. (<a class="cross-link" href="../fisiopatologia/trombose-e-hemostasia.html#fibrinolise">Fibrinólise</a>.)</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Antiagregante</div><p>Reduz ativação ou agregação plaquetária. Age no trombo branco arterial.</p></div>
+  <div class="ck-card"><div class="ckt">Anticoagulante</div><p>Inibe enzimas da cascata, impedindo a geração de trombina e fibrina.</p></div>
+  <div class="ck-card"><div class="ckt">Trombolítico</div><p>Ativa o plasminogênio em plasmina, dissolvendo a fibrina do coágulo já formado.</p></div>
+  <div class="ck-card"><div class="ckt">DAPT</div><p>Terapia antiagregante dupla: AAS + inibidor de P2Y12. Padrão pós-ICP.</p></div>
+  <div class="ck-card"><div class="ckt">INR</div><p>Razão internacional normalizada do tempo de protrombina. Monitora varfarina.</p></div>
+  <div class="ck-card"><div class="ckt">Janela terapêutica</div><p>Intervalo entre dose insuficiente (trombose) e excessiva (sangramento). Crítica nos anticoagulantes.</p></div>
+</div>
+</section>
+
+<section id="antiagregantes">
+<h2>Antiagregantes plaquetários — visão geral</h2>
+<p>Os antiagregantes são o pilar do tratamento antitrombótico nas síndromes coronarianas agudas, AVC isquêmico aterosclerótico e pós-ICP. Seu alvo é o trombo branco — formado sob alto cisalhamento arterial sobre placa rompida. São classificados pelo alvo molecular: (1) inibidores de COX-1 (AAS); (2) inibidores do receptor P2Y12 (tienopiridinas e inibidores diretos); (3) inibidores de GpIIb-IIIa; (4) inibidores de fosfodiesterase (dipiridamol, cilostazol).</p>
+</section>
+
+<section id="aas">
+<h2>AAS — Ácido Acetilsalicílico</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  Felix Hoffmann sintetizou o ácido acetilsalicílico em 1897 na Bayer. O mecanismo de inibição das prostaglandinas foi elucidado por John Vane em 1971, rendendo-lhe o Nobel de Fisiologia ou Medicina em 1982. A aplicação cardiovascular se consolidou com o estudo ISIS-2 (1988), que demonstrou redução de 23% na mortalidade no IAM com AAS 160 mg. A distinção entre dose analgésica e antiagregante demorou décadas para ser compreendida farmacodinamicamente.
+</div>
+
+<p>O AAS acetila <strong>irreversivelmente</strong> o resíduo Ser-530 no canal hidrofóbico da <strong>ciclooxigenase-1 (COX-1)</strong> plaquetária, bloqueando o acesso do ácido araquidônico ao sítio catalítico. Como plaquetas são anucleadas — incapazes de sintetizar novas proteínas —, a inibição dura toda a vida da plaqueta (<strong>7–10 dias</strong>). A função plaquetária retorna gradualmente após suspensão do AAS na medida em que novas plaquetas são liberadas pela medula óssea (~50% de recuperação em 4–5 dias, correspondendo à renovação de metade do pool circulante).</p>
+
+<p>A COX-1 catalisa a conversão do ácido araquidônico (liberado da membrana plaquetária ativada pela fosfolipase A₂) em prostaglandina H₂ (PGH₂). A tromboxane sintase então converte PGH₂ em <strong>TXA₂</strong> — potente vasoconstritor e amplificador da agregação: liga-se ao receptor TP plaquetário, promovendo mais liberação de ADP, exposição de GpIIb-IIIa e vasoconstrição local. Ao bloquear a COX-1, o AAS elimina essa alça de amplificação.</p>
+
+<div class="kbox">
+  <div class="klabel">Paradoxo da dose baixa</div>
+  <p>AAS em dose alta (≥300 mg) inibe tanto COX-1 plaquetária <em>quanto</em> COX-1/COX-2 endotelial. A COX-2 endotelial produz <strong>prostaciclina (PGI₂)</strong>, que <em>inibe</em> a agregação e promove vasodilatação — efeito diametralmente oposto ao TXA₂. Como o endotélio, diferente da plaqueta, tem núcleo e ressintentiza COX em horas, doses baixas (75–100 mg/dia) inibem a COX-1 plaquetária de forma mais seletiva, preservando a síntese endotelial de PGI₂. Essa é a base farmacodinâmica do uso de AAS em dose antiagregante (75–100 mg/dia) em vez da dose analgésica (500–1000 mg).</p>
+</div>
+
+<h4>Farmacocinética</h4>
+<p>Biodisponibilidade oral ~50–70%. A meia-vida plasmática do AAS é muito curta (15–20 min), pois é rapidamente hidrolisado a salicilato (inativo como antiagregante). O efeito antiagregante, porém, é independente da concentração plasmática contínua — a acetilação da COX-1 ocorre já durante a absorção portal, antes da circulação sistêmica. Por isso, uma única dose diária de 75–100 mg mantém inibição plaquetária sustentada.</p>
+
+<h4>Usos clínicos principais</h4>
+<p>Síndrome coronariana aguda (ataque 300 mg, manutenção 75–100 mg), prevenção secundária de AVC isquêmico aterosclerótico, pós-ICP em DAPT com inibidor de P2Y12, pós-revascularização cirúrgica. Na prevenção primária, o benefício é modesto e pode não superar o risco de sangramento GI em indivíduos sem doença cardiovascular estabelecida — indicação cada vez mais restrita.</p>
+
+<div class="kbox">
+  <div class="klabel">Resistência ao AAS</div>
+  <p>~20–30% dos pacientes apresentam reatividade plaquetária persistente apesar do uso regular. Mecanismos: (1) polimorfismos de COX-1 (Arg-8-Gln) que reduzem sensibilidade à acetilação; (2) inibição competitiva por AINEs como ibuprofeno, que ocupam o sítio ativo da COX-1 impedindo acesso do AAS; (3) geração de TXA₂ independente da COX-1 via COX-2 de monócitos (inflamação crônica); (4) não adesão. A resistência laboratorial prediz eventos cardiovasculares: OR 3,85 para eventos maiores em pacientes "resistentes" versus sensíveis ao AAS <span class="cite">(<a href="#ref-miyata">MIYATA et al., 2008</a>)</span>. Não há estratégia validada para superar a resistência além de confirmar adesão e evitar AINEs.</p>
+</div>
+</section>
+
+<section id="p2y12">
+<h2>Inibidores do receptor P2Y12</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  A ticlopidina (1978) foi a primeira tienopiridina, mas foi substituída pelo clopidogrel (1997) pelo perfil de segurança superior. O estudo CURE (2001) estabeleceu o conceito de DAPT (AAS + clopidogrel). O polimorfismo CYP2C19 como causa de "resistência ao clopidogrel" foi identificado nos anos 2000. Ticagrelor e prasugrel surgiram em 2009 com maior potência e menor dependência de bioativação, revolucionando o manejo das síndromes coronarianas agudas.
+</div>
+
+<p>O ADP liberado pelos grânulos densos plaquetários é amplificador central da agregação: liga-se ao receptor P2Y1 (Gq-acoplado, ativação transitória) e ao receptor <strong>P2Y12</strong> (Gi-acoplado, ativação sustentada e estabilização do trombo). A sinalização P2Y12 ativa a proteína Gi, reduzindo o AMPc intracelular — removendo o freio à ativação — e ativa a via PI3K/Akt, estabilizando a GpIIb-IIIa ativada e promovendo retração do coágulo. O P2Y12 é um nó crítico: sua inibição reduz não apenas a resposta ao ADP, mas também à alça de amplificação por TXA₂ e trombina.</p>
+
+<h3>Tienopiridinas: clopidogrel e prasugrel</h3>
+<p>Ambos são <strong>pró-fármacos</strong> que precisam de bioativação hepática para gerar um metabólito tiol reativo que se liga <strong>covalentemente e irreversivelmente</strong> à Cys-97 do receptor P2Y12, bloqueando-o permanentemente durante a vida da plaqueta.</p>
+
+<p><strong>Clopidogrel:</strong> requer duas etapas oxidativas pelo CYP450 hepático — principalmente <strong>CYP2C19</strong> (primeira etapa) e CYP3A4/2B6 (segunda etapa). Apenas ~15% da dose absorvida é convertida ao metabólito ativo; o restante é hidrolisado por esterases plasmáticas. Início de ação pleno: 6–8 h após dose de ataque (300–600 mg). Alelos de perda de função de CYP2C19 (<em>*2</em> e <em>*3</em>) — presentes em ~25–30% da população europeia e até ~50% de asiáticos — reduzem significativamente a geração do metabólito ativo, elevando a reatividade plaquetária residual e o risco de eventos pós-ICP. O FDA emitiu <em>black box warning</em> recomendando considerar alternativas em metabolizadores lentos de CYP2C19 <span class="cite">(<a href="#ref-pereira">PEREIRA et al., 2019</a>)</span>.</p>
+
+<p><strong>Prasugrel:</strong> bioativado em única etapa por CYP3A4/CYP2B6 — menos dependente do polimorfismo CYP2C19. Metabólito ativo gerado em ~30 min após dose de ataque (60 mg); inibição plaquetária mais potente e consistente. No ensaio TRITON-TIMI 38, foi superior ao clopidogrel em reduzir eventos isquêmicos pós-ICP, mas com maior risco de sangramento — especialmente em pacientes ≥75 anos, &lt;60 kg ou com AVC/AIT prévio (grupo em que é contraindicado).</p>
+
+<h3>Ticagrelor</h3>
+<p>O ticagrelor (ciclopentiltriazolopirimidina) é um antagonista <strong>direto, reversível e não competitivo</strong> do P2Y12 — não precisa de bioativação e não se liga ao sítio do ADP, mas a um <em>sítio alostérico</em> do receptor. A ligação induz mudança conformacional que prende a subunidade Giα no estado inativo (com GDP ligado), sem competição com ADP. Características clínicas relevantes: início de ação rápido (pico ~1,5 h após 180 mg), recuperação previsível da função plaquetária após suspensão (24–48 h vs 5–7 dias do clopidogrel). No ensaio PLATO, foi superior ao clopidogrel na redução de morte cardiovascular, IAM e AVC em síndromes coronarianas agudas, sem diferença significativa em sangramento fatal ou intracraniano. Efeito adverso peculiar: dispneia transitória em ~15% — mediada por inibição do transportador de adenosina ENT1, elevando adenosina plasmática que ativa quimiorreceptores centrais e do corpo carotídeo.</p>
+
+<div class="kbox">
+  <div class="klabel">Comparativo: clopidogrel × prasugrel × ticagrelor</div>
+  <table>
+    <thead><tr><th>Característica</th><th>Clopidogrel</th><th>Prasugrel</th><th>Ticagrelor</th></tr></thead>
+    <tbody>
+      <tr><td>Ligação ao receptor</td><td>Covalente irreversível (pró-fármaco)</td><td>Covalente irreversível (pró-fármaco)</td><td>Não covalente reversível (direto)</td></tr>
+      <tr><td>Bioativação</td><td>CYP2C19 (2 etapas)</td><td>CYP3A4/2B6 (1 etapa)</td><td>Nenhuma (já ativo)</td></tr>
+      <tr><td>Início de ação</td><td>6–8 h</td><td>~30 min</td><td>~1,5 h</td></tr>
+      <tr><td>Dose de ataque</td><td>300–600 mg</td><td>60 mg</td><td>180 mg</td></tr>
+      <tr><td>Recuperação plaquetária</td><td>5–7 dias</td><td>7–10 dias</td><td>2–3 dias</td></tr>
+      <tr><td>Impacto de CYP2C19</td><td>Grande</td><td>Mínimo</td><td>Nenhum</td></tr>
+    </tbody>
+  </table>
+  <p class="tlegend">Tabela 1. Comparação entre inibidores de P2Y12 clinicamente disponíveis.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Ticagrelor × estatinas: interação farmacológica emergente</div>
+  <p>Estudos recentes identificaram que o ticagrelor inibe o transportador BCRP (<em>breast cancer resistance protein</em>), aumentando a exposição sistêmica de estatinas que são substrato desse transportador (como rosuvastatina). Isso pode elevar o risco de miopatia e rabdomiólise — um exemplo de interação farmacocinética clinicamente relevante para a combinação frequente de ticagrelor + estatina em pacientes coronarianos <span class="cite">(<a href="#ref-rocca">ROCCA et al., 2024</a>)</span>.</p>
+</div>
+</section>
+
+<section id="gpiibiia">
+<h2>Inibidores de GpIIb-IIIa</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  A integrina αIIbβ3 (GpIIb-IIIa) foi identificada como o receptor de fibrinogênio responsável pela agregação nos anos 1970–1980. O abciximab foi aprovado em 1994 para ICP de alto risco. Eptifibatida e tirofibana seguiram em 1998 como moléculas menores e de ação mais curta.
+</div>
+
+<p>A GpIIb-IIIa ativada é a via final comum da agregação: liga fibrinogênio (e FvW) entre plaquetas adjacentes. Os inibidores dessa via bloqueiam a agregação independentemente do estímulo inicial — ADP, TXA₂, trombina ou colágeno. São a classe de antiagregante mais potente disponível, mas com maior risco de sangramento.</p>
+
+<ul>
+  <li><strong>Abciximab:</strong> fragmento Fab de anticorpo quimérico murino-humano. Ligação não competitiva de alta afinidade — efeito funcional irreversível, pois redistribui entre plaquetas por dias. Meia-vida plasmática ~30 min, mas efeito antiagregante persiste 24–48 h.</li>
+  <li><strong>Eptifibatida:</strong> heptapeptídeo cíclico que mimetiza a sequência KGD do venom de víbora. Bloqueio competitivo reversível; efeito cessa ~4 h após interrupção (meia-vida ~2,5 h).</li>
+  <li><strong>Tirofibana:</strong> molécula não peptídica, bloqueio competitivo reversível (meia-vida ~2 h).</li>
+</ul>
+
+<p>Com inibidores de P2Y12 mais potentes e de início rápido, os inibidores de GpIIb-IIIa ficaram restritos a ICP com trombose intracoronária maciça ou "resgate" durante procedimento com alta carga trombótica.</p>
+</section>
+
+<section id="resistencia-antiagregante">
+<h2>Resistência aos antiagregantes — visão integrada</h2>
+<p>O conceito abrange dois domínios: <strong>resistência laboratorial</strong> (persistência da reatividade plaquetária mensurada apesar do fármaco) e <strong>resistência clínica</strong> (evento trombótico a despeito da terapia). Para o clopidogrel, a alta reatividade plaquetária residual em tratamento (HTPR) está associada a risco aumentado de trombose de stent e eventos cardiovasculares maiores, inclusive em doença arterial periférica <span class="cite">(<a href="#ref-goncalves">GONCALVES et al., 2023</a>)</span>. Causas: polimorfismos CYP2C19 (o mais documentado); inibição competitiva por IBP como omeprazol (substrato do CYP2C19); regulação plaquetária compensatória (upregulation de vias não-P2Y12); não adesão. A utilidade de testar rotineiramente a função plaquetária para guiar a escolha antiagregante — genotipagem de CYP2C19 ou ensaios funcionais — permanece sob investigação.</p>
+</section>
+
+<section id="anticoagulantes">
+<h2>Anticoagulantes — visão geral</h2>
+<p>Os anticoagulantes atuam sobre a <strong>cascata de coagulação</strong>, inibindo enzimas-chave que convertem fibrinogênio em fibrina. São fundamentais no tratamento e prevenção de tromboembolismo venoso (TEV: trombose venosa profunda + embolia pulmonar), fibrilação atrial (risco embólico cardíaco), tromboses em circuitos extracorpóreos e síndrome coronariana aguda (papel adjuvante). Historicamente, dividem-se em parenterais (heparinas, fondaparinux, argatrobana) e orais (varfarina e seus congêneres; NOACs). A escolha entre eles depende do cenário clínico, urgência, função renal, monitoramento disponível e necessidade de reversão.</p>
+</section>
+
+<section id="heparina">
+<h2>Heparina — HNF e HBPM</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  A heparina foi descoberta acidentalmente em 1916 por Jay McLean, estudante de medicina que trabalhava no laboratório de William Howell em Baltimore. McLean isolou um fosfolipídeo anticoagulante do fígado canino — daí o nome "heparina" (do grego <em>hêpar</em>, fígado). A heparina comercial foi desenvolvida na década de 1930; a heparina de baixo peso molecular (HBPM) surgiu nos anos 1980 com o processo de despolimerização controlada, permitindo administração subcutânea e previsível.
+</div>
+
+<p>A heparina não fracionada (HNF) é uma mistura heterogênea de glicosaminoglicanos (PM: 5.000–30.000 Da, média ~15.000 Da) extraídos de mucosa intestinal suína. Sua ação anticoagulante depende inteiramente da <strong>antitrombina III (ATIII)</strong>: a heparina liga-se a um sítio específico de lisina na ATIII (sequência pentassacarídica), induzindo mudança conformacional que <strong>acelera em ~1.000×</strong> a capacidade da ATIII de inativar a trombina (FIIa) e o fator Xa — além de FIXa, FXIa e FXIIa em menor grau.</p>
+
+<p>Para inibir a <strong>trombina</strong>, a heparina precisa ser suficientemente longa (~18 unidades) para criar uma ponte ternária entre ATIII e a trombina simultaneamente — pois a trombina é uma enzima grande que precisa ser acomodada na cadeia de heparina. Para inibir o <strong>fator Xa</strong>, apenas a sequência pentassacarídica de ligação à ATIII é necessária — sem necessidade de contato direto com o FXa. Essa distinção explica a diferença entre HNF e HBPM.</p>
+
+<h3>HBPM — Heparina de Baixo Peso Molecular</h3>
+<p>A HBPM (PM médio: 4.000–6.000 Da; ex: enoxaparina, dalteparina, tinzaparina) é obtida por despolimerização química ou enzimática da HNF. As cadeias mais curtas resultantes têm a sequência pentassacarídica de ligação à ATIII, mas são insuficientemente longas para formar a ponte ternária heparina-ATIII-trombina. Consequentemente, as HBPMs têm <strong>maior atividade anti-Xa e menor atividade anti-IIa</strong> (relação anti-Xa/anti-IIa de 2:1 a 4:1, versus 1:1 na HNF).</p>
+
+<p>As vantagens clínicas da HBPM sobre a HNF são substanciais: (1) meia-vida mais longa (~4 h subcutânea vs ~1 h intravenosa para HNF); (2) biodisponibilidade subcutânea previsível (~90%); (3) menor ligação a proteínas plasmáticas — resposta anticoagulante mais previsível sem necessidade de monitoramento rotineiro; (4) menor risco de trombocitopenia induzida por heparina (TIH). O monitoramento da HBPM, quando necessário (insuficiência renal, extremos de peso, gestação), é feito por dosagem de <strong>atividade anti-Xa</strong> (alvo: 0,5–1,0 UI/mL para dose terapêutica de enoxaparina duas vezes ao dia).</p>
+
+<h3>Fondaparinux</h3>
+<p>O fondaparinux é um pentassacarídeo sintético que replica exatamente a sequência de ligação à ATIII da heparina. Inibe apenas o FXa (sem atividade anti-IIa), pois sua cadeia é curta demais para pontar com a trombina. Vantagem: <strong>não induz TIH</strong> (não se liga ao fator plaquetário 4 / PF4, mecanismo da TIH). Desvantagem: meia-vida longa (~17–21 h) e sem antídoto específico.</p>
+
+<div class="kbox">
+  <div class="klabel">Trombocitopenia Induzida por Heparina (TIH)</div>
+  <p>A TIH é uma reação imunomediada potencialmente fatal. A heparina forma complexos com o fator plaquetário 4 (PF4) — uma proteína liberada pelos grânulos alpha das plaquetas ativadas. Esses complexos heparina-PF4 são reconhecidos por anticorpos IgG, que ao se ligar ao complexo <em>e simultaneamente</em> ao receptor FcγRIIa plaquetário, causam ativação plaquetária maciça e trombose paradoxal (<em>síndrome de trombocitopenia-trombose</em>). Diagnóstico: queda ≥50% nas plaquetas após 5–10 dias de heparina (ou mais precoce em pacientes re-expostos), com ou sem trombose. Tratamento: suspensão imediata da heparina e <strong>anticoagulação alternativa</strong> com argatrobana (inibidor direto de trombina, parenteral) ou fondaparinux — nunca varfarina isolada em fase aguda (risco de necrose de pele por queda de proteína C antes dos fatores pró-coagulantes).</p>
+</div>
+</section>
+
+<section id="varfarina">
+<h2>Varfarina e antagonistas da vitamina K</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  No início dos anos 1920, bovinos no Canadá e no norte dos EUA começaram a morrer de hemorragia espontânea após comer feno de trevo-doce (Melilotus officinalis) bichado. Karl Paul Link, na Universidade de Wisconsin, isolou o composto responsável em 1940: o bishydroxycoumarin (dicumarol). A varfarina — nome derivado da Wisconsin Alumni Research Foundation (WARF) — foi desenvolvida inicialmente como raticida e aprovada para uso humano em 1954. Por décadas foi o único anticoagulante oral disponível.
+</div>
+
+<p>Os fatores de coagulação II (protrombina), VII, IX e X — e os anticoagulantes naturais proteína C e proteína S — dependem de <strong>carboxilação do glutamato</strong> em seus domínios Gla para se ativarem biologicamente. Essa carboxilação é catalisada pela <em>gamma-glutamil carboxilase</em>, que usa a <strong>vitamina K reduzida (KH₂)</strong> como cofator, oxidando-a a vitamina K epóxido. Para regenerar a vitamina K funcional, a enzima <strong>vitamina K epóxido redutase (VKORC1)</strong> recicla o epóxido de volta a KH₂ em duas etapas.</p>
+
+<p>A varfarina inibe a <strong>VKORC1</strong>, esgotando o pool de vitamina K reduzida disponível para a carboxilase. Sem o cofator KH₂, os fatores II, VII, IX e X são sintetizados na forma não funcional (<em>PIVKA — proteins induced by vitamin K absence or antagonism</em>), incapazes de se ligar ao fosfolipídeo de membrana para participar da cascata.</p>
+
+<p>O início de ação é <strong>lento</strong> (2–5 dias) porque depende do <em>clearance</em> dos fatores já carboxilados em circulação — o fator VII (meia-vida ~6 h) desaparece primeiro, causando aumento precoce do INR, mas a anticoagulação terapêutica plena depende da redução dos fatores de meia-vida mais longa (fator II, ~60 h). Durante os primeiros dias, a varfarina também reduz proteína C e S (anticoagulantes naturais de meia-vida curta), criando paradoxalmente um estado pró-trombótico transitório — razão pela qual em situações agudas se deve cobrir com heparina antes de instaurar varfarina.</p>
+
+<h4>Farmacocinética e variabilidade</h4>
+<p>A varfarina é uma mistura racêmica: o <em>S</em>-enantiômero (~3–5× mais potente) é metabolizado pelo CYP2C9; o <em>R</em>-enantiômero pelo CYP1A2 e CYP3A4. Polimorfismos de <strong>CYP2C9</strong> (alelos <em>*2</em> e <em>*3</em>) reduzem o metabolismo e aumentam a sensibilidade ao fármaco. Polimorfismos de <strong>VKORC1</strong> (especialmente -1639G>A) reduzem a expressão da enzima-alvo, diminuindo a dose necessária. Juntos, CYP2C9 e VKORC1 explicam ~50% da variabilidade interindividual na dose de varfarina. Guias do CPIC fornecem recomendações de dosagem baseadas em genótipo <span class="cite">(<a href="#ref-johnson">JOHNSON et al., 2017</a>)</span>.</p>
+
+<p>A janela terapêutica estreita e a variabilidade farmacocinética exigem monitoramento regular com <strong>INR</strong>. O alvo terapêutico padrão é INR 2,0–3,0 (maioria das indicações); INR 2,5–3,5 em valvas mecânicas em posição mitral. INR &lt;2 significa subcoagulação (risco trombótico); INR >4 eleva exponencialmente o risco de sangramento grave.</p>
+
+<h4>Interações farmacológicas</h4>
+<p>As interações são numerosas: inibidores do CYP2C9 (fluconazol, amiodarona, metronidazol) aumentam o efeito da varfarina; indutores (rifampicina, carbamazepina) o reduzem. Alimentos ricos em vitamina K (vegetais verdes — couve, espinafre, brócolis) competem com o mecanismo e reduzem o INR. A consistência no consumo de vitamina K alimentar é mais importante que a eliminação total.</p>
+
+<div class="kbox">
+  <div class="klabel">Reversão da varfarina</div>
+  <p>Sangramento grave ou cirurgia de urgência com INR elevado requerem reversão rápida. Opções: (1) <strong>Vitamina K IV</strong> — restaura a síntese de fatores em 6–12 h (oral leva 24 h); (2) <strong>Complexo protrombínico (CCP)</strong> — contém fatores II, VII, IX, X (e PC/PS) em forma concentrada; reverte em minutos; (3) <strong>PFC (plasma fresco congelado)</strong> — menos eficaz que CCP, necessita de volume maior. Em situações não urgentes, omissão da dose e pequenos ajustes são suficientes.</p>
+</div>
+</section>
+
+<section id="noacs">
+<h2>NOACs — Anticoagulantes Orais Diretos</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  Após décadas sem alternativa à varfarina, os NOACs (também chamados DOACs — <em>direct oral anticoagulants</em>) foram desenvolvidos nos anos 2000 como inibidores diretos de alvos específicos da cascata. O ximelagatran (inibidor direto de trombina) foi aprovado na Europa em 2004, mas retirado por hepatotoxicidade. O dabigatrana foi aprovado em 2008–2010; rivaroxabana e apixabana em 2011; edoxabana em 2015. Representaram uma revolução: dose fixa, sem monitoramento rotineiro, com eficácia e segurança não inferiores à varfarina.
+</div>
+
+<p>Os NOACs dividem-se em duas classes pelo alvo:</p>
+
+<h3>Inibidores diretos de trombina (IDT) — Dabigatrana</h3>
+<p>A <strong>dabigatrana</strong> (pró-fármaco: dabigatrana etexilato) inibe diretamente a trombina (FIIa) de forma <strong>competitiva e reversível</strong>, bloqueando tanto a trombina livre em solução quanto a trombina ligada ao coágulo — vantagem sobre a heparina/ATIII, que não inibe a trombina ligada à fibrina. A dabigatrana inibe a conversão de fibrinogênio em fibrina, a ativação do FXIII, a retroalimentação positiva da trombina sobre FV e FVIII, e a ativação plaquetária mediada por trombina (PAR-1/PAR-4). Biodisponibilidade oral ~7% (dependente de pH gástrico ácido — daí a cápsula com tartrato). Excreção predominantemente renal (80%) — contraindicada em insuficiência renal grave (ClCr &lt;30 mL/min). Não é substrato do CYP450 — menor risco de interações farmacológicas. Antídoto específico: <strong>idarucizumab</strong> (anticorpo monoclonal que se liga à dabigatrana com afinidade >350× maior que a trombina).</p>
+
+<h3>Inibidores diretos de fator Xa — Rivaroxabana, Apixabana, Edoxabana</h3>
+<p>Esses agentes inibem o <strong>Fator Xa</strong> diretamente, bloqueando a formação da protrombinase e a geração de trombina. Como a dabigatrana, inibem tanto o FXa livre quanto o ligado ao complexo de protrombinase. A inibição de uma única molécula de FXa bloqueia a geração de ~1.000 moléculas de trombina — efeito amplificado por estar "a montante" da cascata.</p>
+
+<ul>
+  <li><strong>Rivaroxabana:</strong> ligação ao FXa competitiva, reversível. Biodisponibilidade ~80–100% (dose ≥15 mg com alimento). Metabolismo: CYP3A4 + CYP2J2; substrato de P-gp. Excreção mista: 1/3 renal ativo, 2/3 hepático. Dose única diária (15–20 mg) — conveniência relevante para adesão.</li>
+  <li><strong>Apixabana:</strong> ligação ao FXa reversível. Biodisponibilidade ~50%. Metabolismo: CYP3A4; substrato de P-gp e BCRP. Excreção predominantemente fecal (75%) — menor dependência renal vs. dabigatrana e rivaroxabana; útil em insuficiência renal moderada. Dados de menor risco de sangramento GI em vários estudos vs. rivaroxabana e dabigatrana.</li>
+  <li><strong>Edoxabana:</strong> inibidor de FXa, excreção renal 50%. Aprovada para TEV e FA.</li>
+</ul>
+
+<div class="kbox">
+  <div class="klabel">Monitoramento dos NOACs — quando e como</div>
+  <p>Os NOACs <em>não</em> requerem monitoramento rotineiro por ensaios coagulométricos padronizados. O TTPa e o TP/INR são afetados pelos NOACs, mas de forma não linear e não confiável para guiar dose. Em situações especiais (cirurgia de urgência, sangramento grave, sobredose, decisão clínica em pacientes renais), pode-se estimar a concentração relativa: o TTPa reflete grosseiramente a atividade da dabigatrana (prolongado quando &gt;30 ng/mL); o TP/INR reflete a rivaroxabana (mas varia por reagente). O ensaio mais confiável é a <strong>dosagem de atividade anti-Xa calibrada</strong> para rivaroxabana/apixabana/edoxabana, ou o <strong>tempo de trombina diluído</strong> (dTT) ou ensaio Hemoclot para dabigatrana <span class="cite">(<a href="#ref-adcock">ADCOCK; GOSSELIN, 2015</a>)</span>.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">NOACs na fibrilação atrial — por que funcionam</div>
+  <p>A FA causa estase no átrio esquerdo — especialmente no apêndice atrial esquerdo — que ativa a cascata de coagulação (trombo vermelho rico em fibrina), não a agregação plaquetária. Por isso os anticoagulantes são superiores aos antiagregantes na prevenção de AVC cardioembólico por FA. Os grandes ensaios de fase 3 (RE-LY, ROCKET-AF, ARISTOTLE, ENGAGE AF-TIMI 48) demonstraram que os NOACs são não inferiores (e em maioria superiores) à varfarina na prevenção de AVC/embolia sistêmica, com redução significativa de AVC hemorrágico <span class="cite">(<a href="#ref-greco">GRECO et al., 2023</a>)</span>.</p>
+</div>
+</section>
+
+<section id="reversao">
+<h2>Reversão dos anticoagulantes e antídotos</h2>
+<p>A reversão de anticoagulantes é necessária em sangramento com risco de vida, sobredose acidental ou cirurgia de emergência.</p>
+
+<table>
+  <thead><tr><th>Anticoagulante</th><th>Mecanismo de reversão</th><th>Antídoto específico</th></tr></thead>
+  <tbody>
+    <tr><td>HNF</td><td>Sulfato de protamina (1 mg/100 UI de HNF)</td><td>Protamina</td></tr>
+    <tr><td>HBPM</td><td>Sulfato de protamina (reversão parcial ~60%)</td><td>Protamina (parcial)</td></tr>
+    <tr><td>Fondaparinux</td><td>Sem antídoto específico; CCP off-label</td><td>Nenhum aprovado</td></tr>
+    <tr><td>Varfarina</td><td>Vitamina K IV + CCP (mais rápido) ou PFC</td><td>CCP 4 fatores</td></tr>
+    <tr><td>Dabigatrana</td><td>Idarucizumab (anticorpo monoclonal)</td><td>Idarucizumab</td></tr>
+    <tr><td>Rivaroxabana / Apixabana</td><td>Andexanet alfa (FXa recombinante modificado, isca molecular)</td><td>Andexanet alfa</td></tr>
+  </tbody>
+</table>
+<p class="tlegend">Tabela 2. Estratégias de reversão dos principais anticoagulantes.</p>
+
+<p>O <strong>andexanet alfa</strong> é um FXa recombinante cataliticamente inativo que atua como "isca molecular": compete pelos inibidores de FXa (rivaroxabana, apixabana, edoxabana), sequestrando-os e restaurando a atividade do FXa endógeno. A revisão sistemática de Udayachalerm et al. demonstrou que antídotos específicos (idarucizumab para dabigatrana, andexanet para FXa) são superiores aos agentes hemostáticos padrão na reversão de sangramento e redução de mortalidade <span class="cite">(<a href="#ref-udaya">UDAYACHALERM et al., 2018</a>)</span>.</p>
+</section>
+
+<section id="tromboliticos">
+<h2>Trombolíticos — visão geral</h2>
+<p>Os trombolíticos (fibrinolíticos) agem sobre coágulos já formados, ativando o plasminogênio endógeno em <strong>plasmina</strong>, que digere a fibrina reticulada do trombo. Diferentemente dos anticoagulantes — que previnem a formação de novos coágulos — os trombolíticos <em>dissolvem ativamente</em> o coágulo estabelecido. Essa diferença é clinicamente fundamental: em um IAM, o anticoagulante preserva a permeabilidade durante a ICP; o trombolítico pode reperfundir a artéria quando a ICP não está disponível. Em um AVC isquêmico por tromboembolismo ou aterosclerose, o trombolítico sistêmico pode dissolver o coágulo na artéria cerebral ocluída dentro da janela terapêutica.</p>
+<p>O risco inerente dos trombolíticos é a <strong>lise inespecífica de fibrina</strong> — não apenas no trombo patológico, mas em toda fibrina protetora do organismo, incluindo pontos de hemostasia recente. Por isso o principal evento adverso é o sangramento, especialmente o <strong>sangramento intracraniano</strong> (hemorragia intracerebral sintomática em ~2–6% no contexto de AVC).</p>
+</section>
+
+<section id="alteplase">
+<h2>Alteplase — rtPA</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  O tPA endógeno foi purificado de células endoteliais uterinas em 1979 por Désiré Collen no grupo de Marc Verstraete (Leuven, Bélgica). A produção recombinante (rtPA = alteplase) pela tecnologia de DNA recombinante em células CHO (<em>Chinese hamster ovary</em>) permitiu a disponibilidade clínica nos anos 1980. O estudo NINDS rtPA Stroke Trial (1995) estabeleceu o alteplase IV como tratamento padrão do AVC isquêmico agudo dentro de 3 horas (depois expandido para 4,5 h pelo estudo ECASS III, 2008).
+</div>
+
+<p>O alteplase (rt-PA, ativador do plasminogênio tecidual recombinante) é uma serina protease que ativa o plasminogênio em plasmina. Sua característica farmacologicamente relevante é a <strong>seletividade pela fibrina</strong>: em concentrações terapêuticas, o alteplase tem afinidade muito maior pelo plasminogênio ligado à fibrina do que pelo plasminogênio livre em solução — o que confere relativa (não absoluta) seletividade para o coágulo.</p>
+
+<p>O mecanismo molecular: o alteplase tem dois domínios de ligação à fibrina (domínio kringle 2 e domínio dedo), que ancoram a molécula à fibrina. Nesse microambiente, a taxa de ativação do plasminogênio em plasmina é acelerada em ~500× comparada à solução. A plasmina gerada degrada a fibrina em PDFs (produtos de degradação da fibrina) e D-dímero, dissolvendo a malha reticulada do coágulo.</p>
+
+<h4>Farmacocinética</h4>
+<p>Meia-vida plasmática ~5 min (eliminação hepática rápida). Por isso, no AVC, o alteplase é administrado em dose de <strong>0,9 mg/kg IV</strong> (máx 90 mg): 10% em bolus, 90% em infusão por 60 min. A meia-vida curta é vantajosa em caso de sangramento — a interrupção da infusão rapidamente encerra a exposição ao fármaco. O efeito fibrinolítico persiste por 1–2 h após infusão.</p>
+
+<h4>Contraindicações absolutas no AVC</h4>
+<p>Sangramento ativo ou recente; cirurgia/trauma craniano recente (3 meses); AVC isquêmico prévio nos últimos 3 meses; TC/RM mostrando hemorragia; PAS &gt;185 mmHg ou PAD &gt;110 mmHg não controlados; glicemia &lt;50 ou &gt;400 mg/dL; plaquetas &lt;100.000/μL; uso de anticoagulante com INR &gt;1,7 ou TTPa prolongado. Na embolia pulmonar maciça (disfunção do VD com colapso hemodinâmico), o alteplase é administrado em dose maior (100 mg em 2 h IV).</p>
+</section>
+
+<section id="tenecteplase">
+<h2>Tenecteplase — a evolução do rtPA</h2>
+<div class="hist">
+  <span class="hl">História</span>
+  O tenecteplase (TNK-tPA) foi desenvolvido pela Genentech nos anos 1990 como versão engenheirada do alteplase, com três modificações pontuais na proteína para melhorar as propriedades farmacológicas. Aprovado para IAM em 2000 nos EUA e Europa. O interesse crescente em AVC surgiu com o estudo EXTEND-IA TNK (2018) e foi impulsionado pela meta-análise de Rehman et al. (2022).
+</div>
+
+<p>O tenecteplase é uma versão modificada por engenharia proteica do alteplase com três substituições de aminoácidos que conferem propriedades superiores:</p>
+<ul>
+  <li><strong>Mutação T103N</strong> (domínio kringle 1): adiciona sítio de N-glicosilação → aumenta a meia-vida plasmática de 5 para ~20 min, permitindo administração em <strong>dose única em bolus</strong> (0,1–0,25 mg/kg).</li>
+  <li><strong>Mutação N117Q</strong> (domínio kringle 1): remove sítio de N-glicosilação → aumenta a afinidade pela fibrina ~14×.</li>
+  <li><strong>Mutações KHRR 296–299 AAAA</strong> (domínio protease): reduz sensibilidade ao PAI-1 (~80× mais resistente) → efeito mais sustentado no coágulo.</li>
+</ul>
+
+<p>Na meta-análise de Rehman et al. (2022), incluindo 10 ensaios clínicos randomizados com 4.140 pacientes com AVC isquêmico, a dose de tenecteplase 0,25 mg/kg demonstrou melhora significativa no desfecho funcional excelente aos 3 meses (RR 1,14; IC95% 1,04–1,26) e maior melhora neurológica precoce (RR 1,53; IC95% 1,03–2,26) vs. alteplase, sem diferença em sangramento intracraniano ou mortalidade <span class="cite">(<a href="#ref-rehman">REHMAN et al., 2022</a>)</span>. Essa evidência levou várias diretrizes a incorporar o tenecteplase como alternativa ao alteplase no AVC isquêmico agudo.</p>
+
+<h3>Estreptoquinase — primeira geração</h3>
+<p>A estreptoquinase, obtida de estreptococos beta-hemolíticos, foi o primeiro trombolítico clínico. Age formando um complexo 1:1 com o plasminogênio que adquire atividade proteolítica e ativa outras moléculas de plasminogênio. É não seletiva para fibrina — causa lise sistêmica do fibrinogênio ("estado lítico" com hipofibrinogenemia). É antigênica (produz anticorpos neutralizantes após exposição, contraindicando re-uso), e hoje raramente utilizada onde alteplase e tenecteplase estão disponíveis.</p>
+
+<div class="kbox">
+  <div class="klabel">Por que não se usa trombolítico no IAM com ICP disponível?</div>
+  <p>A fibrinólise sistêmica no IAM com supra de ST (IAMCSSST) reperfunde a artéria culpada em apenas ~50–60% dos casos, com risco de reoclusão e sangramento. A ICP primária atinge reperfusão eficaz em &gt;90% e é superior em todos os desfechos clínicos quando disponível em tempo hábil (&lt;120 min do diagnóstico). O trombolítico permanece indicado no IAMCSSST quando a ICP não pode ser realizada em &lt;120 min ("farmaco-ICP"), devendo ser seguido de ICP de resgate ou de rotina em 3–24 h.</p>
+</div>
+</section>
+
+<section id="monitoramento">
+<h2>Monitoramento laboratorial dos antitrombóticos</h2>
+<table>
+  <thead><tr><th>Fármaco</th><th>Ensaio de monitoramento</th><th>Alvo / Interpretação</th></tr></thead>
+  <tbody>
+    <tr><td>AAS</td><td>Não monitorado rotineiramente. Agregometria de ácido araquidônico (pesquisa)</td><td>—</td></tr>
+    <tr><td>Clopidogrel / P2Y12</td><td>VerifyNow P2Y12, impedância de agregometria (pesquisa)</td><td>HTPR: PRU &gt;208 (VerifyNow)</td></tr>
+    <tr><td>HNF</td><td>TTPa (alvo: 60–100 s, ~1,5–2,5× basal) ou atividade anti-Xa (0,3–0,7 UI/mL)</td><td>Via intrínseca sensível</td></tr>
+    <tr><td>HBPM</td><td>Atividade anti-Xa (0,5–1,0 UI/mL para dose terapêutica 2×/dia)</td><td>Monitorar em gestação, extremos de peso, IR</td></tr>
+    <tr><td>Varfarina</td><td>INR (alvo 2–3 padrão; 2,5–3,5 valvas mecânicas mitrais)</td><td>Via extrínseca (TP prolongado)</td></tr>
+    <tr><td>Dabigatrana</td><td>Hemoclot / dTT calibrado (concentração direta)</td><td>TTPa grosseiro; não usa INR</td></tr>
+    <tr><td>Rivaroxabana / Apixabana</td><td>Atividade anti-Xa calibrada para o NOAC específico</td><td>TP/INR afetado mas não confiável</td></tr>
+  </tbody>
+</table>
+<p class="tlegend">Tabela 3. Monitoramento laboratorial dos principais antitrombóticos.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outros materiais</h2>
+<p>Os fármacos abordados neste compêndio são a camada farmacológica diretamente aplicada sobre os mecanismos fisiopatológicos descritos em <a class="cross-link" href="../fisiopatologia/trombose-e-hemostasia.html">Trombose e Hemostasia</a>. O entendimento das trombofilias hereditárias (fator V de Leiden, deficiência de ATIII) naquele material é o substrato para compreender por que a anticoagulação prolongada é necessária em determinados pacientes. A síndrome antifosfolipídeo (SAF), com seu paradoxo do anticoagulante lúpico, justifica o alvo de INR mais alto (2,5–3,5) com varfarina nessa condição.</p>
+<p>A fisiopatologia do choque cardiogênico em <a class="cross-link" href="../fisiopatologia/choque-circulatorio/choque-circulatorio.html#cardiogenico">Choque Circulatório</a> contextualiza por que a reperfusão rápida — seja por trombolítico ou ICP — é crítica para interromper o círculo vicioso de isquemia miocárdica progressiva. A <a class="cross-link" href="../imunologia/hipersensibilidade.html#tipo-iv">hipersensibilidade tipo II</a> fornece o substrato para entender a TIH (anticorpos IgG contra heparina-PF4).</p>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 1</div>
+  <p>O teste de função plaquetária guiado por genotipagem de CYP2C19 (para direcionar entre clopidogrel e ticagrelor/prasugrel) melhora desfechos clínicos de forma consistente? O ensaio TAILOR-PCI mostrou benefício marginal em metabolizadores lentos; os dados permanecem insuficientes para recomendar genotipagem rotineira pré-ICP em diretrizes internacionais.</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 2</div>
+  <p>Qual a duração ideal da DAPT após stent farmacológico? As evidências atuais variam de 1 a 12 meses dependendo do risco isquêmico vs. hemorrágico individual — e não existe algoritmo universalmente validado para personalizar essa decisão.</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 3</div>
+  <p>Os NOACs são seguros e eficazes na síndrome antifosfolipídeo de alto risco (SAF triplo positivo)? O estudo RAPS (2016) e ensaios subsequentes sugeriram inferioridade do rivaroxabana vs. varfarina nessa população específica, mas o mecanismo permanece debatido — e outros NOACs não foram adequadamente testados.</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 4</div>
+  <p>Qual o papel dos trombolíticos intra-arteriais ("mecânica + farmacologia") vs. trombectomia mecânica isolada no AVC isquêmico com oclusão de grande vaso? Ensaios em andamento (CHOICE, CARPET) estão investigando se a fibrinólise intra-arterial adjuvante após trombectomia mecânica melhora a reperfusão microvascular ("no-reflow phenomenon") e os desfechos funcionais.</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 5</div>
+  <p>O tenecteplase substituirá o alteplase como padrão no AVC isquêmico agudo? A evidência de superioridade é promissora, mas ainda baseada principalmente em estudos open-label; o ensaio AcT (Alteplase vs Tenecteplase for Stroke Thrombolysis Evaluation, 2022) sugeriu não inferioridade — mas sem superioridade definitiva nos desfechos funcionais primários.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora colocou três fármacos diferentes para o mesmo paciente com IAM — e um quarto para o paciente com AVC. A razão é que coágulo é um espectro, não uma entidade única. No IAM com supra de ST, a artéria coronária foi ocluída por um trombo branco plaquetário sobre placa rompida sob alto cisalhamento. O AAS remove a amplificação por TXA₂; o ticagrelor bloqueia o P2Y12 eliminando a amplificação por ADP e estabilizando o plug. A heparina garante que, durante o procedimento invasivo e após colocação do stent (superfície metálica trombogênica), a cascata de coagulação não gere fibrina adicional ao redor do dispositivo. Nenhum desses três fármacos dissolve o coágulo já presente — papel que ficaria para o trombolítico, usado quando a ICP não está disponível a tempo.</p>
+<p>No AVC isquêmico por tromboembolismo, o alteplase dissolve ativamente o trombo na artéria cerebral ocluída, mas o preço é a lise inespecífica de fibrina em todo o organismo, incluindo a barreira hematoencefálica comprometida pelo processo isquêmico — gerando risco de transformação hemorrágica. Essa é a tensão central na farmacologia dos trombolíticos: dissolver o coágulo patológico sem criar hemorragia no tecido isquêmico vulnerável. A seletividade pela fibrina do alteplase e, em maior grau, do tenecteplase, é a aproximação farmacológica desse objetivo — mas não sua solução completa.</p>
+<p>Uma implicação derivada que o compêndio não enuncia explicitamente: a mesma molécula pode ser benéfica ou deletéria dependendo do contexto. A plasmina gerada pelos trombolíticos degrada não apenas a fibrina, mas também o fibrinogênio, FV, FVIII e a glicoproteína Ib plaquetária — criando um estado de "lise sistêmica" que se assemelha a uma coagulopatia adquirida. O monitoramento do fibrinogênio pós-trombolítico (e a reposição com crioprecipitado se &lt;150 mg/dL em sangramento) é uma consequência prática direta dessa farmacologia.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+<ul>
+  <li><strong>RANG, H.P. et al.</strong> <em>Rang &amp; Dale's Pharmacology</em>. 9. ed. Elsevier, 2020. Cap. 24 (Hemostasia e Trombose) — você tem este livro.</li>
+  <li><strong>GOODMAN &amp; GILMAN'S.</strong> <em>The Pharmacological Basis of Therapeutics</em>. 14. ed. McGraw-Hill, 2023. Cap. 30 (Blood Coagulation and Anticoagulant, Fibrinolytic, and Antiplatelet Drugs).</li>
+  <li><strong>GRECO et al.</strong> Antithrombotic Therapy for Primary and Secondary Prevention of Ischemic Stroke. <em>JACC</em>, 2023. — revisão abrangente e clínica. <a href="https://doi.org/10.1016/j.jacc.2023.07.025" target="_blank" rel="noopener" style="color:var(--ac)">DOI</a></li>
+  <li><strong>REHMAN et al.</strong> Comparative efficacy and safety of tenecteplase and alteplase in acute ischemic stroke: meta-analysis. <em>J Neurol Sci</em>, 2022. <a href="https://doi.org/10.1016/j.jns.2022.120537" target="_blank" rel="noopener" style="color:var(--ac)">DOI</a></li>
+  <li><strong>PEREIRA et al.</strong> Clopidogrel Pharmacogenetics. <em>Circ Cardiovasc Interv</em>, 2019. <a href="https://doi.org/10.1161/CIRCINTERVENTIONS.119.007811" target="_blank" rel="noopener" style="color:var(--ac)">DOI</a></li>
+</ul>
+</section>
+
+<section id="referencias">
+<h2>Referências ABNT</h2>
+<p id="ref-miyata">MIYATA, S. et al. Resistência ao AAS (revisão sistemática e metanálise). <em>Brain and Nerve</em>, v. 60, n. 11, p. 1357-1364, nov. 2008. PMID: 19069170.</p>
+<p id="ref-pereira">PEREIRA, N. L. et al. Clopidogrel Pharmacogenetics. <em>Circulation: Cardiovascular Interventions</em>, v. 12, n. 4, p. e007811, abr. 2019. <a href="https://doi.org/10.1161/CIRCINTERVENTIONS.119.007811" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1161/CIRCINTERVENTIONS.119.007811</a></p>
+<p id="ref-goncalves">GONCALVES, L. N. et al. High on-treatment platelet reactivity in peripheral arterial disease: A systematic review. <em>Vascular</em>, v. 32, n. 6, p. 1177-1190, nov. 2023. <a href="https://doi.org/10.1177/17085381231214324" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1177/17085381231214324</a></p>
+<p id="ref-rocca">ROCCA, B.; BIGAGLI, E.; CERBAI, E. Ticagrelor and Statins: Dangerous Liaisons? <em>Cardiovascular Drugs and Therapy</em>, v. 38, n. 6, p. 1103-1109, set. 2024. <a href="https://doi.org/10.1007/s10557-024-07624-7" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1007/s10557-024-07624-7</a></p>
+<p id="ref-adcock">ADCOCK, D. M.; GOSSELIN, R. Direct Oral Anticoagulants (DOACs) in the Laboratory: 2015 Review. <em>Thrombosis Research</em>, v. 136, n. 1, p. 7-12, mai. 2015. <a href="https://doi.org/10.1016/j.thromres.2015.05.001" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1016/j.thromres.2015.05.001</a></p>
+<p id="ref-udaya">UDAYACHALERM, S. et al. The Reversal of Bleeding Caused by New Oral Anticoagulants (NOACs): A Systematic Review and Meta-Analysis. <em>Clinical and Applied Thrombosis/Hemostasis</em>, v. 24, n. 9_suppl, p. 117S-126S, set. 2018. <a href="https://doi.org/10.1177/1076029618796339" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1177/1076029618796339</a></p>
+<p id="ref-johnson">JOHNSON, J. A. et al. Clinical Pharmacogenetics Implementation Consortium (CPIC) Guideline for Pharmacogenetics-Guided Warfarin Dosing: 2017 Update. <em>Clinical Pharmacology and Therapeutics</em>, v. 102, n. 3, p. 397-404, abr. 2017. <a href="https://doi.org/10.1002/cpt.668" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1002/cpt.668</a></p>
+<p id="ref-greco">GRECO, A. et al. Antithrombotic Therapy for Primary and Secondary Prevention of Ischemic Stroke: JACC State-of-the-Art Review. <em>Journal of the American College of Cardiology</em>, v. 82, n. 15, p. 1538-1557, out. 2023. <a href="https://doi.org/10.1016/j.jacc.2023.07.025" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1016/j.jacc.2023.07.025</a></p>
+<p id="ref-rehman">REHMAN, A. U. et al. Comparative efficacy and safety of tenecteplase and alteplase in acute ischemic stroke: A pairwise and network meta-analysis of randomized controlled trials. <em>Journal of the Neurological Sciences</em>, v. 445, p. 120537, dez. 2022. <a href="https://doi.org/10.1016/j.jns.2022.120537" target="_blank" rel="noopener" style="color:var(--ac)">https://doi.org/10.1016/j.jns.2022.120537</a></p>
+</section>
+
+</article>
+</main>
+</div>
+
+<script>
+(function(){
+  // Progresso
+  var pb = document.getElementById('progress-bar');
+  window.addEventListener('scroll', function(){
+    var s = document.documentElement;
+    var pct = s.scrollTop / (s.scrollHeight - s.clientHeight) * 100;
+    pb.style.width = pct + '%';
+  }, {passive:true});
+
+  // Sidebar toggle
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var btn = document.getElementById('toggle-btn');
+  function applyCollapsed(c){
+    if(c){ sidebar.classList.add('collapsed'); bodyWrap.classList.add('sidebar-collapsed'); btn.title='Expandir sidebar'; }
+    else { sidebar.classList.remove('collapsed'); bodyWrap.classList.remove('sidebar-collapsed'); btn.title='Recolher sidebar'; }
+    sessionStorage.setItem('sidebar-collapsed', c ? '1' : '');
+  }
+  if(sessionStorage.getItem('sidebar-collapsed')==='1') applyCollapsed(true);
+  btn.addEventListener('click', function(){ applyCollapsed(!sidebar.classList.contains('collapsed')); });
+
+  // Mobile
+  var mobBtn = document.getElementById('mob-btn');
+  if(mobBtn) mobBtn.addEventListener('click', function(){ sidebar.classList.toggle('open'); });
+
+  // Highlight ativo na sidebar
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('a.sl');
+  var obs1 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var a = document.querySelector('a.sl[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){ obs1.observe(s); });
+
+  // Highlight h2 seção ativa
+  var obs2 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) e.target.classList.add('in-view');
+      else e.target.classList.remove('in-view');
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){ obs2.observe(s); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — Inteligência Artificial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 0 6px;display:flex;justify-content:center;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:4px;line-height:1;transition:color .15s}
+#toggle-btn:hover{color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding-bottom:40px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.s-logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac);padding:16px 20px 12px;border-bottom:1px solid var(--border);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase;transition:opacity .2s}
+.s-logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:3px;letter-spacing:0;text-transform:none}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px;transition:opacity .2s}
+a.sl{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,border-color .15s,opacity .2s}
+a.sl:hover{color:var(--text)}
+a.sl.active{color:var(--ac);border-left-color:var(--ac)}
+a.sl.sub{padding-left:30px;font-size:12px}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--ac);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:16px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border);transition:color .3s}
+section.in-view>h2{color:var(--ac)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+p{margin-bottom:1.1em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+/* Pergunta orientadora — do template-v2 */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+/* Nota histórica — do template-v2 */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+/* Box genérico — do template-v2 */
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+/* Cross-link — do template-v2 */
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+/* Cards de subárea — exclusivo Atlas */
+.subarea-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.subarea-card{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:14px 16px;transition:border-color .2s}
+.subarea-card:hover{border-color:var(--ac)}
+.subarea-card h3{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--ac2);margin:0 0 5px}
+.subarea-card p{font-family:var(--font-ui);font-size:.83rem;color:var(--muted);margin:0;line-height:1.55}
+/* Controvérsias — exclusivo Atlas */
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:16px 18px;margin-bottom:14px}
+.controversia h3{font-family:var(--font-ui);font-size:.9rem;font-weight:600;color:var(--text);margin:0 0 12px}
+.posicoes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.posicao{background:var(--bg3);border-radius:5px;padding:11px 13px}
+.posicao .label{font-family:var(--font-ui);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:5px}
+.posicao p{font-family:var(--font-ui);font-size:.82rem;color:var(--text);margin:0;line-height:1.55}
+/* Roteiro — exclusivo Atlas */
+.roteiro-step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.step-num{min-width:26px;height:26px;background:var(--ac);color:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.step-body{font-size:.92rem;line-height:1.72}
+/* Referências — exclusivo Atlas */
+.ref-group h3{font-family:var(--font-ui);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:24px 0 10px}
+.ref-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 15px;margin-bottom:9px}
+.ref-item .ref-title{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.ref-item .ref-meta{font-family:var(--font-ui);font-size:.78rem;color:var(--ac);margin-bottom:5px}
+.ref-item .ref-nota{font-family:var(--font-ui);font-size:.79rem;color:var(--muted);margin:0}
+.tag{display:inline-block;background:var(--bg3);border-radius:4px;padding:2px 6px;font-family:var(--font-ui);font-size:10px;color:var(--ac2);margin-right:3px}
+/* Questões centrais */
+.questoes ol{padding-left:20px}
+.questoes li{margin-bottom:11px;line-height:1.72;font-size:.95rem}
+/* Mobile */
+@media(max-width:900px){
+  #mob-bar{display:flex}
+  #sidebar{position:fixed;top:0;left:0;z-index:200;height:100vh;transform:translateX(-100%);transition:transform .25s}
+  #sidebar.open{transform:translateX(0)}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .subarea-grid{grid-template-columns:1fr}
+  .posicoes{grid-template-columns:1fr}
+}
+/* Print */
+@media print{body{background:#fff;color:#000}#sidebar,#mob-bar,#progress-bar,.anchor{display:none}#content{padding:20px}a{color:#000}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <span class="mb-title">Atlas · Inteligência Artificial</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Menu</button>
+</div>
+
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Colapsar sidebar">‹</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      Atlas · IA
+      <a href="../index.html">← Voltar ao Atlas</a>
+    </div>
+    <div class="s-group">Navegação</div>
+    <a class="sl" href="#o-que-estuda">O que estuda</a>
+    <a class="sl" href="#mapa">Mapa do campo</a>
+    <a class="sl" href="#historico">Contexto histórico</a>
+    <a class="sl sub" href="#historico-origens">Origens (1950–1980)</a>
+    <a class="sl sub" href="#historico-invernos">Invernos e virada</a>
+    <a class="sl sub" href="#historico-deep">Era do deep learning</a>
+    <a class="sl sub" href="#historico-llms">Era dos LLMs</a>
+    <a class="sl" href="#questoes">Questões centrais</a>
+    <a class="sl" href="#metodos">Métodos</a>
+    <a class="sl" href="#conexoes">Conexões</a>
+    <a class="sl" href="#controversias">Controvérsias</a>
+    <a class="sl" href="#por-onde-comecar">Por onde começar</a>
+    <a class="sl" href="#referencias">Referências</a>
+  </div>
+</nav>
+
+<main id="content">
+<div class="prose">
+
+  <div class="doc-header">
+    <h1>Inteligência Artificial</h1>
+    <p class="doc-meta">Atlas · Computação · Campo amplo</p>
+    <div class="doc-chips">
+      <span class="chip">⏱ ~25 min de leitura</span>
+      <span class="chip">📍 Nível: campo amplo</span>
+      <span class="chip">🗓 Última revisão: 2026-06-30</span>
+    </div>
+  </div>
+
+  <div class="pergunta">
+    <div class="plabel">Pergunta orientadora</div>
+    <p>É possível criar sistemas artificiais que aprendam, raciocinem e ajam de forma inteligente — e o que isso significa para a humanidade?</p>
+  </div>
+
+  <!-- O QUE ESTUDA -->
+  <section id="o-que-estuda">
+    <h2>O que essa área estuda <a class="anchor" href="#o-que-estuda">¶</a></h2>
+    <p>Inteligência Artificial (IA) é o campo da ciência da computação dedicado a construir sistemas capazes de realizar tarefas que, quando executadas por humanos, exigiriam inteligência. A definição é propositalmente circular — e isso reflete uma tensão real: a noção de "inteligência" nunca foi fixada com precisão.</p>
+    <p>O campo abrange desde <em>sistemas especialistas</em> baseados em regras explícitas (IA simbólica) até <em>redes neurais</em> que aprendem padrões a partir de dados brutos. Em 2024–2026, o centro de gravidade deslocou-se para modelos de linguagem de grande escala (LLMs) e IA generativa, que produzem texto, imagens, código e raciocínio de forma fluente.</p>
+    <p>O escopo é vasto: percepção (ver, ouvir, ler), cognição (raciocinar, planejar, aprender), ação (robótica, decisão autônoma) e criação (geração de conteúdo). Cada uma dessas facetas tem subcomunidades, conferências e literatura próprias.</p>
+  </section>
+
+  <!-- MAPA DO CAMPO -->
+  <section id="mapa">
+    <h2>Mapa do campo <a class="anchor" href="#mapa">¶</a></h2>
+    <div class="subarea-grid">
+      <div class="subarea-card">
+        <h3>Machine Learning</h3>
+        <p>Sistemas que aprendem padrões a partir de dados sem serem explicitamente programados. Base matemática de quase toda IA moderna.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Deep Learning</h3>
+        <p>Subcampo de ML que usa redes neurais com muitas camadas. Responsável pela maioria dos avanços práticos desde 2012.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Processamento de Linguagem Natural</h3>
+        <p>Ensina máquinas a entender, gerar e traduzir linguagem humana. Inclui LLMs como GPT e Claude.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Visão Computacional</h3>
+        <p>Extrai informação de imagens e vídeos. Aplicações em diagnóstico médico, veículos autônomos e segurança.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>IA Simbólica e Raciocínio</h3>
+        <p>Abordagem clássica baseada em lógica, regras e representação explícita do conhecimento. Precede o deep learning.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Aprendizado por Reforço</h3>
+        <p>Agentes que aprendem por tentativa e erro maximizando recompensas. Base do AlphaGo e de sistemas de controle autônomo.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>IA Generativa</h3>
+        <p>Modelos que criam conteúdo novo — texto, imagens, vídeo, código, áudio. Inclui difusão estável, LLMs e modelos multimodais.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Robótica e Sistemas Autônomos</h3>
+        <p>Integra percepção, decisão e ação física. Envolve controle, planejamento de movimento e interação com o mundo real.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Ética e Alinhamento</h3>
+        <p>Questiona como garantir que sistemas de IA sejam seguros, justos e alinhados com valores humanos.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>IA Aplicada</h3>
+        <p>Uso de IA em domínios específicos: saúde, finanças, direito, educação, ciência. O campo que mais cresce em aplicações práticas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTÓRICO -->
+  <section id="historico">
+    <h2>Contexto histórico <a class="anchor" href="#historico">¶</a></h2>
+
+    <h3 id="historico-origens">Origens e otimismo fundador (1950–1974) <a class="anchor" href="#historico-origens">¶</a></h3>
+    <div class="hist"><span class="hl">Marco fundador</span><strong>1956 — Dartmouth Workshop.</strong> John McCarthy, Marvin Minsky, Claude Shannon e outros propõem a IA como campo formal. Premissa: todos os aspectos da inteligência podem ser descritos com precisão suficiente para uma máquina simulá-los.</div>
+    <p>As primeiras duas décadas foram de progresso em demonstrações restritas — programas que jogavam xadrez, resolviam equações simbólicas e provavam teoremas. O otimismo era alto: previu-se que em dez anos as máquinas fariam qualquer trabalho humano.</p>
+
+    <h3 id="historico-invernos">Invernos da IA e virada estatística (1974–2006) <a class="anchor" href="#historico-invernos">¶</a></h3>
+    <p>Dois invernos da IA (1974–1980 e 1987–1993) interromperam financiamento e confiança. Os problemas do mundo real — conhecimento de senso comum, ambiguidade da linguagem, variabilidade física — resistiram aos formalismos simbólicos. A virada veio com o <em>aprendizado estatístico</em> nos anos 1990: em vez de programar regras, os sistemas passaram a aprender padrões de dados.</p>
+
+    <h3 id="historico-deep">Era do deep learning (2006–2017) <a class="anchor" href="#historico-deep">¶</a></h3>
+    <div class="hist"><span class="hl">Ponto de inflexão</span><strong>2012 — AlexNet.</strong> Rede neural profunda vence a competição ImageNet com margem esmagadora, demonstrando que GPUs + grandes volumes de dados + redes profundas superam décadas de engenharia manual de características.</div>
+    <p>O sucesso em visão computacional generalizou-se rapidamente para fala, tradução e jogos. Em 2016, o AlphaGo derrotou o campeão mundial de Go usando aprendizado por reforço com redes neurais profundas.</p>
+
+    <h3 id="historico-llms">Era dos LLMs e agentes (2017–presente) <a class="anchor" href="#historico-llms">¶</a></h3>
+    <div class="hist"><span class="hl">Arquitetura dominante</span><strong>2017 — "Attention Is All You Need"</strong> (Vaswani et al.). Os Transformers substituem RNNs como arquitetura padrão para linguagem e, posteriormente, para visão, áudio e biologia.</div>
+    <p>GPT-3 (2020), ChatGPT (2022), GPT-4 e Claude (2023) popularizaram LLMs como interfaces de uso geral. Em 2024–2026, o debate central deslocou-se para <em>agentes autônomos</em> — sistemas que planejam e executam tarefas de múltiplos passos — e para alinhamento e segurança, enquanto a corrida entre OpenAI, Anthropic, Google DeepMind e Meta AI se intensificou globalmente.</p>
+  </section>
+
+  <!-- QUESTÕES CENTRAIS -->
+  <section id="questoes">
+    <h2>Questões centrais <a class="anchor" href="#questoes">¶</a></h2>
+    <div class="questoes">
+      <ol>
+        <li>Sistemas que processam linguagem com fluência humana realmente <em>entendem</em> o que dizem — ou apenas produzem padrões estatísticos sofisticados?</li>
+        <li>É possível construir IA com raciocínio causal genuíno, ou os modelos atuais são fundamentalmente correlacionais?</li>
+        <li>Como garantir que sistemas de IA cada vez mais capazes permaneçam alinhados com objetivos e valores humanos?</li>
+        <li>Até onde vai a transferência de aprendizado — um modelo treinado em uma tarefa pode generalizar para tarefas radicalmente diferentes?</li>
+        <li>Qual é o papel da incorporação física (<em>embodiment</em>) na construção de inteligência genuína?</li>
+        <li>Como devemos distribuir os benefícios — e os riscos — de sistemas que automatizam trabalho cognitivo em larga escala?</li>
+        <li>É possível criar sistemas de IA que expliquem suas próprias decisões de forma interpretável?</li>
+        <li>Quais são os limites fundamentais do que redes neurais podem aprender, independentemente de escala?</li>
+        <li>Como detectar e mitigar vieses históricos que se perpetuam em modelos treinados com dados humanos?</li>
+        <li>A IA geral (AGI) é um horizonte realista — e como reconheceríamos se chegássemos lá?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- MÉTODOS -->
+  <section id="metodos">
+    <h2>Ferramentas e métodos <a class="anchor" href="#metodos">¶</a></h2>
+    <p><strong>Aprendizado supervisionado:</strong> o modelo aprende de pares entrada–saída rotulados. É a abordagem mais comum em aplicações práticas — classificação de imagens, detecção de spam, previsão de preços.</p>
+    <p><strong>Aprendizado não supervisionado:</strong> o modelo encontra estrutura em dados sem rótulos — agrupamentos, redução de dimensionalidade, modelos generativos.</p>
+    <p><strong>Aprendizado por reforço:</strong> um agente interage com um ambiente, recebe recompensas e aprende a maximizar o retorno acumulado. Base do AlphaGo e do ajuste fino de LLMs via RLHF.</p>
+    <p><strong>Transformers e atenção:</strong> arquitetura que processa sequências inteiras em paralelo. Tornou-se a espinha dorsal de praticamente todos os grandes modelos de linguagem e visão.</p>
+    <p><strong>Pré-treinamento e ajuste fino:</strong> modelos treinados em enormes corpora genéricos são depois ajustados para tarefas específicas com muito menos dados. Permite reutilizar capacidade aprendida em escala.</p>
+    <p><strong>Engenharia de prompt:</strong> formular instruções que maximizam a qualidade das respostas de LLMs sem retreinar o modelo. Emergiu como habilidade prática central no uso de IA generativa.</p>
+    <p><strong>Benchmarks:</strong> ImageNet (visão), MMLU (conhecimento amplo), HumanEval (código), MATH (raciocínio matemático). Cada benchmark é também foco de crítica sobre o que realmente mede.</p>
+    <div class="box info">
+      <strong>Nota sobre avaliação:</strong> desempenho em benchmarks não equivale a capacidade geral. Modelos frequentemente saturam benchmarks sem generalizar para variações simples da mesma tarefa — fenômeno chamado de <em>overfitting de benchmark</em>.
+    </div>
+  </section>
+
+  <!-- CONEXÕES -->
+  <section id="conexoes">
+    <h2>Conexões com outros campos <a class="anchor" href="#conexoes">¶</a></h2>
+    <p><strong>Matemática e estatística:</strong> álgebra linear, cálculo e probabilidade são o substrato de todo aprendizado de máquina. Otimização (descida de gradiente) é o mecanismo de treino universal.</p>
+    <p><strong>Neurociência:</strong> redes neurais artificiais foram vagamente inspiradas no cérebro biológico. Há intercâmbio contínuo de conceitos, embora os mecanismos sejam bastante distintos.</p>
+    <p><strong>Linguística e filosofia da mente:</strong> questões sobre significado, intenção e compreensão — centrais no PLN — fazem a IA colidir com debates filosóficos centenários sobre o que é entender.</p>
+    <p><strong>Economia e mercado de trabalho:</strong> a automação de tarefas cognitivas levanta questões sobre deslocamento de empregos, desigualdade e novos arranjos econômicos.</p>
+    <p><strong>Direito e regulação:</strong> privacidade, responsabilidade por danos, propriedade intelectual de conteúdo gerado — todos demandam adaptação dos sistemas legais.</p>
+    <p><strong>Medicina:</strong> diagnóstico por imagem, descoberta de fármacos e previsão de desfechos clínicos são aplicações de alto impacto e alta exigência regulatória.</p>
+  </section>
+
+  <!-- CONTROVÉRSIAS -->
+  <section id="controversias">
+    <h2>Controvérsias ativas <a class="anchor" href="#controversias">¶</a></h2>
+    <div class="controversia">
+      <h3>LLMs entendem linguagem — ou apenas imitam?</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Emergência real</div>
+          <p>Modelos suficientemente grandes desenvolvem representações internas que capturam estrutura semântica genuína. A fluência e a transferência de conhecimento são evidência de compreensão funcional, não de mera memorização.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Papagaio estocástico</div>
+          <p>LLMs são sistemas sofisticados de predição de tokens. Sem modelo do mundo, de intenção ou de causalidade, o que parece compreensão é correspondência estatística com padrões do corpus de treinamento.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controversia">
+      <h3>Escala resolve inteligência — ou há limites fundamentais?</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Leis de escala</div>
+          <p>Evidências empíricas mostram que desempenho melhora previsivelmente com mais dados, parâmetros e computação. Muitos problemas tidos como intratáveis cederam à escala. O caminho para AGI pode ser simplesmente continuar escalando.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Limites arquiteturais</div>
+          <p>Transformers têm limitações estruturais em raciocínio composicional, planejamento de longo prazo e aprendizado eficiente de amostras. Escala compra desempenho em benchmarks, mas pode não generalizar para inteligência robusta.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controversia">
+      <h3>IA é risco existencial — ou o alarmismo distrai de danos presentes?</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Risco de longo prazo</div>
+          <p>Sistemas suficientemente capazes e desalinhados poderiam agir em detrimento da humanidade de formas que humanos não conseguiriam corrigir a tempo. Preparar-se agora, quando o risco ainda é gerenciável, é prudência básica.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Danos concretos primeiro</div>
+          <p>O foco em riscos especulativos desvia atenção de harms reais e imediatos: viés algorítmico, desinformação em escala, vigilância, desigualdade no acesso. Essas questões já existem e exigem resposta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR ONDE COMEÇAR -->
+  <section id="por-onde-comecar">
+    <h2>Por onde começar <a class="anchor" href="#por-onde-comecar">¶</a></h2>
+    <div class="roteiro-step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Visão geral sem matemática:</strong> o curso gratuito <em>AI for Everyone</em> (Andrew Ng, Coursera) oferece orientação completa em vídeo, sem código. Para leitura, <em>Human Compatible</em> (Russell, 2019) combina rigor e acessibilidade.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Fundamentos de ML:</strong> <em>An Introduction to Statistical Learning</em> (James et al., 2a ed. 2021) — acessível sem álgebra linear avançada, gratuito em statlearning.com. O curso <em>Machine Learning Specialization</em> (Andrew Ng, Coursera) é o equivalente em vídeo.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Deep Learning:</strong> <em>Deep Learning</em> (Goodfellow, Bengio, Courville) — referência técnica canônica, gratuita em deeplearningbook.org. Para quem prefere aprender fazendo: fast.ai oferece curso prático com código antes de teoria.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Arquitetura Transformer:</strong> <em>"Attention Is All You Need"</em> (Vaswani et al., 2017) — leitura obrigatória para entender a base técnica dominante. Fazer após o passo 3.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>Ética e impacto:</strong> <em>The Alignment Problem</em> (Christian, 2020) cobre alinhamento de forma jornalística e acessível. <em>Atlas of AI</em> (Crawford, 2021) examina os custos materiais, políticos e trabalhistas da IA.</div>
+    </div>
+  </section>
+
+  <!-- REFERÊNCIAS -->
+  <section id="referencias">
+    <h2>Referências anotadas <a class="anchor" href="#referencias">¶</a></h2>
+    <div class="ref-group"><h3>Ponto de entrada</h3>
+      <div class="ref-item">
+        <div class="ref-title">AI for Everyone</div>
+        <div class="ref-meta"><span class="tag">Curso</span> Andrew Ng · Coursera · 2019 (atualizado)</div>
+        <div class="ref-nota">Melhor porta de entrada para quem parte do zero. Sem código, sem matemática — foco em vocabulário, aplicações e impacto organizacional. Gratuito para auditar.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Human Compatible: Artificial Intelligence and the Problem of Control</div>
+        <div class="ref-meta"><span class="tag">Livro</span> Stuart Russell · Viking · 2019</div>
+        <div class="ref-nota">Russell é co-autor do principal livro técnico da área; aqui escreve para o público geral sobre o problema do alinhamento com clareza e rigor incomuns.</div>
+      </div>
+    </div>
+    <div class="ref-group"><h3>Aprofundamento</h3>
+      <div class="ref-item">
+        <div class="ref-title">An Introduction to Statistical Learning</div>
+        <div class="ref-meta"><span class="tag">Livro técnico</span> James, Witten, Hastie, Tibshirani · Springer · 2a ed. 2021 · statlearning.com</div>
+        <div class="ref-nota">Padrão ouro de introdução a ML com matemática acessível. Exemplos em R, mas a intuição é universal. Gratuito no site dos autores.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Attention Is All You Need</div>
+        <div class="ref-meta"><span class="tag">Artigo</span> Vaswani et al. · NeurIPS · 2017 · arXiv:1706.03762</div>
+        <div class="ref-nota">O artigo que introduziu os Transformers. Leitura obrigatória para entender a arquitetura que sustenta praticamente todos os LLMs modernos.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">The Alignment Problem</div>
+        <div class="ref-meta"><span class="tag">Livro</span> Brian Christian · W. W. Norton · 2020</div>
+        <div class="ref-nota">Narrativa jornalística rigorosa sobre os esforços para garantir que IA se comporte como pretendido. Abrange fairness, interpretabilidade e alinhamento sem background técnico.</div>
+      </div>
+    </div>
+    <div class="ref-group"><h3>Consulta especializada</h3>
+      <div class="ref-item">
+        <div class="ref-title">Deep Learning</div>
+        <div class="ref-meta"><span class="tag">Livro técnico</span> Goodfellow, Bengio, Courville · MIT Press · 2016 · deeplearningbook.org</div>
+        <div class="ref-nota">Referência técnica padrão. Pressupõe álgebra linear, cálculo e probabilidade. Usar como consulta após fundamentos sólidos de ML.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Atlas of AI</div>
+        <div class="ref-meta"><span class="tag">Livro</span> Kate Crawford · Yale University Press · 2021</div>
+        <div class="ref-nota">Examina a infraestrutura material, política e trabalhista da IA — mineração de dados, extração de recursos, vigilância. Perspectiva crítica indispensável.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Artificial Intelligence: A Modern Approach</div>
+        <div class="ref-meta"><span class="tag">Livro técnico</span> Russell &amp; Norvig · Pearson · 4a ed. 2020</div>
+        <div class="ref-nota">O livro-texto canônico de IA universitária. Cobre desde busca e lógica até ML e robótica. Referência de consulta — não é leitura linear para iniciantes.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// Progress bar
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive: true});
+
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const collapsed = sessionStorage.getItem('sidebar-collapsed') === 'true';
+if (collapsed) { sidebar.classList.add('collapsed'); bodyWrap.classList.add('sidebar-collapsed'); toggleBtn.textContent = '›'; }
+toggleBtn.addEventListener('click', () => {
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', isCollapsed);
+  toggleBtn.textContent = isCollapsed ? '›' : '‹';
+  sessionStorage.setItem('sidebar-collapsed', isCollapsed);
+});
+
+// Sidebar highlight ativo
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`a.sl[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+
+// In-view color em h2
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+}, {rootMargin: '-10% 0px -60% 0px'});
+sections.forEach(s => obs2.observe(s));
+</script>
+</body>
+</html>

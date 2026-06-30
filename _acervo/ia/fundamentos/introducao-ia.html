@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introdução à Inteligência Artificial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+
+/* Barra de progresso */
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:200;width:0%;transition:width .1s}
+
+/* Sidebar */
+#sidebar{width:280px;height:100vh;position:sticky;top:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s;overflow:hidden}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:4px;width:28px;text-align:center}
+#toggle-btn:hover{color:var(--text)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+.s-logo{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;transition:opacity .2s}
+.s-logo a{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.08em}
+.s-group{margin-bottom:20px;padding:0 12px;transition:opacity .2s}
+.s-group-title{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 6px;margin-bottom:6px}
+a.sl{display:block;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;padding:5px 8px;border-radius:4px;transition:color .15s,background .15s;transition:opacity .2s}
+a.sl:hover{color:var(--text);background:var(--bg3)}
+a.sl.active{color:var(--ac);background:var(--ac2bg)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+
+/* Barra mobile */
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;height:48px;background:var(--bg2);border-bottom:1px solid var(--border);align-items:center;padding:0 16px;z-index:150}
+#mob-menu-btn{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+
+/* Conteúdo */
+#body-wrap{display:flex;flex:1;min-width:0}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Tipografia */
+h1{font-family:var(--font-body);font-size:2.1rem;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.2}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-top:8px}
+h3{font-family:var(--font-ui);font-size:1rem;font-weight:600;color:var(--ac);margin:28px 0 10px}
+p{margin-bottom:18px}
+ul,ol{margin:0 0 18px 24px}
+li{margin-bottom:6px}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:'Fira Mono',monospace;font-size:.88em;background:var(--bg2);padding:1px 5px;border-radius:3px;color:var(--ac2)}
+pre{margin:20px 0 28px;border-radius:6px;overflow:auto}
+pre code{font-size:.85em;padding:0;background:none}
+section{scroll-margin-top:24px}
+
+/* Doc header */
+.doc-header{margin-bottom:40px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+/* Pergunta motivadora */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Painel de dependências */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+/* Nota histórica */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+/* Key-concept box */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* Conceitos-chave grid */
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+
+/* Cross-link */
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+/* Perguntas em aberto */
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+/* Citação */
+.cite{color:var(--ac);font-size:.88em}
+
+/* Tabela */
+table{width:100%;border-collapse:collapse;margin:20px 0 28px;font-size:14px;font-family:var(--font-ui)}
+th{background:var(--bg2);color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;border-bottom:1px solid var(--border);text-align:left}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-20px;margin-bottom:28px;font-style:italic}
+
+/* IntersectionObserver ativo */
+section.in-view>h2{color:var(--ac);transition:color .3s}
+
+/* Mobile */
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;top:0;left:0;height:100%;z-index:160;width:280px}
+  #sidebar.open{display:flex}
+  #mob-bar{display:flex}
+  #s-toggle{display:none}
+  #content{padding:64px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Print */
+@media print{
+  body{background:#fff;color:#111}
+  #sidebar,#progress-bar,#mob-bar{display:none}
+  #content{padding:0}
+  a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher menu">‹</button></div>
+  <div class="s-inner">
+    <div class="s-logo"><a href="../../index.html">← Índice</a></div>
+    <div class="s-group">
+      <div class="s-group-title">Neste compêndio</div>
+      <a class="sl" href="#motivadora">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#o-que-e-ia">O que é IA?</a>
+      <a class="sl" href="#historia">História</a>
+      <a class="sl" href="#como-aprende">Como a máquina aprende</a>
+      <a class="sl" href="#tipos">Tipos de IA</a>
+      <a class="sl" href="#llms">LLMs e IA generativa</a>
+      <a class="sl" href="#implementacao">Implementação</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+
+<!-- BARRA MOBILE -->
+<div id="mob-bar">
+  <button id="mob-menu-btn">☰</button>
+</div>
+
+<!-- CONTEÚDO -->
+<div id="body-wrap">
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Introdução à Inteligência Artificial</h1>
+  <p class="doc-meta">IA · Fundamentos · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum</b></span>
+    <span class="chip">📍 Área: <b>Fundamentos de IA</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-25</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<section id="motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Quando você faz uma pergunta ao ChatGPT e ele responde com uma frase coerente, fluente e às vezes errada — o que exatamente está acontecendo dentro da máquina? Há "compreensão" ali, ou algo muito mais estranho e mais interessante?</p>
+</div>
+</section>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <span class="dep-item">— (ponto de partida)</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-item">Nenhum pré-requisito</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-item">Machine Learning Clássico</span>
+      <span class="dep-item">Redes Neurais e Deep Learning</span>
+      <span class="dep-item">Modelos de Linguagem (LLMs)</span>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTOS NECESSÁRIOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>Este compêndio começa do zero: não é exigido conhecimento de matemática avançada, programação ou estatística. Quando conceitos técnicos aparecerem, serão explicados no mesmo parágrafo onde surgem. O único pré-requisito é a curiosidade sobre o mecanismo — o "por quê funciona assim", não apenas o "o que é".</p>
+
+<p>Três intuições cotidianas que já funcionam como base:</p>
+
+<ul>
+  <li><strong>Reconhecimento de padrão:</strong> você reconhece a letra "A" em dezenas de fontes, tamanhos e caligrafia. Não memorizou todas as variantes — abstraiu o padrão. IA faz algo estruturalmente parecido, mas com milhões de exemplos e em dimensões muito além do visual.</li>
+  <li><strong>Aprender com erro:</strong> uma criança toca o fogão quente, leva um susto, e ajusta o comportamento futuro. Algoritmos de aprendizado de máquina ajustam parâmetros internos com base em erros — o mecanismo é diferente, mas a lógica de correção por feedback é a mesma.</li>
+  <li><strong>Previsão por contexto:</strong> se alguém diz "eu quero tomar um ___", você preenche o espaço sem esforço. Modelos de linguagem são, em essência, máquinas de previsão de contexto — o próximo token mais provável dado tudo que veio antes.</li>
+</ul>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Inteligência Artificial</div>
+    <p style="font-size:13px;margin:0">Campo que estuda como fazer máquinas executar tarefas que, se feitas por humanos, exigiriam inteligência.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Machine Learning</div>
+    <p style="font-size:13px;margin:0">Subcampo de IA onde o sistema <em>aprende</em> regras a partir de dados, sem ser programado explicitamente para cada caso.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Rede neural</div>
+    <p style="font-size:13px;margin:0">Arquitetura de ML inspirada (vagamente) em neurônios biológicos: camadas de unidades que transformam números em números.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Parâmetro (peso)</div>
+    <p style="font-size:13px;margin:0">Número ajustável dentro do modelo — é o que muda durante o treinamento. Um LLM moderno tem bilhões deles.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Treinamento</div>
+    <p style="font-size:13px;margin:0">Processo de ajustar parâmetros com base em dados e feedback de erro, iterativamente, até o modelo desempenhar bem.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">LLM</div>
+    <p style="font-size:13px;margin:0"><em>Large Language Model</em>: modelo de linguagem de grande escala treinado para prever e gerar texto — base do ChatGPT, Claude etc.</p>
+  </div>
+</div>
+</section>
+
+<!-- O QUE É IA -->
+<section id="o-que-e-ia">
+<h2>O que é Inteligência Artificial?</h2>
+
+<p>Inteligência Artificial (<strong>IA</strong>) é o campo da ciência da computação dedicado a criar sistemas capazes de realizar tarefas que, quando executadas por humanos, associamos à palavra "inteligência" — perceber o ambiente, raciocinar sobre ele, aprender com experiência, comunicar em linguagem natural, resolver problemas sem roteiro fixo.</p>
+
+<p>A definição parece simples, mas esconde uma tensão: <em>inteligência</em> é uma palavra que usamos para descrever humanos (e animais) a partir de fora. Quando tentamos reproduzi-la em máquinas, somos forçados a decompô-la em operações específicas — classificar imagens, traduzir texto, jogar xadrez, responder perguntas. Essa decomposição revela que "inteligência" é menos um objeto e mais uma família de capacidades, cada uma com mecanismos diferentes.</p>
+
+<div class="kbox">
+  <div class="klabel">Distinção importante</div>
+  <p>IA é o campo geral. <strong>Machine Learning (ML)</strong> — aprendizado de máquina — é a abordagem dominante hoje dentro desse campo: sistemas que aprendem padrões a partir de dados em vez de seguir regras escritas manualmente. <strong>Deep Learning</strong> é um subconjunto de ML que usa redes neurais profundas (muitas camadas). <strong>LLMs</strong> são um produto específico de Deep Learning aplicado à linguagem. A relação é de caixas que se encaixam: IA ⊃ ML ⊃ Deep Learning ⊃ LLMs.</p>
+</div>
+
+<p>Por que essa distinção importa para quem está começando? Porque boa parte da confusão pública sobre IA vem de misturar os níveis. Quando alguém diz "IA vai substituir empregos", está falando de ML. Quando diz "IA entende o que falo", está atribuindo ao LLM uma propriedade que é genuinamente debatida. Saber onde você está na hierarquia ajuda a fazer as perguntas certas.</p>
+</section>
+
+<!-- HISTÓRIA -->
+<section id="historia">
+<h2>História</h2>
+
+<div class="hist">
+  <span class="hl">1950 — Turing e a pergunta fundadora</span>
+  Alan Turing propõe no artigo <em>Computing Machinery and Intelligence</em> a pergunta "Pode uma máquina pensar?" e substitui a questão filosófica por um teste operacional: se uma máquina puder imitar um humano em conversa textual a ponto de enganar um avaliador, ela passa no teste. Não é uma resposta — é um redirecionamento produtivo.
+</div>
+
+<div class="hist">
+  <span class="hl">1956 — Conferência de Dartmouth e o nome "IA"</span>
+  John McCarthy, Marvin Minsky, Claude Shannon e outros se reúnem no Dartmouth College e cunham o termo "Inteligência Artificial". A aposta otimista: "toda característica da inteligência pode ser descrita com tanta precisão que uma máquina pode ser feita para simulá-la." Retrospectivamente, essa aposta subestimou brutalmente a dificuldade — mas criou o campo.
+</div>
+
+<div class="hist">
+  <span class="hl">1956–1970 — Sistemas de regras (IA simbólica)</span>
+  A abordagem dominante: codificar conhecimento humano como regras lógicas explícitas. "SE temperatura &gt; 38 E sintoma = tosse ENTÃO suspeita = gripe." Funcionava em domínios fechados e bem definidos. O problema: o mundo real é aberto, ambíguo, e escrever regras para tudo era impossível.
+</div>
+
+<div class="hist">
+  <span class="hl">1970s–1980s — Dois "invernos de IA"</span>
+  Quando as promessas não se materializaram, financiamento foi cortado abruptamente. O campo hibernou duas vezes. Os invernos ensinaram que progresso em IA é não-linear: longos platôs seguidos de saltos repentinos quando uma ideia-chave amadurece.
+</div>
+
+<div class="hist">
+  <span class="hl">1986 — Backpropagation popularizado</span>
+  Rumelhart, Hinton e Williams popularizam o algoritmo de <em>backpropagation</em> (retropropagação de erro), tornando viável treinar redes neurais com múltiplas camadas. Essa é a pedra angular do Deep Learning moderno — mas levaria décadas e muito mais hardware para escalar.
+</div>
+
+<div class="hist">
+  <span class="hl">1997 — Deep Blue vence Kasparov</span>
+  O computador da IBM derrota o campeão mundial de xadrez. Marco simbólico: pela primeira vez, uma máquina supera o melhor humano em um jogo cognitivo complexo. Mas Deep Blue não aprendia — era busca exaustiva assistida por avaliação heurística. Força bruta, não aprendizado.
+</div>
+
+<div class="hist">
+  <span class="hl">2012 — AlexNet e a virada do Deep Learning</span>
+  Geoffrey Hinton e seus alunos (Krizhevsky, Sutskever) submetem uma rede neural profunda chamada AlexNet ao concurso ImageNet de reconhecimento de imagens e esmagam a competição por uma margem sem precedente. A combinação de GPUs baratas + grandes datasets + redes profundas prova que Deep Learning escala. O mundo de IA nunca voltou ao ponto anterior.
+</div>
+
+<div class="hist">
+  <span class="hl">2017 — Atenção é tudo que você precisa (<em>Attention Is All You Need</em>)</span>
+  Pesquisadores do Google publicam o artigo que introduz a arquitetura <em>Transformer</em> — o mecanismo de atenção que permite ao modelo pescar relações entre qualquer par de palavras em uma sequência, independente da distância. Todos os LLMs modernos são Transformers.
+</div>
+
+<div class="hist">
+  <span class="hl">2022–2025 — Era dos LLMs e IA generativa</span>
+  ChatGPT (novembro de 2022) leva a IA de laboratório para 100 milhões de usuários em dois meses — o produto com crescimento mais rápido da história. O que se segue é uma aceleração em modelos de imagem (DALL-E, Midjourney, Stable Diffusion), vídeo, código, áudio, multimodalidade. A questão muda de "IA é possível?" para "IA vai remodelar quais profissões?"
+</div>
+
+<p>O padrão histórico é claro: cada onda foi desbloqueada por uma combinação de nova ideia algorítmica + mais dados + mais compute (poder computacional). O Deep Learning moderno não é fundamentalmente diferente das redes dos anos 1980 — é a mesma ideia, com 10.000 vezes mais dados e 1.000.000 vezes mais compute.</p>
+</section>
+
+<!-- COMO A MÁQUINA APRENDE -->
+<section id="como-aprende">
+<h2>Como a máquina aprende</h2>
+
+<p>A questão central de ML é: como uma máquina adquire uma habilidade sem que um humano escreva explicitamente todas as regras? A resposta é um ciclo de quatro etapas que se repete milhões ou bilhões de vezes durante o treinamento.</p>
+
+<h3>1. Dados de entrada</h3>
+<p>O modelo recebe um exemplo — uma foto de um gato, uma frase em português, um áudio, um número. Esses exemplos são convertidos em números (vetores) porque computadores só operam sobre números. Uma imagem de 224×224 pixels com 3 canais de cor (RGB) vira um vetor de 224 × 224 × 3 = 150.528 números.</p>
+
+<h3>2. Predição (passe para frente)</h3>
+<p>O exemplo atravessa o modelo — camadas de operações matemáticas que transformam os números de entrada em números de saída. No caso de classificação de imagem: a saída é uma probabilidade para cada classe possível ("gato: 0.82, cachorro: 0.11, pássaro: 0.07"). Esses números de saída dependem dos <strong>parâmetros</strong> (pesos) do modelo, que no início do treinamento são valores aleatórios.</p>
+
+<h3>3. Cálculo do erro (função de perda)</h3>
+<p>A predição é comparada com a resposta correta (o <em>rótulo</em>, que foi fornecido por humanos no dataset de treinamento). A discrepância é quantificada por uma <strong>função de perda</strong> (<em>loss function</em>). Se o modelo disse "gato: 0.1" mas a resposta era "gato", a perda é alta. Se disse "gato: 0.9", a perda é baixa. A perda é um único número — o termômetro do quão errado o modelo está naquele exemplo.</p>
+
+<h3>4. Ajuste dos parâmetros (retropropagação + descida de gradiente)</h3>
+<p>O algoritmo de <em>backpropagation</em> calcula, para cada parâmetro do modelo, quanto aquele parâmetro contribuiu para o erro — matematicamente, é o gradiente da perda em relação ao parâmetro. Então a <strong>descida de gradiente</strong> (<em>gradient descent</em>) empurra cada parâmetro na direção que reduz o erro: se aumentar o peso aumenta o erro, ele é diminuído um pouquinho; se diminuir o peso aumenta o erro, ele é aumentado. O "pouquinho" é controlado pela <em>taxa de aprendizado</em> (<em>learning rate</em>).</p>
+
+<div class="kbox">
+  <div class="klabel">O mecanismo em uma frase</div>
+  <p>Treinamento é otimização: encontrar os valores de parâmetros que minimizam a perda média sobre o dataset, usando gradientes para navegar um espaço de busca com bilhões de dimensões.</p>
+</div>
+
+<p>Esse ciclo se repete para cada mini-lote de exemplos (<em>mini-batch</em>), por múltiplas passagens sobre o dataset inteiro (<em>épocas</em>). Ao final, os parâmetros codificam, implicitamente, os padrões que o modelo aprendeu. Não há regras escritas — só números que foram ajustados para minimizar erro.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>O modelo aprende correlações no dataset de treinamento. Se o dataset tiver viés (ex.: todos os médicos nas fotos são homens), o modelo aprende o viés. Além disso, o modelo pode <em>memorizar</em> o treino sem generalizar — <em>overfitting</em>. A habilidade de generalizar para exemplos nunca vistos é o verdadeiro objetivo, e é medida num dataset de <em>validação</em> separado.</p>
+</div>
+</section>
+
+<!-- TIPOS DE IA -->
+<section id="tipos">
+<h2>Tipos de IA</h2>
+
+<p>Há múltiplas formas de recortar o espaço de IA. A mais útil para quem está começando distingue pelo <em>tipo de feedback</em> durante o treinamento.</p>
+
+<table>
+  <thead>
+    <tr><th>Tipo</th><th>Como aprende</th><th>Exemplo clássico</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Aprendizado supervisionado</strong></td>
+      <td>Com exemplos rotulados por humanos: "esta foto = gato"</td>
+      <td>Classificação de imagens, detecção de spam, diagnóstico médico</td>
+    </tr>
+    <tr>
+      <td><strong>Aprendizado não-supervisionado</strong></td>
+      <td>Sem rótulos: encontra estrutura nos dados por conta própria</td>
+      <td>Agrupamento de clientes, compressão de dados, detecção de anomalias</td>
+    </tr>
+    <tr>
+      <td><strong>Aprendizado por reforço</strong></td>
+      <td>Por tentativa e erro: recebe recompensa ou punição por ações</td>
+      <td>AlphaGo, robótica, ajuste fino de LLMs (RLHF)</td>
+    </tr>
+    <tr>
+      <td><strong>Aprendizado auto-supervisionado</strong></td>
+      <td>O próprio dado gera o rótulo (ex.: prever a próxima palavra)</td>
+      <td>GPT, BERT, Claude — base dos LLMs modernos</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 1. Tipos de aprendizado de máquina por tipo de feedback.</p>
+
+<p>O aprendizado auto-supervisionado merece atenção especial porque é o que possibilitou os LLMs. A ideia: texto na internet contém trilhões de palavras. Para treinar, você esconde a última palavra de cada sentença e treina o modelo para prevê-la. O rótulo ("a palavra correta") está no próprio texto — sem humano rotulando nada. Isso permitiu escalar o treinamento para volumes impensáveis de dados.</p>
+
+<h3>IA Estreita vs. IA Geral</h3>
+<p>Toda IA existente hoje é <strong>IA estreita</strong> (<em>Artificial Narrow Intelligence</em>, ANI): projetada e treinada para uma família de tarefas. O AlphaGo joga Go com maestria mas não sabe fritar um ovo. GPT-4 escreve código e poesia mas não pode abrir uma janela. <strong>IA Geral</strong> (<em>Artificial General Intelligence</em>, AGI) — uma IA com capacidade de aprendizado e adaptação comparável à humana em qualquer domínio — é um objetivo teórico sem data definida e com enorme debate sobre se e quando é alcançável.</p>
+</section>
+
+<!-- LLMs E IA GENERATIVA -->
+<section id="llms">
+<h2>LLMs e IA generativa</h2>
+
+<div class="hist">
+  <span class="hl">2017–2023 — Do Transformer ao ChatGPT</span>
+  A arquitetura Transformer (2017) foi inicialmente proposta para tradução automática. Em 2018, o GPT-1 da OpenAI usou Transformers para geração de texto. O GPT-3 (2020) com 175 bilhões de parâmetros surpreendeu até seus criadores com capacidades emergentes — o modelo começou a fazer coisas que ninguém havia treinado explicitamente. O ChatGPT (2022) adicionou ajuste fino por feedback humano (RLHF) para tornar o modelo mais útil e seguro em diálogo.
+</div>
+
+<p>Um <strong>LLM</strong> (<em>Large Language Model</em>, modelo de linguagem de grande escala) é uma rede neural Transformer treinada em enormes volumes de texto para prever o próximo <em>token</em>. Token é a unidade mínima de texto que o modelo processa — pode ser uma palavra inteira, parte de uma palavra, ou pontuação. "Inteligência" vira tipicamente ["Int", "eligência"] em tokenizadores modernos.</p>
+
+<p>O mecanismo central do Transformer é a <strong>atenção</strong> (<em>attention</em>): ao prever o próximo token, o modelo pondera dinamicamente o quanto cada token anterior é relevante. Na frase "O banco que fica na margem do rio transbordou", ao processar "transbordou", o mecanismo de atenção vai dar muito peso para "banco" e "rio" — não para "que" ou "fica". Isso permite ao modelo capturar dependências de longo alcance que arquiteturas anteriores (redes recorrentes) perdiam.</p>
+
+<div class="kbox">
+  <div class="klabel">Por que o modelo erra fatos?</div>
+  <p>LLMs não têm acesso a banco de dados externo durante a geração (a menos que ferramentas sejam fornecidas). O conhecimento está comprimido nos parâmetros, que codificam correlações estatísticas do texto de treinamento — não verdades verificadas. O modelo gera o token mais provável dado o contexto, mesmo que isso produza uma afirmação incorreta com aparência de confiança. Esse fenômeno é chamado de <strong>alucinação</strong>. Não é mentira intencional — é previsão sem ancoragem factual.</p>
+</div>
+
+<p>IA generativa é o conjunto mais amplo de modelos que <em>criam</em> conteúdo novo — texto, imagem, vídeo, áudio, código. LLMs são o subconjunto de linguagem. Modelos de difusão (<em>diffusion models</em>), base do Stable Diffusion e DALL-E, funcionam de forma diferente: aprendem a remover ruído aleatório de imagens iterativamente, e na geração aplicam esse processo ao contrário — partem de ruído e convergem para uma imagem coerente com a descrição.</p>
+</section>
+
+<!-- IMPLEMENTAÇÃO -->
+<section id="implementacao">
+<h2>Implementação</h2>
+
+<p>O código abaixo implementa o núcleo do aprendizado de máquina supervisionado: uma rede neural mínima com uma camada oculta, treinada para classificar se um número é positivo ou negativo. O objetivo não é a tarefa em si (trivial) — é tornar visível o ciclo: predição → perda → gradiente → atualização.</p>
+
+<pre><code class="language-python">import numpy as np
+
+# --- Dados de treinamento ---
+# X: números; y: 1 se positivo, 0 se negativo
+X = np.array([[3.], [-1.], [5.], [-4.], [2.], [-2.]])
+y = np.array([[1.], [0.], [1.], [0.], [1.], [0.]])
+
+# --- Inicialização aleatória dos parâmetros ---
+np.random.seed(42)
+W1 = np.random.randn(1, 4) * 0.1   # pesos: camada entrada → oculta (4 neurônios)
+b1 = np.zeros((1, 4))               # vieses da camada oculta
+W2 = np.random.randn(4, 1) * 0.1   # pesos: oculta → saída
+b2 = np.zeros((1, 1))
+
+lr = 0.01   # taxa de aprendizado: controla o tamanho do passo na descida de gradiente
+
+def sigmoid(z):
+    """Ativa: comprime qualquer número para o intervalo (0, 1)."""
+    return 1 / (1 + np.exp(-z))
+
+for epoch in range(500):
+    # PASSE PARA FRENTE: calcula predição
+    h = sigmoid(X @ W1 + b1)          # camada oculta: (6,4)
+    pred = sigmoid(h @ W2 + b2)       # saída: (6,1) — probabilidade de ser positivo
+
+    # PERDA: erro quadrático médio (quanto erramos em média)
+    loss = np.mean((pred - y) ** 2)
+
+    # RETROPROPAGAÇÃO: gradientes do erro em relação a cada parâmetro
+    d_pred = 2 * (pred - y) / len(y)
+    d_out  = d_pred * pred * (1 - pred)     # gradiente pela sigmoid de saída
+    d_W2   = h.T @ d_out
+    d_b2   = d_out.sum(axis=0, keepdims=True)
+
+    d_h    = d_out @ W2.T
+    d_hid  = d_h * h * (1 - h)             # gradiente pela sigmoid oculta
+    d_W1   = X.T @ d_hid
+    d_b1   = d_hid.sum(axis=0, keepdims=True)
+
+    # DESCIDA DE GRADIENTE: atualiza parâmetros no sentido que reduz o erro
+    W1 -= lr * d_W1
+    b1 -= lr * d_b1
+    W2 -= lr * d_W2
+    b2 -= lr * d_b2
+
+    if epoch % 100 == 0:
+        print(f"Época {epoch:4d} | perda: {loss:.4f}")
+
+print("\nPredições finais:", pred.T.round(2))
+# Saída esperada: valores próximos a 1 para X positivos, 0 para negativos
+</code></pre>
+
+<p>O que o código torna visível: (1) os parâmetros W1, W2 começam aleatórios e a perda começa alta; (2) a cada época, os gradientes apontam a direção de redução do erro; (3) após 500 atualizações, os parâmetros convergem para valores que classificam corretamente. Todo o aprendizado de máquina moderno — inclusive LLMs — é este ciclo, em escala bilionária.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões</h2>
+
+<p>Este compêndio é o ponto de entrada para uma rede de tópicos. Os próximos passos naturais dependem do interesse:</p>
+
+<ul>
+  <li><strong>Mecanismo matemático:</strong> álgebra linear (vetores, matrizes, produto interno) e cálculo diferencial (gradiente, regra da cadeia) são as ferramentas formais por trás de tudo que foi descrito aqui em linguagem natural.</li>
+  <li><strong>Machine Learning Clássico:</strong> regressão linear, regressão logística, árvores de decisão, SVM — modelos anteriores ao Deep Learning que ainda dominam muitas aplicações práticas.</li>
+  <li><strong>Deep Learning:</strong> arquiteturas de redes neurais profundas — convolucionais (para imagens), recorrentes (para sequências), Transformers (para linguagem e além).</li>
+  <li><strong>Modelos de Linguagem:</strong> o mecanismo de atenção, tokenização, escalonamento de parâmetros, ajuste fino (fine-tuning) e RLHF.</li>
+  <li><strong>Agentes e ferramentas:</strong> como LLMs saem da geração passiva de texto para executar ações no mundo — chamar APIs, usar buscadores, escrever e rodar código.</li>
+</ul>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 1</div>
+  <p>LLMs exibem formas de raciocínio emergente não treinadas explicitamente (ex.: aritmética, lógica de múltiplos passos). Essas capacidades emergem de escala pura, ou há algo qualitativo que muda além de um limiar de parâmetros? A natureza e previsibilidade das capacidades emergentes é debate ativo na literatura.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 2</div>
+  <p>O problema da alucinação: LLMs geram afirmações falsas com confiança. Não é resolvido apenas por escala — modelos maiores ainda alucinam. Ancoragem a fontes externas (RAG, <em>retrieval-augmented generation</em>) atenua, mas não elimina. Uma solução arquitetural geral ainda é buscada.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 3</div>
+  <p>Interpretabilidade (<em>interpretability</em>): é possível entender o que um LLM "sabe" e "como pensa"? O campo de interpretabilidade mecanicista (Anthropic, DeepMind) está mapeando circuitos internos de modelos — mas está ainda na infância. Sem isso, é difícil garantir que o modelo se comportará bem em situações não testadas.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 4</div>
+  <p>AGI e segurança: se sistemas de IA alcançarem capacidade de aprendizado geral comparável à humana, como garantir que seus objetivos permanecem alinhados com valores humanos? O campo de <em>AI Safety</em> (segurança de IA) trabalha nessa questão sem consenso sobre prazos ou abordagens.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>Voltando à pergunta motivadora: quando o ChatGPT responde sua pergunta com uma frase coerente, o que está acontecendo? O mecanismo, agora explicitável: o modelo recebeu sua sequência de tokens, ativou o mecanismo de atenção para pesar as relações entre eles, propagou os valores pelas camadas do Transformer, e gerou o token mais provável, depois o próximo, depois o próximo — cada passo condicionado em tudo que veio antes. Não há compreensão no sentido humano de vivenciar o significado. Há previsão estatística extraordinariamente sofisticada, emergida de bilhões de ajustes de parâmetros sobre trilhões de tokens de texto humano.</p>
+
+<p>Isso é "mais estranho" do que compreensão ou "menos"? Depende do que você entende por compreender. O ponto de tensão genuíno: nossas intuições sobre inteligência foram calibradas em organismos biológicos. LLMs são uma coisa nova — nem inteligência humana, nem calculadora simples, mas um tipo diferente de sistema que processa e gera linguagem com competência surpreendente por mecanismos que a neurociência e a filosofia ainda não digeriram completamente.</p>
+
+<p>A implicação que não foi enunciada no corpo do compêndio: a IA moderna não é, em sua maioria, programada — é <em>treinada</em>. Isso significa que os criadores não escrevem as regras que o modelo segue; eles escolhem o objetivo (minimizar perda) e os dados, e observam o que emerge. É uma mudança de paradigma na engenharia de software com consequências profundas: sistemas cujo comportamento interno é parcialmente opaco até para seus próprios autores.</p>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<ul>
+  <li><strong>3Blue1Brown — Neural Networks</strong> (YouTube, gratuito): série de vídeos que visualiza redes neurais, backpropagation e gradiente descente com animações. O melhor ponto de partida visual disponível. Disponível em <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" target="_blank" rel="noopener">youtube.com</a>.</li>
+  <li><strong>Andrej Karpathy — Neural Networks: Zero to Hero</strong> (YouTube, gratuito): constrói um LLM do zero em Python, linha a linha. Denso e recompensador para quem tem alguma base de código. Disponível em <a href="https://karpathy.ai/zero-to-hero.html" target="_blank" rel="noopener">karpathy.ai</a>.</li>
+  <li><strong>GOODFELLOW, I.; BENGIO, Y.; COURVILLE, A. <em>Deep Learning</em>. MIT Press, 2016.</strong> O livro-texto mais referenciado. Capítulos 1–6 cobrem o mecanismo com rigor. Disponível gratuitamente em <a href="https://www.deeplearningbook.org" target="_blank" rel="noopener">deeplearningbook.org</a>.</li>
+  <li><strong>RUSSELL, S.; NORVIG, P. <em>Artificial Intelligence: A Modern Approach</em>. 4. ed. Pearson, 2020.</strong> A enciclopédia do campo — mais abrangente que profundo. Útil como referência.</li>
+  <li><strong>VASWANI, A. et al. Attention Is All You Need. <em>NeurIPS</em>, 2017.</strong> O artigo original do Transformer. Acessível em <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arxiv.org/abs/1706.03762</a>.</li>
+</ul>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências</h2>
+
+<p>GOODFELLOW, Ian; BENGIO, Yoshua; COURVILLE, Aaron. <em>Deep Learning</em>. Cambridge: MIT Press, 2016. Disponível em: <a href="https://www.deeplearningbook.org" target="_blank" rel="noopener">https://www.deeplearningbook.org</a>.</p>
+
+<p>KRIZHEVSKY, Alex; SUTSKEVER, Ilya; HINTON, Geoffrey E. ImageNet classification with deep convolutional neural networks. <em>Communications of the ACM</em>, v. 60, n. 6, p. 84–90, 2017.</p>
+
+<p>McCARTHY, John et al. A proposal for the Dartmouth summer research project on artificial intelligence. <em>AI Magazine</em>, v. 27, n. 4, p. 12–14, 2006 [1955].</p>
+
+<p>RUMELHART, David E.; HINTON, Geoffrey E.; WILLIAMS, Ronald J. Learning representations by back-propagating errors. <em>Nature</em>, v. 323, p. 533–536, 1986. DOI: <a href="https://doi.org/10.1038/323533a0" target="_blank" rel="noopener">10.1038/323533a0</a>.</p>
+
+<p>RUSSELL, Stuart; NORVIG, Peter. <em>Artificial Intelligence: A Modern Approach</em>. 4. ed. Hoboken: Pearson, 2020.</p>
+
+<p>TURING, Alan M. Computing machinery and intelligence. <em>Mind</em>, v. 59, n. 236, p. 433–460, 1950. DOI: <a href="https://doi.org/10.1093/mind/LIX.236.433" target="_blank" rel="noopener">10.1093/mind/LIX.236.433</a>.</p>
+
+<p>VASWANI, Ashish et al. Attention is all you need. In: <em>Advances in Neural Information Processing Systems</em> (NeurIPS), v. 30, 2017. Disponível em: <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">https://arxiv.org/abs/1706.03762</a>.</p>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// --- Progresso ---
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  bar.style.width = (s.scrollTop / (s.scrollHeight - s.clientHeight) * 100) + '%';
+}, {passive: true});
+
+// --- Sidebar toggle ---
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const btn = document.getElementById('toggle-btn');
+function applyCollapsed(c) {
+  sidebar.classList.toggle('collapsed', c);
+  bodyWrap.classList.toggle('sidebar-collapsed', c);
+  btn.textContent = c ? '›' : '‹';
+  sessionStorage.setItem('sidebar-collapsed', c ? '1' : '');
+}
+btn.addEventListener('click', () => applyCollapsed(!sidebar.classList.contains('collapsed')));
+applyCollapsed(!!sessionStorage.getItem('sidebar-collapsed'));
+
+// --- Mobile menu ---
+const mobBtn = document.getElementById('mob-menu-btn');
+if (mobBtn) mobBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+// --- Sidebar: highlight seção ativa ---
+const links = document.querySelectorAll('.sl');
+const sections = document.querySelectorAll('section[id]');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector('.sl[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+
+// --- Seção in-view (highlight h2) ---
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+}, {rootMargin: '-10% 0px -60% 0px'});
+sections.forEach(s => obs2.observe(s));
+
+// --- Highlight.js ---
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+</script>
+</body>
+</html>

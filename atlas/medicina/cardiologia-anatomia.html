@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anatomia Cardíaca — Atlas de Medicina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px 6px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 24px}
+.s-logo{padding:0 16px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:6px}
+a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
+h4{font-size:.9rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+p{margin-bottom:1.1em}
+ul,ol{padding-left:1.4em;margin-bottom:1.1em}
+li{margin-bottom:.35em}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+.doc-header{margin-bottom:32px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.subarea-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.sa-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.sa-card .sat{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--ac);margin-bottom:6px}
+.sa-card p{font-size:13.5px;color:var(--muted);margin:0}
+.ref-entry{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);font-size:14px}
+.ref-entry:last-child{border-bottom:none}
+.ref-nota{font-style:italic;color:var(--muted);font-size:13px;margin-top:4px}
+.ref-layer{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px}
+.plate-block{margin:28px 0;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid,.subarea-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar{display:none}
+  #content{padding:20px}
+  a[href]::after{content:" (" attr(href) ")";font-size:11px;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Anatomia Cardíaca</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Colapsar sidebar">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Atlas · Medicina</div>
+    <div class="s-group">
+      <div class="sgt">Neste compêndio</div>
+      <a class="sl" href="#intro">Introdução</a>
+      <a class="sl" href="#camaras">Câmaras cardíacas</a>
+      <a class="sl" href="#valvas">Valvas</a>
+      <a class="sl" href="#grandes-vasos">Grandes vasos</a>
+      <a class="sl" href="#coronarias">Coronárias</a>
+      <a class="sl" href="#conducao">Sistema de condução</a>
+      <a class="sl" href="#pericardio">Pericárdio</a>
+      <a class="sl" href="#topografia">Topografia e projeção</a>
+      <a class="sl" href="#parede">Parede e camadas</a>
+      <a class="sl" href="#historico">Contexto histórico</a>
+      <a class="sl" href="#questoes">Questões em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Compêndios relacionados</div>
+      <a class="sl" href="../../medicina/fisiologia/ciclo-cardiaco.html">Ciclo cardíaco</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Anatomia Cardíaca</h1>
+  <p class="doc-meta">Atlas · Medicina · Cardiologia · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>anatomia geral básica</b></span>
+    <span class="chip">📍 Área: <b>Cardiologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-30</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que uma laceração da artéria coronária esquerda mata em minutos enquanto uma lesão equivalente da artéria femoral permite horas de intervenção — e o que isso diz sobre como o coração supre e drena seu próprio músculo?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <span class="dep-item">Anatomia geral (cavidades, serosas)</span>
+      <span class="dep-item">Histologia básica (epitélio, músculo)</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia depois</div>
+      <a class="dep-item" href="../../medicina/fisiologia/ciclo-cardiaco.html">Ciclo cardíaco (fisiologia)</a>
+      <a class="dep-item" href="#">Semiologia cardíaca (em construção)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Valvopatias (em construção)</a>
+      <a class="dep-item" href="#">Síndrome Coronariana Aguda (em construção)</a>
+      <a class="dep-item" href="#">Arritmias (em construção)</a>
+    </div>
+  </div>
+</div>
+
+<section id="intro">
+<h2>O que este compêndio cobre</h2>
+<p>A anatomia cardíaca descreve a estrutura macroscópica e microscópica do coração — suas quatro câmaras, quatro valvas, sistema de suprimento sanguíneo próprio (circulação coronariana), sistema de condução elétrica, envoltório fibroseroso (pericárdio) e relação topográfica com estruturas vizinhas no mediastino. É a base sem a qual nenhuma patologia cardíaca pode ser entendida mecanicamente: uma estenose valvar aórtica, um infarto da parede anterior, uma fibrilação atrial ou uma tamponada pericárdica só fazem sentido anátomo-funcionalmente.</p>
+
+<p>O coração é um órgão muscular oco situado no mediastino médio, entre os dois pulmões, acima do diafragma e atrás do esterno. Pesa entre 250 e 350 g no adulto (variando com sexo, estatura e condicionamento físico) e bombeia em repouso aproximadamente 5 litros de sangue por minuto — podendo chegar a 20–25 L/min durante exercício intenso <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>. Essa demanda funcional impõe uma arquitetura altamente especializada: paredes com espessuras diferentes conforme a pressão gerada, válvulas que se abrem e fecham passivamente por gradiente de pressão, e uma irrigação própria independente do sangue intracavitário.</p>
+
+</section>
+
+<section id="camaras">
+<h2>Câmaras cardíacas</h2>
+<div class="plate-block">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Gray490.png"
+       alt="Gray490 — Corte frontal do coração mostrando câmaras e valvas (Gray's Anatomy, 1918)"
+       loading="lazy">
+  <div class="plate-caption"><b>Prancha 490</b> — Corte frontal do coração: câmaras, valvas atrioventriculares e semilunares. <em>Gray's Anatomy</em>, Henry Gray, 1918. Domínio público.</div>
+</div>
+
+<p>O coração possui quatro câmaras: dois átrios (superiores, de paredes delgadas, receptores) e dois ventrículos (inferiores, de paredes espessas, propulsores). A divisão longitudinal — septo interatrial e septo interventricular — separa completamente as circulações pulmonar e sistêmica após o nascimento. Qualquer comunicação residual entre os lados representa malformação congênita com implicações hemodinâmicas proporcionais ao shunt gerado <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>.</p>
+
+<h3>Átrio direito (AD)</h3>
+<p>Recebe sangue venoso sistêmico pelas veias cavas superior e inferior, e sangue do próprio coração pelo seio coronariano. Sua parede posterior é lisa (derivada do seio venoso embrionário); a parede anterior e o apêndice atrial direito (aurícula direita) são trabeculados pelos músculos pectíneos. O limite entre as duas regiões é a <em>crista terminalis</em> — elevação muscular vertical com relevância clínica porque é sítio de origem de taquicardias atriais focais. No septo interatrial está a <em>fossa oval</em>, depressão oval que corresponde ao forame oval fetal fechado. Em 20–25% dos adultos essa fusão é incompleta — forame oval patente (FOP) — que normalmente é funcionalmente fechado mas pode ser via de embolia paradoxal.</p>
+
+<h3>Ventrículo direito (VD)</h3>
+<p>Câmara de baixa pressão (pressão sistólica ~25 mmHg), com paredes mais delgadas (3–5 mm) que o ventrículo esquerdo. Sua forma é semilunar em corte transversal, envolve parcialmente o VE. O interior é trabeculado por trabéculas cárneas, entre elas a <em>trabécula septomarginal</em> (banda moderadora), que conduz o ramo direito do feixe de His diretamente ao músculo papilar anterior — atalho que antecipa a ativação do músculo papilar e previne regurgitação tricúspide durante a sístole. A via de saída — <em>infundíbulo</em> ou cone arterial — é de paredes lisas e direciona o fluxo para a valva pulmonar.</p>
+
+<h3>Átrio esquerdo (AE)</h3>
+<p>Câmara de maior pressão atrial (média ~8–12 mmHg), recebe sangue oxigenado das quatro veias pulmonares. Sua parede posterior é quase inteiramente lisa. O apêndice atrial esquerdo (aurícula esquerda) é tubular, com base estreita — morfologia que favorece estase e formação de trombo em fibrilação atrial, tornando-o o principal sítio de trombo intracardíaco na FA. O septo interatrial apresenta, no lado esquerdo, a válvula da fossa oval, que atua como tampa sobre o septo primum.</p>
+
+<h3>Ventrículo esquerdo (VE)</h3>
+<p>Câmara de alta pressão (pressão sistólica ~120 mmHg), com paredes de 8–12 mm de espessura — três vezes mais espesso que o VD. Sua forma é cônica, com superfície interna trabeculada. Dois grupos de músculos papilares — anterolateral e posteromedial — sustentam as cordas tendíneas que fixam os folhetos da valva mitral. Ao contrário do VD, o VE tem dupla via de entrada (valva mitral) e saída (valva aórtica) geometricamente separadas pelo septo interventricular membranoso e pelo folheto anterior da mitral. Essa arquitetura impõe que a contração do VE seja simultaneamente centrípeta e longitudinal, gerando uma fração de ejeção normal de 55–70%.</p>
+
+<div class="kbox">
+  <div class="klabel">Conceito-chave — Espessura de parede e pressão</div>
+  <p>A espessura de cada câmara é proporcional à pressão que ela gera: VE (~120 mmHg sistólico) tem parede ~3× mais espessa que VD (~25 mmHg). Sobrecarga pressórica crônica induz hipertrofia concêntrica (paredes mais espessas, cavidade preservada); sobrecarga de volume induz hipertrofia excêntrica (dilatação com paredes proporcionalmente delgadas). Essa distinção morfológica guia o diagnóstico etiológico no ecocardiograma <span class="cite">(<a href="#referencias">GUYTON; HALL, 2021</a>)</span>.</p>
+</div>
+</section>
+
+<section id="valvas">
+<h2>Valvas cardíacas</h2>
+<p>As quatro valvas cardíacas são estruturas passivas — abrem e fecham por gradiente de pressão, sem musculatura própria. Dividem-se em valvas atrioventriculares (mitral e tricúspide), que separam átrios de ventrículos, e valvas semilunares (aórtica e pulmonar), que separam ventrículos das grandes artérias.</p>
+
+<h3>Valva tricúspide</h3>
+<p>Localiza-se no óstio atrioventricular direito. Possui três folhetos (cúspides): anterior, posterior e septal. Os folhetos são fixados ao anel fibroso tricúspide e às cordas tendíneas, que se prendem aos músculos papilares anterior, posterior e septal do VD. O folheto septal é o mais próximo do septo interventricular membranoso — estrutura com o nó atrioventricular imediatamente adjacente, razão pela qual cirurgias sobre a valva tricúspide ou defeitos do septo membranoso podem causar bloqueio AV.</p>
+
+<h3>Valva mitral (bicúspide)</h3>
+<p>Localiza-se no óstio atrioventricular esquerdo. Possui dois folhetos: anterior (maior, próximo à valva aórtica) e posterior. O folheto anterior é contíguo ao folheto não coronariano da valva aórtica — continuidade mitro-aórtica — que explica por que doenças degenerativas ou infecciosas podem acometer ambas simultaneamente. As cordas tendíneas ligam os folhetos aos músculos papilares anterolateral e posteromedial; o músculo posteromedial tem suprimento sanguíneo único (artéria coronária direita ou circunflexa) e é mais vulnerável a isquemia — principal causa de regurgitação mitral isquêmica aguda <span class="cite">(<a href="#referencias">NETTER, 2019</a>)</span>.</p>
+
+<h3>Valva pulmonar</h3>
+<p>Localiza-se na via de saída do VD, no infundíbulo. Possui três cúspides semilunares: anterior, direita e esquerda. Não tem aparato subvalvar (sem cordas nem músculos papilares) — o fechamento é garantido apenas pelo gradiente de pressão entre tronco pulmonar e VD na diástole. A pressão diastólica pulmonar (~10 mmHg) é baixa, o que facilita o fechamento e torna a insuficiência pulmonar hemodinamicamente tolerada por longos períodos.</p>
+
+<h3>Valva aórtica</h3>
+<p>Localiza-se na via de saída do VE, com três cúspides semilunares: direita (coronariana direita), esquerda (coronariana esquerda) e posterior (não coronariana). Entre cada cúspide e a parede aórtica há dilatações chamadas <em>seios de Valsalva</em> (ou seios aórticos); é dos seios direito e esquerdo que emergem as artérias coronárias. O fluxo para as coronárias ocorre predominantemente na diástole, quando a valva aórtica está fechada e o seio cria um turbilhão que direciona o sangue aos óstios coronarianos — mecanismo passivo e engenhoso que dispensa bomba acessória para perfundir o próprio miocárdio.</p>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Mitral</div>
+    <p>2 folhetos; óstio AV esquerdo; cordas + mm. papilares. Folheto anterior contíguo à aórtica.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Tricúspide</div>
+    <p>3 folhetos; óstio AV direito; folheto septal adjacente ao nó AV.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Aórtica</div>
+    <p>3 cúspides semilunares; seios de Valsalva originam coronárias. Fluxo coronariano na diástole.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Pulmonar</div>
+    <p>3 cúspides semilunares; sem aparato subvalvar. Pressão diastólica baixa — insuficiência tolerada.</p>
+  </div>
+</div>
+</section>
+
+<section id="grandes-vasos">
+<h2>Grandes vasos</h2>
+<div class="plate-block">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Gray492.png"
+       alt="Gray492 — Face esternocostal do coração e grandes vasos (Gray's Anatomy, 1918)"
+       loading="lazy">
+  <div class="plate-caption"><b>Prancha 492</b> — Face esternocostal: ventrículo direito, tronco pulmonar, aorta ascendente e arco aórtico. <em>Gray's Anatomy</em>, 1918. Domínio público.</div>
+</div>
+
+<p>Os grandes vasos são as artérias e veias de maior calibre diretamente conectadas ao coração. Sua anatomia determina tanto a fisiologia normal quanto a patologia cirúrgica e os procedimentos de hemodinâmica.</p>
+
+<h3>Aorta</h3>
+<p>Artéria de maior calibre do corpo, originada no VE. Divide-se em: <em>aorta ascendente</em> (da valva aórtica até o arco aórtico, ~5 cm; diâmetro normal ≤40 mm); <em>arco aórtico</em>, de onde emergem o tronco braquiocefálico, a artéria carótida comum esquerda e a artéria subclávia esquerda; <em>aorta descendente torácica</em>, posterior ao pericárdio, e <em>aorta abdominal</em>. A parede da aorta é composta por três camadas — íntima, média (rica em fibras elásticas) e adventícia. A dissecção aórtica ocorre quando sangue entra na média por laceração da íntima, criando falso lúmen. A localização da dissecção em relação às coronárias e valva aórtica determina urgência cirúrgica (classificação de Stanford A vs. B) <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>.</p>
+
+<h3>Tronco pulmonar e artérias pulmonares</h3>
+<p>O tronco pulmonar emerge do VD, percorre ~5 cm e bifurca-se em artéria pulmonar direita e esquerda, sob o arco aórtico. É o único vaso arterial do corpo adulto que conduz sangue venoso (desoxigenado). O ligamento arterioso — remanescente fibroso do ducto arterioso fetal — une a face superior do tronco pulmonar à aorta descendente; sua persistência após o nascimento (PCA) gera shunt esquerda-direita.</p>
+
+<h3>Veias cavas</h3>
+<p>A veia cava superior (VCS) drena a cabeça, pescoço, membros superiores e tórax para o AD; a veia cava inferior (VCI) drena o abdome e membros inferiores. Ambas desembocam no AD sem valvas. Compressão extrínseca da VCS por massas mediastinais provoca síndrome da veia cava superior (edema em capa, cianose facial, circulação colateral torácica).</p>
+
+<h3>Veias pulmonares</h3>
+<p>Quatro veias pulmonares — duas direitas e duas esquerdas — conduzem sangue oxigenado dos pulmões ao AE. São os únicos vasos venosos do corpo que conduzem sangue arterializado. Seus óstios no AE são relevantes em ablação por cateter de FA: as veias pulmonares são a origem de maior parte dos focos ectópicos que desencadeiam e perpetuam fibrilação atrial, justificando o isolamento elétrico desses óstios como base do procedimento.</p>
+</section>
+
+<section id="coronarias">
+<h2>Circulação coronariana</h2>
+<div class="plate-block">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Gray495.png"
+       alt="Gray495 — Artérias coronárias direita e esquerda (Gray's Anatomy, 1918)"
+       loading="lazy">
+  <div class="plate-caption"><b>Prancha 495</b> — Artérias coronárias: ADA, circunflexa, ACD e ramos. <em>Gray's Anatomy</em>, 1918. Domínio público.</div>
+</div>
+
+<p>O coração supre seu próprio músculo por sistema arterial independente do sangue intracavitário — o miocárdio recebe oxigênio exclusivamente pelas artérias coronárias, não por difusão do sangue que passa pelas câmaras. Essa dependência explica a rapidez com que a oclusão coronariana leva à necrose: sem circulação colateral estabelecida, a isquemia irreversível começa em 20–40 minutos.</p>
+
+<h3>Artéria coronária esquerda (ACE)</h3>
+<p>Emerge do seio coronariano esquerdo da aorta, percorre 1–2 cm como tronco comum (TC) e bifurca-se em: <em>artéria descendente anterior (ADA)</em> — desce pelo sulco interventricular anterior, emitindo ramos diagonais (parede anterior do VE) e ramos septais perfurantes (2/3 anteriores do septo); e <em>artéria circunflexa (CX)</em> — percorre o sulco atrioventricular esquerdo, emitindo ramos marginais obtusas (parede lateral do VE). A ADA é a artéria mais frequentemente acometida no infarto; sua oclusão proximal é chamada de "widow maker" porque interrompe suprimento da maior massa miocárdica <span class="cite">(<a href="#referencias">GRAY; STANDRING, 2021</a>)</span>.</p>
+
+<h3>Artéria coronária direita (ACD)</h3>
+<p>Emerge do seio coronariano direito, desce pelo sulco atrioventricular direito emitindo ramos para o VD e, ao atingir a cruz cordis (ponto de cruzamento dos sulcos interventricular posterior e atrioventricular), origina a <em>artéria descendente posterior (ADP)</em> na maioria dos indivíduos — configuração chamada de <em>dominância direita</em> (~70% dos casos). A ACD também supre o nó sinoatrial (em ~60%) e o nó atrioventricular (~90%), explicando por que infarto inferior (oclusão da ACD) frequentemente cursa com bloqueio AV transitório.</p>
+
+<h3>Dominância coronariana</h3>
+<p>O conceito de dominância refere-se a qual artéria origina a ADP e os ramos para o nó AV: direita (~70%), esquerda (~15%) ou codominância (~15%). A dominância tem relevância prognóstica no infarto: oclusão da artéria dominante compromete maior massa miocárdica e área de condução.</p>
+
+<h3>Drenagem venosa coronariana</h3>
+<p>O sangue venoso do miocárdio drena predominantemente pelo <em>seio coronariano</em> (no sulco atrioventricular posterior), que desemboca no AD. As veias cardíacas acompanham as artérias: veia cardíaca magna (acompanha a ADA e CX), veia cardíaca média (acompanha a ADP), veia cardíaca pequena (acompanha a ACD). Uma fração menor drena diretamente nas câmaras pelas <em>veias de Tebesio</em> — comunicações mínimas de significado clínico limitado.</p>
+
+<div class="kbox">
+  <div class="klabel">Conceito-chave — Fluxo coronariano diastólico</div>
+  <p>O miocárdio contrai durante a sístole, comprimindo os vasos intramurais e praticamente interrompendo o fluxo coronariano nessa fase. O suprimento coronariano ocorre predominantemente na <strong>diástole</strong>, quando o músculo relaxa. Isso explica por que taquicardia grave (diástole curta) reduz a perfusão coronariana e por que a pressão diastólica aórtica é o determinante principal da perfusão coronariana: PA diastólica baixa = menor gradiente de perfusão. Esse princípio é central para entender o choque cardiogênico, a estenose aórtica grave e o uso de vasopressores no manejo do IAM <span class="cite">(<a href="#referencias">GUYTON; HALL, 2021</a>)</span>.</p>
+</div>
+</section>
+
+<section id="conducao">
+<h2>Sistema de condução elétrica</h2>
+<div class="plate-block">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Gray_internal_structure_of_heart.png"
+       alt="Gray498 — Estrutura interna do coração e sistema de condução (Gray's Anatomy, 1918)"
+       loading="lazy">
+  <div class="plate-caption"><b>Prancha 498</b> — Estrutura interna: septo, valvas e sistema de condução. <em>Gray's Anatomy</em>, 1918. Domínio público.</div>
+</div>
+
+<p>O coração possui sistema especializado de geração e condução de impulsos elétricos que garante a sequência coordenada de contração — átrios primeiro, ventrículos depois — com atraso calculado para permitir enchimento ventricular. Esse sistema é composto por células modificadas com automatismo intrínseco (disparam espontaneamente) e velocidade de condução variável.</p>
+
+<h3>Nó sinoatrial (NSA)</h3>
+<p>Marcapasso fisiológico, localizado na junção da VCS com o AD, próximo à crista terminalis. Dispara a 60–100 bpm em repouso. É inervado pelo simpático (aumenta frequência) e pelo vago (diminui frequência). Irrigado pela artéria do NSA, ramo da ACD em ~60% e da CX em ~40%. Disfunção do NSA gera síndrome do nó doente (bradicardia sinusal, pausas, síndrome bradi-taqui).</p>
+
+<h3>Vias internodais e interatriais</h3>
+<p>O impulso propaga-se pelo miocárdio atrial de célula a célula. Existem vias preferenciais de condução internodal (anterior, média e posterior de Bachmann), embora o conceito de "vias internodais anatomicamente distintas" seja debatido — o substrato anatômico é miocárdio atrial orientado, não tecido especializado isolado. O feixe de Bachmann conduz o impulso ao AE, sincronizando a ativação atrial bilateral.</p>
+
+<h3>Nó atrioventricular (NAV)</h3>
+<p>Localizado no triângulo de Koch — delimitado pelo óstio do seio coronariano, pelo folheto septal da tricúspide e pelo tendão de Todaro. É o único ponto de condução normal entre átrios e ventrículos (os restantes estão separados pelos anéis fibrosos do esqueleto cardíaco). O NAV impõe atraso fisiológico de 120–200 ms (visível no intervalo PR do ECG), permitindo o enchimento ventricular. Frequência intrínseca de escape: 40–60 bpm. Dupla nutrição (ACD + CX) confere relativa proteção, mas isquemia inferior pode comprimí-lo.</p>
+
+<h3>Feixe de His e ramos</h3>
+<p>Do NAV, o impulso segue pelo <em>feixe de His</em> — único ponto de condução pelo septo membranoso — e divide-se em <em>ramo direito</em> (fino, percorre o septo até a trabécula septomarginal → VD) e <em>ramo esquerdo</em> (largo, divide-se em fascículo anterossuperior e posteroinferior → VE). O ramo esquerdo é mais vulnerável a isquemia e fibrose por ter maior área. Bloqueio do ramo esquerdo (BRE) tem maior implicação prognóstica que bloqueio do ramo direito (BRD) isolado.</p>
+
+<h3>Fibras de Purkinje</h3>
+<p>Os ramos terminam em rede de fibras de Purkinje — células de grande diâmetro, alta velocidade de condução (2–4 m/s, 6× maior que o miocárdio ventricular comum). A rede subendocárdica garante ativação quase simultânea de toda a massa ventricular, da ponta em direção à base. Velocidade de condução intrínseca: 20–40 bpm (marcapasso de último recurso em parada do NSA e NAV).</p>
+</section>
+
+<section id="pericardio">
+<h2>Pericárdio</h2>
+<p>O pericárdio é o saco fibroseroso que envolve o coração e a raiz dos grandes vasos. Compõe-se de duas camadas: <em>pericárdio fibroso</em> externo (tecido conjuntivo denso, inextensível, fundido com o diafragma inferiormente e com a adventícia dos grandes vasos superiormente) e <em>pericárdio seroso</em>, subdividido em lâmina parietal (forra internamente o fibroso) e lâmina visceral — o <em>epicárdio</em> — que adere ao miocárdio.</p>
+
+<p>O espaço pericárdico entre as duas lâminas serosas contém 15–50 mL de líquido lubrificante. O acúmulo patológico desse líquido é o <em>derrame pericárdico</em>. A rigidez do pericárdio fibroso é determinante: acúmulo rápido de 150–200 mL pode elevar a pressão intrapericárdica a ponto de comprimir as câmaras direitas (tamponamento cardíaco), enquanto acúmulo lento pode atingir 1–2 L sem colapso hemodinâmico, pois o pericárdio fibroso se adapta progressivamente.</p>
+
+<p>A inervação sensitiva do pericárdio parietal é feita pelo nervo frênico (C3–C5), explicando a dor pericárdica referida ao ombro e região cervical — e o soluço como manifestação de irritação pericárdica. A lâmina visceral não tem inervação sensitiva.</p>
+</section>
+
+<section id="topografia">
+<h2>Topografia e projeção na parede torácica</h2>
+<div class="plate-block">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Gray493.png"
+       alt="Gray493 — Face diafragmática do coração e relações topográficas (Gray's Anatomy, 1918)"
+       loading="lazy">
+  <div class="plate-caption"><b>Prancha 493</b> — Face diafragmática e topografia do coração no mediastino. <em>Gray's Anatomy</em>, 1918. Domínio público.</div>
+</div>
+
+<p>O coração ocupa o mediastino médio, situado entre a 2ª e a 6ª costelas anteriores, com 2/3 à esquerda da linha mediana e 1/3 à direita. Sua eixo anatômico é oblíquo: a base aponta para cima, para a direita e para trás; o ápice aponta para baixo, para a esquerda e para a frente.</p>
+
+<p>As quatro câmaras têm relações topográficas distintas com a parede torácica, o que explica as áreas de ausculta cardíaca clássicas:</p>
+<ul>
+  <li><strong>Borda direita do coração:</strong> formada pelo AD (do 3º ao 6º espaço intercostal direito, ~2 cm lateral ao esterno).</li>
+  <li><strong>Borda superior:</strong> formada pelo tronco pulmonar (à esquerda) e pela aorta ascendente (à direita), na altura da 2ª costela.</li>
+  <li><strong>Borda esquerda:</strong> formada pelo VE (inferior) e pelo apêndice auricular esquerdo (superior), da 2ª à 5ª costela esquerda.</li>
+  <li><strong>Borda inferior (diafragmática):</strong> formada pelo VD (2/3 direitos) e VE (1/3 esquerdo), apoiada no diafragma.</li>
+</ul>
+
+<p>O <em>ictus cordis</em> (choque de ponta) é a pulsação do ápice do VE palpável no 5º espaço intercostal esquerdo, na linha hemiclavicular. Seu deslocamento lateral ou inferolateral indica cardiomegalia. A projeção das valvas e as áreas de ausculta divergem: o som produzido pela valva é transmitido no sentido do fluxo sanguíneo, por isso a valva aórtica (localizada atrás do esterno, 3º espaço) é melhor auscultada no 2º espaço intercostal direito.</p>
+</section>
+
+<section id="parede">
+<h2>Parede cardíaca — camadas e faces</h2>
+<p>A parede cardíaca é composta por três camadas, de fora para dentro:</p>
+<ul>
+  <li><strong>Epicárdio:</strong> lâmina visceral do pericárdio seroso. Contém tecido adiposo subepicárdico onde percorrem as artérias coronárias, veias e nervos. O tecido adiposo epicárdico tem atividade metabólica e inflamatória própria, com papel emergente na patogênese da doença coronariana e FA.</li>
+  <li><strong>Miocárdio:</strong> camada muscular, responsável pela função contrátil. Composto por cardiomiócitos — células musculares estriadas, geralmente com um único núcleo central, interconectadas por discos intercalares que garantem condução elétrica rápida de célula a célula (sincício funcional). O miocárdio ventricular é organizado em camadas helicoidais de fibras com orientações distintas, o que permite a torção sistólica que aumenta a eficiência de ejeção. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">→ Ciclo cardíaco: fisiologia da contração</a>.</li>
+  <li><strong>Endocárdio:</strong> camada interna de endotélio e tecido conjuntivo subendotelial, reveste câmaras e cobre valvas. É contínuo com o endotélio vascular. Lesões do endocárdio (por jatos de alta velocidade em valvopatias, por exemplo) criam superfícies trombogênicas — substrato para endocardite infecciosa.</li>
+</ul>
+
+<p>O coração tem cinco faces: esternocostal (anterior — predominantemente VD), diafragmática (inferior — VD e VE), pulmonar direita, pulmonar esquerda e base (posterior — AE). O conhecimento das faces importa para correlacionar território de infarto com derivação do ECG: infarto da face anterior correlaciona-se com derivações V1–V4 (ADA); infarto inferior, com derivações DII, DIII, aVF (ACD); infarto lateral, com DI, aVL, V5–V6 (CX ou diagonal).</p>
+</section>
+
+<section id="historico">
+<h2>Contexto histórico</h2>
+<div class="hist">
+  <span class="hl">Séc. II d.C.</span>
+  Galeno de Pérgamo descreve o coração como fonte de calor e pneuma vital. Acredita erroneamente em poros no septo interventricular que permitiriam passagem direta de sangue entre ventrículos — visão que persistiu por 1400 anos.
+</div>
+<div class="hist">
+  <span class="hl">1628</span>
+  William Harvey publica <em>Exercitatio Anatomica de Motu Cordis et Sanguinis</em>, demonstrando experimentalmente a circulação sanguínea como sistema fechado e o coração como bomba — primeira descrição quantitativa e mecanicista da função cardíaca.
+</div>
+<div class="hist">
+  <span class="hl">1706</span>
+  Raymond Vieussens descreve as artérias coronárias com detalhamento anatômico, estabelecendo a base para compreender a circulação coronariana.
+</div>
+<div class="hist">
+  <span class="hl">1893</span>
+  Wilhelm His Jr. descreve o feixe de His, primeiro componente anatômico identificado do sistema de condução especializado.
+</div>
+<div class="hist">
+  <span class="hl">1907</span>
+  Arthur Keith e Martin Flack identificam o nó sinoatrial — o marcapasso cardíaco — em dissecções de corações de mamíferos.
+</div>
+<div class="hist">
+  <span class="hl">1909</span>
+  Sunao Tawara publica descrição completa do sistema de condução, incluindo nó AV, feixe de His e ramos, estabelecendo a anatomia da condução elétrica cardíaca.
+</div>
+<div class="hist">
+  <span class="hl">1929</span>
+  Werner Forssmann realiza o primeiro cateterismo cardíaco em si mesmo, introduzindo cateter pela veia antecubital até o AD — base de toda a hemodinâmica e cardiologia intervencionista moderna.
+</div>
+</section>
+
+<section id="questoes">
+<h2>Questões em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão em aberto</div>
+  <p>Qual é exatamente a contribuição do tecido adiposo epicárdico na patogênese da fibrilação atrial e da doença coronariana? Estudos recentes sugerem papel inflamatório e paracrino, mas os mecanismos moleculares e a direcionalidade causal permanecem mal estabelecidos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão em aberto</div>
+  <p>As vias internodais (feixes de Bachmann, Wenckebach, Thorel) são estruturas anatomicamente distintas e isoladas, ou refletem apenas orientação preferencial do miocárdio atrial? A questão tem implicação direta para ablação de arritmias atriais.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão em aberto</div>
+  <p>Qual é o potencial regenerativo real do miocárdio adulto? A existência de células-tronco cardíacas residentes e sua capacidade de regeneração após infarto permanece controversa — com alegações de regeneração significativa refutadas por fraude científica (caso Anversa) mas não completamente resolvidas biologicamente.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão em aberto</div>
+  <p>Como a variação da dominância coronariana interage com fatores de risco para determinar o padrão e a gravidade do infarto? A dominância esquerda parece associada a pior prognóstico no IAM com supra, mas os mecanismos desta assimetria ainda são debatidos.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora — por que a laceração de uma coronária mata em minutos enquanto lesão arterial equivalente em outro território permite horas de intervenção — encontra sua resposta na confluência de três características anatômicas únicas do coração: (1) o miocárdio extrai quase o máximo de oxigênio do sangue coronariano já em repouso (~70% de extração, contra ~25% no músculo esquelético), não havendo reserva de extração para compensar redução de fluxo; (2) a ausência de anastomoses coronarianas funcionalmente significativas na maioria dos indivíduos impede circulação colateral imediata; e (3) o fluxo coronariano é diastólico, e qualquer taquicardia compensatória que encurte a diástole agrava a isquemia num momento em que o coração mais precisa de oxigênio.</p>
+
+<p>Há uma tensão profunda na anatomia cardíaca entre robustez e vulnerabilidade: o coração é o único órgão que não pode parar de funcionar nem por fração de segundo para ser suprido, e paradoxalmente é o único que interrompe seu próprio suprimento durante cada sístole. A solução evolutiva — fluxo diastólico pelos seios de Valsalva — é elegante mas cria dependência da pressão diastólica aórtica e da duração da diástole. Todo o edifício da patologia coronariana, do choque cardiogênico ao infarto transmural, é consequência lógica dessa equação anatômica.</p>
+
+<p>Uma implicação que emerge dos dados mas raramente é enunciada explicitamente: a anatomia das faces cardíacas e os territórios coronarianos criam um mapa de previsibilidade que transforma o ECG num instrumento de localização anatômica antes de ser um instrumento diagnóstico. A derivação que mostra supra de ST é a janela elétrica para a face isquêmica; a face isquêmica é território de uma coronária específica; a coronária é identificável pelo padrão de oclusão. Anatomia, eletrofisiologia e clínica são, nesse campo, uma única linguagem.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências e Leituras Recomendadas</h2>
+
+<div class="ref-layer">Ponto de entrada</div>
+
+<div class="ref-entry">
+  NETTER, Frank H. <strong>Atlas de Anatomia Humana</strong>. 7. ed. Rio de Janeiro: Elsevier, 2019.
+  <p class="ref-nota">Referência visual incomparável para anatomia cardíaca. As pranchas 212–235 cobrem coração, pericárdio, câmaras, valvas e coronárias com detalhamento topográfico e clínico. Ponto de entrada obrigatório antes de qualquer outro texto.</p>
+</div>
+
+<div class="ref-entry">
+  MOORE, Keith L.; DALLEY, Arthur F.; AGUR, Anne M. R. <strong>Anatomia Orientada para a Clínica</strong>. 7. ed. Rio de Janeiro: Guanabara Koogan, 2014.
+  <p class="ref-nota">Texto canônico de anatomia com correlações clínicas sistemáticas. Capítulo 1 (Tórax) cobre anatomia cardíaca em profundidade com caixas clínicas sobre tamponamento, dissecção aórtica e bloqueios de condução. Melhor combinação de rigor anatômico e aplicação clínica disponível em português.</p>
+</div>
+
+<div class="ref-layer">Aprofundamento</div>
+
+<div class="ref-entry">
+  GRAY, Henry; STANDRING, Susan (ed.). <strong>Gray's Anatomy: The Anatomical Basis of Clinical Practice</strong>. 42. ed. Elsevier, 2021.
+  <p class="ref-nota">Referência definitiva de anatomia humana. Capítulos sobre coração, pericárdio e mediastino são os mais detalhados disponíveis — incluem variações anatômicas, irrigação, inervação e correlações cirúrgicas. Uso recomendado para consulta de dúvidas específicas após domínio do Moore.</p>
+</div>
+
+<div class="ref-entry">
+  GUYTON, Arthur C.; HALL, John E. <strong>Tratado de Fisiologia Médica</strong>. 14. ed. Rio de Janeiro: Elsevier, 2021.
+  <p class="ref-nota">Capítulos 9–14 desenvolvem a fisiologia da bomba cardíaca e da circulação coronariana com base na anatomia. Leitura complementar obrigatória — a anatomia só ganha sentido pleno quando conectada à fisiologia hemodinâmica. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">→ Ver compêndio Ciclo Cardíaco</a>.</p>
+</div>
+
+<div class="ref-layer">Consulta especializada</div>
+
+<div class="ref-entry">
+  ANDERSON, Robert H. et al. <strong>Cardiac Anatomy Revisited</strong>. <em>Journal of Anatomy</em>, v. 205, n. 3, p. 159–177, 2004. DOI: <a href="https://doi.org/10.1111/j.0021-8782.2004.00330.x" target="_blank" rel="noopener">10.1111/j.0021-8782.2004.00330.x</a>
+  <p class="ref-nota">Revisão de referência sobre nomenclatura e anatomia cardíaca segmentar. Essencial para quem estudar cardiopatias congênitas ou anatomia cirúrgica — introduz a abordagem segmentar sequencial que organiza a descrição do coração malformado.</p>
+</div>
+
+<div class="ref-entry">
+  HARVEY, William. <strong>Exercitatio Anatomica de Motu Cordis et Sanguinis in Animalibus</strong>. Frankfurt, 1628.
+  <p class="ref-nota">Texto fundador da fisiologia cardiovascular moderna. Mencionado por valor histórico — Harvey demonstrou por raciocínio quantitativo (volume sistólico × frequência) que o sangue não pode ser produzido continuamente pelo fígado, mas circula. Disponível em tradução e facsímile online.</p>
+</div>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+<script>
+(function(){
+  // Progresso de leitura
+  var pb = document.getElementById('progress-bar');
+  window.addEventListener('scroll',function(){
+    var st = window.scrollY || document.documentElement.scrollTop;
+    var sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    pb.style.width = (sh > 0 ? (st/sh*100) : 0)+'%';
+  },{passive:true});
+
+  // Sidebar toggle
+  var btn = document.getElementById('toggle-btn');
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  if(sessionStorage.getItem('sidebar-collapsed')==='1'){
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    btn.textContent='▶';
+  }
+  btn.addEventListener('click',function(){
+    var c = sidebar.classList.toggle('collapsed');
+    bodyWrap.classList.toggle('sidebar-collapsed',c);
+    btn.textContent = c ? '▶' : '◀';
+    sessionStorage.setItem('sidebar-collapsed', c?'1':'0');
+  });
+
+  // Highlight de seção ativa (sidebar)
+  var links = document.querySelectorAll('a.sl[href^="#"]');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active')});
+        var id = e.target.id;
+        var a = document.querySelector('a.sl[href="#'+id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+
+  document.querySelectorAll('section[id]').forEach(function(s){
+    obs.observe(s);
+    obs2.observe(s);
+  });
+})();
+</script>
+</body>
+</html>

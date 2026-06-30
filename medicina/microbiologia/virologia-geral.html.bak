@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virologia Geral — Compêndio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+
+/* Sidebar */
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);display:flex;justify-content:flex-end;flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:14px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--ac);border-color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+#sidebar.collapsed .s-inner>*{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 16px;font-family:var(--font-ui);font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px;padding:0 8px}
+.s-group-title{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 8px;margin-bottom:6px}
+a.sl{display:block;padding:5px 8px;border-radius:4px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;transition:background .15s,color .15s}
+a.sl:hover,a.sl.active{background:var(--bg3);color:var(--ac)}
+
+/* Content */
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Typography */
+h1{font-size:2rem;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.25}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:2.4em 0 .7em;padding-bottom:6px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:1.8em 0 .5em}
+h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:1.4em 0 .4em;font-family:var(--font-ui)}
+p{margin-bottom:1.1em}
+ul,ol{margin:0 0 1.1em 1.4em}
+li{margin-bottom:.35em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+
+/* Doc header */
+.doc-header{margin-bottom:40px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:6px 0 14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+/* Pergunta motivadora */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Painel de dependências */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+/* Nota histórica */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+/* Key-concept box */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* Conceitos-chave grid */
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;margin:0;color:var(--muted)}
+
+/* Cross-link */
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+/* Perguntas em aberto */
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+/* Tabelas */
+table{width:100%;border-collapse:collapse;margin:1.2em 0 1.6em;font-size:14px;font-family:var(--font-ui)}
+thead th{background:var(--bg3);color:var(--ac);font-weight:600;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tbody tr:nth-child(even){background:var(--bg2)}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:-1em;margin-bottom:1.6em;font-style:italic}
+
+/* Cite */
+.cite{color:var(--ac);font-size:.85em}
+a.cite-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--ac)}
+
+/* Leituras */
+.badge-tem{font-family:var(--font-ui);font-size:10px;font-weight:600;color:#4a9d6a;background:#0d2318;border:1px solid #1e5c3a;border-radius:3px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+
+/* Mobile */
+@media(max-width:900px){
+  #sidebar{display:none}
+  #sidebar.open{display:block;position:fixed;z-index:200;height:100vh}
+  #mob-bar{display:flex;align-items:center;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border)}
+  #mob-menu-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+}
+#mob-bar{display:none}
+
+/* Print */
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#progress-bar,#mob-bar{display:none}
+  #content{padding:20px}
+  a.cross-link::after{content:" (" attr(href) ")";font-size:.75em;color:#555}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <button id="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="margin-left:12px;font-family:var(--font-ui);font-size:13px;color:var(--muted)">Virologia Geral</span>
+</div>
+
+<div id="body-wrap">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar/expandir sidebar">‹</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Medicina · Microbiologia</div>
+    <div class="s-group">
+      <div class="s-group-title">Neste compêndio</div>
+      <a class="sl" href="#pergunta">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#o-que-e-virus">O que é um vírus?</a>
+      <a class="sl" href="#estrutura">Estrutura viral</a>
+      <a class="sl" href="#classificacao">Classificação de Baltimore</a>
+      <a class="sl" href="#ciclo-replicativo">Ciclo replicativo</a>
+      <a class="sl" href="#patogenese">Patogênese viral</a>
+      <a class="sl" href="#antivirais">Antivirais</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-title">Imunologia</div>
+      <a class="sl" href="../imunologia/imunidade-inata.html">M4 — Imunidade Inata</a>
+      <a class="sl" href="../imunologia/resposta-a-patogenos.html">M9 — Resposta a Patógenos</a>
+      <a class="sl" href="../imunologia/moleculas-sistema-imune.html">M3 — Moléculas</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTEÚDO -->
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Virologia Geral</h1>
+  <p class="doc-meta">Medicina · Microbiologia · Murray — Medical Microbiology 10ª ed. · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~55 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>biologia celular básica, ácidos nucleicos</b></span>
+    <span class="chip">📍 Área: <b>Microbiologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<div class="pergunta" id="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente imunocompetente contrai gripe (influenza A) e, na mesma semana, tenta se curar com antibióticos — sem resultado. Em paralelo, um paciente HIV-positivo com CD4 de 50 células/µL desenvolve retinite por CMV, tratado com sucesso com ganciclovir. Por que antibióticos são inúteis contra vírus? E como o ganciclovir consegue bloquear seletivamente o CMV sem destruir as células do paciente?</p>
+</div>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../imunologia/imunidade-inata.html">M4 — Imunidade Inata</a>
+      <a class="dep-item" href="../imunologia/resposta-a-patogenos.html">M9 — Resposta a Patógenos</a>
+      <a class="dep-item" href="../imunologia/moleculas-sistema-imune.html">M3 — Moléculas (IFN tipo I)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Biologia celular — organelas e membrana</a>
+      <a class="dep-item" href="#">Ácidos nucleicos — DNA, RNA, replicação</a>
+      <a class="dep-item" href="#">Bioquímica — enzimas e inibição enzimática</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Microbiologia — Herpesviridae (futuro)</a>
+      <a class="dep-item" href="#">Microbiologia — Retrovirologia e HIV (futuro)</a>
+      <a class="dep-item" href="#">Farmacologia F6 — Antibióticos (futuro)</a>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTOS NECESSÁRIOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>Vírus existem na fronteira entre o químico e o biológico. Para entendê-los, três conceitos prévios são indispensáveis.</p>
+
+<p><strong>Ácidos nucleicos como portadores de informação.</strong> DNA é uma fita dupla de desoxirribonucleotídeos que armazena informação genética; RNA é geralmente fita simples de ribonucleotídeos. A sequência de bases (adenina, citosina, guanina, timina/uracila) determina quais proteínas serão sintetizadas. Vírus podem ter qualquer um dos dois como genoma — e, diferentemente de células, alguns usam RNA como material genético permanente.</p>
+
+<p><strong>O dogma central da biologia molecular.</strong> Nas células, o fluxo canônico de informação é DNA → RNA (transcrição, pela RNA polimerase celular) → proteína (tradução, pelos ribossomos). Vírus subvertem esse dogma de formas diversas: alguns trazem seu próprio RNA polimerase; outros (retrovírus) transcrevem RNA → DNA; outros ainda usam RNA diretamente como molde para síntese proteica sem etapa de transcrição.</p>
+
+<p><strong>Seletividade de alvo nos antimicrobianos.</strong> Antibióticos funcionam porque bactérias possuem estruturas ausentes nas células eucarióticas do hospedeiro — parede celular de peptidoglicano, ribossomo 70S, DNA girasse bacteriana. Vírus, por não terem metabolismo próprio nem estruturas exclusivamente bacterianas, não são afetados por antibióticos. Antivirais precisam mirar em estruturas ou enzimas virais que não existem na célula hospedeira — um desafio muito maior.</p>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Vírion</div><p>Partícula viral extracelular completa, infecciosa — a forma "adulta" do vírus fora da célula.</p></div>
+  <div class="ck-card"><div class="ckt">Capsídeo</div><p>Cápsula proteica que envolve o genoma viral; seus subunidades são os capsômeros.</p></div>
+  <div class="ck-card"><div class="ckt">Envelope</div><p>Membrana lipídica derivada do hospedeiro que alguns vírus adquirem ao brotar da célula.</p></div>
+  <div class="ck-card"><div class="ckt">Tropismo</div><p>Especificidade do vírus por determinados tipos celulares, determinada pela interação glicoproteína viral ↔ receptor celular.</p></div>
+  <div class="ck-card"><div class="ckt">Classificação de Baltimore</div><p>Sistema que divide os vírus em 7 classes conforme o tipo de genoma e a estratégia de síntese do mRNA.</p></div>
+  <div class="ck-card"><div class="ckt">Ciclo lítico</div><p>Replicação viral que resulta em lise e morte celular com liberação de novos vírus.</p></div>
+  <div class="ck-card"><div class="ckt">Latência</div><p>Estado em que o genoma viral persiste na célula sem replicação ativa — característica dos herpesvírus e HIV.</p></div>
+  <div class="ck-card"><div class="ckt">Deriva antigênica</div><p>Acúmulo de mutações pontuais em proteínas de superfície viral; base das epidemias sazonais de influenza.</p></div>
+  <div class="ck-card"><div class="ckt">Salto antigênico</div><p>Reorganização de segmentos genômicos entre duas cepas diferentes; base das pandemias de influenza.</p></div>
+</div>
+</section>
+
+<!-- O QUE É UM VÍRUS -->
+<section id="o-que-e-virus">
+<h2>O que é um vírus?</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1892–1935</span>
+  Em 1892, Dmitri Ivanovsky demonstrou que o agente causador da doença do mosaico do tabaco passava por filtros de porcelana que retinham bactérias — evidência de um agente "filtrável". Em 1898, Martinus Beijerinck chamou esse agente de <em>contagium vivum fluidum</em> ("contágio vivo fluido"), sugerindo que não era uma partícula discreta. Em 1935, Wendell Stanley cristalizou o vírus do mosaico do tabaco (TMV) e demonstrou que era uma molécula química — um achado que rendeu o Prêmio Nobel de Química em 1946 e definiu os vírus como entidades na fronteira entre química e biologia.
+</div>
+
+<p>Um vírus é uma partícula acelular obrigatoriamente parasita intracelular, composta por material genético (DNA ou RNA, nunca ambos simultaneamente) envolto por uma capa proteica (o capsídeo). Ele não possui ribossomos, não realiza respiração celular, não tem membrana própria com gradiente eletroquímico — não tem metabolismo autônomo de espécie alguma.</p>
+
+<p>Isso não é uma limitação evolutiva acidental: é o que torna o vírus tão difícil de tratar. Por depender inteiramente da maquinaria da célula hospedeira para se replicar, qualquer agente que interfira na replicação viral corre o risco de também interferir nas funções celulares do paciente. O desafio central da virologia farmacológica é encontrar os poucos pontos em que vírus e hospedeiro divergem.</p>
+
+<div class="kbox">
+  <div class="klabel">Definição formal</div>
+  <p>Vírus: agente infeccioso acelular, parasita intracelular obrigatório, com genoma de DNA ou RNA (nunca ambos), replicando-se exclusivamente dentro de células hospedeiras usando a maquinaria ribossomal e metabólica do hospedeiro.</p>
+</div>
+
+<h3>Comparação com outros agentes microbianos</h3>
+
+<p>A distinção entre vírus, bactérias, fungos e príons é clínica e terapêutica — não apenas taxonômica. A Tabela 1 sintetiza as diferenças essenciais:</p>
+
+<table>
+  <thead><tr><th>Característica</th><th>Vírus</th><th>Bactéria</th><th>Fungo</th></tr></thead>
+  <tbody>
+    <tr><td>Célula própria</td><td>Não</td><td>Sim (procariótica)</td><td>Sim (eucariótica)</td></tr>
+    <tr><td>Genoma</td><td>DNA ou RNA</td><td>DNA (dupla-fita)</td><td>DNA (dupla-fita)</td></tr>
+    <tr><td>Ribossomo próprio</td><td>Não</td><td>Sim (70S)</td><td>Sim (80S)</td></tr>
+    <tr><td>Metabolismo próprio</td><td>Não</td><td>Sim</td><td>Sim</td></tr>
+    <tr><td>Reprodução</td><td>Replicação intracelular</td><td>Divisão binária</td><td>Esporulação / gemulação</td></tr>
+    <tr><td>Alvo terapêutico</td><td>Enzimas virais únicas</td><td>Parede, ribossomo 70S</td><td>Ergosterol, parede fúngica</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 1. Comparação entre vírus, bactérias e fungos nos aspectos relevantes para o tratamento.</p>
+</section>
+
+<!-- ESTRUTURA VIRAL -->
+<section id="estrutura">
+<h2>Estrutura viral</h2>
+
+<p>Todo vírion possui ao menos dois componentes: genoma e capsídeo. A maioria dos vírus de relevância clínica é mais complexa.</p>
+
+<h3>Genoma</h3>
+
+<p>O genoma viral pode ser DNA ou RNA, fita simples ou dupla, linear ou circular, segmentado ou não. Essas combinações não são triviais — elas determinam como o vírus vai se replicar. Um vírus com genoma de RNA fita simples de polaridade positiva (como o poliovírus) pode usar seu RNA diretamente como mRNA, sem precisar de nenhuma etapa prévia de transcrição. Já um vírus com genoma de RNA fita simples de polaridade negativa (como o influenza) precisa carregar consigo uma RNA polimerase para converter seu genoma em mRNA funcional antes de qualquer coisa mais.</p>
+
+<h3>Capsídeo</h3>
+
+<p>O capsídeo é formado por proteínas estruturais repetitivas chamadas <strong>capsômeros</strong> que se auto-organizam ao redor do genoma viral. Dois padrões geométricos predominam:</p>
+
+<p><strong>Simetria icosaédrica:</strong> 20 faces triangulares equilaterais formam uma estrutura esférica altamente eficiente. Adenovírus, poliovírus e herpesvírus têm capsídeos icosaédricos. A vantagem evolutiva é que um genoma pequeno pode codificar poucas proteínas de capsômero que se auto-organizam em estrutura complexa por montagem espontânea.</p>
+
+<p><strong>Simetria helicoidal:</strong> capsômeros se enrolam em espiral ao redor do ácido nucleico. O vírus do tabaco (TMV) é o modelo clássico; em vírus humanos, a nucleocápside do vírus influenza tem simetria helicoidal.</p>
+
+<p>Alguns vírus (como poxvírus) têm morfologia complexa que não se encaixa em nenhum dos dois padrões.</p>
+
+<h3>Envelope</h3>
+
+<p>Aproximadamente metade dos vírus humanos de relevância clínica possui um <strong>envelope</strong> — uma bicamada lipídica derivada de membranas do hospedeiro (membrana plasmática, retículo endoplasmático ou Golgi), adquirida durante o processo de brotamento. Nessa bicamada estão inseridas <strong>glicoproteínas virais</strong> que cumprem papel fundamental:</p>
+
+<p>1. Reconhecimento do receptor celular (determinam o tropismo).<br>
+2. Fusão da membrana viral com a membrana celular durante a entrada.<br>
+3. Alvo principal dos anticorpos neutralizantes do hospedeiro.</p>
+
+<p>Os vírus envelopados são tipicamente mais frágeis — a bicamada lipídica se rompe com detergentes, álcool e dessecação. É por isso que álcool 70% é eficaz contra influenza, HIV e coronavírus (todos envelopados), mas menos eficaz contra adenovírus ou norovírus (não envelopados, resistentes).</p>
+
+<div class="kbox">
+  <div class="klabel">Implicação clínica</div>
+  <p>Vírus não envelopados (adenovírus, norovírus, poliovírus, rotavírus, HAV) sobrevivem mais no ambiente, resistem ao álcool e são tipicamente transmitidos pela via fecal-oral ou por fômites. Vírus envelopados (influenza, HIV, HSV, CMV, SARS-CoV-2) exigem transmissão mais direta — gotículas, contato sexual, sangue — porque sua membrana lipídica é facilmente degradada no ambiente.</p>
+</div>
+
+<table>
+  <thead><tr><th>Vírus</th><th>Genoma</th><th>Envelope</th><th>Exemplo clínico</th></tr></thead>
+  <tbody>
+    <tr><td>Adenovírus</td><td>DNA ds linear</td><td>Não</td><td>Conjuntivite, pneumonia</td></tr>
+    <tr><td>Herpesvírus (HSV, CMV, EBV, VZV)</td><td>DNA ds linear</td><td>Sim</td><td>Herpes labial, retinite, mononucleose, varicela</td></tr>
+    <tr><td>Poxvírus</td><td>DNA ds linear</td><td>Sim (parcial)</td><td>Varíola (erradicada), mpox</td></tr>
+    <tr><td>Papilomavírus (HPV)</td><td>DNA ds circular</td><td>Não</td><td>Verrugas, câncer cervical</td></tr>
+    <tr><td>Influenza</td><td>RNA ss (−) segmentado</td><td>Sim</td><td>Gripe, pandemias</td></tr>
+    <tr><td>Coronavírus (SARS-CoV-2)</td><td>RNA ss (+)</td><td>Sim</td><td>COVID-19</td></tr>
+    <tr><td>Poliovírus</td><td>RNA ss (+)</td><td>Não</td><td>Poliomielite</td></tr>
+    <tr><td>HIV</td><td>RNA ss (+) × 2 (diploide)</td><td>Sim</td><td>AIDS</td></tr>
+    <tr><td>Rotavírus</td><td>RNA ds segmentado</td><td>Não</td><td>Gastroenterite infantil</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 2. Características estruturais dos principais vírus de relevância clínica.</p>
+</section>
+
+<!-- CLASSIFICAÇÃO DE BALTIMORE -->
+<section id="classificacao">
+<h2>Classificação de Baltimore</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1971</span>
+  Em 1971, David Baltimore propôs um sistema de classificação dos vírus baseado não na morfologia, mas na estratégia de produção do mRNA — o único ácido nucleico que os ribossomos do hospedeiro podem traduzir em proteínas. Baltimore recebeu o Nobel de Fisiologia ou Medicina em 1975 (junto com Renato Dulbecco e Howard Temin) pela descoberta da transcriptase reversa, que definiu a classe IV do seu sistema.
+</div>
+
+<p>O sistema de Baltimore parte de uma pergunta simples e poderosa: <em>como o vírus produz seu mRNA?</em> Independentemente da morfologia, tamanho ou tropismo, todo vírus precisa resolver o mesmo problema — fazer com que os ribossomos do hospedeiro leiam seu código genético. A resposta a esse problema define a estratégia replicativa do vírus.</p>
+
+<p>Convenção de polaridade: RNA com a mesma sequência que o mRNA é chamado de <strong>polaridade positiva (+)</strong>; RNA com sequência complementar ao mRNA é chamado de <strong>polaridade negativa (−)</strong>.</p>
+
+<table>
+  <thead><tr><th>Classe</th><th>Tipo de genoma</th><th>Estratégia para mRNA</th><th>Exemplos</th></tr></thead>
+  <tbody>
+    <tr><td><strong>I</strong></td><td>DNA ds</td><td>Transcrito pela RNA pol do hospedeiro (núcleo)</td><td>Herpesvírus, adenovírus, papilomavírus, poxvírus</td></tr>
+    <tr><td><strong>II</strong></td><td>DNA ss (+)</td><td>Conversão para ds → transcrição normal</td><td>Parvovírus, AAV</td></tr>
+    <tr><td><strong>III</strong></td><td>RNA ds</td><td>Transcriptase viral produz mRNA a partir da fita (−)</td><td>Rotavírus, reovírus</td></tr>
+    <tr><td><strong>IV</strong></td><td>RNA ss (+)</td><td>Genoma já é o mRNA; tradução direta; replicase viral faz fita (−) → novos genomas</td><td>Poliovírus, coronavírus, flavivírus, hepatite C</td></tr>
+    <tr><td><strong>V</strong></td><td>RNA ss (−)</td><td>RNA polimerase viral (empacotada no vírion) faz mRNA a partir do genoma (−)</td><td>Influenza, sarampo, Ebola, raiva</td></tr>
+    <tr><td><strong>VI</strong></td><td>RNA ss (+) + transcriptase reversa</td><td>RNA → DNA (retrotranscrição) → DNA ds → integra ao genoma → transcrição normal</td><td>HIV, HTLV</td></tr>
+    <tr><td><strong>VII</strong></td><td>DNA ds parcial + transcriptase reversa</td><td>DNA → RNA pré-genômico → retrotranscrição → DNA → mRNA</td><td>Hepatite B (HBV)</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 3. Sistema de Baltimore — sete classes virais definidas pela estratégia de produção do mRNA.</p>
+
+<div class="kbox">
+  <div class="klabel">Por que a Classe VI importa clinicamente</div>
+  <p>Retrovírus (HIV) integram seu DNA ao genoma do hospedeiro, formando o <em>pró-vírus</em>. Isso tem duas consequências: (1) a infecção é permanente — eliminar todos os pró-vírus de todas as células CD4⁺ infectadas é impossível com os antivirais atuais; (2) a célula infectada com pró-vírus latente é invisível ao sistema imune porque não há proteínas virais na superfície para serem apresentadas pelo MHC-I.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Por que a Classe VII importa clinicamente (HBV)</div>
+  <p>O HBV usa uma forma de DNA parcialmente dupla-fita (cccDNA — <em>covalently closed circular DNA</em>) que persiste no núcleo hepatocitário e funciona como molde permanente. Mesmo após tratamento eficaz com análogos de nucleotídeo (tenofovir), o cccDNA persiste — explicando a raridade de cura definitiva da hepatite B crônica.</p>
+</div>
+</section>
+
+<!-- CICLO REPLICATIVO -->
+<section id="ciclo-replicativo">
+<h2>Ciclo replicativo</h2>
+
+<p>O ciclo replicativo viral tem seis etapas universais, independentemente da classe de Baltimore. Cada etapa é um potencial alvo terapêutico.</p>
+
+<h3>1. Adsorção (ligação ao receptor)</h3>
+
+<p>O vírion se liga com alta afinidade a uma molécula específica na superfície da célula hospedeira. Essa interação é o principal determinante do <strong>tropismo viral</strong> — quais tecidos o vírus consegue infectar.</p>
+
+<p>Exemplos de pares receptor–vírus:</p>
+<ul>
+  <li><strong>HIV:</strong> glicoproteína gp120 → CD4 (ligação principal) + CCR5 ou CXCR4 (co-receptores obrigatórios). Indivíduos homozigotos para a deleção Δ32 no gene CCR5 são naturalmente resistentes ao HIV.</li>
+  <li><strong>Influenza A:</strong> hemaglutinina (HA) → ácido siálico em resíduos α-2,6 (trato respiratório superior humano) ou α-2,3 (epitélio de aves). Essa diferença de ligação explica parcialmente por que influenza aviária raramente se transmite de pessoa a pessoa — sem adaptação à isoforma humana do receptor.</li>
+  <li><strong>SARS-CoV-2:</strong> proteína Spike (domínio RBD) → ECA-2 (enzima conversora de angiotensina 2), expressa em pneumócitos tipo II, células do epitélio nasofaríngeo e outros tecidos — explicando as manifestações multi-órgão da COVID-19.</li>
+  <li><strong>EBV:</strong> glicoproteína gp350 → CR2 (CD21), receptor do complemento expresso em linfócitos B — daí o tropismo exclusivo para essa célula.</li>
+</ul>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo de tropismo por receptor único</div>
+  <p>Nem todo tropismo se explica por um único receptor. CMV usa receptores distintos em diferentes tipos celulares (CD13 em leucócitos, heparansulfato em fibroblastos, neuropilina em células endoteliais). HSV-1 usa heparansulfato para adsorção inicial e depois diferentes receptores para entrada (nectin-1, nectin-2, HVEM) — processo em duas etapas. Fatores pós-entrada (como restrições intracelulares específicas do tipo celular) também modulam o tropismo independentemente do receptor.</p>
+</div>
+
+<h3>2. Penetração e decapsidação</h3>
+
+<p>Após a ligação ao receptor, o vírus precisa introduzir seu genoma no citoplasma celular. Duas estratégias principais:</p>
+
+<p><strong>Fusão de membranas (vírus envelopados):</strong> a glicoproteína de fusão sofre mudança conformacional após ligar ao receptor, expondo um peptídeo hidrofóbico que se insere na membrana celular e puxa as duas membranas juntas. O HIV usa esse mecanismo: gp41 (ancorada no envelope viral) expõe seu peptídeo de fusão após gp120 ligar ao CD4 + co-receptor. A fusão pode ocorrer diretamente na membrana plasmática (HIV em pH neutro) ou após endocitose, quando acidificação do endossomo dispara a fusão (influenza: HA muda conformação a pH < 5.5).</p>
+
+<p><strong>Endocitose (vírus não envelopados e alguns envelopados):</strong> o vírus é engolfado por endocitose mediada por receptor ou macropinocitose, e depois escapa do endossomo para o citoplasma. Adenovírus faz isso — e a proteína de capsídeo penton base lisa o endossomo por um mecanismo dependente de pH.</p>
+
+<p>A <strong>decapsidação</strong> — remoção do capsídeo para liberar o genoma — pode ocorrer no endossomo, no citoplasma ou no núcleo, dependendo do vírus.</p>
+
+<h3>3. Replicação do genoma</h3>
+
+<p>Este é o passo mais variável entre vírus e o mais importante farmacologicamente. A estratégia depende diretamente da classe de Baltimore.</p>
+
+<p><strong>Vírus DNA (Classes I e II):</strong> a maioria replica no núcleo, usando a RNA polimerase celular para transcrever seus genes. Herpesvírus codificam sua própria DNA polimerase (alvo do aciclovir/ganciclovir). Poxvírus replicam inteiramente no citoplasma e carregam todas as enzimas necessárias.</p>
+
+<p><strong>Vírus RNA positivo (Classe IV):</strong> o genoma entra no citoplasma e é imediatamente traduzido pelos ribossomos do hospedeiro. A poliproteína resultante é clivada por proteases virais em proteínas funcionais, incluindo a <em>replicase viral</em> (RNA polimerase RNA-dependente, RdRp). A RdRp faz uma cópia de polaridade negativa do genoma (fita molde) e depois usa essa fita molde para fazer muitos genomas de polaridade positiva. A RdRp não existe nas células humanas — é um alvo terapêutico excelente (sofosbuvir para HCV, remdesivir para coronavírus).</p>
+
+<p><strong>Vírus RNA negativo (Classe V):</strong> o vírion carrega consigo a RNA polimerase RNA-dependente (RdRp), porque o genoma sozinho não pode ser traduzido. A RdRp transcreve o genoma (−) em mRNA (+) logo após a entrada, antes de qualquer tradução. Influenza tem genoma segmentado (8 segmentos) — a segmentação é a base do "salto antigênico" quando dois vírus de influenza co-infectam a mesma célula e reorganizam seus segmentos.</p>
+
+<p><strong>Retrovírus (Classe VI):</strong> a transcriptase reversa (TR) converte o RNA genômico em DNA dupla-fita no citoplasma. A integrase viral então integra esse DNA ao genoma do hospedeiro como pró-vírus. A partir daí, a maquinaria celular transcreve e traduz os genes virais normalmente. Tanto a TR quanto a integrase são alvos dos antirretrovirais. A TR tem taxa de erro altíssima (sem capacidade de revisão — sem <em>proofreading</em>) — gerando enorme diversidade genética e, consequentemente, resistência rápida a fármacos quando usados em monoterapia.</p>
+
+<h3>4. Síntese de proteínas virais</h3>
+
+<p>Proteínas virais são divididas em duas categorias temporais:</p>
+
+<p><strong>Proteínas precoces (<em>early</em>):</strong> sintetizadas logo após a entrada; incluem enzimas necessárias para a replicação do genoma (DNA polimerase, TR, proteases) e proteínas que modulam a resposta imune do hospedeiro (bloqueio de IFN, interferência com MHC).</p>
+
+<p><strong>Proteínas tardias (<em>late</em>):</strong> proteínas estruturais (capsômeros, glicoproteínas do envelope) produzidas em grandes quantidades quando o genoma já foi amplificado; são os blocos construtivos dos novos vírions.</p>
+
+<h3>5. Montagem</h3>
+
+<p>Novos vírions são montados por autorganização — as proteínas estruturais se ligam ao genoma viral (reconhecimento de sequências de empacotamento específicas) e formam o capsídeo. A montagem ocorre no citoplasma (poxvírus, influenza) ou no núcleo (herpesvírus, adenovírus). Herpesvírus faz uma etapa interessante: o capsídeo icosaédrico é montado no núcleo, adquire um envelope primário ao brotar da membrana nuclear interna, perde esse envelope ao fusionar com a membrana nuclear externa, e depois adquire o envelope definitivo ao brotar do Golgi ou de vesículas do retículo.</p>
+
+<h3>6. Liberação</h3>
+
+<p>A liberação pode ocorrer de duas maneiras:</p>
+
+<p><strong>Lise celular (vírus não envelopados):</strong> o acúmulo de vírus destrói a célula, liberando todos os vírions de uma vez. Produz inflamação local intensa.</p>
+
+<p><strong>Brotamento (vírus envelopados):</strong> novos vírions brotam da membrana celular, adquirindo o envelope ao mesmo tempo. A célula pode sobreviver e continuar produzindo vírus por tempo prolongado — estratégia mais "econômica" para o vírus. Influenza usa uma neuraminidase (NA) para clivar o ácido siálico da membrana e destacar o vírion brotante; inibidores de neuraminidase (oseltamivir, zanamivir) bloqueiam exatamente esse passo.</p>
+</section>
+
+<!-- PATOGÊNESE -->
+<section id="patogenese">
+<h2>Patogênese viral</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — Postulados de Koch e os vírus</span>
+  Os postulados de Koch (1884), formulados para bactérias, exigem isolamento do agente em cultura pura. Vírus não crescem em cultura pura sem célula hospedeira, o que tornou difícil sua caracterização etiológica nas primeiras décadas do século XX. Em 1937, Wendell Stanley e Thomas Rivers reformularam os postulados para agentes filtráveis, estabelecendo que vírus poderiam ser considerados causadores de doença mesmo sem cultura pura — abrindo caminho para a virologia como disciplina científica rigorosa.
+</div>
+
+<p>A patogênese viral descreve o mecanismo pelo qual o vírus causa dano ao hospedeiro. Esse dano é o produto de dois processos simultâneos: os efeitos diretos do vírus sobre a célula infectada e a resposta imune do hospedeiro contra o vírus (que pode ser tão ou mais lesiva que o vírus em si).</p>
+
+<h3>Efeitos citopáticos diretos</h3>
+
+<p>Ao usar a maquinaria celular para se replicar, o vírus inevitavelmente perturba as funções normais da célula. Os <strong>efeitos citopáticos (CPE)</strong> incluem:</p>
+
+<ul>
+  <li><strong>Inibição de síntese de macromoléculas do hospedeiro:</strong> poliovírus cliva o fator de iniciação da tradução eIF4G, bloqueando a tradução de mRNAs celulares com cap (enquanto seus próprios mRNAs usam um IRES — <em>internal ribosome entry site</em> — que não depende de eIF4G).</li>
+  <li><strong>Indução de apoptose:</strong> muitos vírus ativam vias apoptóticas como mecanismo de liberação. HIV induz apoptose em linfócitos CD4⁺ — tanto os infectados (diretamente) quanto os não infectados (por mecanismos indiretos como ativação de receptores de morte por proteínas virais liberadas).</li>
+  <li><strong>Lise celular direta:</strong> acúmulo de proteínas virais e novo genoma rompe a integridade estrutural da célula.</li>
+  <li><strong>Formação de sincícios:</strong> vírus como HSV, HIV e vírus do sarampo expressam glicoproteínas de fusão na membrana das células infectadas, que fundem membranas de células vizinhas — formando sincícios multinucleados, característicos histologicamente.</li>
+  <li><strong>Inclusões:</strong> acúmulo de proteínas virais ou vírions em compartimentos celulares forma corpos de inclusão visíveis à microscopia — corpúsculos de Negri (raiva, neurônios), inclusões de Cowdry tipo A (herpesvírus, núcleo), corpúsculos de Guarnieri (poxvírus, citoplasma).</li>
+</ul>
+
+<h3>Imunopatologia: quando a defesa agride</h3>
+
+<p>A resposta imune é responsável por boa parte do dano tecidual em muitas infecções virais. Isso tem implicação direta no manejo clínico.</p>
+
+<p><strong>Infecção por influenza:</strong> a maioria dos sintomas sistêmicos da gripe — febre, mialgia, fadiga — é mediada por TNF, IL-1β e IL-6 liberados pelos macrófagos ativados em resposta ao vírus <span class="cite">(LIANG, 2023)</span>, não pelo efeito direto do vírus nos tecidos afetados. Cepas de alta virulência (H5N1) induzem uma "tempestade de citocinas" (<em>cytokine storm</em>) em que a resposta inflamatória excessiva causa síndrome do desconforto respiratório agudo (SDRA) — mais letal que o dano viral direto.</p>
+
+<p><strong>Hepatite B:</strong> o HBV per se não é diretamente citopático em hepatócitos — a lesão hepática (hepatite) resulta da resposta imune CTL que reconhece e destrói os hepatócitos infectados apresentando peptídeos virais via MHC-I. Em imunossuprimidos, a infecção por HBV pode ser mais persistente mas com menos inflamação.</p>
+
+<p><strong>COVID-19 grave:</strong> a síndrome de hiperinflamação com tempestade de citocinas (IL-6, IL-1β, IFN-γ) observada em COVID-19 grave levou ao uso de dexametasona e tocilizumabe (anti-IL-6R) — intervenções anti-inflamatórias que reduziram mortalidade, confirmando que parte do dano é imunomediado.</p>
+
+<h3>Mecanismos de evasão imune</h3>
+
+<p>Vírus desenvolveram ao longo de milênios estratégias sofisticadas para escapar da resposta imune. Esse é o tema central do <a class="cross-link" href="../imunologia/resposta-a-patogenos.html#evasao-viral">M9 — Resposta a Patógenos (§ Evasão viral)</a>, mas os mecanismos principais merecem menção aqui:</p>
+
+<p><strong>Bloqueio do IFN tipo I:</strong> praticamente todos os vírus RNA possuem estratégia de antagonismo ao interferão. O NS1 do influenza seqüestra dsRNA viral, impedindo que o RIG-I o detecte e ative a cascata de IFN. HCV bloqueia MAVS (sinalização de RIG-I) e TRIF (sinalização de TLR3). Sem IFN tipo I, o estado antiviral não é estabelecido nas células vizinhas e o vírus se propaga sem restrição inicial.</p>
+
+<p><strong>Downregulation de MHC-I:</strong> sem apresentação de peptídeos virais por MHC-I, os CTLs não reconhecem as células infectadas. HSV-1 usa ICP47 para bloquear TAP (transportador que carrega peptídeos para o lúmen do RE). CMV usa múltiplas proteínas (US2, US3, US6, US11) para reter ou degradar MHC-I no RE.</p>
+
+<p><strong>Latência:</strong> herpesvírus estabelecem latência em células de vida longa (HSV-1/2 em neurônios dos gânglios da raiz dorsal, EBV em linfócitos B de memória, CMV em células-tronco mieloides) onde a transcrição viral é mínima e não há proteínas virais para serem apresentadas ao sistema imune. Em imunossupressão, a reativação ocorre.</p>
+
+<h3>Determinantes de virulência</h3>
+
+<p>A virulência viral — a capacidade de causar doença grave — é determinada por características tanto do vírus quanto do hospedeiro:</p>
+
+<ul>
+  <li><strong>Tropismo:</strong> vírus que infectam neurônios (raiva, polio, herpes) ou pulmões profundos (influenza H5N1) tendem a ser mais letais porque afetam órgãos com menor capacidade regenerativa.</li>
+  <li><strong>Taxa de replicação:</strong> vírus de replicação mais rápida destroem mais células antes que a resposta imune se organize.</li>
+  <li><strong>Imunossupressão do hospedeiro:</strong> HIV, imunossupressores transplante, quimioterapia — qualquer redução da imunidade adaptativa transforma infecções oportunistas por vírus normalmente controlados (CMV, EBV, JC vírus) em doenças letais.</li>
+  <li><strong>Variabilidade genética viral:</strong> a alta taxa de mutação de vírus RNA (sem <em>proofreading</em>) acelera a seleção de variantes mais virulentas ou com escape imune <span class="cite">(LIANG, 2023)</span>.</li>
+</ul>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — Virulência e transmissibilidade: trade-off real?</div>
+  <p>A ideia de que virulência e transmissibilidade são mutuamente excludentes (vírus muito letal mataria o hospedeiro antes de se transmitir) é sedutora mas incorreta como lei universal. Ebola Reston (altamente letal em macacos) não se transmite entre humanos. Mas influenza H5N1 (case fatality rate ~60%) transmite-se pouco entre humanos — por razão de receptor (α-2,3), não de virulência intrínseca. A pandemia de 1918 (H1N1) combinou alta transmissibilidade com mortalidade excepcionalmente alta. O trade-off existe em algumas situações ecológicas mas não é uma lei evolutiva universal.</p>
+</div>
+</section>
+
+<!-- ANTIVIRAIS -->
+<section id="antivirais">
+<h2>Antivirais</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1959–1987</span>
+  O primeiro antiviral aprovado para uso clínico foi a idoxuridina (1959), análogo de nucleosídeo usado topicamente em infecções por HSV ocular. Em 1987, o AZT (zidovudina) foi aprovado como primeiro antirretroviral contra HIV — inicialmente em monoterapia, com resposta rápida mas resistência igualmente rápida. A era dos antivirais eficazes começou de fato com o aciclovir (1982) para herpesvírus e com a terapia antirretroviral combinada (HAART) a partir de 1996, que transformou HIV de sentença de morte em doença crônica manejável.
+</div>
+
+<p>Antivirais eficazes precisam satisfazer um critério de seletividade difícil: bloquear a replicação viral sem matar as células do hospedeiro. Como vírus sequestram a maquinaria celular, os alvos disponíveis são poucos — mas existem.</p>
+
+<h3>Alvos e mecanismos dos antivirais</h3>
+
+<h4>1. Inibidores de entrada</h4>
+
+<p>Bloqueiam a adsorção ou fusão viral antes que o genoma entre na célula.</p>
+<ul>
+  <li><strong>Enfuvirtida (T-20):</strong> peptídeo sintético que mimetiza a região HR2 de gp41 do HIV, impedindo a mudança conformacional necessária para a fusão de membranas. Reservado para HIV multirresistente.</li>
+  <li><strong>Maraviroc:</strong> antagonista do co-receptor CCR5 do HIV. Bloqueia a ligação de gp120 ao CCR5 — funciona apenas em vírus com tropismo R5 (CCR5-tropico), ineficaz contra cepas com tropismo X4 (CXCR4).</li>
+  <li><strong>Oseltamivir (Tamiflu) e zanamivir:</strong> na verdade, são inibidores de liberação — bloqueiam a neuraminidase do influenza, que é necessária para destacar vírions brotantes da superfície celular. Classificados aqui pela proximidade conceitual com o ciclo de entrada/saída.</li>
+</ul>
+
+<h4>2. Análogos de nucleosídeos/nucleotídeos — inibidores de polimerase</h4>
+
+<p>Este é o maior e mais bem-sucedido grupo de antivirais. Todos funcionam pelo mesmo mecanismo básico: são pró-drogas que, após fosforilação intracelular, mimetizam nucleotídeos naturais e são incorporados pela polimerase viral — mas, ao contrário dos nucleotídeos naturais, não possuem o grupo 3'-OH necessário para a extensão da cadeia. O resultado é <strong>terminação de cadeia</strong>: a polimerização para.</p>
+
+<p>A seletividade crucial vem de dois mecanismos distintos:</p>
+
+<p><em>Fosforilação seletiva:</em> o aciclovir precisa ser fosforilado por uma timidina quinase viral (codificada pelo próprio HSV/VZV) para se tornar ativo. A timidina quinase celular faz essa reação com eficiência muito menor. Portanto, o aciclovir só é convertido ao metabólito ativo em células infectadas por HSV/VZV — explicando sua baixa toxicidade. CMV não codifica timidina quinase, por isso o aciclovir tem baixa atividade contra CMV. Ganciclovir é fosforilado por uma quinase viral específica do CMV (UL97) — daí sua utilidade no tratamento da retinite por CMV (o caso clínico da pergunta motivadora) <span class="cite">(SCHALKWIJK; SNOECK; ANDREI, 2022)</span>.</p>
+
+<p><em>Afinidade diferencial pela polimerase:</em> antivirais como tenofovir (hepatite B, HIV) e sofosbuvir (hepatite C) são fosforilados pelas quinases celulares normais, mas têm afinidade muito maior pela polimerase viral do que pela polimerase celular — criando seletividade pelo alvo enzimático.</p>
+
+<p>Exemplos clínicos importantes:</p>
+<ul>
+  <li><strong>Aciclovir / valaciclovir:</strong> HSV-1, HSV-2, VZV. Pró-droga fosforilada por timidina quinase viral.</li>
+  <li><strong>Ganciclovir / valganciclovir:</strong> CMV. Fosforilado por UL97 (quinase do CMV). Mais tóxico que aciclovir (mielossupressão).</li>
+  <li><strong>Tenofovir (TDF, TAF):</strong> HIV e HBV. Inibidor nucleotídeo da transcriptase reversa (INTR) para HIV; inibe a DNA polimerase do HBV.</li>
+  <li><strong>Sofosbuvir:</strong> HCV. Análogo de nucleotídeo que inibe a RdRp do HCV. Parte dos regimes de cura em &gt;95% dos casos.</li>
+  <li><strong>Remdesivir:</strong> SARS-CoV-2. Análogo de adenosina que inibe a RdRp do coronavírus.</li>
+</ul>
+
+<h4>3. Inibidores de protease</h4>
+
+<p>Muitos vírus (HIV, HCV, SARS-CoV-2) sintetizam uma poliproteína precursora que precisa ser clivada por uma protease viral específica para gerar as proteínas funcionais. Inibidores de protease ocupam o sítio ativo da protease viral, bloqueando a clivagem — vírus imaturos, não infecciosos, são liberados.</p>
+<ul>
+  <li><strong>Ritonavir, darunavir, atazanavir:</strong> inibidores de protease do HIV. Ritonavir em baixas doses é usado como "booster farmacocinético" (inibe CYP3A4) para elevar os níveis plasmáticos de outros antivirais — combinação lopinavir/ritonavir é o exemplo clássico.</li>
+  <li><strong>Nirmatrelvir/ritonavir (Paxlovid):</strong> inibidor de protease 3CL do SARS-CoV-2, aprovado para COVID-19 em 2021.</li>
+</ul>
+
+<h4>4. Inibidores de integrase (retrovírus)</h4>
+
+<p>Específicos para retrovírus. Bloqueiam a inserção do DNA pró-viral no genoma do hospedeiro. São os antirretrovirais mais modernos e têm alta barreira genética à resistência.</p>
+<ul>
+  <li><strong>Raltegravir, elvitegravir, dolutegravir, bictegravir:</strong> inibidores de integrase (INSTI). Dolutegravir e bictegravir têm barreira de resistência excepcionalmente alta — mutações de resistência têm custo de aptidão elevado para o vírus.</li>
+</ul>
+
+<h4>5. Interferons</h4>
+
+<p>Os interferons tipo I (IFN-α, IFN-β) são citocinas antivirais endógenas que induzem um "estado antiviral" em células não infectadas — upregulam proteínas com atividade antiviral (OAS, PKR, Mx, ISGs). IFN-α peguilado foi por décadas o tratamento padrão para hepatite C (antes dos antivirais de ação direta) e ainda é usado para hepatite B (com cura funcional em ~30% dos pacientes com infecção HBeAg-positiva). O mecanismo antiviral dos IFNs é detalhado no <a class="cross-link" href="../imunologia/imunidade-inata.html#antiviral">M4 — Imunidade Inata (§ IFN tipo I)</a>.</p>
+
+<div class="kbox">
+  <div class="klabel">Resistência antiviral — por que é diferente da resistência antibiótica</div>
+  <p>Vírus RNA acumulam mutações muito mais rápido que bactérias (a RdRp e a TR do HIV não têm <em>proofreading</em> — taxa de erro ~10⁻⁴ a 10⁻⁵ por nucleotídeo por ciclo, versus ~10⁻⁹ para DNA polimerase celular). Sob pressão seletiva de um antiviral em monoterapia, variantes resistentes emergem em dias a semanas. A solução é a terapia combinada — HAART para HIV usa 3 drogas de 2 classes diferentes, de forma que uma mutação isolada não confere resistência a todas <span class="cite">(KAUSAR et al., 2021)</span>. Para aciclovir em HSV, a resistência (via perda da timidina quinase viral) é rara em imunocompetentes mas frequente em imunossuprimidos com uso prolongado <span class="cite">(SCHALKWIJK; SNOECK; ANDREI, 2022)</span>.</p>
+</div>
+
+<table>
+  <thead><tr><th>Fármaco</th><th>Alvo</th><th>Vírus</th><th>Mecanismo de resistência</th></tr></thead>
+  <tbody>
+    <tr><td>Aciclovir</td><td>DNA pol viral</td><td>HSV, VZV</td><td>Mutação/deleção em timidina quinase viral</td></tr>
+    <tr><td>Ganciclovir</td><td>DNA pol viral</td><td>CMV</td><td>Mutação em UL97 (quinase) ou UL54 (pol)</td></tr>
+    <tr><td>Oseltamivir</td><td>Neuraminidase</td><td>Influenza A/B</td><td>Mutação H275Y em NA (subtipo H1N1)</td></tr>
+    <tr><td>Tenofovir</td><td>Transcriptase reversa</td><td>HIV, HBV</td><td>K65R na TR do HIV; rara em HBV</td></tr>
+    <tr><td>Dolutegravir</td><td>Integrase</td><td>HIV</td><td>Rarísima — alta barreira genética</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 4. Principais antivirais, alvos e mecanismos de resistência conhecidos.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões com outros sistemas</h2>
+
+<p><strong>Imunologia — Resposta a patógenos:</strong> a patogênese viral só se completa com o lado do hospedeiro. O <a class="cross-link" href="../imunologia/resposta-a-patogenos.html#virus-mecanismos">M9 (§ Vírus — mecanismos)</a> detalha IFN tipo I, NK, CTLs, anticorpos neutralizantes e evasão viral — leitura obrigatória em sequência a este compêndio.</p>
+
+<p><strong>Imunologia — Imunidade Inata:</strong> o papel da <a class="cross-link" href="../imunologia/imunidade-inata.html#antiviral">resposta antiviral inata via IFN tipo I</a> é o primeiro mecanismo do hospedeiro a ser acionado, antes de qualquer resposta adaptativa. Entender esse mecanismo explica por que pacientes com deficiências em vias de IFN têm infecções virais graves.</p>
+
+<p><strong>Imunologia — Moléculas:</strong> os receptores que detectam vírus (RIG-I, MDA5, TLR7, TLR9) são tratados em <a class="cross-link" href="../imunologia/moleculas-sistema-imune.html#rlrs-ifn">M3 (§ RLRs e IFN)</a> e <a class="cross-link" href="../imunologia/moleculas-sistema-imune.html#tlrs">M3 (§ TLRs)</a>.</p>
+
+<p><strong>Farmacologia:</strong> os antivirais serão retomados no contexto de farmacologia clínica, com ênfase em interações medicamentosas (ritonavir como inibidor de CYP3A4), farmacocinética (disponibilidade oral de pró-drogas como valaciclovir vs aciclovir) e regimes de HAART.</p>
+
+<p><strong>Hipersensibilidade:</strong> vacinas virais e a imunidade protetora que induzem conectam virologia com <a class="cross-link" href="../imunologia/vacinas-imunidade-protetora.html#mrna">M11 (§ mRNA vacinas)</a>, especialmente no contexto das vacinas de mRNA para SARS-CoV-2.</p>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 1</div>
+  <p>O cccDNA do HBV persiste no núcleo hepatocitário mesmo após supressão viral eficaz com tenofovir. Estratégias para eliminar ou silenciar permanentemente o cccDNA — incluindo edição gênica com CRISPR-Cas9 e interferência por RNA (siRNA) — estão em investigação clínica, mas nenhuma demonstrou eficácia suficiente para erradicação funcional em estudos de fase 3. A cura definitiva da hepatite B crônica ainda não foi alcançada.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 2</div>
+  <p>O reservatório latente do HIV em células CD4⁺ de memória de longa duração é o principal obstáculo à cura. Estratégias de "chute e mata" (<em>kick and kill</em>) — ativar a replicação do pró-vírus latente para expô-lo ao sistema imune e depois destruir as células reativadas — não demonstraram redução significativa do reservatório em ensaios clínicos até o momento. O mecanismo exato pelo qual a latência é mantida (modificações epigenéticas, deficiência de fatores de transcrição) ainda é alvo de intensa investigação.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 3</div>
+  <p>A "imunidade inata treinada" induzida por BCG parece proteger contra infecções virais não relacionadas à tuberculose. O mecanismo — reprogramação epigenética de precursores mieloides — foi descrito, mas a magnitude do efeito protetor contra vírus respiratórios em adultos e idosos está sendo investigada em estudos clínicos ainda em andamento (ACTIVATE trial).</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 4</div>
+  <p>Por que alguns indivíduos com exposição documentada ao SARS-CoV-2 não desenvolvem sorologia positiva nem PCR detectável? A possibilidade de imunidade preexistente mediada por células T (cross-reativa com coronavírus endêmicos anteriores) ou por resposta inata robusta que elimina o vírus antes da soroconversão permanece em investigação, com resultados conflitantes na literatura.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p><strong>Fechando a pergunta motivadora.</strong> Antibióticos são ineficazes contra vírus por uma razão estrutural: miram em alvos que não existem nos vírus — parede celular bacteriana, ribossomo 70S, DNA girasse bacteriana. Vírus não têm nada disso. Eles são, em essência, instruções genéticas que sequestram a maquinaria do hospedeiro; destruir o vírus sem destruir a célula hospedeira exige identificar os poucos pontos de divergência. O ganciclovir consegue exatamente isso: precisa ser ativado pela quinase UL97, codificada exclusivamente pelo CMV. Apenas células infectadas por CMV ativam o ganciclovir em sua forma trifosfato ativa; nas demais células do organismo, a fosforilação é ineficiente. Uma vez ativado, o ganciclovir trifosfato inibe a DNA polimerase do CMV com muito maior eficiência do que as polimerases celulares — seletividade em dois níveis (ativação e alvo) que explica como um fármaco consegue bloquear um vírus sem matar o paciente.</p>
+
+<p><strong>A tensão central da virologia.</strong> Vírus são parasitas genéticos tão bem adaptados ao hospedeiro que a linha entre "vírus se replicando" e "célula funcionando normalmente" é tênue. Essa fusão biológica cria um dilema terapêutico sem equivalente em outros campos da infectologia: cada antiviral eficaz foi descoberto identificando um ponto em que vírus e hospedeiro divergem — e esses pontos são raros. Dez anos de pesquisa global foram necessários para encontrar inibidores suficientemente seletivos para curar hepatite C; o HIV ainda resiste à cura definitiva não por falta de antivirais eficazes, mas porque os pró-vírus latentes são geneticamente silenciosos e imunologicamente invisíveis.</p>
+
+<p><strong>A implicação não enunciada.</strong> A classificação de Baltimore não é apenas um esquema taxonômico — é um mapa de vulnerabilidades farmacológicas. Vírus RNA (classes IV e V) dependem de RdRp, uma enzima sem equivalente celular, vulnerável a análogos de nucleotídeo como sofosbuvir e remdesivir. Retrovírus (classe VI) dependem de transcriptase reversa e integrase, ambas ausentes em células não infectadas. Vírus DNA (classe I) usam a polimerase do hospedeiro para a maior parte da transcrição — mas codificam suas próprias DNA polimerases para replicar seu genoma (alvo do aciclovir e ganciclovir). Quando um novo vírus emerge, a primeira pergunta que a farmacologia faz é: qual classe de Baltimore? — porque isso já indica quais drogas têm probabilidade de funcionar antes de qualquer ensaio clínico.</p>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<p><strong>Murray PR, Rosenthal KS, Pfaller MA.</strong> <em>Medical Microbiology.</em> 10ª ed. Elsevier, 2021. <span class="badge-tem">VOCÊ TEM</span> — Capítulos 44–47 (Princípios de virologia) e 48–69 (vírus específicos). Capítulo 50 (Herpesviridae) e 66 (HIV) são particularmente relevantes para mecanismos de latência e antivirais.</p>
+
+<p><strong>Flint SJ et al.</strong> <em>Principles of Virology.</em> 4ª ed. ASM Press, 2015. — A referência mais completa em virologia mecanicista. Excelente para aprofundar o ciclo replicativo e patogênese.</p>
+
+<p><strong>Knipe DM, Howley PM (eds.).</strong> <em>Fields Virology.</em> 7ª ed. Wolters Kluwer, 2021. — O tratado de referência da área; consultar capítulos específicos por família viral.</p>
+
+<p><strong>Artigo:</strong> Liang Y. Pathogenicity and virulence of influenza. <em>Virulence.</em> 2023;14(1):2223057. DOI: <a href="https://doi.org/10.1080/21505594.2023.2223057" target="_blank" rel="noopener" style="color:var(--ac)">10.1080/21505594.2023.2223057</a> — Revisão abrangente sobre determinantes de virulência e interação vírus-hospedeiro no influenza.</p>
+
+<p><strong>Artigo:</strong> Schalkwijk HH, Snoeck R, Andrei G. Acyclovir resistance in herpes simplex viruses. <em>Biochem Pharmacol.</em> 2022;206:115322. DOI: <a href="https://doi.org/10.1016/j.bcp.2022.115322" target="_blank" rel="noopener" style="color:var(--ac)">10.1016/j.bcp.2022.115322</a> — Mecanismos de resistência ao aciclovir com dados de prevalência.</p>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências</h2>
+
+<p>KAUSAR, Shamaila et al. A review: Mechanism of action of antiviral drugs. <em>International Journal of Immunopathology and Pharmacology.</em> v. 35, p. 20587384211002621, 2021. DOI: <a href="https://doi.org/10.1177/20587384211002621" target="_blank" rel="noopener" class="cite-link">10.1177/20587384211002621</a></p>
+
+<p>LIANG, Yuying. Pathogenicity and virulence of influenza. <em>Virulence.</em> v. 14, n. 1, p. 2223057, 2023. DOI: <a href="https://doi.org/10.1080/21505594.2023.2223057" target="_blank" rel="noopener" class="cite-link">10.1080/21505594.2023.2223057</a></p>
+
+<p>MURRAY, Patrick R.; ROSENTHAL, Ken S.; PFALLER, Michael A. <em>Medical Microbiology.</em> 10. ed. Philadelphia: Elsevier, 2021.</p>
+
+<p>SCHALKWIJK, Hanna H.; SNOECK, Robert; ANDREI, Graciela. Acyclovir resistance in herpes simplex viruses: Prevalence and therapeutic alternatives. <em>Biochemical Pharmacology.</em> v. 206, p. 115322, 2022. DOI: <a href="https://doi.org/10.1016/j.bcp.2022.115322" target="_blank" rel="noopener" class="cite-link">10.1016/j.bcp.2022.115322</a></p>
+
+<p>GIRALDO, Maria I.; GONZALEZ-OROZCO, Maria; RAJSBAUM, Ricardo. Pathogenesis of Zika Virus Infection. <em>Annual Review of Pathology: Mechanisms of Disease.</em> v. 18, p. 181-203, 2022. DOI: <a href="https://doi.org/10.1146/annurev-pathmechdis-031521-034739" target="_blank" rel="noopener" class="cite-link">10.1146/annurev-pathmechdis-031521-034739</a></p>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// Barra de progresso
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  bar.style.width = pct + '%';
+}, {passive: true});
+
+// Sidebar
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const btn = document.getElementById('toggle-btn');
+const COLLAPSED = 'collapsed';
+const SIDEBAR_KEY = 'sidebar-collapsed';
+
+function applyState(c) {
+  if (c) {
+    sidebar.classList.add(COLLAPSED);
+    bodyWrap.classList.add('sidebar-collapsed');
+    btn.textContent = '›';
+  } else {
+    sidebar.classList.remove(COLLAPSED);
+    bodyWrap.classList.remove('sidebar-collapsed');
+    btn.textContent = '‹';
+  }
+}
+
+// Restaurar estado salvo
+applyState(sessionStorage.getItem(SIDEBAR_KEY) === '1');
+
+btn.addEventListener('click', () => {
+  const willCollapse = !sidebar.classList.contains(COLLAPSED);
+  sessionStorage.setItem(SIDEBAR_KEY, willCollapse ? '1' : '0');
+  applyState(willCollapse);
+});
+
+// Highlight de seção ativa na sidebar
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+
+const obsActive = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    const link = document.querySelector(`a.sl[href="#${e.target.id}"]`);
+    if (link) link.classList.toggle('active', e.isIntersecting);
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+
+const obsInView = new IntersectionObserver(entries => {
+  entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+}, {rootMargin: '-20% 0px -70% 0px'});
+
+sections.forEach(s => { obsActive.observe(s); obsInView.observe(s); });
+</script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA como Ferramenta de Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --green:#4a8c6a;--greenbg:#0e1f16;
+  --yellow:#b8962e;--yellowbg:#1e1a0a;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:200;width:0%;transition:width .1s}
+#sidebar{width:280px;height:100vh;position:sticky;top:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:width .25s;overflow:hidden}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:4px;width:28px;text-align:center}
+#toggle-btn:hover{color:var(--text)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+.s-logo{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;transition:opacity .2s}
+.s-logo a{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.08em}
+.s-group{margin-bottom:20px;padding:0 12px;transition:opacity .2s}
+.s-group-title{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 6px;margin-bottom:6px}
+a.sl{display:block;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;padding:5px 8px;border-radius:4px;transition:color .15s,background .15s}
+a.sl:hover{color:var(--text);background:var(--bg3)}
+a.sl.active{color:var(--ac);background:var(--ac2bg)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;height:48px;background:var(--bg2);border-bottom:1px solid var(--border);align-items:center;padding:0 16px;z-index:150}
+#mob-menu-btn{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-width:0}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-family:var(--font-body);font-size:2.1rem;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.2}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-top:8px}
+h3{font-family:var(--font-ui);font-size:1rem;font-weight:600;color:var(--ac);margin:28px 0 10px}
+p{margin-bottom:18px}
+ul,ol{margin:0 0 18px 24px}
+li{margin-bottom:6px}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+section{scroll-margin-top:24px}
+.doc-header{margin-bottom:40px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+
+/* Diagnóstico boxes */
+.diag-ok{background:var(--greenbg);border:1px solid var(--green);border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:14px 18px;margin:14px 0}
+.diag-ok .dlabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.diag-warn{background:var(--yellowbg);border:1px solid var(--yellow);border-left:3px solid var(--yellow);border-radius:0 6px 6px 0;padding:14px 18px;margin:14px 0}
+.diag-warn .dlabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--yellow);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.diag-crit{background:var(--ac2bg);border:1px solid var(--ac2);border-left:3px solid var(--ac2);border-radius:0 6px 6px 0;padding:14px 18px;margin:14px 0}
+.diag-crit .dlabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Técnica card grid */
+.tec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0}
+.tec-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.tec-title{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--ac);margin-bottom:6px}
+.tec-sub{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.tec-body{font-size:14px;line-height:1.65}
+
+/* Evidência badge */
+.ev{font-family:var(--font-ui);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.ev-forte{background:#0e1f16;color:#4a8c6a;border:1px solid #4a8c6a}
+.ev-mod{background:#1e1a0a;color:#b8962e;border:1px solid #b8962e}
+.ev-baixa{background:var(--bg3);color:var(--muted);border:1px solid var(--border)}
+
+table{width:100%;border-collapse:collapse;margin:20px 0 28px;font-size:14px;font-family:var(--font-ui)}
+th{background:var(--bg2);color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;border-bottom:1px solid var(--border);text-align:left}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-20px;margin-bottom:28px;font-style:italic}
+
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;top:0;left:0;height:100%;z-index:160;width:280px}
+  #sidebar.open{display:flex}
+  #mob-bar{display:flex}
+  #s-toggle{display:none}
+  #content{padding:64px 20px 80px}
+  .tec-grid{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff;color:#111}
+  #sidebar,#progress-bar,#mob-bar{display:none}
+  #content{padding:0}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Recolher">‹</button></div>
+  <div class="s-inner">
+    <div class="s-logo"><a href="../../index.html">← Índice</a></div>
+    <div class="s-group">
+      <div class="s-group-title">Neste compêndio</div>
+      <a class="sl" href="#motivadora">Pergunta motivadora</a>
+      <a class="sl" href="#diagnostico">Diagnóstico do uso atual</a>
+      <a class="sl" href="#o-que-funciona">O que funciona e por quê</a>
+      <a class="sl" href="#tecnicas">Técnicas com evidência</a>
+      <a class="sl" href="#nao-faz">O que não faz — e deveria</a>
+      <a class="sl" href="#armadilhas">Armadilhas frequentes</a>
+      <a class="sl" href="#protocolo">Protocolo proposto</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+
+<div id="mob-bar"><button id="mob-menu-btn">☰</button></div>
+
+<div id="body-wrap">
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>IA como Ferramenta de Estudo</h1>
+  <p class="doc-meta">IA · Fundamentos · Aplicação prática · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~25 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum</b></span>
+    <span class="chip">📍 Área: <b>IA · Aplicação</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-25</b></span>
+  </div>
+</div>
+
+<section id="motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Você tem 30 compêndios, um sistema de perguntas Anki gerado, instruções de projeto detalhadas e sessões regulares com IA — e ainda assim há lacunas claras entre o que o sistema promete e o que realmente acontece no processo de aprender. Onde exatamente o uso atual quebra, e o que concretamente mudaria se fosse feito de forma diferente?</p>
+</div>
+</section>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="introducao-ia.html">Introdução à IA</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Contexto relevante</div>
+      <span class="dep-item">Ciência do aprendizado (retrieval practice, spaced repetition)</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Aplicável a</div>
+      <span class="dep-item">Todos os compêndios deste projeto</span>
+    </div>
+  </div>
+</div>
+
+<section id="diagnostico">
+<h2>Diagnóstico do uso atual</h2>
+
+<p>Este diagnóstico é baseado na estrutura real do projeto: 30 arquivos HTML em medicina, farmacologia, investimentos e IA; um arquivo <code>anki_hipertensao.json</code> com 24 perguntas; instruções de projeto de ~200 linhas; e o padrão de datas de modificação dos arquivos.</p>
+
+<h3>O que está bem</h3>
+
+<div class="diag-ok">
+  <div class="dlabel">✓ Funciona bem</div>
+  <p><strong>Produção de conteúdo denso:</strong> os compêndios têm estrutura sólida — pergunta motivadora ancorada em mecanismo real, notas históricas distribuídas, distinção entre mecanismo central e menções contextuais, kboxes de limites, perguntas genuinamente abertas. O template v2 força qualidade estrutural. Isso é uso excelente de IA: delegação de escrita intensiva com controle editorial humano.</p>
+</div>
+
+<div class="diag-ok">
+  <div class="dlabel">✓ Funciona bem</div>
+  <p><strong>Instruções de projeto como memória persistente:</strong> as instruções de 200+ linhas funcionam como sistema operacional da sessão. A IA não reinicia do zero a cada conversa — carrega contexto de decisões anteriores, convenções de formato, critérios de saturação. Isso elimina tempo de setup e garante consistência.</p>
+</div>
+
+<div class="diag-ok">
+  <div class="dlabel">✓ Funciona bem</div>
+  <p><strong>Cross-links como grafo de conhecimento:</strong> os compêndios de imunologia têm 13+ cross-links — mecanismo que força o material a se comportar como rede, não como lista. Isso reduz redundância e cria caminhos de navegação que reforçam conexões entre conceitos.</p>
+</div>
+
+<h3>O que está ineficiente</h3>
+
+<div class="diag-crit">
+  <div class="dlabel">✗ Problema crítico</div>
+  <p><strong>Sistema de revisão criado mas nunca usado:</strong> <code>anki_hipertensao.json</code> contém 24 perguntas de alta qualidade, 0 sessões registradas, <code>ultima_sessao: null</code>. O arquivo foi gerado, provavelmente aberto uma vez, e não voltou a ser usado. A fase de <em>produção</em> de material está bem desenvolvida; a fase de <em>retrieval</em> (recuperação ativa) — a que efetivamente consolida memória — está ausente. É o equivalente a construir uma academia e nunca treinar.</p>
+</div>
+
+<div class="diag-crit">
+  <div class="dlabel">✗ Problema crítico</div>
+  <p><strong>Padrão de sprint sem manutenção:</strong> 22 compêndios de medicina foram criados entre 20 e 25 de junho — ritmo de sprint. O conhecimento adquirido em sprints sem revisão espaçada decai rapidamente (curva de esquecimento de Ebbinghaus: ~70% do conteúdo sem revisão some em 1 semana). O material de alta qualidade se torna decorativo se não houver ciclo de revisão.</p>
+</div>
+
+<div class="diag-warn">
+  <div class="dlabel">⚠ Ineficiência moderada</div>
+  <p><strong>Cross-links assimétricos entre áreas:</strong> imunologia tem 13 cross-links; farmacologia (hipertensão) tem apenas 2. Os compêndios de farmacologia não apontam para os mecanismos já desenvolvidos em imunologia e fisiologia. O grafo de conhecimento existe dentro de cada área mas não entre áreas — o que impede o tipo de conexão que gera compreensão integrativa.</p>
+</div>
+
+<div class="diag-warn">
+  <div class="dlabel">⚠ Ineficiência moderada</div>
+  <p><strong>IA usada quase exclusivamente para produção, não para teste:</strong> a interação com IA é majoritariamente de geração (criar compêndio, expandir seção, corrigir HTML). Há pouco ou nenhum uso de IA para testar compreensão — fazer perguntas socráticas, gerar casos clínicos, simular exame oral, identificar lacunas no raciocínio. São modalidades de uso com impacto direto na retenção.</p>
+</div>
+
+<div class="diag-warn">
+  <div class="dlabel">⚠ Ineficiência moderada</div>
+  <p><strong>Verificação visual obrigatória não executada sistematicamente:</strong> as instruções prescrevem verificação no Chrome após cada novo compêndio. A ausência de evidência de uso regular do Claude in Chrome sugere que esse passo é pulado. Verificação visual é a única forma de detectar problemas de renderização que bash não captura (fontes não carregadas, sidebar quebrando em mobile, highlights incorretos).</p>
+</div>
+</section>
+
+<section id="o-que-funciona">
+<h2>O que funciona e por quê — a ciência por trás</h2>
+
+<p>Antes de listar técnicas, é útil entender qual problema o aprendizado precisa resolver. Aprender não é transferir informação para a memória — é construir estruturas de recuperação. O que determina se você vai lembrar algo em 6 meses não é quanto tempo passou lendo, mas quantas vezes e de que forma <em>recuperou</em> a informação.</p>
+
+<p>Três achados da ciência cognitiva são relevantes aqui:</p>
+
+<p><strong>Efeito de testagem (<em>testing effect</em>):</strong> recuperar informação da memória é mais eficaz para retenção do que reler o mesmo conteúdo. Estudos de Roediger e Karpicke (2006) mostram que grupos que praticaram recuperação retinham 50% mais conteúdo após uma semana do que grupos que apenas releram. Isso significa que o compêndio — por melhor que seja — só funciona se for ponto de partida para recuperação ativa, não destino final.</p>
+
+<p><strong>Espaçamento (<em>spacing effect</em>):</strong> revisar material em intervalos crescentes produz retenção muito superior a revisões concentradas. O algoritmo SM-2 (base do Anki) estima o intervalo ótimo para cada item com base na facilidade de recuperação na última sessão. O <code>anki_hipertensao.json</code> já implementa a estrutura para isso — falta a execução.</p>
+
+<p><strong>Elaboração interleaved:</strong> misturar tópicos durante o estudo (em vez de estudar um bloco de cada vez) melhora discriminação entre conceitos e transferência para novos contextos. IA permite simular esse efeito: gerar perguntas que conectam dois compêndios diferentes, forçar o estudante a distinguir mecanismos similares de áreas distintas.</p>
+</section>
+
+<section id="tecnicas">
+<h2>Técnicas com evidência — o que fazer</h2>
+
+<div class="tec-grid">
+  <div class="tec-card">
+    <div class="tec-title">Geração de perguntas por seção <span class="ev ev-forte">evidência forte</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Após ler uma seção, pedir à IA que gere 3–5 perguntas que testam o mecanismo (não a definição). Exemplo: "Gere perguntas de nível mecanicista sobre o mecanismo de atenção do Transformer que eu não consigo responder só memorizando a definição."</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Modo socrático <span class="ev ev-forte">evidência forte</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Pedir à IA que só faça perguntas — nunca dê a resposta. Você tenta responder; a IA identifica o que está incorreto ou incompleto e faz a próxima pergunta. Revela lacunas que leitura passiva nunca revelaria.</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Casos clínicos gerados sob demanda <span class="ev ev-forte">evidência forte</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Pedir casos clínicos que forçam aplicação de mecanismo. "Gere um caso de paciente com HAS resistente e falha de IECA — o raciocínio deve exigir conhecimento do escape da angiotensina." A IA pode variar o nível de dificuldade e dicas disponíveis.</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Explicação para leigo (técnica Feynman) <span class="ev ev-mod">evidência moderada</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Explicar o conceito à IA como se ela fosse um aluno de ensino médio. A IA aponta onde a explicação ficou vaga ou incorreta. Forçar explicação simples revela onde a compreensão é superficial.</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Revisão espaçada com JSON existente <span class="ev ev-forte">evidência forte</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Usar o <code>anki_hipertensao.json</code> real: pedir à IA que conduza uma sessão Anki a partir do arquivo — apresente uma pergunta por vez, aguarde resposta, avalie, registre status e programe próxima revisão com base no desempenho.</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Mapa de conceitos gerado e criticado <span class="ev ev-mod">evidência moderada</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Você escreve um mapa mental ou lista de conexões entre conceitos ("Aldosterona → retenção de Na⁺ → volume → PA, mas IECAs bloqueiam via ECA, não via aldosterona diretamente"). A IA identifica conexões ausentes ou incorretas.</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Perguntas interleaved entre compêndios <span class="ev ev-mod">evidência moderada</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Pedir perguntas que cruzam dois compêndios: "Faça uma pergunta que exija integrar o mecanismo de ativação de linfócitos T (compêndio M8) com o mecanismo de ação dos biológicos anti-IL-17 (compêndio M12)." Força conexões entre áreas.</div>
+  </div>
+  <div class="tec-card">
+    <div class="tec-title">Debate de perguntas abertas <span class="ev ev-baixa">evidência baixa</span></div>
+    <div class="tec-sub">O que é</div>
+    <div class="tec-body">Escolher uma pergunta em aberto do compêndio e pedir à IA que apresente os dois lados do debate com os argumentos mais fortes de cada posição. Desenvolve pensamento crítico e familiaridade com a fronteira do conhecimento.</div>
+  </div>
+</div>
+
+<h3>Como usar as perguntas já existentes no projeto</h3>
+
+<p>O <code>anki_hipertensao.json</code> tem 24 perguntas de altíssima qualidade — mecanicistas, contextualizadas em seção, cobrindo todo o compêndio. O que falta é o loop de execução. Uma sessão concreta seria:</p>
+
+<ol>
+  <li>Compartilhar o JSON com a IA no início da sessão</li>
+  <li>Pedir que apresente a pergunta de id=1</li>
+  <li>Responder em voz alta ou por escrito</li>
+  <li>Pedir avaliação: o que está correto, o que está incompleto, o que está errado</li>
+  <li>Passar para a próxima pergunta ou aprofundar o que estava errado</li>
+  <li>Ao final, pedir que atualize os status no JSON (ou fazer manualmente)</li>
+</ol>
+
+<p>Esse loop, feito uma vez por semana por compêndio, é o que transforma o projeto de biblioteca em sistema de aprendizado.</p>
+</section>
+
+<section id="nao-faz">
+<h2>O que não faz — e deveria</h2>
+
+<h3>1. Sessões de revisão ativa regulares</h3>
+<p>O projeto tem a infraestrutura (JSON de perguntas, compêndios com perguntas em aberto, modo Anki nas instruções) mas não tem evidência de execução. A revisão ativa precisa ser agendada — não ocorre naturalmente após a produção do material. Uma sessão de 20 minutos por semana por área (medicina, investimentos) com o JSON em mãos produziria retenção radicalmente diferente.</p>
+
+<h3>2. Uso de IA para <em>testar</em>, não apenas <em>criar</em></h3>
+<p>A assimetria atual: ~95% do tempo de IA vai para geração de conteúdo, ~5% para teste de compreensão. A proporção ideal para retenção seria próxima do inverso. Após criar um compêndio, dedicar a próxima sessão inteiramente a perguntas — sem olhar o material — seria a forma mais eficiente de solidificar o que foi aprendido.</p>
+
+<h3>3. Cross-links entre áreas (farmacologia ↔ imunologia ↔ fisiologia)</h3>
+<p>O compêndio de anti-hipertensivos fala de aldosterona sem linkar para o mecanismo de retenção de sódio que a fisiologia renal já cobriu. O compêndio de anticorpos não linka para o de hipersensibilidade tipo I onde IgE aparece como protagonista. Esses links existiriam naturalmente se houvesse sessões de revisão que forçassem a navegação entre compêndios.</p>
+
+<h3>4. Verificação visual sistemática</h3>
+<p>As instruções prescrevem abrir o HTML no Chrome após cada novo compêndio. Esse passo detecta problemas invisíveis no bash: fontes do Google não carregando, sidebar colapsando incorretamente, tabelas quebrando em viewport menor, highlight.js não inicializando. A omissão acumula dívida técnica visual que só é descoberta quando o material é efetivamente usado para estudar.</p>
+
+<h3>5. Revisão periódica de compêndios à luz de novo aprendizado</h3>
+<p>Quando você aprende um novo conceito (ex.: o papel do IL-23 em Th17), voltar ao compêndio de imunidade inata e verificar se o cross-link está correto e se o mecanismo precisa ser atualizado. IA pode fazer essa checagem automaticamente: "Dado o que o compêndio de citocinas diz sobre IL-23, há algo no compêndio de imunidade inata que precisaria ser atualizado ou linkado?"</p>
+</section>
+
+<section id="armadilhas">
+<h2>Armadilhas frequentes</h2>
+
+<div class="kbox">
+  <div class="klabel">Armadilha 1 — ilusão de fluência</div>
+  <p>Ler um compêndio bem escrito produz a sensação de compreensão. Mas reconhecer é muito mais fácil do que recuperar. O teste real é: feche o compêndio e explique o mecanismo de memória, sem apoio. Se não consegue, a compreensão era de reconhecimento, não de recall — e reconhecimento não serve em exames ou na prática clínica.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Armadilha 2 — confundir produção de material com aprendizado</div>
+  <p>Criar um compêndio exige pesquisa, leitura, síntese — e gera uma sensação forte de progresso. Mas a maior parte do trabalho cognitivo foi feito pela IA (que escreveu o HTML). O valor do compêndio é como plataforma de estudo futuro, não como ato de aprendizado em si. Sem revisão ativa subsequente, o compêndio é uma promessa não cumprida.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Armadilha 3 — usar IA como oráculo, não como interlocutor</div>
+  <p>Perguntar "o que é backpropagation?" e aceitar a resposta é uso passivo. Perguntar "expliquei backpropagation assim: [sua explicação]. O que está errado ou impreciso?" é uso ativo. A IA não tem acesso ao que você sabe ou não sabe — você precisa fornecer sua tentativa de resposta primeiro para que o feedback seja útil.</p>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Armadilha 4 — acumular sem consolidar</div>
+  <p>O padrão de sprint (22 compêndios em 5 dias) produz material vasto e denso. Mas o volume de material não compensa a ausência de revisão. Dez compêndios revisados regularmente produzem mais retenção do que trinta compêndios consultados uma vez.</p>
+</div>
+</section>
+
+<section id="protocolo">
+<h2>Protocolo proposto</h2>
+
+<p>Com base no diagnóstico, o protocolo a seguir requer menos tempo total mas distribui o esforço de forma mais eficiente:</p>
+
+<table>
+  <thead>
+    <tr><th>Fase</th><th>O que fazer</th><th>Frequência</th><th>Ferramenta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Criação</strong></td>
+      <td>Novo compêndio via IA, seguindo template v2. Verificação bash + visual obrigatória.</td>
+      <td>Sob demanda</td>
+      <td>Cowork + Claude in Chrome</td>
+    </tr>
+    <tr>
+      <td><strong>Ativação imediata</strong></td>
+      <td>Logo após criar: 10 min de perguntas abertas sem olhar o material. Anotar o que não saiu.</td>
+      <td>Imediatamente após criação</td>
+      <td>Chat com IA (modo socrático)</td>
+    </tr>
+    <tr>
+      <td><strong>Revisão curta</strong></td>
+      <td>Sessão Anki com o JSON do compêndio (20 min por área). Anotar status de cada resposta.</td>
+      <td>Semanal por área</td>
+      <td>JSON + chat</td>
+    </tr>
+    <tr>
+      <td><strong>Revisão integrativa</strong></td>
+      <td>Perguntas que cruzam dois ou mais compêndios. Casos clínicos que exigem integração.</td>
+      <td>Quinzenal</td>
+      <td>Chat com IA</td>
+    </tr>
+    <tr>
+      <td><strong>Manutenção</strong></td>
+      <td>Verificar cross-links desatualizados, atualizar DEBT.md, conferir perguntas em aberto resolvidas.</td>
+      <td>Mensal</td>
+      <td>Cowork</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 1. Protocolo de estudo proposto com IA — fases, frequência e ferramentas.</p>
+
+<p>A mudança crítica em relação ao uso atual: a fase de criação permanece igual; o que muda é que criação sempre dispara ativação imediata, e há sessões semanais de revisão com os JSONs existentes. O tempo adicional por semana é ~30 minutos por área — com impacto desproporcionalmente alto na retenção.</p>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 1</div>
+  <p>Qual é o limite de carga cognitiva que IA pode assumir sem reduzir o aprendizado? Se a IA gera o compêndio, as perguntas E avalia as respostas, em que ponto o estudante fica passivo demais para consolidar memória de longo prazo? Não há resposta consensual — a fronteira entre "andaime cognitivo" e "substituição do esforço produtivo" é empiricamente pouco estudada com LLMs.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 2</div>
+  <p>O feedback de IA em sessões de recuperação tem eficácia equivalente ao feedback humano (professor, colega)? Estudos sobre tutoria inteligente (ITS) mostram benefícios, mas com sistemas mais limitados que LLMs atuais. A calibração do feedback — saber quando confirmar, quando desafiar, quando deixar o estudante inferir — é difícil de avaliar sem estudos controlados com LLMs.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 3</div>
+  <p>Sistemas de revisão espaçada com IA como interlocutor (em vez de cartão silencioso) produzem retenção superior? A interação verbal pode aprofundar a elaboração — mas também pode introduzir confirmação excessiva e reduzir o esforço desejável (<em>desirable difficulty</em>) que torna o aprendizado durável. Debate ativo sem consenso.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>A pergunta motivadora era: onde o uso atual quebra e o que mudaria concretamente? A resposta é específica: o uso atual quebra na transição entre produção e consolidação. O sistema existe e é bom — os compêndios têm qualidade estrutural, as perguntas do JSON são mecanicistas e bem contextualizadas, as instruções de projeto são sofisticadas. O gap não é de qualidade de material mas de ciclo de uso: material criado sem retrieval sistemático subsequente.</p>
+
+<p>A tensão mais importante é entre a sensação de progresso que a criação produz e o aprendizado real que a recuperação produz. Criar um compêndio é cognitivamente satisfatório, visualmente belo, e gera um artefato concreto. Responder perguntas sem olhar o material é desconfortável, às vezes frustrante, e não produz nada novo. Mas a evidência é clara sobre qual das duas atividades consolida memória.</p>
+
+<p>A implicação que emerge: IA é excepcionalmente boa em reduzir o custo de produção de material de alta qualidade — o que antes levava 10 horas agora leva 1. Mas esse ganho de eficiência na produção só se traduz em aprendizado se liberado tempo equivalente para a fase de recuperação, que IA pode facilitar mas não substituir. O estudante ainda precisa tentar recuperar, errar, e corrigir — a IA pode tornar esse processo mais eficiente e direcionado, mas não pode eliminá-lo.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<ul>
+  <li><strong>ROEDIGER, H. L.; KARPICKE, J. D. Test-enhanced learning. <em>Psychological Science</em>, v. 17, n. 3, p. 249–255, 2006.</strong> O estudo mais citado sobre o efeito de testagem — demonstra que prática de recuperação supera releitura em retenção de longo prazo.</li>
+  <li><strong>DUNLOSKY, J. et al. Improving students' learning with effective learning techniques. <em>Psychological Science in the Public Interest</em>, v. 14, n. 1, p. 4–58, 2013.</strong> Revisão sistemática de 10 técnicas de aprendizado — classifica evidências por força. Prática de recuperação e espaçamento recebem as maiores notas.</li>
+  <li><strong>MAKE IT STICK — Brown, P. C.; Roediger, H. L.; McDaniel, M. A. <em>Make It Stick: The Science of Successful Learning</em>. Harvard University Press, 2014.</strong> Tradução prática dos achados de laboratório sobre aprendizado eficaz — acessível e bem fundamentado.</li>
+  <li><strong>Wozniak, P. — SuperMemo: Incremental Reading e SM-2 Algorithm</strong> (supermemo.com): documentação original do algoritmo de repetição espaçada subjacente ao Anki. Denso, mas explica o raciocínio por trás de cada decisão de design.</li>
+</ul>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+
+<p>BROWN, Peter C.; ROEDIGER, Henry L.; McDANIEL, Mark A. <em>Make It Stick: The Science of Successful Learning</em>. Cambridge: Harvard University Press, 2014.</p>
+
+<p>DUNLOSKY, John et al. Improving students' learning with effective learning techniques: promising directions from cognitive and educational psychology. <em>Psychological Science in the Public Interest</em>, v. 14, n. 1, p. 4–58, 2013. DOI: <a href="https://doi.org/10.1177/1529100612453266" target="_blank" rel="noopener">10.1177/1529100612453266</a>.</p>
+
+<p>EBBINGHAUS, Hermann. <em>Über das Gedächtnis</em>. Leipzig: Duncker &amp; Humblot, 1885. [Tradução: Memory: A Contribution to Experimental Psychology. Teachers College, Columbia University, 1913.]</p>
+
+<p>KORNELL, Nate; BJORK, Robert A. Learning concepts and categories: is spacing the "enemy of induction"? <em>Psychological Science</em>, v. 19, n. 6, p. 585–592, 2008. DOI: <a href="https://doi.org/10.1111/j.1467-9280.2008.02127.x" target="_blank" rel="noopener">10.1111/j.1467-9280.2008.02127.x</a>.</p>
+
+<p>ROEDIGER, Henry L.; KARPICKE, Jeffrey D. Test-enhanced learning: taking memory tests improves long-term retention. <em>Psychological Science</em>, v. 17, n. 3, p. 249–255, 2006. DOI: <a href="https://doi.org/10.1111/j.1467-9280.2006.01693.x" target="_blank" rel="noopener">10.1111/j.1467-9280.2006.01693.x</a>.</p>
+
+<p>WOZNIAK, Piotr. SuperMemo Algorithm SM-2. <em>SuperMemo</em>, 1987. Disponível em: <a href="https://www.supermemo.com/en/blog/application-of-a-computer-to-improve-the-results-obtained-in-working-with-the-supermemo-method" target="_blank" rel="noopener">supermemo.com</a>.</p>
+</section>
+
+</div>
+</main>
+</div>
+
+<script>
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  bar.style.width = (s.scrollTop / (s.scrollHeight - s.clientHeight) * 100) + '%';
+}, {passive: true});
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const btn = document.getElementById('toggle-btn');
+function applyCollapsed(c) {
+  sidebar.classList.toggle('collapsed', c);
+  bodyWrap.classList.toggle('sidebar-collapsed', c);
+  btn.textContent = c ? '›' : '‹';
+  sessionStorage.setItem('sidebar-collapsed', c ? '1' : '');
+}
+btn.addEventListener('click', () => applyCollapsed(!sidebar.classList.contains('collapsed')));
+applyCollapsed(!!sessionStorage.getItem('sidebar-collapsed'));
+const mobBtn = document.getElementById('mob-menu-btn');
+if (mobBtn) mobBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+const links = document.querySelectorAll('.sl');
+const sections = document.querySelectorAll('section[id]');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector('.sl[href="#' + e.target.id + '"]');
+      if (a) a.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+}, {rootMargin: '-10% 0px -60% 0px'});
+sections.forEach(s => obs2.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+=== ATLAS — MAPA DE ÁREAS COBERTAS ===
+Última atualização: 2026-06-30
+
+=== Medicina ===
+--- Cardiologia (Medicina Básica) ---
+- medicina/cardiologia-anatomia.html — Anatomia Cardíaca (câmaras, valvas, coronárias, condução, pericárdio, topografia) [2026-06-30]
+
+=== Investimentos ===
+- investimentos/fundamentos-investimentos.html — Fundamentos de Investimentos
+
+=== Automóveis ===
+- automoveis/eficiencia-combustivel-saveiro-nivus-s90.html — Eficiência de combustível
+- automoveis/falha-airbag-nivus-2023.html — Falha airbag Níveis 2023
+
+=== IA ===
+- ia/inteligencia-artificial.html — Inteligência Artificial (mapa de campo amplo) [2026-06-30]
+- ia/claude-llm.html — Claude / LLM (pendente verificação de existência)
+- ia/instrucoes-projeto-cowork.html — Instruções Projeto Cowork (pendente verificação de existência)
+- ia/instrucoes-skills-agentes.html — Skills e Agentes (pendente verificação de existência)
+- ia/fundamentos/introducao-ia.html — Introdução à IA (pendente verificação de existência)
+- ia/fundamentos/ia-para-estudar.html — IA para estudar (pendente verificação de existência)

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciclo Cardíaco — Fisiologia Cardiovascular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78}
+a{color:var(--ac);text-decoration:none}
+h1{font-size:2rem;font-weight:600;line-height:1.2;margin-bottom:10px}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:2.4rem 0 .9rem;padding-bottom:4px;border-bottom:1px solid var(--border)}
+h3{font-size:1.08rem;font-weight:600;color:var(--ac);margin:1.6rem 0 .5rem}
+h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:1.2rem 0 .4rem;text-transform:uppercase;letter-spacing:.05em}
+p{margin-bottom:1rem}
+ul,ol{margin:0 0 1rem 1.4rem}
+li{margin-bottom:.3rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.4rem;font-size:.9rem;font-family:var(--font-ui)}
+th{background:var(--bg3);color:var(--muted);font-weight:600;text-align:left;padding:8px 12px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+code{font-family:monospace;background:var(--bg3);padding:2px 6px;border-radius:3px;font-size:.88em}
+
+/* Layout */
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0;transition:width .25s}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px;line-height:1}
+#toggle-btn:hover{color:var(--text);background:var(--bg3)}
+.s-inner{flex:1;overflow-y:auto;overflow-x:hidden;width:280px;padding-bottom:20px}
+.s-logo{padding:16px 16px 8px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;opacity:1;transition:opacity .2s}
+.s-group{margin:0 8px 6px}
+.s-group-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;padding:6px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);padding:5px 8px;border-radius:4px;transition:background .15s,color .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:1}
+a.sl:hover{background:var(--bg3);color:var(--text)}
+a.sl.active{background:var(--ac2bg);color:var(--ac)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed .s-group-label,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Progress bar */
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+
+/* Chips */
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;display:inline-block}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;margin-bottom:36px}
+.doc-header{padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:36px}
+
+/* Pergunta motivadora */
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+/* Painel de dependências */
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+/* Nota histórica */
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+/* Key-concept box */
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+/* Conceitos-chave grid */
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+
+/* Fórmula */
+.formula{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 14px;font-family:monospace;font-size:.95rem;margin:.8rem 0;color:var(--text)}
+
+/* Cross-link inline */
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+/* Perguntas em aberto */
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+/* Citation */
+.cite{color:var(--ac);font-size:.88em}
+
+/* Leituras */
+.leituras-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-top:2rem}
+.leituras-box h3{margin-top:0}
+
+/* Mobile */
+#mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);padding:10px 16px;z-index:50}
+#mob-menu-btn{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
+
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;top:0;left:0;height:100vh;z-index:200}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #mob-bar{display:flex;align-items:center;gap:12px}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  #body-wrap.sidebar-collapsed #content{padding:24px 20px 80px}
+}
+
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#progress-bar,#mob-bar,#s-toggle{display:none!important}
+  #content{padding:20px}
+  a::after{content:" ("attr(href)")";font-size:.8em;color:#555}
+  a.cross-link::after,a.sl::after{content:""}
+}
+
+section{scroll-margin-top:24px}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="body-wrap">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">◀</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Fisiologia · Cardiovascular</div>
+    <div class="s-group">
+      <div class="s-group-label">Eletrofisiologia</div>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#eletrofisiologia">Potencial de ação cardíaco</a>
+      <a class="sl" href="#conducao">Sistema de condução</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Mecânica</div>
+      <a class="sl" href="#mecanico">Ciclo mecânico</a>
+      <a class="sl" href="#pressoes">Pressões e volumes</a>
+      <a class="sl" href="#sons">Sons cardíacos</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Débito e regulação</div>
+      <a class="sl" href="#debito">Débito cardíaco</a>
+      <a class="sl" href="#starling">Lei de Frank-Starling</a>
+      <a class="sl" href="#regulacao">Regulação do débito</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Revisão</div>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTEÚDO -->
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Ciclo Cardíaco</h1>
+  <p class="doc-meta">Medicina · Fisiologia Cardiovascular · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~40 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>potencial de membrana, canais iônicos, contração muscular</b></span>
+    <span class="chip">🔗 Depende de: <b>anatomia cardíaca, SNA</b></span>
+    <span class="chip">📍 Área: <b>Fisiologia Cardiovascular</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-30</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que o coração bate com a frequência e a força certas para cada situação — repouso, exercício, hemorragia — sem que o sistema nervoso precise calcular cada contração individualmente?</p>
+</div>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="#">Potencial de membrana e canais iônicos</a>
+      <a class="dep-item" href="#">Mecanismo actina-miosina</a>
+      <a class="dep-item" href="#">Sistema nervoso autônomo</a>
+      <a class="dep-item" href="#">Lei de Laplace</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Anatomia cardíaca básica</a>
+      <a class="dep-item" href="#">Fisiologia do músculo estriado</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item cross-link" href="hipotensao-pos-exercicio-barorreflexo.html#barorreflexo">Barorreflexo e HPE</a>
+      <a class="dep-item" href="#">Insuficiência cardíaca (fisiopatologia)</a>
+      <a class="dep-item" href="#">Farmacologia cardiovascular</a>
+    </div>
+  </div>
+</div>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Automacidade</div>
+    <p>Nó SA gera impulso espontaneamente via I<sub>f</sub> (HCN) + I<sub>Ca,T</sub> + I<sub>Ca,L</sub> — sem estímulo externo.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">CICR</div>
+    <p><em>Calcium-induced calcium release</em>: Ca²⁺ do platô dispara liberação massiva do retículo via RyR2.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Período refratário</div>
+    <p>Platô longo (~250 ms) impede segundo estímulo — sem tetania. Fundamental para função de bomba.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Frank-Starling</div>
+    <p>VS aumenta com VDF: estiramento eleva sobreposição actina-miosina e Ca²⁺-sensitividade da troponina.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Débito cardíaco</div>
+    <p>DC = VS × FC. Em repouso ~5 L/min; em exercício máximo até 35–40 L/min em atletas.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Delay AV</div>
+    <p>Nó AV retarda condução 0,08–0,12 s, permitindo enchimento ventricular antes da sístole.</p>
+  </div>
+</div>
+</section>
+
+
+<!-- FUNDAMENTOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>Todo cardiomiócito em repouso mantém um potencial de membrana em torno de −85 mV (células contráteis) ou −60 mV (células marcapasso), sustentado principalmente pela corrente retificadora de entrada de K⁺ (<em>inward rectifier</em>, I<sub>K1</sub>). A diferença entre células contráteis e marcapasso fundamenta a automacidade cardíaca.</p>
+
+<h3>Acoplamento excitação-contração</h3>
+<p>O aumento de Ca²⁺ intracelular é o elo entre o potencial de ação e a contração. O Ca²⁺ que entra durante o platô (via canais L) dispara a liberação de Ca²⁺ do retículo sarcoplasmático pelo mecanismo <em>calcium-induced calcium release</em> (CICR) via receptores de rianodina (RyR2). O Ca²⁺ citosólico liga-se à troponina C, deslocando a tropomiosina e expondo os sítios de actina para a miosina. O relaxamento depende da recaptação ativa de Ca²⁺ pelo retículo via SERCA2a (bomba regulada pelo fosfolambano) e da extrusão pelo trocador NCX.</p>
+
+<h3>Lei de Laplace</h3>
+<div class="formula">T = (P × r) / (2 × h)</div>
+<p>onde T é a tensão parietal, P a pressão intracavitária, r o raio e h a espessura. Câmaras dilatadas precisam gerar maior tensão para a mesma pressão — razão pela qual IC dilatada aumenta consumo de O₂ miocárdico.</p>
+</section>
+
+<!-- ELETROFISIOLOGIA -->
+<section id="eletrofisiologia">
+<h2>Eletrofisiologia cardíaca</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1887–1924</span>
+  Augustus Waller registrou o primeiro ECG humano em 1887. Willem Einthoven aprimorou o método com o galvanômetro de corda (1901–1903), recebendo o Nobel em 1924. A interpretação mecanicista do potencial de ação cardíaco emergiu com Denis Noble nos anos 1960, que criou o primeiro modelo computacional de célula cardíaca (J Physiol, 1962).
+</div>
+
+<h3>Potencial de ação ventricular — 5 fases</h3>
+<table>
+  <thead><tr><th>Fase</th><th>Nome</th><th>Correntes dominantes</th><th>Movimento iônico</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>Despolarização rápida</td><td>I<sub>Na</sub></td><td>Na⁺ entra rapidamente</td></tr>
+    <tr><td>1</td><td>Repolarização inicial</td><td>I<sub>to</sub></td><td>K⁺ sai brevemente</td></tr>
+    <tr><td>2</td><td>Platô</td><td>I<sub>Ca,L</sub> (entra) vs I<sub>Kr</sub>/I<sub>Ks</sub> (sai)</td><td>Equilíbrio — fase longa</td></tr>
+    <tr><td>3</td><td>Repolarização rápida</td><td>I<sub>Kr</sub>, I<sub>Ks</sub> dominam</td><td>K⁺ sai</td></tr>
+    <tr><td>4</td><td>Repouso</td><td>I<sub>K1</sub></td><td>K⁺ — corrente de fundo</td></tr>
+  </tbody>
+</table>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — período refratário absoluto</div>
+  <p>O platô (~250 ms) impede reestimulação antes do relaxamento — sem tetania. O modelo de 5 fases simplifica: há mais de 15 correntes iônicas em cardiomiócitos humanos, com proporções distintas por câmara e espécie.</p>
+</div>
+
+<h3>Potencial de ação do nó SA — automacidade</h3>
+<p>Células do nó SA não têm potencial de repouso estável. Após cada repolarização, sofrem despolarização espontânea lenta (<em>pacemaker potential</em>) até atingir o limiar. Três correntes fundamentam a automacidade:</p>
+<ul>
+  <li><strong>I<sub>f</sub></strong> — <em>funny current</em>: canal HCN ativado por hiperpolarização, conduz Na⁺ e K⁺ para dentro. Alvo da ivabradina.</li>
+  <li><strong>I<sub>Ca,T</sub></strong> — canal de Ca²⁺ tipo T: ativa-se em potenciais mais negativos, contribui para a rampa.</li>
+  <li><strong>I<sub>Ca,L</sub></strong> — canal de Ca²⁺ tipo L: responsável pela despolarização rápida no nó SA (sem I<sub>Na</sub> significativa aqui).</li>
+</ul>
+<p>Simpático acelera I<sub>f</sub> e I<sub>Ca,L</sub> via PKA (cronotropismo positivo). Parassimpático hiperpolariza via I<sub>K,ACh</sub>, diminuindo a inclinação da rampa (cronotropismo negativo).</p>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — hierarquia de marcapasso</div>
+  <p>Nó SA domina (~60–100 bpm). Nó AV (~40–60 bpm) e His-Purkinje (~20–40 bpm) assumem se o SA falhar — ritmos de escape. Frequências de escape são lentas demais para débito adequado em exercício.</p>
+</div>
+</section>
+
+<!-- CONDUÇÃO -->
+<section id="conducao">
+<h2>Sistema de condução</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1839–1914</span>
+  Fibras de Purkinje foram descritas por Jan Evangelista Purkinje em 1839. O feixe de His foi identificado por Wilhelm His Jr. em 1893. O nó AV foi descrito por Sunao Tawara em 1906. O nó SA foi descoberto por Arthur Keith e Martin Flack em 1907. A função elétrica de cada estrutura só foi compreendida no século XX.
+</div>
+
+<ol>
+  <li><strong>Nó SA</strong> → gera impulso. Localizado na junção da veia cava superior com o átrio direito.</li>
+  <li><strong>Vias internodais e interatriais</strong> → conduzem pelos átrios (~1 m/s). Despolarização atrial sincronizada = onda P no ECG.</li>
+  <li><strong>Nó AV</strong> → retarda condução (~0,05 m/s) por 0,08–0,12 s. Permite enchimento ventricular antes da sístole. Corresponde ao intervalo PR no ECG.</li>
+  <li><strong>Feixe de His → ramos D/E → fibras de Purkinje</strong> → condução rápida (~4 m/s). Ativação ventricular quase simultânea = complexo QRS.</li>
+  <li><strong>Repolarização ventricular</strong> → onda T.</li>
+</ol>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — bloqueios AV</div>
+  <p>O delay AV é o locus de falhas clínicas: bloqueios de 1º, 2º (Mobitz I e II) e 3º grau. No bloqueio completo, átrios e ventrículos batem independentemente (dissociação AV) — frequência ventricular cai ao ritmo de escape do His-Purkinje.</p>
+</div>
+</section>
+
+<!-- CICLO MECÂNICO -->
+<section id="mecanico">
+<h2>Ciclo mecânico</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1895–1918</span>
+  Otto Frank (1895) demonstrou em corações de rã que a força de contração aumenta com o comprimento inicial do músculo. Ernest Starling (1914–1918), com coração-pulmão de cão, sistematizou o princípio. Carl Ludwig havia registrado as primeiras curvas de pressão intracardíaca em animais vivos décadas antes.
+</div>
+
+<p>O ciclo cardíaco é a sequência repetida de sístole e diástole. Em repouso dura ~0,8 s (FC ≈ 75 bpm); em exercício máximo pode cair para ~0,3 s, comprimindo a diástole desproporcionalmente.</p>
+
+<table>
+  <thead><tr><th>Fase</th><th>Duração</th><th>Evento principal</th><th>Válvulas</th></tr></thead>
+  <tbody>
+    <tr><td>1. Enchimento ventricular (diástole)</td><td>~250 ms</td><td>VE relaxa; pressão cai abaixo da atrial; mitral abre; enchimento passivo</td><td>Mitral aberta · Aórtica fechada</td></tr>
+    <tr><td>2. Sístole atrial</td><td>~70 ms</td><td>Átrio contrai; empurra ~20–30% do VDF; "onda a" no pulso venoso</td><td>Mitral aberta · Aórtica fechada</td></tr>
+    <tr><td>3. Contração isovolumétrica</td><td>~60 ms</td><td>Pressão sobe; mitral fecha (B1); antes da abertura aórtica</td><td>Mitral fechada · Aórtica fechada</td></tr>
+    <tr><td>4. Ejeção rápida</td><td>~110 ms</td><td>Pressão VE > aórtica; aórtica abre; ~70–80% do VS é ejetado</td><td>Mitral fechada · Aórtica aberta</td></tr>
+    <tr><td>5. Ejeção lenta</td><td>~60 ms</td><td>Gradiente pressórico diminui; restante do VS ejetado</td><td>Mitral fechada · Aórtica aberta</td></tr>
+    <tr><td>6. Relaxamento isovolumétrico</td><td>~80 ms</td><td>VE relaxa; aórtica fecha (B2); mitral ainda fechada</td><td>Mitral fechada · Aórtica fechada</td></tr>
+  </tbody>
+</table>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — "isovolumétrico" vs. "isométrico"</div>
+  <p>As fases isovolumétnicas são frequentemente chamadas de "isométricas", mas é uma aproximação. O volume não muda, mas fibras individuais se rearranjam geometricamente — não há contração isométrica pura no coração intacto.</p>
+</div>
+</section>
+
+<!-- PRESSÕES E VOLUMES -->
+<section id="pressoes">
+<h2>Pressões e volumes</h2>
+
+<table>
+  <thead><tr><th>Parâmetro</th><th>VE</th><th>VD</th></tr></thead>
+  <tbody>
+    <tr><td>Pressão sistólica pico</td><td>~120 mmHg</td><td>~25 mmHg</td></tr>
+    <tr><td>Pressão diastólica final</td><td>~5–12 mmHg</td><td>~3–8 mmHg</td></tr>
+    <tr><td>Volume diastólico final (VDF)</td><td>~120–130 mL</td><td>~120–130 mL</td></tr>
+    <tr><td>Volume sistólico final (VSF)</td><td>~50–60 mL</td><td>~50–60 mL</td></tr>
+    <tr><td>Volume sistólico (VS = VDF − VSF)</td><td>~70 mL</td><td>~70 mL</td></tr>
+    <tr><td>Fração de ejeção (FE = VS/VDF)</td><td>55–70%</td><td>55–65%</td></tr>
+  </tbody>
+</table>
+
+<h3>Diagrama pressão-volume (loop PV)</h3>
+<p>O loop PV traça o trabalho cardíaco por ciclo. Segmento inferior (enchimento a baixa pressão) → segmento esquerdo (contração isovolumétrica: pressão sobe com volume constante) → segmento superior (ejeção: volume cai com pressão alta) → segmento direito (relaxamento isovolumétrico: pressão cai com volume constante). A área delimitada = trabalho externo por ciclo.</p>
+
+<h3>ESPVR e contratilidade</h3>
+<p>A inclinação da reta que conecta os pontos de VSF em diferentes cargas é a <em>elastância máxima</em> (E<sub>max</sub>) — índice de contratilidade intrínseca, relativamente independente de pré e pós-carga. Catecolaminas deslocam a ESPVR para cima e à esquerda.</p>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — ESPVR na clínica</div>
+  <p>A ESPVR exige cateterismo com variação de carga (p. ex., oclusão temporária da veia cava inferior) — não mensurável rotineiramente. A fração de ejeção é o índice clínico padrão, mas depende da carga: FE pode parecer normal com contratilidade reduzida se a pós-carga for baixa.</p>
+</div>
+</section>
+
+<!-- SONS -->
+<section id="sons">
+<h2>Sons cardíacos</h2>
+
+<table>
+  <thead><tr><th>Bulha</th><th>Origem</th><th>Ausculta</th><th>Equivalente no ciclo</th></tr></thead>
+  <tbody>
+    <tr><td><strong>B1</strong></td><td>Fechamento de mitral e tricúspide</td><td>Foco mitral (4º EIC, LMC esq.)</td><td>Início da contração isovolumétrica</td></tr>
+    <tr><td><strong>B2</strong></td><td>Fechamento de aórtica e pulmonar</td><td>Focos aórtico/pulmonar (2º EIC)</td><td>Início do relaxamento isovolumétrico</td></tr>
+    <tr><td><strong>B3</strong></td><td>Vibração parietal no enchimento rápido</td><td>Campânula em decúbito lateral esq.</td><td>Início da diástole (após B2)</td></tr>
+    <tr><td><strong>B4</strong></td><td>Vibração ventricular na sístole atrial (câmara rígida)</td><td>Antes de B1</td><td>Fase de sístole atrial</td></tr>
+  </tbody>
+</table>
+
+<p>B3 é fisiológica em crianças/jovens, patológica acima dos 40 anos (sobrecarga de volume: IC com FE reduzida, regurgitação mitral). B4 indica câmara rígida (hipertrofia, isquemia). B3 + B4 = ritmo de galope em quatro tempos.</p>
+</section>
+
+<!-- DÉBITO -->
+<section id="debito">
+<h2>Débito cardíaco</h2>
+
+<div class="formula">DC = VS × FC</div>
+
+<p>Em repouso, DC ≈ 5 L/min. Em exercício máximo de atletas de elite, até 35–40 L/min.</p>
+
+<h3>Índice cardíaco</h3>
+<div class="formula">IC = DC / ASC &nbsp;&nbsp; (normal: 2,5–4,0 L/min/m²)</div>
+
+<h3>Método de Fick — padrão-ouro</h3>
+<div class="formula">DC = VO₂ / (CaO₂ − CvO₂)</div>
+<p>Princípio de conservação de massa: todo O₂ consumido pelos tecidos passou pelo circuito cardíaco. Exige cateterismo para coleta de sangue venoso misto.</p>
+
+<h3>Termodiluição</h3>
+<p>Injeção de solução fria pela via proximal de cateter de Swan-Ganz; termopar distal registra a curva de temperatura. Área sob a curva é inversamente proporcional ao DC. Método clínico padrão em UTI.</p>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — DC como média temporal</div>
+  <p>O DC é uma média de fluxo; não captura a pulsatilidade. Em fibrilação atrial, o VS varia ciclo a ciclo. A termodiluição dá uma média razoável, mas subestima heterogeneidade batimento a batimento — relevante para análise de VS por Swan-Ganz em FA.</p>
+</div>
+</section>
+
+<!-- FRANK-STARLING -->
+<section id="starling">
+<h2>Lei de Frank-Starling</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica — 1895–1918</span>
+  Otto Frank (1895) demonstrou em rãs que força de contração aumenta com comprimento inicial do músculo. Ernest Starling (1914–1918) sistematizou o princípio com coração-pulmão de cão. A explicação molecular — sensibilidade do miofilamento ao Ca²⁺ dependente de comprimento — só emergiu nos anos 1990.
+</div>
+
+<p><strong>O volume sistólico aumenta proporcionalmente ao volume diastólico final</strong>, dentro de limites fisiológicos — mecanismo intrínseco, independente de inervação.</p>
+
+<h3>Mecanismo molecular</h3>
+<p>Ao estirar o sarcômero ao comprimento ótimo (~2,2 µm), dois mecanismos aumentam a força:</p>
+<ol>
+  <li><strong>Maior sobreposição actina-miosina</strong>: mais pontes cruzadas possíveis por comprimento ótimo de sarcômero.</li>
+  <li><strong>Sensibilidade ao Ca²⁺ dependente de comprimento</strong>: estiramento aumenta a sensibilidade da troponina C ao Ca²⁺ — mais força com o mesmo [Ca²⁺] citosólico. Parcialmente atribuído à diminuição do espaço intermiofilamento e alterações conformacionais na troponina I.</li>
+</ol>
+
+<h3>Pré-carga, pós-carga e contratilidade</h3>
+<table>
+  <thead><tr><th>Conceito</th><th>Definição fisiológica</th><th>Proxy clínico</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Pré-carga</strong></td><td>Tensão parietal ao fim da diástole; proporcional ao VDF</td><td>Pressão capilar pulmonar (PCP); VDF por eco</td></tr>
+    <tr><td><strong>Pós-carga</strong></td><td>Tensão que o VE vence para ejetar; relacionada à pressão aórtica e RVP</td><td>Pressão arterial sistêmica; RVS = PAM/DC × 80</td></tr>
+    <tr><td><strong>Contratilidade</strong></td><td>Capacidade intrínseca de gerar força a dado VDF — independente de carga</td><td>FE (parcial); dP/dt<sub>max</sub> por cateterismo</td></tr>
+  </tbody>
+</table>
+
+<div class="kbox">
+  <div class="klabel">Limite do modelo — porção descendente</div>
+  <p>A "porção descendente" da curva de Starling (queda de VS com excesso de pré-carga) existe em preparações musculares hiperstiradas além de 2,4 µm. No coração intacto in vivo raramente é atingida: geometria ventricular e mecanismos compensatórios evitam hiperdistensão aguda. O "coração falhando na porção descendente" é um equívoco frequente em cursos introdutórios.</p>
+</div>
+</section>
+
+<!-- REGULAÇÃO -->
+<section id="regulacao">
+<h2>Regulação do débito cardíaco</h2>
+
+<h3>Intrínseca — Frank-Starling e efeito de Anrep</h3>
+<p>Frank-Starling cobre variações batimento a batimento. O <strong>efeito de Anrep</strong> descreve aumento tardio de contratilidade (~1–2 min) após aumento agudo de pós-carga — mediado por liberação local de angiotensina II e aumento de [Ca²⁺] intracelular.</p>
+
+<h3>Autonômica — simpático e parassimpático</h3>
+
+<h4>Simpático (norepinefrina/epinefrina via β₁)</h4>
+<ul>
+  <li><strong>Cronotropismo positivo</strong>: ↑ I<sub>f</sub> e I<sub>Ca,L</sub> via PKA → FC maior.</li>
+  <li><strong>Inotropismo positivo</strong>: PKA fosforila canais L de Ca²⁺ (↑ influxo) e fosfolambano (↑ SERCA2a → mais Ca²⁺ no RS) → VS maior.</li>
+  <li><strong>Lusitropismo positivo</strong>: PKA fosforila troponina I → relaxamento mais rápido (importante na taquicardia).</li>
+  <li><strong>Dromotropismo positivo</strong>: acelera condução no nó AV.</li>
+</ul>
+
+<h4>Parassimpático (acetilcolina via M₂)</h4>
+<ul>
+  <li><strong>Cronotropismo negativo</strong>: ativa I<sub>K,ACh</sub> → hiperpolarização do nó SA → rampa mais lenta → FC menor.</li>
+  <li><strong>Dromotropismo negativo</strong>: retarda condução AV (pode produzir bloqueio AV de 1º grau em tônus vagal alto).</li>
+</ul>
+
+<p>Cross-link: para integração com controle pressórico, ver <a class="cross-link" href="hipotensao-pos-exercicio-barorreflexo.html#barorreflexo">Barorreflexo e controle autonômico</a>.</p>
+
+<h3>Humoral</h3>
+<table>
+  <thead><tr><th>Agente</th><th>Efeito cardíaco</th><th>Mecanismo</th></tr></thead>
+  <tbody>
+    <tr><td>Epinefrina (suprarrenal)</td><td>↑ FC, ↑ VS, ↑ contratilidade</td><td>β₁ → AMPc → PKA</td></tr>
+    <tr><td>Angiotensina II</td><td>↑ contratilidade; hipertrofia crônica</td><td>AT₁ → IP₃ → Ca²⁺; MAPK</td></tr>
+    <tr><td>Ca²⁺ sérico ↑</td><td>↑ contratilidade, ↓ FC (extremo → parada)</td><td>↑ Ca²⁺ disponível para CICR</td></tr>
+    <tr><td>K⁺ sérico ↑</td><td>↓ FC → parada (hipercalemia grave)</td><td>Reduz gradiente de K⁺ → repolarização comprometida</td></tr>
+    <tr><td>T₃/T₄</td><td>↑ FC, ↑ contratilidade, ↑ expressão de β₁</td><td>Regulação transcricional de proteínas contráteis</td></tr>
+    <tr><td>ANP (atrial natriurético)</td><td>Resposta à distensão atrial → ↓ pré-carga</td><td>GMPc → vasodilatação; inibição do RAAS</td></tr>
+  </tbody>
+</table>
+
+<h3>Retorno venoso</h3>
+<p>O DC é limitado, em última análise, pelo retorno venoso. A <strong>pressão média de enchimento sistêmico</strong> (P<sub>ms</sub>) impulsiona o sangue venoso de volta ao coração — determinada pelo volume sanguíneo total e pela complacência venosa. Aumento de volemia → ↑ P<sub>ms</sub> → ↑ retorno venoso → ↑ pré-carga → ↑ VS (Frank-Starling). Princípio da reposição volêmica em choque.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões</h2>
+<ul>
+  <li><strong>Eletrofisiologia → mecânica</strong>: o platô longo é proporcional ao período refratário, que impede tetania — liga eletrofisiologia à função de bomba.</li>
+  <li><strong>Frank-Starling → equilíbrio VD/VE</strong>: a resposta intrínseca a variações de retorno venoso mantém o DC equilibrado entre as câmaras sem sinal nervoso contínuo.</li>
+  <li><strong>Barorreflexo → regulação autonômica</strong>: ver <a class="cross-link" href="hipotensao-pos-exercicio-barorreflexo.html#barorreflexo">Barorreflexo</a>. A resposta ao exercício combina retirada vagal imediata + ativação simpática + Frank-Starling + redistribuição de fluxo.</li>
+  <li><strong>RAAS → pré-carga</strong>: angiotensina II + aldosterona expandem volemia → ↑ P<sub>ms</sub> → ↑ DC. Alvo terapêutico: IECA, BRA, antagonistas de aldosterona na IC.</li>
+  <li><strong>ECG → ciclo</strong>: P = despolarização atrial; QRS = despolarização ventricular (início de B1); T = repolarização ventricular (início de B2). Intervalo QT ≈ duração do PA ventricular.</li>
+  <li><strong>Fisiopatologia</strong>: IC com FE reduzida = falência de contratilidade + Starling esgotado; IC com FE preservada = disfunção diastólica + câmara rígida (↓ complacência) → B4 patológica.</li>
+</ul>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 1</div>
+  <p><strong>Mecanismo preciso da Ca²⁺-sensitividade dependente de comprimento:</strong> a teoria do espaço intermiofilamento tem suporte experimental mas não é universalmente aceita; modelos alternativos envolvem alterações conformacionais diretas na troponina I. Permanece objeto de pesquisa ativa.</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 2</div>
+  <p><strong>Porção descendente da curva de Starling in vivo:</strong> se e quando o coração intacto opera nessa porção durante IC grave é debatido. Evidências de ecocardiografia 3D sugerem que a geometria ventricular impede hiperdistensão aguda, mas a situação crônica na IC dilatada é menos clara.</p>
+</div>
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 3</div>
+  <p><strong>Heterogeneidade regional de contratilidade:</strong> há gradientes transmurais (subendocárdio vs. subepicárdio) com duração de PA e expressão de proteínas contráteis distintas. Como esses gradientes se integram no ciclo global ainda não é completamente compreendido.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora tem três respostas que operam em escalas de tempo distintas:</p>
+<ol>
+  <li><strong>Milissegundos a segundos (intrínseco):</strong> Frank-Starling. O coração aumenta VS automaticamente quando o retorno venoso aumenta — sem sinal nervoso. Cada cardiomiócito "sente" o estiramento e responde com mais força. Isso garante que batimento a batimento os dois ventrículos ejetem o mesmo volume.</li>
+  <li><strong>Segundos (autonômico):</strong> o barorreflexo ajusta FC e contratilidade em resposta a mudanças de pressão percebidas pelos barorreceptores. A retirada vagal acelera o coração em segundos; a ativação simpática plena leva 10–30 s.</li>
+  <li><strong>Minutos a horas (humoral):</strong> catecolaminas suprarrenais, RAAS e hormônios tireoidianos ajustam cronicamente o set-point. Angiotensina II retém volume, aumentando pré-carga de base.</li>
+</ol>
+<p>A elegância do sistema está na hierarquia: Starling cobre variação batimento a batimento, o autonômico cobre adaptação a esforço e postura, o humoral cobre estados prolongados. Falha em qualquer camada produz síndrome específica: perda de Starling → IC dilatada; falha do barorreflexo → hipotensão ortostática; excesso de RAAS → hipertensão e sobrecarga de volume.</p>
+</section>
+
+<!-- LEITURAS -->
+<section id="leituras">
+<div class="leituras-box">
+<h3>Leituras recomendadas</h3>
+<ul>
+  <li><strong>Guyton &amp; Hall — Tratado de Fisiologia Médica</strong> (caps. 9–10): referência primária para o ciclo cardíaco, Frank-Starling e débito cardíaco.</li>
+  <li><strong>Katz AM — Physiology of the Heart</strong> (5ª ed.): acoplamento excitação-contração e loop PV em profundidade.</li>
+  <li><strong>Bers DM — Excitation-Contraction Coupling and Cardiac Contractile Force</strong>: referência técnica para mecanismos moleculares de Ca²⁺ e CICR.</li>
+  <li><strong>Opie LH — Heart Physiology</strong>: integração entre fisiologia básica e farmacologia cardiovascular.</li>
+  <li><strong>Noble D — J Physiol, 1962</strong>: paper fundador da modelagem computacional de potencial de ação cardíaco.</li>
+</ul>
+</div>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências</h2>
+<ol>
+  <li>Hall JE, Guyton AC. <em>Tratado de Fisiologia Médica</em>. 14ª ed. Elsevier; 2021. Caps. 9–12.</li>
+  <li>Katz AM. <em>Physiology of the Heart</em>. 5ª ed. Wolters Kluwer; 2011.</li>
+  <li>Bers DM. Cardiac excitation-contraction coupling. <em>Nature</em>. 2002;415(6868):198-205.</li>
+  <li>Frank O. Zur Dynamik des Herzmuskels. <em>Z Biol</em>. 1895;32:370-447.</li>
+  <li>Patterson SW, Piper H, Starling EH. The regulation of the heart beat. <em>J Physiol</em>. 1914;48:465-513.</li>
+  <li>Noble D. A modification of the Hodgkin-Huxley equations applicable to Purkinje fibre action and pacemaker potentials. <em>J Physiol</em>. 1962;160:317-352.</li>
+  <li>Sarnoff SJ, Berglund E. Ventricular function. I. Starling's law of the heart studied by means of simultaneous right and left ventricular function curves. <em>Circulation</em>. 1954;9:706-718.</li>
+</ol>
+</section>
+
+</div><!-- /prose -->
+</main>
+</div><!-- /body-wrap -->
+
+<!-- MOBILE BAR -->
+<div id="mob-bar">
+  <button id="mob-menu-btn">☰</button>
+  <span style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">Ciclo Cardíaco</span>
+</div>
+
+<script>
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const mobBtn = document.getElementById('mob-menu-btn');
+
+function setSidebar(collapsed) {
+  if (collapsed) {
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    toggleBtn.textContent = '▶';
+    sessionStorage.setItem('sidebar-collapsed', '1');
+  } else {
+    sidebar.classList.remove('collapsed');
+    bodyWrap.classList.remove('sidebar-collapsed');
+    toggleBtn.textContent = '◀';
+    sessionStorage.setItem('sidebar-collapsed', '0');
+  }
+}
+
+if (sessionStorage.getItem('sidebar-collapsed') === '1') setSidebar(true);
+
+toggleBtn.addEventListener('click', () => {
+  setSidebar(!sidebar.classList.contains('collapsed'));
+});
+
+if (mobBtn) {
+  mobBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+}
+
+// Progress bar
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const pct = document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+// Sidebar active link + section highlight
+const sections = document.querySelectorAll('section[id]');
+const sideLinks = document.querySelectorAll('a.sl');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      sideLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+const observer2 = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    entry.target.classList.toggle('in-view', entry.isIntersecting);
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer2.observe(s));
+</script>
+
+<style>
+section.in-view > h2 { color: var(--ac); transition: color .3s; }
+</style>
+
+</body>
+</html>

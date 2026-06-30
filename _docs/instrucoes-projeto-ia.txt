@@ -1,0 +1,137 @@
+Objetivo: compreensão profunda de Inteligência Artificial — desde os fundamentos matemáticos e estatísticos até modelos de linguagem, agentes e aplicações práticas. Ênfase em entender os mecanismos para usar as ferramentas com mais consciência e eficácia.
+
+=== Formato único: compêndio ===
+Todo material é um compêndio — HTML autônomo que cobre um tema até o mecanismo ser explicável sem referência externa. Integra: contexto histórico, definição formal, mecanismo detalhado (com encadeamento de raciocínio), bloco de código demonstrativo quando aplicável, implicações práticas e discussão. Não há outros formatos.
+
+=== Protocolo de abertura de sessão ===
+Ao iniciar sessão sem tarefa direta:
+1. Ler project_estado.md — pendências e dívida técnica.
+2. Ler project_mapa_materiais.md — conceitos cobertos.
+3. Se houver dívida crítica em DEBT.md, informar antes de prosseguir.
+
+=== Pré-geração ===
+Antes de gerar compêndio novo, realizar perguntas para melhor contextualização: o que motivou o tema, onde você já se situa nele e se há alguma aplicação prática em mente. Nunca perguntar sobre formato. Se o tema for autoevidente (ex.: "explica backpropagation"), gerar direto.
+
+=== Fluxo de trabalho ===
+1. Consultar project_estado.md — badges confirmados, status de migração.
+2. Gerar HTML na subpasta temática em kebab-case (ia/fundamentos/, ia/modelos-linguagem/, ia/ml-classico/, ia/deep-learning/, ia/engenharia/, etc.). Se for tema novo, gerar em nova subpasta.
+3. Arquivar vs. editar: sobrescrever (com archive em _archive/ + sufixo de data) quando mudança ≥30% ou altera estrutura; editar no lugar para correções pontuais.
+4. Verificação bash obrigatória após qualquer escrita de HTML: (a) fecha com </body></html>; (b) sessionStorage presente no <script>; (c) wc -l compatível com o esperado; (d) sem const const / var var; (e) acentuação PT-BR intacta (grep -c "ã\|ç\|é" > 0); (f) sem artefatos (grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho" vazio). Corrigir antes de prosseguir.
+5. Verificação visual (novos compêndios e reescritas ≥30%): abrir no Chrome via Claude in Chrome — sidebar, barra de progresso, acentuação no browser.
+6. Erro recorrente identificado: rodar grep nos demais HTMLs antes de fechar — nunca corrigir só o arquivo em foco.
+7. Atualizar index.html na mesma operação.
+8. Atualizar MIGRATION.md se status de migração mudar.
+9. Registrar em DEBT.md toda inconsistência não corrigida na sessão.
+10. Atualizar project_mapa_materiais.md com conceitos centrais do novo material.
+11. GitHub: ao concluir qualquer material, lembrar o usuário de rodar push.bat na raiz (duplo clique).
+
+=== Checklist de saturação ===
+Antes de fechar qualquer compêndio:
+- [ ] Todo conceito mencionado por nome tem mecanismo desenvolvido?
+- [ ] A pergunta motivadora está fechada na Discussão?
+- [ ] Há ≥2 perguntas em aberto genuinamente não resolvidas na literatura ou em debate ativo?
+- [ ] Limites do modelo marcados em .kbox?
+- [ ] Bloco de código presente quando o conceito tem implementação relevante?
+- [ ] Cross-links apontam para âncoras de seção específica (não topo do arquivo)?
+- [ ] Cross-links verificáveis? (IDs de destino existem nos HTMLs alvo)
+- [ ] Campo "Última revisão" atualizado?
+- [ ] index.html, MIGRATION.md e DEBT.md atualizados?
+
+=== Eficiência operacional ===
+Limite de Edit: nunca >~150 linhas por bloco new_string. Inserções longas em operações sequenciais — inserir, verificar (wc -l + tail -5), prosseguir.
+
+Backup obrigatório antes de Edit em HTML:
+cp "arquivo.html" "arquivo.html.bak"
+Se truncar → restaurar com cp .bak → usar sed.
+
+Estratégia de escrita:
+- Edit → substituições pontuais e inserções ≤150 linhas. Backup + verificação.
+- Write → arquivo novo ou reescrita completa de arquivo <300 linhas.
+- Python → conteúdo com acentos PT-BR, símbolos tipográficos e entidades HTML. Nunca echo ou heredoc bash (corrompe encoding).
+- sed → substituições pontuais em arquivos >500 linhas.
+- bash append → completar conteúdo ao final de arquivo íntegro.
+
+HTML novo >300 linhas: Write com estrutura inicial (~150 linhas) → verificar → Python escreve restante em /tmp/bloco.html → cat /tmp/bloco.html >> arquivo.html → verificar. Nunca criar HTML grande em um único Write.
+
+Leitura seletiva: em arquivo >150 linhas, grep -n para localizar a âncora antes de Read com offset/limit. Ler o arquivo inteiro só na abertura da sessão ou quando estritamente necessário.
+
+Verificação preditiva: antes de Edit com new_string >80 linhas, calcular linhas esperadas após inserção. Após o Edit, wc -l e comparar — divergência ±5 indica truncamento.
+
+=== Ordem das seções (obrigatória) ===
+Cabeçalho (h1 + meta + chips) → Pergunta motivadora → Painel de dependências → Fundamentos necessários → Conceitos-chave → [conteúdo principal] → Implementação (código) → Conexões → Perguntas em aberto → Discussão → Leituras recomendadas → Referências.
+
+A seção Implementação é exclusiva deste projeto: presente sempre que o conceito tiver expressão computacional direta (ex.: descida de gradiente, atenção, tokenização). Ausente em temas puramente conceituais ou históricos.
+
+=== Convenção de IDs de âncoras ===
+id em kebab-case sem acentos derivado do título da seção. Exemplos: id="fundamentos", id="conceitos-chave", id="implementacao", id="perguntas-abertas", id="discussao", id="referencias". Cross-links: href="../caminho/arquivo.html#id-secao".
+
+=== Formato do index.html ===
+<a class="card" href="caminho/relativo/arquivo.html">
+  <div class="card-area">Área · Subárea</div>
+  <div class="card-title">Título do Compêndio</div>
+  <div class="card-meta">~X min · Última revisão: YYYY-MM-DD</div>
+</a>
+Entradas agrupadas por área (fundamentos, ml-classico, deep-learning, modelos-linguagem, engenharia). Ordem dentro do grupo: mais recente primeiro.
+
+=== Template v2 ===
+Consultar template-v2-spec.md para especificação completa de CSS, layout e elementos visuais.
+
+=== Conteúdo ===
+- Pergunta motivadora ancorada em aplicação real ou em algo que o usuário já usou (ex.: "Por que o ChatGPT às vezes inventa fatos?"). Implicações com profundidade mecanicista.
+- Partir sempre do porquê antes do o quê. O mecanismo justifica a existência do conceito antes de defini-lo formalmente.
+- Padrão histórico distribuído: .hist antes de cada conceito central — quem propôs, qual problema motivou, o que mudou com essa ideia.
+- Gradação de profundidade: (1) mecanismo central — saturação total; (2) conceitos de suporte — parágrafo + definição formal; (3) menções contextuais — apenas nomeadas com cross-link.
+- Cross-links: <a class="cross-link" href="../caminho/arquivo.html#id-secao">termo</a>. Nunca reexplicar — linkar. Verificar project_mapa_materiais.md antes de escrever explicação inline.
+- Criticidade universal: após qualquer framework central, .kbox "Limites do modelo" com: pressupostos assumidos, condições de falha, divergências empíricas conhecidas.
+- Controvérsias genuínas: .kbox "Controvérsia" com as duas posições sustentadas por evidência e estado atual do debate. Nunca resolver artificialmente.
+- Cada bloco deve avançar o raciocínio — nunca repetir ou resumir seção anterior.
+- Saturação: critério de parada = nenhum conceito mencionado por nome sem mecanismo desenvolvido. Crescimento por saturação, não por meta de linhas.
+- Siglas por extenso na primeira ocorrência. Termos em inglês em itálico + tradução na primeira ocorrência.
+- Tabelas e figuras quando melhorarem compreensão comparativa. Legenda numerada imediatamente abaixo.
+
+=== Seção Implementação ===
+Presente sempre que o conceito tiver código relevante. Regras:
+- Linguagem padrão: Python. Usar apenas bibliotecas da stdlib ou numpy/torch — sem dependências de instalação implícita.
+- Código comentado linha a linha nas partes não-óbvias. Não comentar o óbvio.
+- Bloco renderizado em <pre><code class="language-python"> com syntax highlight via highlight.js (já no template).
+- Após o código: parágrafo curto conectando o que o código demonstra com o mecanismo explicado na seção anterior.
+- Não substituir explicação por código — o código é suplemento, não atalho.
+
+=== Modo Anki ===
+=== Fase 1 — Triagem por múltipla escolha ===
+1. Verificar se existe anki/anki_[material].json — carregar para retomar. Criar ao encerrar se não existir.
+2. Verificar DEBT.md antes de iniciar — aplicar pendências do arquivo alvo primeiro.
+3. Gerar questões de múltipla escolha cobrindo todo o material — quantidade determinada pela cobertura. Cada seção do HTML deve ter ao menos uma questão; conceitos centrais (camada 1) devem ter mais.
+4. Apresentar uma questão por vez, com 5 alternativas (A–E), sempre com destratores plausíveis. A pergunta aponta para a alternativa correta; as outras são falsas por nuances. Nunca revelar a resposta antes da tentativa.
+5. Classificar cada questão: acertou ou errou.
+   - Acertou → registrar como dominada e avançar.
+   - Errou → registrar e continuar; retomar na Fase 2.
+=== Fase 2 — Aprofundamento discursivo nos erros ===
+6. Ao concluir a triagem, listar os conceitos errados com retomada da explicação do material e iniciar questões discursivas apenas para eles.
+7. Para cada conceito errado: uma pergunta aberta por vez. Se resposta parcial: oferecer pista antes de revelar.
+8. Classificar a resposta discursiva: "dominada", "parcial" ou "não soube". Dominada exige articulação do mecanismo, não apenas o nome.
+   - "Parcial" e "não soube" retomadas após 3–5 questões novas.
+=== Encerramento do Anki ===
+9. Síntese dos pontos fracos + seção a revisar.
+10. Atualizar anki/anki_[material].json com novo estado da sessão.
+11. Criar/atualizar anki/erros_[material].md:
+=== [Conceito] ===
+- Pergunta: ...
+- Raciocínio usado: ...
+- Erro: ...
+- Correto: ...
+
+=== Encerramento de sessão ===
+Ao final de sessão substantiva (novo compêndio, migração, reescrita, instruções), chamar a skill autocritica-sessao. Sinal: "terminamos", "pode fechar", "acabou", "sessão encerrada".
+
+=== Dívida técnica ===
+DEBT.md na raiz: - [ ] `caminho/arquivo.html` — descrição (YYYY-MM-DD). Ao iniciar nova sessão, verificar e propor prioridades.
+
+=== Qualidade de entrega ===
+Antes de apresentar qualquer entrega, rodar ciclo interno: "há algo a melhorar?" → se sim, aplicar e repetir → encerrar só quando a resposta honesta for "não encontro nada". Registrar no chat quantas iterações e o que foi corrigido.
+
+=== Revisão periódica ===
+Compêndios atualizados sob demanda — só quando o usuário for usar o material. Ao abrir compêndio para uso, verificar DEBT.md e aplicar pendências antes de começar. Divergências conceituais registrar em project_estado.md — sem reescrever o original imediatamente.
+
+=== Entrega de instruções atualizadas ===
+Sempre gerar instrucoes-projeto-ia.txt na raiz — nunca apenas em bloco no chat. O usuário cola nas configurações do projeto. Após atualizar, sincronizar a memory.

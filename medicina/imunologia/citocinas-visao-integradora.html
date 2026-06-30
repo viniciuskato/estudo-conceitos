@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M12 &mdash; Citocinas: Visão Integradora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh;flex-direction:column}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;flex:1;min-height:0}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
+#sidebar.collapsed #s-toggle{justify-content:center;width:44px}
+#s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
+#s-toggle button:hover{color:var(--text);background:var(--bg3)}
+#sidebar .s-inner{flex:1;overflow-y:auto;padding:4px 0 48px;width:280px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+.s-logo{padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;font-family:var(--font-ui);transition:opacity .2s}
+.s-logo b{display:block;font-size:13px;font-weight:500;color:var(--ac);margin-bottom:2px}
+.s-logo span{font-size:11px;color:var(--muted)}
+.s-logo a{display:block;font-size:10px;color:var(--muted);text-decoration:none;margin-top:6px}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:10px 16px 3px;transition:opacity .2s;white-space:nowrap}
+#sidebar a.sl{display:block;padding:4px 16px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,opacity .2s;white-space:nowrap}
+#sidebar a.sl:hover{color:var(--text)}
+#sidebar a.sl.active{color:var(--ac);border-left-color:var(--ac);background:rgba(212,146,74,.06)}
+#sidebar a.sl.sub{padding-left:26px;font-size:11px}
+#content{flex:1;padding:52px 72px 120px;min-width:0;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--ac);line-height:1.25;margin-bottom:6px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:52px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--text);margin:28px 0 10px}
+.anc{opacity:0;margin-left:8px;font-size:.75em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anc,h3:hover .anc{opacity:1}
+p{margin-bottom:1em}strong{font-weight:600;color:var(--text)}em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+a.cite{color:var(--ac);text-decoration:none;font-size:.8em;vertical-align:super;font-family:var(--font-ui)}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card .ckd{font-family:var(--font-ui);font-size:12px;color:var(--muted);line-height:1.55}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;font-size:15px}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .bt{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .bm{font-size:11px;color:var(--muted);line-height:1.5}
+.badge-tem{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:#1a2e1a;color:#7dcea0;border:1px solid #3a5a3a;margin-left:6px;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle}
+ol.refs{padding-left:1.2em}
+ol.refs li{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+ol.refs li a{color:var(--ac);text-decoration:none}
+.doc-header{margin-bottom:44px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+ul.disc{padding-left:1.5em;margin-bottom:1em}
+ul.disc li{margin-bottom:.4em}
+@media(max-width:900px){
+  #mob-bar{display:flex}
+  #sidebar{display:none;position:fixed;z-index:60;height:100vh}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  .book-grid{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar,.anc{display:none!important}
+  a.cross-link,a.cite{color:#000;border:none}
+  a[href]:after{content:" (" attr(href) ")";font-size:.75em}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <span class="mb-title">Citocinas &mdash; Visão Integradora</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Menu</button>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Colapsar menu">&#8249;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      <b>M12 &mdash; Citocinas</b>
+      <span>Imunologia · Visão Integradora</span>
+      <a href="../index.html">← Índice de Imunologia</a>
+    </div>
+    <div class="s-group">Navegação</div>
+    <a class="sl" href="#pergunta-motivadora">Pergunta motivadora</a>
+    <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+    <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+    <a class="sl" href="#definicao">Definição e história</a>
+    <a class="sl" href="#propriedades">Propriedades gerais</a>
+    <a class="sl" href="#familias">Famílias moleculares</a>
+    <a class="sl sub" href="#interleucinas">Interleucinas</a>
+    <a class="sl sub" href="#tnf-superfamily">TNF e superfamília</a>
+    <a class="sl sub" href="#interferons">Interferons</a>
+    <a class="sl sub" href="#tgf-il10">TGF-β e IL-10</a>
+    <a class="sl sub" href="#quimiocinas">Quimiocinas</a>
+    <a class="sl" href="#sinalizacao">Vias de sinalização</a>
+    <a class="sl sub" href="#jak-stat">JAK-STAT</a>
+    <a class="sl sub" href="#nfkb-mapk">NF-κB e MAPK</a>
+    <a class="sl" href="#redes">Redes e propriedades sistêmicas</a>
+    <a class="sl" href="#citocinas-doenca">Citocinas na doença</a>
+    <a class="sl" href="#terapia">Alvo terapêutico</a>
+    <a class="sl" href="#conexoes">Conexões</a>
+    <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+    <a class="sl" href="#discussao">Discussão</a>
+    <a class="sl" href="#leituras">Leituras recomendadas</a>
+    <a class="sl" href="#referencias">Referências</a>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Citocinas: Visão Integradora</h1>
+  <p class="doc-meta">Imunologia · Mediadores Moleculares · Módulo M12 · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>M2 Células, M3 Moléculas, M4 Inata, M8 Linfócitos T</b></span>
+    <span class="chip">📍 Área: <b>Imunologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<!-- PERGUNTA MOTIVADORA -->
+<section id="pergunta-motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente com artrite reumatoide grave não responde a anti-inflamatórios convencionais. Seu reumatologista prescreve tocilizumabe, um anticorpo monoclonal contra o receptor de IL-6. Em semanas, a inflamação cede &mdash; mas o paciente desenvolve uma infecção fúngica oportunista. Por que bloquear uma única citocina muda tão profundamente tanto a inflamação quanto a susceptibilidade a infecções? O que esse caso revela sobre a arquitetura das redes de citocinas?</p>
+</div>
+</section>
+
+<!-- PAINEL DE DEPENDÊNCIAS -->
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="celulas-sistema-imune.html#linfocitos-t">M2 — Células do sistema imune</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html#citocinas">M3 — Moléculas (visão geral de citocinas)</a>
+      <a class="dep-item" href="imunidade-inata.html#inflamacao">M4 — Imunidade Inata (inflamação)</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html#subtipos-th">M8 — Linfócitos T (subtipos Th)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="moleculas-sistema-imune.html#prrs">PRRs e PAMPs (M3)</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html#tres-sinais">3 sinais de ativação T (M8)</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html#troca-isotipo">Troca de isotipo (M7)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">P2 — Inflamação integrada (futuro)</a>
+      <a class="dep-item" href="#">F5 — Anti-inflamatórios (futuro)</a>
+      <a class="dep-item" href="hipersensibilidade.html#tipo-i">M10 — Hipersensibilidade (retroativo)</a>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTOS NECESSÁRIOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários <a class="anc" href="#fundamentos">#</a></h2>
+<p>Este compêndio pressupõe familiaridade com os seguintes conceitos, tratados em profundidade nos módulos indicados:</p>
+<p><strong>Receptor de membrana e transdução de sinal:</strong> citocinas são ligantes extracelulares que se ligam a receptores transmembrana; a ativação do receptor desencadeia cascatas intracelulares (fosforilação, ubiquitinação, ativação de fatores de transcrição) que culminam na alteração do perfil de expressão gênica da célula-alvo. O princípio é análogo ao da sinalização por PRRs (<a class="cross-link" href="moleculas-sistema-imune.html#prrs">M3 — PRRs</a>).</p>
+<p><strong>Diferenciação de subtipos Th:</strong> a maioria das propriedades funcionais das citocinas só faz sentido no contexto de qual subtipo de linfócito T as produz e qual subtipo polarizam. Os eixos Th1/Th2/Th17/Treg são tratados em detalhe em <a class="cross-link" href="linfocitos-t-diferenciacao.html#subtipos-th">M8 — Subtipos Th</a>.</p>
+<p><strong>Inflamação aguda e fase sistêmica:</strong> TNF, IL-1β e IL-6 são os principais mediadores da resposta inflamatória aguda e da fase aguda sistêmica; o contexto celular (neutrófilos, macrófagos, células endoteliais) está em <a class="cross-link" href="imunidade-inata.html#inflamacao">M4 — Inflamação</a>.</p>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anc" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Pleiotropia</div><div class="ckd">Uma citocina age sobre múltiplos tipos celulares com efeitos distintos</div></div>
+  <div class="ck-card"><div class="ckt">Redundância</div><div class="ckd">Múltiplas citocinas compartilham o mesmo efeito funcional sobre um tipo celular</div></div>
+  <div class="ck-card"><div class="ckt">Sinalização parácrina</div><div class="ckd">Ação local sobre células vizinhas; distingue da sinalização endócrina (sistêmica)</div></div>
+  <div class="ck-card"><div class="ckt">JAK-STAT</div><div class="ckd">Via canônica de sinalização de citocinas do tipo I/II; 4 JAKs e 7 STATs definem especificidade</div></div>
+  <div class="ck-card"><div class="ckt">Tempestade de citocinas</div><div class="ckd">Amplificação descontrolada de alças de feedback positivo; colapso da homeostase imune</div></div>
+  <div class="ck-card"><div class="ckt">Cadeia gama comum (γc)</div><div class="ckd">Subunidade compartilhada de IL-2, IL-4, IL-7, IL-9, IL-15, IL-21; explica eixo de sobrevivência T/B</div></div>
+  <div class="ck-card"><div class="ckt">Quimiocinas / gradiente</div><div class="ckd">Citocinas quimiotáticas; receptores CC vs CXC; gradiente direciona migração de leucócitos</div></div>
+  <div class="ck-card"><div class="ckt">Reguladores negativos</div><div class="ckd">SOCS (Suppressors of Cytokine Signaling) e PIAS bloqueiam JAK-STAT; evitam cronicidade</div></div>
+  <div class="ck-card"><div class="ckt">Antagonismo de receptor</div><div class="ckd">IL-1Ra compete com IL-1 pelo mesmo receptor sem gerar sinal — base da anakinra</div></div>
+</div>
+</section>
+
+<!-- DEFINIÇÃO E HISTÓRIA -->
+<section id="definicao">
+<h2>Definição formal e contexto histórico <a class="anc" href="#definicao">#</a></h2>
+
+<div class="hist">
+  <span class="hl">📜 Contexto histórico · 1957–2000</span>
+  O conceito de citocina emergiu em ondas. Em <strong>1957</strong>, Alick Isaacs e Jean Lindenmann (Inglaterra) descreveram o <strong>interferon</strong> como um fator solúvel produzido por células infectadas por vírus que "interferia" na replicação viral em células vizinhas — o primeiro mediador imune solúvel de natureza proteica caracterizado. Na mesma época, a <strong>linfotoxina</strong> foi descrita como um fator citotóxico liberado por linfócitos (daí "linfocinase"). O termo <strong>citocina</strong> (do grego <em>kytos</em>, "célula") foi proposto por Stanley Cohen em <strong>1974</strong> como designação genérica para proteínas de sinalização produzidas por células imunes. A década de 1980 marcou a era do clonagem molecular: IL-1, IL-2, TNF-α, IL-6 e os IFNs tipo I foram clonados entre 1979 e 1986 por grupos nos EUA e Europa, permitindo produção recombinante e estudo mecanístico. O primeiro biológico anti-citocina aprovado clinicamente foi o <strong>infliximabe</strong> (anti-TNF), em <strong>1998</strong>, para doença de Crohn e AR — marcando a transição das citocinas de objeto de pesquisa para alvo terapêutico central.
+</div>
+
+<p><strong>Definição formal:</strong> citocinas são glicoproteínas de baixo peso molecular (tipicamente 8–80 kDa), secretadas por células hematopoiéticas e não-hematopoiéticas, que medeiam e regulam respostas imunes, inflamatórias e hematopoiéticas por meio de ligação a receptores de alta afinidade na superfície de células-alvo. Operam primariamente de forma <em>parácrina</em> (célula vizinha) ou <em>autócrina</em> (a própria célula produtora), e raramente de forma <em>endócrina</em> (a distância via corrente sanguínea).</p>
+
+<p>Uma citocina não é um hormônio no sentido clássico: não é produzida por uma glândula especializada, não circula em concentrações estáveis e não tem um único órgão-alvo. Sua ação é contextual — o mesmo TNF-α pode induzir apoptose em uma célula tumoral e proliferação em fibroblastos, dependendo do receptor, da concentração e do estado de ativação da célula-alvo.</p>
+</section>
+
+<!-- PROPRIEDADES GERAIS -->
+<section id="propriedades">
+<h2>Propriedades gerais das citocinas <a class="anc" href="#propriedades">#</a></h2>
+
+<p>Quatro propriedades sistêmicas definem o comportamento das citocinas como rede de comunicação:</p>
+
+<h3>Pleiotropia</h3>
+<p>Uma mesma citocina exerce efeitos distintos em tipos celulares diferentes. A IL-4, por exemplo, induz diferenciação de linfócitos B naive em plasmócitos secretores de IgE, promove polarização Th2 em linfócitos T CD4⁺ naive, inibe ativação de macrófagos M1 e estimula produção de muco em células epiteliais das vias aéreas. Essa versatilidade decorre da distribuição ubíqua de seus receptores e da integração diferencial das vias de sinalização intracelular em cada tipo celular.</p>
+
+<h3>Redundância</h3>
+<p>Múltiplas citocinas compartilham o mesmo efeito funcional. A diferenciação de linfócitos T CD4⁺ em Th17, por exemplo, é promovida por IL-6, IL-21 e IL-23, cada uma ligando-se a receptores distintos mas convergindo na ativação do fator de transcrição RORγt. Essa redundância tem valor adaptativo: a perda de uma única citocina raramente colapsa a resposta imune. Tem também implicação terapêutica: bloquear uma citocina isolada frequentemente produz efeitos parciais porque outras preenchem a lacuna.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo — pleiotropia e redundância</div>
+  <p>A designação "redundante" é uma simplificação: citocinas que compartilham o mesmo efeito funcional geralmente diferem em cinética (IL-2 atua precocemente, IL-15 atua na fase de memória), especificidade de órgão/tecido, ou na fase da resposta imune em que predominam. O que parece redundância in vitro pode ser complementaridade temporal e espacial in vivo.</p>
+</div>
+
+<h3>Sinalização em rede: sinergismo e antagonismo</h3>
+<p>Citocinas raramente atuam isoladas. IL-4 e IL-13 são sinérgicas na promoção de resposta Th2; IL-12 e IL-18 são sinérgicas para produção de IFN-γ por NK e Th1 (cada uma insuficiente sozinha). Em contraponto, IL-10 antagoniza IL-12, IL-6 antagoniza TGF-β na polarização Treg/Th17 e IL-4 inibe produção de IFN-γ. A rede de citocinas é essencialmente um sistema de controle com alças de feedback positivo (amplificação da resposta) e negativo (resolução).</p>
+
+<h3>Regulação por alça: autocrina e trans-apresentação</h3>
+<p>IL-2, o principal fator de crescimento para linfócitos T, é secretada pela própria célula ativada (autócrina) e pelo ambiente parácrino. A <em>trans-apresentação</em> é um mecanismo adicional: células dendríticas podem capturar IL-15 via IL-15Rα e "apresentá-la" em <em>trans</em> para células NK ou T CD8⁺ adjacentes — um mecanismo de sinalização de contato sem liberação da citocina no meio extracelular, que concentra o sinal e aumenta especificidade.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Propriedade</th><th>Definição operacional</th><th>Exemplo paradigmático</th><th>Implicação clínica</th></tr></thead>
+<tbody>
+<tr><td>Pleiotropia</td><td>1 citocina → múltiplos efeitos em múltiplas células</td><td>IL-6: fase aguda, diferenciação B, Th17, angiogênese</td><td>Bloquear IL-6 altera múltiplos sistemas simultaneamente</td></tr>
+<tr><td>Redundância</td><td>Múltiplas citocinas → 1 efeito funcional</td><td>IL-2, IL-7, IL-15 → sobrevivência de células T de memória</td><td>Bloquear 1 citocina raramente elimina o efeito completamente</td></tr>
+<tr><td>Sinergismo</td><td>Efeito combinado > soma dos efeitos individuais</td><td>IL-12 + IL-18 → IFN-γ por NK</td><td>Combinações terapêuticas podem ter toxicidade desproporcional</td></tr>
+<tr><td>Antagonismo</td><td>Citocina A inibe efeito de citocina B</td><td>IL-10 inibe IL-12; IL-4 inibe IFN-γ</td><td>Desequilíbrio Th1/Th2 em alergias vs doenças autoimunes</td></tr>
+</tbody>
+<caption>Tabela 1. Propriedades sistêmicas das citocinas e suas implicações.</caption>
+</table>
+</div>
+</section>
+
+<!-- FAMÍLIAS MOLECULARES -->
+<section id="familias">
+<h2>Famílias moleculares <a class="anc" href="#familias">#</a></h2>
+<p>As citocinas são agrupadas em famílias com base em estrutura tridimensional, cadeia receptora compartilhada e via de sinalização intracelular. Essa organização importa clinicamente porque inibidores de uma via afetam toda a família.</p>
+</section>
+
+<section id="interleucinas">
+<h3>Interleucinas <a class="anc" href="#interleucinas">#</a></h3>
+
+<div class="hist">
+  <span class="hl">📜 História · 1979–hoje</span>
+  O prefixo "inter-leukina" (<em>inter</em> = entre, <em>leukos</em> = branco) foi proposto em 1979 para designar proteínas que mediam comunicação entre leucócitos. IL-1 e IL-2 foram as primeiras nomeadas. Hoje existem mais de 40 interleucinas numeradas (IL-1 a IL-40+), além de variantes (IL-1α/β, IL-12p35/p40, etc.). A nomenclatura numérica cresceu historicamente sem critério estrutural — algumas "interleucinas" são quimiocinas (IL-8 = CXCL8) ou TGF-β-like.
+</div>
+
+<p>As interleucinas são melhor compreendidas organizadas por cadeia receptora compartilhada (que determina via de sinalização) e por perfil funcional:</p>
+
+<h3 style="margin-top:20px">Família γc (cadeia gama comum, CD132): citocinas de sobrevivência linfocitária</h3>
+<p>IL-2, IL-4, IL-7, IL-9, IL-15 e IL-21 compartilham a cadeia γc como subunidade receptora. Essa cadeia recruta JAK3 e ativa STAT5 (IL-2, IL-15), STAT6 (IL-4), STAT5 (IL-7). A dependência de γc cria um eixo unificado de sobrevivência e proliferação de linfócitos T e B.</p>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo &mdash; IL-2 como protótipo</div>
+  <p><strong>Receptor:</strong> IL-2 se liga ao receptor trimérico IL-2Rαβγ (CD25-CD122-CD132). A cadeia α (CD25) confere altíssima afinidade (Kd ~10 pM); as cadeias β e γ são responsáveis pela sinalização. Células T reguladoras expressam constitutivamente CD25 (alta afinidade), enquanto células T convencionais upregulam CD25 somente após ativação — o que cria uma vantagem cinética para os Tregs captarem IL-2 em condições basais.</p>
+  <p><strong>Sinalização:</strong> ligação de IL-2 → dimerização de IL-2Rβγ → ativação de JAK1 (associada a β) e JAK3 (associada a γ) → fosforilação cruzada entre JAKs → fosforilação de STAT5 → dimerização de STAT5 → translocação nuclear → transcrição de genes pró-sobrevivência (Bcl-2, Mcl-1) e proliferação (ciclina D3).</p>
+  <p><strong>Papel fisiológico central:</strong> IL-2 é o principal fator de crescimento de células T; é também essencial para a função dos Tregs (que, paradoxalmente, não a produzem — dependem de IL-2 do ambiente). A ausência de IL-2 ou CD25 causa síndrome linfoproliferativa autoimune, não imunodepressão.</p>
+</div>
+
+<p><strong>IL-7</strong> é análoga na função, mas seu receptor (IL-7Rα / CD127 + γc) é expresso por células T naive e de memória central. IL-7 é a citocina de sobrevivência homeostática: mantém o pool de células T naive em órgãos linfoides secundários e garante a longevidade das células T de memória entre infecções. Em estados de linfopenia (quimioterapia, HIV tardio), IL-7 sobe compensatoriamente e dirige expansão homeostática. IL-15 exerce papel análogo sobre NK e células T CD8⁺ de memória, e é trans-apresentada por células dendríticas.</p>
+
+<h3 style="margin-top:28px">Família IL-6 (receptor gp130): pro-inflamatórias pleiotrópicas</h3>
+<p>IL-6, IL-11, IL-27, IL-31, oncostatin M (OSM), leukaemia inhibitory factor (LIF) e outros compartilham a subunidade de transdução gp130 (CD130). gp130 recruta JAK1/2 e TYK2, ativando principalmente STAT3, mas também STAT1 e MAPK/PI3K.</p>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo &mdash; IL-6 em detalhe</div>
+  <p><strong>Receptor e trans-sinalização:</strong> IL-6 se liga a IL-6Rα (CD126) e o complexo recrutaa homodímero de gp130. Existe também IL-6Rα solúvel (sIL-6Rα), gerado por clivagem proteolítica (shedding) via ADAM10/17. Quando sIL-6Rα se liga à IL-6 e este complexo ativa gp130 em células que não expressam IL-6Rα de membrana, ocorre <em>trans-sinalização</em> — expandindo drasticamente o repertório celular-alvo de IL-6 para incluir células endoteliais, neurônios e hepatócitos que normalmente carecem do receptor.</p>
+  <p><strong>Efeitos funcionais (pleiotropia máxima):</strong> (1) Hepáticos → síntese de proteínas de fase aguda (fibrinogênio, CRP, haptoglobina, ferritina); (2) Hepáticos → síntese de hepcidina (sequestrando ferro — explica a anemia de doença crônica em AR); (3) Células T naive → co-fator (com TGF-β) para diferenciação Th17; inibe diferenciação Treg; (4) Linfócitos B → diferenciação em plasmócitos; (5) Hipotálamo → febre (actua via PGE₂); (6) Medula óssea → leucocitose via G-CSF e M-CSF.</p>
+  <p><strong>O paradoxo IL-6:</strong> IL-6 é crucial para resolver infecções (induz fase aguda, mobiliza neutrófilos), mas crônica causa caquexia, anemia e dano tecidual. Tocilizumabe (anti-IL-6R) recapitula esse paradoxo: controla AR mas aumenta susceptibilidade infecciosa.</p>
+</div>
+
+<h3 style="margin-top:28px">Família IL-12 (receptor compartilhando IL-12Rβ1): polarização Th1/Th17</h3>
+<p>IL-12, IL-23 e IL-27 compartilham subunidades receptoras e usam JAK2/TYK2 e STAT4 (IL-12) ou STAT3 (IL-23, IL-27). IL-12 (heterodímero p35/p40) é produzida por células dendríticas e macrófagos ativados em resposta a PAMPs; é o principal indutor da diferenciação Th1 via STAT4→T-bet. IL-23 (heterodímero p19/p40, compartilhando p40 com IL-12) promove sobrevivência e amplificação de Th17 já diferenciados. A distinção IL-12 vs IL-23 importa para a biologia das doenças autoimunes: anticorpos anti-p40 (ustekinumabe) bloqueiam ambas; anticorpos anti-p19 (guselcumabe, risanquizumabe) bloqueiam seletivamente IL-23.</p>
+</section>
+
+<section id="tnf-superfamily">
+<h3>TNF e a superfamília TNF <a class="anc" href="#tnf-superfamily">#</a></h3>
+
+<div class="hist">
+  <span class="hl">📜 História · 1975–1998</span>
+  O TNF foi isolado em 1975 por Lloyd Old e Elizabeth Carswell no Memorial Sloan Kettering, como um fator no soro de camundongos infectados com BCG e LPS capaz de causar necrose hemorrágica de tumores transplantados in vivo. Daí o nome. Em 1985, Michael Sporn propôs o nome alternativo caquectina (por sua papel na perda de peso). O clonamento do TNF em 1984 revelou que TNF-α (produzido por macrófagos) e linfotoxina (TNF-β, produzida por linfócitos T) são estruturalmente homólogos. O primeiro anti-TNF, infliximabe, foi aprovado em 1998.
+</div>
+
+<p>A superfamília TNF compreende mais de 19 ligantes (incluindo TNF-α, linfotoxina, TRAIL, FasL, RANKL, BAFF, CD40L) que se ligam a mais de 29 receptores, todos contendo domínios ricos em cisteína extracelulares. Sinalizam através de proteínas adaptadoras TRADD, FADD e TRAFs.</p>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo &mdash; TNF-α</div>
+  <p><strong>Estrutura e receptor:</strong> TNF-α é sintetizado como precursor transmembrana (tmTNF) clivado pela metaloprotease ADAM17 (TACE) gerando TNF solúvel (sTNF). Ambos as formas são biologicamente ativas; tmTNF pode sinalizar bidirecionalmente (para a frente no receptor e retrogradamente na célula produtora via "sinalizção reversa"). Há dois receptores: <strong>TNFR1</strong> (p55/CD120a) — expresso ubiquamente, media tanto inflamação quanto apoptose; <strong>TNFR2</strong> (p75/CD120b) — expresso principalmente em células imunes e endoteliais, favorece sobrevivência e proliferação.</p>
+  <p><strong>Dualidade apoptose vs sobrevivência via TNFR1:</strong> TNF liga-se ao TNFR1 trimérico → recrutamento de TRADD → dois complexos se formam sequencialmente: <em>Complexo I</em> (de superfície): TRADD-TRAF2-cIAP1/2 → ubiquitinação de RIP1 → ativação de NF-κB e MAPK → genes pró-sobrevivência e pró-inflamatórios. <em>Complexo II</em> (citossólico, somente se NF-κB falha): TRADD-FADD-caspase-8 → apoptose. O balanço Complexo I / Complexo II determina sobrevivência vs morte — e é subvertido em muitos tumores.</p>
+  <p><strong>Efeitos funcionais inflamatórios:</strong> TNF ativa células endoteliais (upregulação de VCAM-1, E-selectina, ICAM-1 → recrutamento de leucócitos), induz produção de IL-6 e IL-1β por macrófagos (amplificação em cascata), estimula fibroblastos sinoviais em AR, e induz produção de MMP (destruição da matriz). Em altas doses sistêmicas, colapsa a vasomotricidade (choque séptico).</p>
+</div>
+</section>
+
+<section id="interferons">
+<h3>Interferons <a class="anc" href="#interferons">#</a></h3>
+
+<p>Os interferons (IFN) são divididos em três tipos com receptores e funções distintas:</p>
+<ul class="disc">
+  <li><strong>IFN tipo I</strong> (IFN-α, IFN-β, IFN-ω e outros): produzidos por praticamente todas as células em resposta a vírus (via RIG-I, MDA5, TLR7/9 em pDCs). Ligam-se ao receptor heterodímero IFNAR1/IFNAR2, ativando JAK1/TYK2 → STAT1/STAT2 → complexo ISGF3 (STAT1/STAT2/IRF9) → genes ISG (interferon-stimulated genes). Induzem estado antiviral, upregulam MHC-I, ativam NK. Detalhe mecanístico completo em <a class="cross-link" href="moleculas-sistema-imune.html#rlrs-ifn">M3 — RLRs e IFN tipo I</a>.</li>
+  <li><strong>IFN tipo II</strong> (IFN-γ): produzido exclusivamente por células T Th1 e NK. Receptor IFNGR1/IFNGR2 → JAK1/JAK2 → STAT1 homodímero (GAF) → genes com GAS (IFN-γ-activated sites). IFN-γ é o principal ativador de macrófagos (M1): upregula MHC-I e MHC-II, aumenta capacidade bactericida (via iNOS/NO), induz produção de IL-12 (criando alça de amplificação Th1), e suprime diferenciação Th2. É indispensável para controle de patógenos intracelulares (<a class="cross-link" href="resposta-a-patogenos.html#bacterias-intracelulares">M9 — Bactérias intracelulares</a>).</li>
+  <li><strong>IFN tipo III</strong> (IFN-λ1-4, também chamados IL-28A, IL-28B, IL-29): produzidos especialmente por células epiteliais em resposta viral. Receptor IL-28Rα/IL-10Rβ — distinto de IFNAR, mas sinaliza via JAK1/TYK2 → STAT1/STAT2 → ISGs análogos. Sua expressão é praticamente restrita a epitélios (trato respiratório, intestinal) — o que os torna candidatos a alvos terapêuticos que atuam seletivamente em superfícies mucosas, sem os efeitos sistêmicos do IFN tipo I.</li>
+</ul>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia &mdash; IFN tipo I: proteção ou patologia?</div>
+  <p>Em infecções virais agudas (influenza, SARS-CoV-2), IFN tipo I é protetor se produzido precocemente (primeiras 24–48h), mas pode ser deletério se produzido na fase tardia — perpetua inflamação alveolar, suprime diferenciação de células T efetoras, e está associado à síndrome de resposta inflamatória sistêmica. Em COVID-19 grave, alguns pacientes apresentaram respostas IFN tipo I atrasadas e excessivas correlacionadas com pior prognóstico. O debate sobre o momento ótimo e a magnitude ideal do sinal IFN ainda não está encerrado <span class="cite">(<a href="#referencias">DONATH; DRUCKER, 2025</a>)</span>.</p>
+</div>
+</section>
+
+<section id="tgf-il10">
+<h3>TGF-β e IL-10: citocinas reguladoras <a class="anc" href="#tgf-il10">#</a></h3>
+
+<p>TGF-β (<em>Transforming Growth Factor beta</em>) e IL-10 são os dois principais mediadores da imunossupressão fisiológica. Sem eles, a resposta imune se torna autorreativa.</p>
+
+<p><strong>TGF-β:</strong> existe em três isoformas (TGF-β1, -β2, -β3), sendo TGF-β1 a dominante em imunologia. É sintetizado como precursor (Large Latent Complex) contendo o peptídeo LAP (<em>latency-associated peptide</em>) que o mantém inativo; ativação requer clivagem proteolítica por integrinas αvβ6 ou αvβ8 (em contexto de inflamação tecidual), por trombospondina-1 ou por pH ácido. Receptor TGF-βRI/II → fosforilação de SMAD2/3 → complexo com SMAD4 → translocação nuclear → supressão de genes inflamatórios e ativação de genes de fibrose. TGF-β inibe proliferação de linfócitos T e B, suprime ativação de macrófagos e NK, e é essencial para diferenciação de Tregs periféricos (junto com IL-2). Paradoxalmente, em presença de IL-6 (ambiente inflamatório), TGF-β co-induz diferenciação Th17 — o que explica como tecidos inflamados podem ao mesmo tempo impulsionar Th17 e Treg, dependendo do balanço TGF-β vs IL-6.</p>
+
+<p><strong>IL-10:</strong> produzida por macrófagos M2, Tregs, células B reguladoras (Bregs), Th2 e, surpreendentemente, por macrófagos M1 ativados (auto-limitação). Receptor IL-10R1/IL-10R2 → JAK1/TYK2 → STAT3. IL-10 inibe a produção de citocinas pró-inflamatórias (IL-1β, TNF, IL-6, IL-12) por macrófagos ativados, downregula MHC-II e moléculas coestimuladoras em APCs, e suprime diferenciação Th1. Sua função fisiológica é encerrar a resposta inflamatória após a eliminação do patógeno. Camundongos IL-10 knockout desenvolvem colite inflamatória espontânea, demonstrando que IL-10 é indispensável para homeostase intestinal.</p>
+</section>
+
+<section id="quimiocinas">
+<h3>Quimiocinas: o GPS do sistema imune <a class="anc" href="#quimiocinas">#</a></h3>
+
+<div class="hist">
+  <span class="hl">📜 História · 1987–1994</span>
+  A primeira quimiocina foi descoberta em 1987 por dois grupos independentemente: IL-8 (CXCL8) por Walther Falk, e β-tromboglobulina (CXCL7) por estudos de ativação plaquetária. O sistema de nomenclatura CC/CXC foi padronizado em 1994 por Schall e Bacon para organizar o rapidamente crescente número de membros. Hoje existem mais de 50 quimiocinas (CCL1-28, CXCL1-17, CX3CL1, XCL1-2) e ~20 receptores.
+</div>
+
+<p>Quimiocinas são citocinas quimiotáticas pequenas (8–14 kDa) que direcionam migração celular formando gradientes de concentração. São classificadas pela posição dos resíduos de cisteína conservados na extremidade N-terminal:</p>
+<ul class="disc">
+  <li><strong>CC quimiocinas (β-quimiocinas):</strong> dois resíduos de Cys adjacentes. Exemplos: CCL2 (MCP-1, atrai monócitos/macrófagos), CCL3/CCL4 (MIP-1α/β), CCL5 (RANTES, atrai linfócitos T de memória e NK), CCL19/CCL21 (atraem linfócitos T naive e DCs para zonas de células T em linfonodos).</li>
+  <li><strong>CXC quimiocinas (α-quimiocinas):</strong> dois resíduos de Cys separados por um aminoácido. As que contêm o motivo ELR (Glu-Leu-Arg) antes do CXC (CXCL1, CXCL5, CXCL8) atraem neutrófilos; as sem ELR (CXCL10, CXCL9, CXCL11) atraem linfócitos Th1. CXCL12 (SDF-1) + seu receptor CXCR4 são centrais para homing de células-tronco hematopoiéticas à medula óssea e para retenção de plasmócitos de longa duração.</li>
+  <li><strong>CX3C e XC:</strong> cada uma com apenas um membro (CX3CL1/fratalcina e XCL1/linfotactina). CX3CL1 é a única quimiocina que pode ser transmembrana e funcionar como molécula de adesão.</li>
+</ul>
+
+<p>O mecanismo de migração por gradiente de quimiocinas envolve (1) captura e apresentação de quimiocinas por heparan-sulfato de proteoglicanos na matriz extracelular ou superfície endotelial, (2) ativação de receptores acoplados à proteína Gi → inibição de adenililciclase → ativação de Rac/Cdc42 (polarização, formação de lamelipódio) e Rho (contração de actomiosina), e (3) integração de sinal com moléculas de adesão (integrinas) para a passagem transendotelial (diapedese). Detalhe da diapedese e moléculas de adesão em <a class="cross-link" href="moleculas-sistema-imune.html#moleculas-adesao">M3 — Moléculas de adesão</a>.</p>
+</section>
+
+<!-- VIAS DE SINALIZAÇÃO -->
+<section id="sinalizacao">
+<h2>Vias de sinalização intracelular <a class="anc" href="#sinalizacao">#</a></h2>
+<p>Citocinas não entram nas células — atuam através de receptores de superfície que ativam cascatas intracelulares. Três vias principais dominam a sinalização de citocinas.</p>
+</section>
+
+<section id="jak-stat">
+<h3>Via JAK-STAT: a via canônica <a class="anc" href="#jak-stat">#</a></h3>
+
+<div class="hist">
+  <span class="hl">📜 História · 1989–1994</span>
+  A via JAK-STAT foi descoberta ao longo de 4 anos por James Darnell Jr. (Columbia University), que em 1989 identificou fatores de transcrição ativados por IFN-α sem síntese proteica prévia — sugerindo sinalização pré-formada. Em 1993–1994, o grupo de Darnell e, independentemente, os grupos de Stark, Ihle e Schindler identificaram os STATs (Signal Transducers and Activators of Transcription) e as JAKs (Janus Kinases — nomeadas pelo deus de duas faces por terem dois domínios catalíticos). O Nobel de Fisiologia ou Medicina de 1997 foi parcialmente associado a esse trabalho via a descoberta de oncogenes tirosina-quinase relacionados.
+</div>
+
+<p>A via JAK-STAT é utilizada pela grande maioria das citocinas (todos os IFNs, todas as interleucinas que usam receptores de tipo I ou II, e várias outras). Ela é notavelmente direta: sem cascata secundária de fosforilação de intermediários (como MAPK) — receptor → JAK → STAT → núcleo, em minutos.</p>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo detalhado &mdash; JAK-STAT</div>
+  <p><strong>Componentes:</strong> Existem 4 JAKs em mamíferos (JAK1, JAK2, JAK3, TYK2) e 7 STATs (STAT1–6, incluindo STAT5a e STAT5b). Cada receptor de citocina é pré-associado a um par específico de JAKs. Por exemplo: IFNAR1 constitutivamente associado a TYK2, IFNAR2 a JAK1; IL-2Rβ a JAK1, IL-2Rγ a JAK3.</p>
+  <p><strong>Sequência de ativação:</strong> (1) Ligação da citocina → dimerização/oligomerização do receptor → aproximação das JAKs pré-associadas. (2) JAKs se transfosforilaim no loop de ativação (tirosinas Y1007/1008 em JAK2, Y980 em JAK1). (3) JAKs ativadas fosforilam tirosinas no domínio intracelular do receptor, criando <em>sítios de docking</em> para domínios SH2 dos STATs. (4) STATs recrutados ao receptor são fosforilados pelas JAKs na tirosina conservada (Y701 em STAT1, Y705 em STAT3). (5) STATs fosforilados dissociam do receptor, formam homodímeros ou heterodímeros via interações SH2 recíprocas. (6) Dímeros STAT translocam ao núcleo e se ligam a sequências palindrômicas GAS (IFN-γ-activated sites) ou ISRE (IFN-stimulated response elements). (7) Transcrição de genes-alvo específicos de cada STAT.</p>
+  <p><strong>Especificidade funcional dos STATs:</strong> STAT1 → defesas antivirais e apoptose; STAT2 → ISGs antivirais (com IRF9); STAT3 → sobrevivência, proliferação, fase aguda, Th17; STAT4 → diferenciação Th1 (via IL-12); STAT5 → sobrevivência linfocitária (via IL-2, IL-7); STAT6 → diferenciação Th2 e síntese de IgE (via IL-4/IL-13).</p>
+  <p><strong>Regulação negativa &mdash; SOCS e PIAS:</strong> A via é autolimitada por dois mecanismos: (1) <em>SOCS</em> (Suppressor of Cytokine Signaling, 8 membros): induzidos pelos próprios STATs (feedback negativo), competem com STATs pelo sítio de docking do receptor, inibem atividade de JAKs e promovem degradação do receptor por ubiquitinação. SOCS3 é induzido por IL-6/STAT3 e bloqueia IL-6Rα — mecanismo de autoregulação. SOCS1 bloqueia JAK2 diretamente, limitando IFN-γ. (2) <em>PIAS</em> (Protein Inhibitor of Activated STAT): se ligam a dímeros STAT ativados no núcleo e bloqueiam sua ligação ao DNA; alguns recrutam histona deacetilases para silenciar o locus-alvo.</p>
+</div>
+
+<p>A importância clínica da via JAK-STAT é imensa: mutações de ganho de função em JAK2 (V617F) causam policitemia vera e outras neoplasias mieloproliferativas. A classe farmacológica dos <strong>inibidores de JAK</strong> (jakinibes: ruxolitinibe, tofacitinibe, baricitinibe, upadacitinibe) explora a especificidade diferencial das JAKs: tofacitinibe inibe preferencialmente JAK1/JAK3 (bloqueando γc-citocinas — IL-2, IL-4, IL-7, IL-15, IL-21 — com amplo efeito imunossupressor); baricitinibe inibe JAK1/JAK2 (com efeito adicional sobre IFN-γ, IL-6, GM-CSF — útil em COVID-19 grave).</p>
+</section>
+
+<section id="nfkb-mapk">
+<h3>NF-κB e MAPK: vias inflamatórias alternativas <a class="anc" href="#nfkb-mapk">#</a></h3>
+
+<p>TNF-α, IL-1β e IL-17A utilizam predominantemente vias distintas da JAK-STAT:</p>
+
+<p><strong>NF-κB (Nuclear Factor kappa B):</strong> via central da inflamação, ativada por TNFR1, IL-1R/TLR (via MyD88 → IRAK → TRAF6) e receptores de antígenos (BCR/TCR). Em repouso, NF-κB (dímero p50/p65) fica retido no citoplasma pelo inibidor IκB. Ativação → ativação do complexo IKK (IκB kinase) → fosforilação e ubiquitinação de IκB → degradação proteassomal → liberação de NF-κB → translocação nuclear → transcrição de genes inflamatórios (IL-6, IL-8/CXCL8, ICAM-1, MMP, COX-2, IL-1β, TNF-α), anti-apoptóticos (Bcl-2, Bcl-xL, IAPs) e de sobrevivência.</p>
+
+<p><strong>MAPK (Mitogen-Activated Protein Kinase):</strong> família de cascatas de quinases em série (MAP3K → MAP2K → MAPK): ERK (proliferação, sobrevivência), JNK (apoptose, inflamação), p38 (inflamação, resposta ao estresse). TNF via TRAF2 ativa ASK1 → JNK/p38 → AP-1 (c-Jun/c-Fos) → genes inflamatórios adicionais. p38 também estabiliza mRNAs de citocinas (TNF, IL-6) via desestabilização de regiões AU-ricas — mecanismo pós-transcricional relevante: inibidores de p38 foram desenvolvidos como anti-inflamatórios, mas com toxicidade hepática limitante.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo &mdash; vias não são paralelas independentes</div>
+  <p>JAK-STAT, NF-κB e MAPK não operam em paralelo isolado: há intensa <em>crosstalk</em>. STAT3 pode ser ativado por IL-6 via JAK-STAT mas também por MAPK (fosforilação em Ser727, além da Tyr705 canônica). IFN-γ/STAT1 coopera com NF-κB em alguns promotores antivirais. SOCS3 bloqueia tanto JAK quanto é regulado por NF-κB. Modelos lineares receptor→sinal→resposta são pedagogicamente úteis mas enganosos para compreender respostas celulares completas.</p>
+</div>
+</section>
+
+<!-- REDES E PROPRIEDADES SISTÊMICAS -->
+<section id="redes">
+<h2>Redes de citocinas: comportamento emergente <a class="anc" href="#redes">#</a></h2>
+
+<p>A interação entre citocinas no contexto de uma resposta imune real não é linear — é uma rede de regulação com propriedades emergentes que não podem ser deduzidas do comportamento de citocinas individuais.</p>
+
+<h3>Polarização de macrófagos como nó integrador</h3>
+<p>Macrófagos integram múltiplos sinais de citocinas e adotam espectros funcionais frequentemente simplificados como M1 (pró-inflamatório) e M2 (anti-inflamatório/reparador). IFN-γ + LPS induz M1 (iNOS, IL-12, TNF, IL-6, alta expressão de MHC-II). IL-4, IL-13 (via STAT6) ou IL-10 + TGF-β induz M2 (arginase-1, IL-10, TGF-β, CD163, galectina-3 — reparo tecidual, redução de inflamação). A polarização é reversível e o estado real do macrófago in vivo é mais um gradiente contínuo do que dois estados discretos.</p>
+
+<h3>O eixo IL-23/IL-17: inflamação tecidual crônica</h3>
+<p>IL-23 (produzida por DCs e macrófagos ativados) sustenta e amplifica células Th17 já diferenciadas. Th17 secreta IL-17A, IL-17F e IL-22. IL-17A age em fibroblastos, células epiteliais e estromais, induzindo produção de CXCL1, CXCL5 e G-CSF → recrutamento massivo de neutrófilos → inflamação tecidual. O eixo IL-23/IL-17 é central na psoríase, artrite psoriásica, doença inflamatória intestinal e espondilite anquilosante — doenças nas quais anticorpos anti-IL-17A (secuquinumabe, ixecizumabe) e anti-IL-23p19 (guselcumabe, risanquizumabe) são terapias de primeira linha.</p>
+
+<h3>Regulação via feedback entre subtipos Th</h3>
+<p>Os subtipos Th estabilizam seu próprio fenótipo via citocinas autocríticas e suprimem subtipos alternativos: IFN-γ (Th1) suprime diferenciação Th2 e Th17; IL-4 (Th2) suprime Th1; IL-17 (Th17) e IL-6 inibem expansão de Treg; TGF-β + IL-2 favorece Treg que suprime todos os outros. Esse sistema de feedback cria <em>bistabilidade</em>: uma vez que um subtipo predomina, o sistema tende a manter aquele estado. A implicação clínica é que doenças alérgicas (Th2) e autoimunes (Th1/Th17) são estados estáveis que resistem a pequenas perturbações.</p>
+</section>
+
+<!-- CITOCINAS NA DOENÇA -->
+<section id="citocinas-doenca">
+<h2>Citocinas na doença: amplificação patológica <a class="anc" href="#citocinas-doenca">#</a></h2>
+
+<h3>Tempestade de citocinas (<em>cytokine storm</em>)</h3>
+
+<div class="hist">
+  <span class="hl">📜 História · 1993 (transplante) → 2020 (COVID-19)</span>
+  O conceito de "tempestade de citocinas" surgiu na literatura de transplante de medula óssea nos anos 1990 para descrever reações sistêmicas hipercitocêmicas após infusão de células T aloreativas. O caso clássico que ampliou o conceito para a consciência pública foi o acidente de ensaio clínico TGN1412 em 2006 (Londres): 6 voluntários saudáveis desenvolveram falência de múltiplos órgãos minutos após infusão de um anticorpo superagonista anti-CD28 — sem antígeno, o anticorpo ativou massivamente células T, disparando liberação de TNF, IL-2, IFN-γ e IL-6 simultaneamente. Mais recentemente, o contexto de COVID-19 grave (2020) popularizou o termo — embora haja debate sobre se o perfil de citocinas em COVID-19 grave realmente difere qualitativamente de outras síndromes inflamatórias graves.
+</div>
+
+<p>A tempestade de citocinas é uma síndrome de resposta inflamatória sistêmica hipercitocêmica em que alças de feedback positivo entre citocinas se tornam descontroladas. O mecanismo central: ativação de macrófagos/monócitos → TNF + IL-1β + IL-6 → ativação endotelial generalizada → extravasamento vascular → ativação de mais células imunes → mais citocinas. O resultado é um estado de inflamação sistêmica com dano tecidual desproporcional ao benefício antimicrobiano.</p>
+
+<p>A síndrome de ativação macrofágica (SAM), a linfo-histiocitose hemofagocítica (HLH) e a toxicidade por células CAR-T são manifestações diferentes do mesmo mecanismo. No HLH, a falência genética de perforina/grânulos citotóxicos impede que CTLs eliminem macrófagos ativados que persistem produzindo IFN-γ — o IFN-γ ativa mais macrófagos em alça positiva. Anakibra (anti-IL-1R) e tocilizumabe (anti-IL-6R) são usados para romper a alça, mas o timing é crítico: intervenção tardia não reverte o dano orgânico estabelecido.</p>
+
+<h3>Anemia de doença crônica e o papel da IL-6</h3>
+<p>Em doenças inflamatórias crônicas (AR, doenças infecciosas crônicas, neoplasias), IL-6 cronicamente elevada estimula hepatócitos a produzir <strong>hepcidina</strong> (via STAT3 → gene HAMP). Hepcidina liga-se à ferroportina (exportador de ferro em enterócitos, macrófagos e hepatócitos) e induz sua internalização e degradação → ferro fica retido intracelularmente → indisponível para eritropoiese → anemia normocítica normocrômica. É por isso que tocilizumabe melhora a anemia de doença crônica em pacientes com AR, independentemente da redução de inflamação articular.</p>
+
+<h3>Caquexia e TNF-α</h3>
+<p>TNF-α em níveis cronicamente elevados (daí seu nome alternativo "caquectina", proposto por Cerami em 1985) induz: (1) inibição de lipoproteína lipase (LPL) → redução de captação de lipídios pelo músculo e tecido adiposo; (2) aumento de lipólise em adipócitos via inibição de PGI₂ e ativação de lipases hormonossensíveis; (3) aumento de proteólise muscular via ubiquitina-proteassoma (ubiquitina ligase atrogina-1 e MuRF-1 são induzidas por NF-κB). O resultado é o fenótipo de caquexia: perda de massa muscular e gordura em estados de inflamação crônica (neoplasias, sepse crônica, ICC avançada).</p>
+
+<h3>Inflamação metabólica (metainflamação) e o papel de IL-1β e IL-6</h3>
+<p>Obesidade é hoje reconhecida como estado de inflamação crônica de baixo grau (<em>metainflamation</em>) — conceito desenvolvido pelo grupo de Gökhan Hotamisligil (Harvard) nos anos 2000. Ácidos graxos saturados (palmitato) ativam TLR4 e o inflamassomo NLRP3 em macrófagos do tecido adiposo, gerando IL-1β e TNF que induzem resistência à insulina via fosforilação inibitória de IRS-1 por JNK e IKKβ. IL-6 estimula produção hepática de proteínas de fase aguda e contribui para resistência à insulina hepática. Agentes anti-IL-1 (anakinra, canakinumabe) reduzem glicemia em ensaios clínicos em diabéticos tipo 2 — evidência direta de que a inflamação mediada por citocinas é mecanisticamente causal, não apenas associada, à fisiopatologia do DM2 <span class="cite">(<a href="#referencias">DONATH; DRUCKER, 2025</a>)</span>.</p>
+</section>
+
+<!-- ALVO TERAPÊUTICO -->
+<section id="terapia">
+<h2>Citocinas como alvo terapêutico <a class="anc" href="#terapia">#</a></h2>
+
+<p>O bloqueio de citocinas representa uma das maiores revoluções da medicina interna das últimas décadas. A lógica é simples: identificar a citocina ou receptor dominante em uma doença e bloqueá-la com anticorpo monoclonal ou proteína de fusão solúvel. A execução é complexa, porque o mesmo alvo tem funções protetoras em outros contextos.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead>
+<tr><th>Alvo</th><th>Fármaco (classe)</th><th>Mecanismo</th><th>Indicação</th><th>Risco notável</th></tr>
+</thead>
+<tbody>
+<tr><td>TNF-α</td><td>Infliximabe, adalimumabe, etanercept</td><td>Anticorpo anti-TNF ou receptor solúvel (etanercept = TNFR2-Fc)</td><td>AR, Crohn, psoríase, EA, artrite psoriásica</td><td>Reativação de TB latente, infecções oportunistas, desmielinização</td></tr>
+<tr><td>IL-6R</td><td>Tocilizumabe, sarilumabe</td><td>Anticorpo anti-IL-6Rα (bloqueia tanto IL-6Rα de membrana quanto sIL-6Rα)</td><td>AR, síndrome de ativação macrofágica, CAR-T toxicidade, COVID-19 grave</td><td>Infecções fúngicas, oportunistas; mascaramento de febre</td></tr>
+<tr><td>IL-1β / IL-1R</td><td>Anakinra (IL-1Ra recombinante), canakinumabe (anti-IL-1β)</td><td>Bloqueio competitivo do receptor (anakinra) ou neutralização de IL-1β (canakinumabe)</td><td>Artrite idiopática juvenil, SAM/HLH, gota, síndrome periódica por criopirina, DM2 (ensaios)</td><td>Infecções bacterianas; neutralização de alarme precoce de infecção</td></tr>
+<tr><td>IL-17A</td><td>Secuquinumabe, ixecizumabe</td><td>Anticorpo anti-IL-17A</td><td>Psoríase, artrite psoriásica, EA</td><td>Candidíase mucocutânea (IL-17A é protetora contra Candida)</td></tr>
+<tr><td>IL-23p19</td><td>Guselcumabe, risanquizumabe</td><td>Anticorpo anti-subunidade p19 de IL-23 (não bloqueia IL-12)</td><td>Psoríase, DII, artrite psoriásica</td><td>Menor risco infeccioso que anti-IL-17A</td></tr>
+<tr><td>IL-4Rα (compartilhado com IL-13)</td><td>Dupilumabe</td><td>Anticorpo anti-IL-4Rα → bloqueia IL-4 e IL-13 simultaneamente</td><td>Dermatite atópica, asma eosinofílica, esofagite eosinofílica, RSCcPN</td><td>Conjuntivite, raramente piora de asma na descontinuação</td></tr>
+<tr><td>JAK1/JAK2</td><td>Baricitinibe, ruxolitinibe</td><td>Inibidor de pequena molécula de JAK — bloqueia múltiplas citocinas simultaneamente</td><td>AR, policitemia vera, mielofibrose, alopecia areata, COVID-19 grave</td><td>Trombose venosa, reativação de vírus herpes, infecções oportunistas</td></tr>
+<tr><td>JAK1/JAK3</td><td>Tofacitinibe, upadacitinibe</td><td>Inibidor seletivo JAK1/3 → bloqueia γc-citocinas (IL-2, IL-4, IL-7, IL-15, IL-21)</td><td>AR, colite ulcerativa, artrite psoriásica</td><td>MACE (eventos cardiovasculares maiores), tromboembolismo venoso (alerta FDA 2021)</td></tr>
+</tbody>
+<caption>Tabela 2. Principais alvos terapêuticos em citocinas, fármacos aprovados e perfil de risco. AR = artrite reumatoide; EA = espondilite anquilosante; DII = doença inflamatória intestinal; MACE = major adverse cardiovascular events.</caption>
+</table>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia &mdash; jakinibes e risco cardiovascular</div>
+  <p>Em 2021, o FDA emitiu alerta de segurança após o estudo ORAL Surveillance demonstrar que tofacitinibe, comparado a anti-TNF, aumentou o risco de MACE (infarto, AVC, morte cardiovascular) e de neoplasias malignas em pacientes com AR e ≥1 fator de risco cardiovascular. O mecanismo não está esclarecido: suspeita-se que bloqueio de JAK1/JAK3 reduza proteção vascular mediada por IL-2 e interfira com células NK e CTLs de vigilância antitumoral. A controvérsia está em se o risco é classe-específico (todos os jakinibes) ou molécula-específico (tofacitinibe por ser menos seletivo). Estudos com inibidores mais seletivos de JAK1 (upadacitinibe, filgotinibe) estão em andamento.</p>
+</div>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<div class="connections-box">
+  <h4>Conexões com outros módulos</h4>
+  <p><strong>M3 — Moléculas do sistema imune:</strong> visão introdutória de citocinas, PRRs, quimiocinas e moléculas de adesão — base conceitual para este compêndio. <a class="cross-link" href="moleculas-sistema-imune.html#citocinas">→ seção citocinas</a></p>
+  <p><strong>M4 — Imunidade inata:</strong> TNF, IL-1β, IL-6 e IFN tipo I são centrais para a resposta inata; inflamação local e fase aguda sistêmica foram desenvolvidos lá. <a class="cross-link" href="imunidade-inata.html#inflamacao">→ seção inflamação</a></p>
+  <p><strong>M8 — Linfócitos T:</strong> as citocinas são o "terceiro sinal" que polariza subtipos Th; mecanismo dos 3 sinais e cada subtipo Th (com suas citocinas produzidas e citocinas indutoras) estão em detalhe lá. <a class="cross-link" href="linfocitos-t-diferenciacao.html#subtipos-th">→ seção subtipos Th</a></p>
+  <p><strong>M10 — Hipersensibilidade:</strong> cada tipo de hipersensibilidade é definido pelo perfil de citocinas predominante (IgE/IL-4/IL-13 no tipo I; IFN-γ/IL-17 no tipo IV). <a class="cross-link" href="hipersensibilidade.html#classificacao">→ classificação Gell-Coombs</a></p>
+  <p><strong>M9 — Resposta a patógenos:</strong> a escolha do tipo de resposta imune (Th1 vs Th2 vs Th17) contra cada classe de patógeno é ditada pelo perfil inicial de citocinas produzidas pelas DCs e macrófagos. <a class="cross-link" href="resposta-a-patogenos.html#principio">→ princípio da especificidade patógeno-resposta</a></p>
+  <p><strong>P2 — Inflamação integrada (futuro):</strong> citocinas são o elo mecanístico entre lesão tecidual, recrutamento celular e resolução — compêndio futuro irá integrar os conceitos deste módulo com fisiopatologia da inflamação crônica.</p>
+</div>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto <a class="anc" href="#perguntas-abertas">#</a></h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 1</div>
+  <p>Por que inibidores de JAK aumentam risco cardiovascular? O mecanismo pelo qual tofacitinibe e talvez outros jakinibes elevam MACE não está esclarecido — as hipóteses incluem redução de células NK de vigilância vascular, alteração do perfil lipídico via JAK2, e redução de IFN-γ que protegeria contra formação de placas instáveis. Ensaios head-to-head com inibidores mais seletivos (filgotinibe, JAK1-seletivo) estão em andamento mas não concluídos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 2</div>
+  <p>O que define a transição entre inflamação protetora e tempestade de citocinas? Modelos computacionais e de biossistemas sugerem que a transição é uma bifurcação (ponto de basculamento) em um sistema dinâmico — uma vez cruzado o limiar, o estado hipercitocêmico é autoestabilizante. Mas os parâmetros que definem esse limiar (concentração absoluta de citocinas? balanço entre amplificadores e inibidores? genética do hospedeiro?) ainda não foram quantificados prospectivamente em humanos.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 3</div>
+  <p>IFN tipo III (λ) pode substituir IFN tipo I em terapias antivirais com menos toxicidade sistêmica? A seletividade epitelial do receptor IL-28Rα/IL-10Rβ sugere que IFN-λ poderia ter eficácia antiviral em mucosas respiratórias e intestinais sem os efeitos sistêmicos (fadiga, mielossupressão) do IFN-α. Ensaios fase II em COVID-19 e hepatite B mostraram sinais de eficácia, mas estudos fase III definidores ainda estão em andamento.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 4</div>
+  <p>Como o microbioma intestinal regula o tônus de citocinas sistêmico? Metabólitos bacterianos (ácidos graxos de cadeia curta como butirato) inibem HDAC e modulam expressão de citocinas em células imunes intestinais. Mas a tradução desse eixo microbioma → citocinas → doença sistêmica para intervenções clínicas concretas (probióticos, transplante de microbiota fecal) ainda carece de evidência de alta qualidade.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 5</div>
+  <p>A "imunidade treinada" mediada por citocinas tem implicação terapêutica? A indução epigenética de fenótipos pró-inflamatórios em macrófagos por BCG ou beta-glucana (via IL-6, TNF) confere proteção inespecífica a infecções. Ensaios como o ACTIVATE (BCG em idosos) mostraram redução de infecções não-micobacterianas. O mecanismo exato de persistência epigenética e sua segurança em populações imunocomprometidas ainda são objetos de investigação ativa.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão <a class="anc" href="#discussao">#</a></h2>
+
+<p>Voltemos ao caso que abriu o compêndio: por que bloquear IL-6R com tocilizumabe controla a artrite reumatoide mas aumenta susceptibilidade fúngica? A resposta está na pleiotropia radical de IL-6. Na AR, IL-6 crônica — produzida por sinoviócitos ativados por TNF e IL-1β — polariza linfócitos T em direção a Th17 (via IL-6 + TGF-β), suprime diferenciação de Tregs, e ativa osteoclastos (erosão óssea). Tocilizumabe quebra essa alça. Mas IL-6 também é um co-fator indispensável para a resposta antifúngica: IL-17A (cuja polarização depende de IL-6 + TGF-β) é o principal mecanismo de proteção contra <em>Candida</em> em superfícies mucosas, atuando em conjunto com neutrófilos recrutados por CXCL1/CXCL8. Bloquear IL-6R reduz diferenciação Th17 → menos IL-17A → menos recrutamento de neutrófilos → candidíase. Um bloqueio num nó de rede ressoa em múltiplos eixos simultaneamente.</p>
+
+<p>Esse caso ilustra a tensão central da imunofarmacologia de citocinas: precisão versus completude. Anticorpos monoclonais são altamente precisos no alvo, mas as citocinas estão organizadas em redes com redundância e pleiotropia — o que significa que precisão molecular não garante especificidade biológica. Os jakinibes exemplificam o polo oposto: bloqueiam múltiplas citocinas simultaneamente via inibição das quinases compartilhadas, com eficácia ampla — e toxicidade proporcionalmente mais imprevisível.</p>
+
+<p>Uma implicação não enunciada no corpo deste compêndio, mas que emerge da análise: citocinas são linguagem, não mensagem. O mesmo sinal (IL-6) em contextos diferentes (infecção aguda, inflamação crônica, gravidez, câncer) produz respostas radicalmente distintas porque o contexto celular — estado de ativação, co-receptores expressos, crosstalk com outras vias — determina como a mensagem é interpretada. Isso é por que o sonho de uma "citocina terapêutica perfeita" — específica, eficaz, sem efeitos colaterais — é estruturalmente impossível: a mesma propriedade que a torna eficaz (pleiotropia) é a que gera os efeitos indesejados.</p>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anc" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card">
+    <div class="bt">Cellular and Molecular Immunology, 11ª ed. <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="bm">Abbas, Lichtman & Pillai · Elsevier · Capítulos 2 e 10 — classificação de citocinas, vias de sinalização JAK-STAT, função de cada subtipo Th. É o texto de referência principal para este módulo.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Rang & Dale's Pharmacology, 10ª ed. <span class="badge-tem">VOCÊ TEM</span></div>
+    <div class="bm">Rang, Ritter, Flower & Henderson · Elsevier · Capítulo 26 (Anti-inflamatórios) e Capítulo 58 (Imunofarmacologia) — mecanismo dos biológicos anti-citocina, jakinibes, perfil de toxicidade.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Janeway's Immunobiology, 10ª ed.</div>
+    <div class="bm">Murphy & Weaver · Garland Science · Capítulo 9 — linguagem mais detalhada sobre estrutura de receptores de citocinas e sinais intracelulares. Excelente para aprofundar JAK-STAT.</div>
+  </div>
+  <div class="book-card">
+    <div class="bt">Immunity (periódico) · Artigo de revisão</div>
+    <div class="bm">Donath & Drucker (2025) — "Obesity, diabetes, and inflammation" · Immunity 58(10):2373-2382. DOI: <a href="https://doi.org/10.1016/j.immuni.2025.09.011" target="_blank" rel="noopener" style="color:var(--ac)">10.1016/j.immuni.2025.09.011</a>. Excelente revisão de metainflamação e IL-1β em DM2, com mecanismo de NLRP3.</div>
+  </div>
+</div>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências <a class="anc" href="#referencias">#</a></h2>
+<ol class="refs">
+  <li>ABBAS, A. K.; LICHTMAN, A. H.; PILLAI, S. <em>Cellular and Molecular Immunology</em>. 11. ed. Philadelphia: Elsevier, 2022.</li>
+  <li>DONATH, M. Y.; DRUCKER, D. J. Obesity, diabetes, and inflammation: Pathophysiology and clinical implications. <em>Immunity</em>, v. 58, n. 10, p. 2373-2382, out. 2025. DOI: <a href="https://doi.org/10.1016/j.immuni.2025.09.011" target="_blank" rel="noopener">10.1016/j.immuni.2025.09.011</a></li>
+  <li>ISAACS, A.; LINDENMANN, J. Virus interference. I. The interferon. <em>Proceedings of the Royal Society B</em>, v. 147, p. 258-267, 1957.</li>
+  <li>MURPHY, K.; WEAVER, C. <em>Janeway's Immunobiology</em>. 10. ed. New York: Garland Science, 2022.</li>
+  <li>OLD, L. J. Tumor necrosis factor (TNF). <em>Science</em>, v. 230, p. 630-632, 1985.</li>
+  <li>RANG, H. P. et al. <em>Rang & Dale's Pharmacology</em>. 10. ed. Philadelphia: Elsevier, 2023.</li>
+  <li>SCHINDLER, C. et al. Proteins of transcription factor ISGF-3: one gene encodes the 91-and 84-kDa ISGF-3 proteins that are activated by interferon alpha. <em>Proceedings of the National Academy of Sciences</em>, v. 89, p. 7836-7839, 1992.</li>
+  <li>ZHANG, M. et al. Advances in cancer immunotherapy: historical perspectives, current developments, and future directions. <em>Molecular Cancer</em>, v. 24, n. 1, p. 136, maio 2025. DOI: <a href="https://doi.org/10.1186/s12943-025-02305-x" target="_blank" rel="noopener">10.1186/s12943-025-02305-x</a></li>
+</ol>
+</section>
+
+</div><!-- /prose -->
+</main>
+</div><!-- /body-wrap -->
+
+<script>
+(function(){
+  const bar=document.getElementById('progress-bar');
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement;
+    bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  },{passive:true});
+
+  // Sidebar toggle
+  const sidebar=document.getElementById('sidebar');
+  const bodyWrap=document.getElementById('body-wrap');
+  const btn=document.getElementById('toggle-btn');
+  const KEY='sidebar-collapsed';
+  if(sessionStorage.getItem(KEY)==='1'){
+    sidebar.classList.add('collapsed');
+    bodyWrap.classList.add('sidebar-collapsed');
+    if(btn) btn.textContent='›';
+  }
+  if(btn) btn.addEventListener('click',()=>{
+    const c=sidebar.classList.toggle('collapsed');
+    bodyWrap.classList.toggle('sidebar-collapsed',c);
+    btn.textContent=c?'›':'‹';
+    sessionStorage.setItem(KEY,c?'1':'0');
+  });
+
+  // Intersection observer — sidebar active + h2 highlight
+  const sections=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('#sidebar a.sl');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(s=>obs.observe(s));
+
+  const obs2=new IntersectionObserver(entries=>{
+    entries.forEach(e=>e.target.classList.toggle('in-view',e.isIntersecting));
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(s=>obs2.observe(s));
+})();
+</script>
+</body>
+</html>

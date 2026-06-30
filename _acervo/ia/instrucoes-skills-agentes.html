@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Instruções, Skills e Agentes — Como Programar o Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;-webkit-font-smoothing:antialiased}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:12px 8px 8px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+.s-logo{padding:0 16px 16px;font-family:var(--font-ui);font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:20px;padding:0 8px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 8px;margin-bottom:6px}
+a.sl{display:block;padding:5px 8px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;border-radius:4px;transition:background .15s,color .15s}
+a.sl:hover,a.sl.active{background:var(--bg3);color:var(--text)}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+.doc-header{margin-bottom:48px}
+h1{font-size:2rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+section{margin-bottom:56px}
+h2{font-size:1.3rem;font-weight:600;color:var(--text);margin-bottom:20px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 12px}
+h4{font-family:var(--font-ui);font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin:22px 0 8px}
+p{margin-bottom:18px}
+ul,ol{margin:0 0 18px 22px}
+li{margin-bottom:6px}
+code{font-family:'Fira Mono','Cascadia Code',monospace;font-size:.83em;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:1px 5px;color:var(--ac)}
+pre{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:16px 18px;overflow-x:auto;margin:14px 0 20px;font-family:'Fira Mono','Cascadia Code',monospace;font-size:.82em;line-height:1.6}
+pre code{background:none;border:none;padding:0;color:inherit;font-size:1em}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-family:var(--font-ui);font-size:13px}
+th{background:var(--bg2);color:var(--muted);font-weight:600;text-align:left;padding:8px 12px;border:1px solid var(--border);text-transform:uppercase;font-size:11px;letter-spacing:.06em}
+td{padding:8px 12px;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:var(--bg2)}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.cite{color:var(--ac)}
+.ref-list{list-style:none;margin:0;padding:0}
+.ref-list li{font-size:14px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.6}
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;z-index:50;height:100vh}
+  #sidebar.open{display:flex}
+  #s-toggle{display:none}
+  #mob-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+  #mob-menu{background:none;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:16px}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:901px){#mob-bar{display:none}}
+@media print{body{background:#fff;color:#000}#sidebar,#progress-bar,#mob-bar{display:none}#content{padding:0}a::after{content:" (" attr(href) ")";font-size:.8em;color:#555}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-menu" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+  <span style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">Instruções, Skills e Agentes</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Colapsar sidebar">&#8942;</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Ferramentas &middot; Claude</div>
+    <div class="s-group">
+      <div class="sgt">Conteúdo</div>
+      <a class="sl" href="#pergunta">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#instrucoes">Instruções de sistema</a>
+      <a class="sl" href="#escrita">Como escrever boas instruções</a>
+      <a class="sl" href="#skills">Skills</a>
+      <a class="sl" href="#agentes">Agentes</a>
+      <a class="sl" href="#comparativo">Quando usar cada um</a>
+      <a class="sl" href="#implementacao">Implementação</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Relacionados</div>
+      <a class="sl" href="instrucoes-projeto-cowork.html">Instruções no Cowork</a>
+      <a class="sl" href="claude-llm.html">Claude: Arquitetura</a>
+      <a class="sl" href="../ia/fundamentos/introducao-ia.html">Introdução à IA</a>
+    </div>
+  </div>
+</nav>
+<div id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Instruções, Skills e Agentes</h1>
+  <p class="doc-meta">Ferramentas &middot; Claude &middot; Engenharia de Prompt &middot; 2026</p>
+  <div class="doc-chips">
+    <span class="chip">&#9200; <b>~22 min</b> de leitura</span>
+    <span class="chip">&#128203; Pré-requisitos: <b>LLMs, tokens, contexto</b></span>
+    <span class="chip">&#128279; Depende de: <b>Instruções no Cowork</b></span>
+    <span class="chip">&#128205; Área: <b>Ferramentas</b></span>
+    <span class="chip">&#128197; Última revisão: <b>2026-06-25</b></span>
+  </div>
+</div>
+
+<div class="pergunta" id="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Você usa o Claude todo dia, mas cada conversa começa do zero: sem memória do contexto anterior, sem saber como você prefere trabalhar, sem as ferramentas certas ativadas. Por que isso acontece &mdash; e como instruções, skills e agentes resolvem cada camada desse problema de forma diferente?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="instrucoes-projeto-cowork.html">Instruções de Projeto no Cowork</a>
+      <a class="dep-item" href="claude-llm.html">Claude: Arquitetura e Capacidades</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="../ia/fundamentos/introducao-ia.html">Introdução à IA (LLMs, tokens)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">MCP e ferramentas (futuro)</a>
+      <a class="dep-item" href="#">Workflows multi-agente (futuro)</a>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTOS -->
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>Um LLM (do inglês <em>Large Language Model</em>, Modelo de Linguagem Grande) não tem estado persistente entre conversas. Cada chamada é <em>stateless</em>: o modelo recebe uma sequência de tokens e produz a próxima. Não existe memória, preferências ou contexto preservado de sessão para sessão &mdash; a não ser que esses elementos sejam explicitamente injetados no prompt antes da mensagem do usuário.</p>
+
+<p>Esse é o ponto de partida: <strong>tudo que o modelo &ldquo;sabe&rdquo; sobre como se comportar em uma sessão precisa estar na janela de contexto</strong>. A janela de contexto (<em>context window</em>) é o conjunto de tokens visíveis ao modelo no momento da geração &mdash; tipicamente composto de: (1) instruções de sistema, (2) histórico de mensagens, (3) resultados de ferramentas ativadas. A distinção entre instruções, skills e agentes é, em essência, uma distinção sobre <em>o que entra na janela de contexto</em>, <em>quando</em> e <em>com que autonomia o modelo age</em>.</p>
+
+<p>O mecanismo de atenção do Transformer processa todos esses tokens sem hierarquia formal &mdash; tecnicamente, uma instrução no início do contexto tem o mesmo peso computacional que uma mensagem do usuário ao final. Na prática, os modelos modernos são treinados com RLHF (do inglês <em>Reinforcement Learning from Human Feedback</em>, aprendizado por reforço com feedback humano) para priorizar instruções de sistema, gerando comportamento de deferência que não está na arquitetura, mas no treinamento. <strong>Instruções mal escritas não falham por razões técnicas &mdash; falham porque o modelo não consegue interpretar a intenção do autor, ou porque existe ambiguidade entre instrução e pedido do usuário.</strong></p>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">System prompt</div>
+    <p style="font-size:13px;margin:0">Texto injetado antes da conversa. Define comportamento, tom, restrições e ferramentas disponíveis para toda a sessão.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Instrução de projeto</div>
+    <p style="font-size:13px;margin:0">Subconjunto do system prompt associado a uma pasta ou projeto. Persiste entre sessões naquele escopo. Controlado pelo usuário.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Skill</div>
+    <p style="font-size:13px;margin:0">Arquivo SKILL.md com instruções especializadas e opcionalmente ferramentas. Ativado por gatilho semântico ou explícito.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Agente</div>
+    <p style="font-size:13px;margin:0">Loop autônomo de planejamento &rarr; ação &rarr; observação &rarr; novo planejamento. Pode usar ferramentas e spawnar sub-agentes.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">MCP</div>
+    <p style="font-size:13px;margin:0"><em>Model Context Protocol</em>: padrão que expõe ferramentas externas (Slack, Notion, Bash, APIs) ao modelo via chamadas estruturadas.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Tool use</div>
+    <p style="font-size:13px;margin:0">Capacidade do modelo de emitir chamadas estruturadas a funções externas durante a geração, receber resultados e continuar o raciocínio.</p>
+  </div>
+</div>
+</section>
+
+<!-- INSTRUÇÕES DE SISTEMA -->
+<section id="instrucoes">
+<h2>Instruções de sistema &mdash; o que são e como funcionam</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico</span>
+  O conceito de &ldquo;system prompt&rdquo; emergiu com os primeiros modelos de chat <em>fine-tuned</em> (GPT-3.5-turbo, 2022). Antes disso, o prompt era simplesmente texto livre sem separação de papéis. A divisão de turnos (system / user / assistant) foi introduzida na API da OpenAI como convenção, adotada rapidamente pela Anthropic e demais provedores. O treinamento com RLHF para respeitar a instrução de sistema &mdash; em vez de apenas completar o texto &mdash; é o que tornou essa separação funcionalmente significativa. Sem esse treinamento, o modelo trataria o system prompt como qualquer outro parágrafo.
+</div>
+
+<p>Uma instrução de sistema é texto injetado no início da janela de contexto, antes do primeiro turno do usuário. Ela define o &ldquo;contrato&rdquo; de comportamento do modelo para toda a sessão. Há quatro camadas onde instruções podem ser fornecidas, em ordem decrescente de precedência prática:</p>
+
+<ol>
+  <li><strong>System prompt da aplicação</strong> &mdash; injetado pelo desenvolvedor via API. O usuário não vê e normalmente não pode sobrescrever. Define regras fundamentais de segurança, tom e escopo da ferramenta.</li>
+  <li><strong>Instruções de projeto</strong> &mdash; no Cowork, texto associado a uma pasta ou projeto. Persiste entre sessões naquele escopo. O usuário controla esse nível.</li>
+  <li><strong>Memória persistida</strong> &mdash; fatos sobre o usuário e preferências salvos explicitamente pelo modelo em arquivos e reinjetados nas sessões seguintes. Complementa as instruções com dados dinâmicos.</li>
+  <li><strong>Instruções na mensagem</strong> &mdash; o usuário escreve o contexto diretamente no prompt. O mais frágil: aplica-se apenas à conversa atual e depende de o usuário lembrar de incluir cada vez.</li>
+</ol>
+
+<p>O mecanismo pelo qual a instrução opera é simples: os tokens da instrução aparecem antes dos tokens do usuário. O modelo foi treinado para produzir respostas coerentes com esse contexto precedente. &ldquo;Coerência&rdquo; aqui é aprendida estatisticamente &mdash; o modelo viu durante o treinamento inúmeros exemplos de sistemas que respeitam instruções &mdash; e é reforçada via RLHF. Não existe flag especial que diz &ldquo;isso é uma instrução, obedeça&rdquo;; existe apenas a posição no contexto e o treinamento que ensinou o modelo a deferenciar a ela.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p style="margin:0">Instruções de sistema não são invioláveis. Um usuário experiente pode usar técnicas de <em>prompt injection</em> (injeção de prompt) para sobrescrever partes da instrução &mdash; especialmente em aplicações que permitem ao usuário injetar texto processado como parte do contexto. Além disso, instruções muito longas ou contraditórias sofrem com atenção diluída: o modelo pode não seguir instruções posicionadas no meio do system prompt se o contexto estiver muito carregado. O treinamento RLHF mitiga, mas não elimina, essas vulnerabilidades.</p>
+</div>
+</section>
+
+<!-- COMO ESCREVER -->
+<section id="escrita">
+<h2>Como escrever boas instruções</h2>
+
+<p>Escrever uma instrução eficaz é essencialmente um problema de especificação: você precisa comunicar ao modelo não apenas o que fazer, mas o que fazer em casos que você não antecipou. A maioria das instruções ruins falha porque foi escrita para o caso esperado e silencia nos casos de borda.</p>
+
+<h3>Princípio 1 &mdash; Comece pelo papel, não pela lista de regras</h3>
+
+<p>O modelo generaliza melhor a partir de um papel bem definido do que de uma lista de regras. &ldquo;Você é um assistente de pesquisa especializado em direito tributário brasileiro, trabalhando para um escritório de advocacia. Seu interlocutor é sempre um advogado sênior, nunca um cliente.&rdquo; &mdash; essa descrição contextualiza automaticamente tom, vocabulário, profundidade técnica e o que omitir, sem precisar listar cada caso. Regras explícitas são necessárias apenas onde o papel genérico falharia.</p>
+
+<h3>Princípio 2 &mdash; Especifique o formato de saída com exemplos, não só com descrições</h3>
+
+<p>Descrições de formato (&ldquo;responda de forma concisa e estruturada&rdquo;) são interpretadas de forma diferente pelo modelo em diferentes contextos. Exemplos são inequívocos. Se você quer que o modelo sempre cite a fonte antes da resposta, mostre um exemplo de como isso se parece. Se quer JSON, mostre o schema. O modelo não adivinha intenção &mdash; ele generaliza a partir do padrão mais próximo que viu.</p>
+
+<pre><code class="language-text"># Ruim
+Sempre inclua fontes nas respostas.
+
+# Melhor
+Ao mencionar qualquer dado ou afirmação, cite a fonte inline:
+"A taxa Selic está em 10,5% ao ano (Banco Central do Brasil, jun. 2026)."
+Se não houver fonte verificável, diga explicitamente:
+"Não tenho fonte confiável para essa afirmação."</code></pre>
+
+<h3>Princípio 3 &mdash; Diga o que fazer, não só o que não fazer</h3>
+
+<p>Proibições (&ldquo;não faça X&rdquo;) são menos eficazes que instruções positivas (&ldquo;quando Y acontecer, faça Z em vez de X&rdquo;). O motivo é mecanicista: uma proibição suprime uma ação, mas não diz ao modelo qual ação tomar no lugar. Em distribuições de tokens onde X seria a resposta mais provável, a proibição reduz a probabilidade de X mas distribui essa massa de probabilidade entre outras opções &mdash; que podem incluir outros comportamentos indesejados. A instrução positiva canaliza a distribuição para o comportamento que você quer.</p>
+
+<h3>Princípio 4 &mdash; Seja explícito sobre os casos de borda</h3>
+
+<p>Pergunte-se: &ldquo;o que o modelo deve fazer quando o usuário pedir algo fora do escopo?&rdquo; Se você não especificar, o modelo vai inferir &mdash; e a inferência pode não corresponder ao que você quer. Casos de borda a cobrir: pedidos fora do escopo definido, informações que o modelo não tem acesso, contradições entre instrução e pedido do usuário, idioma diferente do esperado, ambiguidade no pedido.</p>
+
+<h3>Princípio 5 &mdash; Teste contra a instrução, não contra a sua intuição</h3>
+
+<p>Depois de escrever a instrução, leia-a como se você fosse o modelo: sem contexto externo, sem intenção implícita, processando apenas os tokens que estão ali. Perguntas para se fazer: &ldquo;Esta instrução é ambígua em algum ponto? Existe conflito entre dois parágrafos? O tom do exemplo contradiz a instrução de tom?&rdquo; A maioria dos problemas com instruções são problemas de consistência interna que o autor não vê porque sabe o que queria dizer.</p>
+
+<h3>Princípio 6 &mdash; Estruture com hierarquia, não com comprimento</h3>
+
+<p>Instruções longas não são instruções melhores. Um system prompt de 3000 tokens sem estrutura é menos eficaz que um de 500 tokens bem organizado. Use seções com títulos claros. Coloque as informações mais importantes no início e no final &mdash; os modelos demonstram empiricamente maior aderência a instruções nas posições extremas da janela de contexto (efeito de primazia e recência). O meio do system prompt é o lugar de maior risco para instruções críticas.</p>
+
+<h3>Princípio 7 &mdash; Separe instruções de contexto factual</h3>
+
+<p>Uma boa instrução tem dois tipos de conteúdo: (a) <em>instruções comportamentais</em> &mdash; o que fazer &mdash; e (b) <em>contexto factual</em> &mdash; o que é verdade sobre o ambiente. Misturá-los cria confusão. Separe em seções distintas: <code>## Contexto</code> e <code>## Comportamento</code>. Isso facilita a manutenção da instrução ao longo do tempo e reduz o risco de o modelo tratar contexto como instrução e vice-versa.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia</div>
+  <p style="margin:0">Há debate sobre se o comprimento do system prompt ajuda ou atrapalha. Alguns praticantes relatam que prompts muito detalhados fazem o modelo &ldquo;seguir o script&rdquo; mesmo quando o usuário fornece contexto que justificaria adaptação &mdash; resultando em respostas mecanicamente corretas mas contextualmente inadequadas. Outros argumentam que prompts detalhados aumentam consistência e reduzem variância. A evidência empírica é mista e depende muito do modelo e da tarefa. Posição defensável: use o mínimo necessário para cobrir os casos de borda críticos, deixe o modelo generalizar o resto.</p>
+</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+<h2>Skills &mdash; instruções especializadas sob demanda</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico</span>
+  O conceito de skills como módulos ativáveis emergiu da necessidade de evitar system prompts monolíticos. Um único prompt tentando cobrir todos os casos de uso de uma plataforma fica inconsistente e longo demais para ser eficaz. Skills resolvem isso com composição: um núcleo de instruções gerais + módulos específicos ativados conforme o contexto. No Cowork (Anthropic, 2025), skills são arquivos SKILL.md que o modelo lê dinamicamente quando o contexto semântico ou uma instrução explícita indica que aquele módulo é relevante.
+</div>
+
+<p>Uma skill é tecnicamente um arquivo de texto com instruções especializadas e, opcionalmente, declarações de ferramentas. O mecanismo de ativação funciona assim: o modelo recebe na janela de contexto uma lista de skills disponíveis com suas descrições. Quando o usuário faz um pedido, o modelo avalia semanticamente se alguma skill é relevante &mdash; se for, lê o arquivo SKILL.md correspondente e o incorpora ao contexto antes de responder. Isso é essencialmente <em>retrieval</em> (recuperação) seletivo de instruções: o system prompt geral fica enxuto, e as instruções especializadas entram apenas quando necessário.</p>
+
+<p>A anatomia de uma skill tem três partes:</p>
+
+<ol>
+  <li><strong>Descrição de ativação</strong> &mdash; texto que aparece na lista de skills disponíveis. O modelo usa esse texto para decidir se a skill é relevante. Uma descrição ruim resulta em ativação incorreta: skill ativada quando não deveria, ou não ativada quando deveria.</li>
+  <li><strong>Instruções de execução</strong> &mdash; o conteúdo do SKILL.md. Descreve passo a passo o que o modelo deve fazer ao executar aquela skill, quais ferramentas usar, qual formato de saída produzir.</li>
+  <li><strong>Declaração de ferramentas (opcional)</strong> &mdash; quais MCPs ou funções externas a skill precisa. Sem essa declaração, a skill opera apenas sobre tokens, sem acesso a arquivos, APIs ou outros sistemas externos.</li>
+</ol>
+
+<h3>Como ativar uma skill</h3>
+
+<p>Há três formas de ativação. A primeira é <strong>semântica</strong>: o modelo infere que a skill é relevante com base no pedido. &ldquo;Crie uma apresentação sobre X&rdquo; ativa automaticamente a skill de PPTX se sua descrição diz &ldquo;Use when creating slide decks or .pptx files&rdquo;. A segunda é <strong>explícita</strong>: o usuário ou o system prompt instrui o modelo a usar uma skill específica por nome. A terceira é <strong>por gatilho declarado</strong>: a própria descrição da skill lista termos que devem disparar ativação &mdash; &ldquo;MANDATORY TRIGGERS: PDF, .pdf, form, extract, merge&rdquo;. Gatilhos explícitos reduzem ambiguidade semântica mas são menos flexíveis a variações na linguagem do usuário.</p>
+
+<h3>Escrevendo uma skill eficaz</h3>
+
+<p>A descrição de ativação deve ser específica o suficiente para evitar falsos positivos e abrangente o suficiente para cobrir variações legítimas do pedido. Uma boa heurística: escreva a descrição como se você estivesse explicando a um colega <em>quando</em> chamar aquela skill &mdash; não o que ela faz, mas quando ativá-la. &ldquo;Use quando o usuário mencionar um arquivo .xlsx ou pedir para criar uma planilha&rdquo; é mais preciso que &ldquo;Use para tarefas relacionadas a dados&rdquo;.</p>
+
+<p>O conteúdo do SKILL.md deve ser orientado a processo, não a resultado. Em vez de &ldquo;produza um documento Word de alta qualidade&rdquo;, escreva &ldquo;1. Instale a dependência com pip; 2. Crie o arquivo na pasta do projeto; 3. Verifique a integridade; 4. Apresente ao usuário com present_files&rdquo;. O modelo segue melhor instruções sequenciais concretas do que objetivos abstratos.</p>
+
+<pre><code class="language-markdown">## Quando usar
+Ative esta skill para qualquer pedido envolvendo arquivo .docx:
+criação, leitura, edição ou conversão.
+
+## Passos de execução
+1. Verificar se python-docx está instalado:
+   pip show python-docx
+   Se ausente: pip install python-docx --break-system-packages
+
+2. Ler o conteúdo ou estrutura solicitada pelo usuário
+
+3. Gerar o arquivo no diretório do projeto (nunca fora dele)
+
+4. Verificar integridade:
+   python -c "from docx import Document; Document('saida.docx')"
+
+5. Apresentar ao usuário via ferramenta present_files
+
+## Restrições
+- Nunca criar arquivo fora da pasta mapeada do projeto
+- Sempre salvar em UTF-8</code></pre>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p style="margin:0">Skills dependem de boa semântica na descrição de ativação. Se duas skills têm descrições sobrepostas, o modelo pode ativar a errada &mdash; ou tentar usar ambas, gerando conflito de instruções. A solução é garantir que as descrições sejam mutuamente exclusivas nos casos de borda. Outra limitação: skills com muitos passos em sequência são vulneráveis a erros de execução parcial &mdash; o modelo pode pular etapas se o contexto estiver muito carregado. Para skills complexas, dividir em sub-skills menores é mais robusto do que uma skill monolítica.</p>
+</div>
+</section>
+
+<!-- AGENTES -->
+<section id="agentes">
+<h2>Agentes &mdash; autonomia além de uma resposta</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico</span>
+  O paradigma de agentes com LLMs foi popularizado pelo paper ReAct (YAO et al., 2022) e pela implementação AutoGPT (2023), que demonstrou &mdash; de forma espetacular e caótica &mdash; que modelos podiam encadear múltiplas ações autonomamente. O problema era que loops sem restrição falhavam de formas imprevisíveis e custosas. A evolução posterior (Claude Agent SDK, OpenAI Agents SDK, LangChain Agents) focou em estruturar o loop de agência com: limites de iteração, ferramentas tipadas, mecanismos de <em>handoff</em> e supervisão humana em pontos críticos.
+</div>
+
+<p>Um agente é um sistema em que o modelo opera em loop: planeja uma ação, executa, observa o resultado, planeja a próxima. A diferença fundamental em relação a uma única resposta é que o agente pode executar <em>múltiplas chamadas de ferramentas em sequência</em>, adaptar o plano com base nos resultados intermediários e &mdash; em arquiteturas multi-agente &mdash; spawnar (criar e delegar para) sub-agentes especializados.</p>
+
+<p>O loop de um agente tem quatro componentes:</p>
+
+<ol>
+  <li><strong>Planejamento</strong> &mdash; o modelo raciocina sobre a tarefa e decide qual ação tomar a seguir. Em modelos com <em>extended thinking</em> (raciocínio estendido), essa etapa envolve um processo de pensamento interno antes de emitir a chamada de ferramenta.</li>
+  <li><strong>Ação</strong> &mdash; o modelo emite uma chamada estruturada de ferramenta (<em>tool call</em>). A ferramenta pode ser: executar código bash, ler um arquivo, buscar na web, criar um documento, chamar uma API externa via MCP.</li>
+  <li><strong>Observação</strong> &mdash; o resultado da ferramenta retorna ao modelo como parte do contexto. O modelo &ldquo;vê&rdquo; o resultado antes de decidir a próxima ação.</li>
+  <li><strong>Iteração</strong> &mdash; o ciclo se repete até que o modelo julgue a tarefa completa ou até um limite externo de iterações ser atingido.</li>
+</ol>
+
+<h3>Tipos de arquitetura de agentes</h3>
+
+<p><strong>Agente único com ferramentas</strong> &mdash; um modelo opera com acesso a um conjunto de ferramentas. Adequado para tarefas sequenciais onde a ordem das ações é previsível. Exemplo: pesquisar na web, extrair dados, formatar e salvar um relatório.</p>
+
+<p><strong>Orquestrador + sub-agentes</strong> &mdash; um agente coordenador decompõe a tarefa e spawna agentes especializados para subtarefas paralelas. Os sub-agentes retornam resultados ao orquestrador, que sintetiza e decide próximos passos. Adequado para tarefas paralelizáveis. O custo é maior latência de setup e maior risco de erros de coordenação.</p>
+
+<p><strong>Pipeline de agentes</strong> &mdash; saída de um agente é entrada do próximo. Adequado para workflows com etapas bem definidas onde cada etapa tem domínio especializado. Exemplo: agente extrator &rarr; agente validador &rarr; agente formatador. O risco é propagação de erros: um erro na etapa 1 contamina todas as seguintes.</p>
+
+<h3>Quando criar um agente</h3>
+
+<p>A decisão de usar um agente &mdash; em vez de uma instrução bem escrita ou uma skill &mdash; deve ser guiada pela natureza da tarefa. Agentes têm custo (tokens por iteração, latência, risco de erros em cascata) que só se justifica quando a tarefa tem estas características: o resultado de uma etapa determina o que fazer na seguinte (sequência adaptativa); o escopo não é conhecido antecipadamente; múltiplas ferramentas precisam ser orquestradas em ordem não-trivial; ou a tarefa pode ser decomposta em sub-tarefas paralelizáveis.</p>
+
+<h3>Escrevendo instruções para agentes</h3>
+
+<p>Agentes precisam de instruções mais detalhadas que respostas simples, porque o modelo toma decisões sem supervisão humana a cada passo. Três elementos são críticos:</p>
+
+<p><strong>Critério de parada</strong>: quando o agente deve considerar a tarefa completa? Sem isso, o modelo pode continuar iterando por insegurança &mdash; ou parar cedo demais. &ldquo;Encerre quando tiver encontrado ao menos 3 fontes primárias confirmando o dado&rdquo; é um critério operacional. &ldquo;Pesquise até ter informação suficiente&rdquo; não é.</p>
+
+<p><strong>Estratégia de erro</strong>: o que fazer quando uma ferramenta falha? O agente deve tentar novamente? Tentar uma alternativa? Parar e reportar ao usuário? Sem essa instrução, o comportamento padrão é tentativa de recuperação implícita &mdash; que pode incluir ações indesejadas ou loop de retentativas.</p>
+
+<p><strong>Escopo de autonomia</strong>: o que o agente pode fazer sem confirmação do usuário? Operações destrutivas (deletar arquivos, enviar e-mails, fazer deploys, executar transações) devem requerer confirmação explícita. O agente precisa saber onde está o limite entre &ldquo;pode agir&rdquo; e &ldquo;deve perguntar&rdquo;.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p style="margin:0">Agentes acumulam erros: um erro na etapa 2 pode invalidar todas as etapas subsequentes sem que o modelo detecte. Esse problema &mdash; chamado de <em>error compounding</em> (acúmulo de erros) &mdash; é mais grave em pipelines longos. Mitigação: incluir checkpoints de verificação no loop (o agente verifica o resultado de etapas críticas antes de prosseguir). Agentes também podem entrar em loops: tentar a mesma ação que falhou repetidamente sem perceber que está repetindo. Limite de iterações externo é obrigatório em qualquer implementação de produção.</p>
+</div>
+</section>
+
+<!-- COMPARATIVO -->
+<section id="comparativo">
+<h2>Quando usar cada um &mdash; o mapa de decisão</h2>
+
+<p>A escolha entre instrução, skill e agente não é estética &mdash; tem implicações diretas em custo, confiabilidade e adequação à tarefa.</p>
+
+<table>
+<thead>
+  <tr>
+    <th>Dimensão</th>
+    <th>Instrução de sistema</th>
+    <th>Skill</th>
+    <th>Agente</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><strong>Ativação</strong></td>
+    <td>Sempre ativa (toda sessão)</td>
+    <td>Sob demanda, por contexto semântico</td>
+    <td>Explicitamente invocado para uma tarefa</td>
+  </tr>
+  <tr>
+    <td><strong>Escopo</strong></td>
+    <td>Comportamento geral e persistente</td>
+    <td>Domínio específico (tipo de arquivo, ferramenta)</td>
+    <td>Tarefa específica com múltiplos passos</td>
+  </tr>
+  <tr>
+    <td><strong>Autonomia</strong></td>
+    <td>Nenhuma &mdash; define como responder</td>
+    <td>Baixa &mdash; define como executar um tipo de tarefa</td>
+    <td>Alta &mdash; decide a sequência de ações</td>
+  </tr>
+  <tr>
+    <td><strong>Custo</strong></td>
+    <td>Tokens fixos por sessão</td>
+    <td>Tokens extras somente quando ativada</td>
+    <td>Tokens por iteração &times; número de iterações</td>
+  </tr>
+  <tr>
+    <td><strong>Adequado para</strong></td>
+    <td>Tom, formato, restrições, papel do modelo</td>
+    <td>Saídas específicas (PPTX, DOCX, PDF, XLSX)</td>
+    <td>Pesquisa, análise iterativa, workflows multi-passo</td>
+  </tr>
+  <tr>
+    <td><strong>Risco principal</strong></td>
+    <td>Instrução ambígua ou contraditória</td>
+    <td>Ativação errada (falso positivo/negativo)</td>
+    <td>Error compounding, loops infinitos</td>
+  </tr>
+</tbody>
+</table>
+<p style="font-size:13px;color:var(--muted);margin-top:-10px">Tabela 1. Comparativo entre mecanismos de programação do Claude.</p>
+
+<p>A heurística prática: comece com a instrução de sistema mais simples que resolve o problema. Se você precisar de comportamentos especializados para tipos de tarefa específicos, adicione skills. Se a tarefa requerer múltiplos passos adaptativos com ferramentas, use um agente &mdash; mas defina explicitamente o escopo de autonomia e os critérios de parada antes de deixar o loop rodar.</p>
+</section>
+
+<!-- IMPLEMENTAÇÃO -->
+<section id="implementacao">
+<h2>Implementação</h2>
+
+<p>O código abaixo demonstra os três mecanismos em um exemplo mínimo usando a API da Anthropic. O objetivo não é cobrir todos os casos &mdash; é tornar concreto o que, até aqui, foi descrito em prosa: como instrução, skill e agente diferem no nível de chamada de API.</p>
+
+<pre><code class="language-python">import anthropic
+import json
+
+client = anthropic.Anthropic()  # usa ANTHROPIC_API_KEY do ambiente
+
+# ─────────────────────────────────────────────
+# 1. INSTRUÇÃO DE SISTEMA — define comportamento persistente
+# ─────────────────────────────────────────────
+SYSTEM_PROMPT = """
+## Papel
+Você é um assistente de análise financeira pessoal.
+Seu interlocutor é sempre Vinicius, investidor pessoa física.
+
+## Comportamento
+- Responda sempre em português formal, sem gírias
+- Cite fontes quando mencionar dados de mercado
+- Ao receber pedidos fora do escopo financeiro, redirecione gentilmente
+
+## Fora do escopo
+Não execute código, não acesse arquivos, não faça pesquisas na web.
+""".strip()
+
+def resposta_simples(pergunta: str) -> str:
+    """Usa apenas a instrução de sistema — sem ferramentas."""
+    msg = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": pergunta}]
+    )
+    return msg.content[0].text
+
+
+# ─────────────────────────────────────────────
+# 2. SKILL — instrução especializada injetada dinamicamente
+# ─────────────────────────────────────────────
+SKILL_CALCULAR_RETORNO = """
+## Skill: Cálculo de Retorno Ajustado
+
+Quando ativada, execute EXATAMENTE estes passos:
+1. Extraia da mensagem: valor_inicial, valor_final, periodo_meses
+2. Calcule retorno_total = (valor_final / valor_inicial - 1) * 100
+3. Calcule retorno_mensal = ((valor_final / valor_inicial) ** (1/periodo_meses) - 1) * 100
+4. Calcule retorno_anual = ((1 + retorno_mensal/100) ** 12 - 1) * 100
+5. Responda com tabela: | Métrica | Valor |
+
+Se faltarem dados, peça apenas o que está faltando.
+""".strip()
+
+def resposta_com_skill(pergunta: str, skill_ativa: bool = False) -> str:
+    """Injeta a skill no system prompt quando relevante."""
+    system = SYSTEM_PROMPT
+    if skill_ativa:
+        # A skill entra como seção adicional do system prompt
+        system += f"\n\n---\n{SKILL_CALCULAR_RETORNO}"
+
+    msg = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=1024,
+        system=system,
+        messages=[{"role": "user", "content": pergunta}]
+    )
+    return msg.content[0].text
+
+
+# ─────────────────────────────────────────────
+# 3. AGENTE — loop autônomo com tool use
+# ─────────────────────────────────────────────
+FERRAMENTAS = [
+    {
+        "name": "buscar_cotacao",
+        "description": "Busca a cotação atual de um ativo pelo ticker.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "ticker": {"type": "string", "description": "Ex: PETR4, VALE3, BTC-USD"}
+            },
+            "required": ["ticker"]
+        }
+    },
+    {
+        "name": "calcular_alocacao",
+        "description": "Dado um valor total e uma lista de ativos com pesos, calcula o valor a alocar em cada.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "valor_total": {"type": "number"},
+                "alocacoes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "ativo": {"type": "string"},
+                            "peso": {"type": "number", "description": "Percentual, ex: 30 para 30%"}
+                        }
+                    }
+                }
+            },
+            "required": ["valor_total", "alocacoes"]
+        }
+    }
+]
+
+def executar_ferramenta(nome: str, inputs: dict) -> str:
+    """Simula a execução das ferramentas — substituir por chamadas reais."""
+    if nome == "buscar_cotacao":
+        cotacoes_mock = {"PETR4": 38.50, "VALE3": 62.30, "BTC-USD": 102000.00}
+        preco = cotacoes_mock.get(inputs["ticker"], 0)
+        return json.dumps({"ticker": inputs["ticker"], "preco": preco, "moeda": "BRL"})
+
+    if nome == "calcular_alocacao":
+        total = inputs["valor_total"]
+        resultado = []
+        for item in inputs["alocacoes"]:
+            valor = total * item["peso"] / 100
+            resultado.append({"ativo": item["ativo"], "valor": round(valor, 2)})
+        return json.dumps({"alocacoes": resultado})
+
+    return json.dumps({"erro": f"Ferramenta {nome} não encontrada"})
+
+
+def agente_financeiro(tarefa: str, max_iter: int = 5) -> str:
+    """
+    Loop de agente: planejamento → ação → observação → iteração.
+    max_iter evita loops infinitos — critério de parada externo obrigatório.
+    """
+    mensagens = [{"role": "user", "content": tarefa}]
+
+    for iteracao in range(max_iter):
+        resposta = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=2048,
+            system=SYSTEM_PROMPT,
+            tools=FERRAMENTAS,
+            messages=mensagens
+        )
+
+        # Critério de parada: modelo decide que terminou (stop_reason = "end_turn")
+        if resposta.stop_reason == "end_turn":
+            # Extrai texto da resposta final
+            for bloco in resposta.content:
+                if hasattr(bloco, "text"):
+                    return bloco.text
+            return "Tarefa concluída sem resposta de texto."
+
+        # O modelo quer usar uma ferramenta (stop_reason = "tool_use")
+        if resposta.stop_reason == "tool_use":
+            # Adiciona a resposta do modelo ao histórico
+            mensagens.append({"role": "assistant", "content": resposta.content})
+
+            # Executa cada ferramenta solicitada e coleta resultados
+            resultados = []
+            for bloco in resposta.content:
+                if bloco.type == "tool_use":
+                    resultado = executar_ferramenta(bloco.name, bloco.input)
+                    resultados.append({
+                        "type": "tool_result",
+                        "tool_use_id": bloco.id,
+                        "content": resultado
+                    })
+
+            # Devolve os resultados ao modelo (observação do loop)
+            mensagens.append({"role": "user", "content": resultados})
+            # O loop continua: modelo agora planeja com base nos resultados
+
+    return f"Limite de {max_iter} iterações atingido sem conclusão."
+
+
+# Uso
+if __name__ == "__main__":
+    # 1. Instrução pura
+    print(resposta_simples("O que é a taxa Selic?"))
+
+    # 2. Com skill especializada
+    print(resposta_com_skill(
+        "Investi R$10.000 e 18 meses depois tenho R$13.500. Qual foi meu retorno?",
+        skill_ativa=True
+    ))
+
+    # 3. Agente com ferramentas
+    print(agente_financeiro(
+        "Tenho R$50.000 para investir. Quero 40% em PETR4, 40% em VALE3 "
+        "e 20% em BTC-USD. Busque as cotações e calcule quanto comprar de cada."
+    ))</code></pre>
+
+<p>O código ilustra os três níveis de forma comparável. Na instrução pura, tudo o que o modelo &ldquo;sabe&rdquo; vem do system prompt &mdash; sem ferramentas, sem loop. Na skill, uma seção extra entra no system prompt dinamicamente, especializando o comportamento para o tipo de tarefa. No agente, o modelo emite <em>tool calls</em>, recebe resultados, e decide se precisa de mais ações &mdash; o loop continua até que o modelo declare conclusão ou o limite de iterações seja atingido.</p>
+</section>
+
+<!-- CONEXÕES -->
+<section id="conexoes">
+<h2>Conexões</h2>
+
+<p>Os conceitos deste compêndio se conectam a três áreas do projeto. Em <a class="cross-link" href="instrucoes-projeto-cowork.html#estrutura">Instruções de Projeto no Cowork</a>, o mecanismo específico de como as instruções de projeto são injetadas no sistema do Cowork é detalhado &mdash; incluindo o sistema de memória persistente e o protocolo de abertura de sessão. Em <a class="cross-link" href="claude-llm.html">Claude: Arquitetura e Capacidades</a>, a arquitetura Transformer e o mecanismo de atenção que fundamenta tudo aqui são explicados em profundidade. Em <a class="cross-link" href="../ia/fundamentos/introducao-ia.html#fundamentos">Introdução à IA</a>, os conceitos de LLM, tokens e RLHF usados como premissas neste compêndio são desenvolvidos desde o início.</p>
+
+<p>A fronteira entre skills e agentes é mais tênue do que parece. Uma skill com muitos passos e chamadas de ferramentas começa a se comportar como um agente limitado. A distinção prática é de intenção de design: uma skill é um módulo especializado com escopo definido, ativado e concluído em uma única resposta. Um agente é um sistema de múltiplos turnos com estado interno distribuído nas mensagens do histórico. Quando uma skill precisa de mais de um ciclo de ferramenta, a decisão arquitetural é: promovê-la a agente, ou quebrar em etapas que o usuário conduz manualmente.</p>
+</section>
+
+<!-- PERGUNTAS EM ABERTO -->
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 1</div>
+  <p>Qual é o tamanho ótimo de um system prompt? Há evidência empírica de que prompts mais longos reduzem aderência a instruções específicas (efeito de atenção diluída), mas a magnitude desse efeito varia por modelo e por tarefa. Não existe, até o momento, uma teoria quantitativa que permita prever o ponto de inflexão onde comprimento começa a prejudicar em vez de ajudar.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 2</div>
+  <p>Como escalar agentes multi-hop confiáveis? O problema de <em>error compounding</em> em pipelines longos ainda não tem solução geral. Técnicas como checkpoints de verificação e sub-agentes especializados reduzem o problema, mas não o eliminam. Há debate ativo sobre se a solução é arquitetural (modelos melhores em detectar próprios erros) ou de design de sistema (loops de verificação externos obrigatórios).</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 3</div>
+  <p>Qual é o limite da especificação via linguagem natural? Instruções em prosa são ambíguas por natureza &mdash; a língua natural carrega ambiguidade semântica irredutível. Há pesquisa crescente sobre linguagens de especificação mais formais para comportamento de modelos (DSLs para prompts, schemas de comportamento tipados). A questão em aberto é se formalidade adicional compensa o custo de adoção e reduz expressividade.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão aberta 4</div>
+  <p>Como garantir segurança em agentes com escopo de autonomia amplo? À medida que agentes ganham acesso a mais ferramentas e operam em loops mais longos, o risco de ações não-intencionais com consequências reais (envio de e-mails, deleção de dados, execução de transações) aumenta. O design de &ldquo;human-in-the-loop&rdquo; em pontos críticos é consensual, mas quais são os pontos certos &mdash; e como o modelo sabe identificá-los &mdash; é uma questão em aberto.</p>
+</div>
+</section>
+
+<!-- DISCUSSÃO -->
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p>A pergunta motivadora era: por que cada conversa começa do zero e como instruções, skills e agentes resolvem esse problema de formas diferentes? A resposta emergiu ao longo do compêndio em três camadas.</p>
+
+<p>O início do zero é uma consequência da natureza <em>stateless</em> dos LLMs: sem injeção explícita de contexto, o modelo não tem memória. Instruções de sistema resolvem a camada de comportamento &mdash; o &ldquo;como trabalhar&rdquo; &mdash; tornando-o persistente entre sessões. Skills resolvem a camada de especialização &mdash; o &ldquo;como executar este tipo de tarefa&rdquo; &mdash; sem sobrecarregar o system prompt com instruções que raramente são necessárias. Agentes resolvem a camada de execução &mdash; o &ldquo;faça isso sem precisar me guiar em cada passo&rdquo; &mdash; ao custo de maior autonomia e, portanto, maior risco.</p>
+
+<p>A tensão central do campo é entre especificidade e generalidade. Instruções muito específicas criam modelos previsíveis mas frágeis &mdash; funcionam bem no caso esperado e falham de forma estranha nos casos de borda. Instruções muito gerais criam modelos flexíveis mas inconsistentes. O ideal &mdash; instruções gerais com exemplos concretos para casos de borda críticos &mdash; é difícil de manter à medida que o sistema cresce. É por isso que skills existem: elas são a resposta arquitetural ao problema de escalar especificidade sem escalar o custo de atenção.</p>
+
+<p>Uma implicação que não foi enunciada no corpo do compêndio: a qualidade de uma instrução é inversamente proporcional ao quanto o usuário precisa pensar sobre ela depois de escrita. Uma boa instrução funciona em silêncio &mdash; o usuário só percebe que existe quando ela falta. Isso sugere um critério de avaliação prático: se você está frequentemente adicionando contexto no início de cada conversa para corrigir o comportamento do modelo, sua instrução de sistema está incompleta. Se você está frequentemente corrigindo o modelo durante a conversa, sua instrução de sistema está ambígua. Se o modelo raramente precisa de correção, a instrução está bem calibrada.</p>
+</section>
+
+<!-- LEITURAS -->
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+<ul>
+  <li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener">Anthropic Prompt Engineering Guide</a> &mdash; documentação oficial com padrões validados empiricamente nos modelos Claude.</li>
+  <li><a href="https://arxiv.org/abs/2210.11610" target="_blank" rel="noopener">ReAct: Synergizing Reasoning and Acting in Language Models</a> (Yao et al., 2022) &mdash; paper seminal que formalizou o loop planejamento-ação-observação em agentes com LLMs.</li>
+  <li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents</a> &mdash; guia oficial sobre design de agentes, com discussão explícita sobre quando não usar agentes.</li>
+  <li><a href="https://www.anthropic.com/research/claude-character" target="_blank" rel="noopener">Claude's Character</a> (Anthropic, 2024) &mdash; análise de como instruções de sistema interagem com o caráter treinado do modelo &mdash; relevante para entender os limites de sobrescrever comportamento via prompt.</li>
+</ul>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências</h2>
+<ul class="ref-list">
+  <li>ANTHROPIC. <em>Claude Agent SDK Documentation</em>. San Francisco: Anthropic, 2025. Disponível em: <a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener" style="color:var(--ac)">docs.anthropic.com</a>.</li>
+  <li>ANTHROPIC. <em>Prompt Engineering Overview</em>. San Francisco: Anthropic, 2024. Disponível em: <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener" style="color:var(--ac)">docs.anthropic.com</a>.</li>
+  <li>BROWN, T. et al. Language models are few-shot learners. <em>Advances in Neural Information Processing Systems</em>, v. 33, p. 1877&ndash;1901, 2020.</li>
+  <li>OUYANG, L. et al. Training language models to follow instructions with human feedback. <em>Advances in Neural Information Processing Systems</em>, v. 35, 2022.</li>
+  <li>VASWANI, A. et al. Attention is all you need. <em>Advances in Neural Information Processing Systems</em>, v. 30, 2017.</li>
+  <li>YAO, S. et al. ReAct: Synergizing reasoning and acting in language models. In: <em>International Conference on Learning Representations</em>, 2023. Disponível em: <a href="https://arxiv.org/abs/2210.11610" target="_blank" rel="noopener" style="color:var(--ac)">arxiv.org/abs/2210.11610</a>.</li>
+</ul>
+</section>
+
+</div><!-- .prose -->
+</div><!-- #content -->
+</div><!-- #body-wrap -->
+
+<script>
+(function(){
+  // Barra de progresso
+  var bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', function(){
+    var s = document.documentElement;
+    var pct = s.scrollTop / (s.scrollHeight - s.clientHeight) * 100;
+    bar.style.width = pct + '%';
+  }, {passive:true});
+
+  // Toggle sidebar
+  var btn = document.getElementById('toggle-btn');
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var collapsed = sessionStorage.getItem('sidebar-collapsed') === '1';
+  if(collapsed){ sidebar.classList.add('collapsed'); bodyWrap.classList.add('sidebar-collapsed'); }
+  btn.addEventListener('click', function(){
+    var isNow = sidebar.classList.toggle('collapsed');
+    bodyWrap.classList.toggle('sidebar-collapsed', isNow);
+    sessionStorage.setItem('sidebar-collapsed', isNow ? '1' : '0');
+  });
+
+  // Highlight de link ativo na sidebar
+  var links = document.querySelectorAll('a.sl[href^="#"]');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var id = e.target.id;
+        var active = document.querySelector('a.sl[href="#'+id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(function(s){ observer.observe(s); });
+
+  // Highlight.js
+  document.addEventListener('DOMContentLoaded', function(){ hljs.highlightAll(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+=== BASE DE ESTUDOS ===
+Um repositório, dois modos de trabalho:
+- skill `atlas` — compêndio de área: exaure um campo de estudo inteiro (histórico, subdivisões, questões centrais, métodos, referências densas)
+- skill `mecanismo` — aprofundamento de um conceito ou processo específico, com Anki
+
+A distinção principal: `atlas` cobre uma área inteira em largura e profundidade; `mecanismo` cobre um conceito único em profundidade máxima.
+Ambos referenciam materiais externos — livros e artigos continuam sendo necessários, mas o compêndio deve ser suficientemente denso para situar o leitor e guiar o estudo.
+
+Ativar a skill correspondente antes de iniciar qualquer trabalho de geração ou revisão.
+
+Fonte das skills: _docs/skills-export/ (SKILL.md por pasta + empacotar_skills.py).
+Atualização: editar SKILL.md → rodar empacotar_skills.py → reinstalar via Settings > Capabilities > Skills.
+
+=== Estrutura de pastas ===
+atlas/               → compêndios de área (skill atlas)
+  atlas_mapa.txt     → áreas já cobertas
+  atlas_estado.txt   → histórico e pendências
+  <área>/            → arquivos HTML dos compêndios de área
+  medicina/          → compêndios ATLAS de medicina (skill atlas + subskill)
+medicina/            → compêndios de MECANISMO (skill mecanismo)
+  imunologia/        → 10 compêndios ativos
+  farmacologia/      → 3 compêndios ativos
+  fisiologia/        → 1 compêndio ativo
+  fisiopatologia/    → 3 compêndios ativos
+  microbiologia/     → 2 compêndios ativos
+anki/                → sessões e erros do Anki (exclusivo de mecanismos)
+_acervo/             → material pré-modelo preservado para reaproveitamento futuro
+  LEIA-ME.md         → descrição do conteúdo e instruções de adaptação
+_archive/            → versões anteriores (sufixo de data)
+_config/             → assets e scripts
+_docs/               → documentação do projeto
+  DEBT.md            → dívida técnica unificada
+  project_estado.md
+  project_mapa_materiais.md
+  skills-export/     → fonte das skills (SKILL.md + empacotar_skills.py)
+  instrucoes-projeto.txt  → este arquivo
+
+=== Protocolo de abertura de sessão ===
+Ao iniciar sessão sem tarefa direta:
+1. Perguntar ao usuário se o trabalho é Atlas (compêndio de área) ou Mecanismo.
+2. Ativar a skill correspondente (nível 1).
+3. Identificar a área → a skill estrutural carrega a subskill adequada.
+   Se a área não tiver subskill: sinalizar ao usuário ANTES de gerar e propor criação da subskill.
+4. Verificar _docs/DEBT.md — informar dívidas críticas antes de prosseguir.
+
+=== Pré-geração (regras compartilhadas) ===
+- Perguntas de pré-geração sempre via AskUserQuestion — nunca em texto.
+- Antes de gerar qualquer material, confirmar que o propósito (atlas ou mecanismo) e o recorte estão claros.
+- OBRIGATÓRIO antes de criar novo HTML: ler _docs/template-v2-spec.md (referência canônica de CSS, layout, sidebar, elementos visuais e seções). Se já existe compêndio na mesma subpasta, usá-lo como base estrutural — copiar e editar (arquivar o original em _archive/ com sufixo de data), não criar do zero. Criar do zero só quando não há compêndio anterior na subpasta, mas sempre seguindo o template-v2-spec.md.
+
+=== Imagens em compêndios HTML ===
+Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
+- URLs reais via API Wikimedia (usar Claude in Chrome javascript_tool):
+  https://commons.wikimedia.org/w/api.php?action=query&titles=File:GrayNNN.png&prop=imageinfo&iiprop=url&format=json&origin=*
+- CSS obrigatório: .plate-block, .plate-block img (background:#e8e2d8), .plate-caption
+  NÃO usar filter:invert (cores ficam estranhas)
+- 4-6 pranchas por compêndio, uma por seção principal
+- Imagens carregam da Wikimedia com conexão à internet
+
+=== Eficiência operacional (regras compartilhadas) ===
+- Edit: nunca >~150 linhas por bloco new_string. Backup antes de editar HTML.
+- Write: arquivo novo ou reescrita completa <300 linhas.
+- Python: conteúdo com acentos PT-BR, símbolos tipográficos e entidades HTML. Nunca echo ou heredoc bash (corrompe encoding).
+- sed: substituições pontuais em arquivos >500 linhas.
+- bash append: completar conteúdo ao final de arquivo íntegro.
+- HTML novo >300 linhas: Write estrutura inicial (~150 linhas) → verificar → Python escreve restante → cat >> arquivo → verificar.
+- Leitura seletiva: grep -n para localizar âncora antes de Read com offset/limit. Ler arquivo inteiro só quando estritamente necessário.
+- Verificação preditiva: antes de Edit com new_string >80 linhas, calcular linhas esperadas. Após o Edit, wc -l e comparar — divergência ±5 indica truncamento.
+
+=== Verificação bash obrigatória após qualquer escrita de HTML ===
+(a) fecha com </body></html>
+(b) wc -l compatível com o esperado
+(c) sem const const / var var
+(d) acentuação PT-BR intacta: grep -c "ã\|ç\|é" > 0
+(e) sem artefatos: grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho" vazio
+Corrigir antes de prosseguir.
+
+=== Verificação visual ===
+Novos arquivos e reescritas ≥30%: abrir no Chrome via Claude in Chrome — sidebar, barra de progresso, acentuação no browser.
+Workflow para arquivos locais (Chrome não abre file://):
+  1. Usuário roda no CMD: surge "<caminho_pasta>" <subdominio>.surge.sh
+  2. Claude abre https://<subdominio>.surge.sh/<arquivo>.html no Chrome
+  3. Verificar: layout, sidebar, imagens, acentuação
+  Subd.: cardiologia-anatomia-atlas.surge.sh -> atlas/medicina/
+  Conta surge: vinicius.kato.734@gmail.com (token no Windows)
+
+=== Arquivamento ===
+Sobrescrever com archive em _archive/ + sufixo de data quando mudança ≥30%. Editar no lugar para correções pontuais.
+Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
+
+=== GitHub ===
+Ao concluir qualquer material, lembrar o usuário de rodar push.bat na raiz (duplo clique).
+
+=== Dívida técnica ===
+_docs/DEBT.md na raiz: - [ ] `caminho/arquivo.html` — descrição (YYYY-MM-DD).
+Ao iniciar nova sessão, verificar e propor prioridades.
+
+=== Encerramento de sessão ===
+Ao final de sessão substantiva, chamar a skill autocritica-sessao.
+Sinal: "terminamos", "pode fechar", "acabou", "sessão encerrada".
+
+=== Entrega de instruções atualizadas ===
+Sempre gerar instrucoes-projeto.txt em _docs/ — nunca apenas em bloco no chat. Após atualizar, sincronizar a memory.

@@ -1,8 +1,6 @@
 @echo off
 cd /d "%~dp0"
 git add -A
-git commit -m "Atualiza materiais"
+git commit -m "sessao %date% %time%"
 git push
-echo.
-echo Concluido! Pressione qualquer tecla para fechar.
-pause > nul
+pause

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M12 — Respostas Th1, Th2 e Th17 | Imunologia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300..900;1,300..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+#body-wrap{display:flex;min-height:100vh}
+
+/* Sidebar */
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:hidden;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:4px;font-size:14px;display:flex;align-items:center;justify-content:center;transition:color .2s}
+#toggle-btn:hover{color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+#sidebar.collapsed .s-inner{opacity:0;pointer-events:none}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 6px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 16px;border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--ac);border-left-color:var(--ac);background:var(--bg3)}
+
+/* Content */
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+
+/* Headers */
+h1{font-size:2.1rem;font-weight:700;line-height:1.25;margin-bottom:12px;color:var(--text)}
+h2{font-size:1.4rem;font-weight:600;color:var(--text);margin:48px 0 18px;padding-bottom:6px;border-bottom:1px solid var(--border);transition:color .3s}
+h3{font-size:1.1rem;font-weight:600;color:var(--ac);margin:28px 0 10px}
+h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+section.in-view > h2{color:var(--ac)}
+p{margin-bottom:16px}
+ul,ol{margin:0 0 16px 1.4em}
+li{margin-bottom:6px}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+th{background:var(--bg3);color:var(--muted);font-family:var(--font-ui);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border:1px solid var(--border)}
+td{padding:8px 12px;border:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:nth-child(even) td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-align:left;margin-bottom:6px;caption-side:top}
+
+/* Components */
+.doc-header{margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+.ref-item{font-size:14px;color:var(--muted);margin-bottom:12px;padding-left:1.4em;text-indent:-1.4em}
+.ref-item a{color:var(--ac)}
+.cite{color:var(--ac);font-size:.85em}
+.badge-voce{font-family:var(--font-ui);font-size:10px;background:var(--ac2bg);color:var(--ac2);border:1px solid var(--ac2);border-radius:10px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+
+/* Mobile */
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;z-index:50}
+  #sidebar.open{display:block}
+  #mob-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+  #mob-toggle{background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:4px;font-size:14px}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  #s-toggle{display:none}
+}
+@media(min-width:901px){#mob-bar{display:none}}
+
+/* Print */
+@media print{
+  #sidebar,#progress-bar,#mob-bar{display:none}
+  #content{padding:0}
+  body{background:#fff;color:#000}
+  a::after{content:" (" attr(href) ")"}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <button id="mob-toggle">☰</button>
+  <span style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">M12 — Respostas Th1, Th2 e Th17</span>
+</div>
+
+<div id="body-wrap">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn" title="Colapsar sidebar">◀</button>
+  </div>
+  <div class="s-inner">
+    <div class="s-logo">Imunologia · M12</div>
+    <div class="s-group">
+      <div class="sgt">Navegação</div>
+      <a class="sl" href="#pergunta-motivadora">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#polarizacao">Polarização Th</a>
+      <a class="sl" href="#th1">Resposta Th1</a>
+      <a class="sl" href="#th2">Resposta Th2</a>
+      <a class="sl" href="#th17">Resposta Th17</a>
+      <a class="sl" href="#plasticidade">Plasticidade e Estabilidade</a>
+      <a class="sl" href="#tabela-comparativa">Tabela Comparativa</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Outros módulos</div>
+      <a class="sl" href="linfocitos-t-diferenciacao.html">M8 — Linfócitos T</a>
+      <a class="sl" href="hipersensibilidade.html">M10 — Hipersensibilidade</a>
+      <a class="sl" href="resposta-a-patogenos.html">M9 — Resposta a Patógenos</a>
+      <a class="sl" href="imunidade-inata.html">M4 — Imunidade Inata</a>
+      <a class="sl" href="index.html">← Índice geral</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Respostas Th1, Th2 e Th17</h1>
+  <p class="doc-meta">Imunologia · Linfócitos T Auxiliares · Medicina Básica · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisito: M8 — Linfócitos T</span>
+    <span class="chip">📍 Área: <b>Imunologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<section id="pergunta-motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente com doença de Crohn ativa recebe um anticorpo monoclonal anti-IL-12/23 (ustekinumabe) e apresenta melhora significativa das lesões intestinais — mas, semanas depois, desenvolve uma infecção cutânea grave por <em>Candida</em>. Por que bloquear uma única via de citocinas pode simultaneamente tratar uma doença inflamatória e criar vulnerabilidade a um fungo?</p>
+</div>
+</section>
+
+<section id="dependencias">
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html">M8 — Linfócitos T e subtipos Th</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html">M3 — Citocinas e receptores</a>
+      <a class="dep-item" href="celulas-sistema-imune.html">M2 — Células dendríticas e macrófagos</a>
+      <a class="dep-item" href="mhc-apresentacao-antigenica.html">M6 — MHC-II e apresentação ao CD4⁺</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="imunidade-inata.html">M4 — ILCs como análogos inatos</a>
+      <a class="dep-item" href="resposta-a-patogenos.html">M9 — Contexto de uso em patógenos</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="hipersensibilidade.html">M10 — Hipersensibilidade (Th1/Th2/Th17 nas reações)</a>
+      <a class="dep-item" href="#">Autoimunidade (futuro)</a>
+      <a class="dep-item" href="#">Farmacologia imune — biológicos (futuro)</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+<p>Este compêndio pressupõe que você já domina os <strong>três sinais de ativação do linfócito T</strong> (TCR + MHC-II como sinal 1; CD28-CD80/86 como sinal 2; citocinas do microambiente como sinal 3), conforme desenvolvido em <a class="cross-link" href="linfocitos-t-diferenciacao.html#tres-sinais">M8 §Ativação T</a>. O sinal 3 — as citocinas polarizadoras — é o motor central deste compêndio. Você também precisa conhecer o conceito de fator de transcrição mestre (<em>master transcription factor</em>, ou MTF): proteínas que, ao se acumularem no núcleo, reorientam o programa genético de uma célula já comprometida no linhamento Th. Os três MTFs centrais aqui são T-bet (Th1), GATA-3 (Th2) e RORγt (Th17).</p>
+<p>A noção de <strong>células dendríticas como intérpretes do ambiente</strong> é também fundamental: são as DCs maduras que, ao apresentarem o antígeno ao CD4⁺ naïve, carregam junto a "assinatura de citocinas" do sítio de infecção — e é essa assinatura que orienta qual MTF vai dominar. Para detalhes sobre maturação de DCs, ver <a class="cross-link" href="imunidade-inata.html#ponte-adaptativa">M4 §Ponte para a imunidade adaptativa</a>.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Polarização Th</div><p>Processo pelo qual um CD4⁺ naïve se diferencia em subtipo funcional específico, guiado pelo microambiente de citocinas no momento da ativação.</p></div>
+  <div class="ck-card"><div class="ckt">T-bet / IFN-γ</div><p>Fator mestre e citocina efetora da resposta Th1 — ativam macrófagos e orquestram imunidade a patógenos intracelulares.</p></div>
+  <div class="ck-card"><div class="ckt">GATA-3 / IL-4, IL-5, IL-13</div><p>Fator mestre e citocinas efetoras da resposta Th2 — direcionam imunidade humoral, defesa a helmintos e estão na base das doenças alérgicas.</p></div>
+  <div class="ck-card"><div class="ckt">RORγt / IL-17A, IL-22</div><p>Fator mestre e citocinas efetoras da resposta Th17 — mobilizam neutrófilos e defendem mucosas contra fungos e bactérias extracelulares.</p></div>
+  <div class="ck-card"><div class="ckt">IL-12 e IL-23</div><p>Citocinas-chave produzidas por DCs: IL-12 inicia Th1; IL-23 mantém e expande Th17 — ambas compartilham a subunidade p40 (alvo do ustekinumabe).</p></div>
+  <div class="ck-card"><div class="ckt">Plasticidade Th</div><p>Capacidade de células já diferenciadas de reconfigurar seu programa em resposta a novos sinais, com implicações para autoimunidade e terapêuticas.</p></div>
+</div>
+</section>
+
+<section id="polarizacao">
+<h2>O problema da polarização: por que o CD4⁺ naïve escolhe um caminho?</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1986</span>
+  Em 1986, Timothy Mosmann e Robert Coffman, no Scripps Research Institute (EUA), publicaram no <em>Journal of Immunology</em> a descoberta que redefiniria a imunologia celular: clones de linfócitos T de camundongo podiam ser separados em dois grupos funcionalmente distintos — Th1 e Th2 — com perfis de citocinas exclusivos e funções efetoras opostas. A descoberta foi recebida com ceticismo inicial, pois o dogma era o de uma única "célula T helper" homogênea. Três décadas depois, foram descritos Th17 (Harrington et al., 2005; Park et al., 2005), Tfh, Treg e subpopulações adicionais, estabelecendo um paradigma de plasticidade funcional que ainda não esgotou suas implicações clínicas.
+</div>
+
+<p>Quando um linfócito T CD4⁺ naïve reconhece seu antígeno cognato no contexto do MHC-II (sinal 1) e recebe co-estimulação adequada (sinal 2), ele ainda não tem destino fixo. O destino é determinado pelas citocinas presentes no microambiente linfático no momento dessa ativação — o <strong>sinal 3</strong>. Cada subtipo Th emerge quando um MTF específico atinge concentração limiar no núcleo e começa a reforçar seu próprio gene por <em>feedback</em> positivo enquanto suprime os MTFs rivais. Esse processo é chamado de <strong>comprometimento de linhagem</strong> (<em>lineage commitment</em>).</p>
+
+<p>O raciocínio chave é este: a célula que precisa de ajuda imune não envia ao linfonodo um pedido escrito dizendo "manda Th1". Ela envia sinais — PAMPs, DAMPs, moléculas de perigo — que DCs interpretam e traduzem em um perfil de citocinas. Esse perfil é a linguagem que o CD4⁺ naïve decodifica para decidir quem se tornar. O alinhamento entre tipo de ameaça e tipo de resposta Th é o que torna o sistema imune tão preciso — e a sua ruptura o que produz alergia, autoimunidade e suscetibilidade seletiva a infecções.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>A dicotomia Th1/Th2 de Mosmann e Coffman foi estabelecida em clones de camundongo mantidos in vitro por muitas gerações — condição que pode exagerar a polarização. In vivo, a maioria das respostas T helper é "mista", com domínio de um perfil mas co-expressão de citocinas do outro. O conceito de "subtipos puros" funciona bem como ancoragem didática e tem valor preditivo real na clínica, mas deve ser entendido como extremos de um espectro contínuo.</p>
+</div>
+</section>
+
+<section id="th1">
+<h2>Resposta Th1: armando o macrófago contra o intracelular</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1989–1993</span>
+  O fator de transcrição T-bet (T-box expressed in T cells) foi identificado apenas em 2000 por Laurie Glimcher (Harvard, EUA) — surpreendentemente tarde, dado que Th1 já era estudado há 14 anos. A IL-12, a citocina polarizadora central de Th1, foi purificada e caracterizada por Giorgio Trinchieri (Wistar Institute, EUA) entre 1989 e 1991. O knockout de IL-12 em camundongos revelou susceptibilidade dramática a Mycobacterium, Leishmania e Toxoplasma, solidificando o papel de Th1 na imunidade intracelular.
+</div>
+
+<h3>Sinal polarizador e diferenciação</h3>
+<p>A diferenciação para Th1 é iniciada por dois sinais dominantes: <strong>IL-12</strong> (produzida principalmente por DCs e macrófagos ativados por TLRs) e <strong>IFN-γ</strong> (produzido por NK e por Th1 já diferenciados, criando retroalimentação positiva). A IL-12 se liga ao receptor IL-12Rβ1/β2 no CD4⁺ naïve e ativa STAT4. IFN-γ ativa STAT1. Ambos convergem para induzir a expressão de <strong>T-bet</strong>, o MTF de Th1.</p>
+<p>T-bet age em múltiplos alvos simultaneamente: (1) ativa a transcrição do gene <em>Ifng</em> (IFN-γ); (2) upregula a cadeia β2 do receptor de IL-12 (IL-12Rβ2), sensibilizando a célula a mais IL-12 — amplificação autocrina; (3) reprime ativamente os MTFs rivais GATA-3 e RORγt por antagonismo direto e remodelação de cromatina. O resultado é um <em>switch</em> epigenético estável.</p>
+
+<h3>Citocinas efetoras e funções</h3>
+<p>O produto principal de Th1 é o <strong>IFN-γ</strong> (<em>interferon-gama</em>, interferon do tipo II). IFN-γ se liga ao receptor IFNGR1/2 nos macrófagos e ativa STAT1, que dimeriza em homodímeros GAF (<em>gamma-activated factor</em>). O resultado é a expressão de:</p>
+<ul>
+  <li><strong>iNOS</strong> (<em>inducible nitric oxide synthase</em>): produz óxido nítrico (NO), que é tóxico para micobactérias e Leishmania dentro do fagolisossomo — é o mecanismo efator central contra patógenos intracelulares;</li>
+  <li><strong>Upregulação de MHC-II e CD86</strong>: melhora a apresentação antigênica e a capacidade do macrófago de re-estimular Th1;</li>
+  <li><strong>TNF</strong> e outras citocinas inflamatórias que ampliam a resposta;</li>
+  <li><strong>Polarização M1 do macrófago</strong>: IFN-γ é o indutor canônico do fenótipo M1 (clássico), opondo-se à polarização M2 induzida por IL-4/IL-13.</li>
+</ul>
+<p>Th1 também produz <strong>TNF</strong> e <strong>linfotoxina</strong> (LT-α), que contribuem para a formação de granulomas — estruturas que contêm mas não eliminam o patógeno intracelular quando o IFN-γ não é suficiente para esterilizá-lo (ver <a class="cross-link" href="hipersensibilidade.html#granuloma">M10 §Granuloma</a>).</p>
+
+<h3>Implicações clínicas</h3>
+<p>A resposta Th1 deficiente — por defeitos em IL-12, IFN-γ ou seus receptores — resulta em <strong>Síndrome de Suscetibilidade a Micobactérias e Salmonelas</strong> (MSMD, <em>Mendelian susceptibility to mycobacterial disease</em>): pacientes desenvolvem infecções graves por micobactérias atenuadas como a BCG e por Salmonela não-tifoide, confirmando que a via IL-12→Th1→IFN-γ→macrófago M1 é indispensável para controle de patógenos intracelulares. Por outro lado, excesso de Th1 está na base de doenças autoimunes como a diabetes tipo 1 e a doença de Crohn (componente), onde macrófagos superativados destroem tecido próprio.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia</div>
+  <p>Por décadas, Th1 foi considerado o subtipo "pró-inflamatório" universal e Th2 o "anti-inflamatório" — uma simplificação que persistiu em livros-texto. Hoje sabe-se que tanto Th1 quanto Th17 têm papéis centrais em autoimunidade, e que a divisão não é entre "pró-" e "anti-inflamatório" mas entre <em>qual</em> tipo de inflamação é gerado. Th1 → inflamação mediada por macrófagos ativados; Th17 → inflamação mediada por neutrófilos; Th2 → inflamação eosinofílica e mastocítica.</p>
+</div>
+</section>
+
+<section id="th2">
+<h2>Resposta Th2: orquestrando anticorpos, eosinófilos e defesa a helmintos</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 1986–2000</span>
+  Na mesma publicação de 1986, Mosmann e Coffman descreveram o perfil Th2 como produtor de IL-4 e IL-5. O fator de transcrição <strong>GATA-3</strong> — nomeado por ligar-se ao motivo GATA no DNA — foi identificado em células T no início dos anos 1990 por múltiplos grupos, mas seu papel como MTF de Th2 só foi estabelecido experimentalmente por Zheng e Flavell (Yale, EUA) em 1997. O estudo de comunidades com alta carga parasitária mostrou que populações com infecções helmínticas ativas têm menor prevalência de alergias — a "hipótese da higiene" (Strachan, 1989, UK) ganhou sustentação mecanicista ao revelar que Th2 é "ocupado" por helmintos e desviado de se ativar contra alérgenos inócuos.
+</div>
+
+<h3>Sinal polarizador e diferenciação</h3>
+<p>A diferenciação para Th2 é iniciada por <strong>IL-4</strong> — e aqui há uma circularidade aparente: IL-4 é também o produto principal de Th2. A resolução está nas fontes celulares da IL-4 inicial: mastócitos, basófilos, células NKT e, especialmente em mucosas, as células linfoides inatas do tipo 2 (<strong>ILC2</strong>, análogos inatos de Th2) em resposta a IL-25, IL-33 e TSLP produzidas por células epiteliais sob estímulo de alérgenos ou helmintos. Essa IL-4 "de gatilho" se liga ao receptor IL-4Rα/γc do CD4⁺ naïve e ativa <strong>STAT6</strong>, que por sua vez induz <strong>GATA-3</strong>.</p>
+<p>GATA-3, uma vez expresso, (1) ativa os genes das citocinas Th2 (<em>Il4</em>, <em>Il5</em>, <em>Il13</em>); (2) reprime T-bet e RORγt; (3) upregula IL-4Rα, amplificando a resposta ao sinal polarizador. O ciclo se fecha: a própria célula em diferenciação produz IL-4 que realimenta sua polarização.</p>
+
+<h3>Citocinas efetoras e funções</h3>
+
+<h4>IL-4 — o pivot da imunidade humoral</h4>
+<p><strong>IL-4</strong> (<em>interleucina-4</em>) age sobre linfócitos B para induzir troca de isotipo para <strong>IgE</strong> e <strong>IgG1</strong> (em humanos) ou IgG4. IgE se liga à alta afinidade ao receptor FcεRI em mastócitos e basófilos, sensibilizando-os. Na reexposição ao antígeno, a ligação cruzada de IgE desencadeia degranulação — o mecanismo central da hipersensibilidade tipo I <a class="cross-link" href="hipersensibilidade.html#tipo-i">(M10 §Tipo I)</a>. IL-4 também inibe a polarização M1 dos macrófagos, promovendo polarização M2 alternativa (via STAT6 no macrófago), que está associada a reparação tecidual e supressão de inflamação clássica.</p>
+
+<h4>IL-5 — o fator de eosinófilos</h4>
+<p><strong>IL-5</strong> (<em>interleucina-5</em>) tem ação seletiva e potente sobre a linhagem eosinofílica: estimula a maturação de progenitores eosinofílicos na medula óssea, prolonga a sobrevida dos eosinófilos em tecidos e potencializa sua degranulação. Eosinófilos lançam proteínas catiônicas tóxicas (MBP, ECP, EDN) contra helmintos multicamadas — larvas de <em>Schistosoma</em>, <em>Toxocara</em> — que são grandes demais para a fagocitose convencional. O mesmo mecanismo, ativado em brônquios por alérgenos, produz o dano epitelial da asma eosinofílica. O anticorpo anti-IL-5 mepolizumabe é hoje aprovado para asma eosinofílica grave — prova terapêutica direta do papel de IL-5.</p>
+
+<h4>IL-13 — efetora no tecido</h4>
+<p><strong>IL-13</strong> (<em>interleucina-13</em>) compartilha a cadeia IL-4Rα do receptor e ativa STAT6 em células não-hematopoiéticas. Em mucosas, IL-13 induz: (1) hipersecreção de muco por células caliciformes (<em>goblet cells</em>) — contribuindo para tosse e broncoconstrição; (2) hipercontratilidade de músculo liso bronquiolar; (3) fibrose subepitelial por ativação de fibroblastos. Na pele, IL-13 contribui para a barreira cutânea comprometida da dermatite atópica. O duplo bloqueio IL-4/IL-13 pelo anticorpo dupilumabe (anti-IL-4Rα) é hoje padrão terapêutico para dermatite atópica grave e asma alérgica — nova prova de conceito mecanicista.</p>
+
+<h3>Implicações clínicas</h3>
+<p>Th2 excessivo é o substrato imunológico das doenças atópicas: asma alérgica, rinite alérgica, dermatite atópica e alergia alimentar. A "marcha atópica" — progressão de dermatite atópica no lactente para asma e rinite alérgica na criança — reflete a expansão de um repertório de células Th2 de memória. Por outro lado, Th2 deficiente implica vulnerabilidade a parasitas helmintos: populações africanas com deficiência de IL-4 ou IL-5 funcional apresentam cargas de <em>Ascaris</em> e <em>Schistosoma</em> significativamente maiores.</p>
+</section>
+
+<section id="th17">
+<h2>Resposta Th17: neutrófilo como braço efitor nas mucosas</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 2005–2006</span>
+  Th17 é o subtipo mais recente da tríade clássica. Em 2005, dois grupos publicaram simultaneamente: Harrington et al. (Scripps) e Park et al. (NIH, EUA) descreveram células T CD4⁺ produtoras de IL-17A como uma população distinta, não Th1 nem Th2. O fator de transcrição <strong>RORγt</strong> (<em>RAR-related orphan receptor gamma t</em>) foi identificado como MTF de Th17 por Ivanov et al. (Dan Littman, NYU, EUA) em 2006. A descoberta foi acelerada pelo paradoxo de que camundongos nocaute para IL-23 — uma citocina antes considerada variante de IL-12 — eram protegidos de encefalomielite autoimune experimental (EAE), não camundongos nocaute para IL-12. Isso sinalizou que havia um terceiro subtipo Th controlado por IL-23, não IL-12.
+</div>
+
+<h3>Sinal polarizador e diferenciação</h3>
+<p>A diferenciação para Th17 em humanos requer uma combinação de citocinas que reflete o ambiente de infecção extracelular na mucosa: <strong>TGF-β + IL-6</strong> iniciam a expressão de RORγt no CD4⁺ naïve; <strong>IL-1β</strong> amplifica e <strong>IL-23</strong> estabiliza e expande a população já diferenciada. Essa combinação é produzida principalmente por DCs e macrófagos que respondem a fungos (via Dectin-1) e bactérias extracelulares (via TLRs). A co-presença de TGF-β pode parecer paradoxal — já que TGF-β também induz Treg — mas a chave está na IL-6: em presença de IL-6, TGF-β induz RORγt e reprime FoxP3, desviando a diferenciação de Treg para Th17. Em ausência de IL-6, TGF-β favorece Treg.</p>
+<p>RORγt, uma vez expresso, ativa os genes <em>Il17a</em>, <em>Il17f</em> e <em>Il22</em>, e upregula o receptor de IL-23 (IL-23R), tornando a célula responsiva à IL-23 estabilizadora. Ao mesmo tempo, RORγt reprime T-bet e GATA-3.</p>
+
+<h3>Citocinas efetoras e funções</h3>
+
+<h4>IL-17A e IL-17F — mobilização de neutrófilos</h4>
+<p><strong>IL-17A</strong> e <strong>IL-17F</strong> (que formam homo e heterodímeros) agem principalmente sobre células epiteliais, fibroblastos, células endoteliais e macrófagos teciduais via receptor IL-17RA/RC. O efeito central é a indução de <strong>G-CSF</strong> (<em>granulocyte colony-stimulating factor</em>) e de quimiocinas CXC (especialmente CXCL1, CXCL5, CXCL8/IL-8). G-CSF estimula a granulopoiese na medula óssea e a liberação de neutrófilos; CXCLs os recrutam para o sítio de infecção. O resultado é um rápido influxo de neutrófilos para mucosas — o mecanismo efitor central contra <em>Candida</em> e bactérias extracelulares com parede espessa como <em>Staphylococcus aureus</em> e <em>Klebsiella pneumoniae</em>.</p>
+
+<h4>IL-22 — barreira epitelial e reparação</h4>
+<p><strong>IL-22</strong> (<em>interleucina-22</em>) é produzida por Th17 mas também por ILC3 e é peculiar porque age exclusivamente em células não-hematopoiéticas (células epiteliais, hepatócitos, queratinócitos) via receptor IL-22R1/IL-10R2. Nas mucosas intestinais e cutâneas, IL-22 induz: (1) expressão de peptídeos antimicrobianos como defensinas, RegIIIγ e S100 proteins; (2) proliferação de células epiteliais, acelerando reparação após dano; (3) produção de muco e tight junctions mais resistentes. IL-22 é, portanto, um fator de resiliência epitelial — mantém a barreira intacta enquanto a resposta imune elimina o patógeno.</p>
+
+<h3>IL-23: o estabilizador, não o iniciador</h3>
+<p>Um ponto frequentemente confundido: <strong>IL-23 não inicia a diferenciação de Th17</strong> — ela estabiliza e expande células Th17 já comprometidas. Isso ocorre porque células Th17 naïves expressam baixos níveis de IL-23R, que só é upregulado após RORγt ser induzido por TGF-β + IL-6. IL-23 compartilha a subunidade p40 com IL-12 (formando IL-12 = p35+p40; IL-23 = p19+p40). Essa arquitetura molecular explica por que o anticorpo anti-p40 (ustekinumabe) bloqueia simultaneamente IL-12 (→Th1) e IL-23 (→Th17) — e retorna ao paradoxo clínico da nossa pergunta motivadora.</p>
+
+<h3>Implicações clínicas</h3>
+<p>Deficiência de Th17 — por mutações em IL-17F, IL-17RA, IL-17RC, STAT3 (síndrome de Job/hiper-IgE) ou DOCK8 — resulta em suscetibilidade específica a <em>Candida mucocutânea</em> crônica e a infecções bacterianas de pele e pulmão. Excesso de Th17, por outro lado, está na base de doenças autoimunes como psoríase (IL-17A é o alvo dos secuquinumabe/ixequizumabe), espondilite anquilosante, artrite reumatoide (componente) e esclerose múltipla. A doença de Crohn apresenta componentes tanto de Th1 (IFN-γ, IL-12) quanto de Th17 (IL-23, IL-17), o que explica o benefício do ustekinumabe em bloquear a subunidade p40 comum.</p>
+
+<div class="kbox">
+  <div class="klabel">Controvérsia — IL-17 em IBD</div>
+  <p>Embora Th17 esteja elevado na doença de Crohn e na colite ulcerativa, ensaios clínicos com inibidores de IL-17A (secuquinumabe) em IBD falharam ou até pioraram a doença. Isso sugeriu que IL-17A tem papel protetor na barreira intestinal (via IL-22-like effects) mesmo quando IL-23 e Th17 contribuem para inflamação. O mesmo biológico que trata psoríase pode agravar Crohn — uma ilustração de que a mesma citocina pode ser patogênica em um tecido e protetora em outro. Estado atual: secuquinumabe é contraindicado em IBD; o alvo IL-23 (rizankizumabe, guselcumabe) sem bloqueio de IL-12 mostra benefício em Crohn sem esse paradoxo.</p>
+</div>
+</section>
+
+<section id="plasticidade">
+<h2>Plasticidade e Estabilidade: o mito do subtipo fixo</h2>
+
+<div class="hist">
+  <span class="hl">Contexto histórico · 2007–2014</span>
+  A ideia de que subtipos Th são estáveis uma vez comprometidos foi desafiada a partir de 2007, quando estudos de rastreamento de linhagem (<em>lineage tracing</em>) mostraram que células Th17 podiam se converter em Th1-like em ambientes ricos em IL-12 — expressando T-bet e produzindo IFN-γ sem perder totalmente RORγt. Essas células "exTh17" ou Th1/17 são hoje identificadas em lesões de psoríase, articulações reumatoides e placas de esclerose múltipla. O debate sobre sua patogenicidade versus a de Th17 "puro" permanece aberto.
+</div>
+
+<p>A visão de subtipos Th como categorias fixas e mutuamente exclusivas é uma convenção pedagógica útil, não uma realidade biológica absoluta. Três fenômenos complicam o modelo:</p>
+
+<p><strong>1. Instabilidade contextual:</strong> Em ambientes ricos em IL-12, células Th17 comprometidas podem co-expressar T-bet e produzir IFN-γ mantendo alguma produção de IL-17 — as chamadas células "Th1/17". Esse fenótipo duplo-positivo é encontrado em sítios de autoimunidade crônica e pode ser mais patogênico que Th17 ou Th1 isolados.</p>
+
+<p><strong>2. Regulação epigenética:</strong> O comprometimento de linhagem envolve tanto ativação de regiões acessíveis de cromatina (<em>open chromatin</em>) nos loci das citocinas do próprio subtipo quanto repressão via H3K27me3 (marca supressora) nos loci rivais. A plasticidade é possível quando essas marcas epigenéticas são parcialmente reversíveis — o que é mais comum em células Th17 do que Th1, explicando por que Th17 é o subtipo mais "plástico".</p>
+
+<p><strong>3. Células Th com perfis múltiplos:</strong> Células Th que produzem simultaneamente IL-17 e IL-22 sem IL-4 nem IFN-γ são referidas como Th22 em alguns contextos (pele); células que produzem IL-17 + IL-4 foram descritas em atopia grave. A nomenclatura ainda não é consensual.</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>A maioria dos dados de plasticidade Th vem de modelos murinos ou experimentos in vitro com polarização em condições extremas. In vivo em humanos, a conversão de subtipo é provavelmente mais rara e mais dependente do microambiente local do que os modelos sugerem. Dados de célula única (scRNA-seq) de lesões humanas mostram espectros de co-expressão, não conversões limpas — o campo ainda não sabe se isso representa transição de estado ou heterogeneidade populacional estável.</p>
+</div>
+</section>
+
+<section id="tabela-comparativa">
+<h2>Tabela comparativa: Th1, Th2 e Th17</h2>
+<table>
+  <caption>Tabela 1. Comparativo entre os três principais subtipos de células T auxiliares. MTF = fator de transcrição mestre; APCs = células apresentadoras de antígeno.</caption>
+  <thead>
+    <tr><th>Característica</th><th>Th1</th><th>Th2</th><th>Th17</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>MTF</td><td>T-bet</td><td>GATA-3</td><td>RORγt</td></tr>
+    <tr><td>Citocina polarizadora principal</td><td>IL-12 + IFN-γ</td><td>IL-4</td><td>TGF-β + IL-6 + IL-1β (→IL-23 para estabilizar)</td></tr>
+    <tr><td>STAT ativado</td><td>STAT4 (IL-12), STAT1 (IFN-γ)</td><td>STAT6 (IL-4)</td><td>STAT3 (IL-6, IL-23)</td></tr>
+    <tr><td>Citocinas efetoras</td><td>IFN-γ, TNF, LT-α</td><td>IL-4, IL-5, IL-13, IL-9, IL-10*</td><td>IL-17A, IL-17F, IL-22, IL-21</td></tr>
+    <tr><td>Célula efetora principal</td><td>Macrófago M1</td><td>Eosinófilo, mastócito, linfócito B (IgE)</td><td>Neutrófilo</td></tr>
+    <tr><td>Função protetora</td><td>Patógenos intracelulares (Mycobacterium, Leishmania, Listeria)</td><td>Helmintos; expulsão via IgE/mastócitos</td><td>Fungos e bactérias extracelulares em mucosas (Candida, S. aureus, Klebsiella)</td></tr>
+    <tr><td>Análogo ILC inato</td><td>ILC1 (produz IFN-γ, T-bet)</td><td>ILC2 (produz IL-5, IL-13, GATA-3)</td><td>ILC3 (produz IL-17, IL-22, RORγt)</td></tr>
+    <tr><td>Patologias por excesso</td><td>Diabetes tipo 1, doença de Crohn (componente), esclerose múltipla</td><td>Asma alérgica, dermatite atópica, rinite, alergia alimentar</td><td>Psoríase, espondilite anquilosante, artrite, esclerose múltipla</td></tr>
+    <tr><td>Deficiência clínica</td><td>MSMD (suscetibilidade a micobactérias/Salmonela)</td><td>Vulnerabilidade a helmintos</td><td>Candidíase mucocutânea crônica; síndrome de Job (STAT3 LOF)</td></tr>
+    <tr><td>Alvos terapêuticos validados</td><td>Anti-IFN-γ (anifrolumabe em LES), anti-IL-12p40 (ustekinumabe)</td><td>Anti-IL-4Rα (dupilumabe), anti-IL-5 (mepolizumabe), anti-IgE (omalizumabe)</td><td>Anti-IL-17A (secuquinumabe/ixequizumabe), anti-IL-23p19 (rizankizumabe), anti-IL-23p40 (ustekinumabe)</td></tr>
+  </tbody>
+</table>
+<p style="font-size:13px;color:var(--muted)">*IL-10 em Th2 é contextual — IL-10 é também produzida por Treg e macrófagos M2; não é exclusiva de Th2.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outros materiais</h2>
+<ul>
+  <li><a class="cross-link" href="linfocitos-t-diferenciacao.html#subtipos-th">M8 §Subtipos Th</a> — visão geral de todos os subtipos, incluindo Tfh e Treg</li>
+  <li><a class="cross-link" href="hipersensibilidade.html#tipo-i">M10 §Tipo I</a> — mecanismo completo da hipersensibilidade IgE-mediada (produto de Th2)</li>
+  <li><a class="cross-link" href="hipersensibilidade.html#tipo-iv">M10 §Tipo IV</a> — reação de hipersensibilidade tardia mediada por Th1 (DTH, granuloma)</li>
+  <li><a class="cross-link" href="resposta-a-patogenos.html#fungos">M9 §Fungos</a> — papel de Th17 e Th1 em micoses oportunistas</li>
+  <li><a class="cross-link" href="imunidade-inata.html#ilcs">M4 §ILCs</a> — ILC1, ILC2 e ILC3 como análogos inatos de Th1, Th2, Th17</li>
+  <li><a class="cross-link" href="moleculas-sistema-imune.html#citocinas">M3 §Citocinas</a> — receptores, vias de sinalização (STAT) e função de IL-4, IL-12, IL-6</li>
+  <li><a class="cross-link" href="anticorpos-imunidade-humoral.html#troca-isotipo">M7 §Troca de isotipo</a> — mecanismo pelo qual IL-4 instrui o linfócito B a produzir IgE</li>
+</ul>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 1</div>
+  <p>Qual é o mecanismo pelo qual a microbiota intestinal — especialmente bactérias como <em>Clostridium</em> spp. segmentadas filamentosas (SFB) — instrui preferencialmente a diferenciação de Th17 no intestino? O sinal molecular que vai do epitélio ao DC ainda não está completamente definido: é APRIL, IL-18, IL-34, ou um lipídeo bacteriano não identificado? <span class="cite">(IVANOV et al., 2009; ATARASHI et al., 2015)</span></p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 2</div>
+  <p>Células "exTh17" (Th1/17 duplo-positivas) são mais patogênicas na esclerose múltipla e artrite do que Th17 "puros"? Se sim, por quê — é o IFN-γ adicionado, a combinação IFN-γ + IL-17, ou a perda de IL-22 protetora? Os dados de modelos murinos e scRNA-seq em humanos ainda não convergem. <span class="cite">(ANNUNZIATO et al., 2007; DUSCHA et al., 2020)</span></p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 3</div>
+  <p>Por que IL-17A agrava doença inflamatória intestinal (IBD) apesar de IL-23 ser um alvo terapêutico validado em Crohn? O paradoxo secuquinumabe/IBD ainda não tem mecanismo completamente elucidado — hipóteses incluem perda de IL-22 epitelial protetora desacoplada de IL-17, ou downregulation de tight junctions mediada por IL-17 no intestino. <span class="cite">(TARGAN et al., 2016; HUEBER et al., 2012)</span></p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Pergunta em aberto 4</div>
+  <p>Qual é o papel exato das células Th2 na resolução de inflamação versus sua manutenção crônica? IL-10 produzida por subsets de Th2 e pela polarização M2 de macrófagos suprime inflamação — mas em asmáticos crônicos, Th2 é persistente mesmo sem exposição ao alérgeno. O mecanismo de manutenção de células Th2 de memória de longa duração no pulmão é ainda pouco compreendido. <span class="cite">(FLOYD et al., 2021)</span></p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+
+<h3>Fechando a pergunta motivadora</h3>
+<p>O ustekinumabe bloqueia a subunidade p40 compartilhada por IL-12 e IL-23. Na doença de Crohn, IL-12 alimenta a resposta Th1 (IFN-γ, macrófagos M1 atacando a mucosa) e IL-23 sustenta Th17 (IL-17, inflamação neutrofílica). Bloqueando p40, o ustekinumabe reduz simultaneamente ambas as respostas pró-inflamatórias — daí a melhora da doença. O preço é que IL-23 é também o sinal que estabiliza e expande células Th17 protetoras nas mucosas cutâneas. Sem IL-23, as Th17 de pele não se expandem adequadamente em resposta a <em>Candida</em>, o recrutamento de neutrófilos falha, e a infecção progride. A mesma faca que corta a inflamação autoimune corta a defesa antifúngica — porque usam o mesmo eixo IL-23/Th17.</p>
+
+<h3>Tensão e paradoxos</h3>
+<p>O paradigma Th1/Th2 foi revolucionário porque mostrou que o sistema imune não apenas responde a ameaças — ele escolhe <em>como</em> responder, e essa escolha tem consequências patológicas quando mal calibrada. Mas o paradoxo central permanece: os mesmos mecanismos que nos protegem de patógenos são os que produzem alergia, autoimunidade e inflamação crônica. Th2 evoluiu para expulsar helmintos intestinais; em ambientes com baixa carga parasitária, esse mesmo circuito reage a ácaros e amendoim com anafilaxia. Th17 evoluiu para defender mucosas contra fungos; em articulações e placas ateroscleróticas, esse mesmo circuito produz erosão tecidual crônica.</p>
+
+<h3>Implicação emergente</h3>
+<p>A lógica dos biológicos imunológicos modernos é, em essência, a tradução farmacológica do paradigma Th: identificar qual subtipo está hiperativo em determinada doença e bloquear seletivamente sua citocina efetora ou seu sinal polarizador. O succès terapêutico de dupilumabe em atopia (anti-Th2), secuquinumabe em psoríase (anti-Th17) e ustekinumabe em Crohn (anti-Th1/Th17) confirma que o modelo — com todas as suas limitações — captura algo real e clinicamente acionável. O próximo passo, já em desenvolvimento, é modular a polarização upstream — influenciar as DCs ou o microambiente epitelial para que o CD4⁺ naïve nunca receba o sinal 3 patológico, em vez de bloquear a citocina efetora downstream depois que a resposta já foi montada.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+<ul>
+  <li><strong>Abbas AK, Lichtman AH, Pillai S.</strong> <em>Cellular and Molecular Immunology.</em> 11ª ed. Elsevier, 2024. Cap. 10 (Ativação de células T) e Cap. 11 (Funções efetoras dos linfócitos T). <span class="badge-voce">VOCÊ TEM</span></li>
+  <li><strong>Murphy K, Weaver C.</strong> <em>Janeway's Immunobiology.</em> 10ª ed. Garland Science, 2022. Cap. 9. Desenvolvimento conceitual dos subtipos Th com foco em mecanismos moleculares.</li>
+  <li><strong>Mosmann TR, Coffman RL.</strong> TH1 and TH2 cells: different patterns of lymphokine secretion lead to different functional properties. <em>Annual Review of Immunology</em>, v. 7, p. 145–173, 1989. <a href="https://doi.org/10.1146/annurev.iy.07.040189.001045" target="_blank" rel="noopener" style="color:var(--ac)">DOI</a> — artigo original fundador.</li>
+  <li><strong>Harrington LE et al.</strong> Interleukin 17-producing CD4+ effector T cells develop via a lineage distinct from the T helper type 1 and 2 lineages. <em>Nature Immunology</em>, v. 6, p. 1123–1132, 2005. <a href="https://doi.org/10.1038/ni1254" target="_blank" rel="noopener" style="color:var(--ac)">DOI</a></li>
+  <li><strong>Ivanov II et al.</strong> The orphan nuclear receptor RORγt directs the differentiation program of proinflammatory IL-17+ T helper cells. <em>Cell</em>, v. 126, n. 6, p. 1121–1133, 2006. <a href="https://doi.org/10.1016/j.cell.2006.07.035" target="_blank" rel="noopener" style="color:var(--ac)">DOI</a></li>
+</ul>
+</section>
+
+<section id="referencias">
+<h2>Referências ABNT</h2>
+<p class="ref-item">ANNUNZIATO, F. et al. Phenotypic and functional features of human Th17 cells. <em>Journal of Experimental Medicine</em>, v. 204, n. 8, p. 1849–1861, 2007. Disponível em: <a href="https://doi.org/10.1084/jem.20070663" target="_blank" rel="noopener">https://doi.org/10.1084/jem.20070663</a>.</p>
+<p class="ref-item">ATARASHI, K. et al. Treg induction by a rationally selected mixture of Clostridia strains from the human microbiota. <em>Nature</em>, v. 500, n. 7461, p. 232–236, 2013. Disponível em: <a href="https://doi.org/10.1038/nature12331" target="_blank" rel="noopener">https://doi.org/10.1038/nature12331</a>.</p>
+<p class="ref-item">DUSCHA, A. et al. Propionic acid shapes the multiple sclerosis disease course by an immunomodulatory mechanism. <em>Cell</em>, v. 180, n. 6, p. 1067–1080, 2020. Disponível em: <a href="https://doi.org/10.1016/j.cell.2020.02.035" target="_blank" rel="noopener">https://doi.org/10.1016/j.cell.2020.02.035</a>.</p>
+<p class="ref-item">FLOYD, T. L. et al. Coihibitory receptor expression on CD4+ T cells is associated with immune-mediated tissue injury. <em>JCI Insight</em>, v. 6, n. 10, 2021. Disponível em: <a href="https://doi.org/10.1172/jci.insight.147868" target="_blank" rel="noopener">https://doi.org/10.1172/jci.insight.147868</a>.</p>
+<p class="ref-item">HARRINGTON, L. E. et al. Interleukin 17-producing CD4+ effector T cells develop via a lineage distinct from the T helper type 1 and 2 lineages. <em>Nature Immunology</em>, v. 6, p. 1123–1132, 2005. Disponível em: <a href="https://doi.org/10.1038/ni1254" target="_blank" rel="noopener">https://doi.org/10.1038/ni1254</a>.</p>
+<p class="ref-item">HUEBER, W. et al. Secukinumab, a human anti-IL-17A monoclonal antibody, for moderate to severe Crohn's disease: unexpected results of a randomised, double-blind placebo-controlled trial. <em>Gut</em>, v. 61, n. 12, p. 1693–1700, 2012. Disponível em: <a href="https://doi.org/10.1136/gutjnl-2011-301668" target="_blank" rel="noopener">https://doi.org/10.1136/gutjnl-2011-301668</a>.</p>
+<p class="ref-item">IVANOV, I. I. et al. The orphan nuclear receptor RORγt directs the differentiation program of proinflammatory IL-17+ T helper cells. <em>Cell</em>, v. 126, n. 6, p. 1121–1133, 2006. Disponível em: <a href="https://doi.org/10.1016/j.cell.2006.07.035" target="_blank" rel="noopener">https://doi.org/10.1016/j.cell.2006.07.035</a>.</p>
+<p class="ref-item">MOSMANN, T. R.; COFFMAN, R. L. TH1 and TH2 cells: different patterns of lymphokine secretion lead to different functional properties. <em>Annual Review of Immunology</em>, v. 7, p. 145–173, 1989. Disponível em: <a href="https://doi.org/10.1146/annurev.iy.07.040189.001045" target="_blank" rel="noopener">https://doi.org/10.1146/annurev.iy.07.040189.001045</a>.</p>
+<p class="ref-item">PARK, H. et al. A distinct lineage of CD4 T cells regulates tissue inflammation by producing interleukin 17. <em>Nature Immunology</em>, v. 6, p. 1133–1141, 2005. Disponível em: <a href="https://doi.org/10.1038/ni1261" target="_blank" rel="noopener">https://doi.org/10.1038/ni1261</a>.</p>
+<p class="ref-item">TARGAN, S. R. et al. A randomized, double-blind, placebo-controlled phase 2 study of brodalumab in patients with moderate-to-severe Crohn's disease. <em>American Journal of Gastroenterology</em>, v. 111, n. 11, p. 1599–1607, 2016. Disponível em: <a href="https://doi.org/10.1038/ajg.2016.298" target="_blank" rel="noopener">https://doi.org/10.1038/ajg.2016.298</a>.</p>
+</section>
+
+</div><!-- .prose -->
+</main>
+
+</div><!-- #body-wrap -->
+
+<script>
+(function(){
+  // Sidebar toggle
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var btn = document.getElementById('toggle-btn');
+  function applyCollapsed(c){
+    if(c){sidebar.classList.add('collapsed');bodyWrap.classList.add('sidebar-collapsed');btn.textContent='▶';}
+    else{sidebar.classList.remove('collapsed');bodyWrap.classList.remove('sidebar-collapsed');btn.textContent='◀';}
+  }
+  var stored = sessionStorage.getItem('sidebar-collapsed');
+  applyCollapsed(stored==='1');
+  btn.addEventListener('click',function(){
+    var c=!sidebar.classList.contains('collapsed');
+    applyCollapsed(c);
+    sessionStorage.setItem('sidebar-collapsed',c?'1':'');
+  });
+
+  // Mobile toggle
+  var mobBtn = document.getElementById('mob-toggle');
+  if(mobBtn) mobBtn.addEventListener('click',function(){sidebar.classList.toggle('open');});
+
+  // Progress bar
+  var bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll',function(){
+    var s=document.documentElement;
+    bar.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%';
+  },{passive:true});
+
+  // Sidebar active link + section highlight
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('a.sl');
+  var obs1 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active');});
+        var a=document.querySelector('a.sl[href="#'+e.target.id+'"]');
+        if(a)a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  var obs2 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting)e.target.classList.add('in-view');
+      else e.target.classList.remove('in-view');
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(function(s){obs1.observe(s);obs2.observe(s);});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antifúngicos — Farmacologia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;display:flex;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+#body-wrap{display:flex;width:100%;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;flex-shrink:0}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px}
+#toggle-btn:hover{color:var(--text)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0}
+#sidebar.collapsed .s-inner>*{opacity:0;pointer-events:none}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 12px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.s-group-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:5px 16px;border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3)}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-size:2rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:8px}
+h2{font-size:1.25rem;font-weight:600;color:var(--text);margin:48px 0 16px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px}
+h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.05em}
+p{margin-bottom:16px}
+ul,ol{margin:0 0 16px 24px}
+li{margin-bottom:6px}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+.doc-header{margin-bottom:40px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px}
+th{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;border-bottom:2px solid var(--border);text-align:left}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover td{background:var(--bg2)}
+caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;padding-top:6px;text-align:left}
+.cite{color:var(--ac);font-size:.85em}
+.ref-list{font-size:14px;line-height:1.7}
+.ref-list p{margin-bottom:10px;color:var(--muted)}
+.ref-list a{color:var(--ac)}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);padding:10px 16px;z-index:50}
+  #mob-bar button{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  .dep-row{flex-direction:column}
+}
+@media print{body{background:#fff;color:#000}#sidebar,#progress-bar,#mob-bar{display:none}#content{padding:0}a::after{content:" (" attr(href) ")";font-size:11px}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="body-wrap" id="bw">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn" title="Colapsar sidebar">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Farmacologia</div>
+    <div class="s-group">
+      <div class="s-group-label">Neste compêndio</div>
+      <a class="sl" href="#pergunta-motivadora">Pergunta motivadora</a>
+      <a class="sl" href="#fundamentos">Fundamentos</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#polienios">Poliênios</a>
+      <a class="sl" href="#azois">Azóis</a>
+      <a class="sl" href="#equinocandinas">Equinocandinas</a>
+      <a class="sl" href="#outros">Outros antifúngicos</a>
+      <a class="sl" href="#resistencia">Resistência</a>
+      <a class="sl" href="#novos-agentes">Novos agentes</a>
+      <a class="sl" href="#contexto-br">Contexto brasileiro</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Série Farmacologia</div>
+      <a class="sl" href="../hipertensao_sraa_anti-hipertensivos.html">SRAA e Anti-hipertensivos</a>
+      <a class="sl" href="../antiagregantes-anticoagulantes-tromboliticos.html">Anticoagulantes</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Relacionados</div>
+      <a class="sl" href="../../microbiologia/micologia-medica.html">Micologia Médica</a>
+      <a class="sl" href="../../imunologia/resposta-a-patogenos.html">Resposta a Patógenos</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Antifúngicos</h1>
+  <p class="doc-meta">Farmacologia · Quimioterapia antimicrobiana · Rang &amp; Dale's Pharmacology, 10ª ed. · 2026-06-24</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~45 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>ergosterol, parede fúngica, β-1,3-glucana</b></span>
+    <span class="chip">🔗 Depende de: <b>Micologia Médica</b></span>
+    <span class="chip">📍 Área: <b>Farmacologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+  </div>
+</div>
+
+<section id="pergunta-motivadora">
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente neutropênico em uso de corticoide de longa data desenvolve candidemia. O clínico precisa escolher entre fluconazol, caspofungina e anfotericina B lipossomal. Por que cada um desses fármacos é eficaz contra fungos sem destruir células humanas? E por que a resistência ao fluconazol torna a caspofungina preferível — mesmo que ela atinja um alvo completamente diferente?</p>
+</div>
+</section>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../../microbiologia/micologia-medica.html">Micologia Médica (ergosterol, parede fúngica, dimorfismo)</a>
+      <a class="dep-item" href="../../imunologia/resposta-a-patogenos.html">Resposta a Patógenos (imunidade antifúngica — Th17, neutrófilos)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="#">Farmacocinética geral (F1 — pendente)</a>
+      <a class="dep-item" href="#">Receptores e transdução de sinal (F2 — pendente)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Antibióticos — mecanismo e resistência (F6 — pendente)</a>
+      <a class="dep-item" href="#">Imunossuprimidos e infecções oportunistas (futuro)</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+
+<p>Os antifúngicos exploram diferenças bioquímicas entre o fungo e o hospedeiro humano — a chamada <strong>toxicidade seletiva</strong>. Três estruturas fúngicas sem equivalente na célula de mamífero são os alvos primários: o <strong>ergosterol</strong> da membrana plasmática, a <strong>β-1,3-glucana sintase</strong> da parede celular e certas enzimas do metabolismo do ergosterol. A ausência dessas estruturas em células humanas (que usam colesterol em vez de ergosterol e não possuem parede celular) é a base racional da farmacologia antifúngica.</p>
+
+<p>O ergosterol cumpre nas membranas fúngicas o papel análogo ao do colesterol nas células de mamíferos: regula fluidez, integridade e função de proteínas de membrana. Sua biossíntese envolve uma via longa (via do mevalonato → esqualeno → lanosterol → ergosterol) onde a enzima <strong>14α-esterol desmetilase</strong> (codificada pelo gene <em>ERG11</em> em <em>Candida</em> e <em>cyp51A</em> em <em>Aspergillus</em>) catalisa um passo indispensável. Essa enzima é um citocromo P450 fúngico — estruturalmente distinto dos CYPs humanos, o que torna possível a inibição seletiva pelos azóis.</p>
+
+<p>A parede celular fúngica, ausente em células humanas, é uma camada protetora composta por β-1,3-glucana (estrutural, sintetizada pela enzima FKS1/FKS2), quitina e manoproteínas. A β-1,3-glucana é o alvo das equinocandinas — uma estrutura inexistente no hospedeiro, tornando esse alvo quase ideal em termos de toxicidade seletiva.</p>
+
+<div class="kbox">
+  <div class="klabel">Por que há tão poucos antifúngicos?</div>
+  <p>A célula fúngica é eucariota, assim como a célula humana. Ao contrário das bactérias (procariotas), os fungos compartilham ribossomos 80S, maquinaria de síntese proteica e organelas com o hospedeiro — o que drasticamente reduz os alvos com toxicidade seletiva. O número limitado de classes farmacológicas (3 principais) reflete esse constrangimento biológico fundamental <span class="cite">(FISHER et al., 2022)</span>.</p>
+</div>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave</h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Ergosterol</div><p>Esterol da membrana fúngica; alvo de poliênios (ligação direta) e azóis (inibição da síntese)</p></div>
+  <div class="ck-card"><div class="ckt">ERG11 / cyp51A</div><p>Gene que codifica a 14α-esterol desmetilase — alvo molecular dos azóis; mutações → resistência</p></div>
+  <div class="ck-card"><div class="ckt">β-1,3-glucana</div><p>Polissacarídeo estrutural da parede fúngica sintetizado pela enzima FKS1/FKS2; alvo das equinocandinas</p></div>
+  <div class="ck-card"><div class="ckt">FKS1 / FKS2</div><p>Genes que codificam a β-1,3-glucana sintase; mutações nos <em>hot spots</em> → resistência às equinocandinas</p></div>
+  <div class="ck-card"><div class="ckt">CYP P450 fúngico</div><p>A 14α-esterol desmetilase é estruturalmente diferente dos CYPs humanos — base da seletividade dos azóis</p></div>
+  <div class="ck-card"><div class="ckt">Efflux pumps (MDR)</div><p>Proteínas transportadoras (Cdr1/Cdr2, Mdr1) que expulsam azóis da célula fúngica — mecanismo de resistência</p></div>
+  <div class="ck-card"><div class="ckt">CMI / MIC</div><p>Concentração Mínima Inibitória — parâmetro chave para definir suscetibilidade e guiar dose</p></div>
+  <div class="ck-card"><div class="ckt">Fungistático vs. fungicida</div><p>Azóis são fungistáticos (inibem crescimento); poliênios e equinocandinas são fungicidas (matam o fungo)</p></div>
+  <div class="ck-card"><div class="ckt">Toxicidade seletiva</div><p>Eficácia baseada em diferenças bioquímicas entre fungo e hospedeiro; limitada porque ambos são eucariotas</p></div>
+</div>
+</section>
+
+<section id="polienios">
+<h2>Poliênios — Anfotericina B e Nistatina</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1955–1959</span>
+  Em 1955, Elizabeth Hazen e Rachel Brown isolaram da bactéria do solo <em>Streptomyces noursei</em> um composto antifúngico que denominaram nistatina — em homenagem ao estado de Nova York onde trabalhavam. Em 1958, a anfotericina B foi isolada de <em>Streptomyces nodosus</em> por pesquisadores da Squibb. A anfotericina B tornou-se o padrão terapêutico para infecções fúngicas sistêmicas graves durante décadas — e, apesar da nefrotoxicidade, continua sendo o fármaco de escolha para casos críticos <span class="cite">(CARMO et al., 2023)</span>.
+</div>
+
+<h3>Mecanismo de ação</h3>
+
+<p>A anfotericina B é uma molécula anfipática com uma porção hidrofóbica (cadeia poliênica) e uma porção hidrofílica (cadeia polihidroxi). Sua ação envolve dois mecanismos que se complementam:</p>
+
+<p><strong>Mecanismo primário — ligação ao ergosterol e formação de poros.</strong> A anfotericina B tem alta afinidade pelo ergosterol da membrana fúngica. Após inserção na membrana, moléculas de anfotericina B se agrupam em redor das moléculas de ergosterol formando <strong>poros transmembrana</strong> (canais anfotericínicos). Cada poro é constituído por ~8–10 moléculas dispostas em anel, com a face hidrofóbica voltada para os lipídeos da membrana e a face hidrofílica formando um canal central aquoso. Esses poros permitem o vazamento de íons K⁺, Mg²⁺, H⁺ e pequenas moléculas intracelulares, levando à despolarização da membrana, colapso do gradiente eletroquímico e morte celular — ação <strong>fungicida</strong>.</p>
+
+<p><strong>Mecanismo secundário — dano oxidativo.</strong> A anfotericina B também estimula a produção de espécies reativas de oxigênio (ROS) no interior da célula fúngica, contribuindo para dano oxidativo às membranas e organelas — efeito independente do poro.</p>
+
+<p><strong>Por que afeta células humanas?</strong> O colesterol (presente em membranas humanas) tem menor afinidade pela anfotericina B do que o ergosterol. Ainda assim, a seletividade é incompleta — a anfotericina B também se liga ao colesterol em menor grau, o que explica a nefrotoxicidade. Nas formulações lipossomais (ver abaixo), a droga é encapsulada em lipossomas que preferencialmente se acumulam em sítios de infecção fúngica, reduzindo a exposição renal.</p>
+
+<h3>Formulações e implicações clínicas</h3>
+
+<table>
+  <thead>
+    <tr><th>Formulação</th><th>Apresentação</th><th>Nefrotoxicidade</th><th>Indicação preferencial</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Desoxicolato (convencional)</td><td>0,5–1,5 mg/kg/dia IV</td><td>Alta (~80% dos pacientes)</td><td>Fungos raros, recursos limitados</td></tr>
+    <tr><td>Lipossomal (AmBisome)</td><td>3–5 mg/kg/dia IV</td><td>Baixa</td><td>Primeira linha em candidemia grave, aspergilose, mucormicose, criptococose em AIDS</td></tr>
+    <tr><td>Complexo lipídico (ABLC)</td><td>5 mg/kg/dia IV</td><td>Intermediária</td><td>Alternativa lipossomal</td></tr>
+    <tr><td>Dispersão coloidal (ABCD)</td><td>3–4 mg/kg/dia IV</td><td>Baixa, mas infusional alta</td><td>Menos usada</td></tr>
+  </tbody>
+  <caption>Tabela 1. Formulações de anfotericina B — perfil farmacológico comparativo.</caption>
+</table>
+
+<p>A nistatina tem o mesmo mecanismo da anfotericina B, mas não é absorvida pelo trato gastrointestinal e é toxicidade sistêmica inaceitável se administrada por via IV. Seu uso é restrito a infecções mucocutâneas tópicas por <em>Candida</em> (suspensão oral para candidíase oral, creme/pomada para candidíase cutânea e vulvovaginal).</p>
+
+<div class="kbox">
+  <div class="klabel">Limites do modelo</div>
+  <p>A formação de poros pela anfotericina B foi proposta por Finkelstein &amp; Holz (1973) com base em estudos em bicamadas lipídicas artificiais. Estudos mais recentes com microscopia crioeletrônica questionam se os poros formam canais transmembrana completos <em>in vivo</em> ou se atuam mais como "esponjas" de ergosterol que sequestram o esterol da membrana, desestabilizando-a sem necessariamente formar canais contínuos (Anderson et al., 2014 — modelo do "extrator de ergosterol"). Ambos os modelos coexistem na literatura; o modelo do poro clássico ainda é dominante nos livros-texto.</p>
+</div>
+</section>
+
+<section id="azois">
+<h2>Azóis — Inibidores da Síntese de Ergosterol</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1969–1990</span>
+  O primeiro imidazol sistêmico, o cetoconazol, foi introduzido em 1977 pela Janssen Pharmaceutica. Apesar da eficácia, sua hepatotoxicidade e supressão da síntese de cortisol (por inibição de CYPs humanos) limitaram o uso. A geração dos triazóis — fluconazol (1988), itraconazol (1992), voriconazol (2002), posaconazol (2006), isavuconazol (2015) — expandiu dramaticamente a terapêutica ao oferecer maior seletividade e espectro ampliado <span class="cite">(CARMO et al., 2023)</span>.
+</div>
+
+<h3>Mecanismo de ação</h3>
+
+<p>Os azóis inibem a enzima <strong>14α-esterol desmetilase</strong> (Erg11p em <em>Candida</em> spp., Cyp51A em <em>Aspergillus</em> spp.), um citocromo P450 fúngico que catalisa a desmetilação oxidativa do C-14 do lanosterol — etapa indispensável na biossíntese do ergosterol. O resultado é duplo:</p>
+
+<ol>
+  <li><strong>Depleção de ergosterol</strong> → desestruturação da membrana fúngica → inibição do crescimento (efeito <strong>fungistático</strong>).</li>
+  <li><strong>Acúmulo de 14α-metil-ergosta-8,24(28)-dien-3β,6α-diol</strong> (esterol metilado tóxico) → inibição da respiração mitocondrial e disfunção de membrana adicionais.</li>
+</ol>
+
+<p>O anel azólico (imidazol ou triazol) coordena o átomo de ferro do grupo heme no sítio ativo do CYP fúngico por meio de seu nitrogênio N3, ocupando o sítio onde normalmente se ligaria o oxigênio molecular e bloqueando o ciclo catalítico. A cadeia lateral do fármaco interage com resíduos hidrofóbicos específicos do bolso de ligação — essas interações determinam a seletividade entre o CYP fúngico e os CYPs humanos.</p>
+
+<p>Imidazóis (cetoconazol) têm menor seletividade — inibem também CYP17A1 (biossíntese de cortisol e esteroides sexuais) e CYP11A1 (colesterol → pregnenolona) em doses terapêuticas, causando ginecomastia, impotência e insuficiência adrenal. Triazóis possuem maior seletividade para o CYP fúngico, mas <em>ainda</em> inibem CYPs humanos (CYP3A4, CYP2C9, CYP2C19) de forma relevante — base das interações medicamentosas.</p>
+
+<h3>Espectro, farmacologia e usos</h3>
+
+<table>
+  <thead>
+    <tr><th>Fármaco</th><th>Via</th><th>Espectro principal</th><th>CYPs humanos</th><th>Uso clínico</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Fluconazol</strong></td>
+      <td>VO/IV</td>
+      <td><em>Candida</em> spp. (não C. krusei, C. glabrata variável), Cryptococcus (manutenção)</td>
+      <td>CYP2C9, CYP3A4</td>
+      <td>Candidíase oral/esofágica/vaginal; profilaxia em neutropênicos; manutenção criptococose em AIDS</td>
+    </tr>
+    <tr>
+      <td><strong>Itraconazol</strong></td>
+      <td>VO</td>
+      <td><em>Candida</em>, <em>Aspergillus</em>, dermatofitos, endêmicos (Histoplasma, Para, Esporotrix)</td>
+      <td>CYP3A4 (potente)</td>
+      <td>Histoplasmose, paracoccidioidomicose, onicomicose</td>
+    </tr>
+    <tr>
+      <td><strong>Voriconazol</strong></td>
+      <td>VO/IV</td>
+      <td><em>Aspergillus</em>, <em>Candida</em> (incl. C. krusei), Fusarium, Scedosporium</td>
+      <td>CYP2C19, CYP3A4 — variabilidade genética (CYP2C19 polimórfico); monitorização do nível sérico indicada</td>
+      <td><strong>1ª linha para aspergilose invasiva</strong>; fusariose</td>
+    </tr>
+    <tr>
+      <td><strong>Posaconazol</strong></td>
+      <td>VO/IV</td>
+      <td>Candida, Aspergillus, Mucorales, endêmicos</td>
+      <td>CYP3A4</td>
+      <td>Profilaxia em alto risco (leucemia/TCTH); mucormicose refratária</td>
+    </tr>
+    <tr>
+      <td><strong>Isavuconazol</strong></td>
+      <td>VO/IV</td>
+      <td>Aspergillus, Mucorales</td>
+      <td>CYP3A4 (fraco); menos interações</td>
+      <td>Alternativa a voriconazol; mucormicose</td>
+    </tr>
+  </tbody>
+  <caption>Tabela 2. Triazóis sistêmicos — farmacologia comparada.</caption>
+</table>
+
+<div class="kbox">
+  <div class="klabel">Interações medicamentosas — regra prática</div>
+  <p>Todos os triazóis sistêmicos são <strong>inibidores de CYP3A4</strong>. Fármacos com índice terapêutico estreito metabolizados por CYP3A4 (tacrolimo, ciclosporina, varfarina, midazolam, sirolimo) têm seus níveis séricos elevados quando co-administrados com azóis — exigindo redução de dose e monitorização. O isavuconazol é CYP3A4 indutor fraco em alguns contextos, gerando interações no sentido oposto para alguns substratos.</p>
+</div>
+
+<h3>Cetoconazol — o imidazol como caso de limites</h3>
+
+<p>O cetoconazol sistêmico foi aprovado em 1981 e retirado das indicações de primeira linha por agências regulatórias (FDA, 2013; EMA, 2013) para micoses sistêmicas — mantido apenas para síndrome de Cushing (por inibição de CYP11B1 e CYP11A1, reduzindo cortisol). O episódio histórico do cetoconazol ilustra que inibição promíscua de CYPs humanos é incompatível com segurança sistêmica sustentada.</p>
+</section>
+
+<section id="equinocandinas">
+<h2>Equinocandinas — Inibidores da Síntese de β-1,3-Glucana</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1974–2001</span>
+  As equinocandinas foram isoladas de <em>Aspergillus nidulans</em> na década de 1970, mas seu desenvolvimento clínico foi lento. A caspofungina (Cancidas, Merck) tornou-se o primeiro representante aprovado pelo FDA em 2001 — a única nova classe antifúngica introduzida em duas décadas. Micafungina (2005) e anidulafungina (2006) completaram o grupo. As equinocandinas representaram um avanço por atacar a parede celular fúngica — um alvo ausente no hospedeiro humano <span class="cite">(CARMO et al., 2023)</span>.
+</div>
+
+<h3>Mecanismo de ação</h3>
+
+<p>As equinocandinas inibem não-competitivamente a enzima <strong>β-1,3-glucana sintase</strong>, complexo multiproteico transmembrana codificado pelos genes <em>FKS1</em> e <em>FKS2</em>. Essa enzima polimeriza unidades de UDP-glicose em cadeias de β-1,3-glucana que se entrelaçam com quitina e manoproteínas para formar a parede celular fúngica.</p>
+
+<p>O resultado da inibição é:</p>
+<ol>
+  <li>Depleção de β-1,3-glucana → enfraquecimento estrutural da parede → osmofragilidade → lise celular (efeito <strong>fungicida</strong> para <em>Candida</em> — o fungo fica vulnerável às forças osmóticas).</li>
+  <li>Em <em>Aspergillus</em>, as equinocandinas são fungicidas nas pontas das hifas em crescimento ativo (onde FKS1 é mais ativo), mas fungistáticas no corpo micelial — o que confere eficácia clínica contra aspergilose apesar de CMIs mais altas.</li>
+</ol>
+
+<p>Por que são seguras? A β-1,3-glucana sintase não existe em células de mamíferos. As equinocandinas têm o melhor perfil de toxicidade seletiva entre todas as classes antifúngicas — o que explica a quase ausência de toxicidade grave e as poucas interações medicamentosas (não são substratos ou inibidores significativos de CYPs humanos).</p>
+
+<h3>Farmacologia comparada</h3>
+
+<table>
+  <thead>
+    <tr><th>Fármaco</th><th>Dose padrão</th><th>Via</th><th>t½</th><th>Peculiaridade</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Caspofungina</strong></td><td>70 mg ataque / 50 mg/dia</td><td>IV</td><td>9–11 h</td><td>Hidrólise espontânea + metabolismo hepático; interação com ciclosporina (↑ AST) e fenitoína (↓ caspofungina)</td></tr>
+    <tr><td><strong>Micafungina</strong></td><td>100 mg/dia (candidíase) / 150 mg (esofagiana)</td><td>IV</td><td>11–17 h</td><td>Sem dose de ataque; substrato de CYP3A4 fraco; aprovada para profilaxia em TCTH</td></tr>
+    <tr><td><strong>Anidulafungina</strong></td><td>200 mg ataque / 100 mg/dia</td><td>IV</td><td>24–26 h</td><td>Degradação química (não enzimática); sem interações via CYP — ideal em polifarmácia</td></tr>
+  </tbody>
+  <caption>Tabela 3. Equinocandinas — farmacologia comparada.</caption>
+</table>
+
+<p>As equinocandinas são ativas contra <em>Candida</em> spp. (incluindo C. glabrata e C. krusei, resistentes ao fluconazol) e <em>Aspergillus</em> spp. Não são ativas contra <em>Cryptococcus neoformans</em> (que tem pouca β-1,3-glucana na parede), Mucorales, <em>Fusarium</em> nem agentes de micoses endêmicas — o que delimita claramente as indicações.</p>
+
+<div class="kbox">
+  <div class="klabel">Por que Cryptococcus não responde às equinocandinas?</div>
+  <p><em>Cryptococcus neoformans</em> expressa muito menos FKS1 do que <em>Candida</em> e, além disso, sua enorme cápsula de glucuronoxilomanana (GXM) pode atuar como barreira física adicional. A baixa quantidade de β-1,3-glucana como alvo e diferenças estruturais na enzima FKS tornam as equinocandinas inativas in vitro e clinicamente ineficazes. Para criptococose, o tratamento é anfotericina B lipossomal + flucitosina na indução, seguido de fluconazol na manutenção.</p>
+</div>
+</section>
+
+<section id="outros">
+<h2>Outros Antifúngicos</h2>
+
+<h3>Flucitosina (5-FC) — antimetabólito</h3>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1957</span>
+  A flucitosina foi sintetizada como agente antineoplásico em 1957, mas mostrou atividade antifúngica seletiva porque as células de mamíferos carecem da enzima citosina desaminase. Seu uso isolado gera resistência rapidamente; a combinação com anfotericina B tornou-se padrão na criptococose.
+</div>
+
+<p>A 5-flucitosina (5-FC) é captada pelos fungos via permease de citosina (transportador específico) e convertida intracelularmente por <strong>citosina desaminase</strong> (ausente em células humanas) em <strong>5-fluorouracil (5-FU)</strong>, que então é fosforilado a <strong>5-fluorouridina trifosfato (5-FUTP)</strong> e <strong>5-fluorodesoxiuridina monofosfato (5-FdUMP)</strong>. O 5-FUTP é incorporado ao RNA fúngico (inibindo síntese proteica) e o 5-FdUMP inibe a timidilato sintase (bloqueando síntese de DNA). A ação é, portanto, dupla: inibição de síntese de RNA e DNA.</p>
+
+<p>A toxicidade em humanos é baixa porque as células humanas carecem de citosina desaminase. O uso clínico é <em>exclusivamente em combinação</em> (nunca em monoterapia): com anfotericina B na criptococose meníngea (sinergia — anfotericina aumenta a permeabilidade da membrana fúngica, facilitando a entrada de 5-FC). Espectro: <em>Candida</em>, <em>Cryptococcus</em>. Monitorização obrigatória: nível sérico (janela terapêutica estreita — toxicidade hematológica e hepática com níveis &gt;100 μg/mL).</p>
+
+<h3>Alilaminas — Terbinafina</h3>
+
+<p>As alilaminas inibem a <strong>esqualeno epoxidase</strong> (enzima Erg1p), que converte esqualeno em esqualeno-2,3-epóxido — passo anterior ao ergosterol. O acúmulo de esqualeno no interior fúngico é tóxico (perturbação de membrana). A seletividade é alta porque a esqualeno epoxidase fúngica tem menor afinidade pelas alilaminas do que a enzima humana.</p>
+
+<p>A terbinafina é fungicida contra dermatofitos em concentrações terapêuticas e é o antifúngico de <em>primeira linha para onicomicose</em> por dermatofito — com taxas de cura superiores a azóis tópicos e itraconazol oral. Metabolismo hepático extenso (CYP2C9, CYP3A4) — interações com varfarina, antidepressivos tricíclicos e β-bloqueadores (inibição de CYP2D6). Uso sistêmico: 250 mg/dia VO por 6 semanas (unhas das mãos) a 12 semanas (unhas dos pés).</p>
+
+<h3>Griseofulvina — inibidor de microtúbulos</h3>
+
+<p>A griseofulvina, isolada de <em>Penicillium griseofulvum</em> em 1939, atua acumulando-se na queratina recém-sintetizada e inibindo a polimerização de microtúbulos fúngicos (ligação à β-tubulina fúngica), bloqueando a mitose. Espectro restrito a dermatofitos. Uso moderno é limitado (substituída por terbinafina), mas ainda empregada em tinea capitis pediátrica (indisponibilidade de alternativas orais pediátricas em algumas regiões).</p>
+</section>
+
+<section id="resistencia">
+<h2>Resistência aos Antifúngicos</h2>
+
+<div class="hist">
+  <span class="hl">Nota histórica · 1988–2023</span>
+  A resistência ao fluconazol em <em>Candida</em> foi descrita logo após sua introdução em 1988, inicialmente em <em>C. albicans</em> de pacientes com AIDS usando profilaxia crônica. A emergência de <em>Candida auris</em> como patógeno multirresistente em 2009, a resistência ambiental de <em>Aspergillus fumigatus</em> a azóis vinculada ao uso agrícola de fungicidas e o surgimento de <em>Trichophyton indotineae</em> resistente a terbinafina compõem uma tríade de emergência documentada recentemente na <em>Nature Reviews Microbiology</em> <span class="cite">(LOCKHART; CHOWDHARY; GOLD, 2023)</span>.
+</div>
+
+<h3>Mecanismos de resistência a azóis</h3>
+
+<p><strong>1. Mutações em ERG11 / cyp51A.</strong> Mutações pontuais no gene que codifica a 14α-esterol desmetilase alteram o sítio de ligação do fármaco, reduzindo a afinidade. Em <em>Candida albicans</em>, as substituições mais frequentes são Y132F, K143R e F145L; em <em>Aspergillus fumigatus</em>, a mutação TR34/L98H (substituição no promotor + mutação de aminoácido) é a mais comum em cepas resistentes ambientais — associada à exposição a fungicidas triazólicos agrícolas <span class="cite">(FISHER et al., 2022)</span>.</p>
+
+<p><strong>2. Superexpressão de bombas de efluxo (MDR).</strong> Duas famílias de transportadores expulsam ativamente os azóis do interior da célula fúngica: <em>(a)</em> transportadores ABC (<em>CDR1, CDR2</em> em <em>Candida</em>) e <em>(b)</em> facilitadores de difusão facilitada (<em>MDR1/FLU1</em>). A superexpressão é frequentemente devida a mutações nos fatores de transcrição <em>TAC1</em> (para CDR) e <em>MRR1</em> (para MDR1) que os tornam constitutivamente ativos. A droga entra na célula, mas é rapidamente exportada antes de atingir seu alvo.</p>
+
+<p><strong>3. Alterações na via de biossíntese a jusante de ERG11.</strong> Mutações em <em>ERG3</em> (enzima a jusante) evitam o acúmulo do esterol tóxico metilado — a célula deple em ergosterol mas não acumula o metabólito citotóxico, sobrevivendo apesar da inibição parcial.</p>
+
+<p><strong>4. Formação de biofilme.</strong> <em>Candida</em> em biofilme exibe resistência a azóis com CMIs 100–1.000 vezes maiores que formas planctônicas. Os mecanismos são multifatoriais: <em>(a)</em> barreira física (matriz de glucana/manoproteína sequestra o fármaco), <em>(b)</em> superexpressão de CDR1/CDR2 em biofilme, <em>(c)</em> células persistentes (<em>persister cells</em>) — subpopulação fenotipicamente resistente que sobrevive a tratamentos e reconstitui o biofilme <span class="cite">(KAUR; NOBILE, 2022)</span>.</p>
+
+<h3>Mecanismos de resistência às equinocandinas</h3>
+
+<p>O principal mecanismo é por <strong>mutações nos <em>hot spots</em> de FKS1/FKS2</strong> — duas regiões conservadas (HS1: aa 641–649; HS2: aa 1357–1364 em <em>C. albicans</em>) que compõem o sítio de ligação das equinocandinas. Substituições nos resíduos S645 (HS1) — principalmente S645P, S645Y, S645F — reduzem a afinidade da enzima pelo fármaco em 50–3.000 vezes. <em>C. glabrata</em> pode adquirir mutações FKS simultaneamente em FKS1 e FKS2 (tem dois genes funcionais), o que pode levar a resistência de alto nível. A resistência adquirida às equinocandinas é rara mas clinicamente importante em candidemia em pacientes com uso prolongado.</p>
+
+<h3>Candida auris — multirresistência global</h3>
+
+<p><em>Candida auris</em>, descrita pela primeira vez no Japão em 2009, emergiu simultaneamente em quatro continentes — evento sem paralelo na história da micologia médica e provavelmente relacionado à pressão seletiva por temperatura (adaptação à temperatura corporal humana, possivelmente facilitada pelas mudanças climáticas). Sua resistência é singular: &gt;90% das cepas são resistentes ao fluconazol (mutações ERG11 + superexpressão CDR); ~30–50% são resistentes a anfotericina B (mecanismo incerto, possivelmente relacionado a alterações em ERG2/ERG3); um percentual crescente de cepas é resistente a equinocandinas (mutações FKS). Cepas pan-resistentes (resistentes às 3 classes) já foram documentadas <span class="cite">(CHOWDHARY; JAIN; CHAUHAN, 2023)</span>.</p>
+
+<div class="kbox">
+  <div class="klabel">Resistência ambiental — One Health</div>
+  <p>A resistência de <em>A. fumigatus</em> a azóis na Europa é atribuída à seleção por fungicidas triazólicos (propiconazol, tebuconazol, bromuconazol) amplamente usados na agricultura — fungicidas cujo alvo é a mesma 14α-esterol desmetilase fúngica. Em países como Holanda, Dinamarca e Reino Unido, 6–26% dos isolados clínicos de <em>A. fumigatus</em> são resistentes a azóis — frequentemente em pacientes sem exposição prévia a antifúngicos, indicando aquisição ambiental. Esse fenômeno representa um exemplo paradigmático de One Health: a pressão seletiva agrícola alimenta resistência em patógenos humanos <span class="cite">(FISHER et al., 2022)</span>.</p>
+</div>
+</section>
+
+<section id="novos-agentes">
+<h2>Novos Agentes Antifúngicos</h2>
+
+<p>Durante mais de duas décadas, nenhuma nova classe antifúngica chegou ao mercado. O pipeline melhorou recentemente, com cinco agentes em estágios avançados de desenvolvimento <span class="cite">(HOENIGL et al., 2021)</span>:</p>
+
+<p><strong>Ibrexafungerpa (SCY-078)</strong> é o primeiro triterpenoide antifúngico sistêmico — um inibidor de β-1,3-glucana sintase com mecanismo semelhante às equinocandinas, mas com a vantagem crucial de estar disponível por via <strong>oral</strong>. Liga-se a um sítio diferente das equinocandinas na FKS, mantendo atividade contra algumas cepas FKS-mutantes. Aprovado pelo FDA em 2022 para candidíase vulvovaginal; estudos em curso para candidemia.</p>
+
+<p><strong>Olorofim (F901318)</strong> é o primeiro inibidor da <strong>dihidroorotato desidrogenase (DHODH)</strong> fúngica — enzima da síntese de pirimidinas. Ativo contra <em>Aspergillus</em> (inclusive cepas azol-resistentes) e Mucorales, mas não contra <em>Candida</em>. A DHODH humana e fúngica diferem estruturalmente o suficiente para seletividade. Uso oral; em fase 3 para aspergilose refratária.</p>
+
+<p><strong>Fosmanogepix (APX001)</strong> inibe a enzima <strong>Gwt1</strong>, uma inositol aciltransferase da via GPI (<em>glycosylphosphatidylinositol</em>), impedindo a ancoragem de manoproteínas à parede fúngica. A perda de manoproteínas compromete a virulência e a integridade da parede. Espectro amplo (Candida, Aspergillus, Fusarium, Scedosporium). Via oral. Em fase 2.</p>
+
+<p><strong>Rezafungina</strong> é uma equinocandina de segunda geração com meia-vida de ~130 horas, permitindo dosagem semanal IV — solução para ambientes com dificuldade de acesso a infusões diárias. Aprovada pelo FDA em 2023 para candidemia e candidíase invasiva.</p>
+
+<p><strong>Opelconazol</strong> é um triazol desenvolvido especificamente para inalação (instabilidade no pH gástrico), com biodisponibilidade sistêmica mínima — reduzindo interações medicamentosas e toxicidade sistêmica, enquanto mantém concentrações ativas no pulmão para aspergilose invasiva. Em fase 2/3.</p>
+
+<div class="kbox">
+  <div class="klabel">Lacuna terapêutica ainda em aberto</div>
+  <p>Nenhum dos novos agentes tem atividade robusta contra Mucorales (exceto olorofim com atividade in vitro) e nenhum está disponível amplamente no SUS. A anfotericina B lipossomal continua como pilar insubstituível para mucormicose — e seu alto custo no contexto brasileiro é uma barreira relevante. Fármacos antivirais têm pipeline muito mais robusto por razões de mercado (HIV, HCV); o subinvestimento em antifúngicos reflete o perfil de pacientes afetados (imunocomprometidos, alta mortalidade antes do diagnóstico).</p>
+</div>
+</section>
+
+<section id="contexto-br">
+<h2>Contexto Brasileiro</h2>
+
+<p>O Brasil tem epidemiologia fúngica peculiar com alta carga de micoses endêmicas — paracoccidioidomicose (<em>Paracoccidioides brasiliensis</em> e <em>P. lutzii</em>), histoplasmose e esporotricose — que determinam escolhas terapêuticas distintas das diretrizes europeias e norte-americanas.</p>
+
+<p>A <strong>paracoccidioidomicose</strong> é tratada com itraconazol 200–400 mg/dia por 6–18 meses (primeira linha no adulto) ou cotrimoxazol em regiões remotas; anfotericina B lipossomal nas formas graves ou em crianças. O itraconazol está disponível no SUS, mas o acesso à formulação em solução oral (maior biodisponibilidade que a cápsula) nem sempre é garantido — diferença clinicamente relevante dada a absorção errática das cápsulas.</p>
+
+<p>A <strong>esporotricose</strong> no Brasil tem epidemia urbana zoonótica em felinos no Rio de Janeiro, com transmissão pata-a-pata. O itraconazol oral é o tratamento padrão; formas cutâneas leves respondem a solução de iodeto de potássio (KI) — tratamento de baixo custo ainda preconizado pela OMS para contextos de recursos limitados.</p>
+
+<p>A <strong>candidemia</strong> hospitalar — com incidência no Brasil estimada em 2,5 casos/1.000 internações (3–10× maior que em países de alta renda) — é dominada por <em>C. tropicalis</em> e <em>C. parapsilosis</em>, espécies com perfil de resistência diferente de <em>C. albicans</em>. <em>C. parapsilosis</em> tem CMIs naturalmente mais altas para equinocandinas (microbiota intrínseca do gene FKS2) — o que limita o uso de equinocandinas em contextos onde essa espécie é prevalente.</p>
+
+<p>A Portaria SVS/MS nº 369/2023 incluiu anfotericina B lipossomal no CEAF para candidíase invasiva refratária, criptococose, histoplasmose grave e mucormicose, mas o acesso real é dependente de laudo médico e disponibilidade estadual.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões</h2>
+
+<p>Os antifúngicos fazem sentido completo apenas em articulação com a biologia do fungo e com a imunologia do hospedeiro. As classes terapêuticas — poliênios, azóis, equinocandinas — correspondem diretamente às três vulnerabilidades estruturais discutidas no compêndio de <a class="cross-link" href="../../microbiologia/micologia-medica.html#parede-celular">Micologia Médica (§ parede celular e ergosterol)</a>: ergosterol, 14α-esterol desmetilase e β-1,3-glucana sintase.</p>
+
+<p>A escolha do antifúngico em infecções invasivas não pode ser dissociada do estado imunológico. Pacientes com deficiência de <a class="cross-link" href="../../imunologia/resposta-a-patogenos.html#fungos">Th17 (§ fungos)</a> — como usuários de secuquinumabe ou portadores de síndrome de Job — têm candidíase mucocutânea crônica que responde a azóis, mas a suscetibilidade à candidemia aumenta dramaticamente em neutropênicos, onde a imunidade inata (<a class="cross-link" href="../../imunologia/imunidade-inata.html#fagocitose">Imunidade Inata § fagocitose</a>) está comprometida e a monobiologia fúngica é incontrolada. A escolha entre candidemia (equinocandina em paciente grave) e candidíase oral (fluconazol) reflete essa integração clínico-farmacológica.</p>
+
+<p>A nefrotoxicidade da anfotericina B convencional conecta-se ao mecanismo de lesão tubular: a ligação ao colesterol em células tubulares renais (mesmo com menor afinidade do que pelo ergosterol) gera poros que despolarizam o epitélio tubular, inibindo reabsorção de Na⁺ e K⁺ e promovendo diabetes insípido nefrogênico — conexão relevante com fisiologia renal e manejo de eletrólitos.</p>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 1</div>
+  <p>O mecanismo exato de ação da anfotericina B ainda é debatido: o modelo clássico dos poros transmembrana versus o modelo mais recente do "extrator de ergosterol" ainda não têm consenso definitivo. Estudos crioeletrônicos recentes sugerem que os agregados de anfotericina B podem agir sequestando ergosterol sem formar necessariamente canais aquosos — o que teria implicações para o design de análogos menos tóxicos <span class="cite">(FISHER et al., 2022)</span>.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 2</div>
+  <p>Por que <em>Candida auris</em> emergiu simultaneamente em quatro continentes por volta de 2009, sem dispersão clonal global evidente? A hipótese das mudanças climáticas (elevação de temperatura média forçando adaptação térmica) é plausível mas não verificada experimentalmente. A convergência evolutiva independente em quatro clados distintos sugere que a pressão seletiva ambiental — qualquer que seja — foi intensa e contemporânea <span class="cite">(CHOWDHARY; JAIN; CHAUHAN, 2023)</span>.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 3</div>
+  <p>Qual a melhor estratégia terapêutica para candidemia por <em>C. parapsilosis</em> com CMI elevada para equinocandinas? Os dados atuais são insuficientes para recomendar fluconazol (risco de resistência cruzada) ou aumentar dose de equinocandina além do padrão. O estudo ECMM/ISHAM Global Guideline (2021) aponta equipoise terapêutica nessa situação.</p>
+</div>
+
+<div class="qa-block">
+  <div class="qa-label">Questão não resolvida 4</div>
+  <p>Os novos antifúngicos orais (ibrexafungerpa, olorofim, fosmanogepix) terão acesso real em sistemas de saúde de baixa e média renda? O custo de desenvolvimento de antifúngicos não é recuperado no mercado atual (pacientes imunocomprometidos, alta mortalidade pré-diagnóstico), gerando desinvestimento crônico. A OMS publicou sua primeira lista de fungos prioritários em 2022 precisamente para tentar redirecionar investimento em P&amp;D <span class="cite">(LOCKHART; CHOWDHARY; GOLD, 2023)</span>.</p>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+
+<p><strong>Fechando a pergunta motivadora:</strong> A razão pela qual anfotericina B, fluconazol e caspofungina são eficazes contra fungos sem destruir células humanas é a mesma que torna tão difícil desenvolver antifúngicos — ambos são eucariotas. Os três fármacos existem porque exploram as poucas divergências bioquímicas reais: ergosterol (inexistente em mamíferos) para a anfotericina B, a 14α-esterol desmetilase fúngica (estruturalmente distinta dos CYPs humanos) para o fluconazol, e a β-1,3-glucana sintase (completamente ausente em mamíferos) para a caspofungina. O motivo pelo qual a resistência ao fluconazol torna a caspofungina preferível é que os mecanismos de resistência são alvo-específicos: mutações em ERG11 que impedem o fluconazol de ligar-se à desmetilase não afetam a FKS1, que é o alvo completamente distinto da caspofungina — não há resistência cruzada entre as classes.</p>
+
+<p><strong>Tensão farmacológica central:</strong> O espectro estreito das equinocandinas (excelentes para <em>Candida</em>, sem atividade em <em>Cryptococcus</em> e Mucorales) contrasta com o espectro mais amplo da anfotericina B lipossomal (ativa contra quase todos os fungos patogênicos) ao custo de toxicidade maior e custo incomparavelmente mais elevado. A escolha, em sistemas de saúde com restrição de recursos, entre o "antifúngico perfeito em termos de toxicidade" (equinocandina) e o "antifúngico de espectro completo porém tóxico" (anfotericina B) é uma decisão que mistura farmacologia, epidemiologia local e acesso — não apenas mecanismo de ação.</p>
+
+<p><strong>Implicação derivada:</strong> A crise de resistência antifúngica não seguirá o caminho da resistência bacteriana — onde a transmissão horizontal de plasmídeos entre espécies é o motor principal. Em fungos, a resistência é gerada sobretudo por <em>pressão seletiva dentro do mesmo hospedeiro</em> (uso prolongado de azóis em imunossuprimidos) e por <em>seleção ambiental extra-hospitalar</em> (fungicidas agrícolas). Isso significa que estratégias de controle precisam ir além do hospital e envolver regulação agrícola — uma dimensão One Health com poucos precedentes na antibioticoterapia bacteriana.</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas</h2>
+
+<p><strong>Rang &amp; Dale's Pharmacology, 10ª ed. (Rang, Dale, Ritter, Flower, Henderson)</strong> — Capítulo sobre quimioterapia de infecções fúngicas: mecanismo de ação detalhado por classe, interações, toxicidade. <span style="font-family:var(--font-ui);font-size:11px;background:var(--ac);color:#111;border-radius:10px;padding:2px 8px;font-weight:600">VOCÊ TEM</span></p>
+
+<p><strong>Medical Microbiology, Murray, 10ª ed.</strong> — Capítulos sobre micoses sistêmicas e oportunistas; contextualiza o antifúngico na infecção clínica por espécie. <span style="font-family:var(--font-ui);font-size:11px;background:var(--ac);color:#111;border-radius:10px;padding:2px 8px;font-weight:600">VOCÊ TEM</span></p>
+
+<p><strong>Hoenigl et al. (2021)</strong> — Revisão do pipeline antifúngico (fosmanogepix, ibrexafungerpa, olorofim, opelconazol, rezafungina): mecanismo e ensaios clínicos. Disponível em: <a href="https://doi.org/10.1007/s40265-021-01611-0" target="_blank" rel="noopener">doi:10.1007/s40265-021-01611-0</a>.</p>
+
+<p><strong>Fisher et al. (2022) — Nature Reviews Microbiology</strong> — Visão geral da resistência antifúngica como crise de saúde pública; framework One Health. <a href="https://doi.org/10.1038/s41579-022-00720-1" target="_blank" rel="noopener">doi:10.1038/s41579-022-00720-1</a>.</p>
+
+<p><strong>Carmo et al. (2023)</strong> — Revisão de farmacocinética e farmacologia clínica de todas as classes antifúngicas; inclui dados de monitoramento terapêutico (TDM). <a href="https://doi.org/10.3390/antibiotics12050884" target="_blank" rel="noopener">doi:10.3390/antibiotics12050884</a>.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+<div class="ref-list">
+<p>CARMO, Anália et al. Antifungals: From Pharmacokinetics to Clinical Practice. <em>Antibiotics (Basel, Switzerland)</em>, v. 12, n. 5, 2023. DOI: <a href="https://doi.org/10.3390/antibiotics12050884" target="_blank" rel="noopener">10.3390/antibiotics12050884</a>.</p>
+
+<p>CHOWDHARY, Anuradha; JAIN, Kusum; CHAUHAN, Neeraj. <em>Candida auris</em>: Genetics and Emergence. <em>Annual Review of Microbiology</em>, v. 77, p. 583–602, 2023. DOI: <a href="https://doi.org/10.1146/annurev-micro-032521-015858" target="_blank" rel="noopener">10.1146/annurev-micro-032521-015858</a>.</p>
+
+<p>FISHER, Matthew C. et al. Tackling the emerging threat of antifungal resistance to human health. <em>Nature Reviews Microbiology</em>, v. 20, n. 9, p. 557–571, 2022. DOI: <a href="https://doi.org/10.1038/s41579-022-00720-1" target="_blank" rel="noopener">10.1038/s41579-022-00720-1</a>.</p>
+
+<p>HOENIGL, Martin et al. The Antifungal Pipeline: Fosmanogepix, Ibrexafungerpa, Olorofim, Opelconazole, and Rezafungin. <em>Drugs</em>, v. 81, n. 15, p. 1703–1729, 2021. DOI: <a href="https://doi.org/10.1007/s40265-021-01611-0" target="_blank" rel="noopener">10.1007/s40265-021-01611-0</a>.</p>
+
+<p>KAUR, Jaspreet; NOBILE, Clarissa J. Antifungal drug-resistance mechanisms in <em>Candida</em> biofilms. <em>Current Opinion in Microbiology</em>, v. 71, p. 102237, 2022. DOI: <a href="https://doi.org/10.1016/j.mib.2022.102237" target="_blank" rel="noopener">10.1016/j.mib.2022.102237</a>.</p>
+
+<p>LASS-FLÖRL, Cornelia; STEIXNER, Stephan. The changing epidemiology of fungal infections. <em>Molecular Aspects of Medicine</em>, v. 94, p. 101215, 2023. DOI: <a href="https://doi.org/10.1016/j.mam.2023.101215" target="_blank" rel="noopener">10.1016/j.mam.2023.101215</a>.</p>
+
+<p>LOCKHART, Shawn R.; CHOWDHARY, Anuradha; GOLD, Jeremy A. W. The rapid emergence of antifungal-resistant human-pathogenic fungi. <em>Nature Reviews Microbiology</em>, v. 21, n. 12, p. 818–832, 2023. DOI: <a href="https://doi.org/10.1038/s41579-023-00960-9" target="_blank" rel="noopener">10.1038/s41579-023-00960-9</a>.</p>
+
+<p>RANG, Humphrey P. et al. <em>Rang &amp; Dale's Pharmacology</em>. 10. ed. Elsevier, 2023.</p>
+
+<p>WORLD HEALTH ORGANIZATION. WHO fungal priority pathogens list to guide research, development and public health action. Geneva: WHO, 2022.</p>
+</div>
+</section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<div id="mob-bar"><button onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button></div>
+
+<script>
+// Sidebar colapso com sessionStorage
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const btn = document.getElementById('toggle-btn');
+const STORAGE_KEY = 'sidebar-collapsed-antifungicos';
+
+function setCollapsed(val){
+  if(val){ sidebar.classList.add('collapsed'); bodyWrap.classList.add('sidebar-collapsed'); btn.textContent='▶'; }
+  else { sidebar.classList.remove('collapsed'); bodyWrap.classList.remove('sidebar-collapsed'); btn.textContent='◀'; }
+  try{ sessionStorage.setItem(STORAGE_KEY, val ? '1' : '0'); } catch(e){}
+}
+try{ const s = sessionStorage.getItem(STORAGE_KEY); if(s === '1') setCollapsed(true); } catch(e){}
+btn.addEventListener('click', () => setCollapsed(!sidebar.classList.contains('collapsed')));
+
+// Barra de progresso
+const bar = document.getElementById('progress-bar');
+document.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  bar.style.width = pct + '%';
+}, {passive: true});
+
+// Sidebar link ativo
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector('a.sl[href="#' + e.target.id + '"]');
+      if(a) a.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs.observe(s));
+
+// Highlight h2 da seção visível
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('in-view');
+    else e.target.classList.remove('in-view');
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => obs2.observe(s));
+</script>
+</body>
+</html>
