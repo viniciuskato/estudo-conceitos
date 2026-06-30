@@ -62,6 +62,7 @@ Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
 - Write: arquivo novo ou reescrita completa <300 linhas.
 - Python: conteúdo com acentos PT-BR, símbolos tipográficos e entidades HTML. Nunca echo ou heredoc bash (corrompe encoding).
 - sed: substituições pontuais em arquivos >500 linhas.
+- HTML binário: se grep retornar 'binary file matches', editar via python3 com open(path, 'r', encoding='utf-8') diretamente — não copiar para /tmp.
 - bash append: completar conteúdo ao final de arquivo íntegro.
 - HTML novo >300 linhas: Write estrutura inicial (~150 linhas) → verificar → Python escreve restante → cat >> arquivo → verificar.
 - Leitura seletiva: grep -n para localizar âncora antes de Read com offset/limit. Ler arquivo inteiro só quando estritamente necessário.

@@ -50,9 +50,26 @@ Fontes via Google Fonts: Source Serif 4 (corpo 16px, line-height 1.78) + Inter (
 
 ## Highlight de seção ativa
 
-- Segundo `IntersectionObserver` com `rootMargin:'-20% 0px -70% 0px'`
-- Seção visível recebe `.in-view` → `section.in-view > h2 { color:var(--ac); transition:color .3s }`
-- Primeiro observer destaca `.active` na sidebar
+- `.active` na sidebar: **scroll-based listener** (NÃO `IntersectionObserver`) — robusto para seções de tamanho variável:
+  ```js
+  var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+  var sections = Array.from(document.querySelectorAll('section[id]'));
+  function updateActive(){
+    var scrollY = window.scrollY || window.pageYOffset;
+    var offset = 80;
+    var current = sections[0];
+    for(var i=0;i<sections.length;i++){
+      if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+    }
+    sideLinks.forEach(function(l){ l.classList.remove('active'); });
+    var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+    if(a) a.classList.add('active');
+  }
+  window.addEventListener('scroll', updateActive, {passive:true});
+  updateActive();
+  ```
+- `.in-view` em seções (para `h2` colorido): `IntersectionObserver` com `rootMargin:'-10% 0px -55% 0px'`
+  - Seção visível recebe `.in-view` → `section.in-view > h2 { color:var(--ac); transition:color .3s }`
 
 ---
 

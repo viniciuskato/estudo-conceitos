@@ -43,8 +43,12 @@ Se já está e foi ignorado: a instrução é ambígua ou está mal posicionada 
 Se não está: adicionar.
 Se está mas é redundante com outra regra: consolidar.
 
-Passo 2.5 — Apresentar mudanças e aguardar aprovação
-OBRIGATÓRIO antes de escrever qualquer arquivo: apresentar todas as mudanças propostas ao usuário via AskUserQuestion (multiSelect: true), com uma opção por mudança. Descrever em cada opção: o que aconteceu (fato) e o que vai mudar na instrução.
+Passo 2.5 — Classificar destino e apresentar mudanças para aprovação
+Para cada melhoria identificada, classificar ANTES de propor:
+(a) Regra operacional transversal (como editar arquivos, verificar integridade, workflows bash) → destino: instrucoes-projeto.txt
+(b) Conhecimento do artefato (padrões de HTML, CSS, comportamento de sidebar, estrutura de seções) → destino: skill relevante ou template-v2-spec.md
+
+OBRIGATÓRIO antes de escrever qualquer arquivo: apresentar todas as mudanças propostas ao usuário via AskUserQuestion (multiSelect: true), com uma opção por mudança. Descrever em cada opção: o que aconteceu (fato), o que vai mudar, e em qual arquivo será aplicado.
 Aplicar SOMENTE as mudanças aprovadas. Se nenhuma for aprovada, encerrar sem alterar arquivos.
 
 Passo 3 — Aplicar mudanças aprovadas
@@ -78,6 +82,13 @@ Melhorias aplicadas: N
 
 Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Copie o conteúdo nas configurações do projeto (Project Instructions) para que as mudanças entrem em vigor na próxima sessão.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
+
+Sempre encerrar com checklist de pendências do usuário, por exemplo:
+- [ ] Copiar instrucoes-projeto.txt nas configurações do projeto (Project Instructions)
+- [ ] Reempacotar skills modificadas: `python empacotar_skills.py` em `_docs/skills-export/`
+- [ ] Reinstalar skills via Settings > Capabilities > Skills
+- [ ] Rodar `push.bat` na raiz para sincronizar com o GitHub
+Incluir apenas os itens que se aplicam à sessão atual.
 
 Regras da skill
 
