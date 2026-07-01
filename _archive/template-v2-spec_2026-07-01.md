@@ -41,35 +41,6 @@ Fontes via Google Fonts: Source Serif 4 (corpo **17px**, line-height 1.78) + Int
 
 ---
 
-## Idioma e tooltips de tradução
-
-O idioma do compêndio segue o idioma predominante das fontes primárias: literatura internacional (PubMed, guidelines, livros-texto canônicos, textos-fonte em inglês) → compêndio em inglês; fontes predominantemente em português (diretrizes brasileiras, epidemiologia nacional) → compêndio em português.
-
-Dentro do texto, independente do idioma principal:
-- Latim (anatômico ou de outra área) entre parênteses na primeira ocorrência dos termos principais (ex: "crista terminalis").
-- Termos PT-BR entre parênteses quando o contexto brasileiro exige — nomenclatura de provas, siglas consagradas (ex: "left bundle branch block (LBBB — bloqueio de ramo esquerdo)").
-- Termos em inglês entre parênteses em compêndios em português quando o termo técnico é de uso universal na literatura (ex: "preload", "afterload").
-
-**Sidebar:** os títulos seguem o idioma do compêndio. Cada item exibe também a tradução em português via `<span class="sl-pt">` logo após o título principal:
-```css
-.sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
-```
-
-**Tooltips de tradução (`.term`):** termos técnicos em compêndios em idioma estrangeiro levam tooltip PT-BR:
-```html
-<span class="term" data-pt="tradução">termo</span>
-```
-```css
-.term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap}
-.term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
-.term:hover::after{opacity:1}
-```
-Escopo: marcar primeira ocorrência de cada termo técnico relevante por seção (não todas as ocorrências). Manipulação via Python: `re.split(r'(<[^>]+>)', body)` para separar tags de texto, substituindo só nos nós de texto.
-
-Aplicar (`.sl-pt` e `.term`) em todos os compêndios novos e ao revisar existentes.
-
----
-
 ## Link de retorno ao índice (`#s-home`) — obrigatório
 
 Todo compêndio é aberto a partir do `index.html` raiz. Sem um link de volta explícito, o usuário fica preso na página (o botão "voltar" do navegador nem sempre está disponível — ex. app shell, aba aberta direto por link/atalho). `#s-home` fica **acima** de `#s-toggle`, fora do `.s-inner`, para nunca sumir ao colapsar a sidebar.
@@ -249,7 +220,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .data-table td.td-label{color:var(--text);font-weight:600}
 ```
 
-Uso de `.data-table`: a primeira célula de cada linha (o rótulo/nome da linha) recebe `class="td-label"` para destacá-la visualmente das demais colunas — ver exemplos em `medicina/imunologia/*.html`. Sempre envolver em `<div class="table-wrap">` e seguir com `<caption>` ou `<p class="table-caption">` numerada. Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferencial clínico, tabela de territórios/classificações — preferir a `.data-table` à lista de bullets nesses casos.
+Uso de `.data-table`: a primeira célula de cada linha (o rótulo/nome da linha) recebe `class="td-label"` para destacá-la visualmente das demais colunas — ver exemplos em `medicina/imunologia/*.html`. Sempre envolver em `<div class="table-wrap">` e seguir com `<caption>` ou `<p class="table-caption">` numerada.
 
 ---
 

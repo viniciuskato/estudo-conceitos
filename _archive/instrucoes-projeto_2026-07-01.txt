@@ -51,8 +51,28 @@ Ao iniciar sessão sem tarefa direta:
 - OBRIGATÓRIO antes de gerar (proativamente, sem esperar o usuário perguntar): checar o modelo atual da sessão (campo "Model:" do <env>) contra o tipo de pedido — compêndio/mecanismo novo (1ª geração completa) → Opus; sessão Anki, revisão pontual, correção, autocrítica, auditoria visual → Sonnet; lookup/busca simples isolada → Haiku (via subagent). Se o modelo não bater com o tipo de tarefa, avisar ANTES de gerar e recomendar abrir nova sessão no modelo certo (não dá para trocar modelo no meio da sessão).
 - Junto da recomendação de modelo, indicar também Esforço e Pensamento (controles da UI, ao lado do seletor de modelo): compêndio/mecanismo novo (1ª geração completa) → Esforço Alto ou Extra + Pensamento ligado (profundidade real e atribuição correta de argumentos/mecanismos importam mais que velocidade); sessão Anki, revisão pontual, correção, autocrítica, auditoria visual → Esforço Médio + Pensamento ligado; lookup/busca simples isolada → Esforço Baixo, Pensamento dispensável. Informar essa recomendação já na primeira mensagem de checagem de modelo, não como pergunta separada depois.
 
-=== Idioma, tooltips de tradução e tabelas ===
-Regras de idioma predominante, sidebar bilíngue (.sl-pt), tooltips técnicos (.term) e uso de .data-table: ver _docs/template-v2-spec.md (seções "Idioma e tooltips de tradução" e "Elementos visuais"). Aplicar em todos os compêndios novos e ao revisar existentes.
+=== Idioma dos compêndios ===
+O idioma do compêndio segue o idioma predominante das fontes primárias:
+- Literatura médica internacional (PubMed, guidelines, livros-texto canônicos em inglês) → compêndio em inglês.
+- Fontes predominantemente em português (diretrizes brasileiras, epidemiologia nacional) → compêndio em português.
+Dentro do texto, independente do idioma principal:
+- Latim anatômico entre parênteses na primeira ocorrência dos termos principais (ex: "crista terminalis").
+- Termos PT-BR entre parênteses quando o contexto brasileiro exige — nomenclatura de provas, siglas consagradas (ex: "left bundle branch block (LBBB — bloqueio de ramo esquerdo)").
+- Termos em inglês entre parênteses em compêndios em português quando o termo técnico é de uso universal na literatura (ex: "preload", "afterload").
+
+Sidebar (navegação lateral):
+- Os títulos da sidebar seguem o idioma do compêndio (determinado pelo critério acima — idioma predominante nas fontes primárias, não necessariamente inglês).
+- Cada item da sidebar deve exibir também a tradução em português, usando <span class="sl-pt"> logo após o título principal (display:block, fonte menor, itálico, cor suave).
+- CSS obrigatório: .sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
+- Aplicar em todos os compêndios novos e ao revisar compêndios existentes.
+
+=== Tooltips de tradução (.term) ===
+Termos técnicos em compêndios em idioma estrangeiro devem ser marcados com tooltip PT-BR:
+- Elemento: <span class="term" data-pt="tradução">termo</span>
+- CSS obrigatório: .term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap} .term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999} .term:hover::after{opacity:1}
+- Escopo: marcar primeira ocorrência de cada termo técnico relevante por seção (não todas as ocorrências).
+- Aplicar ao criar novos compêndios em inglês e ao revisar compêndios existentes.
+- Manipulação via Python: split em tags vs texto (re.split(r'(<[^>]+>)', body)), substituir apenas em nós de texto, primeira ocorrência por seção.
 
 === Imagens e pranchas ===
 Hierarquia de fontes: OpenStax CC BY > Gray's Anatomy (1918, domínio público) > Blausen CC BY 3.0.
@@ -73,6 +93,12 @@ Cobertura exaustiva de um campo e digestibilidade da prosa são critérios simul
 Adicionar o que faltar sem esperar que o usuário peça.
 (Checagens de completude específicas da estrutura de cada skill — ex.: cards do "mapa do campo" no compendio — ficam no SKILL.md da skill correspondente, não aqui.)
 
+=== Tabelas HTML inline (.data-table) ===
+Recurso visual complementar às pranchas Gray's, para conteúdo comparativo onde imagem externa não existe ou não ajudaria.
+CSS mínimo obrigatório: .data-table, th (background:var(--bg3), color:var(--ac)), td com border-bottom, tr:hover.
+Sempre incluir <p class="table-caption"> logo após a tabela com número e legenda.
+Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferencial clínico, tabela de territórios/classificações.
+
 === Eficiência operacional (regras compartilhadas) ===
 - Edit: nunca >~150 linhas por bloco new_string. Backup antes de editar HTML.
 - Write: arquivo novo ou reescrita completa <300 linhas.
@@ -90,11 +116,16 @@ Adicionar o que faltar sem esperar que o usuário peça.
 (a) fecha com </body></html>
 (b) wc -l compatível com o esperado
 (c) sem const const / var var
-(d) encoding UTF-8 intacto: grep -c "ã\|ç\|é\|ñ\|→\|–" > 0 (compêndios PT-BR); para inglês, grep -c "\xef\xbf\xbd" deve ser 0
-(e) sem artefatos: grep -w "TODO\|FIXME" (case-sensitive) + grep -iw "placeholder\|debug\|rascunho" — ambos vazios
-Corrigir antes de prosseguir. Mesma verificação de fechamento vale para .md core editado na sessão (template-v2-spec.md, instrucoes-projeto.txt, DEBT.md, SKILL.md de skills): confirmar via Read do final do arquivo (não só wc -l) que termina em frase/seção completa, não cortado no meio.
-
-Pasta sincronizada via OneDrive — regra geral: NUNCA confiar em bash (wc -l, cat, tail, git show, git status/diff) para verificar integridade nesta pasta; o cache pode mostrar conteúdo desatualizado ou truncado tanto na leitura quanto na escrita, mesmo logo após salvar. Única fonte confiável de conteúdo real: Read/Grep direto. Depois de qualquer escrita em lote (vários arquivos), rodar `git diff --stat` e desconfiar de deleções muito maiores que o esperado. Se `git add`/`commit`/`rm` travar em `.git/index.lock` ou "Operation not permitted": não insistir (máx. ~2 tentativas, sem sudo/chmod/force) — pedir para o usuário rodar localmente (`push.bat` ou o script), que usa Windows nativo e não sofre esse cache. Histórico completo dos incidentes que fundamentam esta regra: `_docs/DEBT.md`.
+(d) encoding UTF-8 intacto: se o compêndio tem caracteres especiais (acentos, símbolos), grep -c "ã\|ç\|é\|ñ\|→\|–" > 0; para compêndios em inglês, verificar ausência de replacement characters: grep -c "\xef\xbf\xbd" deve ser 0
+(e) sem artefatos: grep -w "TODO\|FIXME" (case-sensitive — marcadores reais são sempre maiúsculos; "todo"/"Todo" case-insensitive dá falso positivo em qualquer compêndio PT-BR, pois é palavra comum) + grep -iw "placeholder\|debug\|rascunho" (case-insensitive, sem colisão com PT-BR) — ambos vazios
+Corrigir antes de prosseguir.
+Mesma verificação de fechamento vale para .md core editado na sessão (template-v2-spec.md, instrucoes-projeto.txt, DEBT.md, SKILL.md de skills): confirmar que o arquivo termina em frase/seção completa, não cortado no meio — checar via Read do final do arquivo (não só wc -l), já que um corte no meio de frase (ex.: incidente de 2026-07-01 no template-v2-spec.md, commitado truncado sem que a verificação HTML pegasse) passa despercebido pelas checagens (a)-(e) acima, que são específicas de tag HTML.
+Atenção — pasta sincronizada via OneDrive: o terminal bash pode mostrar uma versão desatualizada (em cache) dos arquivos dessa pasta mesmo após uma edição já ter sido salva. Se um arquivo editado recentemente aparecer "sem mudanças" no bash, não confiar nesse resultado — reconferir com as ferramentas de leitura de arquivo diretas (Read/Grep) antes de concluir que a edição falhou.
+O mesmo cache pode agir na LEITURA, não só na verificação — um `open()` via python3/bash pode retornar conteúdo cortado no meio se o arquivo acabou de sincronizar, e reescrever isso por cima do arquivo apaga o final dele sem aviso. Se a pasta for um repositório Git (ver "Protocolo de abertura de sessão"):
+- Editar/reescrever vários arquivos em lote via python3+bash: ATENÇÃO — `git show HEAD:"<arquivo>"` no bash do sandbox SOFRE o mesmo cache do OneDrive; NÃO é fonte confiável de integridade. Confirmado em 2026-07-01: `git show HEAD:_docs/template-v2-spec.md` (e `tail`) retornaram 359 linhas truncadas enquanto o arquivo real em disco tinha 366 linhas íntegras, com `git status` limpo (disco == HEAD). A única fonte autoritativa do conteúdo real são Read/Grep diretos (leem o arquivo real do Windows, fora do cache do sandbox). Usar `git show` apenas como referência aproximada — nunca como prova de que um arquivo está íntegro OU truncado. (Correção de instrução anterior, que afirmava erradamente que "o conteúdo do Git não sofre esse cache".)
+- Depois de qualquer escrita em lote (vários arquivos), rodar `git diff --stat` e desconfiar de qualquer arquivo com deleções muito maiores que o esperado — isso pega truncamento no meio do arquivo que `wc -l`/checagem de tags sozinhos não pegam de forma confiável.
+- O mesmo cache pode fazer `git status`/`git diff` mostrarem como "modificados" arquivos que ninguém tocou nesta sessão, ou manter um `.git/index.lock` preso mesmo depois que o processo que o criou já terminou. Isso não é necessariamente corrupção real — antes de investigar a fundo, confirmar o conteúdo verdadeiro via Read/Grep direto (não bash). Se `git restore`/`git checkout` falhar por esse lock estar preso (e a remoção do lock também falhar, ver abaixo), restaurar o conteúdo arquivo a arquivo via `git show HEAD:"<arquivo>" > "<arquivo>"` — não passa pelo índice, então funciona mesmo com o lock travado. MAS antes de restaurar por cima, confirmar via Read que o conteúdo vindo do `git show` está realmente íntegro — como o próprio `git show` pode vir truncado pelo cache (ver item acima), restaurar às cegas pode SOBRESCREVER um arquivo bom por uma versão cortada (perda de dados).
+- O lock de sincronização do OneDrive não se limita a `.git/`: qualquer tentativa de apagar (`rm`) um arquivo comum dessa pasta via bash pode falhar do mesmo jeito (`Operation not permitted`) enquanto o OneDrive está sincronizando — já aconteceu com `.txt`, `.bak` e pastas de skill legadas, não só dentro de `.git/`. Regra geral: nunca insistir ou tentar contornar (sudo, chmod, retries agressivos) uma falha de remoção com esse erro, seja dentro ou fora de `.git/`. A mesma regra vale para execução de script via bash nessa pasta: se um script falhar de forma inconsistente com o conteúdo já confirmado via Read (ex: erro de sintaxe num arquivo que o Read mostra íntegro), parar após ~2 tentativas — não insistir em loop. Nesse caso (remoção ou execução), pedir ao usuário para fazer manualmente (ou rodar `push.bat`/o script localmente, que usa o Windows nativo e não sofre esse cache) em vez de gastar tempo investigando via computer-use ou insistindo pelo bash.
 
 === Verificação visual ===
 Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.

@@ -83,6 +83,10 @@ A subskill de área define o que adaptar ou omitir do template.
 - Referências externas são obrigatórias — o compêndio situa e aprofunda, mas indica onde ir para mais.
 - Não há critério de parada por brevidade. O critério é: o campo foi coberto com honestidade intelectual?
 
+## Didática
+
+Exaustividade e didática não competem — devem ser buscadas em harmonia. Cobrir o campo por inteiro não justifica prosa que empilha várias teorias, autores ou entidades paralelas na mesma frase corrida (sinal de alerta: ≥3 entidades nomeadas num único parágrafo, cada uma com definição+crítica, sem transição). Preferir um parágrafo por ideia, com o nome em negrito no início — padrão que já funciona bem em "Ferramentas e métodos". Isso vale mesmo quando existe uma `.data-table` cobrindo o mesmo conteúdo: tabela e prosa cumprem papéis diferentes (tabela = comparação rápida; prosa = uma ideia de cada vez), uma não substitui a outra. Ao revisar um compêndio existente, auditar esse padrão proativamente como parte da revisão — não só ao criar um novo.
+
 ## Fluxo de trabalho
 
 1. Identificar área → carregar subskill correspondente.
@@ -111,13 +115,16 @@ A subskill de área define o que adaptar ou omitir do template.
 
 ## Checklist antes de fechar o compêndio de área
 
+Vale tanto para gerar um compêndio novo quanto para revisar um existente — ao revisar, reconferir proativamente todos os itens abaixo, sem esperar que o usuário peça (mesmo espírito da "Auditoria visual proativa" em instrucoes-projeto.txt, aplicado ao conteúdo, não só ao visual).
+
 - [ ] A pergunta motivadora está desenvolvida ao longo do texto?
-- [ ] Cada subárea tem profundidade real, não apenas uma frase?
+- [ ] Cada subárea tem profundidade real, não apenas uma frase? Conferir cada card do "Mapa do campo" contra o corpo do texto: todo conceito nomeado no card (não só o card como um todo) precisa ter desenvolvimento correspondente — um card pode prometer 4 conceitos e desenvolver só 2, o que já falha este item mesmo com o restante do compêndio bem coberto.
 - [ ] As referências têm anotação justificando sua presença?
 - [ ] As controvérsias ativas têm as duas posições representadas sem resolução artificial?
 - [ ] Links `cross-link` para compêndios existentes inseridos onde pertinente?
 - [ ] Campo "Última revisão" atualizado?
 - [ ] `compêndios/compendio_mapa.txt` e `_docs/DEBT.md` atualizados?
+- [ ] Nenhum parágrafo empilha 3+ teorias/entidades paralelas sem transição (um parágrafo por ideia)?
 
 ## O que não fazer
 
