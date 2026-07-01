@@ -117,7 +117,8 @@ Atenção — pasta sincronizada via OneDrive: o terminal bash pode mostrar uma 
 O mesmo cache pode agir na LEITURA, não só na verificação — um `open()` via python3/bash pode retornar conteúdo cortado no meio se o arquivo acabou de sincronizar, e reescrever isso por cima do arquivo apaga o final dele sem aviso. Se a pasta for um repositório Git (ver "Protocolo de abertura de sessão"):
 - Editar/reescrever vários arquivos em lote via python3+bash: usar `git show HEAD:"<arquivo>"` como fonte de leitura (não `open()` direto) sempre que o arquivo já estiver commitado — o conteúdo do Git não sofre esse cache.
 - Depois de qualquer escrita em lote (vários arquivos), rodar `git diff --stat` e desconfiar de qualquer arquivo com deleções muito maiores que o esperado — isso pega truncamento no meio do arquivo que `wc -l`/checagem de tags sozinhos não pegam de forma confiável.
-- O mesmo cache pode fazer `git status`/`git diff` mostrarem como "modificados" arquivos que ninguém tocou nesta sessão, ou manter um `.git/index.lock` preso mesmo depois que o processo que o criou já terminou. Isso não é necessariamente corrupção real — antes de investigar a fundo, confirmar o conteúdo verdadeiro via Read/Grep direto (não bash). Nunca forçar remoção de `.git/index.lock` ou de arquivos dentro de `.git/` via bash caso o comando falhe (ex.: `Operation not permitted`) — isso é sinal de que o OneDrive ainda está sincronizando, não motivo para insistir. Nesse caso, pedir ao usuário para rodar `push.bat` manualmente (git nativo do Windows resolve isso sem o cache do sandbox) em vez de gastar tempo investigando via computer-use ou tentando remover o lock pelo bash.
+- O mesmo cache pode fazer `git status`/`git diff` mostrarem como "modificados" arquivos que ninguém tocou nesta sessão, ou manter um `.git/index.lock` preso mesmo depois que o processo que o criou já terminou. Isso não é necessariamente corrupção real — antes de investigar a fundo, confirmar o conteúdo verdadeiro via Read/Grep direto (não bash).
+- O lock de sincronização do OneDrive não se limita a `.git/`: qualquer tentativa de apagar (`rm`) um arquivo comum dessa pasta via bash pode falhar do mesmo jeito (`Operation not permitted`) enquanto o OneDrive está sincronizando — já aconteceu com `.txt`, `.bak` e pastas de skill legadas, não só dentro de `.git/`. Regra geral: nunca insistir ou tentar contornar (sudo, chmod, retries agressivos) uma falha de remoção com esse erro, seja dentro ou fora de `.git/`. Nesse caso, pedir ao usuário para apagar manualmente (ou rodar `push.bat`, que usa o git nativo do Windows e não sofre esse cache) em vez de gastar tempo investigando via computer-use ou insistindo pelo bash.
 
 === Verificação visual ===
 Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.
@@ -136,6 +137,14 @@ Uma atualização de modelo completa (CSS + tabelas + JS combinados no mesmo arq
 Ao renomear pastas: verificar e atualizar links em index.html — caminhos antigos causam 404 no app publicado.
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
 
+=== Escopo de melhorias — não retroagir ===
+O projeto está sempre melhorando (novo padrão de tabela, novo tipo de tooltip, nova convenção de CSS, etc.). Quando uma melhoria surge durante o trabalho em um material específico:
+- Aplicar a melhoria ao material que já está sendo editado nessa sessão (isso não muda — "Auditoria visual proativa" continua valendo dentro do escopo do arquivo em revisão).
+- Registrar o padrão na estruturação do projeto — template-v2-spec.md, SKILL.md da skill correspondente, ou instrucoes-projeto.txt — para que materiais NOVOS já nasçam seguindo o padrão.
+- Não sair retroaplicando a melhoria em todos os materiais já existentes só porque ela existe agora. Isso geraria um ciclo interminável de revisão (toda melhoria nova reabriria todo o acervo) com gasto de tokens desproporcional ao benefício.
+- Reavaliar um material antigo específico só quando: (a) o usuário pedir revisão dele diretamente, (b) ele for reaberto por outro motivo (nova seção, correção pontual), ou (c) a divergência for crítica o suficiente para virar um item de dívida técnica explícito em _docs/DEBT.md — não uma aplicação silenciosa em lote.
+- Itens de DEBT.md do tipo "expandir X para os demais compêndios" devem ser tratados como decisão em aberto (fazer ou não), não como pendência a ser resolvida por padrão.
+
 === Publicação (GitHub Pages) ===
 O repositório já está publicado em https://viniciuskato.github.io/estudo-conceitos/ ("app publicado") — atualiza sozinho a cada `push.bat`, sem passo manual de deploy.
 Antes de propor infraestrutura nova para pedidos do tipo "deixar acessível", "funcionar offline", "funcionar como aplicativo" ou "escalar para mais materiais": checar primeiro se essa publicação já resolve (ex.: via fetch da URL acima) antes de desenhar alternativas como servidor local — muitas vezes já está pronto.
@@ -143,3 +152,4 @@ Antes de propor infraestrutura nova para pedidos do tipo "deixar acessível", "f
 === GitHub ===
 Ao concluir a sessão (usuário sinalizar "terminamos", "pode fechar" ou similar), após aplicar as mudanças aprovadas: rodar `git add -A`, `git commit` com mensagem descrevendo o que foi feito na sessão, e `git push` para enviar ao repositório remoto.
 Se o push falhar (conflito, sem credenciais configuradas no ambiente, etc.): informar o usuário do erro específico e deixar o commit local intacto — não forçar (`--force`) nem tentar contornar credenciais.
+Deleções manuais pendentes: se, durante a sessão, uma ou mais remoções de arquivo falharam por lock de sincronização do OneDrive (ver seção anterior), não reportar cada uma isoladamente no meio da sessão. Consolidar todas num único checklist ao final, junto do lembrete de `push.bat` — o usuário resolve tudo de uma vez depois que o OneDrive terminar de sincronizar.

@@ -210,7 +210,17 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
 .qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 .qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+/* Tabela de dados (comparativo) */
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--text);font-weight:600}
 ```
+
+Uso de `.data-table`: a primeira célula de cada linha (o rótulo/nome da linha) recebe `class="td-label"` para destacá-la visualmente das demais colunas — ver exemplos em `medicina/imunologia/*.html`. Sempre envolver em `<div class="table-wrap">` e seguir com `<caption>` ou `<p class="table-caption">` numerada.
 
 ---
 
