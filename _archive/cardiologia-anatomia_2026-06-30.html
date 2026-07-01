@@ -80,11 +80,32 @@ a.cross-link:hover{opacity:1}
 .ref-entry:last-child{border-bottom:none}
 .ref-nota{font-style:italic;color:var(--muted);font-size:13px;margin-top:4px}
 .ref-layer{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px}
-.plate-block{margin:28px 0;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .plate-block img{width:100%;display:block;background:#e8e2d8}
 .plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
 .plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .2s}
+#back-btn:hover{background:var(--bg3)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
 #mob-bar{display:none}
+/* Lightbox */
+.plate-block img{cursor:zoom-in}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);align-items:center;justify-content:center;padding:20px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:92vw;max-height:88vh;object-fit:contain;border-radius:4px;box-shadow:0 4px 32px rgba(0,0,0,.6)}
+#lightbox-caption{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:var(--muted);font-family:var(--font-ui);font-size:11px;padding:6px 14px;border-radius:20px;max-width:80vw;text-align:center;pointer-events:none}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+/* Inline tables */
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
 @media(max-width:900px){
   #sidebar{display:none}#sidebar.open{display:flex}
   #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
@@ -185,26 +206,26 @@ a.cross-link:hover{opacity:1}
 
 <section id="camaras">
 <h2>Câmaras cardíacas</h2>
-<div class="plate-block">
+<div class="plate-block" id="fig-490">
   <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Gray490.png"
        alt="Gray490 — Corte frontal do coração mostrando câmaras e valvas (Gray's Anatomy, 1918)"
        loading="lazy">
   <div class="plate-caption"><b>Prancha 490</b> — Corte frontal do coração: câmaras, valvas atrioventriculares e semilunares. <em>Gray's Anatomy</em>, Henry Gray, 1918. Domínio público.</div>
 </div>
 
-<p>O coração possui quatro câmaras: dois átrios (superiores, de paredes delgadas, receptores) e dois ventrículos (inferiores, de paredes espessas, propulsores). A divisão longitudinal — septo interatrial e septo interventricular — separa completamente as circulações pulmonar e sistêmica após o nascimento. Qualquer comunicação residual entre os lados representa malformação congênita com implicações hemodinâmicas proporcionais ao shunt gerado <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>.</p>
+<p>O coração possui quatro câmaras: dois átrios (superiores, de paredes delgadas, receptores) e dois ventrículos (inferiores, de paredes espessas, propulsores). A divisão longitudinal — septo interatrial e septo interventricular — separa completamente as circulações pulmonar e sistêmica após o nascimento. Qualquer comunicação residual entre os lados representa malformação congênita com implicações hemodinâmicas proporcionais ao shunt gerado <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span> <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.</p>
 
 <h3>Átrio direito (AD)</h3>
 <p>Recebe sangue venoso sistêmico pelas veias cavas superior e inferior, e sangue do próprio coração pelo seio coronariano. Sua parede posterior é lisa (derivada do seio venoso embrionário); a parede anterior e o apêndice atrial direito (aurícula direita) são trabeculados pelos músculos pectíneos. O limite entre as duas regiões é a <em>crista terminalis</em> — elevação muscular vertical com relevância clínica porque é sítio de origem de taquicardias atriais focais. No septo interatrial está a <em>fossa oval</em>, depressão oval que corresponde ao forame oval fetal fechado. Em 20–25% dos adultos essa fusão é incompleta — forame oval patente (FOP) — que normalmente é funcionalmente fechado mas pode ser via de embolia paradoxal.</p>
 
 <h3>Ventrículo direito (VD)</h3>
-<p>Câmara de baixa pressão (pressão sistólica ~25 mmHg), com paredes mais delgadas (3–5 mm) que o ventrículo esquerdo. Sua forma é semilunar em corte transversal, envolve parcialmente o VE. O interior é trabeculado por trabéculas cárneas, entre elas a <em>trabécula septomarginal</em> (banda moderadora), que conduz o ramo direito do feixe de His diretamente ao músculo papilar anterior — atalho que antecipa a ativação do músculo papilar e previne regurgitação tricúspide durante a sístole. A via de saída — <em>infundíbulo</em> ou cone arterial — é de paredes lisas e direciona o fluxo para a valva pulmonar.</p>
+<p>Câmara de baixa pressão (pressão sistólica ~25 mmHg), com paredes mais delgadas (3–5 mm) que o ventrículo esquerdo. Sua forma é semilunar em corte transversal, envolve parcialmente o VE. O interior é trabeculado por trabéculas cárneas, entre elas a <em>trabécula septomarginal</em> (banda moderadora), que conduz o ramo direito do feixe de His diretamente ao músculo papilar anterior — atalho que antecipa a ativação do músculo papilar e previne regurgitação tricúspide durante a sístole <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>. A via de saída — <em>infundíbulo</em> ou cone arterial — é de paredes lisas e direciona o fluxo para a valva pulmonar.</p>
 
 <h3>Átrio esquerdo (AE)</h3>
 <p>Câmara de maior pressão atrial (média ~8–12 mmHg), recebe sangue oxigenado das quatro veias pulmonares. Sua parede posterior é quase inteiramente lisa. O apêndice atrial esquerdo (aurícula esquerda) é tubular, com base estreita — morfologia que favorece estase e formação de trombo em fibrilação atrial, tornando-o o principal sítio de trombo intracardíaco na FA. O septo interatrial apresenta, no lado esquerdo, a válvula da fossa oval, que atua como tampa sobre o septo primum.</p>
 
 <h3>Ventrículo esquerdo (VE)</h3>
-<p>Câmara de alta pressão (pressão sistólica ~120 mmHg), com paredes de 8–12 mm de espessura — três vezes mais espesso que o VD. Sua forma é cônica, com superfície interna trabeculada. Dois grupos de músculos papilares — anterolateral e posteromedial — sustentam as cordas tendíneas que fixam os folhetos da valva mitral. Ao contrário do VD, o VE tem dupla via de entrada (valva mitral) e saída (valva aórtica) geometricamente separadas pelo septo interventricular membranoso e pelo folheto anterior da mitral. Essa arquitetura impõe que a contração do VE seja simultaneamente centrípeta e longitudinal, gerando uma fração de ejeção normal de 55–70%.</p>
+<p>Câmara de alta pressão (pressão sistólica ~120 mmHg), com paredes de 8–12 mm de espessura — três vezes mais espesso que o VD. Sua forma é cônica, com superfície interna trabeculada. Dois grupos de músculos papilares — anterolateral e posteromedial — sustentam as cordas tendíneas que fixam os folhetos da valva mitral. Ao contrário do VD, o VE tem dupla via de entrada (valva mitral) e saída (valva aórtica) geometricamente separadas pelo septo interventricular membranoso e pelo folheto anterior da mitral. Essa arquitetura impõe que a contração do VE seja simultaneamente centrípeta e longitudinal, gerando uma fração de ejeção normal de 55–70% <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.</p>
 
 <div class="kbox">
   <div class="klabel">Conceito-chave — Espessura de parede e pressão</div>
@@ -228,6 +249,55 @@ a.cross-link:hover{opacity:1}
 <h3>Valva aórtica</h3>
 <p>Localiza-se na via de saída do VE, com três cúspides semilunares: direita (coronariana direita), esquerda (coronariana esquerda) e posterior (não coronariana). Entre cada cúspide e a parede aórtica há dilatações chamadas <em>seios de Valsalva</em> (ou seios aórticos); é dos seios direito e esquerdo que emergem as artérias coronárias. O fluxo para as coronárias ocorre predominantemente na diástole, quando a valva aórtica está fechada e o seio cria um turbilhão que direciona o sangue aos óstios coronarianos — mecanismo passivo e engenhoso que dispensa bomba acessória para perfundir o próprio miocárdio.</p>
 
+
+<table class="data-table" aria-label="Comparativo das valvas cardíacas">
+  <thead>
+    <tr>
+      <th>Valva</th>
+      <th>Posição</th>
+      <th>Folhetos</th>
+      <th>Aparato subvalvar</th>
+      <th>Pressão de fechamento</th>
+      <th>Relevância clínica principal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-label">Tricúspide</td>
+      <td>Óstio AV direito</td>
+      <td>3 (ant., post., septal)</td>
+      <td>Cordas + mm. papilares</td>
+      <td>~25 mmHg (sistólica VD)</td>
+      <td>Folheto septal adjacente ao nó AV → risco de BAV em cirurgia</td>
+    </tr>
+    <tr>
+      <td class="td-label">Mitral</td>
+      <td>Óstio AV esquerdo</td>
+      <td>2 (ant., post.)</td>
+      <td>Cordas + mm. papilares</td>
+      <td>~120 mmHg (sistólica VE)</td>
+      <td>Mm. papilar posteromedial: suprimento único → IM isquêmica</td>
+    </tr>
+    <tr>
+      <td class="td-label">Pulmonar</td>
+      <td>Via de saída VD (infundíbulo)</td>
+      <td>3 cúspides semilunares</td>
+      <td>Nenhum</td>
+      <td>~10 mmHg (diastólica AP)</td>
+      <td>Insuficiência hemodinamicamente tolerada por anos</td>
+    </tr>
+    <tr>
+      <td class="td-label">Aórtica</td>
+      <td>Via de saída VE</td>
+      <td>3 cúspides semilunares</td>
+      <td>Nenhum</td>
+      <td>~80 mmHg (diastólica aórtica)</td>
+      <td>Seios de Valsalva → origem das coronárias; estenose = alta mortalidade</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 1 — Comparativo estrutural e funcional das quatro valvas cardíacas. AV = atrioventricular; AP = artéria pulmonar; BAV = bloqueio atrioventricular; IM = insuficiência mitral.</p>
+
 <div class="ck-grid">
   <div class="ck-card">
     <div class="ckt">Mitral</div>
@@ -250,7 +320,7 @@ a.cross-link:hover{opacity:1}
 
 <section id="grandes-vasos">
 <h2>Grandes vasos</h2>
-<div class="plate-block">
+<div class="plate-block" id="fig-492">
   <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Gray492.png"
        alt="Gray492 — Face esternocostal do coração e grandes vasos (Gray's Anatomy, 1918)"
        loading="lazy">
@@ -260,10 +330,10 @@ a.cross-link:hover{opacity:1}
 <p>Os grandes vasos são as artérias e veias de maior calibre diretamente conectadas ao coração. Sua anatomia determina tanto a fisiologia normal quanto a patologia cirúrgica e os procedimentos de hemodinâmica.</p>
 
 <h3>Aorta</h3>
-<p>Artéria de maior calibre do corpo, originada no VE. Divide-se em: <em>aorta ascendente</em> (da valva aórtica até o arco aórtico, ~5 cm; diâmetro normal ≤40 mm); <em>arco aórtico</em>, de onde emergem o tronco braquiocefálico, a artéria carótida comum esquerda e a artéria subclávia esquerda; <em>aorta descendente torácica</em>, posterior ao pericárdio, e <em>aorta abdominal</em>. A parede da aorta é composta por três camadas — íntima, média (rica em fibras elásticas) e adventícia. A dissecção aórtica ocorre quando sangue entra na média por laceração da íntima, criando falso lúmen. A localização da dissecção em relação às coronárias e valva aórtica determina urgência cirúrgica (classificação de Stanford A vs. B) <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>.</p>
+<p>Artéria de maior calibre do corpo, originada no VE. Divide-se em: <em>aorta ascendente</em> (da valva aórtica até o arco aórtico, ~5 cm; diâmetro normal ≤40 mm); <em>arco aórtico</em>, de onde emergem o tronco braquiocefálico, a artéria carótida comum esquerda e a artéria subclávia esquerda; <em>aorta descendente torácica</em>, posterior ao pericárdio, e <em>aorta abdominal</em>. A parede da aorta é composta por três camadas — íntima, média (rica em fibras elásticas) e adventícia. A dissecção aórtica ocorre quando sangue entra na média por laceração da íntima, criando falso lúmen. A localização da dissecção em relação às coronárias e valva aórtica determina urgência cirúrgica (classificação de Stanford A vs. B) <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span> <a class="fig-ref" href="#fig-492" onclick="navFig(this)">(Fig. 492)</a>.</p>
 
 <h3>Tronco pulmonar e artérias pulmonares</h3>
-<p>O tronco pulmonar emerge do VD, percorre ~5 cm e bifurca-se em artéria pulmonar direita e esquerda, sob o arco aórtico. É o único vaso arterial do corpo adulto que conduz sangue venoso (desoxigenado). O ligamento arterioso — remanescente fibroso do ducto arterioso fetal — une a face superior do tronco pulmonar à aorta descendente; sua persistência após o nascimento (PCA) gera shunt esquerda-direita.</p>
+<p>O tronco pulmonar emerge do VD, percorre ~5 cm e bifurca-se em artéria pulmonar direita e esquerda, sob o arco aórtico. É o único vaso arterial do corpo adulto que conduz sangue venoso (desoxigenado). O ligamento arterioso — remanescente fibroso do ducto arterioso fetal — une a face superior do tronco pulmonar à aorta descendente; sua persistência após o nascimento (PCA) gera shunt esquerda-direita <a class="fig-ref" href="#fig-492" onclick="navFig(this)">(Fig. 492)</a>.</p>
 
 <h3>Veias cavas</h3>
 <p>A veia cava superior (VCS) drena a cabeça, pescoço, membros superiores e tórax para o AD; a veia cava inferior (VCI) drena o abdome e membros inferiores. Ambas desembocam no AD sem valvas. Compressão extrínseca da VCS por massas mediastinais provoca síndrome da veia cava superior (edema em capa, cianose facial, circulação colateral torácica).</p>
@@ -274,7 +344,7 @@ a.cross-link:hover{opacity:1}
 
 <section id="coronarias">
 <h2>Circulação coronariana</h2>
-<div class="plate-block">
+<div class="plate-block" id="fig-495">
   <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Gray495.png"
        alt="Gray495 — Artérias coronárias direita e esquerda (Gray's Anatomy, 1918)"
        loading="lazy">
@@ -284,10 +354,10 @@ a.cross-link:hover{opacity:1}
 <p>O coração supre seu próprio músculo por sistema arterial independente do sangue intracavitário — o miocárdio recebe oxigênio exclusivamente pelas artérias coronárias, não por difusão do sangue que passa pelas câmaras. Essa dependência explica a rapidez com que a oclusão coronariana leva à necrose: sem circulação colateral estabelecida, a isquemia irreversível começa em 20–40 minutos.</p>
 
 <h3>Artéria coronária esquerda (ACE)</h3>
-<p>Emerge do seio coronariano esquerdo da aorta, percorre 1–2 cm como tronco comum (TC) e bifurca-se em: <em>artéria descendente anterior (ADA)</em> — desce pelo sulco interventricular anterior, emitindo ramos diagonais (parede anterior do VE) e ramos septais perfurantes (2/3 anteriores do septo); e <em>artéria circunflexa (CX)</em> — percorre o sulco atrioventricular esquerdo, emitindo ramos marginais obtusas (parede lateral do VE). A ADA é a artéria mais frequentemente acometida no infarto; sua oclusão proximal é chamada de "widow maker" porque interrompe suprimento da maior massa miocárdica <span class="cite">(<a href="#referencias">GRAY; STANDRING, 2021</a>)</span>.</p>
+<p>Emerge do seio coronariano esquerdo da aorta, percorre 1–2 cm como tronco comum (TC) e bifurca-se em: <em>artéria descendente anterior (ADA)</em> — desce pelo sulco interventricular anterior, emitindo ramos diagonais (parede anterior do VE) e ramos septais perfurantes (2/3 anteriores do septo); e <em>artéria circunflexa (CX)</em> — percorre o sulco atrioventricular esquerdo, emitindo ramos marginais obtusas (parede lateral do VE). A ADA é a artéria mais frequentemente acometida no infarto; sua oclusão proximal é chamada de "widow maker" porque interrompe suprimento da maior massa miocárdica <span class="cite">(<a href="#referencias">GRAY; STANDRING, 2021</a>)</span> <a class="fig-ref" href="#fig-495" onclick="navFig(this)">(Fig. 495)</a>.</p>
 
 <h3>Artéria coronária direita (ACD)</h3>
-<p>Emerge do seio coronariano direito, desce pelo sulco atrioventricular direito emitindo ramos para o VD e, ao atingir a cruz cordis (ponto de cruzamento dos sulcos interventricular posterior e atrioventricular), origina a <em>artéria descendente posterior (ADP)</em> na maioria dos indivíduos — configuração chamada de <em>dominância direita</em> (~70% dos casos). A ACD também supre o nó sinoatrial (em ~60%) e o nó atrioventricular (~90%), explicando por que infarto inferior (oclusão da ACD) frequentemente cursa com bloqueio AV transitório.</p>
+<p>Emerge do seio coronariano direito, desce pelo sulco atrioventricular direito emitindo ramos para o VD e, ao atingir a cruz cordis (ponto de cruzamento dos sulcos interventricular posterior e atrioventricular), origina a <em>artéria descendente posterior (ADP)</em> na maioria dos indivíduos — configuração chamada de <em>dominância direita</em> (~70% dos casos). A ACD também supre o nó sinoatrial (em ~60%) e o nó atrioventricular (~90%), explicando por que infarto inferior (oclusão da ACD) frequentemente cursa com bloqueio AV transitório <a class="fig-ref" href="#fig-495" onclick="navFig(this)">(Fig. 495)</a>.</p>
 
 <h3>Dominância coronariana</h3>
 <p>O conceito de dominância refere-se a qual artéria origina a ADP e os ramos para o nó AV: direita (~70%), esquerda (~15%) ou codominância (~15%). A dominância tem relevância prognóstica no infarto: oclusão da artéria dominante compromete maior massa miocárdica e área de condução.</p>
@@ -303,7 +373,7 @@ a.cross-link:hover{opacity:1}
 
 <section id="conducao">
 <h2>Sistema de condução elétrica</h2>
-<div class="plate-block">
+<div class="plate-block" id="fig-498">
   <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Gray_internal_structure_of_heart.png"
        alt="Gray498 — Estrutura interna do coração e sistema de condução (Gray's Anatomy, 1918)"
        loading="lazy">
@@ -313,16 +383,16 @@ a.cross-link:hover{opacity:1}
 <p>O coração possui sistema especializado de geração e condução de impulsos elétricos que garante a sequência coordenada de contração — átrios primeiro, ventrículos depois — com atraso calculado para permitir enchimento ventricular. Esse sistema é composto por células modificadas com automatismo intrínseco (disparam espontaneamente) e velocidade de condução variável.</p>
 
 <h3>Nó sinoatrial (NSA)</h3>
-<p>Marcapasso fisiológico, localizado na junção da VCS com o AD, próximo à crista terminalis. Dispara a 60–100 bpm em repouso. É inervado pelo simpático (aumenta frequência) e pelo vago (diminui frequência). Irrigado pela artéria do NSA, ramo da ACD em ~60% e da CX em ~40%. Disfunção do NSA gera síndrome do nó doente (bradicardia sinusal, pausas, síndrome bradi-taqui).</p>
+<p>Marcapasso fisiológico, localizado na junção da VCS com o AD, próximo à crista terminalis. Dispara a 60–100 bpm em repouso. É inervado pelo simpático (aumenta frequência) e pelo vago (diminui frequência). Irrigado pela artéria do NSA, ramo da ACD em ~60% e da CX em ~40%. Disfunção do NSA gera síndrome do nó doente (bradicardia sinusal, pausas, síndrome bradi-taqui) <a class="fig-ref" href="#fig-498" onclick="navFig(this)">(Fig. 498)</a>.</p>
 
 <h3>Vias internodais e interatriais</h3>
 <p>O impulso propaga-se pelo miocárdio atrial de célula a célula. Existem vias preferenciais de condução internodal (anterior, média e posterior de Bachmann), embora o conceito de "vias internodais anatomicamente distintas" seja debatido — o substrato anatômico é miocárdio atrial orientado, não tecido especializado isolado. O feixe de Bachmann conduz o impulso ao AE, sincronizando a ativação atrial bilateral.</p>
 
 <h3>Nó atrioventricular (NAV)</h3>
-<p>Localizado no triângulo de Koch — delimitado pelo óstio do seio coronariano, pelo folheto septal da tricúspide e pelo tendão de Todaro. É o único ponto de condução normal entre átrios e ventrículos (os restantes estão separados pelos anéis fibrosos do esqueleto cardíaco). O NAV impõe atraso fisiológico de 120–200 ms (visível no intervalo PR do ECG), permitindo o enchimento ventricular. Frequência intrínseca de escape: 40–60 bpm. Dupla nutrição (ACD + CX) confere relativa proteção, mas isquemia inferior pode comprimí-lo.</p>
+<p>Localizado no triângulo de Koch — delimitado pelo óstio do seio coronariano, pelo folheto septal da tricúspide e pelo tendão de Todaro <a class="fig-ref" href="#fig-498" onclick="navFig(this)">(Fig. 498)</a>. É o único ponto de condução normal entre átrios e ventrículos (os restantes estão separados pelos anéis fibrosos do esqueleto cardíaco). O NAV impõe atraso fisiológico de 120–200 ms (visível no intervalo PR do ECG), permitindo o enchimento ventricular. Frequência intrínseca de escape: 40–60 bpm. Dupla nutrição (ACD + CX) confere relativa proteção, mas isquemia inferior pode comprimí-lo.</p>
 
 <h3>Feixe de His e ramos</h3>
-<p>Do NAV, o impulso segue pelo <em>feixe de His</em> — único ponto de condução pelo septo membranoso — e divide-se em <em>ramo direito</em> (fino, percorre o septo até a trabécula septomarginal → VD) e <em>ramo esquerdo</em> (largo, divide-se em fascículo anterossuperior e posteroinferior → VE). O ramo esquerdo é mais vulnerável a isquemia e fibrose por ter maior área. Bloqueio do ramo esquerdo (BRE) tem maior implicação prognóstica que bloqueio do ramo direito (BRD) isolado.</p>
+<p>Do NAV, o impulso segue pelo <em>feixe de His</em> — único ponto de condução pelo septo membranoso — e divide-se em <em>ramo direito</em> (fino, percorre o septo até a trabécula septomarginal → VD) e <em>ramo esquerdo</em> (largo, divide-se em fascículo anterossuperior e posteroinferior → VE). O ramo esquerdo é mais vulnerável a isquemia e fibrose por ter maior área. Bloqueio do ramo esquerdo (BRE) tem maior implicação prognóstica que bloqueio do ramo direito (BRD) isolado <a class="fig-ref" href="#fig-498" onclick="navFig(this)">(Fig. 498)</a>.</p>
 
 <h3>Fibras de Purkinje</h3>
 <p>Os ramos terminam em rede de fibras de Purkinje — células de grande diâmetro, alta velocidade de condução (2–4 m/s, 6× maior que o miocárdio ventricular comum). A rede subendocárdica garante ativação quase simultânea de toda a massa ventricular, da ponta em direção à base. Velocidade de condução intrínseca: 20–40 bpm (marcapasso de último recurso em parada do NSA e NAV).</p>
@@ -332,6 +402,49 @@ a.cross-link:hover{opacity:1}
 <h2>Pericárdio</h2>
 <p>O pericárdio é o saco fibroseroso que envolve o coração e a raiz dos grandes vasos. Compõe-se de duas camadas: <em>pericárdio fibroso</em> externo (tecido conjuntivo denso, inextensível, fundido com o diafragma inferiormente e com a adventícia dos grandes vasos superiormente) e <em>pericárdio seroso</em>, subdividido em lâmina parietal (forra internamente o fibroso) e lâmina visceral — o <em>epicárdio</em> — que adere ao miocárdio.</p>
 
+
+<table class="data-table" aria-label="Derrame pericárdico: acúmulo rápido vs. lento">
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Acúmulo rápido</th>
+      <th>Acúmulo lento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-label">Volume crítico</td>
+      <td>150–200 mL</td>
+      <td>1.000–2.000 mL</td>
+    </tr>
+    <tr>
+      <td class="td-label">Mecanismo</td>
+      <td>Pericárdio fibroso inextensível → pressão sobe abruptamente</td>
+      <td>Pericárdio se adapta (creep viscoelástico) → pressão sobe devagar</td>
+    </tr>
+    <tr>
+      <td class="td-label">Câmaras comprimidas</td>
+      <td>Câmaras direitas primeiro (menor pressão intracavitária)</td>
+      <td>Idem, mas progressivo — colapso do AD na diástole é sinal precoce</td>
+    </tr>
+    <tr>
+      <td class="td-label">Consequência hemodinâmica</td>
+      <td>Tamponamento cardíaco agudo (emergência)</td>
+      <td>Tamponamento subagudo/crônico (apresentação insidiosa)</td>
+    </tr>
+    <tr>
+      <td class="td-label">Exemplos clínicos</td>
+      <td>Hemopericárdio pós-trauma, dissecção aórtica tipo A</td>
+      <td>Derrame neoplásico, tuberculose, hipotireoidismo</td>
+    </tr>
+    <tr>
+      <td class="td-label">Tríade de Beck</td>
+      <td colspan="2" style="text-align:center">Hipotensão · Turgência jugular · Abafamento de bulhas (classicamente no tamponamento agudo)</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 2 — Derrame pericárdico: diferenças fisiopatológicas entre acúmulo rápido e lento. A velocidade de acúmulo importa mais que o volume absoluto.</p>
+
 <p>O espaço pericárdico entre as duas lâminas serosas contém 15–50 mL de líquido lubrificante. O acúmulo patológico desse líquido é o <em>derrame pericárdico</em>. A rigidez do pericárdio fibroso é determinante: acúmulo rápido de 150–200 mL pode elevar a pressão intrapericárdica a ponto de comprimir as câmaras direitas (tamponamento cardíaco), enquanto acúmulo lento pode atingir 1–2 L sem colapso hemodinâmico, pois o pericárdio fibroso se adapta progressivamente.</p>
 
 <p>A inervação sensitiva do pericárdio parietal é feita pelo nervo frênico (C3–C5), explicando a dor pericárdica referida ao ombro e região cervical — e o soluço como manifestação de irritação pericárdica. A lâmina visceral não tem inervação sensitiva.</p>
@@ -339,7 +452,7 @@ a.cross-link:hover{opacity:1}
 
 <section id="topografia">
 <h2>Topografia e projeção na parede torácica</h2>
-<div class="plate-block">
+<div class="plate-block" id="fig-493">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Gray493.png"
        alt="Gray493 — Face diafragmática do coração e relações topográficas (Gray's Anatomy, 1918)"
        loading="lazy">
@@ -356,12 +469,45 @@ a.cross-link:hover{opacity:1}
   <li><strong>Borda inferior (diafragmática):</strong> formada pelo VD (2/3 direitos) e VE (1/3 esquerdo), apoiada no diafragma.</li>
 </ul>
 
-<p>O <em>ictus cordis</em> (choque de ponta) é a pulsação do ápice do VE palpável no 5º espaço intercostal esquerdo, na linha hemiclavicular. Seu deslocamento lateral ou inferolateral indica cardiomegalia. A projeção das valvas e as áreas de ausculta divergem: o som produzido pela valva é transmitido no sentido do fluxo sanguíneo, por isso a valva aórtica (localizada atrás do esterno, 3º espaço) é melhor auscultada no 2º espaço intercostal direito.</p>
+<p>O <em>ictus cordis</em> (choque de ponta) é a pulsação do ápice do VE palpável no 5º espaço intercostal esquerdo, na linha hemiclavicular <a class="fig-ref" href="#fig-493" onclick="navFig(this)">(Fig. 493)</a>. Seu deslocamento lateral ou inferolateral indica cardiomegalia. A projeção das valvas e as áreas de ausculta divergem: o som produzido pela valva é transmitido no sentido do fluxo sanguíneo, por isso a valva aórtica (localizada atrás do esterno, 3º espaço) é melhor auscultada no 2º espaço intercostal direito.</p>
 </section>
 
 <section id="parede">
 <h2>Parede cardíaca — camadas e faces</h2>
 <p>A parede cardíaca é composta por três camadas, de fora para dentro:</p>
+
+<table class="data-table" aria-label="Camadas da parede cardíaca">
+  <thead>
+    <tr>
+      <th>Camada</th>
+      <th>Estrutura</th>
+      <th>Função principal</th>
+      <th>Patologia associada</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-label">Epicárdio</td>
+      <td>Lâmina visceral do pericárdio seroso; tecido adiposo subepicárdico com coronárias, veias e nervos</td>
+      <td>Redução de atrito; reservatório de gordura com atividade metabólica e inflamatória</td>
+      <td>Pericardite (inflamação do epicárdio/pericárdio); tecido adiposo epicárdico associado à FA e doença coronariana</td>
+    </tr>
+    <tr>
+      <td class="td-label">Miocárdio</td>
+      <td>Cardiomiócitos estriados, núcleo central único, discos intercalares (desmossomos + gap junctions); fibras helicoidais em camadas</td>
+      <td>Contração (sístole) e relaxamento (diástole); sincício funcional por condução elétrica célula a célula</td>
+      <td>Infarto (necrose isquêmica); miocardite (inflamação); cardiomiopatias (hipertrófica, dilatada, restritiva)</td>
+    </tr>
+    <tr>
+      <td class="td-label">Endocárdio</td>
+      <td>Endotélio + tecido conjuntivo subendotelial; contínuo com endotélio vascular; reveste câmaras e valvas</td>
+      <td>Barreira hemocompatível; superfície antitrombogênica em condições normais</td>
+      <td>Endocardite infecciosa (lesão por jato de alta velocidade → colonização bacteriana); endocardite de Libman-Sacks (lúpus)</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Tabela 3 — Camadas da parede cardíaca: estrutura, função e patologia. FA = fibrilação atrial.</p>
+
 <ul>
   <li><strong>Epicárdio:</strong> lâmina visceral do pericárdio seroso. Contém tecido adiposo subepicárdico onde percorrem as artérias coronárias, veias e nervos. O tecido adiposo epicárdico tem atividade metabólica e inflamatória própria, com papel emergente na patogênese da doença coronariana e FA.</li>
   <li><strong>Miocárdio:</strong> camada muscular, responsável pela função contrátil. Composto por cardiomiócitos — células musculares estriadas, geralmente com um único núcleo central, interconectadas por discos intercalares que garantem condução elétrica rápida de célula a célula (sincício funcional). O miocárdio ventricular é organizado em camadas helicoidais de fibras com orientações distintas, o que permite a torção sistólica que aumenta a eficiência de ejeção. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">→ Ciclo cardíaco: fisiologia da contração</a>.</li>
@@ -479,6 +625,13 @@ a.cross-link:hover{opacity:1}
 </div><!-- .prose -->
 </main>
 </div><!-- #body-wrap -->
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="goBack()">← Voltar à leitura</button>
 <script>
 (function(){
   // Progresso de leitura
@@ -528,9 +681,84 @@ a.cross-link:hover{opacity:1}
   window.addEventListener('scroll', updateActive, {passive:true});
   updateActive();
 
-  document.querySelectorAll('section[id]').forEach(function(s){
-    obs2.observe(s);
+  // navFig: salva posição e navega para a figura
+
+  // Lightbox
+  function openLightbox(img){
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCap = document.getElementById('lightbox-caption');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    var cap = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
+    lbCap.textContent = cap ? cap.textContent.trim() : '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if(e.target === this) closeLightbox();
   });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
+  document.querySelectorAll('.plate-block img').forEach(function(img){
+    img.addEventListener('click', function(){ openLightbox(this); });
+  });
+
+  window._readPos = null;
+  window.navFig = function(anchor){
+    window._readPos = window.scrollY;
+    var btn = document.getElementById('back-btn');
+    btn.style.display = 'block';
+    // navegação via href já acontece naturalmente
+  };
+  window.goBack = function(){
+    if(window._readPos !== null){
+      window.scrollTo({top: window._readPos, behavior:'smooth'});
+    
+  // Lightbox
+  function openLightbox(img){
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCap = document.getElementById('lightbox-caption');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    var cap = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
+    lbCap.textContent = cap ? cap.textContent.trim() : '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if(e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
+  document.querySelectorAll('.plate-block img').forEach(function(img){
+    img.addEventListener('click', function(){ openLightbox(this); });
+  });
+
+  window._readPos = null;
+    }
+    document.getElementById('back-btn').style.display = 'none';
+  };
+  // Esconde botão se usuário rolar manualmente após navegar
+  var _hideTimer = null;
+  window.addEventListener('scroll', function(){
+    if(document.getElementById('back-btn').style.display === 'none') return;
+    clearTimeout(_hideTimer);
+    _hideTimer = setTimeout(function(){
+      // só esconde se passou >2s sem clicar o botão
+    }, 2000);
+  }, {passive:true});
 })();
 </script>
 </body>

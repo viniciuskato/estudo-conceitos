@@ -48,6 +48,16 @@ Ao iniciar sessão sem tarefa direta:
 - Antes de gerar qualquer material, confirmar que o propósito (atlas ou mecanismo) e o recorte estão claros.
 - OBRIGATÓRIO antes de criar novo HTML: ler _docs/template-v2-spec.md (referência canônica de CSS, layout, sidebar, elementos visuais e seções). Se já existe compêndio na mesma subpasta, usá-lo como base estrutural — copiar e editar (arquivar o original em _archive/ com sufixo de data), não criar do zero. Criar do zero só quando não há compêndio anterior na subpasta, mas sempre seguindo o template-v2-spec.md.
 
+
+=== Idioma dos compêndios ===
+O idioma do compêndio segue o idioma predominante das fontes primárias:
+- Literatura médica internacional (PubMed, guidelines, livros-texto canônicos em inglês) → compêndio em inglês.
+- Fontes predominantemente em português (diretrizes brasileiras, epidemiologia nacional) → compêndio em português.
+Dentro do texto, independente do idioma principal:
+- Latim anatômico entre parênteses na primeira ocorrência dos termos principais (ex: "crista terminalis").
+- Termos PT-BR entre parênteses quando o contexto brasileiro exige — nomenclatura de provas, siglas consagradas (ex: "left bundle branch block (LBBB — bloqueio de ramo esquerdo)").
+- Termos em inglês entre parênteses em compêndios em português quando o termo técnico é de uso universal na literatura (ex: "preload", "afterload").
+
 === Imagens em compêndios HTML ===
 Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
 - URLs reais via API Wikimedia (usar Claude in Chrome javascript_tool):
@@ -96,7 +106,7 @@ Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferen
 (a) fecha com </body></html>
 (b) wc -l compatível com o esperado
 (c) sem const const / var var
-(d) acentuação PT-BR intacta: grep -c "ã\|ç\|é" > 0
+(d) encoding UTF-8 intacto: se o compêndio tem caracteres especiais (acentos, símbolos), grep -c "ã\|ç\|é\|ñ\|→\|–" > 0; para compêndios em inglês, verificar ausência de replacement characters: grep -c "\xef\xbf\xbd" deve ser 0
 (e) sem artefatos: grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho" vazio
 Corrigir antes de prosseguir.
 
