@@ -13,8 +13,6 @@ Ao corrigir: marcar `[x]` e mover para a seção **Resolvida** com data de resol
 
 ## Pendente
 
-- [ ] `instrucoes-atlas.txt` (raiz) e `_docs/instrucoes-atlas.txt`, `.claude/skills/atlas/SKILL.md`, `.claude/skills/mecanismo/SKILL.md` — confirmado obsoleto (2026-07-01: usuário reafirmou que não há mais Atlas, só compêndio). Conteúdo já arquivado em `_acervo/docs-legado/` (ver Resolvida). Falta apenas remover os 4 arquivos originais do lugar — tentativa via bash falhou (`Operation not permitted`, lock de sincronização OneDrive); usuário precisa apagá-los manualmente (`instrucoes-atlas.txt`, `_docs/instrucoes-atlas.txt`, pasta `.claude/` inteira) (2026-07-01)
-
 - [ ] `compêndios/ia/inteligencia-artificial.html` — verificação visual no Chrome pendente (Claude-in-Chrome não navega de chrome://newtab para file://; verificação estrutural OK: 442 linhas, sidebar, progress bar, acentuação PT-BR, sem artefatos) (2026-06-30)
 
 - [x] `compêndios/medicina/cardiologia-anatomia.html` — verificação visual confirmada no Chrome via surge.sh: pranchas Gray's Anatomy renderizando corretamente sem filtro, layout OK (2026-06-30)
@@ -28,12 +26,12 @@ Ao corrigir: marcar `[x]` e mover para a seção **Resolvida** com data de resol
 - [ ] `compêndios/ia/inteligencia-artificial.html` — verificação visual no Chrome ainda pendente (arquivo sem tabelas/pranchas; apenas JS de sidebar corrigido nesta sessão) (2026-07-01)
 - [ ] Diversos compêndios de imunologia/farmacologia/fisiopatologia atualizados nesta sessão (ver Resolvida) sem pranchas Gray's/OpenStax adicionadas — conteúdo predominantemente molecular/farmacológico sem imagem CC apropriada encontrada; reavaliar se novo material visual (ex. diagramas de via) ficar disponível (2026-07-01)
 - [ ] `medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html` — comentário órfão `<!-- CONCEITOS-CHAVE (placeholder removido — já está correto) -->` na linha ~262, resíduo de edição anterior sem valor informativo; remover em próxima revisão pontual (2026-07-01)
-- [ ] `medicina/fisiopatologia/doencas-circulatorias.html.bak`, `medicina/microbiologia/micologia-medica.html.bak`, `medicina/microbiologia/virologia-geral.html.bak` — arquivos `.bak` versionados no Git junto dos arquivos ativos; resíduo de edição não limpo. Tentativa de remoção via bash falhou (`.git/index.lock` já existe — OneDrive sincronizando); apagar manualmente e rodar `git rm`/`push.bat` (2026-07-01)
 
 ---
 
 ## Resolvida
 
+- [x] Deleções manuais pendentes — usuário apagou os 6 arquivos legados/resíduo confirmados via Read direto (não existem mais): `instrucoes-atlas.txt` (raiz), `_docs/instrucoes-atlas.txt`, `.claude/` (pasta inteira), `medicina/fisiopatologia/doencas-circulatorias.html.bak`, `medicina/microbiologia/micologia-medica.html.bak`, `medicina/microbiologia/virologia-geral.html.bak`. Conteúdo do legado Atlas segue preservado em `_acervo/docs-legado/`. Pendente ainda: rodar `git add -A`/commit/`push.bat` para refletir as remoções no repositório remoto (bash do sandbox ainda mostra cache desatualizado do OneDrive, não usado para esta verificação). (2026-07-01)
 - [x] Legado Atlas (`instrucoes-atlas.txt` raiz e `_docs/`, `.claude/skills/atlas/`, `.claude/skills/mecanismo/`) — conteúdo copiado integralmente para `_acervo/docs-legado/` (instrucoes-atlas-raiz.txt, instrucoes-atlas-docs.txt, claude-skills-legado/atlas-SKILL.md, claude-skills-legado/mecanismo-SKILL.md), com nota em `_acervo/LEIA-ME.md`. Confirmação do usuário: "não há mais atlas, é compêndio". Remoção dos originais segue pendente por lock do OneDrive (ver Pendente). (2026-07-01)
 - [x] `compêndios/medicina/cardiologia-anatomia.html` — piloto de dicionário interativo (`.term-rich` + `#dict-panel`/dictionaryapi.dev) reavaliado: decisão é manter como piloto isolado, sem expandir para os demais termos do arquivo nem replicar em outros compêndios — melhoria pontual não vira padrão retroativo (ver `_docs/instrucoes-projeto.txt` seção "Escopo de melhorias — não retroagir"). (2026-07-01)
 - [x] `.data-table`/`td-label` documentado como padrão canônico em `_docs/template-v2-spec.md` (seção "Elementos visuais") — já era o padrão de fato em 22 dos 23 compêndios ativos, faltava só registrar na fonte de verdade. (2026-07-01)
