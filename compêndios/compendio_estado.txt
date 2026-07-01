@@ -18,3 +18,19 @@
              a pedido do usuário — evitar tratar um nome de skill como fixo/canônico
              independente da evolução do template-v2-spec.md. Arquivos atlas_mapa.txt e
              atlas_estado.txt renomeados para compendio_mapa.txt e compendio_estado.txt.
+2026-07-01 — Primeiro compêndio de filosofia criado: compêndios/filosofia/epistemologia.html
+             (subskill compendio-filosofia). Mapa de campo amplo, idioma PT, ponto de partida
+             zero: o que estuda, conceitos fundamentais (JTB, a priori/a posteriori, int./ext.),
+             mapa do campo, percurso histórico (antiga → racionalismo×empirismo → Kant → virada
+             analítica pós-Gettier), análise do conhecimento (Gettier + respostas, tabela),
+             estrutura da justificação (trilema de Agripa; fundacionismo/coerentismo/infinitismo,
+             tabela), fontes, ceticismo (tabela de argumentos), questões centrais, métodos,
+             conexões (cross-link p/ IA), controvérsias, referências em camadas, síntese.
+             4 tabelas .data-table (sem pranchas — filosofia não tem imagem anatômica aplicável).
+             Verificação bash OK. Verificação visual via surge CONFIRMADA no Chrome
+             (compendios-filosofia.surge.sh): layout, sidebar+sub-itens+home+realce ativo,
+             pergunta orientadora, kbox, caixas históricas, subarea-cards e .data-table
+             (cabeçalho --ac, td-label negrito) renderizando corretamente; acentuação OK.
+             DEBT crítico do template-v2-spec.md (final "Leituras recomendadas") confirmado JÁ
+             íntegro no disco via Read direto — era cache do OneDrive no bash/git show; marcado
+             resolvido no DEBT.md.

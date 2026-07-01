@@ -357,4 +357,10 @@ Piloto de dicionário interativo (tooltip enriquecido + busca ao vivo): ver entr
 
 **Discussão:** três movimentos — (1) convergência, fechando a pergunta motivadora com os conceitos desenvolvidos; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
 
-**Leituras recomendadas:** livros-texto, artigos (l
+**Leituras recomendadas:** livros-texto, artigos (leis primárias), enciclopédias de referência e monografias, organizados em **camadas** para guiar o estudo — não uma lista plana. Três camadas obrigatórias:
+
+1. **Ponto de entrada** — a leitura por onde começar sem pré-requisito: verbete de enciclopédia revisada por pares (em filosofia, SEP/IEP), capítulo introdutório de livro-texto ou artigo de síntese. Serve para mapear o debate antes do texto-fonte.
+2. **Aprofundamento** — os textos-fonte e artigos seminais que fundamentam as afirmações centrais do compêndio. Aqui vai o argumento original (em filosofia, o texto do próprio filósofo ou o artigo seminal do debate contemporâneo), não o comentador.
+3. **Consulta especializada** — monografias, comentadores e literatura de disputa interpretativa, para quem já domina o núcleo e quer resolver uma controvérsia específica ou ir à fronteira.
+
+Cada referência com **tipo** (livro / artigo / verbete / texto-fonte), **título**, **autor**, **ano** e uma **anotação** de 1–2 frases justificando por que está ali e o que o leitor ganha com ela — nunca uma referência sem anotação. Não omitir material relevante por ser longo ou difícil: o compêndio deve informar o que existe, cabendo ao leitor decidir o quanto encarar. Marcar (quando houver) qual referência corresponde ao ponto de partida recomendado do leitor.
