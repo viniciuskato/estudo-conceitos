@@ -58,6 +58,12 @@ Dentro do texto, independente do idioma principal:
 - Termos PT-BR entre parênteses quando o contexto brasileiro exige — nomenclatura de provas, siglas consagradas (ex: "left bundle branch block (LBBB — bloqueio de ramo esquerdo)").
 - Termos em inglês entre parênteses em compêndios em português quando o termo técnico é de uso universal na literatura (ex: "preload", "afterload").
 
+Sidebar (navegação lateral):
+- Os títulos da sidebar seguem o idioma do compêndio (determinado pelo critério acima — idioma predominante nas fontes primárias, não necessariamente inglês).
+- Cada item da sidebar deve exibir também a tradução em português, usando <span class="sl-pt"> logo após o título principal (display:block, fonte menor, itálico, cor suave).
+- CSS obrigatório: .sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
+- Aplicar em todos os compêndios novos e ao revisar compêndios existentes.
+
 === Imagens em compêndios HTML ===
 Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
 - URLs reais via API Wikimedia (usar Claude in Chrome javascript_tool):
