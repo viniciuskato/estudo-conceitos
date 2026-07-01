@@ -332,6 +332,19 @@ Aplicar ao `<html>` para que links de âncora (sidebar, fig-ref) rolem suavement
 
 **Perguntas em aberto (obrigatória):** seção entre Conexões e Discussão. Lista de 3–5 questões que o campo ainda não resolveu — fronteiras do conhecimento, não gaps do compêndio. Cada pergunta em `.qa-block`. Critério: deve ser genuinamente aberta (sem resposta consensual na literatura), não apenas difícil. Ao revisar compêndio existente, verificar se as perguntas ainda estão abertas — fechar as que tiverem sido respondidas e adicionar novas da literatura recente.
 
+---
+
+## App shell (PWA) — instalável no Chrome
+
+Arquivos na raiz do repositório (fora de `compêndios/`, `medicina/` etc.) que dão suporte a instalar o site como app — não recriar em outro lugar nem duplicar:
+
+- `manifest.json` (raiz) — `start_url`/`scope` apontam para `index.html`; não precisa mudar ao adicionar compêndio novo.
+- `assets/icons/icon-192.png`, `icon-512.png`, `icon-512-maskable.png` — ícone gerado via Python/PIL (paleta do tema: fundo `#171514`, formas em `--ac`/`--ac2`). Regenerar só se quiser trocar o visual do ícone.
+- `.nojekyll` (raiz, arquivo vazio) — desativa o processamento Jekyll do GitHub Pages. Necessário porque Jekyll por padrão *exclui* pastas com nome começando em `_` (`_docs/`, `_archive/`, `_acervo/`) do build; sem esse arquivo, qualquer link público para dentro dessas pastas quebra.
+- `index.html` (raiz) é o `start_url` do manifest — é a tela inicial do app instalado, então manter seu catálogo atualizado importa mais do que antes (ver `_docs/DEBT.md` para pendências).
+
+Piloto de dicionário interativo (tooltip enriquecido + busca ao vivo): ver entrada em `_docs/DEBT.md` — aplicado só em `compêndios/medicina/cardiologia-anatomia.html` até o momento, não é padrão a replicar automaticamente sem confirmar com o usuário.
+
 **Discussão:** três movimentos — (1) convergência, fechando a pergunta motivadora com os conceitos desenvolvidos; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
 
 **Leituras recomendadas:** livros-texto, artigos (l

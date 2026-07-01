@@ -117,6 +117,7 @@ Atenção — pasta sincronizada via OneDrive: o terminal bash pode mostrar uma 
 O mesmo cache pode agir na LEITURA, não só na verificação — um `open()` via python3/bash pode retornar conteúdo cortado no meio se o arquivo acabou de sincronizar, e reescrever isso por cima do arquivo apaga o final dele sem aviso. Se a pasta for um repositório Git (ver "Protocolo de abertura de sessão"):
 - Editar/reescrever vários arquivos em lote via python3+bash: usar `git show HEAD:"<arquivo>"` como fonte de leitura (não `open()` direto) sempre que o arquivo já estiver commitado — o conteúdo do Git não sofre esse cache.
 - Depois de qualquer escrita em lote (vários arquivos), rodar `git diff --stat` e desconfiar de qualquer arquivo com deleções muito maiores que o esperado — isso pega truncamento no meio do arquivo que `wc -l`/checagem de tags sozinhos não pegam de forma confiável.
+- O mesmo cache pode fazer `git status`/`git diff` mostrarem como "modificados" arquivos que ninguém tocou nesta sessão, ou manter um `.git/index.lock` preso mesmo depois que o processo que o criou já terminou. Isso não é necessariamente corrupção real — antes de investigar a fundo, confirmar o conteúdo verdadeiro via Read/Grep direto (não bash). Nunca forçar remoção de `.git/index.lock` ou de arquivos dentro de `.git/` via bash caso o comando falhe (ex.: `Operation not permitted`) — isso é sinal de que o OneDrive ainda está sincronizando, não motivo para insistir. Nesse caso, pedir ao usuário para rodar `push.bat` manualmente (git nativo do Windows resolve isso sem o cache do sandbox) em vez de gastar tempo investigando via computer-use ou tentando remover o lock pelo bash.
 
 === Verificação visual ===
 Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.
@@ -134,6 +135,10 @@ Sobrescrever com archive em _archive/ + sufixo de data quando mudança ≥30%. E
 Uma atualização de modelo completa (CSS + tabelas + JS combinados no mesmo arquivo, mesmo que aplicada em vários Edits pequenos) conta como mudança estrutural, não como correção pontual — sempre fazer backup em _archive/ antes de começar, mesmo que cada edição individual pareça pequena.
 Ao renomear pastas: verificar e atualizar links em index.html — caminhos antigos causam 404 no app publicado.
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
+
+=== Publicação (GitHub Pages) ===
+O repositório já está publicado em https://viniciuskato.github.io/estudo-conceitos/ ("app publicado") — atualiza sozinho a cada `push.bat`, sem passo manual de deploy.
+Antes de propor infraestrutura nova para pedidos do tipo "deixar acessível", "funcionar offline", "funcionar como aplicativo" ou "escalar para mais materiais": checar primeiro se essa publicação já resolve (ex.: via fetch da URL acima) antes de desenhar alternativas como servidor local — muitas vezes já está pronto.
 
 === GitHub ===
 Ao concluir a sessão (usuário sinalizar "terminamos", "pode fechar" ou similar), após aplicar as mudanças aprovadas: rodar `git add -A`, `git commit` com mensagem descrevendo o que foi feito na sessão, e `git push` para enviar ao repositório remoto.
