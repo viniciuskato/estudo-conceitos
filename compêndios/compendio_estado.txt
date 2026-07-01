@@ -1,0 +1,20 @@
+=== COMPÊNDIOS — ESTADO DA SESSÃO ===
+Última sessão: 2026-07-01
+
+=== Histórico ===
+2026-06-30 — Estrutura inicial criada. Compêndios de área separados dos mecanismos.
+             Pastas temáticas movidas para compêndios/.
+             Arquivos de estado criados.
+2026-06-30 — Mapa de campo de Inteligência Artificial criado: compêndios/ia/inteligencia-artificial.html
+             Subskill compendio-ia proposta (ainda não criada nesse momento).
+             Verificação visual pendente (Chrome desconectado).
+2026-06-30 — Primeiro compêndio de medicina criado: compêndios/medicina/cardiologia-anatomia.html
+             Anatomia Cardíaca (câmaras, valvas, grandes vasos, coronárias, sistema de
+             condução, pericárdio, topografia). Verificação visual confirmada via surge.sh.
+2026-07-01 — Atualização em massa de todos os compêndios pré-existentes ao modelo atual
+             (sidebar scroll-based, .data-table, chip de revisão, pranchas onde aplicável).
+             Ver _docs/DEBT.md para detalhes completos.
+2026-07-01 — Skill `atlas` renomeada para `compendio` (e subskills atlas-* → compendio-*),
+             a pedido do usuário — evitar tratar um nome de skill como fixo/canônico
+             independente da evolução do template-v2-spec.md. Arquivos atlas_mapa.txt e
+             atlas_estado.txt renomeados para compendio_mapa.txt e compendio_estado.txt.

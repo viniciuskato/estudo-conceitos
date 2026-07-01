@@ -1,9 +1,9 @@
 === BASE DE ESTUDOS ===
 Um repositório, dois modos de trabalho:
-- skill `atlas` — compêndio de área: exaure um campo de estudo inteiro (histórico, subdivisões, questões centrais, métodos, referências densas)
+- skill `compendio` — compêndio de área: exaure um campo de estudo inteiro (histórico, subdivisões, questões centrais, métodos, referências densas)
 - skill `mecanismo` — aprofundamento de um conceito ou processo específico, com Anki
 
-A distinção principal: `atlas` cobre uma área inteira em largura e profundidade; `mecanismo` cobre um conceito único em profundidade máxima.
+A distinção principal: `compendio` cobre uma área inteira em largura e profundidade; `mecanismo` cobre um conceito único em profundidade máxima.
 Ambos referenciam materiais externos — livros e artigos continuam sendo necessários, mas o compêndio deve ser suficientemente denso para situar o leitor e guiar o estudo.
 
 Ativar a skill correspondente antes de iniciar qualquer trabalho de geração ou revisão.
@@ -12,11 +12,11 @@ Fonte das skills: _docs/skills-export/ (SKILL.md por pasta + empacotar_skills.py
 Atualização: editar SKILL.md → rodar empacotar_skills.py → reinstalar via Settings > Capabilities > Skills.
 
 === Estrutura de pastas ===
-compêndios/          → compêndios de área (skill atlas)
-  atlas_mapa.txt     → áreas já cobertas
-  atlas_estado.txt   → histórico e pendências
+compêndios/          → compêndios de área (skill compendio)
+  compendio_mapa.txt → áreas já cobertas
+  compendio_estado.txt → histórico e pendências
   <área>/            → arquivos HTML dos compêndios de área
-  medicina/          → compêndios de área de medicina (skill atlas + subskill)
+  medicina/          → compêndios de área de medicina (skill compendio + subskill)
 medicina/            → compêndios de MECANISMO (skill mecanismo)
   imunologia/        → 10 compêndios ativos
   farmacologia/      → 3 compêndios ativos
@@ -37,7 +37,7 @@ _docs/               → documentação do projeto
 
 === Protocolo de abertura de sessão ===
 Ao iniciar sessão sem tarefa direta:
-1. Perguntar ao usuário se o trabalho é Atlas (compêndio de área) ou Mecanismo.
+1. Perguntar ao usuário se o trabalho é Compêndio de área ou Mecanismo.
 2. Ativar a skill correspondente (nível 1).
 3. Identificar a área → a skill estrutural carrega a subskill adequada.
    Se a área não tiver subskill: sinalizar ao usuário ANTES de gerar e propor criação da subskill.
@@ -45,8 +45,8 @@ Ao iniciar sessão sem tarefa direta:
 
 === Pré-geração (regras compartilhadas) ===
 - Perguntas de pré-geração sempre via AskUserQuestion — nunca em texto.
-- Antes de gerar qualquer material, confirmar que o propósito (atlas ou mecanismo) e o recorte estão claros.
-- OBRIGATÓRIO antes de criar novo HTML: ler _docs/template-v2-spec.md (referência canônica de CSS, layout, sidebar, elementos visuais e seções). Se já existe compêndio na mesma subpasta, usá-lo como base estrutural — copiar e editar (arquivar o original em _archive/ com sufixo de data), não criar do zero. Criar do zero só quando não há compêndio anterior na subpasta, mas sempre seguindo o template-v2-spec.md.
+- Antes de gerar qualquer material, confirmar que o propósito (compêndio de área ou mecanismo) e o recorte estão claros.
+- OBRIGATÓRIO antes de criar novo HTML: ler _docs/template-v2-spec.md (referência canônica de CSS, layout, sidebar, elementos visuais e seções — este spec evolui e é sempre a fonte de verdade, nunca um arquivo HTML específico). Se já existe compêndio na mesma subpasta, usá-lo como ponto de partida estrutural — copiar e editar (arquivar o original em _archive/ com sufixo de data), não criar do zero. Mas conferir se esse compêndio existente reflete o template-v2-spec.md atual antes de replicar seus padrões — se divergir, seguir o spec, não o arquivo antigo. Criar do zero só quando não há compêndio anterior na subpasta, mas sempre seguindo o template-v2-spec.md.
 
 
 === Idioma dos compêndios ===
@@ -76,6 +76,7 @@ Termos técnicos em compêndios em idioma estrangeiro devem ser marcados com too
 Hierarquia de fontes: OpenStax CC BY > Gray's Anatomy (1918, domínio público) > Blausen CC BY 3.0.
 Evitar SVGs com fundo branco em tema escuro. 4-6 pranchas por compêndio, uma por seção.
 Implementação completa (plate-block, lightbox, traduções PT, API Wikimedia): ver _docs/template-v2-spec.md.
+Se, após busca razoável, nenhuma imagem adequada e livre de direitos for encontrada (comum em conteúdo molecular/farmacológico sem correspondente em Gray's/OpenStax), pular a prancha para aquela seção — não forçar uma imagem inadequada. Registrar a ausência em _docs/DEBT.md para reavaliação futura.
 
 === Auditoria visual proativa ===
 Ao revisar qualquer compêndio HTML (não apenas ao criar), verificar OBRIGATORIAMENTE cada seção:
@@ -111,6 +112,7 @@ Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferen
 (d) encoding UTF-8 intacto: se o compêndio tem caracteres especiais (acentos, símbolos), grep -c "ã\|ç\|é\|ñ\|→\|–" > 0; para compêndios em inglês, verificar ausência de replacement characters: grep -c "\xef\xbf\xbd" deve ser 0
 (e) sem artefatos: grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho" vazio
 Corrigir antes de prosseguir.
+Atenção — pasta sincronizada via OneDrive: o terminal bash pode mostrar uma versão desatualizada (em cache) dos arquivos dessa pasta mesmo após uma edição já ter sido salva. Se um arquivo editado recentemente aparecer "sem mudanças" no bash, não confiar nesse resultado — reconferir com as ferramentas de leitura de arquivo diretas (Read/Grep) antes de concluir que a edição falhou.
 
 === Verificação visual ===
 Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.
@@ -125,6 +127,7 @@ Workflow para arquivos locais (Chrome não abre file://):
 
 === Arquivamento ===
 Sobrescrever com archive em _archive/ + sufixo de data quando mudança ≥30%. Editar no lugar para correções pontuais.
+Uma atualização de modelo completa (CSS + tabelas + JS combinados no mesmo arquivo, mesmo que aplicada em vários Edits pequenos) conta como mudança estrutural, não como correção pontual — sempre fazer backup em _archive/ antes de começar, mesmo que cada edição individual pareça pequena.
 Ao renomear pastas: verificar e atualizar links em index.html — caminhos antigos causam 404 no app publicado.
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
 

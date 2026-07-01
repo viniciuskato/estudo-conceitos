@@ -1,16 +1,16 @@
 ---
-name: atlas-medicina-clinica
+name: compendio-medicina-clinica
 description: >
   Contexto epistêmico para criação e revisão de compêndios de área de medicina clínica:
   farmacologia, fisiopatologia, semiologia, clínica médica e especialidades. Carregada
-  pela skill atlas quando o tema pertence a essas áreas. Ative sempre que o usuário
+  pela skill compendio quando o tema pertence a essas áreas. Ative sempre que o usuário
   pedir compêndio de área de farmacologia, fisiopatologia, semiologia ou clínica médica.
 ---
 
 # Subskill Compêndio de Área — Medicina Clínica
 
 Contexto específico para mapas de campo das disciplinas clínicas da medicina.
-As regras gerais de formato, fluxo e verificação estão na skill `atlas` (compêndio de área).
+As regras gerais de formato, fluxo e verificação estão na skill `compendio` (compêndio de área).
 Esta subskill fornece o contexto epistêmico da área.
 
 ## Subáreas cobertas

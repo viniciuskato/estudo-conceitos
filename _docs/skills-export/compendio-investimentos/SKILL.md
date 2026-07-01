@@ -1,9 +1,9 @@
 ---
-name: atlas-investimentos
+name: compendio-investimentos
 description: >
   Contexto epistêmico para criação e revisão de compêndios de área de investimentos e
   finanças: renda fixa, renda variável, fundos, derivativos, economia aplicada,
-  finanças comportamentais. Carregada pela skill atlas quando o tema pertence a
+  finanças comportamentais. Carregada pela skill compendio quando o tema pertence a
   essa área. Ative sempre que o usuário pedir compêndio de área de investimentos,
   finanças pessoais, mercado financeiro ou economia aplicada a investimentos.
 ---
@@ -11,7 +11,7 @@ description: >
 # Subskill Compêndio de Área — Investimentos
 
 Contexto específico para mapas de campo de investimentos e finanças.
-As regras gerais de formato, fluxo e verificação estão na skill `atlas` (compêndio de área).
+As regras gerais de formato, fluxo e verificação estão na skill `compendio` (compêndio de área).
 Esta subskill fornece o contexto epistêmico da área.
 
 ## Subáreas cobertas

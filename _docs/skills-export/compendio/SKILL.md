@@ -1,12 +1,12 @@
 ---
-name: atlas
+name: compendio
 description: >
   Skill para criação e revisão de compêndios de área — HTMLs autônomos
   que exaurem um campo de estudo inteiro com profundidade real. Use SEMPRE que o usuário
-  mencionar "compêndio de área", "atlas", quiser cobrir um campo inteiro (medicina,
+  mencionar "compêndio de área", quiser cobrir um campo inteiro (medicina,
   investimentos, IA, etc.), ou pedir material denso sobre uma área ampla de estudo.
   Após identificar a área, carregar a subskill correspondente:
-  atlas-medicina-basica, atlas-medicina-clinica, atlas-investimentos ou atlas-ia.
+  compendio-medicina-basica, compendio-medicina-clinica, compendio-investimentos ou compendio-ia.
 ---
 
 # Skill Compêndio de Área
@@ -27,17 +27,17 @@ Após identificar a área solicitada, carregar a subskill correspondente antes d
 
 | Área | Subskill a carregar |
 |------|-------------------|
-| Imunologia, fisiologia, bioquímica, microbiologia, anatomia | `atlas-medicina-basica` |
-| Farmacologia, fisiopatologia, semiologia, clínica médica | `atlas-medicina-clinica` |
-| Investimentos, finanças, economia aplicada | `atlas-investimentos` |
-| Inteligência Artificial, machine learning, LLMs | `atlas-ia` |
+| Imunologia, fisiologia, bioquímica, microbiologia, anatomia | `compendio-medicina-basica` |
+| Farmacologia, fisiopatologia, semiologia, clínica médica | `compendio-medicina-clinica` |
+| Investimentos, finanças, economia aplicada | `compendio-investimentos` |
+| Inteligência Artificial, machine learning, LLMs | `compendio-ia` |
 | Área nova sem subskill | Usar esta skill e propor criação da subskill ao final |
 
 ## Protocolo de abertura de sessão
 
 Ao iniciar sem tarefa direta:
-1. Ler `compêndios/atlas_estado.txt` — pendências e histórico.
-2. Ler `compêndios/atlas_mapa.txt` — áreas já cobertas.
+1. Ler `compêndios/compendio_estado.txt` — pendências e histórico.
+2. Ler `compêndios/compendio_mapa.txt` — áreas já cobertas.
 3. Se houver dívida em `_docs/DEBT.md`, informar antes de prosseguir.
 
 ## Pré-geração
@@ -53,6 +53,8 @@ Nunca perguntar sobre formato.
 Cada compêndio de área é um arquivo HTML seguindo o `template-v2-spec.md` (`_docs/template-v2-spec.md`).
 **Ler o template-v2-spec.md antes de criar qualquer HTML novo.**
 A subskill de área define o que adaptar ou omitir do template.
+
+**A referência é sempre o `template-v2-spec.md` — nunca um arquivo HTML específico.** O spec evolui; um compêndio existente pode estar desatualizado em relação a ele. Ao usar um compêndio existente como base estrutural (copiar e editar), verificar se ele reflete o spec atual antes de replicar seus padrões — se divergir, seguir o spec, não o arquivo antigo.
 
 **Dois níveis:**
 - **Arquivo-pai** (área): cobre o campo inteiro.
@@ -82,7 +84,7 @@ A subskill de área define o que adaptar ou omitir do template.
 ## Fluxo de trabalho
 
 1. Identificar área → carregar subskill correspondente.
-2. Consultar `compêndios/atlas_estado.txt` e `compêndios/atlas_mapa.txt`.
+2. Consultar `compêndios/compendio_estado.txt` e `compêndios/compendio_mapa.txt`.
 3. Ler `_docs/template-v2-spec.md` + SKILL.md da subskill antes de escrever qualquer HTML.
 4. Gerar HTML na subpasta temática em kebab-case dentro de `compêndios/`.
 5. Verificação bash obrigatória após qualquer escrita de HTML:
@@ -92,7 +94,7 @@ A subskill de área define o que adaptar ou omitir do template.
    - (d) acentuação PT-BR intacta: `grep -c "ã\|ç\|é" > 0`
    - (e) sem artefatos: `grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho"` vazio
 6. Verificação visual (novos arquivos e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
-7. Atualizar `compêndios/atlas_mapa.txt` na mesma operação.
+7. Atualizar `compêndios/compendio_mapa.txt` na mesma operação.
 8. Registrar em `_docs/DEBT.md` toda inconsistência não corrigida.
 9. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
 
@@ -113,7 +115,7 @@ A subskill de área define o que adaptar ou omitir do template.
 - [ ] As controvérsias ativas têm as duas posições representadas sem resolução artificial?
 - [ ] Links `cross-link` para compêndios existentes inseridos onde pertinente?
 - [ ] Campo "Última revisão" atualizado?
-- [ ] `compêndios/atlas_mapa.txt` e `_docs/DEBT.md` atualizados?
+- [ ] `compêndios/compendio_mapa.txt` e `_docs/DEBT.md` atualizados?
 
 ## O que não fazer
 

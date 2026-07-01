@@ -1,9 +1,9 @@
 ---
-name: atlas-ia
+name: compendio-ia
 description: >
   Contexto epistêmico para criação e revisão de compêndios de área de Inteligência
   Artificial: machine learning, deep learning, LLMs, visão computacional,
-  robótica, ética de IA e áreas correlatas. Carregada pela skill atlas quando
+  robótica, ética de IA e áreas correlatas. Carregada pela skill compendio quando
   o tema pertence a essa área. Ative sempre que o usuário pedir compêndio de área
   de IA, machine learning, redes neurais, LLMs ou computação inteligente.
 ---
@@ -11,7 +11,7 @@ description: >
 # Subskill Compêndio de Área — Inteligência Artificial
 
 Contexto específico para compêndios de área de IA e áreas correlatas.
-As regras gerais de formato, fluxo e verificação estão na skill `atlas` (compêndio de área).
+As regras gerais de formato, fluxo e verificação estão na skill `compendio` (compêndio de área).
 Esta subskill fornece o contexto epistêmico da área **e as decisões de estrutura HTML**.
 
 ## Subáreas cobertas
@@ -31,10 +31,10 @@ Esta subskill fornece o contexto epistêmico da área **e as decisões de estrut
 
 - `compêndios/ia/inteligencia-artificial.html` — rascunho experimental (2026-06-30)
   - Cobre: o que estuda, 10 subáreas, histórico (1956–2026), 10 questões centrais, métodos, conexões, 3 controvérsias, roteiro de entrada, referências anotadas
-  - Estado: segue template-v2 visualmente, mas foi gerado quando o Atlas ainda era "mapa orientador" — conteúdo raso para o novo propósito de compêndio de área
+  - Estado: segue template-v2 visualmente, mas foi gerado quando a skill ainda era "mapa orientador" — conteúdo raso para o novo propósito de compêndio de área
   - Pendência: reescrita com profundidade real antes de usar como referência
 
-## Estrutura HTML — adaptação do template-v2 para o Atlas
+## Estrutura HTML — adaptação do template-v2 para o compêndio de área
 
 Referência canônica de estrutura: `_docs/template-v2-spec.md`.
 **Ler esse arquivo antes de criar ou refatorar qualquer mapa de IA.**
@@ -57,14 +57,14 @@ Referência canônica de estrutura: `_docs/template-v2-spec.md`.
 
 ### O que NÃO importar (específico de compêndios)
 
-- `.dep-panel` — dependências entre materiais: não se aplica ao Atlas
+- `.dep-panel` — dependências entre materiais: não se aplica ao compêndio de área
 - `.kbox` / `.ck-grid` — conceitos-chave estruturados: papel da skill `mecanismo`
-- `.qa-block` — no Atlas as questões abertas viram a seção "Questões centrais" em prosa com `<ol>`
-- Seção Discussão fechando a pergunta motivadora — no Atlas a `.pergunta` fica aberta propositalmente; o fechamento é implícito ao longo do mapa
-- Citações ABNT inline (`.cite`) — Atlas usa referências anotadas em camadas, não citações acadêmicas formais
-- Painel de dependências `.dep-panel` — Atlas não tem hierarquia de pré-requisitos formal
+- `.qa-block` — no compêndio de área as questões abertas viram a seção "Questões centrais" em prosa com `<ol>`
+- Seção Discussão fechando a pergunta motivadora — no compêndio de área a `.pergunta` fica aberta propositalmente; o fechamento é implícito ao longo do mapa
+- Citações ABNT inline (`.cite`) — o compêndio de área usa referências anotadas em camadas, não citações acadêmicas formais
+- Painel de dependências `.dep-panel` — o compêndio de área não tem hierarquia de pré-requisitos formal
 
-### Componentes exclusivos do Atlas (não no template-v2)
+### Componentes exclusivos do compêndio de área (não no template-v2)
 
 Esses componentes precisam ser definidos localmente no HTML:
 
@@ -102,7 +102,7 @@ Esses componentes precisam ser definidos localmente no HTML:
 ```html
 <div class="doc-header">
   <h1>Título do Mapa</h1>
-  <p class="doc-meta">Atlas · Área · Subárea (se houver)</p>
+  <p class="doc-meta">Compêndio de área · Área · Subárea (se houver)</p>
   <div class="doc-chips">
     <span class="chip">⏱ ~X min de leitura</span>
     <span class="chip">📍 Nível: campo amplo</span>

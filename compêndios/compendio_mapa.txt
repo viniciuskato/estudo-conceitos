@@ -1,0 +1,17 @@
+=== COMPÊNDIOS — MAPA DE ÁREAS COBERTAS ===
+Última atualização: 2026-07-01
+
+=== Medicina ===
+--- Cardiologia (Medicina Básica) ---
+- medicina/cardiologia-anatomia.html — Anatomia Cardíaca (câmaras, valvas, coronárias, condução, pericárdio, topografia) [2026-06-30]
+
+=== Investimentos ===
+- investimentos/fundamentos-investimentos.html — Fundamentos de Investimentos [atualizado ao modelo atual em 2026-07-01]
+
+=== IA ===
+- ia/inteligencia-artificial.html — Inteligência Artificial (mapa de campo amplo) [2026-06-30; JS de sidebar atualizado em 2026-07-01]
+
+Nota (2026-07-01): a entrada "Automóveis" foi removida deste mapa — os dois arquivos correspondentes
+(eficiencia-combustivel-saveiro-nivus-s90.html, falha-airbag-nivus-2023.html) estão em _acervo/automoveis/,
+não em compêndios/. Avaliado e mantido como referência pontual, não área de estudo sistemático
+(ver _acervo/LEIA-ME.md).

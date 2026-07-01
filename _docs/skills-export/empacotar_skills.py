@@ -4,12 +4,12 @@ Execute com duplo clique ou: python empacotar_skills.py
 Os arquivos .skill serao gerados nesta mesma pasta.
 
 Skills geradas:
-  - atlas.skill
+  - compendio.skill
   - mecanismo.skill
-  - atlas-medicina-basica.skill
-  - atlas-medicina-clinica.skill
-  - atlas-investimentos.skill
-  - atlas-ia.skill
+  - compendio-medicina-basica.skill
+  - compendio-medicina-clinica.skill
+  - compendio-investimentos.skill
+  - compendio-ia.skill
   - mecanismo-medicina-basica.skill
   - mecanismo-medicina-clinica.skill
   - autocritica-sessao.skill
@@ -22,12 +22,12 @@ from pathlib import Path
 script_dir = Path(__file__).parent
 
 skills = [
-    "atlas",
+    "compendio",
     "mecanismo",
-    "atlas-medicina-basica",
-    "atlas-medicina-clinica",
-    "atlas-investimentos",
-    "atlas-ia",
+    "compendio-medicina-basica",
+    "compendio-medicina-clinica",
+    "compendio-investimentos",
+    "compendio-ia",
     "mecanismo-medicina-basica",
     "mecanismo-medicina-clinica",
     "autocritica-sessao",
