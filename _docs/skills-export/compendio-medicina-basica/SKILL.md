@@ -36,6 +36,7 @@ Hierarquia epistêmica para medicina básica:
 - **Revisões em periódicos de referência**: Nature Reviews Immunology, Physiological Reviews, Annual Review of Biochemistry. Para atualizações e controvérsias ativas.
 - **Artigos seminais**: quando um mecanismo tem paper fundador conhecido (ex.: Janeway sobre PRRs, Medzhitov sobre toll-like receptors), citá-lo na nota histórica.
 - **Evitar**: sites de resumo, apostilas sem autoria, Wikipedia como fonte primária.
+- **Conector MCP PubMed/PMC** (quando disponível na sessão): usar para busca real de artigos — seminais, revisões recentes, verificação de PMID/DOI — em vez de citar de memória. Cobre medicina, biologia, bioquímica, microbiologia, fisiologia; não cobre economia, CS ou humanas. Se o conector não estiver conectado, seguir a hierarquia acima normalmente e sinalizar ao usuário que a busca automatizada não está disponível nesta sessão.
 
 ## Convenções da área
 

@@ -28,6 +28,7 @@ Esta subskill fornece o contexto epistêmico da área.
 - **Murray — Microbiologia Médica** e **Jawetz — Microbiologia Médica**: referências para microbiologia.
 - **Artigos seminais**: Janeway (PRRs e imunidade inata), Medzhitov (toll-like receptors), Mosmann & Coffman (Th1/Th2) — citar na nota histórica quando o mecanismo tem paper fundador.
 - **Periódicos de revisão**: Nature Reviews Immunology, Annual Review of Physiology, Physiological Reviews — para mecanismos atualizados e controvérsias.
+- **Conector MCP PubMed/PMC** (quando disponível na sessão): usar para confirmar/localizar o artigo seminal ou a revisão citada na nota histórica, com PMID/DOI real, em vez de citar de memória. Se não conectado, sinalizar ao usuário e manter a citação apoiada nos livros-texto acima.
 
 ## Convenções e armadilhas da área
 

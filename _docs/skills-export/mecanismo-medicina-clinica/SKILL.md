@@ -43,6 +43,7 @@ Exemplos de dependências frequentes:
 - **Guidelines de sociedades** (peso máximo para conduta): AHA/ACC, ESC (European Society of Cardiology), WHO, Ministério da Saúde / CONITEC — para recomendações terapêuticas.
 - **Trials clínicos de referência**: HOPE (ramipril), ONTARGET (telmisartan), PLATO (ticagrelor), ISIS-2 (AAS) — citar quando o mecanismo tem evidência clínica seminal.
 - **RENAME** (Relação Nacional de Medicamentos Essenciais): verificar disponibilidade no SUS para fármacos com relevância para o contexto brasileiro.
+- **Conector MCP PubMed/PMC** (quando disponível na sessão): usar para localizar o trial clínico real (PMID/DOI) por trás de uma citação de evidência, em vez de citar de memória. Não cobre guidelines de sociedades nem RENAME. Se não conectado, sinalizar ao usuário e seguir a hierarquia de fontes normalmente.
 
 ## Convenções e armadilhas da área
 

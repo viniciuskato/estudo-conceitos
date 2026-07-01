@@ -54,6 +54,13 @@ Ao iniciar sessão sem tarefa direta:
 === Idioma, tooltips de tradução e tabelas ===
 Regras de idioma predominante, sidebar bilíngue (.sl-pt), tooltips técnicos (.term) e uso de .data-table: ver _docs/template-v2-spec.md (seções "Idioma e tooltips de tradução" e "Elementos visuais"). Aplicar em todos os compêndios novos e ao revisar existentes.
 
+=== Busca de literatura biomédica (MCP) ===
+Quando disponível na sessão, usar o conector MCP de busca PubMed/PMC (busca de artigos, texto completo, lookup por citação, metadados, DOI/PMID) para localizar referências reais ao gerar ou revisar material de medicina — em vez de citar de memória. Cobre medicina, biologia, bioquímica, microbiologia, farmacologia, fisiologia; não cobre economia, CS, humanas nem guidelines de sociedades/RENAME (esses continuam via busca web). Uso detalhado por subárea: ver "Heurística de fontes" no SKILL.md de compendio-medicina-básica/clínica e mecanismo-medicina-básica/clínica. Se o conector não estiver conectado na sessão, seguir a hierarquia de fontes normal e sinalizar ao usuário que a busca de literatura automatizada não está disponível.
+
+=== Subagentes para auditoria em lote ===
+Ao revisar múltiplos compêndios de uma vez (ex.: aplicar o checklist de "Verificação bash obrigatória" ou a "Auditoria visual proativa" a vários arquivos da mesma subpasta), despachar um subagente por arquivo em vez de processar sequencialmente na sessão principal — cada subagente lê o arquivo, roda o checklist correspondente (fechamento, encoding, artefatos, pranchas/tabelas por seção, densidade de parágrafo) e retorna um relatório curto (achado/ausente por item). Consolidar os relatórios num resumo único antes de aplicar correções. A mesma lógica já vale para lookup pontual isolado (ver seção Pré-geração — Haiku via subagent).
+Não despachar subagente para a redação do compêndio em si (prosa nova ou revisão de conteúdo/argumentação): coerência de voz e densidade de parágrafo ao longo de um arquivo dependem de um único contexto contínuo — fragmentar a escrita entre subagentes tende a produzir prosa desconexa, contrariando "Harmonia entre exaustividade e didática".
+
 === Imagens e pranchas ===
 Hierarquia de fontes: OpenStax CC BY > Gray's Anatomy (1918, domínio público) > Blausen CC BY 3.0.
 Evitar SVGs com fundo branco em tema escuro. 4-6 pranchas por compêndio, uma por seção.

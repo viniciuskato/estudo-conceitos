@@ -42,6 +42,7 @@ Hierarquia epistêmica para medicina clínica:
 - **Livros-texto canônicos**: Goodman & Gilman (Farmacologia), Robbins (Patologia/Fisiopatologia), Harrison (Clínica Médica). Para mecanismos e apresentação de doenças.
 - **Artigos de referência**: quando uma descoberta clínica tem trial fundador (ex.: HOPE para IECA em HAS, ISIS-2 para AAS no IAM), citá-lo.
 - **Evitar**: protocolos desatualizados, fontes sem grau de evidência explícito para condutas.
+- **Conector MCP PubMed/PMC** (quando disponível na sessão): usar para localizar o trial/revisão real (com PMID/DOI) citado como evidência, em vez de citar de memória — cobre medicina clínica, farmacologia, epidemiologia; não cobre guidelines de sociedades nem RENAME (esses continuam via busca web). Se o conector não estiver conectado, sinalizar ao usuário e seguir a hierarquia de fontes normalmente.
 
 ## Convenções da área
 
