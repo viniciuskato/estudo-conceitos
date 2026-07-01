@@ -67,6 +67,8 @@ th{background:var(--bg3);color:var(--ac);font-family:var(--font-ui);font-size:11
 td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
 tr:last-child td{border-bottom:none}
 .table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:-16px;margin-bottom:24px;font-style:italic}
+table.data-table tr:hover td{background:var(--bg3)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
 
 /* ── COMPONENTES ── */
 .doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:14px}
@@ -183,7 +185,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     <span class="chip">⏱ <b>~90 min</b> de leitura</span>
     <span class="chip">📋 Pré-requisitos: <b>Histologia vascular, fisiologia cardíaca básica</b></span>
     <span class="chip">📍 Área: <b>Patologia · Fisiopatologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -314,7 +316,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 <h4>4. Aumento da permeabilidade vascular</h4>
 <p>Na inflamação, a histamina, a bradicinina, o C3a/C5a, o LTB4 e o VEGF contraem as células endoteliais, abrindo junções intercelulares e aumentando a passagem de proteínas para o interstício. Isso reduz o gradiente oncótico (proteínas no interstício aumentam π<sub>i</sub>) e agrava o vazamento. O edema inflamatório é caracteristicamente rico em proteínas (<em>exsudato</em>), ao contrário do edema por pressão ou oncótico (<em>transudato</em>).</p>
 
-<table>
+<table class="data-table">
   <tr><th>Mecanismo</th><th>Proteínas no líquido</th><th>Exemplo clínico</th></tr>
   <tr><td>↑ Pressão hidrostática</td><td>Baixas (transudato)</td><td>ICC, trombose venosa</td></tr>
   <tr><td>↓ Pressão oncótica</td><td>Baixas (transudato)</td><td>Síndrome nefrótica, cirrose</td></tr>
@@ -412,7 +414,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 <h3>Morfologia dos trombos: arterial vs. venoso</h3>
 
-<table>
+<table class="data-table">
   <tr><th>Característica</th><th>Trombo arterial ("branco")</th><th>Trombo venoso ("vermelho")</th></tr>
   <tr><td>Principal fator predisponente</td><td>Lesão endotelial (aterosclerose)</td><td>Estase + hipercoagulabilidade</td></tr>
   <tr><td>Composição</td><td>Rico em plaquetas (pauci-fibrina)</td><td>Rico em fibrina e hemácias aprisionadas</td></tr>
@@ -545,7 +547,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 <p>O coração é o paradigma do infarto branco em órgão terminal. A sequência de alterações morfológicas após oclusão coronariana obedece uma cronologia previsível:</p>
 
-<table>
+<table class="data-table">
   <tr><th>Tempo após oclusão</th><th>Alteração morfológica</th><th>Achado histológico</th></tr>
   <tr><td>0–30 min</td><td>Reversível; sem alteração macro ou micro visível</td><td>Ondulação de fibras (em cortes transversais), tumefação mitocondrial ao ME</td></tr>
   <tr><td>30 min – 4 h</td><td>Início da necrose de coagulação (irreversível após ~20–40 min sem O₂)</td><td>Eosinofilia citoplasmática, perda de núcleos, bandas de contração</td></tr>
@@ -702,22 +704,25 @@ window.addEventListener('scroll',()=>{
   pb.style.width=(h>0?t/h*100:0)+'%';
 },{passive:true});
 
-// ── INTERSECTION OBSERVERS ──
+// ── SIDEBAR HIGHLIGHT (scroll-based) ──
 const sideLinks = document.querySelectorAll('a.sl[href^="#"]');
 const sections  = document.querySelectorAll('section[id]');
 
-const obsActive = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    const link = document.querySelector('a.sl[href="#'+e.target.id+'"]');
-    if(link) link.classList.toggle('active', e.isIntersecting);
-  });
-},{rootMargin:'-20% 0px -70% 0px'});
+function updateActiveDC(){
+  let cur=null;
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  sections.forEach(s=>{if(s.offsetTop-120<=st)cur=s});
+  sideLinks.forEach(l=>l.classList.remove('active'));
+  if(cur){const a=document.querySelector('a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active')}
+}
+window.addEventListener('scroll',updateActiveDC,{passive:true});
+window.addEventListener('load',updateActiveDC);
 
 const obsInView = new IntersectionObserver(entries=>{
   entries.forEach(e=>e.target.classList.toggle('in-view',e.isIntersecting));
-},{rootMargin:'-20% 0px -70% 0px'});
+},{rootMargin:'-10% 0px -55% 0px'});
 
-sections.forEach(s=>{obsActive.observe(s);obsInView.observe(s);});
+sections.forEach(s=>obsInView.observe(s));
 </script>
 </body>
 </html>

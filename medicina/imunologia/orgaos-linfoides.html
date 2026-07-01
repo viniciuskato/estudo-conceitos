@@ -65,6 +65,20 @@ th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-
 td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
 tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);text-align:left;padding:7px 2px 0;font-style:italic;margin-top:-2px}
+.plate-block{float:right;width:42%;margin:0 0 14px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer}
+.plate-block img{width:100%;display:block;border-radius:3px;background:#e8e2d8}
+.plate-caption{font-family:var(--font-ui);font-size:10.5px;color:var(--muted);padding:6px 2px 0;line-height:1.4}
+#lightbox{display:none;position:fixed;inset:0;background:rgba(10,9,8,.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;padding:40px}
+#lightbox.show{display:flex}
+#lightbox img{max-width:88vw;max-height:80vh;border-radius:4px}
+#lightbox-caption{color:var(--muted);font-family:var(--font-ui);font-size:13px;margin-top:14px;max-width:70ch;text-align:center}
+#back-btn{display:none;position:fixed;bottom:24px;right:24px;background:var(--ac);color:#1a1410;font-family:var(--font-ui);font-size:12px;font-weight:600;border:none;border-radius:20px;padding:9px 16px;cursor:pointer;z-index:150;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+#back-btn.show{display:block}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:14px 0}}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
@@ -154,7 +168,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>Hematopoiese, anatomia b&aacute;sica</b></span>
     <span class="chip">&#128279; Depende de: <b>&mdash;</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
-    <span class="chip">&#128197; &Uacute;ltima revis&atilde;o: <b>2026-06-24</b></span>
+    <span class="chip">&#128197; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -222,18 +236,18 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
   O sistema imune &eacute; o conjunto de &oacute;rg&atilde;os, tecidos, c&eacute;lulas e mol&eacute;culas que protegem o organismo contra agentes agressores &mdash; microrganismos, c&eacute;lulas tumorais e subst&acirc;ncias estranhas. Sua capacidade defensiva depende de uma arquitetura espacial precisa com dois n&iacute;veis hier&aacute;rquicos de fun&ccedil;&otilde;es mutuamente exclusivas.
 </div>
 <p>Os <strong>&oacute;rg&atilde;os prim&aacute;rios</strong> (ou centrais) s&atilde;o os s&iacute;tios de gera&ccedil;&atilde;o e matura&ccedil;&atilde;o dos linf&oacute;citos &mdash; onde c&eacute;lulas aprendem a distinguir pr&oacute;prio de n&atilde;o-pr&oacute;prio antes de qualquer contato com ant&iacute;geno. Os <strong>&oacute;rg&atilde;os secund&aacute;rios</strong> (ou perif&eacute;ricos) s&atilde;o os s&iacute;tios onde linf&oacute;citos maduros encontram ant&iacute;genos, se ativam e geram respostas efetoras.</p>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Categoria</th><th>Org&atilde;o/Tecido</th><th>Ant&iacute;geno chega via</th><th>Fun&ccedil;&atilde;o principal</th></tr></thead>
   <tbody>
-    <tr><td>Prim&aacute;rio</td><td>Medula &oacute;ssea</td><td>&mdash;</td><td>Hematopoiese; matura&ccedil;&atilde;o de linf&oacute;citos B</td></tr>
-    <tr><td>Prim&aacute;rio</td><td>Timo</td><td>&mdash;</td><td>Matura&ccedil;&atilde;o, sele&ccedil;&atilde;o e toler&acirc;ncia de linf&oacute;citos T</td></tr>
-    <tr><td>Secund&aacute;rio</td><td>Ba&ccedil;o</td><td>Sangue</td><td>Resposta a ant&iacute;genos sangu&iacute;neos; filtra&ccedil;&atilde;o</td></tr>
-    <tr><td>Secund&aacute;rio</td><td>Linfonodos</td><td>Vaso linf&aacute;tico aferente</td><td>Resposta a ant&iacute;genos teciduais</td></tr>
-    <tr><td>MALT</td><td>GALT, NALT, BALT</td><td>Mucosa / l&uacute;men</td><td>Imunidade de mucosa (IgA secret&oacute;ra)</td></tr>
-    <tr><td>SALT</td><td>Epiderme/derme</td><td>Contato cut&acirc;neo</td><td>Vigil&acirc;ncia imune cut&acirc;nea</td></tr>
+    <tr><td class="td-label">Prim&aacute;rio</td><td>Medula &oacute;ssea</td><td>&mdash;</td><td>Hematopoiese; matura&ccedil;&atilde;o de linf&oacute;citos B</td></tr>
+    <tr><td class="td-label">Prim&aacute;rio</td><td>Timo</td><td>&mdash;</td><td>Matura&ccedil;&atilde;o, sele&ccedil;&atilde;o e toler&acirc;ncia de linf&oacute;citos T</td></tr>
+    <tr><td class="td-label">Secund&aacute;rio</td><td>Ba&ccedil;o</td><td>Sangue</td><td>Resposta a ant&iacute;genos sangu&iacute;neos; filtra&ccedil;&atilde;o</td></tr>
+    <tr><td class="td-label">Secund&aacute;rio</td><td>Linfonodos</td><td>Vaso linf&aacute;tico aferente</td><td>Resposta a ant&iacute;genos teciduais</td></tr>
+    <tr><td class="td-label">MALT</td><td>GALT, NALT, BALT</td><td>Mucosa / l&uacute;men</td><td>Imunidade de mucosa (IgA secret&oacute;ra)</td></tr>
+    <tr><td class="td-label">SALT</td><td>Epiderme/derme</td><td>Contato cut&acirc;neo</td><td>Vigil&acirc;ncia imune cut&acirc;nea</td></tr>
   </tbody>
-  <caption>Tabela 1. Organiza&ccedil;&atilde;o hier&aacute;rquica dos &oacute;rg&atilde;os e tecidos linfoides.</caption>
 </table></div>
+<p class="table-caption">Tabela 1 &mdash; Organiza&ccedil;&atilde;o hier&aacute;rquica dos &oacute;rg&atilde;os e tecidos linfoides.</p>
 </section>
 
 <section id="orgaos-primarios">
@@ -431,6 +445,11 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 </div>
 </main>
 </div>
+<div id="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">&#8592; Voltar &agrave; leitura</button>
 
 <script>
 // SIDEBAR TOGGLE
@@ -460,17 +479,21 @@ window.addEventListener('scroll', function() {
   bar.style.width = pct + '%';
 }, { passive: true });
 
-// SIDEBAR HIGHLIGHT
+// SIDEBAR HIGHLIGHT (scroll-based)
 var sLinks = document.querySelectorAll('#sidebar a.sl[href^="#"]');
-var obs1 = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting) {
-      sLinks.forEach(function(l) { l.classList.remove('active'); });
-      var a = document.querySelector('#sidebar a.sl[href="#' + e.target.id + '"]');
-      if (a) a.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
+var olSections = document.querySelectorAll('section[id]');
+function updateActiveOL() {
+  var cur = null;
+  var st = document.documentElement.scrollTop || document.body.scrollTop;
+  olSections.forEach(function(s) { if (s.offsetTop - 120 <= st) cur = s; });
+  sLinks.forEach(function(l) { l.classList.remove('active'); });
+  if (cur) {
+    var a = document.querySelector('#sidebar a.sl[href="#' + cur.id + '"]');
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveOL, { passive: true });
+window.addEventListener('load', updateActiveOL);
 
 // SECAO ATIVA HIGHLIGHT
 var obs2 = new IntersectionObserver(function(entries) {
@@ -478,9 +501,9 @@ var obs2 = new IntersectionObserver(function(entries) {
     if (e.isIntersecting) e.target.classList.add('in-view');
     else e.target.classList.remove('in-view');
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
+}, { rootMargin: '-10% 0px -55% 0px' });
 
-document.querySelectorAll('section[id]').forEach(function(s) { obs1.observe(s); obs2.observe(s); });
+olSections.forEach(function(s) { obs2.observe(s); });
 
 // SCROLL SUAVE
 sLinks.forEach(function(link) {
@@ -490,6 +513,30 @@ sLinks.forEach(function(link) {
     if (t) t.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+// LIGHTBOX E NAVEGACAO DE FIGURAS
+var lastReadY = 0;
+function navFig(el) {
+  lastReadY = window.scrollY;
+  document.getElementById('back-btn').classList.add('show');
+  var target = document.querySelector(el.getAttribute('href'));
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function backToRead() {
+  window.scrollTo({ top: lastReadY, behavior: 'smooth' });
+  document.getElementById('back-btn').classList.remove('show');
+}
+function openLightbox(img) {
+  var lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-caption').textContent = img.alt;
+  lb.classList.add('show');
+}
+function closeLightbox(e) {
+  if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.remove('show');
+}
+document.querySelectorAll('.plate-block img').forEach(function(img) { img.addEventListener('click', function() { openLightbox(img); }); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('show'); });
 </script>
 </body>
 </html>

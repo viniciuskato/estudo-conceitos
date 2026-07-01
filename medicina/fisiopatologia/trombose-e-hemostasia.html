@@ -126,6 +126,20 @@ td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vert
 tr:last-child td{border-bottom:none}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);text-align:left;padding:7px 2px 0;font-style:italic;margin-top:-2px}
+.plate-block{float:right;width:42%;margin:0 0 14px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer}
+.plate-block img{width:100%;display:block;border-radius:3px;background:#e8e2d8}
+.plate-caption{font-family:var(--font-ui);font-size:10.5px;color:var(--muted);padding:6px 2px 0;line-height:1.4}
+#lightbox{display:none;position:fixed;inset:0;background:rgba(10,9,8,.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;padding:40px}
+#lightbox.show{display:flex}
+#lightbox img{max-width:88vw;max-height:80vh;border-radius:4px}
+#lightbox-caption{color:var(--muted);font-family:var(--font-ui);font-size:13px;margin-top:14px;max-width:70ch;text-align:center}
+#back-btn{display:none;position:fixed;bottom:24px;right:24px;background:var(--ac);color:#1a1410;font-family:var(--font-ui);font-size:12px;font-weight:600;border:none;border-radius:20px;padding:9px 16px;cursor:pointer;z-index:150;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+#back-btn.show{display:block}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:14px 0}}
 
 /* ── CONNECTIONS BOX ── */
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
@@ -285,6 +299,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <span class="chip">📋 Pré-requisitos: <b>Bioquímica básica · Fisiologia vascular</b></span>
     <span class="chip">🔗 Depende de: <b>Imunologia M3, M4</b></span>
     <span class="chip">📍 Área: <b>Fisiopatologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -391,7 +406,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
   </div>
 </div>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Etapa</th><th>Evento central</th><th>Principais agentes</th></tr></thead>
   <tbody>
     <tr><td><strong>1. Vasoconstrição</strong></td><td>Reduz o fluxo no local</td><td>Endotelina, reflexo neurogênico</td></tr>
@@ -399,8 +414,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td><strong>3. Hemostasia secundária</strong></td><td>Cascata → fibrina</td><td>Fator tecidual, trombina, fibrina, fator XIIIa</td></tr>
     <tr><td><strong>4. Fibrinólise</strong></td><td>Remove o coágulo</td><td>tPA, plasminogênio → plasmina</td></tr>
   </tbody>
-  <caption>Tabela 1. As quatro etapas da hemostasia com evento central e agentes moleculares.</caption>
 </table></div>
+<p class="table-caption">Tabela 1 — As quatro etapas da hemostasia com evento central e agentes moleculares.</p>
 </section>
 
 <section id="vasoconstricao">
@@ -431,15 +446,15 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
   <p>O <strong>fator de von Willebrand (FvW)</strong> funciona como ponte de adesão de alta resistência ao <em>shear</em>: liga-se ao colágeno exposto de um lado e ao receptor plaquetário <strong>glicoproteína Ib (GpIb)</strong> de outro. Sem o FvW, as plaquetas simplesmente não conseguem aderir ao colágeno em fluxo rápido — elas passam arrastadas pela corrente.<a href="#referencias" class="cite">(KUMAR; ABBAS; ASTER, 2021)</a></p>
 </div>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Componente</th><th>Função</th><th>Deficiência hereditária</th><th>Padrão de sangramento</th></tr></thead>
   <tbody>
     <tr><td>FvW</td><td>Ponte colágeno ↔ GpIb; carreador do fator VIII</td><td>Doença de von Willebrand (mais comum)</td><td>Mucocutâneo</td></tr>
     <tr><td>GpIb</td><td>Receptor plaquetário que adere ao FvW</td><td>Síndrome de Bernard-Soulier</td><td>Mucocutâneo</td></tr>
     <tr><td>GpIIb-IIIa</td><td>Integrina que liga fibrinogênio → agregação</td><td>Trombastenia de Glanzmann</td><td>Mucocutâneo</td></tr>
   </tbody>
-  <caption>Tabela 2. Componentes da adesão/agregação plaquetária e deficiências hereditárias correspondentes.</caption>
 </table></div>
+<p class="table-caption">Tabela 2 — Componentes da adesão/agregação plaquetária e deficiências hereditárias correspondentes.</p>
 
 <div class="box clinico">As três deficiências da Tabela 2 causam sangramentos <strong>mucocutâneos</strong> (epistaxe, gengivorragia, petéquias) — padrão de falha em hemostasia primária. Sangramentos profundos (hemartroses, hematomas musculares) indicam defeito na hemostasia secundária — hemofilias A (fator VIII) e B (fator IX).<a href="#referencias" class="cite">(KUMAR; ABBAS; ASTER, 2021; COTRAN; KUMAR; COLLINS, 2016)</a></div>
 
@@ -570,7 +585,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 <h2>Papel central da trombina <a class="anc" href="#trombina">#</a></h2>
 <p>A trombina (fator IIa) é o efluente central da cascata — mas suas funções vão muito além de clivar fibrinogênio. É uma serina-protease multifuncional com efeitos pró- e anticoagulantes dependendo do contexto.<a href="#referencias" class="cite">(KUMAR; ABBAS; ASTER, 2021)</a></p>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Função da trombina</th><th>Efeito</th></tr></thead>
   <tbody>
     <tr><td>Cliva fibrinogênio</td><td>Gera monômeros de fibrina → coágulo</td></tr>
@@ -579,8 +594,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td>Ativa fatores V e VIII</td><td>Retroalimentação positiva — amplifica a própria cascata</td></tr>
     <tr><td>Liga-se à trombomodulina</td><td>Ativa proteína C → efeito anticoagulante (contexto de endotélio íntegro)</td></tr>
   </tbody>
-  <caption>Tabela 3. Funções da trombina — o mesmo mediador tem efeitos opostos dependendo do contexto endotelial.</caption>
 </table></div>
+<p class="table-caption">Tabela 3 — Funções da trombina — o mesmo mediador tem efeitos opostos dependendo do contexto endotelial.</p>
 </section>
 
 <section id="fibrinolise">
@@ -662,7 +677,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 
 <p>Trombofilias hereditárias são mutações que deslocam o equilíbrio hemostático permanentemente para o lado pró-coagulante — aumentando o risco de tromboembolismo venoso (TEV) ao longo da vida, especialmente na presença de gatilhos adicionais (cirurgia, gravidez, imobilização, contraceptivos hormonais).<a href="#referencias" class="cite">(KUMAR; ABBAS; ASTER, 2021)</a></p>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Trombofilia</th><th>Mecanismo</th><th>Prevalência em europeus</th><th>Risco de TEV (relativo)</th></tr></thead>
   <tbody>
     <tr><td><strong>Fator V de Leiden</strong></td><td>Mutação G1691A → fator Va resistente à inativação pela proteína C ativada → excesso de geração de trombina</td><td>3–8% (heterozigoto)</td><td>× 4–8 (hetero) · × 50–100 (homo)</td></tr>
@@ -671,8 +686,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td><strong>Deficiência de proteína C</strong></td><td>Menor inativação dos fatores Va e VIIIa → amplificação não controlada da cascata</td><td>0,2–0,4%</td><td>× 7–10</td></tr>
     <tr><td><strong>Deficiência de proteína S</strong></td><td>Cofator da proteína C reduzido → mesma consequência da deficiência de proteína C</td><td>0,03–0,1%</td><td>× 5–10</td></tr>
   </tbody>
-  <caption>Tabela 6. Trombofilias hereditárias — mecanismo, prevalência e risco relativo de TEV.</caption>
 </table></div>
+<p class="table-caption">Tabela 6 — Trombofilias hereditárias — mecanismo, prevalência e risco relativo de TEV.</p>
 
 <div class="box clinico">
   <strong>Quando investigar trombofilia?</strong>
@@ -731,7 +746,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 
 <p>A CID não é uma doença primária — é a consequência de outro processo que lança fator tecidual ou substâncias pró-coagulantes em massa na circulação sistêmica, ultrapassando todos os mecanismos de regulação. O resultado é o colapso simultâneo dos dois lados do equilíbrio: trombose <em>e</em> hemorragia ao mesmo tempo.</p>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Categoria</th><th>Exemplos clínicos</th><th>Mecanismo de ativação</th></tr></thead>
   <tbody>
     <tr><td><strong>Infecciosa</strong></td><td>Sepse por gram-negativos, meningococcemia, malária grave</td><td>LPS → TLR4 → expressão de FT em monócitos e endotélio</td></tr>
@@ -740,8 +755,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td><strong>Trauma maciço</strong></td><td>Politrauma, queimaduras extensas, cirurgia de grande porte</td><td>Liberação maciça de FT por tecido lesado; hipoperfusão sistêmica</td></tr>
     <tr><td><strong>Transfusão</strong></td><td>Reação transfusional hemolítica ABO</td><td>Hemólise intravascular → liberação de fosfolipídeos de membrana eritrocitária</td></tr>
   </tbody>
-  <caption>Tabela 7. Causas de CID — categorias, exemplos e mecanismo de ativação da coagulação.</caption>
 </table></div>
+<p class="table-caption">Tabela 7 — Causas de CID — categorias, exemplos e mecanismo de ativação da coagulação.</p>
 
 <div class="flow-wrap">
   <div class="flow-label">Fisiopatologia da CID</div>
@@ -761,7 +776,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
   </div>
 </div>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Exame</th><th>Resultado na CID</th><th>Interpretação</th></tr></thead>
   <tbody>
     <tr><td>D-dímero</td><td>↑↑↑ (muito elevado)</td><td>Fibrinólise secundária ativa — produto de degradação de fibrina</td></tr>
@@ -770,8 +785,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td>TP e TTPa</td><td>↑ (prolongados)</td><td>Fatores consumidos + disfunção hepática secundária</td></tr>
     <tr><td>Esquizócitos no esfregaço</td><td>Presentes</td><td>Eritrócitos fragmentados ao traversar microtrombos — sinal de microangiopatia trombótica</td></tr>
   </tbody>
-  <caption>Tabela 8. Perfil laboratorial da CID — padrão típico com consumo de plaquetas, fibrinogênio e fatores.</caption>
 </table></div>
+<p class="table-caption">Tabela 8 — Perfil laboratorial da CID — padrão típico com consumo de plaquetas, fibrinogênio e fatores.</p>
 
 <div class="box clinico"><strong>Tratamento:</strong> Tratar a causa base é a intervenção mais importante. Suporte: reposição de plaquetas (se &lt; 50.000 com sangramento ativo), plasma fresco congelado (reposição de fatores), crioprecipitado (fibrinogênio). Heparina pode ser considerada em CID crônica ou quando o componente trombótico predomina — mas é controversa na CID aguda hemorrágica.<a href="#referencias" class="cite">(LEVI; TEN CATE, 1999)</a></div>
 </section>
@@ -780,22 +795,22 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 <h2>Tromboembolismo pulmonar (TEP) <a class="anc" href="#tep">#</a></h2>
 <p><em>Tromboembolismo pulmonar</em> é definido como a obstrução de artérias pulmonares por êmbolos — na maioria dos casos trombos originados em veias profundas dos membros inferiores (TVP) que se desprendem e migram pela circulação venosa até o pulmão.<a href="#referencias" class="cite">(KUMAR; ABBAS; ASTER, 2021; COTRAN; KUMAR; COLLINS, 2016)</a></p>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Gravidade</th><th>Achado</th><th>Conduta</th></tr></thead>
   <tbody>
     <tr><td><strong>Maciço</strong></td><td>Hipotensão + choque obstrutivo; disfunção de VD</td><td>Trombólise sistêmica (tPA) ou embolectomia cirúrgica</td></tr>
     <tr><td><strong>Submaciço</strong></td><td>PA normal + disfunção de VD (ecocardiograma)</td><td>Anticoagulação plena; considerar trombólise</td></tr>
     <tr><td><strong>Baixo risco</strong></td><td>PA normal + VD normal</td><td>Anticoagulação oral (preferir NOAC)</td></tr>
   </tbody>
-  <caption>Tabela 4. Estratificação clínica do TEP e abordagem terapêutica inicial.</caption>
 </table></div>
+<p class="table-caption">Tabela 4 — Estratificação clínica do TEP e abordagem terapêutica inicial.</p>
 
 <p>O diagnóstico confirmatório padrão é a angiotomografia pulmonar. O <strong>D-dímero</strong> tem alto valor preditivo negativo — D-dímero normal exclui TEP em pacientes de baixa probabilidade clínica (escore de Wells ≤ 4).</p>
 </section>
 
 <section id="outros-embolos">
 <h2>Outros tipos de êmbolo <a class="anc" href="#outros-embolos">#</a></h2>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Tipo</th><th>Origem</th><th>Destino típico</th><th>Contexto clínico</th></tr></thead>
   <tbody>
     <tr><td>Gorduroso</td><td>Medula óssea (fratura de ossos longos)</td><td>Pulmão, cérebro</td><td>Trauma, cirurgia ortopédica</td></tr>
@@ -803,8 +818,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td>Líquido amniótico</td><td>Líquido amniótico (parto)</td><td>Circulação pulmonar</td><td>Complicação obstétrica grave — alta mortalidade</td></tr>
     <tr><td>Séptico</td><td>Vegetação de endocardite</td><td>Sistêmico (endocardite direita → pulmão)</td><td>Febre + embolia pulmonar séptica = endocardite até prova em contrário</td></tr>
   </tbody>
-  <caption>Tabela 5. Tipos de êmbolo não trombótico — origem, destino e contexto clínico.</caption>
 </table></div>
+<p class="table-caption">Tabela 5 — Tipos de êmbolo não trombótico — origem, destino e contexto clínico.</p>
 </section>
 
 <!-- IV · FARMACOLOGIA -->
@@ -889,7 +904,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 <h2>Monitoramento laboratorial dos anticoagulantes <a class="anc" href="#monitoramento">#</a></h2>
 <p>Cada anticoagulante atua em pontos diferentes da cascata — e cada ponto tem um exame específico que o detecta. Compreender essa correspondência explica por que os exames de rotina são escolhidos, e não apenas memorizados.<a href="#referencias" class="cite">(KUMAR; ABBAS; ASTER, 2021; RANG et al., 2023)</a></p>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Exame</th><th>Via avaliada</th><th>Fatores medidos</th><th>Alterado por</th><th>Valor normal</th></tr></thead>
   <tbody>
     <tr><td><strong>TP / INR</strong><br><em>(Tempo de protrombina)</em></td><td>Via extrínseca + via comum</td><td>Fatores I, II, V, VII, X</td><td>Varfarina, deficiência de vitamina K, hepatopatia</td><td>INR 0,9–1,2 (alvo terapêutico: 2–3 para FA/TEP; 3–4 em próteses valvares)</td></tr>
@@ -898,8 +913,8 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <tr><td><strong>Tempo de trombina (TT)</strong></td><td>Via comum — trombina diretamente</td><td>Conversão fibrinogênio → fibrina</td><td>Dabigatrana, deficiência/disfunção de fibrinogênio, heparina residual</td><td>14–21 s (muito sensível — qualquer dabigatrana prolonga)</td></tr>
     <tr><td><strong>D-dímero</strong></td><td>Fibrinólise</td><td>Produtos de degradação de fibrina</td><td>Não é exame de monitoramento de anticoagulante — é biomarcador de trombose ativa e fibrinólise</td><td>&lt; 500 ng/mL (FEU); VPN alto para TEP em baixa probabilidade pré-teste</td></tr>
   </tbody>
-  <caption>Tabela 9. Exames de coagulação: via avaliada, fatores correspondentes, fármacos que alteram e valores de referência/alvo terapêutico.</caption>
 </table></div>
+<p class="table-caption">Tabela 9 — Exames de coagulação: via avaliada, fatores correspondentes, fármacos que alteram e valores de referência/alvo terapêutico.</p>
 
 <div class="kbox">
   <div class="klabel">Por que os NOACs não exigem monitoramento rotineiro?</div>
@@ -963,22 +978,25 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 </div>
 </div>
 </div>
+<div id="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">&#8592; Voltar &agrave; leitura</button>
 
 <script>
-/* ── IntersectionObserver para seção ativa ── */
+/* ── Sidebar highlight (scroll-based) ── */
 const sections=document.querySelectorAll('section[id]');
 const links=document.querySelectorAll('#sidebar a.sl');
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const id=e.target.id;
-      links.forEach(l=>l.classList.remove('active'));
-      const a=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
-      if(a)a.classList.add('active');
-    }
-  });
-},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>obs.observe(s));
+function updateActiveTH(){
+  let cur=null;
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  sections.forEach(s=>{if(s.offsetTop-120<=st)cur=s});
+  links.forEach(l=>l.classList.remove('active'));
+  if(cur){const a=document.querySelector('#sidebar a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active')}
+}
+window.addEventListener('scroll',updateActiveTH,{passive:true});
+window.addEventListener('load',updateActiveTH);
 links.forEach(l=>{
   l.addEventListener('click',e=>{
     e.preventDefault();
@@ -1000,7 +1018,7 @@ const secObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     e.target.classList.toggle('in-view',e.isIntersecting);
   });
-},{rootMargin:'-20% 0px -70% 0px'});
+},{rootMargin:'-10% 0px -55% 0px'});
 sections.forEach(s=>secObs.observe(s));
 
 /* ── Toggle sidebar ── */
@@ -1038,6 +1056,30 @@ if(mobBtn){
     sidebar.classList.toggle('open');
   });
 }
+
+/* ── Lightbox e navegação de figuras ── */
+let lastReadY=0;
+function navFig(el){
+  lastReadY=window.scrollY;
+  document.getElementById('back-btn').classList.add('show');
+  const target=document.querySelector(el.getAttribute('href'));
+  if(target)target.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function backToRead(){
+  window.scrollTo({top:lastReadY,behavior:'smooth'});
+  document.getElementById('back-btn').classList.remove('show');
+}
+function openLightbox(img){
+  const lb=document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src=img.src;
+  document.getElementById('lightbox-caption').textContent=img.alt;
+  lb.classList.add('show');
+}
+function closeLightbox(e){
+  if(e.target.id==='lightbox')document.getElementById('lightbox').classList.remove('show');
+}
+document.querySelectorAll('.plate-block img').forEach(img=>{img.addEventListener('click',()=>openLightbox(img))});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('show')});
 </script>
 </body>
 </html>

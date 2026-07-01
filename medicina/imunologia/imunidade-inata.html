@@ -62,11 +62,27 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
 .box.info{border-left:2px solid var(--ac);background:var(--bg3)}
 .tbl-wrap{overflow-x:auto;margin:16px 0}
-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
-th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
-tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:-10px 0 18px;font-style:italic}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:16px 0}}
 .phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
 .phase-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px}
 .phase-card .pl{font-family:var(--font-ui);font-size:9px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
@@ -145,6 +161,7 @@ ol.refs li a{color:var(--ac);text-decoration:none}
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>c&eacute;lulas do SI, PRRs, citocinas</b></span>
     <span class="chip">&#128279; Depende de: <b>M1, M2, M3</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
+    <span class="chip">&#127811; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -217,16 +234,16 @@ ol.refs li a{color:var(--ac);text-decoration:none}
   A fun&ccedil;&atilde;o antimicrobiana da pele foi sistematizada no s&eacute;culo XX. As defensinas foram identificadas nos anos 1980 por <strong>Robert Lehrer</strong> e <strong>Tomas Ganz</strong> em granul&oacute;citos humanos e, posteriormente, em c&eacute;lulas de Paneth do intestino delgado. As catelicidinas (LL-37) foram caracterizadas nos anos 1990. A descoberta de que c&eacute;lulas de Paneth secretam defensinas &alpha; em resposta a bact&eacute;rias via TLRs (Vaishnava et al., 2008) conectou imunidade inata, microbioma intestinal e barreira epitelial.
 </div>
 <p>A barreira epitelial &eacute; a primeira linha de defesa &mdash; antes de qualquer resposta celular ativa. A ruptura de qualquer barreira (trauma, queimadura, sonda urin&aacute;ria, cateter venoso) &eacute; a principal porta de entrada para infec&ccedil;&otilde;es oportunistas.</p>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Barreira</th><th>Mecanismo f&iacute;sico</th><th>Mecanismo qu&iacute;mico</th></tr></thead>
   <tbody>
-    <tr><td><strong>Pele</strong></td><td>Epit&eacute;lio escamoso estratificado queratinizado; descama&ccedil;&atilde;o cont&iacute;nua</td><td>pH &aacute;cido (~5,5); &aacute;cidos graxos sebc&aacute;eos antimicrobianos; microbioma competitivo</td></tr>
-    <tr><td><strong>Mucosa respirat&oacute;ria</strong></td><td>Escada mucociliar (muco trapping + clearance ciliar)</td><td>IgA secret&oacute;ria; lisozima e lactoferrina no muco; defensinas &beta;</td></tr>
-    <tr><td><strong>Trato GI</strong></td><td>Peristalse; muco com mucinas</td><td>pH g&aacute;strico &lt;2,0 (letal para maioria dos pat&oacute;genos); defensinas &alpha; de c&eacute;lulas de Paneth</td></tr>
-    <tr><td><strong>Trato urin&aacute;rio</strong></td><td>Fluxo urin&aacute;rio (lavagem); epit&eacute;lio de transi&ccedil;&atilde;o</td><td>pH &aacute;cido; catelicidinas; IgA</td></tr>
+    <tr><td class="td-label">Pele</td><td>Epit&eacute;lio escamoso estratificado queratinizado; descama&ccedil;&atilde;o cont&iacute;nua</td><td>pH &aacute;cido (~5,5); &aacute;cidos graxos sebc&aacute;eos antimicrobianos; microbioma competitivo</td></tr>
+    <tr><td class="td-label">Mucosa respirat&oacute;ria</td><td>Escada mucociliar (muco trapping + clearance ciliar)</td><td>IgA secret&oacute;ria; lisozima e lactoferrina no muco; defensinas &beta;</td></tr>
+    <tr><td class="td-label">Trato GI</td><td>Peristalse; muco com mucinas</td><td>pH g&aacute;strico &lt;2,0 (letal para maioria dos pat&oacute;genos); defensinas &alpha; de c&eacute;lulas de Paneth</td></tr>
+    <tr><td class="td-label">Trato urin&aacute;rio</td><td>Fluxo urin&aacute;rio (lavagem); epit&eacute;lio de transi&ccedil;&atilde;o</td><td>pH &aacute;cido; catelicidinas; IgA</td></tr>
   </tbody>
-  <caption>Tabela 1. Barreiras da imunidade inata: mecanismos f&iacute;sicos e qu&iacute;micos.</caption>
 </table></div>
+<p class="table-caption">Tabela 1 &mdash; Barreiras da imunidade inata: mecanismos f&iacute;sicos e qu&iacute;micos.</p>
 <div class="box info">
   <strong>Defensinas:</strong> pept&iacute;deos cati&ocirc;nicos anf&iacute;filos que se inserem em membranas de carga negativa (bacteriana, f&uacute;ngica) formando poros transmembrana &rarr; lise osm&oacute;tica. <strong>Defensinas &alpha;</strong> (neutr&oacute;filos, c&eacute;lulas de Paneth). <strong>Defensinas &beta;</strong> (epit&eacute;lio de mucosas &mdash; indu&ccedil;&atilde;o por PAMPs via TLR). Catelicidina LL-37: antimicrobiana de amplo espectro e quimioatraente de neutr&oacute;filos.
 </div>
@@ -377,6 +394,12 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 </div>
 </main>
 </div>
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem expandida">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
 <script>
 const sidebar=document.getElementById('sidebar');
 const bodyWrap=document.getElementById('body-wrap');
@@ -385,12 +408,27 @@ if(sessionStorage.getItem('sidebar-collapsed')==='1'){sidebar.classList.add('col
 toggleBtn.addEventListener('click',()=>{const c=sidebar.classList.toggle('collapsed');bodyWrap.classList.toggle('sidebar-collapsed',c);toggleBtn.textContent=c?'›':'‹';sessionStorage.setItem('sidebar-collapsed',c?'1':'0')});
 const pb=document.getElementById('progress-bar');
 window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
-const sections=document.querySelectorAll('section[id]');
+const sections=Array.from(document.querySelectorAll('section[id]'));
 const navLinks=document.querySelectorAll('#sidebar a.sl');
-const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>obs1.observe(s));
-const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+function updateActiveIN(){
+  var scrollY=window.scrollY||window.pageYOffset;var offset=80;var current=sections[0];
+  for(var i=0;i<sections.length;i++){ if(sections[i].getBoundingClientRect().top+scrollY<=scrollY+offset) current=sections[i]; }
+  navLinks.forEach(l=>l.classList.remove('active'));
+  var a=document.querySelector('#sidebar a.sl[href="#'+current.id+'"]'); if(a)a.classList.add('active');
+}
+window.addEventListener('scroll',updateActiveIN,{passive:true});
+updateActiveIN();
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-10% 0px -55% 0px'});
 sections.forEach(s=>obs2.observe(s));
+var lb=document.getElementById('lightbox'),lbImg=document.getElementById('lightbox-img'),lbCap=document.getElementById('lightbox-caption');
+function openLightbox(img){var c=img.closest('.plate-block')&&img.closest('.plate-block').querySelector('.plate-caption');lbImg.src=img.src;lbImg.alt=img.alt;lbCap.textContent=img.dataset.caption||(c?c.textContent.trim():'');lb.classList.add('open');document.body.style.overflow='hidden'}
+function closeLightbox(){lb.classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('.plate-block img').forEach(img=>img.addEventListener('click',()=>openLightbox(img)));
+lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))closeLightbox()});
+window._readPos=null;
+window.navFig=function(a){window._readPos=window.scrollY;document.getElementById('back-btn').style.display='block'};
+window.backToRead=function(){if(window._readPos!==null){window.scrollTo({top:window._readPos,behavior:'smooth'})}document.getElementById('back-btn').style.display='none'};
 </script>
 </body>
 </html>

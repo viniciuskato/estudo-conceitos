@@ -114,6 +114,19 @@ th{background:var(--bg3);color:var(--ac);font-weight:600;text-align:left;padding
 td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-size:12px;color:var(--muted);text-align:left;margin-bottom:6px;font-style:italic}
+table.data-table tr:hover td{background:var(--bg3)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+p.table-caption{font-size:12px;color:var(--muted);text-align:left;margin:6px 0 16px;font-style:italic}
+.plate-block{float:right;width:42%;margin:0 0 14px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer}
+.plate-block img{width:100%;display:block;border-radius:3px;background:#e8e2d8}
+.plate-caption{font-family:var(--font-ui);font-size:10.5px;color:var(--muted);padding:6px 2px 0;line-height:1.4}
+#lightbox{display:none;position:fixed;inset:0;background:rgba(10,9,8,.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;padding:40px}
+#lightbox.show{display:flex}
+#lightbox img{max-width:88vw;max-height:80vh;border-radius:4px}
+#lightbox-caption{color:var(--muted);font-family:var(--font-ui);font-size:13px;margin-top:14px;max-width:70ch;text-align:center}
+#back-btn{display:none;position:fixed;bottom:24px;right:24px;background:var(--ac);color:#1a1410;font-family:var(--font-ui);font-size:12px;font-weight:600;border:none;border-radius:20px;padding:9px 16px;cursor:pointer;z-index:150;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+#back-btn.show{display:block}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:14px 0}}
 
 /* Citações inline */
 .cite{color:var(--ac);font-size:.85em}
@@ -193,7 +206,7 @@ section.in-view>h2{color:var(--ac);transition:color .3s}
     <span class="chip">📋 Pré-requisitos: <b>débito cardíaco, barorreflexo, SRAA</b></span>
     <span class="chip">🔗 Depende de: <b>barorreflexo, hemostasia, SRAA</b></span>
     <span class="chip">📍 Área: <b>Fisiopatologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-22</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -305,14 +318,14 @@ section.in-view>h2{color:var(--ac);transition:color .3s}
 <p>O choque hipovolêmico resulta de redução absoluta do volume intravascular efetivo, com consequente queda na pré-carga ventricular, redução do VS e do DC. A causa mais comum é hemorrágica (trauma, hemorragia digestiva, rotura de aneurisma), mas o mecanismo é idêntico em perdas não hemorrágicas: desidratação grave por vômitos ou diarreia, queimaduras extensas (perda de plasma para o interstício), peritonite e pancreatite aguda grave (sequestro de líquido no "terceiro espaço").</p>
 
 <h3>Classificação ATLS da hemorragia</h3>
-<table>
-  <caption>Tabela 1. Classificação ATLS do choque hemorrágico (adulto 70 kg)</caption>
+<table class="data-table">
   <tr><th>Classe</th><th>Vol. perdido</th><th>FC (bpm)</th><th>PA</th><th>FR</th><th>SNC</th></tr>
-  <tr><td>I</td><td>&lt;750 mL (&lt;15%)</td><td>&lt;100</td><td>Normal</td><td>14–20</td><td>Levemente ansioso</td></tr>
-  <tr><td>II</td><td>750–1500 mL (15–30%)</td><td>100–120</td><td>Pressão de pulso ↓</td><td>20–30</td><td>Ansioso</td></tr>
-  <tr><td>III</td><td>1500–2000 mL (30–40%)</td><td>120–140</td><td>PA sistólica ↓</td><td>30–40</td><td>Confuso</td></tr>
-  <tr><td>IV</td><td>&gt;2000 mL (&gt;40%)</td><td>&gt;140</td><td>PA muito baixa</td><td>&gt;35</td><td>Letárgico/inconsciente</td></tr>
+  <tr><td class="td-label">I</td><td>&lt;750 mL (&lt;15%)</td><td>&lt;100</td><td>Normal</td><td>14–20</td><td>Levemente ansioso</td></tr>
+  <tr><td class="td-label">II</td><td>750–1500 mL (15–30%)</td><td>100–120</td><td>Pressão de pulso ↓</td><td>20–30</td><td>Ansioso</td></tr>
+  <tr><td class="td-label">III</td><td>1500–2000 mL (30–40%)</td><td>120–140</td><td>PA sistólica ↓</td><td>30–40</td><td>Confuso</td></tr>
+  <tr><td class="td-label">IV</td><td>&gt;2000 mL (&gt;40%)</td><td>&gt;140</td><td>PA muito baixa</td><td>&gt;35</td><td>Letárgico/inconsciente</td></tr>
 </table>
+<p class="table-caption">Tabela 1 — Classificação ATLS do choque hemorrágico (adulto 70 kg).</p>
 
 <p>O perfil hemodinâmico característico: DC baixo, RVP alta (vasoconstricção simpática compensatória), PVC baixa (pré-carga reduzida), POAP baixa. A diferenciação do cardiogênico faz-se pelas veias jugulares: ingurgitadas no cardiogênico (pressão de enchimento alta), colabadas no hipovolêmico.</p>
 
@@ -439,14 +452,14 @@ section.in-view>h2{color:var(--ac);transition:color .3s}
 
 <p>O princípio organizador é corrigir o determinante primário da falência circulatória enquanto se mantém a perfusão de órgãos-alvo com vasopressores e O₂ suplementar. Tratar choque cardiogênico com expansão volêmica agressiva é iatrogênico; tratar choque distributivo com vasopressores sem reposição de volume é insuficiente.</p>
 
-<table>
-  <caption>Tabela 2. Perfil hemodinâmico e tratamento por tipo de choque</caption>
+<table class="data-table">
   <tr><th>Tipo</th><th>DC</th><th>RVP</th><th>POAP/PVC</th><th>Tratamento primário</th></tr>
-  <tr><td>Hipovolêmico</td><td>↓</td><td>↑</td><td>↓</td><td>Reposição de volume (cristaloides, sangue)</td></tr>
-  <tr><td>Distributivo (séptico)</td><td>↑ ou N</td><td>↓↓</td><td>N ou ↓</td><td>Antibióticos + volume + vasopressores</td></tr>
-  <tr><td>Cardiogênico</td><td>↓↓</td><td>↑</td><td>↑↑</td><td>Inotrópicos, revascularização, SCM</td></tr>
-  <tr><td>Obstrutivo (TEP)</td><td>↓</td><td>↑ pulmonar</td><td>PVC ↑, POAP ↓</td><td>Trombólise ou embolectomia; pericardiocentese no tamponamento</td></tr>
+  <tr><td class="td-label">Hipovolêmico</td><td>↓</td><td>↑</td><td>↓</td><td>Reposição de volume (cristaloides, sangue)</td></tr>
+  <tr><td class="td-label">Distributivo (séptico)</td><td>↑ ou N</td><td>↓↓</td><td>N ou ↓</td><td>Antibióticos + volume + vasopressores</td></tr>
+  <tr><td class="td-label">Cardiogênico</td><td>↓↓</td><td>↑</td><td>↑↑</td><td>Inotrópicos, revascularização, SCM</td></tr>
+  <tr><td class="td-label">Obstrutivo (TEP)</td><td>↓</td><td>↑ pulmonar</td><td>PVC ↑, POAP ↓</td><td>Trombólise ou embolectomia; pericardiocentese no tamponamento</td></tr>
 </table>
+<p class="table-caption">Tabela 2 — Perfil hemodinâmico e tratamento por tipo de choque.</p>
 
 <h3>Choque hipovolêmico: ressuscitação volêmica</h3>
 <p>No choque hemorrágico, reanimação hemostática prioriza sangue sobre cristaloides: plasma fresco congelado (PFC), concentrado de hemácias (CH) e plaquetas na proporção 1:1:1. Cristaloides isotônicos (Ringer lactato preferido ao SF 0,9% — evita acidose hiperclorêmica) são usados como ponte. Ácido tranexâmico (ATX), inibidor da fibrinólise, reduz mortalidade quando administrado nas primeiras 3 horas do trauma hemorrágico (CRASH-2, 2010). A responsividade a fluidos é avaliada dinamicamente por <em>pulse pressure variation</em> (PPV), <em>stroke volume variation</em> (SVV) ou <em>passive leg raise</em> (PLR — elevação dos MMII a 45° por 1 min; aumento >10% no DC prediz responsividade).</p>
@@ -539,6 +552,11 @@ section.in-view>h2{color:var(--ac);transition:color .3s}
 </div><!-- end .prose -->
 </main>
 </div><!-- end #body-wrap -->
+<div id="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">&#8592; Voltar &agrave; leitura</button>
 
 <script>
 // Progress bar
@@ -564,18 +582,18 @@ btn.addEventListener('click',()=>{
   applySidebar(c);
 });
 
-// Active sidebar link
+// Active sidebar link (scroll-based)
 const slinks=document.querySelectorAll('a.sl');
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      slinks.forEach(l=>l.classList.remove('active'));
-      const match=document.querySelector('a.sl[href="#'+e.target.id+'"]');
-      if(match)match.classList.add('active');
-    }
-  });
-},{rootMargin:'-20% 0px -70% 0px'});
-document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+const chSections=document.querySelectorAll('section[id]');
+function updateActiveCH(){
+  let cur=null;
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  chSections.forEach(s=>{if(s.offsetTop-120<=st)cur=s});
+  slinks.forEach(l=>l.classList.remove('active'));
+  if(cur){const a=document.querySelector('a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active')}
+}
+window.addEventListener('scroll',updateActiveCH,{passive:true});
+window.addEventListener('load',updateActiveCH);
 
 // H2 highlight
 const h2obs=new IntersectionObserver(entries=>{
@@ -583,8 +601,32 @@ const h2obs=new IntersectionObserver(entries=>{
     if(e.isIntersecting)e.target.classList.add('in-view');
     else e.target.classList.remove('in-view');
   });
-},{rootMargin:'-20% 0px -70% 0px'});
-document.querySelectorAll('section[id]').forEach(s=>h2obs.observe(s));
+},{rootMargin:'-10% 0px -55% 0px'});
+chSections.forEach(s=>h2obs.observe(s));
+
+// Lightbox e navegação de figuras
+let lastReadY=0;
+function navFig(el){
+  lastReadY=window.scrollY;
+  document.getElementById('back-btn').classList.add('show');
+  const target=document.querySelector(el.getAttribute('href'));
+  if(target)target.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function backToRead(){
+  window.scrollTo({top:lastReadY,behavior:'smooth'});
+  document.getElementById('back-btn').classList.remove('show');
+}
+function openLightbox(img){
+  const lb=document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src=img.src;
+  document.getElementById('lightbox-caption').textContent=img.alt;
+  lb.classList.add('show');
+}
+function closeLightbox(e){
+  if(e.target.id==='lightbox')document.getElementById('lightbox').classList.remove('show');
+}
+document.querySelectorAll('.plate-block img').forEach(img=>{img.addEventListener('click',()=>openLightbox(img))});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('show')});
 </script>
 </body>
 </html>

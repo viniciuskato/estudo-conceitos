@@ -95,12 +95,27 @@ a.cross-link:hover{opacity:1}
 
 /* ── Tabela ── */
 .table-wrap{overflow-x:auto;margin:24px 0}
-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
-th{background:var(--bg3);color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
-tr:last-child td{border-bottom:none}
-tr:nth-child(even) td{background:var(--bg2)}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:-10px 0 18px;font-style:italic}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:16px 0}}
 
 /* ── Fundamentos grid ── */
 .fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
@@ -211,6 +226,7 @@ ol.refs li a:hover{text-decoration:underline}
     <span class="chip">📋 Pré-requisitos: <b>IgE, mastócitos, complemento, Th2</b></span>
     <span class="chip">🔗 Depende de: <b>M3, M5, M7, M8</b></span>
     <span class="chip">📍 Área: <b>Imunologia clínica</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -283,7 +299,7 @@ ol.refs li a:hover{text-decoration:underline}
   Hipersensibilidade é uma resposta imune adaptativa (ou inata amplificada) que produz dano tecidual desproporcional ao benefício protetor, seja por ativação excessiva, por direcionamento contra antígenos próprios ou inócuos, ou por falha na resolução da resposta.
 </div>
 
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Tipo</th><th>Nome</th><th>Mediador principal</th><th>Tempo de resposta</th><th>Exemplos clínicos</th></tr></thead>
   <tbody>
     <tr><td><strong>I</strong></td><td>Anafilática / Imediata</td><td>IgE + mastócitos/basófilos</td><td>Minutos a 2h (fase tardia: 2–24h)</td><td>Anafilaxia, asma alérgica, rinite, urticária, alergia alimentar</td></tr>
@@ -324,7 +340,7 @@ ol.refs li a:hover{text-decoration:underline}
 
 <p><strong>Fase efetora (segundo contato):</strong> na reexposição ao mesmo alérgeno, as moléculas do alérgeno se ligam simultaneamente a duas ou mais IgE adjacentes na superfície do mastócito (<em>crosslinking</em>). Isso ativa tirosina quinases (Lyn, Syk) associadas ao FcεRI → fosforilação em cascata → aumento de Ca²⁺ intracelular → degranulação em segundos.</p>
 
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Fase</th><th>Mediadores</th><th>Origem</th><th>Efeitos</th><th>Tempo</th></tr></thead>
   <tbody>
     <tr><td><strong>Imediata</strong></td><td>Histamina, triptase, heparina, TNF, PAF</td><td>Pré-formados em grânulos</td><td>Vasodilatação, edema, prurido, broncoespasmo imediato, hipotensão</td><td>Segundos a minutos</td></tr>
@@ -452,7 +468,7 @@ ol.refs li a:hover{text-decoration:underline}
 <section id="diagnostico">
 <h2>Diagnóstico das hipersensibilidades <a class="anchor" href="#diagnostico">#</a></h2>
 
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Tipo</th><th>Teste diagnóstico</th><th>Princípio</th><th>Leitura</th></tr></thead>
   <tbody>
     <tr><td><strong>I</strong></td><td>Prick test (puntura)</td><td>Alérgeno escarificado ativa mastócitos locais → histamina → pápula</td><td>15–20 min; pápula ≥ 3mm = positivo</td></tr>
@@ -533,6 +549,13 @@ ol.refs li a:hover{text-decoration:underline}
 </div><!-- #content -->
 </div><!-- #body-wrap -->
 
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem expandida">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
 <script>
 (function(){
   var pb=document.getElementById('progress-bar');
@@ -582,22 +605,23 @@ ol.refs li a:hover{text-decoration:underline}
     });
   }
 
-  var sections=document.querySelectorAll('section[id]');
+  var sections=Array.from(document.querySelectorAll('section[id]'));
   var links=document.querySelectorAll('#sidebar a.sl[href^="#"]');
+
+  function updateActiveHS(){
+    var scrollY=window.scrollY||window.pageYOffset;var offset=80;var current=sections[0];
+    for(var i=0;i<sections.length;i++){ if(sections[i].getBoundingClientRect().top+scrollY<=scrollY+offset) current=sections[i]; }
+    links.forEach(function(l){l.classList.remove('active')});
+    var a=document.querySelector('#sidebar a.sl[href="#'+current.id+'"]'); if(a)a.classList.add('active');
+  }
+  window.addEventListener('scroll',updateActiveHS,{passive:true});
+  updateActiveHS();
 
   var sectionObserver=new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        var id=entry.target.id;
-        links.forEach(function(l){l.classList.remove('active')});
-        var active=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
-        if(active)active.classList.add('active');
-      } else {
-        entry.target.classList.remove('in-view');
-      }
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
     });
-  },{rootMargin:'-20% 0px -70% 0px'});
+  },{rootMargin:'-10% 0px -55% 0px'});
 
   sections.forEach(function(s){sectionObserver.observe(s)});
 
@@ -609,70 +633,16 @@ ol.refs li a:hover{text-decoration:underline}
       if(window.innerWidth<=900)sidebar.classList.remove('open');
     });
   });
-})();
-</script>
-</body>
-</html>
-   btn.title='Expandir sidebar';
-    } else {
-      sidebar.classList.remove('collapsed');
-      bodyWrap.classList.remove(COLLAPSED);
-      btn.textContent='‹';
-      btn.title='Colapsar sidebar';
-    }
-  }
 
-  var stored=sessionStorage.getItem('sidebar-collapsed');
-  applyState(stored==='1');
-
-  btn.addEventListener('click',function(){
-    var nowCollapsed=sidebar.classList.contains('collapsed');
-    applyState(!nowCollapsed);
-    sessionStorage.setItem('sidebar-collapsed',nowCollapsed?'0':'1');
-  });
-
-  // Mobile menu
-  var mobBtn=document.getElementById('mob-menu-btn');
-  if(mobBtn){
-    mobBtn.addEventListener('click',function(){
-      sidebar.classList.toggle('open');
-    });
-    document.addEventListener('click',function(e){
-      if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==mobBtn){
-        sidebar.classList.remove('open');
-      }
-    });
-  }
-
-  // Sidebar active link + section in-view highlight
-  var sections=document.querySelectorAll('section[id]');
-  var links=document.querySelectorAll('#sidebar a.sl[href^="#"]');
-
-  var sectionObserver=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        var id=entry.target.id;
-        links.forEach(function(l){l.classList.remove('active')});
-        var active=document.querySelector('#sidebar a.sl[href="#'+id+'"]');
-        if(active)active.classList.add('active');
-      } else {
-        entry.target.classList.remove('in-view');
-      }
-    });
-  },{rootMargin:'-20% 0px -70% 0px'});
-
-  sections.forEach(function(s){sectionObserver.observe(s)});
-
-  // Smooth scroll
-  links.forEach(function(link){
-    link.addEventListener('click',function(e){
-      e.preventDefault();
-      var target=document.querySelector(link.getAttribute('href'));
-      if(target)target.scrollIntoView({behavior:'smooth'});
-      if(window.innerWidth<=900)sidebar.classList.remove('open');
-    });
-  });
+  var lb=document.getElementById('lightbox'),lbImg=document.getElementById('lightbox-img'),lbCap=document.getElementById('lightbox-caption');
+  function openLightbox(img){var c=img.closest('.plate-block')&&img.closest('.plate-block').querySelector('.plate-caption');lbImg.src=img.src;lbImg.alt=img.alt;lbCap.textContent=img.dataset.caption||(c?c.textContent.trim():'');lb.classList.add('open');document.body.style.overflow='hidden'}
+  function closeLightbox(){lb.classList.remove('open');document.body.style.overflow=''}
+  document.querySelectorAll('.plate-block img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img)})});
+  lb.addEventListener('click',function(e){if(e.target===lb)closeLightbox()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open'))closeLightbox()});
+  window._readPos=null;
+  window.navFig=function(a){window._readPos=window.scrollY;document.getElementById('back-btn').style.display='block'};
+  window.backToRead=function(){if(window._readPos!==null){window.scrollTo({top:window._readPos,behavior:'smooth'})}document.getElementById('back-btn').style.display='none'};
 })();
 </script>
 </body>

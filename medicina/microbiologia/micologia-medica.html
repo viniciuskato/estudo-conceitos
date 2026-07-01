@@ -91,6 +91,7 @@ th{background:var(--bg3);color:var(--ac);font-weight:600;text-align:left;padding
 td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
 tr:hover td{background:var(--bg2)}
 .table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:6px;margin-bottom:20px;font-style:italic}
+table.data-table td.td-label{color:var(--text);font-weight:600}
 
 /* Referências */
 #referencias ol{padding-left:1.2em}
@@ -170,7 +171,7 @@ tr:hover td{background:var(--bg2)}
     <span class="chip">📋 Pré-requisitos: <b>Biologia celular básica</b></span>
     <span class="chip">🔗 Depende de: <b>Imunologia M9 (Resposta a Patógenos)</b></span>
     <span class="chip">📍 Área: <b>Microbiologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -298,7 +299,7 @@ tr:hover td{background:var(--bg2)}
 
 <p>Esta conversão é essencial à patogenicidade — mutantes que não completam a transição são avirulentos. Os mecanismos moleculares incluem o gene <em>DRK1</em> (histidina quinase), conservado entre fungos dimórficos, que regula a expressão de <em>Ryp1</em>, <em>Ryp2</em> e <em>Ryp3</em> — fatores de transcrição que reprogramam o metabolismo, a composição da parede celular e a expressão de fatores de virulência da forma leveduriforme.</p>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Fungo</th><th>Forma ambiental (25°C)</th><th>Forma parasitária (37°C)</th><th>Propágulo infectante</th></tr></thead>
   <tbody>
     <tr><td><em>Histoplasma capsulatum</em></td><td>Micélio (hifas e microconídios)</td><td>Levedura intracelular (2–4 µm)</td><td>Microconídio ou fragmento de hifa</td></tr>
@@ -591,7 +592,7 @@ tr:hover td{background:var(--bg2)}
 
 <p>O <strong>PCR</strong> fúngico para <em>Aspergillus</em>, <em>Candida</em> e <em>Pneumocystis</em> está incorporado em diretrizes europeias (ESCMID), mas a falta de padronização entre plataformas limita a adoção global. Para <em>Pneumocystis</em>, o PCR no lavado broncoalveolar tem sensibilidade superior ao exame direto com imunofluorescência direta (referência) — especialmente útil porque não há cultura convencional disponível.</p>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Biomarcador</th><th>Fungos detectados</th><th>Sensibilidade</th><th>Especificidade</th><th>Uso clínico</th></tr></thead>
   <tbody>
     <tr><td>β-D-glucana sérica</td><td>Maioria (exceto Mucorales, Cryptococcus)</td><td>75–80%</td><td>~80%</td><td>Rastreio em alto risco</td></tr>
@@ -714,26 +715,28 @@ btn.addEventListener('click', () => {
 });
 if (sessionStorage.getItem('sidebar-collapsed') === '1') applyCollapse(true);
 
-// Active sidebar link (IntersectionObserver)
+// Active sidebar link (scroll-based)
 const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('a.sl[href^="#"]');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      links.forEach(l => l.classList.remove('active'));
-      const a = document.querySelector('a.sl[href="#' + e.target.id + '"]');
-      if (a) a.classList.add('active');
-    }
-  });
-}, {rootMargin: '-20% 0px -70% 0px'});
-sections.forEach(s => obs.observe(s));
+function updateActiveMM() {
+  let cur = null;
+  const st = document.documentElement.scrollTop || document.body.scrollTop;
+  sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+  links.forEach(l => l.classList.remove('active'));
+  if (cur) {
+    const a = document.querySelector('a.sl[href="#' + cur.id + '"]');
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveMM, {passive: true});
+window.addEventListener('load', updateActiveMM);
 
 // Section highlight
 const obs2 = new IntersectionObserver(entries => {
   entries.forEach(e => {
     e.target.classList.toggle('in-view', e.isIntersecting);
   });
-}, {rootMargin: '-20% 0px -70% 0px'});
+}, {rootMargin: '-10% 0px -55% 0px'});
 sections.forEach(s => obs2.observe(s));
 </script>
 </body>

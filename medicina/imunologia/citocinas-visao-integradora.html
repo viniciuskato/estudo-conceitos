@@ -65,6 +65,10 @@ th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-
 td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
 tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);text-align:left;padding:7px 2px 0;font-style:italic;margin-top:-2px}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
@@ -161,7 +165,7 @@ ul.disc li{margin-bottom:.4em}
     <span class="chip">⏱ <b>~35 min</b> de leitura</span>
     <span class="chip">📋 Pré-requisitos: <b>M2 Células, M3 Moléculas, M4 Inata, M8 Linfócitos T</b></span>
     <span class="chip">📍 Área: <b>Imunologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -262,16 +266,16 @@ ul.disc li{margin-bottom:.4em}
 <p>IL-2, o principal fator de crescimento para linfócitos T, é secretada pela própria célula ativada (autócrina) e pelo ambiente parácrino. A <em>trans-apresentação</em> é um mecanismo adicional: células dendríticas podem capturar IL-15 via IL-15Rα e "apresentá-la" em <em>trans</em> para células NK ou T CD8⁺ adjacentes — um mecanismo de sinalização de contato sem liberação da citocina no meio extracelular, que concentra o sinal e aumenta especificidade.</p>
 
 <div class="tbl-wrap">
-<table>
+<table class="data-table">
 <thead><tr><th>Propriedade</th><th>Definição operacional</th><th>Exemplo paradigmático</th><th>Implicação clínica</th></tr></thead>
 <tbody>
-<tr><td>Pleiotropia</td><td>1 citocina → múltiplos efeitos em múltiplas células</td><td>IL-6: fase aguda, diferenciação B, Th17, angiogênese</td><td>Bloquear IL-6 altera múltiplos sistemas simultaneamente</td></tr>
-<tr><td>Redundância</td><td>Múltiplas citocinas → 1 efeito funcional</td><td>IL-2, IL-7, IL-15 → sobrevivência de células T de memória</td><td>Bloquear 1 citocina raramente elimina o efeito completamente</td></tr>
-<tr><td>Sinergismo</td><td>Efeito combinado > soma dos efeitos individuais</td><td>IL-12 + IL-18 → IFN-γ por NK</td><td>Combinações terapêuticas podem ter toxicidade desproporcional</td></tr>
-<tr><td>Antagonismo</td><td>Citocina A inibe efeito de citocina B</td><td>IL-10 inibe IL-12; IL-4 inibe IFN-γ</td><td>Desequilíbrio Th1/Th2 em alergias vs doenças autoimunes</td></tr>
+<tr><td class="td-label">Pleiotropia</td><td>1 citocina → múltiplos efeitos em múltiplas células</td><td>IL-6: fase aguda, diferenciação B, Th17, angiogênese</td><td>Bloquear IL-6 altera múltiplos sistemas simultaneamente</td></tr>
+<tr><td class="td-label">Redundância</td><td>Múltiplas citocinas → 1 efeito funcional</td><td>IL-2, IL-7, IL-15 → sobrevivência de células T de memória</td><td>Bloquear 1 citocina raramente elimina o efeito completamente</td></tr>
+<tr><td class="td-label">Sinergismo</td><td>Efeito combinado > soma dos efeitos individuais</td><td>IL-12 + IL-18 → IFN-γ por NK</td><td>Combinações terapêuticas podem ter toxicidade desproporcional</td></tr>
+<tr><td class="td-label">Antagonismo</td><td>Citocina A inibe efeito de citocina B</td><td>IL-10 inibe IL-12; IL-4 inibe IFN-γ</td><td>Desequilíbrio Th1/Th2 em alergias vs doenças autoimunes</td></tr>
 </tbody>
-<caption>Tabela 1. Propriedades sistêmicas das citocinas e suas implicações.</caption>
 </table>
+<p class="table-caption">Tabela 1 — Propriedades sistêmicas das citocinas e suas implicações.</p>
 </div>
 </section>
 
@@ -469,22 +473,22 @@ ul.disc li{margin-bottom:.4em}
 <p>O bloqueio de citocinas representa uma das maiores revoluções da medicina interna das últimas décadas. A lógica é simples: identificar a citocina ou receptor dominante em uma doença e bloqueá-la com anticorpo monoclonal ou proteína de fusão solúvel. A execução é complexa, porque o mesmo alvo tem funções protetoras em outros contextos.</p>
 
 <div class="tbl-wrap">
-<table>
+<table class="data-table">
 <thead>
 <tr><th>Alvo</th><th>Fármaco (classe)</th><th>Mecanismo</th><th>Indicação</th><th>Risco notável</th></tr>
 </thead>
 <tbody>
-<tr><td>TNF-α</td><td>Infliximabe, adalimumabe, etanercept</td><td>Anticorpo anti-TNF ou receptor solúvel (etanercept = TNFR2-Fc)</td><td>AR, Crohn, psoríase, EA, artrite psoriásica</td><td>Reativação de TB latente, infecções oportunistas, desmielinização</td></tr>
-<tr><td>IL-6R</td><td>Tocilizumabe, sarilumabe</td><td>Anticorpo anti-IL-6Rα (bloqueia tanto IL-6Rα de membrana quanto sIL-6Rα)</td><td>AR, síndrome de ativação macrofágica, CAR-T toxicidade, COVID-19 grave</td><td>Infecções fúngicas, oportunistas; mascaramento de febre</td></tr>
-<tr><td>IL-1β / IL-1R</td><td>Anakinra (IL-1Ra recombinante), canakinumabe (anti-IL-1β)</td><td>Bloqueio competitivo do receptor (anakinra) ou neutralização de IL-1β (canakinumabe)</td><td>Artrite idiopática juvenil, SAM/HLH, gota, síndrome periódica por criopirina, DM2 (ensaios)</td><td>Infecções bacterianas; neutralização de alarme precoce de infecção</td></tr>
-<tr><td>IL-17A</td><td>Secuquinumabe, ixecizumabe</td><td>Anticorpo anti-IL-17A</td><td>Psoríase, artrite psoriásica, EA</td><td>Candidíase mucocutânea (IL-17A é protetora contra Candida)</td></tr>
-<tr><td>IL-23p19</td><td>Guselcumabe, risanquizumabe</td><td>Anticorpo anti-subunidade p19 de IL-23 (não bloqueia IL-12)</td><td>Psoríase, DII, artrite psoriásica</td><td>Menor risco infeccioso que anti-IL-17A</td></tr>
-<tr><td>IL-4Rα (compartilhado com IL-13)</td><td>Dupilumabe</td><td>Anticorpo anti-IL-4Rα → bloqueia IL-4 e IL-13 simultaneamente</td><td>Dermatite atópica, asma eosinofílica, esofagite eosinofílica, RSCcPN</td><td>Conjuntivite, raramente piora de asma na descontinuação</td></tr>
-<tr><td>JAK1/JAK2</td><td>Baricitinibe, ruxolitinibe</td><td>Inibidor de pequena molécula de JAK — bloqueia múltiplas citocinas simultaneamente</td><td>AR, policitemia vera, mielofibrose, alopecia areata, COVID-19 grave</td><td>Trombose venosa, reativação de vírus herpes, infecções oportunistas</td></tr>
-<tr><td>JAK1/JAK3</td><td>Tofacitinibe, upadacitinibe</td><td>Inibidor seletivo JAK1/3 → bloqueia γc-citocinas (IL-2, IL-4, IL-7, IL-15, IL-21)</td><td>AR, colite ulcerativa, artrite psoriásica</td><td>MACE (eventos cardiovasculares maiores), tromboembolismo venoso (alerta FDA 2021)</td></tr>
+<tr><td class="td-label">TNF-α</td><td>Infliximabe, adalimumabe, etanercept</td><td>Anticorpo anti-TNF ou receptor solúvel (etanercept = TNFR2-Fc)</td><td>AR, Crohn, psoríase, EA, artrite psoriásica</td><td>Reativação de TB latente, infecções oportunistas, desmielinização</td></tr>
+<tr><td class="td-label">IL-6R</td><td>Tocilizumabe, sarilumabe</td><td>Anticorpo anti-IL-6Rα (bloqueia tanto IL-6Rα de membrana quanto sIL-6Rα)</td><td>AR, síndrome de ativação macrofágica, CAR-T toxicidade, COVID-19 grave</td><td>Infecções fúngicas, oportunistas; mascaramento de febre</td></tr>
+<tr><td class="td-label">IL-1β / IL-1R</td><td>Anakinra (IL-1Ra recombinante), canakinumabe (anti-IL-1β)</td><td>Bloqueio competitivo do receptor (anakinra) ou neutralização de IL-1β (canakinumabe)</td><td>Artrite idiopática juvenil, SAM/HLH, gota, síndrome periódica por criopirina, DM2 (ensaios)</td><td>Infecções bacterianas; neutralização de alarme precoce de infecção</td></tr>
+<tr><td class="td-label">IL-17A</td><td>Secuquinumabe, ixecizumabe</td><td>Anticorpo anti-IL-17A</td><td>Psoríase, artrite psoriásica, EA</td><td>Candidíase mucocutânea (IL-17A é protetora contra Candida)</td></tr>
+<tr><td class="td-label">IL-23p19</td><td>Guselcumabe, risanquizumabe</td><td>Anticorpo anti-subunidade p19 de IL-23 (não bloqueia IL-12)</td><td>Psoríase, DII, artrite psoriásica</td><td>Menor risco infeccioso que anti-IL-17A</td></tr>
+<tr><td class="td-label">IL-4Rα (compartilhado com IL-13)</td><td>Dupilumabe</td><td>Anticorpo anti-IL-4Rα → bloqueia IL-4 e IL-13 simultaneamente</td><td>Dermatite atópica, asma eosinofílica, esofagite eosinofílica, RSCcPN</td><td>Conjuntivite, raramente piora de asma na descontinuação</td></tr>
+<tr><td class="td-label">JAK1/JAK2</td><td>Baricitinibe, ruxolitinibe</td><td>Inibidor de pequena molécula de JAK — bloqueia múltiplas citocinas simultaneamente</td><td>AR, policitemia vera, mielofibrose, alopecia areata, COVID-19 grave</td><td>Trombose venosa, reativação de vírus herpes, infecções oportunistas</td></tr>
+<tr><td class="td-label">JAK1/JAK3</td><td>Tofacitinibe, upadacitinibe</td><td>Inibidor seletivo JAK1/3 → bloqueia γc-citocinas (IL-2, IL-4, IL-7, IL-15, IL-21)</td><td>AR, colite ulcerativa, artrite psoriásica</td><td>MACE (eventos cardiovasculares maiores), tromboembolismo venoso (alerta FDA 2021)</td></tr>
 </tbody>
-<caption>Tabela 2. Principais alvos terapêuticos em citocinas, fármacos aprovados e perfil de risco. AR = artrite reumatoide; EA = espondilite anquilosante; DII = doença inflamatória intestinal; MACE = major adverse cardiovascular events.</caption>
 </table>
+<p class="table-caption">Tabela 2 — Principais alvos terapêuticos em citocinas, fármacos aprovados e perfil de risco. AR = artrite reumatoide; EA = espondilite anquilosante; DII = doença inflamatória intestinal; MACE = major adverse cardiovascular events.</p>
 </div>
 
 <div class="kbox">
@@ -614,23 +618,22 @@ ul.disc li{margin-bottom:.4em}
     sessionStorage.setItem(KEY,c?'1':'0');
   });
 
-  // Intersection observer — sidebar active + h2 highlight
+  // Sidebar active (scroll-based) + h2 highlight
   const sections=document.querySelectorAll('section[id]');
   const links=document.querySelectorAll('#sidebar a.sl');
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        links.forEach(l=>l.classList.remove('active'));
-        const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');
-        if(a) a.classList.add('active');
-      }
-    });
-  },{rootMargin:'-20% 0px -70% 0px'});
-  sections.forEach(s=>obs.observe(s));
+  function updateActiveCV(){
+    let cur=null;
+    const st=document.documentElement.scrollTop||document.body.scrollTop;
+    sections.forEach(s=>{if(s.offsetTop-120<=st)cur=s});
+    links.forEach(l=>l.classList.remove('active'));
+    if(cur){const a=document.querySelector('#sidebar a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active')}
+  }
+  window.addEventListener('scroll',updateActiveCV,{passive:true});
+  window.addEventListener('load',updateActiveCV);
 
   const obs2=new IntersectionObserver(entries=>{
     entries.forEach(e=>e.target.classList.toggle('in-view',e.isIntersecting));
-  },{rootMargin:'-20% 0px -70% 0px'});
+  },{rootMargin:'-10% 0px -55% 0px'});
   sections.forEach(s=>obs2.observe(s));
 })();
 </script>

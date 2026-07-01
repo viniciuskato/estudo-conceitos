@@ -68,6 +68,10 @@ td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vert
 tr:last-child td{border-bottom:none}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-align:left;padding:8px 2px 0;font-style:italic;margin-top:-2px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
 .box{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--font-ui);font-size:13px}
 .box strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}
@@ -134,7 +138,7 @@ ol.refs li a:hover{text-decoration:underline}
   <span class="chip">Imunologia · PUC · 2026</span>
   <span class="chip">Abbas cap. 17</span>
   <span class="chip">⏱ ~35 min de leitura</span>
-  <span class="chip chip-rev">Última revisão: 2026-06-24</span>
+  <span class="chip chip-rev">Última revisão: 2026-07-01</span>
 </div>
 
 <div class="pergunta">
@@ -226,18 +230,18 @@ ol.refs li a:hover{text-decoration:underline}
   <div class="ck-card"><div class="ckt">Vetores Virais</div><p>Vírus não-replicante (adenovírus, lentivírus) carregando gene do antígeno. Transdu transdu a célula → expressão do antígeno → apresentação MHC-I + II. Ex.: Vaxzevria® (AstraZeneca), Ad26.COV2.S (Janssen).</p></div>
 </div>
 
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Tipo</th><th>CD4⁺ (Th)</th><th>CD8⁺ (CTL)</th><th>Anticorpos</th><th>Doses</th><th>Seguro em imunossuprimido</th></tr></thead>
   <tbody>
-    <tr><td>Viva atenuada</td><td>Alta</td><td>Alta</td><td>Altos, duradouros</td><td>1 (geralmente)</td><td>Contraindicada</td></tr>
-    <tr><td>Inativada</td><td>Moderada</td><td>Baixa</td><td>Moderados</td><td>Múltiplas + reforços</td><td>Segura</td></tr>
-    <tr><td>Subunidade/toxoide</td><td>Moderada</td><td>Baixa</td><td>Mod.-altos com adjuvante</td><td>Múltiplas</td><td>Segura</td></tr>
-    <tr><td>Conjugada</td><td>Alta (T-dep.)</td><td>Baixa</td><td>IgG alta afinidade</td><td>3–4 em lactentes</td><td>Segura</td></tr>
-    <tr><td>mRNA (LNP)</td><td>Alta</td><td>Alta</td><td>Altos (declínio em meses)</td><td>2 primárias + reforços</td><td>Segura</td></tr>
-    <tr><td>Vetor viral</td><td>Alta</td><td>Alta</td><td>Altos</td><td>1–2</td><td>Risco muito baixo</td></tr>
+    <tr><td class="td-label">Viva atenuada</td><td>Alta</td><td>Alta</td><td>Altos, duradouros</td><td>1 (geralmente)</td><td>Contraindicada</td></tr>
+    <tr><td class="td-label">Inativada</td><td>Moderada</td><td>Baixa</td><td>Moderados</td><td>Múltiplas + reforços</td><td>Segura</td></tr>
+    <tr><td class="td-label">Subunidade/toxoide</td><td>Moderada</td><td>Baixa</td><td>Mod.-altos com adjuvante</td><td>Múltiplas</td><td>Segura</td></tr>
+    <tr><td class="td-label">Conjugada</td><td>Alta (T-dep.)</td><td>Baixa</td><td>IgG alta afinidade</td><td>3–4 em lactentes</td><td>Segura</td></tr>
+    <tr><td class="td-label">mRNA (LNP)</td><td>Alta</td><td>Alta</td><td>Altos (declínio em meses)</td><td>2 primárias + reforços</td><td>Segura</td></tr>
+    <tr><td class="td-label">Vetor viral</td><td>Alta</td><td>Alta</td><td>Altos</td><td>1–2</td><td>Risco muito baixo</td></tr>
   </tbody>
-  <caption>Tabela 11.1. Comparação de plataformas vacinais por tipo de resposta imune induzida.</caption>
 </table></div>
+<p class="table-caption">Tabela 11.1 — Comparação de plataformas vacinais por tipo de resposta imune induzida.</p>
 </section>
 
 <section id="atenuadas">
@@ -323,18 +327,18 @@ ol.refs li a:hover{text-decoration:underline}
 
 <p>Adjuvantes são componentes de vacinas que potencializam a resposta imune ao antígeno sem serem antígenos. O mecanismo unificador é a ativação de PRRs nas APCs — criando o contexto inflamatório necessário para maturação de DCs, upregulation de moléculas co-estimulatórias (CD80, CD86, CD40) e produção de citocinas que definem o perfil Th da resposta. Sem adjuvante, antígenos solúveis (subunidades, toxoides) são apresentados em contexto tolerogênico — induzindo Tregs ou anergia em vez de imunidade efetora. Segundo a revisão de Ben-Akiva et al. (2025) <a class="cite" href="#referencias">(BEN-AKIVA et al., 2025)</a> publicada na <em>Science Immunology</em>, os mecanismos de ação de adjuvantes divergem muito entre plataformas, com lacunas críticas no entendimento de como os eventos celulares e moleculares precoces no sítio de injeção se traduzem na qualidade e duração da resposta protetora.</p>
 
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Adjuvante</th><th>Componente ativo</th><th>Receptor / Via</th><th>Perfil Th</th><th>Exemplo de vacina</th></tr></thead>
   <tbody>
-    <tr><td>Alúmen (Al(OH)₃)</td><td>Cristais de alumínio</td><td>NLRP3 inflamassomo (cristais como DAMPs) + dano celular local</td><td>Th2 (IL-4, IL-5) → IgG1/IgE; fraca resposta CTL</td><td>Hepatite B, DTP, HPV, pneumococo</td></tr>
-    <tr><td>AS04 (GSK)</td><td>MPL + alúmen</td><td>TLR4 (MPL — forma detoxificada de LPS) + NLRP3 (alúmen)</td><td>Th1/Th2 balanceado; IgG de alta afinidade</td><td>Cervarix® (HPV), HBsAg Fendrix®</td></tr>
-    <tr><td>CpG (ODN)</td><td>Oligonucleotídeo CpG sintético</td><td>TLR9 (DNA bacteriano metilado em CpG) → pDCs → IFN-α + IL-12</td><td>Th1 dominante; resposta CTL</td><td>Heplisav-B® (hepatite B), vacinas anti-HIV em desenvolvimento</td></tr>
-    <tr><td>AS01B (GSK)</td><td>MPL + QS-21 em lipossomos</td><td>TLR4 (MPL) + mecanismo desconhecido de QS-21 (saponina de <em>Quillaja saponaria</em>)</td><td>Th1 forte; CTL; CD4⁺ de alta afinidade</td><td>Shingrix® (varicela-zóster), RTS,S (malária)</td></tr>
-    <tr><td>MF59 (Novartis)</td><td>Esqualeno em emulsão O/A</td><td>Recruta e ativa células no sítio de injeção; via de sinalização não-TLR</td><td>Th1/Th2; amplifica centro germinativo</td><td>Fluad® (influenza idosos)</td></tr>
-    <tr><td>LNP (mRNA)</td><td>Lipídio ionizável</td><td>NLRP3 (direto) + sinalização inata via lipídio</td><td>Th1 + Th2; CTL robusto</td><td>Comirnaty®, Spikevax®</td></tr>
+    <tr><td class="td-label">Alúmen (Al(OH)₃)</td><td>Cristais de alumínio</td><td>NLRP3 inflamassomo (cristais como DAMPs) + dano celular local</td><td>Th2 (IL-4, IL-5) → IgG1/IgE; fraca resposta CTL</td><td>Hepatite B, DTP, HPV, pneumococo</td></tr>
+    <tr><td class="td-label">AS04 (GSK)</td><td>MPL + alúmen</td><td>TLR4 (MPL — forma detoxificada de LPS) + NLRP3 (alúmen)</td><td>Th1/Th2 balanceado; IgG de alta afinidade</td><td>Cervarix® (HPV), HBsAg Fendrix®</td></tr>
+    <tr><td class="td-label">CpG (ODN)</td><td>Oligonucleotídeo CpG sintético</td><td>TLR9 (DNA bacteriano metilado em CpG) → pDCs → IFN-α + IL-12</td><td>Th1 dominante; resposta CTL</td><td>Heplisav-B® (hepatite B), vacinas anti-HIV em desenvolvimento</td></tr>
+    <tr><td class="td-label">AS01B (GSK)</td><td>MPL + QS-21 em lipossomos</td><td>TLR4 (MPL) + mecanismo desconhecido de QS-21 (saponina de <em>Quillaja saponaria</em>)</td><td>Th1 forte; CTL; CD4⁺ de alta afinidade</td><td>Shingrix® (varicela-zóster), RTS,S (malária)</td></tr>
+    <tr><td class="td-label">MF59 (Novartis)</td><td>Esqualeno em emulsão O/A</td><td>Recruta e ativa células no sítio de injeção; via de sinalização não-TLR</td><td>Th1/Th2; amplifica centro germinativo</td><td>Fluad® (influenza idosos)</td></tr>
+    <tr><td class="td-label">LNP (mRNA)</td><td>Lipídio ionizável</td><td>NLRP3 (direto) + sinalização inata via lipídio</td><td>Th1 + Th2; CTL robusto</td><td>Comirnaty®, Spikevax®</td></tr>
   </tbody>
-  <caption>Tabela 11.2. Adjuvantes aprovados em humanos: componente ativo, receptor ativado, perfil de resposta e exemplos de vacinas.</caption>
 </table></div>
+<p class="table-caption">Tabela 11.2 — Adjuvantes aprovados em humanos: componente ativo, receptor ativado, perfil de resposta e exemplos de vacinas.</p>
 
 <div class="kbox">
   <div class="klabel">Lacuna crítica — adjuvantes e formação de LLPCs</div>
@@ -347,18 +351,18 @@ ol.refs li a:hover{text-decoration:underline}
 
 <p>Imunidade coletiva (<em>herd immunity</em>) ocorre quando a proporção imune de uma população é suficiente para interromper a cadeia de transmissão — tornando a propagação de surtos matematicamente impossível. O limiar de cobertura depende do número reprodutivo básico (R₀) do patógeno — definido como o número médio de casos secundários gerados por um infectado em população totalmente suscetível. O limiar de imunidade coletiva é H = 1 − 1/R₀:</p>
 
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Patógeno</th><th>R₀ estimado</th><th>Limiar H (%)</th><th>Cobertura vacinal atual (global)</th></tr></thead>
   <tbody>
-    <tr><td>Sarampo</td><td>12–18</td><td>92–95%</td><td>~86% (abaixo do limiar em muitas regiões)</td></tr>
-    <tr><td>Caxumba</td><td>4–7</td><td>75–86%</td><td>~84%</td></tr>
-    <tr><td>Poliomielite</td><td>5–7</td><td>80–86%</td><td>&gt;90% nos programas de erradicação</td></tr>
-    <tr><td>COVID-19 (cepa original)</td><td>2–3</td><td>50–67%</td><td>Variável; limiares elevados por variantes</td></tr>
-    <tr><td>COVID-19 (Ômicron)</td><td>8–15</td><td>88–93%</td><td>Não atingido em nenhuma população</td></tr>
-    <tr><td>Varíola</td><td>5–7</td><td>80–86%</td><td>Erradicada (1980) — cobertura histórica &gt;80%</td></tr>
+    <tr><td class="td-label">Sarampo</td><td>12–18</td><td>92–95%</td><td>~86% (abaixo do limiar em muitas regiões)</td></tr>
+    <tr><td class="td-label">Caxumba</td><td>4–7</td><td>75–86%</td><td>~84%</td></tr>
+    <tr><td class="td-label">Poliomielite</td><td>5–7</td><td>80–86%</td><td>&gt;90% nos programas de erradicação</td></tr>
+    <tr><td class="td-label">COVID-19 (cepa original)</td><td>2–3</td><td>50–67%</td><td>Variável; limiares elevados por variantes</td></tr>
+    <tr><td class="td-label">COVID-19 (Ômicron)</td><td>8–15</td><td>88–93%</td><td>Não atingido em nenhuma população</td></tr>
+    <tr><td class="td-label">Varíola</td><td>5–7</td><td>80–86%</td><td>Erradicada (1980) — cobertura histórica &gt;80%</td></tr>
   </tbody>
-  <caption>Tabela 11.3. R₀, limiar de imunidade coletiva e status vacinal selecionados.</caption>
 </table></div>
+<p class="table-caption">Tabela 11.3 — R₀, limiar de imunidade coletiva e status vacinal selecionados.</p>
 
 <p>A imunidade coletiva protege os que não podem ser vacinados — imunossuprimidos graves, neonatos, alérgicos a componentes vacinais. Quando a cobertura cai abaixo do limiar — por desinformação, hesitância ou acesso precário — surtos ressurgem em populações previamente controladas. O Reino Unido perdeu o status "livre de sarampo" da OMS em 2019 por queda de cobertura vacinal MMR abaixo de 95%, associada à falsa hipótese de ligação entre MMR e autismo (propagada a partir do artigo fraudulento de Wakefield, 1998, retratado pela <em>Lancet</em> em 2010 após investigação de má conduta científica).</p>
 
@@ -517,22 +521,26 @@ window.addEventListener('scroll', function() {
   bar.style.width = pct + '%';
 }, { passive: true });
 var sLinks = document.querySelectorAll('#sidebar a.sl[href^="#"]');
-var obs1 = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting) {
-      sLinks.forEach(function(l) { l.classList.remove('active'); });
-      var a = document.querySelector('#sidebar a.sl[href="#' + e.target.id + '"]');
-      if (a) a.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
+var vpSections = document.querySelectorAll('section[id]');
+function updateActiveVP() {
+  var cur = null;
+  var st = document.documentElement.scrollTop || document.body.scrollTop;
+  vpSections.forEach(function(s) { if (s.offsetTop - 120 <= st) cur = s; });
+  sLinks.forEach(function(l) { l.classList.remove('active'); });
+  if (cur) {
+    var a = document.querySelector('#sidebar a.sl[href="#' + cur.id + '"]');
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveVP, { passive: true });
+window.addEventListener('load', updateActiveVP);
 var obs2 = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) {
     if (e.isIntersecting) e.target.classList.add('in-view');
     else e.target.classList.remove('in-view');
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
-document.querySelectorAll('section[id]').forEach(function(s) { obs1.observe(s); obs2.observe(s); });
+}, { rootMargin: '-10% 0px -55% 0px' });
+vpSections.forEach(function(s) { obs2.observe(s); });
 sLinks.forEach(function(link) {
   link.addEventListener('click', function(e) {
     e.preventDefault();

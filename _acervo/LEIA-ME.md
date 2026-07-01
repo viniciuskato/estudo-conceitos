@@ -45,7 +45,11 @@ Casos pontuais de pesquisa, não área de estudo sistemático. Sem plano de meca
   de combustível entre Saveiro, Nivus e S90.
 - `automoveis/falha-airbag-nivus-2023.html` — Investigação de falha de airbag no Nivus 2023.
 
-### O que fazer ao retomar
+### Avaliação (2026-07-01)
 
-Avaliar se justifica criar `atlas/automoveis/` como área. Se sim, reescrever no formato
-atlas (mapa orientador, não pesquisa pontual). Se não, manter aqui como referência.
+Decisão: manter em `_acervo/` como referência — não promover a `compêndios/automoveis/`.
+Os dois arquivos são pesquisas pontuais orientadas a decisão (comparativo de compra,
+investigação de defeito específico), não um recorte de área para estudo sistemático —
+não há questões centrais, subdivisões ou corpo de literatura que justifiquem um atlas.
+Reavaliar apenas se houver decisão explícita de tratar "automóveis" como área contínua
+de estudo (ex.: mecânica, engenharia automotiva) em vez de casos pontuais.

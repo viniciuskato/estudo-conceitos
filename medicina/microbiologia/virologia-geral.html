@@ -97,6 +97,8 @@ thead th{background:var(--bg3);color:var(--ac);font-weight:600;padding:8px 12px;
 tbody td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
 tbody tr:nth-child(even){background:var(--bg2)}
 .table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:-1em;margin-bottom:1.6em;font-style:italic}
+table.data-table tbody tr:hover td{background:var(--bg3)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
 
 /* Cite */
 .cite{color:var(--ac);font-size:.85em}
@@ -180,7 +182,7 @@ a.cite-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--
     <span class="chip">⏱ <b>~55 min</b> de leitura</span>
     <span class="chip">📋 Pré-requisitos: <b>biologia celular básica, ácidos nucleicos</b></span>
     <span class="chip">📍 Área: <b>Microbiologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -267,7 +269,7 @@ a.cite-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--
 
 <p>A distinção entre vírus, bactérias, fungos e príons é clínica e terapêutica — não apenas taxonômica. A Tabela 1 sintetiza as diferenças essenciais:</p>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Característica</th><th>Vírus</th><th>Bactéria</th><th>Fungo</th></tr></thead>
   <tbody>
     <tr><td>Célula própria</td><td>Não</td><td>Sim (procariótica)</td><td>Sim (eucariótica)</td></tr>
@@ -316,7 +318,7 @@ a.cite-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--
   <p>Vírus não envelopados (adenovírus, norovírus, poliovírus, rotavírus, HAV) sobrevivem mais no ambiente, resistem ao álcool e são tipicamente transmitidos pela via fecal-oral ou por fômites. Vírus envelopados (influenza, HIV, HSV, CMV, SARS-CoV-2) exigem transmissão mais direta — gotículas, contato sexual, sangue — porque sua membrana lipídica é facilmente degradada no ambiente.</p>
 </div>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Vírus</th><th>Genoma</th><th>Envelope</th><th>Exemplo clínico</th></tr></thead>
   <tbody>
     <tr><td>Adenovírus</td><td>DNA ds linear</td><td>Não</td><td>Conjuntivite, pneumonia</td></tr>
@@ -346,7 +348,7 @@ a.cite-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--
 
 <p>Convenção de polaridade: RNA com a mesma sequência que o mRNA é chamado de <strong>polaridade positiva (+)</strong>; RNA com sequência complementar ao mRNA é chamado de <strong>polaridade negativa (−)</strong>.</p>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Classe</th><th>Tipo de genoma</th><th>Estratégia para mRNA</th><th>Exemplos</th></tr></thead>
   <tbody>
     <tr><td><strong>I</strong></td><td>DNA ds</td><td>Transcrito pela RNA pol do hospedeiro (núcleo)</td><td>Herpesvírus, adenovírus, papilomavírus, poxvírus</td></tr>
@@ -562,7 +564,7 @@ a.cite-link{color:var(--ac);text-decoration:none;border-bottom:1px dashed var(--
   <p>Vírus RNA acumulam mutações muito mais rápido que bactérias (a RdRp e a TR do HIV não têm <em>proofreading</em> — taxa de erro ~10⁻⁴ a 10⁻⁵ por nucleotídeo por ciclo, versus ~10⁻⁹ para DNA polimerase celular). Sob pressão seletiva de um antiviral em monoterapia, variantes resistentes emergem em dias a semanas. A solução é a terapia combinada — HAART para HIV usa 3 drogas de 2 classes diferentes, de forma que uma mutação isolada não confere resistência a todas <span class="cite">(KAUSAR et al., 2021)</span>. Para aciclovir em HSV, a resistência (via perda da timidina quinase viral) é rara em imunocompetentes mas frequente em imunossuprimidos com uso prolongado <span class="cite">(SCHALKWIJK; SNOECK; ANDREI, 2022)</span>.</p>
 </div>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Fármaco</th><th>Alvo</th><th>Vírus</th><th>Mecanismo de resistência</th></tr></thead>
   <tbody>
     <tr><td>Aciclovir</td><td>DNA pol viral</td><td>HSV, VZV</td><td>Mutação/deleção em timidina quinase viral</td></tr>
@@ -697,22 +699,28 @@ btn.addEventListener('click', () => {
   applyState(willCollapse);
 });
 
-// Highlight de seção ativa na sidebar
+// Highlight de seção ativa na sidebar (scroll-based)
 const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('a.sl');
 
-const obsActive = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    const link = document.querySelector(`a.sl[href="#${e.target.id}"]`);
-    if (link) link.classList.toggle('active', e.isIntersecting);
-  });
-}, {rootMargin: '-20% 0px -70% 0px'});
+function updateActiveVG() {
+  let cur = null;
+  const st = document.documentElement.scrollTop || document.body.scrollTop;
+  sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+  links.forEach(l => l.classList.remove('active'));
+  if (cur) {
+    const link = document.querySelector(`a.sl[href="#${cur.id}"]`);
+    if (link) link.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveVG, {passive: true});
+window.addEventListener('load', updateActiveVG);
 
 const obsInView = new IntersectionObserver(entries => {
   entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
-}, {rootMargin: '-20% 0px -70% 0px'});
+}, {rootMargin: '-10% 0px -55% 0px'});
 
-sections.forEach(s => { obsActive.observe(s); obsInView.observe(s); });
+sections.forEach(s => obsInView.observe(s));
 </script>
 </body>
 </html>

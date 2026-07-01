@@ -25,35 +25,11 @@ h4{font-size:.95rem;font-weight:600;color:var(--muted);margin:1.2rem 0 .4rem;tex
 p{margin-bottom:1rem}
 ul,ol{margin:0 0 1rem 1.4rem}
 li{margin-bottom:.3rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.4rem;font-size:.9rem;font-family:var(--font-ui)}
+th{background:var(--bg3);color:var(--muted);font-weight:600;text-align:left;padding:8px 12px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
 code{font-family:monospace;background:var(--bg3);padding:2px 6px;border-radius:3px;font-size:.88em}
-html{scroll-behavior:smooth}
-
-/* Tabela de dados */
-.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
-.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
-.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:var(--bg3)}
-.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
-.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:-10px 0 18px;font-style:italic}
-
-/* Pranchas anatômicas */
-.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
-.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
-.plate-caption b{color:var(--ac);font-weight:600}
-a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
-
-/* Lightbox */
-#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
-#lightbox.open{display:flex}
-#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
-#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
-#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
-#lightbox-close:hover{color:var(--text)}
-
-/* Botão voltar à leitura */
-#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 
 /* Layout */
 #body-wrap{display:flex;min-height:100vh}
@@ -133,12 +109,11 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
   #content{padding:24px 20px 80px}
   .ck-grid{grid-template-columns:repeat(2,1fr)}
   #body-wrap.sidebar-collapsed #content{padding:24px 20px 80px}
-  .plate-block{float:none;width:100%;margin:16px 0}
 }
 
 @media print{
   body{background:#fff;color:#000}
-  #sidebar,#progress-bar,#mob-bar,#s-toggle,#back-btn,#lightbox{display:none!important}
+  #sidebar,#progress-bar,#mob-bar,#s-toggle{display:none!important}
   #content{padding:20px}
   a::after{content:" ("attr(href)")";font-size:.8em;color:#555}
   a.cross-link::after,a.sl::after{content:""}
@@ -195,7 +170,7 @@ section{scroll-margin-top:24px}
     <span class="chip">📋 Pré-requisitos: <b>potencial de ação, anatomia cardiovascular básica</b></span>
     <span class="chip">🔗 Depende de: <b>fisiologia cardíaca, SNA</b></span>
     <span class="chip">📍 Área: <b>Fisiologia Cardiovascular</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-06-22</b></span>
   </div>
 </div>
 
@@ -239,19 +214,6 @@ section{scroll-margin-top:24px}
 <p>O <strong>débito cardíaco</strong> é DC = volume sistólico (VS) × frequência cardíaca (FC). O VS depende de três determinantes: pré-carga (volume diastólico final, governado pelo retorno venoso), contratilidade miocárdica (inotropismo) e pós-carga (resistência que o ventrículo enfrenta na ejeção). A <strong>lei de Frank-Starling</strong> estabelece que o alongamento das fibras miocárdicas pelo aumento da pré-carga aumenta a força de contração — mecanismo intrínseco, independente de inervação.</p>
 
 <p>O <strong>sistema nervoso autônomo</strong> (SNA) modula FC, contratilidade e tônus vascular. O ramo simpático libera noradrenalina em receptores β₁ cardíacos (cronotrópico e inotrópico positivo) e α₁ vasculares (vasoconstricção). O ramo parassimpático (vagal) libera acetilcolina em receptores M₂, reduzindo a FC. Em repouso, tônus vagal domina: a FC de ~70 bpm é a FC intrínseca do nó sinoatrial (~100 bpm) freada pelo vago.</p>
-
-<div class="plate-block" id="fig-2032">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/2032_Automatic_Innervation_es.jpg"
-       alt="Inervação autonômica dos órgãos: ramos simpático e parassimpático"
-       loading="lazy"
-       data-caption="Inervação autonômica: cadeia simpática paravertebral e nervos parassimpáticos (vago, sacrais)">
-  <div class="plate-caption">
-    <b>Fig. 1 — Inervação autonômica geral</b> — Distribuição dos ramos simpático (cadeia paravertebral toracolombar) e parassimpático (craniano via vago + sacral) aos órgãos-alvo, incluindo coração e vasos. OpenStax College, 2013 (rótulos em espanhol). CC BY-SA 3.0.
-    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">
-      simpático <em>(idêntico em PT)</em> · parasimpático <em>(parassimpático)</em> · cadena ganglionar <em>(cadeia ganglionar)</em>
-    </span>
-  </div>
-</div>
 
 <p>O <strong>tônus vasomotor</strong> resulta do equilíbrio entre vasoconstrictores (noradrenalina via α₁, angiotensina II, endotelina-1, vasopressina/ADH) e vasodilatadores (óxido nítrico/NO, prostaciclina/PGI₂, bradicinina, adenosina, CO₂ local). O endotélio sintetiza NO continuamente via eNOS (óxido nítrico sintase endotelial), que ativa guanilil ciclase → ↑ GMPc → relaxamento do músculo liso. O <em>shear stress</em> (tensão de cisalhamento) — força exercida pelo fluxo sobre a parede — é o principal estímulo mecânico para eNOS.</p>
 
@@ -325,20 +287,20 @@ section{scroll-margin-top:24px}
 
 <p>O aumento do DC no exercício não basta para suprir os músculos ativos se o fluxo não for redistribuído. Em repouso, a musculatura esquelética recebe ~15–20% do DC. No exercício máximo, recebe 80–85%. Essa redistribuição é feita por vasodilatação local nos músculos ativos e vasoconstricção mediada por simpático nos leitos esplâncnico, renal e cutâneo (inicialmente).</p>
 
-<table class="data-table">
+<table>
   <thead>
     <tr><th>Leito vascular</th><th>Repouso (% DC)</th><th>Exercício máximo (% DC)</th></tr>
   </thead>
   <tbody>
-    <tr><td class="td-label">Músculo esquelético</td><td>15–20%</td><td>80–85%</td></tr>
-    <tr><td class="td-label">Coração</td><td>4–5%</td><td>4–5% (fluxo absoluto ↑↑)</td></tr>
-    <tr><td class="td-label">Pele</td><td>8–10%</td><td>Variável: ↓ inicial, ↑↑ tardio</td></tr>
-    <tr><td class="td-label">Rim</td><td>20%</td><td>2–4%</td></tr>
-    <tr><td class="td-label">Esplâncnico</td><td>25%</td><td>3–5%</td></tr>
-    <tr><td class="td-label">Cérebro</td><td>13–15%</td><td>3–4% (fluxo absoluto estável)</td></tr>
+    <tr><td>Músculo esquelético</td><td>15–20%</td><td>80–85%</td></tr>
+    <tr><td>Coração</td><td>4–5%</td><td>4–5% (fluxo absoluto ↑↑)</td></tr>
+    <tr><td>Pele</td><td>8–10%</td><td>Variável: ↓ inicial, ↑↑ tardio</td></tr>
+    <tr><td>Rim</td><td>20%</td><td>2–4%</td></tr>
+    <tr><td>Esplâncnico</td><td>25%</td><td>3–5%</td></tr>
+    <tr><td>Cérebro</td><td>13–15%</td><td>3–4% (fluxo absoluto estável)</td></tr>
   </tbody>
 </table>
-<p class="table-caption">Tabela 1 — Distribuição percentual do débito cardíaco em repouso e no exercício máximo. Fonte: Rowell (1993), modificado.</p>
+<p style="font-size:13px;color:var(--muted);margin-top:-10px">Tabela 1. Distribuição percentual do débito cardíaco em repouso e no exercício máximo. Fonte: Rowell (1993), modificado.</p>
 
 <h3>Vasodilatação metabólica local</h3>
 
@@ -394,19 +356,6 @@ section{scroll-margin-top:24px}
 
 <h3>Mecanismos da HPE — múltiplas vias convergentes</h3>
 
-<table class="data-table">
-  <thead><tr><th>Mecanismo</th><th>Via</th><th>Janela temporal</th></tr></thead>
-  <tbody>
-    <tr><td class="td-label">1. Vasodilatação muscular residual</td><td>Adenosina, K⁺, H⁺, NO retidos no tecido</td><td>30–60 min</td></tr>
-    <tr><td class="td-label">2. Pooling venoso</td><td>Cessação da bomba muscular → ↓ retorno venoso</td><td>Segundos a minutos</td></tr>
-    <tr><td class="td-label">3. Vasodilatação cutânea persistente</td><td>Inércia térmica central mantém comando hipotalâmico</td><td>20–40 min</td></tr>
-    <tr><td class="td-label">4. ↓ Tônus simpático</td><td>Opioides endógenos + peptídeos natriuréticos no NTS/bulbo</td><td>60–90 min</td></tr>
-    <tr><td class="td-label">5. Prostaglandinas</td><td>PGI₂/PGE₂ do endotélio muscular</td><td>Horas (meia-vida longa)</td></tr>
-    <tr><td class="td-label">6. Hipovolemia relativa</td><td>Perda por suor não reposta → ↓ pré-carga</td><td>Horas</td></tr>
-  </tbody>
-</table>
-<p class="table-caption">Tabela 2 — As seis vias convergentes da hipotensão pós-exercício, mecanismo e janela temporal aproximada.</p>
-
 <p><strong>1. Vasodilatação muscular pós-exercício persistente:</strong> após o término do exercício, os metabólitos vasodilatadores (adenosina, K⁺, H⁺, NO) persistem nos tecidos musculares por 30–60 minutos. As arteríolas musculares continuam dilatadas, mantendo a RVP baixa. Esse é provavelmente o mecanismo mais importante e mais rápido.</p>
 
 <p><strong>2. Redistribuição venosa — pooling:</strong> com o fim do exercício, a bomba muscular cessa imediatamente. O sangue que estava sendo propelido centripetamente pelos músculos ativos agora permanece nas vênulas pós-capilares musculares, que estão dilatadas e com capacitância aumentada. Esse pooling reduz o retorno venoso ao coração, diminui a pré-carga e, pela lei de Frank-Starling, reduz o VS. A FC pode subir reflexamente, mas frequentemente não compensa inteiramente a queda do VS, resultando em queda do DC.</p>
@@ -440,20 +389,7 @@ section{scroll-margin-top:24px}
 
 <p>Os <strong>barorreceptores arteriais</strong> são terminações nervosas mecanossensíveis localizadas na parede da aorta (arco aórtico) e nos seios carotídeos (bifurcação da carótida comum). Estruturalmente, são terminações não-mielinizadas ou levemente mielinizadas (fibras Aδ e C) envoltas em tecido elástico. O mecanismo de transdução é mecanoelétrico: o estiramento da parede arterial pela pressão de pulso distorce a membrana das terminações nervosas, abrindo canais iônicos mecanossensíveis (possivelmente da família Piezo), gerando potenciais de receptor que disparam potenciais de ação.</p>
 
-<div class="plate-block" id="fig-2116">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/2116_Baroreceptor_Reflex_Flow_Art.jpg"
-       alt="Fluxograma do reflexo barorreceptor: aferência, NTS, eferência simpática e vagal"
-       loading="lazy"
-       data-caption="Arco do reflexo barorreceptor: barorreceptores → NTS → RVLM/núcleo ambíguo → resposta cardiovascular">
-  <div class="plate-caption">
-    <b>Fig. 2 — Arco do reflexo barorreceptor</b> — Fluxo completo desde a detecção de estiramento na parede arterial até a resposta cardiovascular integrada. OpenStax College, 2013. CC BY 3.0.
-    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">
-      baroreceptors <em>(barorreceptores)</em> · medulla oblongata <em>(bulbo)</em> · vasomotor center <em>(centro vasomotor)</em>
-    </span>
-  </div>
-</div>
-
-<p>A frequência de disparo aumenta linearmente com a PA dentro de uma faixa de operação — tipicamente 60–180 mmHg — e é sensível tanto ao nível médio de PA quanto à taxa de variação (dP/dt): variações rápidas geram resposta mais intensa <a class="fig-ref" onclick="navFig(this)" href="#fig-2116">(Fig. 2)</a>. Abaixo do limiar (~60 mmHg), as fibras silenciam; acima do teto (~180 mmHg), saturam. Os sinais aferentes trafegam pelo nervo de Hering (ramo do glossofaríngeo IX, dos seios carotídeos) e pelo nervo de Cyon e Ludwig / nervo depressor aórtico (ramo do vago X, do arco aórtico).</p>
+<p>A frequência de disparo aumenta linearmente com a PA dentro de uma faixa de operação — tipicamente 60–180 mmHg — e é sensível tanto ao nível médio de PA quanto à taxa de variação (dP/dt): variações rápidas geram resposta mais intensa. Abaixo do limiar (~60 mmHg), as fibras silenciam; acima do teto (~180 mmHg), saturam. Os sinais aferentes trafegam pelo nervo de Hering (ramo do glossofaríngeo IX, dos seios carotídeos) e pelo nervo de Cyon e Ludwig / nervo depressor aórtico (ramo do vago X, do arco aórtico).</p>
 
 <h3>Centro de integração — núcleo do trato solitário (NTS)</h3>
 
@@ -470,7 +406,7 @@ section{scroll-margin-top:24px}
 
 <h3>Braço eferente — resposta cardiovascular</h3>
 
-<p>O braço eferente simpático desce pela medula espinal, faz sinapse no gânglio simpático (cadeia paravertebral e gânglios pré-vertebrais) <a class="fig-ref" onclick="navFig(this)" href="#fig-2032">(Fig. 1)</a> e libera noradrenalina em três alvos principais: coração (β₁ → cronotropismo e inotropismo positivo), vasos de resistência (α₁ → vasoconstricção arteriolar) e vasos de capacitância (α₁ → vasoconstricção venular → aumento do retorno venoso). O braço eferente parassimpático age predominantemente no coração via nervos vagos bilaterais.</p>
+<p>O braço eferente simpático desce pela medula espinal, faz sinapse no gânglio simpático (cadeia paravertebral e gânglios pré-vertebrais) e libera noradrenalina em três alvos principais: coração (β₁ → cronotropismo e inotropismo positivo), vasos de resistência (α₁ → vasoconstricção arteriolar) e vasos de capacitância (α₁ → vasoconstricção venular → aumento do retorno venoso). O braço eferente parassimpático age predominantemente no coração via nervos vagos bilaterais.</p>
 
 <p>A resposta integrada a uma queda de PA é: (1) redução da frequência de disparo dos barorreceptores → (2) menor ativação do NTS → (3) menor inibição da RVLM + menor ativação vagal → (4) taquicardia reflexa + vasoconstricção generalizada + aumento do inotropismo → (5) restauração da PA. Em humanos saudáveis, esse arco opera em &lt; 1 segundo e pode compensar quedas agudas de 20–30 mmHg em 5–10 segundos.</p>
 
@@ -495,24 +431,11 @@ section{scroll-margin-top:24px}
   Paul Bert observou em 1870 que patos submersos apresentavam bradicardia extrema, mantendo o consumo de O₂ cerebral às custas de vasoconstricção periférica intensa. A resposta foi depois sistematizada por Johan Schreiner e Laurence Irving como "resposta de mergulho" — conservação seletiva de O₂ para coração e cérebro durante apneia subaquática. Em humanos, foi descrita por Claude Lenfant e colaboradores em 1961, com bradicardia de até 50% da FC basal em mergulhadores experientes.
 </div>
 
-<div class="plate-block" id="fig-778">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Gray778.png"
-       alt="Distribuição do nervo trigêmeo na face — ramos maxilar e mandibular"
-       loading="lazy"
-       data-caption="Nervo trigêmeo (V): a estimulação térmica da face pelo ramo oftálmico (V1, não mostrado nesta prancha) dispara a via aferente do reflexo de imersão">
-  <div class="plate-caption">
-    <b>Fig. 3 — Distribuição do nervo trigêmeo (V) na face</b> — Prancha clássica de Gray (1918) mostrando os ramos maxilar e mandibular (V2/V3); o ramo oftálmico (V1), responsável pela região periorbital relevante ao reflexo de imersão, não está representado nesta prancha específica. Henry Gray, <em>Anatomy of the Human Body</em>, 1918. Domínio público.
-    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">
-      maxillary nerve <em>(nervo maxilar)</em> · mandibular nerve <em>(nervo mandibular)</em> · submaxillary ganglion <em>(gânglio submandibular)</em>
-    </span>
-  </div>
-</div>
-
 <p>O reflexo de imersão é uma resposta autonômica coordenada disparada por dois estímulos concomitantes: <strong>apneia</strong> (ausência de ventilação pulmonar) e <strong>imersão facial em água fria</strong>. Ambos os estímulos são necessários — a água fria sozinha ou a apneia sozinha produzem respostas menores. Em animais mergulhadores (focas, pinguins, cetáceos), o reflexo é muito mais pronunciado e permite apneias de dezenas de minutos.</p>
 
 <h3>Arco aferente do reflexo de imersão</h3>
 
-<p>O principal estímulo aferente é o resfriamento e o contato aquático com a pele da face, especialmente da região periorbital e nasal (território do ramo oftálmico do trigêmeo, V₁). Os receptores frios (TRPM8) da face geram impulsos que trafegam pelo nervo trigêmeo (V) <a class="fig-ref" onclick="navFig(this)" href="#fig-778">(Fig. 3)</a> até o núcleo sensitivo do trigêmeo no tronco encefálico, que projeta para o NTS e para o centro respiratório bulbar. A apneia retira o estímulo respiratório inibitório sobre os neurônios vagais, liberando o tônus parassimpático cardíaco.</p>
+<p>O principal estímulo aferente é o resfriamento e o contato aquático com a pele da face, especialmente da região periorbital e nasal (território do ramo oftálmico do trigêmeo, V₁). Os receptores frios (TRPM8) da face geram impulsos que trafegam pelo nervo trigêmeo (V) até o núcleo sensitivo do trigêmeo no tronco encefálico, que projeta para o NTS e para o centro respiratório bulbar. A apneia retira o estímulo respiratório inibitório sobre os neurônios vagais, liberando o tônus parassimpático cardíaco.</p>
 
 <h3>Resposta eferente — bradicardia e vasoconstricção</h3>
 
@@ -678,16 +601,6 @@ Revisão sobre o reflexo trigeminocardíaco e sua relação com o reflexo de ime
   <span style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">Hipotensão Pós-Exercício e Barorreflexo</span>
 </div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem expandida">
-  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
-  <img id="lightbox-img" src="" alt="">
-  <div id="lightbox-caption"></div>
-</div>
-
-<!-- BOTÃO VOLTAR À LEITURA -->
-<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
-
 <script>
 // Sidebar toggle
 const sidebar = document.getElementById('sidebar');
@@ -722,71 +635,30 @@ window.addEventListener('scroll', () => {
   progressBar.style.width = pct + '%';
 }, { passive: true });
 
-// Sidebar active link — scroll-based listener (robusto para seções de tamanho variável)
-var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
-var sections = Array.from(document.querySelectorAll('section[id]'));
-function updateActive(){
-  var scrollY = window.scrollY || window.pageYOffset;
-  var offset = 80;
-  var current = sections[0];
-  for(var i=0;i<sections.length;i++){
-    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
-  }
-  sideLinks.forEach(function(l){ l.classList.remove('active'); });
-  var a = document.querySelector('a.sl[href="#'+current.id+'"]');
-  if(a) a.classList.add('active');
-}
-window.addEventListener('scroll', updateActive, {passive:true});
-updateActive();
+// Sidebar active link + section highlight
+const sections = document.querySelectorAll('section[id]');
+const sideLinks = document.querySelectorAll('a.sl');
 
-// h2 colorido na seção visível
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      sideLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
 const observer2 = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     entry.target.classList.toggle('in-view', entry.isIntersecting);
   });
-}, { rootMargin: '-10% 0px -55% 0px' });
+}, { rootMargin: '-20% 0px -70% 0px' });
 
 sections.forEach(s => observer2.observe(s));
-
-// Lightbox
-var lb = document.getElementById('lightbox');
-var lbImg = document.getElementById('lightbox-img');
-var lbCap = document.getElementById('lightbox-caption');
-
-function openLightbox(img){
-  var capEl = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
-  lbImg.src = img.src;
-  lbImg.alt = img.alt;
-  lbCap.textContent = img.dataset.caption || (capEl ? capEl.textContent.trim() : '');
-  lb.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox(){
-  lb.classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.querySelectorAll('.plate-block img').forEach(function(img){
-  img.addEventListener('click', function(){ openLightbox(img); });
-});
-lb.addEventListener('click', function(e){
-  if(e.target === lb) closeLightbox();
-});
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
-});
-
-// navFig: salva posição de leitura antes de navegar para a prancha
-window._readPos = null;
-window.navFig = function(anchor){
-  window._readPos = window.scrollY;
-  document.getElementById('back-btn').style.display = 'block';
-};
-window.backToRead = function(){
-  if(window._readPos !== null){
-    window.scrollTo({top: window._readPos, behavior:'smooth'});
-  }
-  document.getElementById('back-btn').style.display = 'none';
-};
 </script>
 
 <style>

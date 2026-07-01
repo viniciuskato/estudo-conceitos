@@ -80,6 +80,8 @@ thead th{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--a
 tbody td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
 tbody tr:last-child td{border-bottom:none}
 .tlegend{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-top:-12px;margin-bottom:20px}
+table.data-table tbody tr:hover td{background:var(--bg3)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
 section.in-view > h2{color:var(--ac);transition:color .3s}
 @media(max-width:900px){
   #sidebar{display:none}
@@ -160,7 +162,7 @@ section.in-view > h2{color:var(--ac);transition:color .3s}
     <span class="chip">⏱ <b>~60 min</b> de leitura</span>
     <span class="chip">📋 Pré-requisitos: <b>Hemostasia, coagulação, plaquetas</b></span>
     <span class="chip">📍 Área: <b>Farmacologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -271,15 +273,15 @@ section.in-view > h2{color:var(--ac);transition:color .3s}
 
 <div class="kbox">
   <div class="klabel">Comparativo: clopidogrel × prasugrel × ticagrelor</div>
-  <table>
+  <table class="data-table">
     <thead><tr><th>Característica</th><th>Clopidogrel</th><th>Prasugrel</th><th>Ticagrelor</th></tr></thead>
     <tbody>
-      <tr><td>Ligação ao receptor</td><td>Covalente irreversível (pró-fármaco)</td><td>Covalente irreversível (pró-fármaco)</td><td>Não covalente reversível (direto)</td></tr>
-      <tr><td>Bioativação</td><td>CYP2C19 (2 etapas)</td><td>CYP3A4/2B6 (1 etapa)</td><td>Nenhuma (já ativo)</td></tr>
-      <tr><td>Início de ação</td><td>6–8 h</td><td>~30 min</td><td>~1,5 h</td></tr>
-      <tr><td>Dose de ataque</td><td>300–600 mg</td><td>60 mg</td><td>180 mg</td></tr>
-      <tr><td>Recuperação plaquetária</td><td>5–7 dias</td><td>7–10 dias</td><td>2–3 dias</td></tr>
-      <tr><td>Impacto de CYP2C19</td><td>Grande</td><td>Mínimo</td><td>Nenhum</td></tr>
+      <tr><td class="td-label">Ligação ao receptor</td><td>Covalente irreversível (pró-fármaco)</td><td>Covalente irreversível (pró-fármaco)</td><td>Não covalente reversível (direto)</td></tr>
+      <tr><td class="td-label">Bioativação</td><td>CYP2C19 (2 etapas)</td><td>CYP3A4/2B6 (1 etapa)</td><td>Nenhuma (já ativo)</td></tr>
+      <tr><td class="td-label">Início de ação</td><td>6–8 h</td><td>~30 min</td><td>~1,5 h</td></tr>
+      <tr><td class="td-label">Dose de ataque</td><td>300–600 mg</td><td>60 mg</td><td>180 mg</td></tr>
+      <tr><td class="td-label">Recuperação plaquetária</td><td>5–7 dias</td><td>7–10 dias</td><td>2–3 dias</td></tr>
+      <tr><td class="td-label">Impacto de CYP2C19</td><td>Grande</td><td>Mínimo</td><td>Nenhum</td></tr>
     </tbody>
   </table>
   <p class="tlegend">Tabela 1. Comparação entre inibidores de P2Y12 clinicamente disponíveis.</p>
@@ -407,15 +409,15 @@ section.in-view > h2{color:var(--ac);transition:color .3s}
 <h2>Reversão dos anticoagulantes e antídotos</h2>
 <p>A reversão de anticoagulantes é necessária em sangramento com risco de vida, sobredose acidental ou cirurgia de emergência.</p>
 
-<table>
+<table class="data-table">
   <thead><tr><th>Anticoagulante</th><th>Mecanismo de reversão</th><th>Antídoto específico</th></tr></thead>
   <tbody>
-    <tr><td>HNF</td><td>Sulfato de protamina (1 mg/100 UI de HNF)</td><td>Protamina</td></tr>
-    <tr><td>HBPM</td><td>Sulfato de protamina (reversão parcial ~60%)</td><td>Protamina (parcial)</td></tr>
-    <tr><td>Fondaparinux</td><td>Sem antídoto específico; CCP off-label</td><td>Nenhum aprovado</td></tr>
-    <tr><td>Varfarina</td><td>Vitamina K IV + CCP (mais rápido) ou PFC</td><td>CCP 4 fatores</td></tr>
-    <tr><td>Dabigatrana</td><td>Idarucizumab (anticorpo monoclonal)</td><td>Idarucizumab</td></tr>
-    <tr><td>Rivaroxabana / Apixabana</td><td>Andexanet alfa (FXa recombinante modificado, isca molecular)</td><td>Andexanet alfa</td></tr>
+    <tr><td class="td-label">HNF</td><td>Sulfato de protamina (1 mg/100 UI de HNF)</td><td>Protamina</td></tr>
+    <tr><td class="td-label">HBPM</td><td>Sulfato de protamina (reversão parcial ~60%)</td><td>Protamina (parcial)</td></tr>
+    <tr><td class="td-label">Fondaparinux</td><td>Sem antídoto específico; CCP off-label</td><td>Nenhum aprovado</td></tr>
+    <tr><td class="td-label">Varfarina</td><td>Vitamina K IV + CCP (mais rápido) ou PFC</td><td>CCP 4 fatores</td></tr>
+    <tr><td class="td-label">Dabigatrana</td><td>Idarucizumab (anticorpo monoclonal)</td><td>Idarucizumab</td></tr>
+    <tr><td class="td-label">Rivaroxabana / Apixabana</td><td>Andexanet alfa (FXa recombinante modificado, isca molecular)</td><td>Andexanet alfa</td></tr>
   </tbody>
 </table>
 <p class="tlegend">Tabela 2. Estratégias de reversão dos principais anticoagulantes.</p>
@@ -474,16 +476,16 @@ section.in-view > h2{color:var(--ac);transition:color .3s}
 
 <section id="monitoramento">
 <h2>Monitoramento laboratorial dos antitrombóticos</h2>
-<table>
+<table class="data-table">
   <thead><tr><th>Fármaco</th><th>Ensaio de monitoramento</th><th>Alvo / Interpretação</th></tr></thead>
   <tbody>
-    <tr><td>AAS</td><td>Não monitorado rotineiramente. Agregometria de ácido araquidônico (pesquisa)</td><td>—</td></tr>
-    <tr><td>Clopidogrel / P2Y12</td><td>VerifyNow P2Y12, impedância de agregometria (pesquisa)</td><td>HTPR: PRU &gt;208 (VerifyNow)</td></tr>
-    <tr><td>HNF</td><td>TTPa (alvo: 60–100 s, ~1,5–2,5× basal) ou atividade anti-Xa (0,3–0,7 UI/mL)</td><td>Via intrínseca sensível</td></tr>
-    <tr><td>HBPM</td><td>Atividade anti-Xa (0,5–1,0 UI/mL para dose terapêutica 2×/dia)</td><td>Monitorar em gestação, extremos de peso, IR</td></tr>
-    <tr><td>Varfarina</td><td>INR (alvo 2–3 padrão; 2,5–3,5 valvas mecânicas mitrais)</td><td>Via extrínseca (TP prolongado)</td></tr>
-    <tr><td>Dabigatrana</td><td>Hemoclot / dTT calibrado (concentração direta)</td><td>TTPa grosseiro; não usa INR</td></tr>
-    <tr><td>Rivaroxabana / Apixabana</td><td>Atividade anti-Xa calibrada para o NOAC específico</td><td>TP/INR afetado mas não confiável</td></tr>
+    <tr><td class="td-label">AAS</td><td>Não monitorado rotineiramente. Agregometria de ácido araquidônico (pesquisa)</td><td>—</td></tr>
+    <tr><td class="td-label">Clopidogrel / P2Y12</td><td>VerifyNow P2Y12, impedância de agregometria (pesquisa)</td><td>HTPR: PRU &gt;208 (VerifyNow)</td></tr>
+    <tr><td class="td-label">HNF</td><td>TTPa (alvo: 60–100 s, ~1,5–2,5× basal) ou atividade anti-Xa (0,3–0,7 UI/mL)</td><td>Via intrínseca sensível</td></tr>
+    <tr><td class="td-label">HBPM</td><td>Atividade anti-Xa (0,5–1,0 UI/mL para dose terapêutica 2×/dia)</td><td>Monitorar em gestação, extremos de peso, IR</td></tr>
+    <tr><td class="td-label">Varfarina</td><td>INR (alvo 2–3 padrão; 2,5–3,5 valvas mecânicas mitrais)</td><td>Via extrínseca (TP prolongado)</td></tr>
+    <tr><td class="td-label">Dabigatrana</td><td>Hemoclot / dTT calibrado (concentração direta)</td><td>TTPa grosseiro; não usa INR</td></tr>
+    <tr><td class="td-label">Rivaroxabana / Apixabana</td><td>Atividade anti-Xa calibrada para o NOAC específico</td><td>TP/INR afetado mas não confiável</td></tr>
   </tbody>
 </table>
 <p class="tlegend">Tabela 3. Monitoramento laboratorial dos principais antitrombóticos.</p>
@@ -580,19 +582,18 @@ section.in-view > h2{color:var(--ac);transition:color .3s}
   var mobBtn = document.getElementById('mob-btn');
   if(mobBtn) mobBtn.addEventListener('click', function(){ sidebar.classList.toggle('open'); });
 
-  // Highlight ativo na sidebar
+  // Highlight ativo na sidebar (scroll-based)
   var sections = document.querySelectorAll('section[id]');
   var links = document.querySelectorAll('a.sl');
-  var obs1 = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        links.forEach(function(l){ l.classList.remove('active'); });
-        var a = document.querySelector('a.sl[href="#'+e.target.id+'"]');
-        if(a) a.classList.add('active');
-      }
-    });
-  }, {rootMargin:'-20% 0px -70% 0px'});
-  sections.forEach(function(s){ obs1.observe(s); });
+  function updateActiveAA(){
+    var cur = null;
+    var st = document.documentElement.scrollTop || document.body.scrollTop;
+    sections.forEach(function(s){ if(s.offsetTop-120<=st) cur=s; });
+    links.forEach(function(l){ l.classList.remove('active'); });
+    if(cur){ var a = document.querySelector('a.sl[href="#'+cur.id+'"]'); if(a) a.classList.add('active'); }
+  }
+  window.addEventListener('scroll', updateActiveAA, {passive:true});
+  window.addEventListener('load', updateActiveAA);
 
   // Highlight h2 seção ativa
   var obs2 = new IntersectionObserver(function(entries){
@@ -600,7 +601,7 @@ section.in-view > h2{color:var(--ac);transition:color .3s}
       if(e.isIntersecting) e.target.classList.add('in-view');
       else e.target.classList.remove('in-view');
     });
-  }, {rootMargin:'-20% 0px -70% 0px'});
+  }, {rootMargin:'-10% 0px -55% 0px'});
   sections.forEach(function(s){ obs2.observe(s); });
 })();
 </script>

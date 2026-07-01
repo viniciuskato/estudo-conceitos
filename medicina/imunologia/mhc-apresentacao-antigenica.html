@@ -68,11 +68,27 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .mhc-card p:last-child{margin:0}
 .mhc-card strong{color:var(--text);font-weight:500}
 .tbl-wrap{overflow-x:auto;margin:16px 0}
-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
-th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
-tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:-10px 0 18px;font-style:italic}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:16px 0}}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
@@ -148,6 +164,7 @@ ol.refs li a{color:var(--ac);text-decoration:none}
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>linf&oacute;citos T, timo, DCs</b></span>
     <span class="chip">&#128279; Depende de: <b>M1, M2, M4</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia molecular</b></span>
+    <span class="chip">&#127811; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -296,18 +313,18 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 <section id="hla-doencas">
 <h2>HLA e Predisposi&ccedil;&atilde;o a Doen&ccedil;as <a class="anc" href="#hla-doencas">#</a></h2>
 <p>A associa&ccedil;&atilde;o entre alelos HLA espec&iacute;ficos e doen&ccedil;as reflete o papel do MHC na apresenta&ccedil;&atilde;o de autoant&iacute;genos e na modelagem do repert&oacute;rio de linf&oacute;citos T durante a educa&ccedil;&atilde;o t&iacute;mica.</p>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Doen&ccedil;a</th><th>Alelo HLA</th><th>Risco relativo</th><th>Mecanismo proposto</th></tr></thead>
   <tbody>
-    <tr><td>Espondilite anquilosante</td><td>HLA-B27</td><td>~90&times; (mais forte)</td><td>Mimetismo molecular; pept&iacute;deo B27 mal-dobrado ativa UPR</td></tr>
-    <tr><td>Diabetes mellitus tipo 1</td><td>HLA-DR3/DR4; DQ2/DQ8</td><td>5&ndash;15&times;</td><td>Apresenta&ccedil;&atilde;o de autoant&iacute;genos pancre&aacute;ticos (insulina)</td></tr>
-    <tr><td>Artrite reumatoide</td><td>HLA-DR4 (ep&iacute;topo compartilhado DRB1)</td><td>4&ndash;6&times;</td><td>Presenta&ccedil;&atilde;o de pept&iacute;deos citrulinados</td></tr>
-    <tr><td>Narcolepsia</td><td>HLA-DQB1*06:02</td><td>&gt;98% dos casos</td><td>Autoimunidade contra neur&ocirc;nios de hipocretina (mim. H1N1)</td></tr>
-    <tr><td>Doen&ccedil;a cel&iacute;aca</td><td>HLA-DQ2, HLA-DQ8</td><td>Necess&aacute;rio, n&atilde;o suficiente</td><td>DQ2 apresenta gliadina desaminada com alta afinidade a CD4&#8314;</td></tr>
-    <tr><td>LES</td><td>HLA-DR2/DR3; defic. C4A (MHC III)</td><td>2&ndash;3&times;</td><td>C4A deficiente &rarr; clearance de imunocomplexos reduzido</td></tr>
+    <tr><td class="td-label">Espondilite anquilosante</td><td>HLA-B27</td><td>~90&times; (mais forte)</td><td>Mimetismo molecular; pept&iacute;deo B27 mal-dobrado ativa UPR</td></tr>
+    <tr><td class="td-label">Diabetes mellitus tipo 1</td><td>HLA-DR3/DR4; DQ2/DQ8</td><td>5&ndash;15&times;</td><td>Apresenta&ccedil;&atilde;o de autoant&iacute;genos pancre&aacute;ticos (insulina)</td></tr>
+    <tr><td class="td-label">Artrite reumatoide</td><td>HLA-DR4 (ep&iacute;topo compartilhado DRB1)</td><td>4&ndash;6&times;</td><td>Presenta&ccedil;&atilde;o de pept&iacute;deos citrulinados</td></tr>
+    <tr><td class="td-label">Narcolepsia</td><td>HLA-DQB1*06:02</td><td>&gt;98% dos casos</td><td>Autoimunidade contra neur&ocirc;nios de hipocretina (mim. H1N1)</td></tr>
+    <tr><td class="td-label">Doen&ccedil;a cel&iacute;aca</td><td>HLA-DQ2, HLA-DQ8</td><td>Necess&aacute;rio, n&atilde;o suficiente</td><td>DQ2 apresenta gliadina desaminada com alta afinidade a CD4&#8314;</td></tr>
+    <tr><td class="td-label">LES</td><td>HLA-DR2/DR3; defic. C4A (MHC III)</td><td>2&ndash;3&times;</td><td>C4A deficiente &rarr; clearance de imunocomplexos reduzido</td></tr>
   </tbody>
-  <caption>Tabela 1. Associa&ccedil;&otilde;es HLA-doen&ccedil;a clinicamente relevantes.</caption>
 </table></div>
+<p class="table-caption">Tabela 1 &mdash; Associa&ccedil;&otilde;es HLA-doen&ccedil;a clinicamente relevantes.</p>
 </section>
 
 <section id="transplante">
@@ -366,6 +383,11 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 </div>
 </main>
 </div>
+<div id="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">&#8592; Voltar &agrave; leitura</button>
 <script>
 const sidebar=document.getElementById('sidebar');
 const bodyWrap=document.getElementById('body-wrap');
@@ -376,10 +398,40 @@ const pb=document.getElementById('progress-bar');
 window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
 const sections=document.querySelectorAll('section[id]');
 const navLinks=document.querySelectorAll('#sidebar a.sl');
-const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>obs1.observe(s));
-const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+function updateActiveMHC(){
+  let cur=null;
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  sections.forEach(s=>{if(s.offsetTop-120<=st)cur=s});
+  navLinks.forEach(l=>l.classList.remove('active'));
+  if(cur){const a=document.querySelector('#sidebar a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active')}
+}
+window.addEventListener('scroll',updateActiveMHC,{passive:true});
+window.addEventListener('load',updateActiveMHC);
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-10% 0px -55% 0px'});
 sections.forEach(s=>obs2.observe(s));
+let lastReadY=0;
+function navFig(el){
+  lastReadY=window.scrollY;
+  document.getElementById('back-btn').classList.add('show');
+  const href=el.getAttribute('href');
+  const target=document.querySelector(href);
+  if(target)target.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function backToRead(){
+  window.scrollTo({top:lastReadY,behavior:'smooth'});
+  document.getElementById('back-btn').classList.remove('show');
+}
+function openLightbox(img){
+  const lb=document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src=img.src;
+  document.getElementById('lightbox-caption').textContent=img.alt;
+  lb.classList.add('show');
+}
+function closeLightbox(e){
+  if(e.target.id==='lightbox')document.getElementById('lightbox').classList.remove('show');
+}
+document.querySelectorAll('.plate-block img').forEach(img=>{img.addEventListener('click',()=>openLightbox(img))});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('show')});
 </script>
 </body>
 </html>

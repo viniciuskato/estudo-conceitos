@@ -79,6 +79,20 @@ td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vert
 tr:last-child td{border-bottom:none}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-align:left;padding:8px 2px 0;font-style:italic;margin-top:-2px}
+.plate-block{float:right;width:42%;margin:0 0 14px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer}
+.plate-block img{width:100%;display:block;border-radius:3px;background:#e8e2d8}
+.plate-caption{font-family:var(--font-ui);font-size:10.5px;color:var(--muted);padding:6px 2px 0;line-height:1.4}
+#lightbox{display:none;position:fixed;inset:0;background:rgba(10,9,8,.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;padding:40px}
+#lightbox.show{display:flex}
+#lightbox img{max-width:88vw;max-height:80vh;border-radius:4px}
+#lightbox-caption{color:var(--muted);font-family:var(--font-ui);font-size:13px;margin-top:14px;max-width:70ch;text-align:center}
+#back-btn{display:none;position:fixed;bottom:24px;right:24px;background:var(--ac);color:#1a1410;font-family:var(--font-ui);font-size:12px;font-weight:600;border:none;border-radius:20px;padding:9px 16px;cursor:pointer;z-index:150;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+#back-btn.show{display:block}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:14px 0}}
 .callout{background:var(--bg3);border-left:3px solid var(--ac);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
 .callout strong{color:var(--ac)}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
@@ -160,6 +174,7 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>M3, M4, M5, M6, M7, M8</b></span>
     <span class="chip">&#128279; Depende de: <b>Imunidade inata, Th, CTLs, Complemento</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia &middot; Microbiologia</b></span>
+    <span class="chip">&#127811; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -222,16 +237,16 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
   <div class="klabel">Defini&ccedil;&atilde;o formal</div>
   <p>O sistema imune n&atilde;o tem uma estrat&eacute;gia universal &mdash; tem um repert&oacute;rio de respostas especializadas, cada uma otimizada para um tipo de amea&ccedil;a. O princ&iacute;pio unificador &eacute;: <strong>a localiza&ccedil;&atilde;o do pat&oacute;geno no hospedeiro determina o tipo de resposta efetora necess&aacute;ria</strong>. Pat&oacute;genos extracelulares s&atilde;o acess&iacute;veis a anticorpos e complemento; pat&oacute;genos intracelulares requerem destrui&ccedil;&atilde;o da pr&oacute;pria c&eacute;lula infectada <span class="cite"><a href="#referencias">(ABBAS; LICHTMAN; PILLAI, 2023)</a></span>.</p>
 </div>
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Tipo de pat&oacute;geno</th><th>Localiza&ccedil;&atilde;o</th><th>Resposta inata predominante</th><th>Resposta adaptativa predominante</th></tr></thead>
   <tbody>
-    <tr><td>Bact&eacute;rias extracelulares</td><td>Sangue, tecidos, mucosas</td><td>Neutr&oacute;filos, complemento, macr&oacute;fagos</td><td>Anticorpos (IgG, IgM, IgA) + Th17</td></tr>
-    <tr><td>Bact&eacute;rias intracelulares</td><td>Fagolisossomo, citoplasma</td><td>Macr&oacute;fagos, NK, IFN-&gamma;</td><td>Th1 (ativa macr&oacute;fagos) + CTLs</td></tr>
-    <tr><td>V&iacute;rus</td><td>Citoplasma da c&eacute;lula infectada</td><td>IFN tipo I, NK, DCs</td><td>CTLs (CD8+) + anticorpos neutralizantes</td></tr>
-    <tr><td>Fungos</td><td>Extra e intracelular (varia)</td><td>Neutr&oacute;filos, macr&oacute;fagos, CLRs (Dectina-1/2)</td><td>Th17 (extracelular) + Th1 (intracelular)</td></tr>
+    <tr><td class="td-label">Bact&eacute;rias extracelulares</td><td>Sangue, tecidos, mucosas</td><td>Neutr&oacute;filos, complemento, macr&oacute;fagos</td><td>Anticorpos (IgG, IgM, IgA) + Th17</td></tr>
+    <tr><td class="td-label">Bact&eacute;rias intracelulares</td><td>Fagolisossomo, citoplasma</td><td>Macr&oacute;fagos, NK, IFN-&gamma;</td><td>Th1 (ativa macr&oacute;fagos) + CTLs</td></tr>
+    <tr><td class="td-label">V&iacute;rus</td><td>Citoplasma da c&eacute;lula infectada</td><td>IFN tipo I, NK, DCs</td><td>CTLs (CD8+) + anticorpos neutralizantes</td></tr>
+    <tr><td class="td-label">Fungos</td><td>Extra e intracelular (varia)</td><td>Neutr&oacute;filos, macr&oacute;fagos, CLRs (Dectina-1/2)</td><td>Th17 (extracelular) + Th1 (intracelular)</td></tr>
   </tbody>
-  <caption>Tabela 9.1. Estrat&eacute;gias imunol&oacute;gicas por tipo de pat&oacute;geno e localiza&ccedil;&atilde;o.</caption>
 </table></div>
+<p class="table-caption">Tabela 9.1 &mdash; Estrat&eacute;gias imunol&oacute;gicas por tipo de pat&oacute;geno e localiza&ccedil;&atilde;o.</p>
 </section>
 
 <section id="bacterias-extracelulares">
@@ -271,17 +286,17 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
 <section id="evasao-bacteriana">
 <h2>Evas&atilde;o bacteriana <a class="anchor" href="#evasao-bacteriana">#</a></h2>
 <p>Cada estrat&eacute;gia imunol&oacute;gica tem um mecanismo de evas&atilde;o correspondente. <em>Streptococcus pneumoniae</em> tem c&aacute;psula polissacar&iacute;dica que mascara receptores de complemento e inibe opsoniza&ccedil;&atilde;o: a vacina PCV induz anticorpos anti-c&aacute;psula que superam esse mecanismo. <em>Chlamydia trachomatis</em> sobrevive em vac&uacute;olo intracelular secretando prote&iacute;nas que inibem fus&atilde;o com lisossomo. <em>Rickettsia</em> escapa do vac&uacute;olo para o citoplasma onde persiste livre. <em>Staphylococcus aureus</em> produz prote&iacute;na A (liga regi&atilde;o Fc de IgG, neutralizando opsoniza&ccedil;&atilde;o), leucocidinas e biofilme.</p>
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Mecanismo imune</th><th>Evas&atilde;o bacteriana</th><th>Exemplo</th></tr></thead>
   <tbody>
-    <tr><td>Opsoniza&ccedil;&atilde;o por IgG/C3b</td><td>C&aacute;psula polissacar&iacute;dica (bloqueia acesso)</td><td><em>S. pneumoniae</em>, <em>N. meningitidis</em></td></tr>
-    <tr><td>Burst oxidativo do fagolisossomo</td><td>Inibi&ccedil;&atilde;o de fus&atilde;o fagossomo-lisossomo (LAM)</td><td><em>M. tuberculosis</em></td></tr>
-    <tr><td>Confinamento no fagossomo</td><td>Lise do fagossomo + escape citoss&oacute;lico</td><td><em>Listeria</em> (LLO), <em>Rickettsia</em></td></tr>
-    <tr><td>Ativa&ccedil;&atilde;o do complemento (MAC)</td><td>Recrutamento de reguladores (fator H)</td><td><em>N. gonorrhoeae</em>, <em>Borrelia</em></td></tr>
-    <tr><td>Anticorpos opsonizantes (Fc&gamma;R)</td><td>Prote&iacute;na A liga Fc de IgG, inverte orienta&ccedil;&atilde;o</td><td><em>S. aureus</em></td></tr>
+    <tr><td class="td-label">Opsoniza&ccedil;&atilde;o por IgG/C3b</td><td>C&aacute;psula polissacar&iacute;dica (bloqueia acesso)</td><td><em>S. pneumoniae</em>, <em>N. meningitidis</em></td></tr>
+    <tr><td class="td-label">Burst oxidativo do fagolisossomo</td><td>Inibi&ccedil;&atilde;o de fus&atilde;o fagossomo-lisossomo (LAM)</td><td><em>M. tuberculosis</em></td></tr>
+    <tr><td class="td-label">Confinamento no fagossomo</td><td>Lise do fagossomo + escape citoss&oacute;lico</td><td><em>Listeria</em> (LLO), <em>Rickettsia</em></td></tr>
+    <tr><td class="td-label">Ativa&ccedil;&atilde;o do complemento (MAC)</td><td>Recrutamento de reguladores (fator H)</td><td><em>N. gonorrhoeae</em>, <em>Borrelia</em></td></tr>
+    <tr><td class="td-label">Anticorpos opsonizantes (Fc&gamma;R)</td><td>Prote&iacute;na A liga Fc de IgG, inverte orienta&ccedil;&atilde;o</td><td><em>S. aureus</em></td></tr>
   </tbody>
-  <caption>Tabela 9.2. Evas&otilde;es bacterianas dos principais mecanismos imunol&oacute;gicos.</caption>
 </table></div>
+<p class="table-caption">Tabela 9.2 &mdash; Evas&otilde;es bacterianas dos principais mecanismos imunol&oacute;gicos.</p>
 </section>
 
 <section id="virus-mecanismos">
@@ -292,16 +307,16 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
 </div>
 <p><strong>Fase inata (horas a 3&ndash;4 dias):</strong> A c&eacute;lula infectada detecta RNA viral via RIG-I/MDA5 no citoplasma ou TLR3/7/8 em endossomas. A sinaliza&ccedil;&atilde;o converge em IRF3/IRF7 &rarr; IFN-&alpha;/&beta;. IFNs tipo I agem em modo autócr&iacute;no e par&aacute;crino: ativam receptor IFNAR &rarr; JAK1/TYK2 &rarr; STAT1/STAT2 &rarr; ISGF3 &rarr; genes estimulados por interferon (ISGs). ISGs incluem PKR (inibe s&iacute;ntese prot&eacute;ica global), OAS/RNaseL (degrada RNA viral) e Mx (bloqueia tr&aacute;fego viral). DCs plasmocitoides s&atilde;o as maiores produtoras de IFN-&alpha; sist&ecirc;mico. NK destroem c&eacute;lulas que downregularam MHC-I <span class="cite"><a href="#referencias">(REICHE, 2026a)</a></span>.</p>
 <p><strong>Fase adaptativa (4&ndash;14 dias):</strong> DCs maduras ativam CTLs (pept&iacute;deo viral em MHC-I) e c&eacute;lulas B (anticorpos neutralizantes). CTLs destroem c&eacute;lulas infectadas via granzima B/perforina e Fas-FasL. Anticorpos neutralizantes bloqueiam entrada viral em novas c&eacute;lulas. Mem&oacute;ria: TCM e TEM mantidos por IL-7/IL-15; plasmocios de longa dura&ccedil;&atilde;o na medula &oacute;ssea produzem anticorpos por d&eacute;cadas.</p>
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Fase</th><th>Per&iacute;odo</th><th>Mecanismos principais</th><th>Efetores</th></tr></thead>
   <tbody>
-    <tr><td>Inata</td><td>0&ndash;96h</td><td>RIG-I/TLR &rarr; IFN tipo I &rarr; ISGs; NK <em>missing self</em></td><td>IFN-&alpha;/&beta;, NK, macr&oacute;fagos, DCs</td></tr>
-    <tr><td>Adaptativa precoce</td><td>4&ndash;7 dias</td><td>DCs &rarr; CTLs e c&eacute;lulas B em linfonodos</td><td>CTLs CD8+, IgM</td></tr>
-    <tr><td>Adaptativa plena</td><td>7&ndash;14 dias</td><td>Killing por CTLs, anticorpos neutralizantes, ADCC</td><td>CTLs, IgG, IgA, NK (ADCC)</td></tr>
-    <tr><td>Mem&oacute;ria</td><td>Duradoura</td><td>IL-7/IL-15 mant&ecirc;m TCM; plasmocios medula</td><td>TCM, TEM, IgG s&eacute;rico</td></tr>
+    <tr><td class="td-label">Inata</td><td>0&ndash;96h</td><td>RIG-I/TLR &rarr; IFN tipo I &rarr; ISGs; NK <em>missing self</em></td><td>IFN-&alpha;/&beta;, NK, macr&oacute;fagos, DCs</td></tr>
+    <tr><td class="td-label">Adaptativa precoce</td><td>4&ndash;7 dias</td><td>DCs &rarr; CTLs e c&eacute;lulas B em linfonodos</td><td>CTLs CD8+, IgM</td></tr>
+    <tr><td class="td-label">Adaptativa plena</td><td>7&ndash;14 dias</td><td>Killing por CTLs, anticorpos neutralizantes, ADCC</td><td>CTLs, IgG, IgA, NK (ADCC)</td></tr>
+    <tr><td class="td-label">Mem&oacute;ria</td><td>Duradoura</td><td>IL-7/IL-15 mant&ecirc;m TCM; plasmocios medula</td><td>TCM, TEM, IgG s&eacute;rico</td></tr>
   </tbody>
-  <caption>Tabela 9.3. Fases da resposta imune antiviral e seus efetores.</caption>
 </table></div>
+<p class="table-caption">Tabela 9.3 &mdash; Fases da resposta imune antiviral e seus efetores.</p>
 </section>
 
 <section id="evasao-viral">
@@ -316,18 +331,18 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
 <p>Herpesvírus estabelecem lat&ecirc;ncia em c&eacute;lulas de longa dura&ccedil;&atilde;o: HSV/VZV em neur&ocirc;nios ganglionares, EBV em linf&oacute;citos B, CMV em mon&oacute;citos. Durante a lat&ecirc;ncia, expressam apenas prote&iacute;nas que n&atilde;o ativam CTLs (miRNAs virais, EBNA-1 que resiste ao proteasoma). A reativa&ccedil;&atilde;o &eacute; controlada por CTLs de mem&oacute;ria.</p>
 <h3>HIV &mdash; evas&atilde;o multidimensional</h3>
 <p>O HIV integra proviral ao genoma (lat&ecirc;ncia irrevers&iacute;vel), usa Nef para degradar MHC-I e CD4 intracelular, muta ant&iacute;genos de envelope continuamente (<em>immune escape</em>), e progressivamente destr&oacute;i os CD4+ Th que coordenam toda a resposta adaptativa &mdash; criando o colapso imune que define a AIDS.</p>
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>V&iacute;rus</th><th>Alvo imune</th><th>Mecanismo de evas&atilde;o</th><th>Prote&iacute;na viral</th></tr></thead>
   <tbody>
-    <tr><td>Influenza A</td><td>IFN tipo I (RIG-I)</td><td>Sequestro de dsRNA; bloqueio de IRF3</td><td>NS1</td></tr>
-    <tr><td>HCV</td><td>IFN tipo I (RIG-I + TLR3)</td><td>Clivagem de MAVS e TRIF</td><td>NS3/4A</td></tr>
-    <tr><td>HSV-1</td><td>CTLs (MHC-I)</td><td>Bloqueio de TAP &rarr; MHC-I sem pept&iacute;deo</td><td>ICP47</td></tr>
-    <tr><td>CMV</td><td>NK (<em>missing self</em>)</td><td>HLA-E e UL18 ativam receptor inibit&oacute;rio NKG2A</td><td>UL40, UL18</td></tr>
-    <tr><td>HIV</td><td>CTLs + Th</td><td>Degrada&ccedil;&atilde;o de MHC-I e CD4; lat&ecirc;ncia proviral</td><td>Nef, Vpu</td></tr>
-    <tr><td>EBV</td><td>CTLs (lat&ecirc;ncia)</td><td>miRNAs virais; EBNA-1 resiste ao proteasoma</td><td>EBNA-1, miRNAs</td></tr>
+    <tr><td class="td-label">Influenza A</td><td>IFN tipo I (RIG-I)</td><td>Sequestro de dsRNA; bloqueio de IRF3</td><td>NS1</td></tr>
+    <tr><td class="td-label">HCV</td><td>IFN tipo I (RIG-I + TLR3)</td><td>Clivagem de MAVS e TRIF</td><td>NS3/4A</td></tr>
+    <tr><td class="td-label">HSV-1</td><td>CTLs (MHC-I)</td><td>Bloqueio de TAP &rarr; MHC-I sem pept&iacute;deo</td><td>ICP47</td></tr>
+    <tr><td class="td-label">CMV</td><td>NK (<em>missing self</em>)</td><td>HLA-E e UL18 ativam receptor inibit&oacute;rio NKG2A</td><td>UL40, UL18</td></tr>
+    <tr><td class="td-label">HIV</td><td>CTLs + Th</td><td>Degrada&ccedil;&atilde;o de MHC-I e CD4; lat&ecirc;ncia proviral</td><td>Nef, Vpu</td></tr>
+    <tr><td class="td-label">EBV</td><td>CTLs (lat&ecirc;ncia)</td><td>miRNAs virais; EBNA-1 resiste ao proteasoma</td><td>EBNA-1, miRNAs</td></tr>
   </tbody>
-  <caption>Tabela 9.4. Mecanismos de evas&atilde;o imune dos principais v&iacute;rus.</caption>
 </table></div>
+<p class="table-caption">Tabela 9.4 &mdash; Mecanismos de evas&atilde;o imune dos principais v&iacute;rus.</p>
 </section>
 
 <section id="fungos">
@@ -341,17 +356,17 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
   <p><strong>Candida albicans</strong> &rarr; defici&ecirc;ncia de Th17 (STAT3, IL-17RA) &rarr; cand&iacute;ase mucocut&acirc;nea cr&ocirc;nica. <strong>Aspergillus fumigatus</strong> &rarr; neutropenia grave (&lt; 500/&mu;L) ou DGC &rarr; aspergilose invasiva pulmonar. <strong>Cryptococcus neoformans</strong> &rarr; CD4 &lt; 100/&mu;L (AIDS) &rarr; meningite criptocócica. Cada imunodefici&ecirc;ncia prim&aacute;ria mapeia para o fungo correspondente <span class="cite"><a href="#referencias">(OLIVEIRA, 2026b)</a></span>.</p>
 </div>
 <p>O reconhecimento f&uacute;ngico depende de CLRs: Dectina-1 reconhece &beta;-glucanas da parede (ativa NF&kappa;B e CARD9 &rarr; IL-23, IL-6, IL-1&beta; &rarr; Th17); Dectina-2 reconhece mananas; TLR2 e TLR4 reconhecem PAMPs adicionais. Para hifas de <em>Aspergillus</em> &mdash; maiores que o di&acirc;metro de um neutr&oacute;filo &mdash; a fagocitose &eacute; imposs&iacute;vel. A resposta s&atilde;o as NETs (<em>Neutrophil Extracellular Traps</em>): cromatina decondensada + prote&iacute;nas antimicrobianas (elastase, MPO, histonas) liberadas ap&oacute;s NETose, formando rede que captura e mata hifas. NETs s&atilde;o dependentes de NADPH oxidase &mdash; justificando por que pacientes com DGC tamb&eacute;m t&ecirc;m aspergilose.</p>
-<div class="table-wrap"><table>
+<div class="table-wrap"><table class="data-table">
   <thead><tr><th>Fungo</th><th>Forma cl&iacute;nica</th><th>Defici&ecirc;ncia associada</th><th>Mecanismo protetor normal</th></tr></thead>
   <tbody>
-    <tr><td><em>Candida albicans</em></td><td>Cand&iacute;ase mucocut&acirc;nea cr&ocirc;nica, oral, esof&aacute;gica</td><td>Defici&ecirc;ncia Th17 (STAT3, IL-17RA); corticoides</td><td>Th17 &rarr; IL-17 &rarr; neutr&oacute;filos; IL-22 &rarr; barreira epitelial</td></tr>
-    <tr><td><em>Aspergillus fumigatus</em></td><td>Aspergilose invasiva pulmonar</td><td>Neutropenia grave; DGC</td><td>Neutr&oacute;filos + NETs; macr&oacute;fagos</td></tr>
-    <tr><td><em>Cryptococcus neoformans</em></td><td>Meningite criptocócica</td><td>CD4 &lt; 100/&mu;L (AIDS)</td><td>CD4+ Th1; macr&oacute;fagos ativados por IFN-&gamma;</td></tr>
-    <tr><td><em>Pneumocystis jirovecii</em></td><td>PCP &mdash; pneumonia intersticial</td><td>CD4 &lt; 200/&mu;L; corticoides cr&ocirc;nicos</td><td>CD4+ Th1; macr&oacute;fagos alveolares</td></tr>
-    <tr><td><em>Histoplasma capsulatum</em></td><td>Histoplasmose disseminada</td><td>Defici&ecirc;ncia de IFN-&gamma;R; anti-TNF</td><td>Th1 &rarr; IFN-&gamma; &rarr; ativa&ccedil;&atilde;o macrofágica; granuloma</td></tr>
+    <tr><td class="td-label"><em>Candida albicans</em></td><td>Cand&iacute;ase mucocut&acirc;nea cr&ocirc;nica, oral, esof&aacute;gica</td><td>Defici&ecirc;ncia Th17 (STAT3, IL-17RA); corticoides</td><td>Th17 &rarr; IL-17 &rarr; neutr&oacute;filos; IL-22 &rarr; barreira epitelial</td></tr>
+    <tr><td class="td-label"><em>Aspergillus fumigatus</em></td><td>Aspergilose invasiva pulmonar</td><td>Neutropenia grave; DGC</td><td>Neutr&oacute;filos + NETs; macr&oacute;fagos</td></tr>
+    <tr><td class="td-label"><em>Cryptococcus neoformans</em></td><td>Meningite criptocócica</td><td>CD4 &lt; 100/&mu;L (AIDS)</td><td>CD4+ Th1; macr&oacute;fagos ativados por IFN-&gamma;</td></tr>
+    <tr><td class="td-label"><em>Pneumocystis jirovecii</em></td><td>PCP &mdash; pneumonia intersticial</td><td>CD4 &lt; 200/&mu;L; corticoides cr&ocirc;nicos</td><td>CD4+ Th1; macr&oacute;fagos alveolares</td></tr>
+    <tr><td class="td-label"><em>Histoplasma capsulatum</em></td><td>Histoplasmose disseminada</td><td>Defici&ecirc;ncia de IFN-&gamma;R; anti-TNF</td><td>Th1 &rarr; IFN-&gamma; &rarr; ativa&ccedil;&atilde;o macrofágica; granuloma</td></tr>
   </tbody>
-  <caption>Tabela 9.5. Micoses oportunistas e suas defici&ecirc;ncias imunes correspondentes.</caption>
 </table></div>
+<p class="table-caption">Tabela 9.5 &mdash; Micoses oportunistas e suas defici&ecirc;ncias imunes correspondentes.</p>
 </section>
 
 <section id="sepse">
@@ -426,6 +441,11 @@ caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-sid
 </div>
 </div>
 </div>
+<div id="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">&#8592; Voltar &agrave; leitura</button>
 
 <script>
 const pb = document.getElementById('progress-bar');
@@ -463,26 +483,26 @@ toggleBtn.addEventListener('click', function() {
 });
 
 var links = document.querySelectorAll('#sidebar a.sl[href^="#"]');
-var obs1 = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting) {
-      var id = entry.target.id || (entry.target.closest('section') && entry.target.closest('section').id);
-      if (!id) return;
-      links.forEach(function(l) { l.classList.remove('active'); });
-      var a = document.querySelector('#sidebar a.sl[href="#' + id + '"]');
-      if (a) a.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
-
-document.querySelectorAll('h2[id], h3[id]').forEach(function(h) { obs1.observe(h); });
+var rapAnchors = document.querySelectorAll('h2[id], h3[id]');
+function updateActiveRAP() {
+  var cur = null;
+  var st = document.documentElement.scrollTop || document.body.scrollTop;
+  rapAnchors.forEach(function(h) { if (h.offsetTop - 120 <= st) cur = h; });
+  links.forEach(function(l) { l.classList.remove('active'); });
+  if (cur) {
+    var a = document.querySelector('#sidebar a.sl[href="#' + cur.id + '"]');
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveRAP, { passive: true });
+window.addEventListener('load', updateActiveRAP);
 
 var obs2 = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
     if (entry.isIntersecting) entry.target.classList.add('in-view');
     else entry.target.classList.remove('in-view');
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
+}, { rootMargin: '-10% 0px -55% 0px' });
 
 document.querySelectorAll('section[id]').forEach(function(s) { obs2.observe(s); });
 
@@ -493,6 +513,30 @@ links.forEach(function(link) {
     if (target) target.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+// LIGHTBOX E NAVEGACAO DE FIGURAS
+var lastReadY = 0;
+function navFig(el) {
+  lastReadY = window.scrollY;
+  document.getElementById('back-btn').classList.add('show');
+  var target = document.querySelector(el.getAttribute('href'));
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function backToRead() {
+  window.scrollTo({ top: lastReadY, behavior: 'smooth' });
+  document.getElementById('back-btn').classList.remove('show');
+}
+function openLightbox(img) {
+  var lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-caption').textContent = img.alt;
+  lb.classList.add('show');
+}
+function closeLightbox(e) {
+  if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.remove('show');
+}
+document.querySelectorAll('.plate-block img').forEach(function(img) { img.addEventListener('click', function() { openLightbox(img); }); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('show'); });
 </script>
 </body>
 </html>

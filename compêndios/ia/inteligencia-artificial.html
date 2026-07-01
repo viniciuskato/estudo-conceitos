@@ -144,7 +144,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     <div class="doc-chips">
       <span class="chip">⏱ ~25 min de leitura</span>
       <span class="chip">📍 Nível: campo amplo</span>
-      <span class="chip">🗓 Última revisão: 2026-06-30</span>
+      <span class="chip">🗓 Última revisão: 2026-07-01</span>
     </div>
   </div>
 
@@ -418,19 +418,21 @@ toggleBtn.addEventListener('click', () => {
   sessionStorage.setItem('sidebar-collapsed', isCollapsed);
 });
 
-// Sidebar highlight ativo
+// Sidebar highlight ativo (scroll-based)
 const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('a.sl');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      links.forEach(l => l.classList.remove('active'));
-      const a = document.querySelector(`a.sl[href="#${e.target.id}"]`);
-      if (a) a.classList.add('active');
-    }
-  });
-}, {rootMargin: '-20% 0px -70% 0px'});
-sections.forEach(s => obs.observe(s));
+function updateActiveIA() {
+  let cur = null;
+  const st = document.documentElement.scrollTop || document.body.scrollTop;
+  sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+  links.forEach(l => l.classList.remove('active'));
+  if (cur) {
+    const a = document.querySelector(`a.sl[href="#${cur.id}"]`);
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveIA, {passive: true});
+window.addEventListener('load', updateActiveIA);
 
 // In-view color em h2
 const obs2 = new IntersectionObserver(entries => {

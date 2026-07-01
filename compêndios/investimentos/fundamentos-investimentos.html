@@ -76,6 +76,8 @@ td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vert
 tr:last-child td{border-bottom:none}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);caption-side:bottom;text-align:left;padding:8px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table tr:hover td{background:var(--bg3)}
 a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
 a.cross-link:hover{opacity:1}
 a.cite{color:var(--ac);text-decoration:none;font-size:.85em;vertical-align:super}
@@ -178,7 +180,7 @@ a.cite:hover{text-decoration:underline}
   <span class="chip">&#128203; Pré-requisitos: <b>aritmética básica, percentuais</b></span>
   <span class="chip">&#128279; Depende de: <b>nenhum material anterior</b></span>
   <span class="chip">&#128205; Área: <b>Finanças Pessoais</b></span>
-  <span class="chip">&#128197; Última revisão: <b>2026-06-22</b></span>
+  <span class="chip">&#128197; Última revisão: <b>2026-07-01</b></span>
 </div>
 
 <div class="pergunta">
@@ -262,7 +264,7 @@ a.cite:hover{text-decoration:underline}
 <div class="formula">M = C x (1 + i)^n</div>
 <p>Onde <strong>M</strong> é o montante final, <strong>C</strong> é o capital inicial, <strong>i</strong> é a taxa de juros por período e <strong>n</strong> é o número de períodos. A consequência é crescimento exponencial, não linear.</p>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Anos</th><th>Juros simples (10% a.a.)</th><th>Juros compostos (10% a.a.)</th><th>Diferença</th></tr></thead>
     <tbody>
       <tr><td>5</td><td>R$ 1.500</td><td>R$ 1.611</td><td>+R$ 111</td></tr>
@@ -290,7 +292,7 @@ a.cite:hover{text-decoration:underline}
 <p>Esse diferencial de retorno exigido por um investidor para assumir risco acima do nível livre de risco é chamado de <strong>prêmio de risco</strong>.</p>
 <h3>Tipos de risco <a class="anchor" href="#tipos-de-risco">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Tipo</th><th>Descrição</th><th>Eliminável por diversificação?</th></tr></thead>
     <tbody>
       <tr><td><strong>Risco de crédito</strong></td><td>O emissor não consegue honrar o pagamento (calote).</td><td>Parcialmente</td></tr>
@@ -312,7 +314,7 @@ a.cite:hover{text-decoration:underline}
   Uma classe de ativo é um grupo de instrumentos financeiros com características semelhantes de risco, retorno e comportamento de mercado. Ativos de classes diferentes tendem a se comportar de forma distinta diante dos mesmos eventos econômicos &mdash; correlação baixa entre classes é o fundamento da diversificação eficiente.
 </div>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Classe</th><th>Exemplos</th><th>Retorno esperado</th><th>Risco</th><th>Liquidez tipica</th></tr></thead>
     <tbody>
       <tr><td><strong>Renda fixa</strong></td><td>Tesouro Direto, CDB, LCI, LCA, debêntures</td><td>Baixo a médio</td><td>Baixo a médio</td><td>Alta a média</td></tr>
@@ -338,7 +340,7 @@ a.cite:hover{text-decoration:underline}
 </div>
 <h3>Tesouro Direto <a class="anchor" href="#tesouro-direto">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Título</th><th>Remuneração</th><th>Indicado quando</th></tr></thead>
     <tbody>
       <tr><td><strong>Tesouro Selic</strong></td><td>Selic + ágio/deságio pequeno</td><td>Reserva de emergência; proteção contra alta de juros</td></tr>
@@ -408,7 +410,7 @@ a.cite:hover{text-decoration:underline}
 </div>
 <h3>As tres formas da HME <a class="anchor" href="#formas-hme">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Forma</th><th>Informação incorporada</th><th>Implicação prática</th><th>Evidência empírica</th></tr></thead>
     <tbody>
       <tr><td><strong>Fraca</strong></td><td>Preços históricos e volume negociado</td><td>Análise técnica (gráfica) não gera alfa consistente</td><td>Amplamente suportada; padrões técnicos exploráveis desaparecem quando publicados</td></tr>
@@ -452,7 +454,7 @@ a.cite:hover{text-decoration:underline}
   O estudo mais abrangente sobre retornos históricos de longo prazo foi realizado por Elroy Dimson, Paul Marsh e Mike Staunton, publicado em <em>Triumph of the Optimists</em> (2002) e atualizado anualmente no Credit Suisse Global Investment Returns Yearbook. Cobrindo 32 países desde 1900, o projeto consolidou dados antes fragmentados por mercado.
 </div>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Mercado</th><th>Retorno real ações (a.a.)</th><th>Retorno real bonds (a.a.)</th><th>Prêmio de risco histórico (a.a.)</th><th>Período</th></tr></thead>
     <tbody>
       <tr><td><strong>EUA</strong></td><td>~6,4%</td><td>~2,0%</td><td>~4,4%</td><td>1900-2023</td></tr>
@@ -487,7 +489,7 @@ a.cite:hover{text-decoration:underline}
 <p>O investidor com custo de 2% ao ano acumula, em 30 anos, menos de 60% do patrimônio que acumularia no investimento de baixo custo com mesma classe de ativo. Esse diferencial não é abstraído pelos gráficos de rentabilidade dos fundos &mdash; que mostram retorno bruto, não líquido de taxa.</p>
 <h3>Tipos de custo que corroem retorno <a class="anchor" href="#tipos-custo">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Tipo de custo</th><th>Descrição</th><th>Magnitude típica (Brasil)</th><th>Evitável?</th></tr></thead>
     <tbody>
       <tr><td><strong>Taxa de administração</strong></td><td>Cobrada anualmente sobre o patrimônio total do fundo</td><td>0,1% (ETF) a 3%+ (fundo ativo)</td><td>Parcialmente &mdash; ETFs são muito mais baratos</td></tr>
@@ -538,7 +540,7 @@ a.cite:hover{text-decoration:underline}
 
 <h3>Distinção entre Bazin e Bengen <a class="anchor" href="#bazin-vs-bengen">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Aspecto</th><th>Bazin (6% DY)</th><th>Bengen / Trinity (4% SWR)</th></tr></thead>
     <tbody>
       <tr><td><strong>O que é</strong></td><td>Critério de seleção de ações individuais</td><td>Propriedade emergente de portfólio histórico completo</td></tr>
@@ -572,7 +574,7 @@ a.cite:hover{text-decoration:underline}
 <h2>Tributação <a class="anchor" href="#tributacao">#</a></h2>
 <p>A tributação é parte integrante da decisão de investimento &mdash; comparar retornos brutos sem considerar imposto leva a conclusões incorretas.</p>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Investimento</th><th>IR</th><th>IOF</th><th>Observacao</th></tr></thead>
     <tbody>
       <tr><td>Renda fixa (CDB, Tesouro)</td><td>15% a 22,5% (regressivo pelo prazo)</td><td>Sim, até 30 dias</td><td>Imposto retido na fonte</td></tr>
@@ -633,7 +635,7 @@ a.cite:hover{text-decoration:underline}
 <h3>Beta: o que mede e como interpretar <a class="anchor" href="#beta">#</a></h3>
 <p>O <strong>beta</strong> de um ativo é estimado pela inclinação da regressão dos retornos do ativo sobre os retornos do mercado. Formalmente, &beta;i = Cov(Ri, Rm) / Var(Rm). Um beta de 1,0 indica que o ativo se move em sincronia com o mercado. Um beta de 1,5 indica que, quando o mercado sobe 10%, o ativo tende a subir 15% &mdash; e vice-versa nas quedas. Um beta negativo (raro) indica que o ativo se move na direção oposta ao mercado, o que o torna valioso para <em>hedge</em>.</p>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Beta</th><th>Interpretação</th><th>Exemplo típico</th></tr></thead>
     <tbody>
       <tr><td>&beta; &lt; 0</td><td>Movimenta-se contra o mercado</td><td>Alguns ativos de ouro, opções de venda</td></tr>
@@ -670,7 +672,7 @@ a.cite:hover{text-decoration:underline}
 <p>A taxa de retirada de 6% ao ano está acima da taxa de 4% de Bengen e acima dos 5% que o Estudo Trinity associa a ~80% de sucesso em 30 anos com dados americanos. Para entender o que isso implica, é preciso decompor o que "preservar valor real" significa num portfólio com aportes ativos.</p>
 <p>O objetivo não é o cenário clássico de Bengen &mdash; onde há um patrimônio fixo e apenas retiradas. Com <strong>aportes recorrentes</strong>, o risco de esgotamento é substancialmente menor: cada aporte compra ativos no preço corrente de mercado, funcionando como mecanismo automático de rebalanceamento e redução do risco de sequência. Matematicamente, a taxa de retirada sustentável de um portfólio com aportes ativos é maior do que a de um portfólio estático.</p>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Cenário</th><th>Taxa de retirada</th><th>Viabilidade (dados históricos globais)</th></tr></thead>
     <tbody>
       <tr><td>Portfólio estático, 30 anos (EUA)</td><td>4%</td><td>~95–100% de sucesso histórico</td></tr>
@@ -735,7 +737,7 @@ a.cite:hover{text-decoration:underline}
 
 <h3>Outros vieses relevantes <a class="anchor" href="#outros-vieses">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Viés</th><th>Descrição</th><th>Manifestação em investimentos</th></tr></thead>
     <tbody>
       <tr><td><strong>Viés de disponibilidade</strong></td><td>Superestimar a probabilidade de eventos facilmente recordados</td><td>Após uma crise recente, superestimar risco de colapso; após bull market, subestimar risco de queda</td></tr>
@@ -781,7 +783,7 @@ a.cite:hover{text-decoration:underline}
 </div>
 <p>Na prática do mercado de investimentos, o CDI serve como benchmark: CDBs remuneram uma porcentagem do CDI (ex.: "100% do CDI"), fundos DI buscam replicar o CDI, e a rentabilidade de muitos produtos de renda fixa é cotada em percentual do CDI. O investidor que aplica em um CDB a "110% do CDI" recebe 10% a mais que o CDI &mdash; mas o CDI já é aproximadamente a Selic efetiva, portanto esse 10% extra representa o prêmio de risco de crédito da instituição emissora.</p>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Taxa</th><th>Definição</th><th>Quem controla</th><th>Diferença típica</th></tr></thead>
     <tbody>
       <tr><td><strong>Selic-meta</strong></td><td>Meta definida pelo COPOM</td><td>Banco Central do Brasil</td><td>Referência de política monetária</td></tr>
@@ -810,7 +812,7 @@ a.cite:hover{text-decoration:underline}
 
 <h3>Tipos de debêntures <a class="anchor" href="#tipos-debentures">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Tipo</th><th>Característica</th><th>IR pessoa física</th><th>Uso típico</th></tr></thead>
     <tbody>
       <tr><td><strong>Simples</strong></td><td>Retorna o principal acrescido de juros; sem conversão em ações</td><td>Tabela regressiva (15%-22,5%)</td><td>Financiamento geral de empresa</td></tr>
@@ -831,7 +833,7 @@ a.cite:hover{text-decoration:underline}
 <p>O <strong>spread de crédito</strong> é o excesso de retorno de uma debênture em relação a um título livre de risco com mesma duração. Ele compensa o investidor pelo risco de inadimplência do emissor. Um spread maior indica maior risco percebido ou menor liquidez do papel. Formalmente: spread = taxa da debênture &minus; taxa Tesouro IPCA+ (ou CDI) equivalente.</p>
 <p>Spreads de crédito variam com o ciclo econômico: em períodos de crise, spreads se ampliam mesmo para emissores de boa qualidade, porque a incerteza sistemática aumenta a compensação exigida por qualquer risco de crédito. Esse comportamento &mdash; a correlação positiva entre spreads e estresse de mercado &mdash; é o motivo pelo qual debêntures não são "livre de risco de mercado" mesmo que o emissor não vá à falência: o valor de mercado do título cai quando os spreads se ampliam.</p>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Rating</th><th>Descrição do risco</th><th>Spread típico (sobre IPCA+)</th></tr></thead>
     <tbody>
       <tr><td>AAA / AA</td><td>Risco mínimo; empresa com finanças excepcionalmente sólidas</td><td>0,3% &ndash; 0,8% a.a.</td></tr>
@@ -875,7 +877,7 @@ a.cite:hover{text-decoration:underline}
 
 <h3>Estratégias de rebalanceamento <a class="anchor" href="#estrategias-rebalanceamento">#</a></h3>
 <div class="table-wrap">
-  <table>
+  <table class="data-table">
     <thead><tr><th>Estrategia</th><th>Gatilho</th><th>Vantagem</th><th>Desvantagem</th></tr></thead>
     <tbody>
       <tr><td><strong>Calendário</strong></td><td>Periodicidade fixa (anual, semestral)</td><td>Simples; baixo custo de decisão</td><td>Pode rebalancear com desvio mínimo ou ignorar desvio grande no interim</td></tr>
@@ -1090,28 +1092,25 @@ if (mobBtn) {
 const sections = document.querySelectorAll('h2[id], h3[id]');
 const links = document.querySelectorAll('#sidebar a.sl[href^="#"]');
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      links.forEach(l => l.classList.remove('active'));
-      const active = document.querySelector('#sidebar a.sl[href="#' + id + '"]');
-      if (active) active.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
-
-sections.forEach(s => observer.observe(s));
+function updateActiveFI() {
+  let cur = null;
+  const st = document.documentElement.scrollTop || document.body.scrollTop;
+  sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+  links.forEach(l => l.classList.remove('active'));
+  if (cur) {
+    const active = document.querySelector('#sidebar a.sl[href="#' + cur.id + '"]');
+    if (active) active.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActiveFI, { passive: true });
+window.addEventListener('load', updateActiveFI);
 
 const allSections = document.querySelectorAll('section[id]');
 const sectionObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      allSections.forEach(s => s.classList.remove('in-view'));
-      entry.target.classList.add('in-view');
-    }
+    entry.target.classList.toggle('in-view', entry.isIntersecting);
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
+}, { rootMargin: '-10% 0px -55% 0px' });
 
 allSections.forEach(s => sectionObserver.observe(s));
 

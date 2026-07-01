@@ -60,11 +60,27 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .box.clinico{border-left:2px solid #5a8a6a;background:#0d1a10}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
 .tbl-wrap{overflow-x:auto;margin:16px 0}
-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
-th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
-tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:-10px 0 18px;font-style:italic}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:16px 0}}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
@@ -156,7 +172,7 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>Hematopoiese, M1 &mdash; &Oacute;rg&atilde;os Linfoides</b></span>
     <span class="chip">&#128279; Depende de: <b>M1</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
-    <span class="chip">&#128197; &Uacute;ltima revis&atilde;o: <b>2026-06-24</b></span>
+    <span class="chip">&#128197; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -242,17 +258,17 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
   Gran&uacute;l&oacute;cito mais abundante do sangue (50&ndash;70% dos leuc&oacute;citos) e a primeira c&eacute;lula a chegar ao s&iacute;tio de infec&ccedil;&atilde;o em resposta a quimiocinas como IL-8 (CXCL8). Principal fagoc&iacute;tico da resposta inata aguda.
 </div>
 <p>Sua efic&aacute;cia antimicrobiana depende de dois tipos de gr&acirc;nulos citoplasmáticos: os <strong>gr&acirc;nulos azur&oacute;filos</strong> (prim&aacute;rios) &mdash; que cont&ecirc;m mieloperoxidase, elastase, defensinas e lisozima &mdash; e os <strong>gr&acirc;nulos espec&iacute;ficos</strong> (secund&aacute;rios) &mdash; que cont&ecirc;m lactoferrina, colagenase e fosfatase alcalina. A fus&atilde;o dos gr&acirc;nulos com o fagossomo cria um ambiente altamente microbicida (pH &aacute;cido + esp&eacute;cies reativas de oxig&ecirc;nio + enzimas l&iacute;ticas).</p>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Condi&ccedil;&atilde;o</th><th>Altera&ccedil;&atilde;o</th><th>Causa comum</th></tr></thead>
   <tbody>
-    <tr><td>Leucocitose</td><td>&#8593; total de leuc&oacute;citos</td><td>Infec&ccedil;&atilde;o, inflama&ccedil;&atilde;o, leucemia</td></tr>
-    <tr><td>Neutrofilia</td><td>&#8593; % de neutr&oacute;filos segmentados</td><td>Infec&ccedil;&atilde;o bacteriana aguda, corticoides, IAM</td></tr>
-    <tr><td>Desvio &agrave; esquerda</td><td>&#8593; de formas imaturas (bastonetes, metami&eacute;loci&tos)</td><td>Sepse, infec&ccedil;&atilde;o bacteriana intensa</td></tr>
-    <tr><td>Neutropenia leve</td><td>1.000&ndash;1.500/mm&sup3;</td><td>Viral, autoimune, f&aacute;rmacos</td></tr>
-    <tr><td>Neutropenia grave</td><td>&lt; 500/mm&sup3;</td><td>P&oacute;s-quimioterapia &mdash; risco de infec&ccedil;&atilde;o f&uacute;ngica e bacteriana</td></tr>
+    <tr><td class="td-label">Leucocitose</td><td>&#8593; total de leuc&oacute;citos</td><td>Infec&ccedil;&atilde;o, inflama&ccedil;&atilde;o, leucemia</td></tr>
+    <tr><td class="td-label">Neutrofilia</td><td>&#8593; % de neutr&oacute;filos segmentados</td><td>Infec&ccedil;&atilde;o bacteriana aguda, corticoides, IAM</td></tr>
+    <tr><td class="td-label">Desvio &agrave; esquerda</td><td>&#8593; de formas imaturas (bastonetes, metami&eacute;loci&tos)</td><td>Sepse, infec&ccedil;&atilde;o bacteriana intensa</td></tr>
+    <tr><td class="td-label">Neutropenia leve</td><td>1.000&ndash;1.500/mm&sup3;</td><td>Viral, autoimune, f&aacute;rmacos</td></tr>
+    <tr><td class="td-label">Neutropenia grave</td><td>&lt; 500/mm&sup3;</td><td>P&oacute;s-quimioterapia &mdash; risco de infec&ccedil;&atilde;o f&uacute;ngica e bacteriana</td></tr>
   </tbody>
-  <caption>Tabela 1. Altera&ccedil;&otilde;es dos neutr&oacute;filos no hemograma e seus significados cl&iacute;nicos.</caption>
 </table></div>
+<p class="table-caption">Tabela 1 &mdash; Altera&ccedil;&otilde;es dos neutr&oacute;filos no hemograma e seus significados cl&iacute;nicos.</p>
 </section>
 
 <section id="nets">
@@ -445,6 +461,13 @@ section:not(.in-view)>h2{color:var(--text);transition:color .3s}
 </main>
 </div>
 
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem expandida">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
 <script>
 var sidebar = document.getElementById('sidebar');
 var bodyWrap = document.getElementById('body-wrap');
@@ -470,22 +493,27 @@ window.addEventListener('scroll', function() {
   bar.style.width = pct + '%';
 }, { passive: true });
 var sLinks = document.querySelectorAll('#sidebar a.sl[href^="#"]');
-var obs1 = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting) {
-      sLinks.forEach(function(l) { l.classList.remove('active'); });
-      var a = document.querySelector('#sidebar a.sl[href="#' + e.target.id + '"]');
-      if (a) a.classList.add('active');
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
+var sSections = Array.from(document.querySelectorAll('section[id]'));
+function updateActiveSB(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sSections[0];
+  for(var i=0;i<sSections.length;i++){
+    if(sSections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sSections[i];
+  }
+  sLinks.forEach(function(l){ l.classList.remove('active'); });
+  var a = document.querySelector('#sidebar a.sl[href="#'+current.id+'"]');
+  if(a) a.classList.add('active');
+}
+window.addEventListener('scroll', updateActiveSB, {passive:true});
+updateActiveSB();
 var obs2 = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) {
     if (e.isIntersecting) e.target.classList.add('in-view');
     else e.target.classList.remove('in-view');
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
-document.querySelectorAll('section[id]').forEach(function(s) { obs1.observe(s); obs2.observe(s); });
+}, { rootMargin: '-10% 0px -55% 0px' });
+sSections.forEach(function(s) { obs2.observe(s); });
 sLinks.forEach(function(link) {
   link.addEventListener('click', function(e) {
     e.preventDefault();
@@ -493,6 +521,22 @@ sLinks.forEach(function(link) {
     if (t) t.scrollIntoView({ behavior: 'smooth' });
   });
 });
+var lb = document.getElementById('lightbox');
+var lbImg = document.getElementById('lightbox-img');
+var lbCap = document.getElementById('lightbox-caption');
+function openLightbox(img){
+  var capEl = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
+  lbImg.src = img.src; lbImg.alt = img.alt;
+  lbCap.textContent = img.dataset.caption || (capEl ? capEl.textContent.trim() : '');
+  lb.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){ lb.classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.plate-block img').forEach(function(img){ img.addEventListener('click', function(){ openLightbox(img); }); });
+lb.addEventListener('click', function(e){ if(e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && lb.classList.contains('open')) closeLightbox(); });
+window._readPos = null;
+window.navFig = function(anchor){ window._readPos = window.scrollY; document.getElementById('back-btn').style.display = 'block'; };
+window.backToRead = function(){ if(window._readPos !== null){ window.scrollTo({top: window._readPos, behavior:'smooth'}); } document.getElementById('back-btn').style.display = 'none'; };
 </script>
 </body>
 </html>

@@ -66,11 +66,27 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .ig-card .ign{font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--ac);margin-bottom:6px}
 .ig-card p{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:0;line-height:1.6}
 .tbl-wrap{overflow-x:auto;margin:16px 0}
-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px}
-th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
-tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:-10px 0 18px;font-style:italic}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:16px 0}}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
@@ -147,6 +163,7 @@ ol.refs li a{color:var(--ac);text-decoration:none}
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>Linf&oacute;citos B, Complemento, MHC</b></span>
     <span class="chip">&#128279; Depende de: <b>M1, M2, M5, M6</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia</b></span>
+    <span class="chip">&#127811; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -288,17 +305,17 @@ ol.refs li a{color:var(--ac);text-decoration:none}
   <div class="ig-card"><div class="ign">IgD &mdash; mon&ocirc;mero</div><p>BCR co-expresso com IgM na superf&iacute;cie de linf&oacute;citos B maduros na&iuml;ve. Fun&ccedil;&atilde;o s&eacute;rica pouco caracterizada. Papel prim&aacute;rio: sinaliza&ccedil;&atilde;o de matura&ccedil;&atilde;o e ativa&ccedil;&atilde;o do linf&oacute;cito B. Concentra&ccedil;&atilde;o s&eacute;rica baixa; meia-vida de 2&ndash;3 dias. N&atilde;o atravessa placenta, n&atilde;o ativa complemento, n&atilde;o se liga a receptores Fc com fun&ccedil;&atilde;o estabelecida.</p></div>
 </div>
 
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Ig</th><th>Concentra&ccedil;&atilde;o s&eacute;rica</th><th>Meia-vida</th><th>Complemento</th><th>Placenta</th><th>Fun&ccedil;&atilde;o principal</th></tr></thead>
   <tbody>
-    <tr><td>IgG</td><td>8&ndash;16 mg/mL</td><td>21 dias</td><td>Sim (G1, G3)</td><td>Sim (FcRn)</td><td>Opsoniza&ccedil;&atilde;o, neutraliza&ccedil;&atilde;o, ADCC</td></tr>
-    <tr><td>IgA</td><td>1,4&ndash;4 mg/mL</td><td>5&ndash;6 dias</td><td>N&atilde;o</td><td>N&atilde;o (colostro)</td><td>Imunidade de mucosas</td></tr>
-    <tr><td>IgM</td><td>0,5&ndash;2 mg/mL</td><td>5&ndash;10 dias</td><td>Sim (eficiente)</td><td>N&atilde;o</td><td>Resposta prim&aacute;ria, via cl&aacute;ssica</td></tr>
-    <tr><td>IgE</td><td>~0,00005 mg/mL</td><td>2 dias (s&eacute;rico)</td><td>N&atilde;o</td><td>N&atilde;o</td><td>Alergia, antihelmintos</td></tr>
-    <tr><td>IgD</td><td>~0,03 mg/mL</td><td>2&ndash;3 dias</td><td>N&atilde;o</td><td>N&atilde;o</td><td>BCR (co-receptor)</td></tr>
+    <tr><td class="td-label">IgG</td><td>8&ndash;16 mg/mL</td><td>21 dias</td><td>Sim (G1, G3)</td><td>Sim (FcRn)</td><td>Opsoniza&ccedil;&atilde;o, neutraliza&ccedil;&atilde;o, ADCC</td></tr>
+    <tr><td class="td-label">IgA</td><td>1,4&ndash;4 mg/mL</td><td>5&ndash;6 dias</td><td>N&atilde;o</td><td>N&atilde;o (colostro)</td><td>Imunidade de mucosas</td></tr>
+    <tr><td class="td-label">IgM</td><td>0,5&ndash;2 mg/mL</td><td>5&ndash;10 dias</td><td>Sim (eficiente)</td><td>N&atilde;o</td><td>Resposta prim&aacute;ria, via cl&aacute;ssica</td></tr>
+    <tr><td class="td-label">IgE</td><td>~0,00005 mg/mL</td><td>2 dias (s&eacute;rico)</td><td>N&atilde;o</td><td>N&atilde;o</td><td>Alergia, antihelmintos</td></tr>
+    <tr><td class="td-label">IgD</td><td>~0,03 mg/mL</td><td>2&ndash;3 dias</td><td>N&atilde;o</td><td>N&atilde;o</td><td>BCR (co-receptor)</td></tr>
   </tbody>
-  <caption>Tabela 7.1. Propriedades comparativas das classes de imunoglobulinas.</caption>
 </table></div>
+<p class="table-caption">Tabela 7.1 — Propriedades comparativas das classes de imunoglobulinas.</p>
 </section>
 
 <section id="ativacao-b">
@@ -470,6 +487,14 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem expandida">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
 <script>
 const bar = document.getElementById('progress-bar');
 window.addEventListener('scroll', () => {
@@ -494,35 +519,56 @@ btn.addEventListener('click', () => {
   sessionStorage.setItem('sidebar-collapsed', c ? '1' : '0');
 });
 
-const sections = document.querySelectorAll('section[id]');
-const links = document.querySelectorAll('#sidebar a.sl[href^="#"]');
-
-const activeObs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      links.forEach(l => l.classList.remove('active'));
-      const active = document.querySelector('#sidebar a.sl[href="#' + id + '"]');
-      if (active) active.classList.add('active');
-    }
-  });
-}, {rootMargin: '-20% 0px -70% 0px'});
+// Sidebar active link — scroll-based listener (robusto para seções de tamanho variável)
+var sideLinksSB = document.querySelectorAll('#sidebar a.sl[href^="#"]');
+var sectionsSB = Array.from(document.querySelectorAll('section[id]'));
+function updateActiveSB(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sectionsSB[0];
+  for(var i=0;i<sectionsSB.length;i++){
+    if(sectionsSB[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sectionsSB[i];
+  }
+  sideLinksSB.forEach(function(l){ l.classList.remove('active'); });
+  var a = document.querySelector('#sidebar a.sl[href="#'+current.id+'"]');
+  if(a) a.classList.add('active');
+}
+window.addEventListener('scroll', updateActiveSB, {passive:true});
+updateActiveSB();
 
 const inViewObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     entry.target.classList.toggle('in-view', entry.isIntersecting);
   });
-}, {rootMargin: '-20% 0px -70% 0px'});
+}, {rootMargin: '-10% 0px -55% 0px'});
 
-sections.forEach(s => { activeObs.observe(s); inViewObs.observe(s); });
+sectionsSB.forEach(s => inViewObs.observe(s));
 
-links.forEach(link => {
+sideLinksSB.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     if (target) target.scrollIntoView({behavior: 'smooth'});
   });
 });
+
+// Lightbox
+var lb = document.getElementById('lightbox');
+var lbImg = document.getElementById('lightbox-img');
+var lbCap = document.getElementById('lightbox-caption');
+function openLightbox(img){
+  var capEl = img.closest('.plate-block') && img.closest('.plate-block').querySelector('.plate-caption');
+  lbImg.src = img.src; lbImg.alt = img.alt;
+  lbCap.textContent = img.dataset.caption || (capEl ? capEl.textContent.trim() : '');
+  lb.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){ lb.classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.plate-block img').forEach(img => img.addEventListener('click', () => openLightbox(img)));
+lb.addEventListener('click', e => { if(e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && lb.classList.contains('open')) closeLightbox(); });
+window._readPos = null;
+window.navFig = function(anchor){ window._readPos = window.scrollY; document.getElementById('back-btn').style.display = 'block'; };
+window.backToRead = function(){ if(window._readPos !== null){ window.scrollTo({top: window._readPos, behavior:'smooth'}); } document.getElementById('back-btn').style.display = 'none'; };
 </script>
 </body>
 </html>

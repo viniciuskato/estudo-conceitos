@@ -56,6 +56,10 @@ th{background:var(--bg3);color:var(--muted);font-family:var(--font-ui);font-size
 td{padding:8px 12px;border:1px solid var(--border);color:var(--text);vertical-align:top}
 tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-align:left;margin-bottom:6px;caption-side:top}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-align:left;margin:6px 0 20px;font-style:italic}
 
 /* Components */
 .doc-header{margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--border)}
@@ -172,7 +176,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     <span class="chip">⏱ <b>~35 min</b> de leitura</span>
     <span class="chip">📋 Pré-requisito: M8 — Linfócitos T</span>
     <span class="chip">📍 Área: <b>Imunologia</b></span>
-    <span class="chip">🗓 Última revisão: <b>2026-06-24</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -359,25 +363,24 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 <section id="tabela-comparativa">
 <h2>Tabela comparativa: Th1, Th2 e Th17</h2>
-<table>
-  <caption>Tabela 1. Comparativo entre os três principais subtipos de células T auxiliares. MTF = fator de transcrição mestre; APCs = células apresentadoras de antígeno.</caption>
+<table class="data-table">
   <thead>
     <tr><th>Característica</th><th>Th1</th><th>Th2</th><th>Th17</th></tr>
   </thead>
   <tbody>
-    <tr><td>MTF</td><td>T-bet</td><td>GATA-3</td><td>RORγt</td></tr>
-    <tr><td>Citocina polarizadora principal</td><td>IL-12 + IFN-γ</td><td>IL-4</td><td>TGF-β + IL-6 + IL-1β (→IL-23 para estabilizar)</td></tr>
-    <tr><td>STAT ativado</td><td>STAT4 (IL-12), STAT1 (IFN-γ)</td><td>STAT6 (IL-4)</td><td>STAT3 (IL-6, IL-23)</td></tr>
-    <tr><td>Citocinas efetoras</td><td>IFN-γ, TNF, LT-α</td><td>IL-4, IL-5, IL-13, IL-9, IL-10*</td><td>IL-17A, IL-17F, IL-22, IL-21</td></tr>
-    <tr><td>Célula efetora principal</td><td>Macrófago M1</td><td>Eosinófilo, mastócito, linfócito B (IgE)</td><td>Neutrófilo</td></tr>
-    <tr><td>Função protetora</td><td>Patógenos intracelulares (Mycobacterium, Leishmania, Listeria)</td><td>Helmintos; expulsão via IgE/mastócitos</td><td>Fungos e bactérias extracelulares em mucosas (Candida, S. aureus, Klebsiella)</td></tr>
-    <tr><td>Análogo ILC inato</td><td>ILC1 (produz IFN-γ, T-bet)</td><td>ILC2 (produz IL-5, IL-13, GATA-3)</td><td>ILC3 (produz IL-17, IL-22, RORγt)</td></tr>
-    <tr><td>Patologias por excesso</td><td>Diabetes tipo 1, doença de Crohn (componente), esclerose múltipla</td><td>Asma alérgica, dermatite atópica, rinite, alergia alimentar</td><td>Psoríase, espondilite anquilosante, artrite, esclerose múltipla</td></tr>
-    <tr><td>Deficiência clínica</td><td>MSMD (suscetibilidade a micobactérias/Salmonela)</td><td>Vulnerabilidade a helmintos</td><td>Candidíase mucocutânea crônica; síndrome de Job (STAT3 LOF)</td></tr>
-    <tr><td>Alvos terapêuticos validados</td><td>Anti-IFN-γ (anifrolumabe em LES), anti-IL-12p40 (ustekinumabe)</td><td>Anti-IL-4Rα (dupilumabe), anti-IL-5 (mepolizumabe), anti-IgE (omalizumabe)</td><td>Anti-IL-17A (secuquinumabe/ixequizumabe), anti-IL-23p19 (rizankizumabe), anti-IL-23p40 (ustekinumabe)</td></tr>
+    <tr><td class="td-label">MTF</td><td>T-bet</td><td>GATA-3</td><td>RORγt</td></tr>
+    <tr><td class="td-label">Citocina polarizadora principal</td><td>IL-12 + IFN-γ</td><td>IL-4</td><td>TGF-β + IL-6 + IL-1β (→IL-23 para estabilizar)</td></tr>
+    <tr><td class="td-label">STAT ativado</td><td>STAT4 (IL-12), STAT1 (IFN-γ)</td><td>STAT6 (IL-4)</td><td>STAT3 (IL-6, IL-23)</td></tr>
+    <tr><td class="td-label">Citocinas efetoras</td><td>IFN-γ, TNF, LT-α</td><td>IL-4, IL-5, IL-13, IL-9, IL-10*</td><td>IL-17A, IL-17F, IL-22, IL-21</td></tr>
+    <tr><td class="td-label">Célula efetora principal</td><td>Macrófago M1</td><td>Eosinófilo, mastócito, linfócito B (IgE)</td><td>Neutrófilo</td></tr>
+    <tr><td class="td-label">Função protetora</td><td>Patógenos intracelulares (Mycobacterium, Leishmania, Listeria)</td><td>Helmintos; expulsão via IgE/mastócitos</td><td>Fungos e bactérias extracelulares em mucosas (Candida, S. aureus, Klebsiella)</td></tr>
+    <tr><td class="td-label">Análogo ILC inato</td><td>ILC1 (produz IFN-γ, T-bet)</td><td>ILC2 (produz IL-5, IL-13, GATA-3)</td><td>ILC3 (produz IL-17, IL-22, RORγt)</td></tr>
+    <tr><td class="td-label">Patologias por excesso</td><td>Diabetes tipo 1, doença de Crohn (componente), esclerose múltipla</td><td>Asma alérgica, dermatite atópica, rinite, alergia alimentar</td><td>Psoríase, espondilite anquilosante, artrite, esclerose múltipla</td></tr>
+    <tr><td class="td-label">Deficiência clínica</td><td>MSMD (suscetibilidade a micobactérias/Salmonela)</td><td>Vulnerabilidade a helmintos</td><td>Candidíase mucocutânea crônica; síndrome de Job (STAT3 LOF)</td></tr>
+    <tr><td class="td-label">Alvos terapêuticos validados</td><td>Anti-IFN-γ (anifrolumabe em LES), anti-IL-12p40 (ustekinumabe)</td><td>Anti-IL-4Rα (dupilumabe), anti-IL-5 (mepolizumabe), anti-IgE (omalizumabe)</td><td>Anti-IL-17A (secuquinumabe/ixequizumabe), anti-IL-23p19 (rizankizumabe), anti-IL-23p40 (ustekinumabe)</td></tr>
   </tbody>
 </table>
-<p style="font-size:13px;color:var(--muted)">*IL-10 em Th2 é contextual — IL-10 é também produzida por Treg e macrófagos M2; não é exclusiva de Th2.</p>
+<p class="table-caption">Tabela 1 — Comparativo entre os três principais subtipos de células T auxiliares. MTF = fator de transcrição mestre; APCs = células apresentadoras de antígeno. *IL-10 em Th2 é contextual — também produzida por Treg e macrófagos M2; não é exclusiva de Th2.</p>
 </section>
 
 <section id="conexoes">
@@ -489,25 +492,25 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     bar.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%';
   },{passive:true});
 
-  // Sidebar active link + section highlight
+  // Sidebar active link (scroll-based) + section highlight
   var sections = document.querySelectorAll('section[id]');
   var links = document.querySelectorAll('a.sl');
-  var obs1 = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        links.forEach(function(l){l.classList.remove('active');});
-        var a=document.querySelector('a.sl[href="#'+e.target.id+'"]');
-        if(a)a.classList.add('active');
-      }
-    });
-  },{rootMargin:'-20% 0px -70% 0px'});
+  function updateActiveTH(){
+    var cur=null;
+    var st=document.documentElement.scrollTop||document.body.scrollTop;
+    sections.forEach(function(s){if(s.offsetTop-120<=st)cur=s;});
+    links.forEach(function(l){l.classList.remove('active');});
+    if(cur){var a=document.querySelector('a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active');}
+  }
+  window.addEventListener('scroll',updateActiveTH,{passive:true});
+  window.addEventListener('load',updateActiveTH);
   var obs2 = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting)e.target.classList.add('in-view');
       else e.target.classList.remove('in-view');
     });
-  },{rootMargin:'-20% 0px -70% 0px'});
-  sections.forEach(function(s){obs1.observe(s);obs2.observe(s);});
+  },{rootMargin:'-10% 0px -55% 0px'});
+  sections.forEach(function(s){obs2.observe(s);});
 })();
 </script>
 </body>

@@ -66,6 +66,20 @@ th{background:var(--bg3);color:var(--muted);font-size:10px;font-weight:600;text-
 td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
 tr:last-child td{border-bottom:none}tr:nth-child(even) td{background:var(--bg2)}
 caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);caption-side:bottom;text-align:left;padding:7px 2px 0;font-style:italic}
+table.data-table th{color:var(--ac)}
+table.data-table td.td-label{color:var(--text);font-weight:600}
+table.data-table tr:hover td{background:var(--bg3)}
+p.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);text-align:left;padding:7px 2px 0;font-style:italic;margin-top:-2px}
+.plate-block{float:right;width:42%;margin:0 0 14px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px;cursor:pointer}
+.plate-block img{width:100%;display:block;border-radius:3px;background:#e8e2d8}
+.plate-caption{font-family:var(--font-ui);font-size:10.5px;color:var(--muted);padding:6px 2px 0;line-height:1.4}
+#lightbox{display:none;position:fixed;inset:0;background:rgba(10,9,8,.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;padding:40px}
+#lightbox.show{display:flex}
+#lightbox img{max-width:88vw;max-height:80vh;border-radius:4px}
+#lightbox-caption{color:var(--muted);font-family:var(--font-ui);font-size:13px;margin-top:14px;max-width:70ch;text-align:center}
+#back-btn{display:none;position:fixed;bottom:24px;right:24px;background:var(--ac);color:#1a1410;font-family:var(--font-ui);font-size:12px;font-weight:600;border:none;border-radius:20px;padding:9px 16px;cursor:pointer;z-index:150;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+#back-btn.show{display:block}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:14px 0}}
 .connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
 .connections-box h4{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
 .connections-box p{font-size:15px;margin-bottom:.9em}.connections-box p:last-child{margin-bottom:0}
@@ -143,6 +157,7 @@ ol.refs li a{color:var(--ac);text-decoration:none}
     <span class="chip">&#128203; Pr&eacute;-requisitos: <b>c&eacute;lulas do SI, cascatas de sinalizac&atilde;o</b></span>
     <span class="chip">&#128279; Depende de: <b>M1, M2</b></span>
     <span class="chip">&#128205; &Aacute;rea: <b>Imunologia molecular</b></span>
+    <span class="chip">&#127811; &Uacute;ltima revis&atilde;o: <b>2026-07-01</b></span>
   </div>
 </div>
 
@@ -211,18 +226,18 @@ ol.refs li a{color:var(--ac);text-decoration:none}
   <strong>Bruce Beutler</strong>, em 1998, demonstrou que camundongos com sepse resist&ecirc;ncia ao LPS tinham muta&ccedil;&atilde;o no gene <em>Tlr4</em> &mdash; provando que TLR4 &eacute; o sensor de LPS. Isso conectou diretamente o receptor &agrave; fisiopatologia do choque s&eacute;ptico. Muta&ccedil;&otilde;es em <em>MYD88</em> (adaptador de TLRs) foram depois identificadas em crian&ccedil;as com imunodefi-ci&ecirc;ncias prim&aacute;rias com suscetibilidade espec&iacute;fica a bact&eacute;rias piog&ecirc;nicas.
 </div>
 <p>Os TLRs (<em>Toll-like receptors</em>) s&atilde;o 10 em humanos. O TLR4 reconhece LPS de bact&eacute;rias Gram-negativas (com o co-receptor MD-2) e sinaliza via MyD88 &rarr; IRAK &rarr; TRAF6 &rarr; NF-&kappa;B &rarr; TNF-&alpha;, IL-1&beta; e IL-6. A supera-tiva&ccedil;&atilde;o sist&ecirc;mica desse eixo pelo LPS em infec&ccedil;&otilde;es graves gera tempestade de citocinas &rarr; SIRS (s&iacute;ndrome de resposta inflamat&oacute;ria sist&ecirc;mica) &rarr; choque s&eacute;ptico.</p>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>TLR</th><th>Ligante (PAMP)</th><th>Localiza&ccedil;&atilde;o</th><th>Sinalizac&atilde;o</th></tr></thead>
   <tbody>
-    <tr><td>TLR2</td><td>Peptidoglicano, lip&oacute;proteins bacterianas</td><td>Superf&iacute;cie</td><td>MyD88 &rarr; NF-&kappa;B</td></tr>
-    <tr><td>TLR4</td><td>LPS (Gram-negativas)</td><td>Superf&iacute;cie</td><td>MyD88 + TRIF &rarr; NF-&kappa;B + IRF3</td></tr>
-    <tr><td>TLR3</td><td>RNA dupla fita viral</td><td>Endossoma</td><td>TRIF &rarr; IRF3 &rarr; IFN-&beta;</td></tr>
-    <tr><td>TLR7/8</td><td>RNA fita simples viral</td><td>Endossoma</td><td>MyD88 &rarr; IRF7 &rarr; IFN-&alpha;</td></tr>
-    <tr><td>TLR9</td><td>DNA CpG bacteriano/viral</td><td>Endossoma</td><td>MyD88 &rarr; IRF7 &rarr; IFN-&alpha;</td></tr>
-    <tr><td>TLR5</td><td>Flagelina bacteriana</td><td>Superf&iacute;cie</td><td>MyD88 &rarr; NF-&kappa;B</td></tr>
+    <tr><td class="td-label">TLR2</td><td>Peptidoglicano, lip&oacute;proteins bacterianas</td><td>Superf&iacute;cie</td><td>MyD88 &rarr; NF-&kappa;B</td></tr>
+    <tr><td class="td-label">TLR4</td><td>LPS (Gram-negativas)</td><td>Superf&iacute;cie</td><td>MyD88 + TRIF &rarr; NF-&kappa;B + IRF3</td></tr>
+    <tr><td class="td-label">TLR3</td><td>RNA dupla fita viral</td><td>Endossoma</td><td>TRIF &rarr; IRF3 &rarr; IFN-&beta;</td></tr>
+    <tr><td class="td-label">TLR7/8</td><td>RNA fita simples viral</td><td>Endossoma</td><td>MyD88 &rarr; IRF7 &rarr; IFN-&alpha;</td></tr>
+    <tr><td class="td-label">TLR9</td><td>DNA CpG bacteriano/viral</td><td>Endossoma</td><td>MyD88 &rarr; IRF7 &rarr; IFN-&alpha;</td></tr>
+    <tr><td class="td-label">TLR5</td><td>Flagelina bacteriana</td><td>Superf&iacute;cie</td><td>MyD88 &rarr; NF-&kappa;B</td></tr>
   </tbody>
-  <caption>Tabela 1. Principais TLRs humanos, seus ligantes, localiza&ccedil;&atilde;o e cascata de sinalizac&atilde;o.</caption>
 </table></div>
+<p class="table-caption">Tabela 1 &mdash; Principais TLRs humanos, seus ligantes, localiza&ccedil;&atilde;o e cascata de sinalizac&atilde;o.</p>
 <div class="box alerta">
   <strong>Cl&iacute;nica:</strong> Muta&ccedil;&otilde;es em <em>MYD88</em> causam imunodefici&ecirc;ncia prim&aacute;ria com suscetibilidade aumentada a bact&eacute;rias piog&ecirc;nicas (Streptococcus, Staphylococcus) na inf&acirc;ncia, com melhora progressiva com a idade &mdash; sugerindo que a imunidade adaptativa compensa parcialmente a falha dos TLRs.
 </div>
@@ -289,19 +304,19 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 
 <section id="interleucinas">
 <h2>Interleucinas-chave e Seus Pap&eacute;is <a class="anc" href="#interleucinas">#</a></h2>
-<div class="tbl-wrap"><table>
+<div class="tbl-wrap"><table class="data-table">
   <thead><tr><th>Citocina</th><th>Principal fonte</th><th>Alvo e efeito</th><th>Relev&acirc;ncia cl&iacute;nica</th></tr></thead>
   <tbody>
-    <tr><td><strong>IL-1&beta;</strong></td><td>Macr&oacute;fagos, DC</td><td>Febre, ativa&ccedil;&atilde;o endotelial, s&iacute;ntese de APP</td><td>Gota (NLRP3); anakinra, canakinumabe</td></tr>
-    <tr><td><strong>IL-6</strong></td><td>Macr&oacute;fagos, endot&eacute;lio</td><td>F&iacute;gado &rarr; APP; diferen&ccedil;ia&ccedil;&atilde;o de plasm&oacute;citos; eixo Th17</td><td>COVID-19 grave; tocilizumabe (anti-IL-6R)</td></tr>
-    <tr><td><strong>IL-10</strong></td><td>Macr&oacute;fagos M2, Tregs</td><td>Inibe citocinas pr&oacute;-inflamat&oacute;rias; anti-inflamat&oacute;rio sist&ecirc;mico</td><td>Defici&ecirc;ncia de IL-10 &rarr; DII grave em lactentes</td></tr>
-    <tr><td><strong>IL-12</strong></td><td>Macr&oacute;fagos, DC</td><td>Diferencia&ccedil;&atilde;o Th1; ativa&ccedil;&atilde;o NK &rarr; IFN-&gamma;</td><td>Defici&ecirc;ncia &rarr; suscetibilidade a micobact&eacute;rias</td></tr>
-    <tr><td><strong>IL-17</strong></td><td>Th17</td><td>Recrutamento de neutr&oacute;filos; defesa em mucosas</td><td>Psor&iacute;ase; ixequizumabe, secuquinumabe</td></tr>
-    <tr><td><strong>IFN-&gamma;</strong></td><td>Th1, NK, CD8&sup1;</td><td>Ativa&ccedil;&atilde;o cl&aacute;ssica de macr&oacute;fagos (M1); MHC-I e II &uarr;</td><td>Essencial para TB e Leishmania</td></tr>
-    <tr><td><strong>TGF-&beta;</strong></td><td>Tregs, macr&oacute;fagos M2</td><td>Diferencia&ccedil;&atilde;o de Tregs e Th17; supressão imune; fibrose</td><td>Fibrose pulmonar; imunossupressão tumoral</td></tr>
+    <tr><td class="td-label">IL-1&beta;</td><td>Macr&oacute;fagos, DC</td><td>Febre, ativa&ccedil;&atilde;o endotelial, s&iacute;ntese de APP</td><td>Gota (NLRP3); anakinra, canakinumabe</td></tr>
+    <tr><td class="td-label">IL-6</td><td>Macr&oacute;fagos, endot&eacute;lio</td><td>F&iacute;gado &rarr; APP; diferen&ccedil;ia&ccedil;&atilde;o de plasm&oacute;citos; eixo Th17</td><td>COVID-19 grave; tocilizumabe (anti-IL-6R)</td></tr>
+    <tr><td class="td-label">IL-10</td><td>Macr&oacute;fagos M2, Tregs</td><td>Inibe citocinas pr&oacute;-inflamat&oacute;rias; anti-inflamat&oacute;rio sist&ecirc;mico</td><td>Defici&ecirc;ncia de IL-10 &rarr; DII grave em lactentes</td></tr>
+    <tr><td class="td-label">IL-12</td><td>Macr&oacute;fagos, DC</td><td>Diferencia&ccedil;&atilde;o Th1; ativa&ccedil;&atilde;o NK &rarr; IFN-&gamma;</td><td>Defici&ecirc;ncia &rarr; suscetibilidade a micobact&eacute;rias</td></tr>
+    <tr><td class="td-label">IL-17</td><td>Th17</td><td>Recrutamento de neutr&oacute;filos; defesa em mucosas</td><td>Psor&iacute;ase; ixequizumabe, secuquinumabe</td></tr>
+    <tr><td class="td-label">IFN-&gamma;</td><td>Th1, NK, CD8&sup1;</td><td>Ativa&ccedil;&atilde;o cl&aacute;ssica de macr&oacute;fagos (M1); MHC-I e II &uarr;</td><td>Essencial para TB e Leishmania</td></tr>
+    <tr><td class="td-label">TGF-&beta;</td><td>Tregs, macr&oacute;fagos M2</td><td>Diferencia&ccedil;&atilde;o de Tregs e Th17; supress&atilde;o imune; fibrose</td><td>Fibrose pulmonar; imunossupress&atilde;o tumoral</td></tr>
   </tbody>
-  <caption>Tabela 2. Principais citocinas do SI: fontes, alvos e relev&acirc;ncia cl&iacute;nica.</caption>
 </table></div>
+<p class="table-caption">Tabela 2 &mdash; Principais citocinas do SI: fontes, alvos e relev&acirc;ncia cl&iacute;nica.</p>
 </section>
 
 <section id="quimiocinas">
@@ -420,6 +435,11 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 </div>
 </main>
 </div>
+<div id="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+<button id="back-btn" onclick="backToRead()">&#8592; Voltar &agrave; leitura</button>
 <script>
 const sidebar=document.getElementById('sidebar');
 const bodyWrap=document.getElementById('body-wrap');
@@ -430,10 +450,40 @@ const pb=document.getElementById('progress-bar');
 window.addEventListener('scroll',()=>{const st=document.documentElement.scrollTop||document.body.scrollTop;const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;pb.style.width=sh>0?(st/sh*100)+'%':'0%'},{passive:true});
 const sections=document.querySelectorAll('section[id]');
 const navLinks=document.querySelectorAll('#sidebar a.sl');
-const obs1=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector('#sidebar a.sl[href="#'+e.target.id+'"]');if(a)a.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>obs1.observe(s));
-const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-20% 0px -70% 0px'});
+function updateActiveMSI(){
+  let cur=null;
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  sections.forEach(s=>{if(s.offsetTop-120<=st)cur=s});
+  navLinks.forEach(l=>l.classList.remove('active'));
+  if(cur){const a=document.querySelector('#sidebar a.sl[href="#'+cur.id+'"]');if(a)a.classList.add('active')}
+}
+window.addEventListener('scroll',updateActiveMSI,{passive:true});
+window.addEventListener('load',updateActiveMSI);
+const obs2=new IntersectionObserver(entries=>{entries.forEach(e=>{e.target.classList.toggle('in-view',e.isIntersecting)})},{rootMargin:'-10% 0px -55% 0px'});
 sections.forEach(s=>obs2.observe(s));
+let lastReadY=0;
+function navFig(el){
+  lastReadY=window.scrollY;
+  document.getElementById('back-btn').classList.add('show');
+  const href=el.getAttribute('href');
+  const target=document.querySelector(href);
+  if(target)target.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function backToRead(){
+  window.scrollTo({top:lastReadY,behavior:'smooth'});
+  document.getElementById('back-btn').classList.remove('show');
+}
+function openLightbox(img){
+  const lb=document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src=img.src;
+  document.getElementById('lightbox-caption').textContent=img.alt;
+  lb.classList.add('show');
+}
+function closeLightbox(e){
+  if(e.target.id==='lightbox')document.getElementById('lightbox').classList.remove('show');
+}
+document.querySelectorAll('.plate-block img').forEach(img=>{img.addEventListener('click',()=>openLightbox(img))});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('show')});
 </script>
 </body>
 </html>

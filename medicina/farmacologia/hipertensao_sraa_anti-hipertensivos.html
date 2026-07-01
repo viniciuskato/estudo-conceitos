@@ -820,21 +820,29 @@
 </main>
 
 <script>
-  // ── IntersectionObserver para sidebar ──
+  // ── Sidebar highlight (scroll-based) ──
   const sections = document.querySelectorAll('section[id]');
   const links = document.querySelectorAll('#sidebar a[href^="#"]');
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`#sidebar a[href="#${entry.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-15% 0px -70% 0px' });
+  function updateActiveHTA() {
+    let cur = null;
+    const st = document.documentElement.scrollTop || document.body.scrollTop;
+    sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+    links.forEach(l => l.classList.remove('active'));
+    if (cur) {
+      const active = document.querySelector(`#sidebar a[href="#${cur.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  }
+  window.addEventListener('scroll', updateActiveHTA, { passive: true });
+  window.addEventListener('load', updateActiveHTA);
 
-  sections.forEach(s => observer.observe(s));
+  const obsInView = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, { rootMargin: '-10% 0px -55% 0px' });
+  sections.forEach(s => obsInView.observe(s));
 
   // ── Scroll suave ──
   links.forEach(link => {
