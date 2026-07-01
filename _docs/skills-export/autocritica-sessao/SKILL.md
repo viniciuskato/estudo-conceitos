@@ -73,10 +73,15 @@ Melhorias aplicadas: N
 Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Após reportar, exibir o conteúdo completo do arquivo no chat para que o usuário possa copiar diretamente nas configurações do projeto (Project Instructions) sem precisar abrir o arquivo manualmente.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
 
-Sempre encerrar com checklist de pendências do usuário, por exemplo:
+Antes de montar o checklist, rodar `git status --short` para ver EXATAMENTE o que a sessão tocou — nunca listar pendências de memória. Regras para o item de reempacotamento:
+- `instrucoes-projeto.txt` é Project Instructions, NÃO uma skill — editá-lo nunca gera reempacotamento. Sua única pendência é o usuário copiá-lo nas Project Instructions.
+- Só incluir o item de reempacotar/reinstalar se algum `_docs/skills-export/<skill>/SKILL.md` foi editado NESTA sessão (confirmar pelo `git status --short`).
+- Quando incluir, NOMEAR cada skill afetada (ex.: `compendio`, `autocritica-sessao`) — nunca escrever "skills modificadas" genericamente. Se esta sessão editou o próprio SKILL.md da autocritica-sessao, incluí-la nominalmente.
+- Não confundir pendências antigas de reempacotamento (de sessões anteriores, no DEBT.md) com o que ESTA sessão modificou — se mencionar as antigas, rotulá-las como "pendência anterior (não desta sessão)".
+
+Sempre encerrar com checklist de pendências do usuário. Modelo (incluir apenas os itens que se aplicam à sessão atual, com as skills nomeadas):
 - [ ] Copiar instrucoes-projeto.txt nas configurações do projeto (Project Instructions)
-- [ ] Reempacotar skills modificadas: `python empacotar_skills.py` em `_docs/skills-export/`
-- [ ] Reinstalar skills via Settings > Capabilities > Skills
+- [ ] Reempacotar e reinstalar as skills editadas NESTA sessão — nomear cada uma (ex.: `autocritica-sessao`): `python empacotar_skills.py` em `_docs/skills-export/` + Settings > Capabilities > Skills. (Omitir este item inteiro se nenhum SKILL.md foi editado na sessão.)
 - [ ] Rodar `push.bat` na raiz para sincronizar com o GitHub
 Incluir apenas os itens que se aplicam à sessão atual.
 
