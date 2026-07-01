@@ -6,7 +6,8 @@ description: >
   mencionar "compêndio de área", quiser cobrir um campo inteiro (medicina,
   investimentos, IA, etc.), ou pedir material denso sobre uma área ampla de estudo.
   Após identificar a área, carregar a subskill correspondente:
-  compendio-medicina-basica, compendio-medicina-clinica, compendio-investimentos ou compendio-ia.
+  compendio-medicina-basica, compendio-medicina-clinica, compendio-investimentos,
+  compendio-ia ou compendio-filosofia.
 ---
 
 # Skill Compêndio de Área
@@ -31,6 +32,7 @@ Após identificar a área solicitada, carregar a subskill correspondente antes d
 | Farmacologia, fisiopatologia, semiologia, clínica médica | `compendio-medicina-clinica` |
 | Investimentos, finanças, economia aplicada | `compendio-investimentos` |
 | Inteligência Artificial, machine learning, LLMs | `compendio-ia` |
+| Filosofia, epistemologia, metafísica, ética, lógica | `compendio-filosofia` |
 | Área nova sem subskill | Usar esta skill e propor criação da subskill ao final |
 
 ## Protocolo de abertura de sessão

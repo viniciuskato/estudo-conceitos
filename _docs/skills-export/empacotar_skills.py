@@ -28,6 +28,7 @@ skills = [
     "compendio-medicina-clinica",
     "compendio-investimentos",
     "compendio-ia",
+    "compendio-filosofia",
     "mecanismo-medicina-basica",
     "mecanismo-medicina-clinica",
     "autocritica-sessao",

@@ -13,6 +13,8 @@ Ao corrigir: marcar `[x]` e mover para a seção **Resolvida** com data de resol
 
 ## Pendente
 
+- [ ] `_docs/skills-export/*.skill` — repacotar via `empacotar_skills.py` após a sessão de 2026-07-01 (compendio-filosofia criada, autocritica-sessao/SKILL.md corrigido); reinstalar via Settings > Capabilities > Skills.
+
 - [ ] `compêndios/ia/inteligencia-artificial.html` — verificação visual no Chrome pendente (Claude-in-Chrome não navega de chrome://newtab para file://; verificação estrutural OK: 442 linhas, sidebar, progress bar, acentuação PT-BR, sem artefatos) (2026-06-30)
 
 - [x] `compêndios/medicina/cardiologia-anatomia.html` — verificação visual confirmada no Chrome via surge.sh: pranchas Gray's Anatomy renderizando corretamente sem filtro, layout OK (2026-06-30)
@@ -31,6 +33,8 @@ Ao corrigir: marcar `[x]` e mover para a seção **Resolvida** com data de resol
 
 ## Resolvida
 
+- [x] `_docs/skills-export/autocritica-sessao/SKILL.md` — truncamento antigo encontrado (cortava em "Reinstalar ski", já presente desde ao menos o commit `a9fc38c`, sobrevivendo a 2 commits sem ser detectado). Reconstruído a partir de `git show a9fc38c` (versão íntegra mais antiga) + conteúdo atual de Passo 3. Regra obsoleta sobre heredoc python3 substituída pela regra vigente de Causa/Consequência no Passo 2.5. (2026-07-01)
+- [x] Diversos arquivos truncados no working directory no início da sessão de 2026-07-01 (DEBT.md, instrucoes-projeto.txt, template-v2-spec.md, compendio_estado.txt, compendio_mapa.txt, cardiologia-anatomia.html, 8x `.skill`) — restaurados via `git show HEAD:"<arquivo>" > "<arquivo>"` sem perda (nada estava commitado no estado truncado). (2026-07-01)
 - [x] Deleções manuais pendentes — usuário apagou os 6 arquivos legados/resíduo confirmados via Read direto (não existem mais): `instrucoes-atlas.txt` (raiz), `_docs/instrucoes-atlas.txt`, `.claude/` (pasta inteira), `medicina/fisiopatologia/doencas-circulatorias.html.bak`, `medicina/microbiologia/micologia-medica.html.bak`, `medicina/microbiologia/virologia-geral.html.bak`. Conteúdo do legado Atlas segue preservado em `_acervo/docs-legado/`. Pendente ainda: rodar `git add -A`/commit/`push.bat` para refletir as remoções no repositório remoto (bash do sandbox ainda mostra cache desatualizado do OneDrive, não usado para esta verificação). (2026-07-01)
 - [x] Legado Atlas (`instrucoes-atlas.txt` raiz e `_docs/`, `.claude/skills/atlas/`, `.claude/skills/mecanismo/`) — conteúdo copiado integralmente para `_acervo/docs-legado/` (instrucoes-atlas-raiz.txt, instrucoes-atlas-docs.txt, claude-skills-legado/atlas-SKILL.md, claude-skills-legado/mecanismo-SKILL.md), com nota em `_acervo/LEIA-ME.md`. Confirmação do usuário: "não há mais atlas, é compêndio". Remoção dos originais segue pendente por lock do OneDrive (ver Pendente). (2026-07-01)
 - [x] `compêndios/medicina/cardiologia-anatomia.html` — piloto de dicionário interativo (`.term-rich` + `#dict-panel`/dictionaryapi.dev) reavaliado: decisão é manter como piloto isolado, sem expandir para os demais termos do arquivo nem replicar em outros compêndios — melhoria pontual não vira padrão retroativo (ver `_docs/instrucoes-projeto.txt` seção "Escopo de melhorias — não retroagir"). (2026-07-01)
