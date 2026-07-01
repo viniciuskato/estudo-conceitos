@@ -13,6 +13,8 @@ Ao corrigir: marcar `[x]` e mover para a seção **Resolvida** com data de resol
 
 ## Pendente
 
+- [ ] `_docs/template-v2-spec.md` — **CRÍTICO**: arquivo termina cortado no meio de uma frase ("Leituras recomendadas: livros-texto, artigos (l"), na seção final "Seções finais". Confirmado que o corte já está no HEAD do Git (`git show HEAD:_docs/template-v2-spec.md` reproduz o mesmo corte, 359 linhas) — não é cache de leitura do OneDrive desta sessão, o conteúdo foi de fato commitado truncado em alguma sessão anterior (últimos commits a tocar o arquivo: `fe378f7`, `25ab424`, `850e6da`, todos de 2026-07-01). Como este é o arquivo de referência canônica para todo HTML novo, qualquer compêndio criado a partir de agora perde a orientação final sobre "Leituras recomendadas" (estrutura de referências em camadas). Reconstruir o final da seção antes do próximo compêndio de área ser gerado. (2026-07-01)
+
 - [ ] `_docs/skills-export/*.skill` — repacotar via `empacotar_skills.py` após a sessão de 2026-07-01 (compendio-filosofia criada, autocritica-sessao/SKILL.md corrigido); reinstalar via Settings > Capabilities > Skills.
 
 - [ ] `compêndios/ia/inteligencia-artificial.html` — verificação visual no Chrome pendente (Claude-in-Chrome não navega de chrome://newtab para file://; verificação estrutural OK: 442 linhas, sidebar, progress bar, acentuação PT-BR, sem artefatos) (2026-06-30)

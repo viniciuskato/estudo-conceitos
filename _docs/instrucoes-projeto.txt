@@ -48,7 +48,7 @@ Ao iniciar sessão sem tarefa direta:
 - Perguntas de pré-geração sempre via AskUserQuestion — nunca em texto.
 - Antes de gerar qualquer material, confirmar que o propósito (compêndio de área ou mecanismo) e o recorte estão claros.
 - OBRIGATÓRIO antes de criar novo HTML: ler _docs/template-v2-spec.md (referência canônica de CSS, layout, sidebar, elementos visuais e seções — este spec evolui e é sempre a fonte de verdade, nunca um arquivo HTML específico). Se já existe compêndio na mesma subpasta, usá-lo como ponto de partida estrutural — copiar e editar (arquivar o original em _archive/ com sufixo de data), não criar do zero. Mas conferir se esse compêndio existente reflete o template-v2-spec.md atual antes de replicar seus padrões — se divergir, seguir o spec, não o arquivo antigo. Criar do zero só quando não há compêndio anterior na subpasta, mas sempre seguindo o template-v2-spec.md.
-
+- OBRIGATÓRIO antes de gerar (proativamente, sem esperar o usuário perguntar): checar o modelo atual da sessão (campo "Model:" do <env>) contra o tipo de pedido — compêndio/mecanismo novo (1ª geração completa) → Opus; sessão Anki, revisão pontual, correção, autocrítica, auditoria visual → Sonnet; lookup/busca simples isolada → Haiku (via subagent). Se o modelo não bater com o tipo de tarefa, avisar ANTES de gerar e recomendar abrir nova sessão no modelo certo (não dá para trocar modelo no meio da sessão).
 
 === Idioma dos compêndios ===
 O idioma do compêndio segue o idioma predominante das fontes primárias:
@@ -113,6 +113,7 @@ Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferen
 (d) encoding UTF-8 intacto: se o compêndio tem caracteres especiais (acentos, símbolos), grep -c "ã\|ç\|é\|ñ\|→\|–" > 0; para compêndios em inglês, verificar ausência de replacement characters: grep -c "\xef\xbf\xbd" deve ser 0
 (e) sem artefatos: grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho" vazio
 Corrigir antes de prosseguir.
+Mesma verificação de fechamento vale para .md core editado na sessão (template-v2-spec.md, instrucoes-projeto.txt, DEBT.md, SKILL.md de skills): confirmar que o arquivo termina em frase/seção completa, não cortado no meio — checar via Read do final do arquivo (não só wc -l), já que um corte no meio de frase (ex.: incidente de 2026-07-01 no template-v2-spec.md, commitado truncado sem que a verificação HTML pegasse) passa despercebido pelas checagens (a)-(e) acima, que são específicas de tag HTML.
 Atenção — pasta sincronizada via OneDrive: o terminal bash pode mostrar uma versão desatualizada (em cache) dos arquivos dessa pasta mesmo após uma edição já ter sido salva. Se um arquivo editado recentemente aparecer "sem mudanças" no bash, não confiar nesse resultado — reconferir com as ferramentas de leitura de arquivo diretas (Read/Grep) antes de concluir que a edição falhou.
 O mesmo cache pode agir na LEITURA, não só na verificação — um `open()` via python3/bash pode retornar conteúdo cortado no meio se o arquivo acabou de sincronizar, e reescrever isso por cima do arquivo apaga o final dele sem aviso. Se a pasta for um repositório Git (ver "Protocolo de abertura de sessão"):
 - Editar/reescrever vários arquivos em lote via python3+bash: usar `git show HEAD:"<arquivo>"` como fonte de leitura (não `open()` direto) sempre que o arquivo já estiver commitado — o conteúdo do Git não sofre esse cache.
