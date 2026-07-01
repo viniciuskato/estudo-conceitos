@@ -12,11 +12,11 @@ Fonte das skills: _docs/skills-export/ (SKILL.md por pasta + empacotar_skills.py
 Atualização: editar SKILL.md → rodar empacotar_skills.py → reinstalar via Settings > Capabilities > Skills.
 
 === Estrutura de pastas ===
-atlas/               → compêndios de área (skill atlas)
+compêndios/          → compêndios de área (skill atlas)
   atlas_mapa.txt     → áreas já cobertas
   atlas_estado.txt   → histórico e pendências
   <área>/            → arquivos HTML dos compêndios de área
-  medicina/          → compêndios ATLAS de medicina (skill atlas + subskill)
+  medicina/          → compêndios de área de medicina (skill atlas + subskill)
 medicina/            → compêndios de MECANISMO (skill mecanismo)
   imunologia/        → 10 compêndios ativos
   farmacologia/      → 3 compêndios ativos
@@ -64,6 +64,14 @@ Sidebar (navegação lateral):
 - CSS obrigatório: .sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
 - Aplicar em todos os compêndios novos e ao revisar compêndios existentes.
 
+=== Tooltips de tradução (.term) ===
+Termos técnicos em compêndios em idioma estrangeiro devem ser marcados com tooltip PT-BR:
+- Elemento: <span class="term" data-pt="tradução">termo</span>
+- CSS obrigatório: .term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap} .term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999} .term:hover::after{opacity:1}
+- Escopo: marcar primeira ocorrência de cada termo técnico relevante por seção (não todas as ocorrências).
+- Aplicar ao criar novos compêndios em inglês e ao revisar compêndios existentes.
+- Manipulação via Python: split em tags vs texto (re.split(r'(<[^>]+>)', body)), substituir apenas em nós de texto, primeira ocorrência por seção.
+
 === Imagens em compêndios HTML ===
 Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
 - URLs reais via API Wikimedia (usar Claude in Chrome javascript_tool):
@@ -106,6 +114,7 @@ Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferen
 - bash append: completar conteúdo ao final de arquivo íntegro.
 - HTML novo >300 linhas: Write estrutura inicial (~150 linhas) → verificar → Python escreve restante → cat >> arquivo → verificar.
 - Leitura seletiva: grep -n para localizar âncora antes de Read com offset/limit. Ler arquivo inteiro só quando estritamente necessário.
+- Wrapper HTML: antes de manipular seções via Python (content_start/content_end), confirmar o seletor do wrapper principal com grep: grep -n 'id="content"' arquivo.html — pode ser <div> ou <main>.
 - Verificação preditiva: antes de Edit com new_string >80 linhas, calcular linhas esperadas. Após o Edit, wc -l e comparar — divergência ±5 indica truncamento.
 
 === Verificação bash obrigatória após qualquer escrita de HTML ===
@@ -123,7 +132,8 @@ Workflow para arquivos locais (Chrome não abre file://):
   1. Usuário roda no CMD: surge "<caminho_pasta>" <subdominio>.surge.sh
   2. Claude abre https://<subdominio>.surge.sh/<arquivo>.html no Chrome
   3. Verificar: layout, sidebar, float das pranchas, lightbox, botão de retorno, tabelas, acentuação
-  Subd.: cardiologia-anatomia-atlas.surge.sh -> atlas/medicina/
+  Nota: se a mudança não aparecer após redeploy, forçar recarga do browser (Ctrl+Shift+R) antes de depurar o HTML — surge pode servir versão cacheada.
+  Subd.: compendios-medicina.surge.sh -> compêndios/medicina/
   Conta surge: vinicius.kato.734@gmail.com (token no Windows)
 
 === Arquivamento ===
@@ -131,15 +141,4 @@ Sobrescrever com archive em _archive/ + sufixo de data quando mudança ≥30%. E
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
 
 === GitHub ===
-Ao concluir qualquer material, lembrar o usuário de rodar push.bat na raiz (duplo clique).
-
-=== Dívida técnica ===
-_docs/DEBT.md na raiz: - [ ] `caminho/arquivo.html` — descrição (YYYY-MM-DD).
-Ao iniciar nova sessão, verificar e propor prioridades.
-
-=== Encerramento de sessão ===
-Ao final de sessão substantiva, chamar a skill autocritica-sessao.
-Sinal: "terminamos", "pode fechar", "acabou", "sessão encerrada".
-
-=== Entrega de instruções atualizadas ===
-Sempre gerar instrucoes-projeto.txt em _docs/ — nunca apenas em bloco no chat. Após atualizar, sincronizar a memory.
+Ao concluir

@@ -36,8 +36,8 @@ Após identificar a área solicitada, carregar a subskill correspondente antes d
 ## Protocolo de abertura de sessão
 
 Ao iniciar sem tarefa direta:
-1. Ler `atlas/atlas_estado.txt` — pendências e histórico.
-2. Ler `atlas/atlas_mapa.txt` — áreas já cobertas.
+1. Ler `compêndios/atlas_estado.txt` — pendências e histórico.
+2. Ler `compêndios/atlas_mapa.txt` — áreas já cobertas.
 3. Se houver dívida em `_docs/DEBT.md`, informar antes de prosseguir.
 
 ## Pré-geração
@@ -82,9 +82,9 @@ A subskill de área define o que adaptar ou omitir do template.
 ## Fluxo de trabalho
 
 1. Identificar área → carregar subskill correspondente.
-2. Consultar `atlas/atlas_estado.txt` e `atlas/atlas_mapa.txt`.
+2. Consultar `compêndios/atlas_estado.txt` e `compêndios/atlas_mapa.txt`.
 3. Ler `_docs/template-v2-spec.md` + SKILL.md da subskill antes de escrever qualquer HTML.
-4. Gerar HTML na subpasta temática em kebab-case dentro de `atlas/`.
+4. Gerar HTML na subpasta temática em kebab-case dentro de `compêndios/`.
 5. Verificação bash obrigatória após qualquer escrita de HTML:
    - (a) fecha com `</body></html>`
    - (b) `wc -l` compatível com o esperado
@@ -92,7 +92,7 @@ A subskill de área define o que adaptar ou omitir do template.
    - (d) acentuação PT-BR intacta: `grep -c "ã\|ç\|é" > 0`
    - (e) sem artefatos: `grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho"` vazio
 6. Verificação visual (novos arquivos e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
-7. Atualizar `atlas/atlas_mapa.txt` na mesma operação.
+7. Atualizar `compêndios/atlas_mapa.txt` na mesma operação.
 8. Registrar em `_docs/DEBT.md` toda inconsistência não corrigida.
 9. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
 
@@ -113,7 +113,7 @@ A subskill de área define o que adaptar ou omitir do template.
 - [ ] As controvérsias ativas têm as duas posições representadas sem resolução artificial?
 - [ ] Links `cross-link` para compêndios existentes inseridos onde pertinente?
 - [ ] Campo "Última revisão" atualizado?
-- [ ] `atlas/atlas_mapa.txt` e `_docs/DEBT.md` atualizados?
+- [ ] `compêndios/atlas_mapa.txt` e `_docs/DEBT.md` atualizados?
 
 ## O que não fazer
 

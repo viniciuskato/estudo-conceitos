@@ -33,6 +33,9 @@ a:hover{text-decoration:underline}
 a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
 a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
 .sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
+.term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap}
+.term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term:hover::after{opacity:1}
 #sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
 #content{flex:1;padding:52px 72px 120px;transition:padding .25s}
 #body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
@@ -169,7 +172,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <div class="pergunta">
   <div class="plabel">Motivating question</div>
-  <p>Why does a laceration of the left coronary artery kill within minutes while an equivalent injury to the femoral artery allows hours for intervention — and what does this tell us about how the heart supplies and drains its own muscle?</p>
+  <p>Why does a laceration of the <span class="term" data-pt="artéria coronária esquerda">left coronary artery</span> kill within minutes while an equivalent injury to the femoral artery allows hours for intervention — and what does this tell us about how the heart supplies and drains its own muscle?</p>
 </div>
 
 <div class="dep-panel">
@@ -196,9 +199,9 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <section id="intro">
 <h2>What this compendium covers</h2>
-<p>Cardiac anatomy describes the macroscopic and microscopic structure of the heart — its four chambers, four valves, dedicated blood supply system (coronary circulation), electrical conduction system, fibroserious envelope (pericardium), and topographic relationship with neighboring structures in the mediastinum. It is the foundation without which no cardiac pathology can be understood mechanistically: aortic valve stenosis, anterior wall myocardial infarction, atrial fibrillation, and pericardial tamponade only make anatomofunctional sense when grounded in structure.</p>
+<p>Cardiac anatomy describes the macroscopic and microscopic structure of the heart — its four chambers, four valves, dedicated blood supply system (<span class="term" data-pt="circulação coronariana">coronary circulation</span>), <span class="term" data-pt="sistema de condução elétrica">electrical conduction system</span>, fibroserious envelope (<span class="term" data-pt="pericárdio">pericardium</span>), and topographic relationship with neighboring structures in the <span class="term" data-pt="mediastino">mediastinum</span>. It is the foundation without which no cardiac pathology can be understood mechanistically: <span class="term" data-pt="estenose da valva aórtica"><span class="term" data-pt="valva aórtica">aortic valve</span> stenosis</span>, anterior wall <span class="term" data-pt="infarto do miocárdio">myocardial infarction</span>, <span class="term" data-pt="fibrilação atrial">atrial fibrillation</span>, and <span class="term" data-pt="tamponamento pericárdico">pericardial tamponade</span> only make anatomofunctional sense when grounded in structure.</p>
 
-<p>The heart is a hollow muscular organ located in the middle mediastinum, between the two lungs, above the diaphragm, and behind the sternum. It weighs between 250 and 350 g in adults (varying with sex, height, and physical conditioning) and pumps approximately 5 liters of blood per minute at rest — reaching 20–25 L/min during intense exercise <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>. This functional demand imposes a highly specialized architecture: walls of different thicknesses corresponding to the pressures generated, valves that open and close passively by pressure gradient, and a dedicated circulation independent of intracavitary blood.</p>
+<p>The heart is a hollow muscular organ located in the <span class="term" data-pt="mediastino médio">middle mediastinum</span>, between the two lungs, above the diaphragm, and behind the sternum. It weighs between 250 and 350 g in adults (varying with sex, height, and physical conditioning) and pumps approximately 5 liters of blood per minute at rest — reaching 20–25 L/min during intense exercise <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span>. This functional demand imposes a highly specialized architecture: walls of different thicknesses corresponding to the pressures generated, valves that open and close passively by <span class="term" data-pt="gradiente de pressão">pressure gradient</span>, and a dedicated circulation independent of intracavitary blood.</p>
 </section>
 
 <section id="camaras">
@@ -207,22 +210,22 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
   <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Gray490.png"
        alt="Gray490 — Frontal section of the heart showing chambers and valves (Gray's Anatomy, 1918)"
        loading="lazy">
-  <div class="plate-caption"><b>Plate 490</b> — Frontal section of the heart: chambers, atrioventricular and semilunar valves. <em>Gray's Anatomy</em>, Henry Gray, 1918. Public domain.</div>
+  <div class="plate-caption"><b>Plate 490</b> — Frontal section of the heart: chambers, atrioventricular and <span class="term" data-pt="valvas semilunares">semilunar valves</span>. <em>Gray's Anatomy</em>, Henry Gray, 1918. Public domain.</div>
 </div>
 
-<p>The heart has four chambers: two atria (superior, thin-walled, receptive) and two ventricles (inferior, thick-walled, propulsive). The longitudinal division — the interatrial septum and the interventricular septum — completely separates the pulmonary and systemic circulations after birth. Any residual communication between the two sides represents a congenital malformation with hemodynamic consequences proportional to the shunt produced <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span> <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.</p>
+<p>The heart has four chambers: two atria (superior, thin-walled, receptive) and two ventricles (inferior, thick-walled, propulsive). The longitudinal division — the <span class="term" data-pt="septo interatrial">interatrial septum</span> and the <span class="term" data-pt="septo interventricular">interventricular septum</span> — completely separates the pulmonary and systemic circulations after birth. Any residual communication between the two sides represents a congenital malformation with hemodynamic consequences proportional to the shunt produced <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span> <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.</p>
 
-<h3>Right atrium (RA)</h3>
-<p>Receives systemic venous blood from the superior and inferior venae cavae, and blood from the heart itself via the coronary sinus (<em>sinus coronarius</em>). Its posterior wall is smooth (derived from the embryonic sinus venosus); the anterior wall and right atrial appendage (right auricle) are trabeculated by pectinate muscles (<em>musculi pectinati</em>). The boundary between the two regions is the <em>crista terminalis</em> — a vertical muscular ridge with clinical relevance as a site of origin of focal atrial tachycardias. On the interatrial septum lies the <em>fossa ovalis</em>, an oval depression corresponding to the closed fetal foramen ovale. In 20–25% of adults this fusion is incomplete — a patent foramen ovale (PFO — forame oval patente) — which is usually functionally sealed but can serve as a route for paradoxical embolism.</p>
+<h3><span class="term" data-pt="átrio direito">Right atrium</span> (RA)</h3>
+<p>Receives systemic venous blood from the superior and inferior venae cavae, and blood from the heart itself via the <span class="term" data-pt="seio coronário">coronary sinus</span> (<em>sinus coronarius</em>). Its posterior wall is smooth (derived from the embryonic sinus venosus); the anterior wall and right atrial appendage (right auricle) are trabeculated by pectinate muscles (<em>musculi pectinati</em>). The boundary between the two regions is the <em><span class="term" data-pt="crista terminalis">crista terminalis</span></em> — a vertical muscular ridge with clinical relevance as a site of origin of focal atrial tachycardias. On the interatrial septum lies the <em><span class="term" data-pt="fossa oval">fossa ovalis</span></em>, an oval depression corresponding to the closed fetal foramen ovale. In 20–25% of adults this fusion is incomplete — a patent foramen ovale (PFO — forame oval patente) — which is usually functionally sealed but can serve as a route for paradoxical embolism.</p>
 
-<h3>Right ventricle (RV)</h3>
-<p>A low-pressure chamber (systolic pressure ~25 mmHg), with thinner walls (3–5 mm) than the left ventricle. Its cross-sectional shape is crescent-like, partially wrapping around the LV. The interior is trabeculated by trabeculae carneae, among them the <em>trabecula septomarginalis</em> (moderator band), which carries the right bundle branch directly to the anterior papillary muscle — a shortcut that anticipates papillary muscle activation and prevents tricuspid regurgitation during systole <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>. The outflow tract — the <em>infundibulum</em> (conus arteriosus) — has smooth walls and directs flow toward the pulmonary valve.</p>
+<h3><span class="term" data-pt="ventrículo direito">Right ventricle</span> (RV)</h3>
+<p>A low-pressure chamber (systolic pressure ~25 mmHg), with thinner walls (3–5 mm) than the <span class="term" data-pt="ventrículo esquerdo">left ventricle</span>. Its cross-sectional shape is crescent-like, partially wrapping around the LV. The interior is trabeculated by <span class="term" data-pt="trabéculas cárneas">trabeculae carneae</span>, among them the <em>trabecula septomarginalis</em> (moderator band), which carries the right bundle branch directly to the anterior papillary muscle — a shortcut that anticipates papillary muscle activation and prevents tricuspid regurgitation during systole <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>. The outflow tract — the <em>infundibulum</em> (conus arteriosus) — has smooth walls and directs flow toward the <span class="term" data-pt="valva pulmonar">pulmonary valve</span>.</p>
 
-<h3>Left atrium (LA)</h3>
-<p>Higher atrial pressure chamber (mean ~8–12 mmHg), receives oxygenated blood from all four pulmonary veins. Its posterior wall is almost entirely smooth. The left atrial appendage (left auricle) is tubular, with a narrow base — a morphology that promotes stasis and thrombus formation in atrial fibrillation, making it the primary site of intracardiac thrombus in AF. The interatrial septum shows, on the left side, the valve of the foramen ovale, which acts as a flap over the septum primum.</p>
+<h3><span class="term" data-pt="átrio esquerdo">Left atrium</span> (LA)</h3>
+<p>Higher atrial pressure chamber (mean ~8–12 mmHg), receives oxygenated blood from all four <span class="term" data-pt="veias pulmonares">pulmonary veins</span>. Its posterior wall is almost entirely smooth. The left atrial appendage (left auricle) is tubular, with a narrow base — a morphology that promotes stasis and thrombus formation in atrial fibrillation, making it the primary site of intracardiac thrombus in AF. The interatrial septum shows, on the left side, the valve of the foramen ovale, which acts as a flap over the septum primum.</p>
 
 <h3>Left ventricle (LV)</h3>
-<p>A high-pressure chamber (systolic pressure ~120 mmHg), with walls 8–12 mm thick — roughly three times thicker than the RV. Its shape is conical, with a trabeculated inner surface. Two groups of papillary muscles — anterolateral and posteromedial — sustain the chordae tendineae (<em>chordae tendineae</em>) that anchor the mitral valve leaflets. Unlike the RV, the LV has geometrically separated inflow (mitral valve) and outflow (aortic valve) tracts, divided by the membranous interventricular septum and the anterior mitral leaflet. This architecture requires the LV contraction to be simultaneously centripetal and longitudinal, generating a normal ejection fraction (fração de ejeção) of 55–70% <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.</p>
+<p>A high-pressure chamber (systolic pressure ~120 mmHg), with walls 8–12 mm thick — roughly three times thicker than the RV. Its shape is conical, with a trabeculated inner surface. Two groups of <span class="term" data-pt="músculos papilares">papillary muscles</span> — anterolateral and posteromedial — sustain the <span class="term" data-pt="cordas tendíneas">chordae tendineae</span> (<em>chordae tendineae</em>) that anchor the <span class="term" data-pt="valva mitral">mitral valve</span> leaflets. Unlike the RV, the LV has geometrically separated inflow (mitral valve) and outflow (aortic valve) tracts, divided by the membranous interventricular septum and the anterior mitral leaflet. This architecture requires the LV contraction to be simultaneously centripetal and longitudinal, generating a normal ejection fraction (fração de ejeção) of 55–70% <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.</p>
 
 <div class="kbox">
   <div class="klabel">Key concept — Wall thickness and pressure</div>
@@ -232,19 +235,19 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <section id="valvas">
 <h2>Cardiac valves</h2>
-<p>The four cardiac valves are passive structures — they open and close by pressure gradient, with no intrinsic musculature. They divide into atrioventricular valves (mitral and tricuspid), separating atria from ventricles, and semilunar valves (aortic and pulmonary), separating ventricles from the great arteries.</p>
+<p>The four cardiac valves are passive structures — they open and close by pressure gradient, with no intrinsic musculature. They divide into <span class="term" data-pt="valvas atrioventriculares">atrioventricular valves</span> (mitral and tricuspid), separating atria from ventricles, and semilunar valves (aortic and pulmonary), separating ventricles from the great arteries.</p>
 
-<h3>Tricuspid valve</h3>
-<p>Located at the right atrioventricular orifice (<em>ostium atrioventriculare dextrum</em>). Has three leaflets (cusps): anterior, posterior, and septal. The leaflets are anchored to the tricuspid annulus and to chordae tendineae attached to the anterior, posterior, and septal papillary muscles of the RV. The septal leaflet is closest to the membranous interventricular septum — a structure with the atrioventricular node immediately adjacent, which is why surgery on the tricuspid valve or defects of the membranous septum can cause AV block.</p>
+<h3><span class="term" data-pt="valva tricúspide">Tricuspid valve</span></h3>
+<p>Located at the right atrioventricular orifice (<em>ostium atrioventriculare dextrum</em>). Has three leaflets (cusps): anterior, posterior, and septal. The leaflets are anchored to the tricuspid annulus and to chordae tendineae attached to the anterior, posterior, and septal papillary muscles of the RV. The septal leaflet is closest to the membranous interventricular septum — a structure with the <span class="term" data-pt="nó atrioventricular">atrioventricular node</span> immediately adjacent, which is why surgery on the tricuspid valve or defects of the membranous septum can cause AV block.</p>
 
 <h3>Mitral valve (bicuspid valve)</h3>
-<p>Located at the left atrioventricular orifice (<em>ostium atrioventriculare sinistrum</em>). Has two leaflets: anterior (larger, near the aortic valve) and posterior. The anterior leaflet is contiguous with the non-coronary cusp of the aortic valve — the mitroaortic continuity — which explains why degenerative or infectious disease can affect both simultaneously. Chordae tendineae connect the leaflets to the anterolateral and posteromedial papillary muscles; the posteromedial muscle has a single blood supply (right coronary artery or circumflex) and is more vulnerable to ischemia — the primary cause of acute ischemic mitral regurgitation (insuficiência mitral isquêmica aguda) <span class="cite">(<a href="#referencias">NETTER, 2019</a>)</span>.</p>
+<p>Located at the left atrioventricular orifice (<em>ostium atrioventriculare sinistrum</em>). Has two leaflets: anterior (larger, near the aortic valve) and posterior. The anterior leaflet is contiguous with the non-coronary cusp of the aortic valve — the mitroaortic continuity — which explains why degenerative or infectious disease can affect both simultaneously. Chordae tendineae connect the leaflets to the anterolateral and posteromedial papillary muscles; the posteromedial muscle has a single blood supply (<span class="term" data-pt="artéria coronária direita">right coronary artery</span> or circumflex) and is more vulnerable to ischemia — the primary cause of acute ischemic mitral regurgitation (insuficiência mitral isquêmica aguda) <span class="cite">(<a href="#referencias">NETTER, 2019</a>)</span>.</p>
 
 <h3>Pulmonary valve</h3>
-<p>Located at the RV outflow tract, in the infundibulum. Has three semilunar cusps: anterior, right, and left. It has no subvalvular apparatus (no chordae or papillary muscles) — closure is guaranteed solely by the pressure gradient between the pulmonary trunk and the RV during diastole. Pulmonary diastolic pressure (~10 mmHg) is low, which facilitates closure and makes pulmonary regurgitation hemodynamically tolerated for prolonged periods.</p>
+<p>Located at the RV outflow tract, in the infundibulum. Has three semilunar cusps: anterior, right, and left. It has no subvalvular apparatus (no chordae or papillary muscles) — closure is guaranteed solely by the pressure gradient between the <span class="term" data-pt="tronco pulmonar">pulmonary trunk</span> and the RV during diastole. Pulmonary diastolic pressure (~10 mmHg) is low, which facilitates closure and makes pulmonary regurgitation hemodynamically tolerated for prolonged periods.</p>
 
 <h3>Aortic valve</h3>
-<p>Located at the LV outflow tract, with three semilunar cusps: right (right coronary), left (left coronary), and posterior (non-coronary). Between each cusp and the aortic wall are dilatations called <em>sinuses of Valsalva</em> (aortic sinuses); from the right and left sinuses the coronary arteries emerge. Coronary flow occurs predominantly during diastole, when the aortic valve is closed and the sinus creates a vortex that directs blood toward the coronary ostia — a passive and elegant mechanism that requires no accessory pump to perfuse the myocardium itself.</p>
+<p>Located at the LV outflow tract, with three semilunar cusps: right (right coronary), left (left coronary), and posterior (non-coronary). Between each cusp and the aortic wall are dilatations called <em>sinuses of Valsalva</em> (aortic sinuses); from the right and left sinuses the <span class="term" data-pt="artérias coronárias">coronary arteries</span> emerge. Coronary flow occurs predominantly during diastole, when the aortic valve is closed and the sinus creates a vortex that directs blood toward the coronary ostia — a passive and elegant mechanism that requires no accessory pump to perfuse the <span class="term" data-pt="miocárdio">myocardium</span> itself.</p>
 
 <table class="data-table" aria-label="Comparison of cardiac valves">
   <thead>
@@ -320,7 +323,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
   <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Gray492.png"
        alt="Gray492 — Sternocostal surface of the heart and great vessels (Gray's Anatomy, 1918)"
        loading="lazy">
-  <div class="plate-caption"><b>Plate 492</b> — Sternocostal surface: right ventricle, pulmonary trunk, ascending aorta and aortic arch. <em>Gray's Anatomy</em>, 1918. Public domain.</div>
+  <div class="plate-caption"><b>Plate 492</b> — Sternocostal surface: right ventricle, pulmonary trunk, <span class="term" data-pt="aorta ascendente">ascending aorta</span> and <span class="term" data-pt="arco aórtico">aortic arch</span>. <em>Gray's Anatomy</em>, 1918. Public domain.</div>
 </div>
 
 <p>The great vessels are the largest-caliber arteries and veins directly connected to the heart. Their anatomy determines both normal physiology and surgical pathology, as well as the basis for catheterization and hemodynamic procedures.</p>
@@ -329,10 +332,10 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <p>The largest artery in the body, arising from the LV. It is divided into: <em>ascending aorta</em> (from the aortic valve to the aortic arch, ~5 cm; normal diameter ≤40 mm); <em>aortic arch</em>, from which arise the brachiocephalic trunk, the left common carotid artery, and the left subclavian artery; <em>descending thoracic aorta</em>, posterior to the pericardium; and the <em>abdominal aorta</em>. The aortic wall is composed of three layers — intima, media (rich in elastic fibers), and adventitia. Aortic dissection occurs when blood enters the media through an intimal tear, creating a false lumen. The location of the dissection relative to the coronaries and aortic valve determines surgical urgency (Stanford classification type A vs. type B) <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span> <a class="fig-ref" href="#fig-492" onclick="navFig(this)">(Fig. 492)</a>.</p>
 
 <h3>Pulmonary trunk and pulmonary arteries</h3>
-<p>The pulmonary trunk (<em>truncus pulmonalis</em>) arises from the RV, runs ~5 cm, and bifurcates into the right and left pulmonary arteries, beneath the aortic arch. It is the only arterial vessel in the adult body that carries venous (deoxygenated) blood. The arterial ligament (<em>ligamentum arteriosum</em>) — the fibrous remnant of the fetal ductus arteriosus — connects the upper surface of the pulmonary trunk to the descending aorta; its persistence after birth (patent ductus arteriosus — PDA (persistência do canal arterial — PCA)) produces a left-to-right shunt <a class="fig-ref" href="#fig-492" onclick="navFig(this)">(Fig. 492)</a>.</p>
+<p>The pulmonary trunk (<em>truncus pulmonalis</em>) arises from the RV, runs ~5 cm, and bifurcates into the right and left pulmonary arteries, beneath the aortic arch. It is the only arterial vessel in the adult body that carries venous (deoxygenated) blood. The arterial ligament (<em><span class="term" data-pt="ligamento arterioso">ligamentum arteriosum</span></em>) — the fibrous remnant of the fetal ductus arteriosus — connects the upper surface of the pulmonary trunk to the descending aorta; its persistence after birth (patent ductus arteriosus — PDA (persistência do canal arterial — PCA)) produces a left-to-right shunt <a class="fig-ref" href="#fig-492" onclick="navFig(this)">(Fig. 492)</a>.</p>
 
 <h3>Venae cavae</h3>
-<p>The superior vena cava (SVC) drains the head, neck, upper limbs, and thorax into the RA; the inferior vena cava (IVC) drains the abdomen and lower limbs. Both open into the RA without valves. Extrinsic compression of the SVC by mediastinal masses causes superior vena cava syndrome (síndrome da veia cava superior) (cape edema, facial cyanosis, thoracic collateral circulation).</p>
+<p>The <span class="term" data-pt="veia cava superior">superior vena cava</span> (SVC) drains the head, neck, upper limbs, and thorax into the RA; the <span class="term" data-pt="veia cava inferior">inferior vena cava</span> (IVC) drains the abdomen and lower limbs. Both open into the RA without valves. Extrinsic compression of the SVC by mediastinal masses causes superior vena cava syndrome (síndrome da veia cava superior) (cape edema, facial cyanosis, thoracic collateral circulation).</p>
 
 <h3>Pulmonary veins</h3>
 <p>Four pulmonary veins — two right and two left — carry oxygenated blood from the lungs to the LA. They are the only venous vessels in the body that carry arterialized blood. Their ostia in the LA are relevant in catheter ablation for AF: the pulmonary veins are the origin of most ectopic foci that trigger and perpetuate atrial fibrillation, which is why electrical isolation of these ostia forms the basis of the procedure.</p>
@@ -350,10 +353,10 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <p>The heart supplies its own muscle through an arterial system independent of intracavitary blood — the myocardium receives oxygen exclusively from the coronary arteries, not by diffusion from the blood passing through the chambers. This dependence explains the speed with which coronary occlusion leads to necrosis: without established collateral circulation, irreversible ischemia begins within 20–40 minutes.</p>
 
 <h3>Left coronary artery (LCA)</h3>
-<p>Arises from the left coronary sinus of the aorta, runs 1–2 cm as the left main coronary artery (LMCA) and bifurcates into: <em>left anterior descending artery (LAD)</em> — descends along the anterior interventricular sulcus (<em>sulcus interventricularis anterior</em>), giving off diagonal branches (anterior LV wall) and septal perforating branches (anterior two-thirds of the septum); and <em>left circumflex artery (LCx)</em> — runs along the left atrioventricular sulcus (<em>sulcus atrioventricularis</em>), giving off obtuse marginal branches (lateral LV wall). The LAD is the most frequently affected artery in myocardial infarction (infarto agudo do miocárdio — IAM); its proximal occlusion is called the "widow maker" because it interrupts the supply to the largest myocardial mass <span class="cite">(<a href="#referencias">GRAY; STANDRING, 2021</a>)</span> <a class="fig-ref" href="#fig-495" onclick="navFig(this)">(Fig. 495)</a>.</p>
+<p>Arises from the left coronary sinus of the aorta, runs 1–2 cm as the left main coronary artery (LMCA) and bifurcates into: <em><span class="term" data-pt="descendente anterior esquerda">left anterior descending</span> artery (LAD)</em> — descends along the anterior interventricular sulcus (<em>sulcus interventricularis anterior</em>), giving off diagonal branches (anterior LV wall) and septal perforating branches (anterior two-thirds of the septum); and <em>left <span class="term" data-pt="artéria circunflexa">circumflex artery</span> (LCx)</em> — runs along the left atrioventricular sulcus (<em>sulcus atrioventricularis</em>), giving off obtuse marginal branches (lateral LV wall). The LAD is the most frequently affected artery in myocardial infarction (infarto agudo do miocárdio — IAM); its proximal occlusion is called the "widow maker" because it interrupts the supply to the largest myocardial mass <span class="cite">(<a href="#referencias">GRAY; STANDRING, 2021</a>)</span> <a class="fig-ref" href="#fig-495" onclick="navFig(this)">(Fig. 495)</a>.</p>
 
 <h3>Right coronary artery (RCA)</h3>
-<p>Arises from the right coronary sinus, descends along the right atrioventricular sulcus giving off branches to the RV, and at the <em>crux cordis</em> (intersection of the posterior interventricular and atrioventricular sulci) gives rise to the <em>posterior descending artery (PDA)</em> in most individuals — a configuration called <em>right dominance</em> (~70% of cases). The RCA also supplies the sinoatrial node (~60%) and the atrioventricular node (~90%), explaining why inferior infarction (RCA occlusion) frequently presents with transient AV block (bloqueio atrioventricular transitório) <a class="fig-ref" href="#fig-495" onclick="navFig(this)">(Fig. 495)</a>.</p>
+<p>Arises from the right coronary sinus, descends along the right atrioventricular sulcus giving off branches to the RV, and at the <em>crux cordis</em> (intersection of the posterior interventricular and atrioventricular sulci) gives rise to the <em>posterior descending artery (PDA)</em> in most individuals — a configuration called <em>right dominance</em> (~70% of cases). The RCA also supplies the <span class="term" data-pt="nó sinoatrial">sinoatrial node</span> (~60%) and the atrioventricular node (~90%), explaining why inferior infarction (RCA occlusion) frequently presents with transient AV block (bloqueio atrioventricular transitório) <a class="fig-ref" href="#fig-495" onclick="navFig(this)">(Fig. 495)</a>.</p>
 
 <h3>Coronary dominance</h3>
 <p>The concept of dominance refers to which artery gives rise to the PDA and branches to the AV node: right (~70%), left (~15%), or codominance (~15%). Dominance has prognostic relevance in myocardial infarction: occlusion of the dominant artery compromises a larger myocardial mass and conduction territory.</p>
@@ -382,21 +385,21 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <p>The physiological pacemaker, located at the junction of the SVC and the RA, near the <em>crista terminalis</em>. Fires at 60–100 bpm at rest. Innervated by the sympathetic nervous system (increases rate) and the vagus nerve (decreases rate). Supplied by the SA nodal artery, a branch of the RCA in ~60% and of the LCx in ~40%. SA node dysfunction produces sick sinus syndrome (síndrome do nó doente — bradicardia sinusal, pausas, síndrome bradi-taqui) <a class="fig-ref" href="#fig-498" onclick="navFig(this)">(Fig. 498)</a>.</p>
 
 <h3>Internodal and interatrial pathways</h3>
-<p>The impulse propagates through the atrial myocardium from cell to cell. Preferential internodal conduction pathways exist (anterior, middle, and posterior — Bachmann's bundle), although the concept of "anatomically distinct internodal pathways" is debated — the anatomical substrate is oriented atrial myocardium, not isolated specialized tissue. Bachmann's bundle (<em>fasciculus interatrialis</em>) conducts the impulse to the LA, synchronizing bilateral atrial activation.</p>
+<p>The impulse propagates through the atrial myocardium from cell to cell. Preferential internodal conduction pathways exist (anterior, middle, and posterior — Bachmann's bundle), although the concept of "anatomically distinct <span class="term" data-pt="vias internodais">internodal pathways</span>" is debated — the anatomical substrate is oriented atrial myocardium, not isolated specialized tissue. Bachmann's bundle (<em>fasciculus interatrialis</em>) conducts the impulse to the LA, synchronizing bilateral atrial activation.</p>
 
 <h3>Atrioventricular node (AV node)</h3>
 <p>Located in the triangle of Koch (<em>trigonum Koch</em>) — bounded by the coronary sinus ostium, the septal leaflet of the tricuspid valve, and the tendon of Todaro <a class="fig-ref" href="#fig-498" onclick="navFig(this)">(Fig. 498)</a>. It is the only normal conduction point between atria and ventricles (the remaining are separated by the fibrous rings of the cardiac skeleton). The AV node imposes a physiological delay of 120–200 ms (visible as the PR interval on the ECG), allowing ventricular filling. Intrinsic escape rate: 40–60 bpm. Dual blood supply (RCA + LCx) provides relative protection, but inferior ischemia can compromise it.</p>
 
-<h3>Bundle of His and bundle branches</h3>
+<h3><span class="term" data-pt="feixe de His">Bundle of His</span> and <span class="term" data-pt="ramos do feixe">bundle branches</span></h3>
 <p>From the AV node, the impulse travels through the <em>bundle of His</em> (<em>fasciculus atrioventricularis</em>) — the sole conduction pathway through the membranous septum — and divides into the <em>right bundle branch</em> (thin, runs through the septum to the moderator band → RV) and the <em>left bundle branch</em> (broad, divides into anterosuperior and posteroinferior fascicles → LV). The left bundle branch is more vulnerable to ischemia and fibrosis due to its larger territory. Left bundle branch block (LBBB — bloqueio de ramo esquerdo) carries greater prognostic significance than isolated right bundle branch block (RBBB — bloqueio de ramo direito) <a class="fig-ref" href="#fig-498" onclick="navFig(this)">(Fig. 498)</a>.</p>
 
-<h3>Purkinje fibers</h3>
+<h3><span class="term" data-pt="fibras de Purkinje">Purkinje fibers</span></h3>
 <p>The bundle branches terminate in a network of Purkinje fibers — large-diameter cells with high conduction velocity (2–4 m/s, ~6× faster than ordinary ventricular myocardium). The subendocardial network ensures near-simultaneous activation of the entire ventricular mass, from apex toward base. Intrinsic firing rate: 20–40 bpm (last-resort pacemaker when SA and AV nodes fail).</p>
 </section>
 
 <section id="pericardio">
 <h2>Pericardium</h2>
-<p>The pericardium (<em>pericardium</em>) is the fibroserious sac enclosing the heart and the roots of the great vessels. It is composed of two layers: the <em>fibrous pericardium</em> (dense connective tissue, inextensible, fused with the diaphragm inferiorly and with the adventitia of the great vessels superiorly) and the <em>serous pericardium</em>, subdivided into a parietal layer (lines the inner surface of the fibrous pericardium) and a visceral layer — the <em>epicardium</em> — which adheres to the myocardium.</p>
+<p>The pericardium (<em>pericardium</em>) is the fibroserious sac enclosing the heart and the roots of the great vessels. It is composed of two layers: the <em><span class="term" data-pt="pericárdio fibroso">fibrous pericardium</span></em> (dense connective tissue, inextensible, fused with the diaphragm inferiorly and with the adventitia of the great vessels superiorly) and the <em><span class="term" data-pt="pericárdio seroso">serous pericardium</span></em>, subdivided into a parietal layer (lines the inner surface of the fibrous pericardium) and a visceral layer — the <em><span class="term" data-pt="epicárdio">epicardium</span></em> — which adheres to the myocardium.</p>
 
 <table class="data-table" aria-label="Pericardial effusion: rapid vs. slow accumulation">
   <thead>
@@ -424,7 +427,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     </tr>
     <tr>
       <td class="td-label">Hemodynamic consequence</td>
-      <td>Acute cardiac tamponade (tamponamento cardíaco) (emergency)</td>
+      <td>Acute <span class="term" data-pt="tamponamento cardíaco">cardiac tamponade</span> (tamponamento cardíaco) (emergency)</td>
       <td>Subacute/chronic tamponade (insidious presentation)</td>
     </tr>
     <tr>
@@ -438,7 +441,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     </tr>
   </tbody>
 </table>
-<p class="table-caption">Table 2 — Pericardial effusion: pathophysiological differences between rapid and slow accumulation. The rate of accumulation matters more than the absolute volume.</p>
+<p class="table-caption">Table 2 — <span class="term" data-pt="derrame pericárdico">Pericardial effusion</span>: pathophysiological differences between rapid and slow accumulation. The rate of accumulation matters more than the absolute volume.</p>
 
 <p>The pericardial space between the two serous layers contains 15–50 mL of lubricating fluid. Pathological accumulation of this fluid is a <em>pericardial effusion (derrame pericárdico)</em>. The rigidity of the fibrous pericardium is decisive: rapid accumulation of 150–200 mL can raise intrapericardial pressure enough to compress the right-sided chambers (cardiac tamponade), while slow accumulation can reach 1–2 L without hemodynamic collapse, because the fibrous pericardium adapts progressively.</p>
 
@@ -485,19 +488,19 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
       <td class="td-label">Epicardium</td>
       <td>Visceral layer of the serous pericardium; subepicardial adipose tissue containing coronaries, veins, and nerves</td>
       <td>Friction reduction; fat depot with metabolic and inflammatory activity</td>
-      <td>Pericarditis (epicardium/pericardium inflammation); epicardial adipose tissue associated with AF and coronary artery disease</td>
+      <td><span class="term" data-pt="pericardite">Pericarditis</span> (epicardium/pericardium inflammation); epicardial adipose tissue associated with AF and coronary artery disease</td>
     </tr>
     <tr>
       <td class="td-label">Myocardium</td>
       <td>Striated cardiomyocytes, single central nucleus, intercalated discs (desmosomes + gap junctions); helical fiber layers</td>
       <td>Contraction (systole) and relaxation (diastole); functional syncytium via cell-to-cell electrical conduction</td>
-      <td>Infarction (ischemic necrosis); myocarditis (inflammation); cardiomyopathies (hypertrophic, dilated, restrictive)</td>
+      <td>Infarction (ischemic necrosis); <span class="term" data-pt="miocardite">myocarditis</span> (inflammation); cardiomyopathies (hypertrophic, dilated, restrictive)</td>
     </tr>
     <tr>
-      <td class="td-label">Endocardium</td>
+      <td class="td-label"><span class="term" data-pt="endocárdio">Endocardium</span></td>
       <td>Endothelium + subendothelial connective tissue; continuous with vascular endothelium; lines chambers and valves</td>
       <td>Hemocompatible barrier; antithrombogenic surface under normal conditions</td>
-      <td>Infective endocarditis (high-velocity jet injury → bacterial colonization); Libman-Sacks endocarditis (lupus)</td>
+      <td>Infective <span class="term" data-pt="endocardite">endocarditis</span> (high-velocity jet injury → bacterial colonization); Libman-Sacks endocarditis (lupus)</td>
     </tr>
   </tbody>
 </table>
@@ -613,7 +616,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <div class="ref-entry">
   HARVEY, William. <strong>Exercitatio Anatomica de Motu Cordis et Sanguinis in Animalibus</strong>. Frankfurt, 1628.
-  <p class="ref-nota">The founding text of modern cardiovascular physiology. Cited for historical value — Harvey demonstrated by quantitative reasoning (stroke volume × heart rate) that blood cannot be continuously produced by the liver but circulates. Available in translation and facsimile online.</p>
+  <p class="ref-nota">The founding text of modern cardiovascular physiology. Cited for historical value — Harvey demonstrated by quantitative reasoning (<span class="term" data-pt="volume sistólico">stroke volume</span> × <span class="term" data-pt="frequência cardíaca">heart rate</span>) that blood cannot be continuously produced by the liver but circulates. Available in translation and facsimile online.</p>
 </div>
 </section>
 

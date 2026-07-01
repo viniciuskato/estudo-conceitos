@@ -29,7 +29,7 @@ Esta subskill fornece o contexto epistêmico da área **e as decisões de estrut
 
 ## Material existente no projeto
 
-- `atlas/ia/inteligencia-artificial.html` — rascunho experimental (2026-06-30)
+- `compêndios/ia/inteligencia-artificial.html` — rascunho experimental (2026-06-30)
   - Cobre: o que estuda, 10 subáreas, histórico (1956–2026), 10 questões centrais, métodos, conexões, 3 controvérsias, roteiro de entrada, referências anotadas
   - Estado: segue template-v2 visualmente, mas foi gerado quando o Atlas ainda era "mapa orientador" — conteúdo raso para o novo propósito de compêndio de área
   - Pendência: reescrita com profundidade real antes de usar como referência

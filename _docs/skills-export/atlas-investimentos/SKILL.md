@@ -25,7 +25,7 @@ Esta subskill fornece o contexto epistêmico da área.
 
 ## Material existente no projeto
 
-- `atlas/investimentos/fundamentos-investimentos.html` — mapa geral já criado
+- `compêndios/investimentos/fundamentos-investimentos.html` — mapa geral já criado
   - Cobre: risco/retorno, diversificação, CAPM, Fama-French, eficiência de mercado, finanças comportamentais, renda fixa vs. variável, método Bazin
   - Dívida técnica pendente: cross-links para inflação, juros reais, política monetária (ver `_docs/DEBT.md`)
 
