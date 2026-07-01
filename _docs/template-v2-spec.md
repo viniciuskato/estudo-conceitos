@@ -41,6 +41,32 @@ Fontes via Google Fonts: Source Serif 4 (corpo **17px**, line-height 1.78) + Int
 
 ---
 
+## Link de retorno ao índice (`#s-home`) — obrigatório
+
+Todo compêndio é aberto a partir do `index.html` raiz. Sem um link de volta explícito, o usuário fica preso na página (o botão "voltar" do navegador nem sempre está disponível — ex. app shell, aba aberta direto por link/atalho). `#s-home` fica **acima** de `#s-toggle`, fora do `.s-inner`, para nunca sumir ao colapsar a sidebar.
+
+```html
+<div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle">
+  <button id="toggle-btn" onclick="toggleSidebar()">◀</button>
+</div>
+```
+
+- `href` relativo: calcular a partir da profundidade real do arquivo até a raiz do projeto (`../../index.html` para arquivos em `compêndios/<área>/` ou `medicina/<área>/`; um `../` a mais por nível extra, ex. `medicina/fisiopatologia/choque-circulatorio/` → `../../../index.html`)
+- `.home-label` fica oculto quando `#sidebar.collapsed`, mantendo só o ícone ⌂ visível
+
+```css
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+```
+
+Aplicar em todo compêndio novo e ao revisar compêndios existentes — mesma obrigatoriedade da tradução PT-BR na sidebar (`.sl-pt`).
+
+---
+
 ## Barra de progresso
 
 - `#progress-bar`: `position:fixed; top:0; left:0; height:2px; background:var(--ac); z-index:100`

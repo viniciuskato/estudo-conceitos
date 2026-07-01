@@ -56,6 +56,15 @@
     z-index: 100;
     font-family: var(--font-ui);
   }
+  #sidebar .home-link {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 14px 20px 10px;
+    text-decoration: none;
+    font-family: var(--font-ui);
+  }
+  #sidebar .home-link:hover { color: var(--ac); }
   #sidebar .logo {
     font-size: 11px;
     color: var(--muted);
@@ -308,6 +317,7 @@
 
 <!-- ══════════════════════════ SIDEBAR ══════════════════════════ -->
 <nav id="sidebar" aria-label="Navegação do documento">
+  <a class="home-link" href="../../index.html" title="Voltar ao índice">⌂ Índice</a>
   <div class="logo">Farmacologia Clínica</div>
 
   <div class="group-label">Fundamentos</div>

@@ -18,6 +18,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-si
 #body-wrap{display:flex;flex:1;min-height:0}
 #sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
 #sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
 #s-toggle{display:flex;align-items:center;justify-content:flex-end;padding:8px 8px 4px;flex-shrink:0;background:var(--bg2);width:280px}
 #sidebar.collapsed #s-toggle{justify-content:center;width:44px}
 #s-toggle button{background:none;border:none;cursor:pointer;color:var(--muted);padding:6px 8px;border-radius:5px;line-height:1;transition:color .15s,background .15s;font-size:18px}
@@ -123,7 +128,8 @@ ol.refs li a{color:var(--ac);text-decoration:none}
 </div>
 <div id="body-wrap">
 <nav id="sidebar">
-  <div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Recolher sidebar">&#8249;</button></div>
   <div class="s-inner">
     <div class="s-logo">
       <b>M8 &mdash; Linfócitos T</b>

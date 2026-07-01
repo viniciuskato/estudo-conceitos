@@ -52,23 +52,12 @@ OBRIGATÓRIO antes de escrever qualquer arquivo: apresentar todas as mudanças p
 Aplicar SOMENTE as mudanças aprovadas. Se nenhuma for aprovada, encerrar sem alterar arquivos.
 
 Passo 3 — Aplicar mudanças aprovadas
-Usar python3 para edições (mais seguro que sed para strings com caracteres especiais, e mais seguro que Edit para arquivos >200 linhas):
+instrucoes-projeto.txt normalmente cabe bem abaixo do limite de 200 linhas do Edit tool: preferir Read (para obter o texto exato) + Edit tool diretamente no caminho do usuário (ex.: C:\...\_docs\instrucoes-projeto.txt), em vez de python3 via bash. Motivo: essa pasta é sincronizada via OneDrive e o bash pode ler uma versão desatualizada/cortada do arquivo (confirmado numa sessão real: bash reportou menos linhas do que o arquivo realmente tinha) — o Edit tool não passa por esse cache. Reservar python3+bash para esse arquivo apenas se ele já tiver passado de ~200 linhas e a edição for grande demais para o Edit tool.
 
-python3 - << 'PYEOF'
-path = "/sessions/.../instrucoes-projeto.txt"  # obter via find
-with open(path, 'r', encoding='utf-8') as f:
-    content = f.read()
-content = content.replace('texto antigo', 'texto novo')
-with open(path, 'w', encoding='utf-8') as f:
-    f.write(content)
-print("OK - linhas:", content.count('\n') + 1)
-PYEOF
+Verificar após cada mudança usando Read (não bash tail/wc -l, pelo mesmo motivo do cache do OneDrive):
+Read com offset perto do fim do arquivo para confirmar que o texto novo está lá e nada foi cortado.
 
-Verificar após cada mudança:
-bash: INSTR=$(find /sessions -name "instrucoes-projeto.txt" 2>/dev/null | head -1)
-tail -5 "$INSTR" && wc -l "$INSTR"
-
-Se o SKILL.md da autocritica-sessao também tiver mudanças aprovadas: editar _docs/skills-export/autocritica-sessao/SKILL.md via python3. Lembrar o usuário de reempacotar com empacotar_skills.py e reinstalar a skill.
+Se o SKILL.md da autocritica-sessao também tiver mudanças aprovadas: editar via Read + Edit tool, mesma lógica acima. Lembrar o usuário de reempacotar com empacotar_skills.py e reinstalar a skill.
 
 Passo 4 — Reportar ao usuário
 Formato obrigatório:

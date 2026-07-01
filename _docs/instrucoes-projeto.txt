@@ -42,6 +42,7 @@ Ao iniciar sessão sem tarefa direta:
 3. Identificar a área → a skill estrutural carrega a subskill adequada.
    Se a área não tiver subskill: sinalizar ao usuário ANTES de gerar e propor criação da subskill.
 4. Verificar _docs/DEBT.md — informar dívidas críticas antes de prosseguir.
+5. Se a sessão envolver editar arquivos (qualquer sessão que não seja só leitura/estudo): checar cedo se a pasta é um repositório Git (`git rev-parse --is-inside-work-tree`, `git status`, `git log -5 --oneline`). Isso é rápido e evita retrabalho — permite detectar de saída edições incompletas de sessões anteriores (arquivo modificado no working directory mas nunca commitado) e usar o histórico como fonte confiável ao longo da sessão (ver seção "Verificação bash obrigatória").
 
 === Pré-geração (regras compartilhadas) ===
 - Perguntas de pré-geração sempre via AskUserQuestion — nunca em texto.
@@ -113,6 +114,9 @@ Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferen
 (e) sem artefatos: grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho" vazio
 Corrigir antes de prosseguir.
 Atenção — pasta sincronizada via OneDrive: o terminal bash pode mostrar uma versão desatualizada (em cache) dos arquivos dessa pasta mesmo após uma edição já ter sido salva. Se um arquivo editado recentemente aparecer "sem mudanças" no bash, não confiar nesse resultado — reconferir com as ferramentas de leitura de arquivo diretas (Read/Grep) antes de concluir que a edição falhou.
+O mesmo cache pode agir na LEITURA, não só na verificação — um `open()` via python3/bash pode retornar conteúdo cortado no meio se o arquivo acabou de sincronizar, e reescrever isso por cima do arquivo apaga o final dele sem aviso. Se a pasta for um repositório Git (ver "Protocolo de abertura de sessão"):
+- Editar/reescrever vários arquivos em lote via python3+bash: usar `git show HEAD:"<arquivo>"` como fonte de leitura (não `open()` direto) sempre que o arquivo já estiver commitado — o conteúdo do Git não sofre esse cache.
+- Depois de qualquer escrita em lote (vários arquivos), rodar `git diff --stat` e desconfiar de qualquer arquivo com deleções muito maiores que o esperado — isso pega truncamento no meio do arquivo que `wc -l`/checagem de tags sozinhos não pegam de forma confiável.
 
 === Verificação visual ===
 Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.
@@ -132,4 +136,5 @@ Ao renomear pastas: verificar e atualizar links em index.html — caminhos antig
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
 
 === GitHub ===
-Ao concluir
+Ao concluir a sessão (usuário sinalizar "terminamos", "pode fechar" ou similar), após aplicar as mudanças aprovadas: rodar `git add -A`, `git commit` com mensagem descrevendo o que foi feito na sessão, e `git push` para enviar ao repositório remoto.
+Se o push falhar (conflito, sem credenciais configuradas no ambiente, etc.): informar o usuário do erro específico e deixar o commit local intacto — não forçar (`--force`) nem tentar contornar credenciais.

@@ -59,6 +59,11 @@ a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;b
 #body-wrap{display:flex;min-height:100vh}
 #sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0;transition:width .25s}
 #sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
 #s-toggle{padding:10px 8px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center}
 #toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px;line-height:1}
 #toggle-btn:hover{color:var(--text);background:var(--bg3)}
@@ -161,7 +166,8 @@ section{scroll-margin-top:24px}
 
 <!-- SIDEBAR -->
 <nav id="sidebar">
-  <div id="s-toggle">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle">
     <button id="toggle-btn" title="Colapsar sidebar">◀</button>
   </div>
   <div class="s-inner">
