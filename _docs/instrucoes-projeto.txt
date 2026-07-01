@@ -72,24 +72,10 @@ Termos técnicos em compêndios em idioma estrangeiro devem ser marcados com too
 - Aplicar ao criar novos compêndios em inglês e ao revisar compêndios existentes.
 - Manipulação via Python: split em tags vs texto (re.split(r'(<[^>]+>)', body)), substituir apenas em nós de texto, primeira ocorrência por seção.
 
-=== Imagens em compêndios HTML ===
-Padrão: Gray's Anatomy (1918), domínio público, Wikimedia Commons.
-- URLs reais via API Wikimedia (usar Claude in Chrome javascript_tool):
-  https://commons.wikimedia.org/w/api.php?action=query&titles=File:GrayNNN.png&prop=imageinfo&iiprop=url&format=json&origin=*
-- CSS obrigatório: .plate-block, .plate-block img (background:#e8e2d8), .plate-caption
-  NÃO usar filter:invert (cores ficam estranhas)
-- 4-6 pranchas por compêndio, uma por seção principal
-- Imagens carregam da Wikimedia com conexão à internet
-
-=== Integração imagem-texto (padrão do projeto) ===
-Todo compêndio HTML deve seguir estes padrões ao criar ou revisar:
-- Pranchas com float:right, width:42%, margem esquerda de 28px (texto corre ao lado)
-- Cada prancha com id="fig-NNN" para âncoras
-- Referências (Fig. NNN) clicáveis no texto nos pontos onde a imagem é relevante (não só no início da seção)
-- onclick="navFig(this)" nas referências — salva posição de leitura antes de navegar
-- Botão fixo "← Voltar à leitura" (#back-btn) que retorna ao ponto salvo
-- Lightbox ao clicar na imagem: overlay escuro, legenda, fecha com ESC ou clique fora
-- Em mobile (max-width:900px): float:none, width:100%
+=== Imagens e pranchas ===
+Hierarquia de fontes: OpenStax CC BY > Gray's Anatomy (1918, domínio público) > Blausen CC BY 3.0.
+Evitar SVGs com fundo branco em tema escuro. 4-6 pranchas por compêndio, uma por seção.
+Implementação completa (plate-block, lightbox, traduções PT, API Wikimedia): ver _docs/template-v2-spec.md.
 
 === Auditoria visual proativa ===
 Ao revisar qualquer compêndio HTML (não apenas ao criar), verificar OBRIGATORIAMENTE cada seção:
@@ -115,6 +101,7 @@ Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferen
 - HTML novo >300 linhas: Write estrutura inicial (~150 linhas) → verificar → Python escreve restante → cat >> arquivo → verificar.
 - Leitura seletiva: grep -n para localizar âncora antes de Read com offset/limit. Ler arquivo inteiro só quando estritamente necessário.
 - Wrapper HTML: antes de manipular seções via Python (content_start/content_end), confirmar o seletor do wrapper principal com grep: grep -n 'id="content"' arquivo.html — pode ser <div> ou <main>.
+- plate-caption: fecha com </div> (não </p>). Regex Python para manipular deve usar r'(<div class="plate-caption">)(.*?)(</div>)' com re.DOTALL.
 - Verificação preditiva: antes de Edit com new_string >80 linhas, calcular linhas esperadas. Após o Edit, wc -l e comparar — divergência ±5 indica truncamento.
 
 === Verificação bash obrigatória após qualquer escrita de HTML ===
@@ -138,6 +125,7 @@ Workflow para arquivos locais (Chrome não abre file://):
 
 === Arquivamento ===
 Sobrescrever com archive em _archive/ + sufixo de data quando mudança ≥30%. Editar no lugar para correções pontuais.
+Ao renomear pastas: verificar e atualizar links em index.html — caminhos antigos causam 404 no app publicado.
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
 
 === GitHub ===

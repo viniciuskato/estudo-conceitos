@@ -15,7 +15,7 @@ Referência canônica para criação de novos compêndios HTML. Consultar este a
   --font-ui:'Inter',system-ui,sans-serif;
 }
 ```
-Fontes via Google Fonts: Source Serif 4 (corpo 16px, line-height 1.78) + Inter (interface).
+Fontes via Google Fonts: Source Serif 4 (corpo **17px**, line-height 1.78) + Inter (interface).
 
 ---
 
@@ -188,6 +188,118 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 ---
 
+
+---
+
+## Fontes de imagens (hierarquia)
+
+1. **OpenStax Anatomy & Physiology** (CC BY) — preferencial: colorido, rótulos grandes e legíveis.
+2. **Gray's Anatomy (1918)** — domínio público: clássico, usar quando legível.
+3. **Blausen Medical** (CC BY 3.0) — ilustrações 3D para estruturas específicas.
+
+Evitar SVGs com fundo branco em tema escuro (ficam estranhos no lightbox).
+
+URL via API Wikimedia (usar `javascript_tool` no Chrome):
+```js
+fetch('https://commons.wikimedia.org/w/api.php?action=query&titles=File:NOME.ext&prop=imageinfo&iiprop=url&format=json&origin=*')
+```
+
+---
+
+## Pranchas anatômicas (plate-block)
+
+```html
+<div class="plate-block" id="fig-NNN">
+  <img src="URL_WIKIMEDIA"
+       alt="Descrição curta"
+       loading="lazy"
+       data-caption="Legenda curta para o lightbox">
+  <div class="plate-caption">
+    <b>Fig. N — Título</b> — Descrição. Fonte, Ano. Licença.
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">
+      Term1 <em>(tradução PT)</em> · Term2 <em>(tradução PT)</em>
+    </span>
+  </div>
+</div>
+```
+
+**Regras:**
+- `float:right; width:42%; margin:4px 0 20px 28px` — texto corre ao lado
+- `id="fig-NNN"` — âncora para referências clicáveis no texto
+- `data-caption` — legenda CURTA para o lightbox (não o caption completo)
+- `plate-caption` fecha com `</div>` (não `</p>`) — regex Python: `r'(<div class="plate-caption">)(.*?)(</div>)'`
+- Traduções PT obrigatórias: listar termos visíveis na imagem na ordem estruturas maiores → menores
+- Mobile: `float:none; width:100%` em `max-width:900px`
+- NÃO usar `filter:invert`
+
+```css
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed color-mix(in srgb,var(--ac) 50%,transparent);text-decoration:none;cursor:pointer}
+```
+
+---
+
+## Lightbox
+
+```css
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+```
+
+- Caption do lightbox usa `data-caption` da imagem (legenda curta) — não o `textContent` do plate-caption completo
+- Fecha com ESC ou clique fora da imagem
+- `document.body.style.overflow='hidden'` ao abrir; restaurar ao fechar
+
+---
+
+## Referências clicáveis e botão voltar
+
+```html
+<!-- No texto: -->
+<a class="fig-ref" onclick="navFig(this)" href="#fig-NNN">(Fig. N)</a>
+
+<!-- Botão fixo (HTML, antes do </body>): -->
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+```
+
+```js
+// navFig: salva posição antes de navegar para a prancha
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+// backToRead: retorna ao ponto salvo
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+```
+
+```css
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+```
+
+---
+
+## Scroll suave
+
+```css
+html{scroll-behavior:smooth}
+```
+
+Aplicar ao `<html>` para que links de âncora (sidebar, fig-ref) rolem suavemente.
+
+---
+
 ## Seções finais
 
 **Fundamentos necessários:** conceitos de áreas adjacentes indispensáveis. Critério de entrada: ausência tornaria frase opaca. Critério de saída: ativar exige mais de um parágrafo → mover para seção adequada.
@@ -196,8 +308,4 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 
 **Discussão:** três movimentos — (1) convergência, fechando a pergunta motivadora com os conceitos desenvolvidos; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
 
-**Leituras recomendadas:** livros-texto, artigos (links acesso aberto), recursos online. Critério: densidade de mecanismo por página — não fama ou adoção curricular. Consultar `project_estado.md` para badge VOCÊ TEM; consultar `user_livros_medicos.md` para lista completa. Não limitar às obras do usuário — incluir o melhor disponível.
-
-**Referências ABNT:** NBR 6023:2018. DOIs e URLs como links (`target="_blank" rel="noopener"`, `color:var(--ac)`). Ordem alfabética por autor-data.
-
-**Citações inline:** autor-data NBR 10520:2023 — formato `(SOBRENOME; SOBRENOME, ano)` para até dois autores; `(SOBRENOME et al., ano)` para três ou mais. Nunca numeração `[1]`, `[2]`. Classe `.cite`, `color:var(--ac)`, ancorado em `#referencias`. Múltiplas referências na mesma citação separadas por ponto e vírgula: `(AUTOR A, ano; AUTOR B, ano)`.
+**Leituras recomendadas:** livros-texto, artigos (l
