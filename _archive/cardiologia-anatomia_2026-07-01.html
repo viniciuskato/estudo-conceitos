@@ -40,23 +40,8 @@ a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;
 a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
 .sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
 .term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap}
-.term[data-pt]::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
-.term[data-pt]:hover::after{opacity:1}
-.term-rich{white-space:normal}
-.term-rich .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:6px;padding:7px 11px;font-family:var(--font-ui);font-size:11.5px;line-height:1.45;white-space:normal;width:max-content;max-width:230px;text-align:left;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
-.term-rich .tip b{display:block;color:var(--ac);font-weight:600;margin-bottom:2px}
-.term-rich .tip i{display:block;color:var(--muted);font-style:normal}
-.term-rich:hover .tip{opacity:1}
-#dict-panel{display:none;position:absolute;z-index:1001;background:var(--bg3);border:1px solid var(--ac);border-radius:8px;padding:10px 30px 10px 14px;max-width:280px;font-family:var(--font-ui);font-size:12.5px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.5)}
-#dict-panel.open{display:block}
-#dict-close{position:absolute;top:4px;right:8px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;font-family:var(--font-ui)}
-#dict-close:hover{color:var(--text)}
-.dict-word{font-family:var(--font-body);font-weight:600;color:var(--ac);font-size:14px;margin-bottom:3px;text-transform:lowercase}
-.dict-pos{font-style:italic;color:var(--muted);margin:4px 0 2px}
-.dict-def{margin-bottom:3px;color:var(--text)}
-.dict-ex{color:var(--muted);font-style:italic;margin-bottom:3px}
-.dict-src{color:var(--muted);font-size:10px;margin-top:4px}
-.dict-loading{color:var(--muted)}
+.term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term:hover::after{opacity:1}
 #sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
 #content{flex:1;padding:52px 72px 120px;transition:padding .25s}
 #body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
@@ -237,13 +222,13 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <p>The heart has four chambers: two atria (superior, thin-walled, receptive) and two ventricles (inferior, thick-walled, propulsive). The longitudinal division — the <span class="term" data-pt="septo interatrial">interatrial septum</span> and the <span class="term" data-pt="septo interventricular">interventricular septum</span> — completely separates the pulmonary and systemic circulations after birth. Any residual communication between the two sides represents a congenital malformation with hemodynamic consequences proportional to the shunt produced <span class="cite">(<a href="#referencias">MOORE; DALLEY; AGUR, 2014</a>)</span> <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>.<span style="display:block;margin-top:4px;font-size:13px;color:var(--muted)">RA <em>(átrio direito)</em> · RV <em>(ventrículo direito)</em> · LA <em>(átrio esquerdo)</em> · LV <em>(ventrículo esquerdo)</em> · SVC <em>(veia cava superior)</em> · IVC <em>(veia cava inferior)</em></span></p>
 
-<h3><span class="term term-rich">Right atrium<span class="tip"><b>átrio direito</b><i>Receiving chamber for systemic venous return (SVC, IVC, coronary sinus); thin-walled, low-pressure.</i></span></span> (RA)</h3>
-<p>Receives systemic venous blood from the superior and inferior venae cavae, and blood from the heart itself via the <span class="term" data-pt="seio coronário">coronary sinus</span> (<em>sinus coronarius</em>). Its posterior wall is smooth (derived from the embryonic sinus venosus); the anterior wall and right atrial appendage (right auricle) are trabeculated by pectinate muscles (<em>musculi pectinati</em>). The boundary between the two regions is the <em><span class="term term-rich">crista terminalis<span class="tip"><b>crista terminalis</b><i>Vertical muscular ridge separating the smooth (sinus venosus-derived) from the trabeculated (pectinate) RA wall; origin site of focal atrial tachycardias.</i></span></span></em> — a vertical muscular ridge with clinical relevance as a site of origin of focal atrial tachycardias. On the interatrial septum lies the <em><span class="term term-rich">fossa ovalis<span class="tip"><b>fossa oval</b><i>Oval depression on the interatrial septum marking the closed fetal foramen ovale; incomplete closure (PFO) occurs in 20–25% of adults.</i></span></span></em>, an oval depression corresponding to the closed fetal foramen ovale. In 20–25% of adults this fusion is incomplete — a patent foramen ovale (PFO — forame oval patente) — which is usually functionally sealed but can serve as a route for paradoxical embolism.</p>
+<h3><span class="term" data-pt="átrio direito">Right atrium</span> (RA)</h3>
+<p>Receives systemic venous blood from the superior and inferior venae cavae, and blood from the heart itself via the <span class="term" data-pt="seio coronário">coronary sinus</span> (<em>sinus coronarius</em>). Its posterior wall is smooth (derived from the embryonic sinus venosus); the anterior wall and right atrial appendage (right auricle) are trabeculated by pectinate muscles (<em>musculi pectinati</em>). The boundary between the two regions is the <em><span class="term" data-pt="crista terminalis">crista terminalis</span></em> — a vertical muscular ridge with clinical relevance as a site of origin of focal atrial tachycardias. On the interatrial septum lies the <em><span class="term" data-pt="fossa oval">fossa ovalis</span></em>, an oval depression corresponding to the closed fetal foramen ovale. In 20–25% of adults this fusion is incomplete — a patent foramen ovale (PFO — forame oval patente) — which is usually functionally sealed but can serve as a route for paradoxical embolism.</p>
 
-<h3><span class="term term-rich">Right ventricle<span class="tip"><b>ventrículo direito</b><i>Low-pressure chamber (~25 mmHg systolic) pumping deoxygenated blood into the pulmonary circulation; crescent-shaped, wraps around the LV.</i></span></span> (RV)</h3>
-<p>A low-pressure chamber (systolic pressure ~25 mmHg), with thinner walls (3–5 mm) than the <span class="term" data-pt="ventrículo esquerdo">left ventricle</span>. Its cross-sectional shape is crescent-like, partially wrapping around the LV. The interior is trabeculated by <span class="term term-rich">trabeculae carneae<span class="tip"><b>trabéculas cárneas</b><i>Irregular muscular ridges lining the ventricular walls; one forms the moderator band carrying the right bundle branch to the anterior papillary muscle.</i></span></span>, among them the <em>trabecula septomarginalis</em> (moderator band), which carries the right bundle branch directly to the anterior papillary muscle — a shortcut that anticipates papillary muscle activation and prevents tricuspid regurgitation during systole <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>. The outflow tract — the <em>infundibulum</em> (conus arteriosus) — has smooth walls and directs flow toward the <span class="term" data-pt="valva pulmonar">pulmonary valve</span>.</p>
+<h3><span class="term" data-pt="ventrículo direito">Right ventricle</span> (RV)</h3>
+<p>A low-pressure chamber (systolic pressure ~25 mmHg), with thinner walls (3–5 mm) than the <span class="term" data-pt="ventrículo esquerdo">left ventricle</span>. Its cross-sectional shape is crescent-like, partially wrapping around the LV. The interior is trabeculated by <span class="term" data-pt="trabéculas cárneas">trabeculae carneae</span>, among them the <em>trabecula septomarginalis</em> (moderator band), which carries the right bundle branch directly to the anterior papillary muscle — a shortcut that anticipates papillary muscle activation and prevents tricuspid regurgitation during systole <a class="fig-ref" href="#fig-490" onclick="navFig(this)">(Fig. 490)</a>. The outflow tract — the <em>infundibulum</em> (conus arteriosus) — has smooth walls and directs flow toward the <span class="term" data-pt="valva pulmonar">pulmonary valve</span>.</p>
 
-<h3><span class="term term-rich">Left atrium<span class="tip"><b>átrio esquerdo</b><i>Receives oxygenated blood from the four pulmonary veins; its appendage is the main site of thrombus formation in atrial fibrillation.</i></span></span> (LA)</h3>
+<h3><span class="term" data-pt="átrio esquerdo">Left atrium</span> (LA)</h3>
 <p>Higher atrial pressure chamber (mean ~8–12 mmHg), receives oxygenated blood from all four <span class="term" data-pt="veias pulmonares">pulmonary veins</span>. Its posterior wall is almost entirely smooth. The left atrial appendage (left auricle) is tubular, with a narrow base — a morphology that promotes stasis and thrombus formation in atrial fibrillation, making it the primary site of intracardiac thrombus in AF. The interatrial septum shows, on the left side, the valve of the foramen ovale, which acts as a flap over the septum primum.</p>
 
 <h3>Left ventricle (LV)</h3>
@@ -743,51 +728,6 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     }
     document.getElementById('back-btn').style.display = 'none';
   };
-
-  // Live dictionary lookup (double-click any word) — dictionaryapi.dev, English only.
-  // Curated technical terms keep the offline .term/.term-rich tooltip; this covers general vocabulary.
-  var dictPanel = document.createElement('div');
-  dictPanel.id = 'dict-panel';
-  dictPanel.innerHTML = '<button id="dict-close" aria-label="Fechar">×</button><div id="dict-body"></div>';
-  document.body.appendChild(dictPanel);
-  document.getElementById('dict-close').addEventListener('click', function(){
-    dictPanel.classList.remove('open');
-  });
-  document.addEventListener('click', function(e){
-    if(dictPanel.classList.contains('open') && !dictPanel.contains(e.target)) dictPanel.classList.remove('open');
-  });
-
-  var content = document.getElementById('content');
-  if(content){
-    content.addEventListener('dblclick', function(e){
-      if(e.target.closest('.term')) return; // curated terms use their own tooltip
-      var word = window.getSelection().toString().trim().replace(/[^a-zA-Z-]/g, '');
-      if(!word || word.length < 2) return;
-      dictPanel.style.left = Math.min(e.pageX, window.innerWidth - 300) + 'px';
-      dictPanel.style.top = (e.pageY + 14) + 'px';
-      dictPanel.classList.add('open');
-      var body = document.getElementById('dict-body');
-      body.innerHTML = '<p class="dict-loading">Buscando “' + word + '”…</p>';
-      fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word.toLowerCase()))
-        .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); })
-        .then(function(data){
-          var entry = data[0];
-          var html = '<div class="dict-word">' + entry.word + '</div>';
-          (entry.meanings || []).slice(0, 2).forEach(function(m){
-            html += '<div class="dict-pos">' + m.partOfSpeech + '</div>';
-            (m.definitions || []).slice(0, 2).forEach(function(d){
-              html += '<p class="dict-def">' + d.definition + '</p>';
-              if(d.example) html += '<p class="dict-ex">“' + d.example + '”</p>';
-            });
-          });
-          html += '<p class="dict-src">via dictionaryapi.dev</p>';
-          body.innerHTML = html;
-        })
-        .catch(function(){
-          body.innerHTML = '<p class="dict-loading">Sem definição encontrada para “' + word + '”. Vocabulário técnico costuma não estar nessa base — ver tooltip dos termos sublinhados.</p>';
-        });
-    });
-  }
 })();
 </script>
 </body>
