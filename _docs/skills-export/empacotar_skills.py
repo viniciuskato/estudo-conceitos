@@ -10,6 +10,8 @@ Skills geradas:
   - compendio-medicina-clinica.skill
   - compendio-investimentos.skill
   - compendio-ia.skill
+  - compendio-filosofia.skill
+  - compendio-fisica.skill
   - mecanismo-medicina-basica.skill
   - mecanismo-medicina-clinica.skill
   - autocritica-sessao.skill
@@ -29,6 +31,7 @@ skills = [
     "compendio-investimentos",
     "compendio-ia",
     "compendio-filosofia",
+    "compendio-fisica",
     "mecanismo-medicina-basica",
     "mecanismo-medicina-clinica",
     "autocritica-sessao",

@@ -34,3 +34,18 @@
              DEBT crítico do template-v2-spec.md (final "Leituras recomendadas") confirmado JÁ
              íntegro no disco via Read direto — era cache do OneDrive no bash/git show; marcado
              resolvido no DEBT.md.
+2026-07-01 — Subskill compendio-fisica criada (padrão enxuto de compendio-filosofia/
+             compendio-investimentos, sem duplicar CSS): subáreas (mecânica clássica,
+             termo/estatística, eletromagnetismo, óptica/ondas, quântica, relatividade,
+             partículas/QFT, matéria condensada, astrofísica/cosmologia), heurística de
+             fontes (Newton/Maxwell/Einstein/Planck/Schrödinger como fundadores; Feynman/
+             Griffiths/Landau/Sakurai/Jackson como livros-texto; arXiv/Physical Review/
+             INSPIRE-HEP/CODATA/NIST como fontes correntes), controvérsias estruturais
+             (interpretações da MQ, além do Modelo Padrão, seta do tempo, matéria escura
+             vs. MOND, determinismo vs. indeterminismo). Dispatch da skill compendio
+             atualizado (tabela + description) e empacotar_skills.py atualizado com a
+             nova skill. Nenhum compêndio de física criado ainda — primeiro material
+             pendente. Empacotamento (.skill) não pôde ser rodado via bash do sandbox
+             (cache do OneDrive mostrando versão truncada do empacotar_skills.py, embora
+             o arquivo real esteja íntegro via Read) — usuário precisa rodar localmente
+             (duplo clique) e reinstalar via Settings > Capabilities > Skills.
