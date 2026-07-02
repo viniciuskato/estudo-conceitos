@@ -6,6 +6,7 @@ Os arquivos .skill serao gerados nesta mesma pasta.
 Skills geradas:
   - compendio.skill
   - mecanismo.skill
+  - sistema.skill
   - compendio-medicina.skill
   - compendio-medicina-basica.skill
   - compendio-medicina-clinica.skill
@@ -15,6 +16,7 @@ Skills geradas:
   - compendio-fisica.skill
   - mecanismo-medicina-basica.skill
   - mecanismo-medicina-clinica.skill
+  - sistema-veiculos.skill
   - autocritica-sessao.skill
 
 Instalacao: Settings > Capabilities > Skills no Claude desktop.
@@ -27,6 +29,7 @@ script_dir = Path(__file__).parent
 skills = [
     "compendio",
     "mecanismo",
+    "sistema",
     "compendio-medicina",
     "compendio-medicina-basica",
     "compendio-medicina-clinica",
@@ -36,6 +39,7 @@ skills = [
     "compendio-fisica",
     "mecanismo-medicina-basica",
     "mecanismo-medicina-clinica",
+    "sistema-veiculos",
     "autocritica-sessao",
 ]
 

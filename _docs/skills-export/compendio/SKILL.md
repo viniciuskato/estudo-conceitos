@@ -113,6 +113,14 @@ Exaustividade e didática não competem — devem ser buscadas em harmonia. Cobr
 - Leitura seletiva: `grep -n` para localizar âncora antes de Read com offset/limit.
 - Verificação preditiva: antes de Edit >80 linhas, calcular linhas esperadas. Após o Edit, `wc -l` e comparar.
 
+## Modo Anki (opcional)
+
+Qualquer compêndio de área pode receber sessão de revisão com questões (Anki), mediante
+pedido explícito do usuário — não é etapa automática de fechamento nem exclusividade de
+outra skill. Procedimento completo (Fase 1 triagem por múltipla escolha; Fase 2
+aprofundamento discursivo nos erros; registro em `anki/`): ver seção "Modo Anki" em
+`mecanismo/SKILL.md`.
+
 ## Checklist antes de fechar o compêndio de área
 
 Vale tanto para gerar um compêndio novo quanto para revisar um existente — ao revisar, reconferir proativamente todos os itens abaixo, sem esperar que o usuário peça (mesmo espírito da "Auditoria visual proativa" em instrucoes-projeto.txt, aplicado ao conteúdo, não só ao visual).
@@ -129,7 +137,7 @@ Vale tanto para gerar um compêndio novo quanto para revisar um existente — ao
 ## O que não fazer
 
 - Não ser superficial — o compêndio de área tem profundidade real, não apenas orientação.
-- Não usar Anki — exclusivo da skill `mecanismo`.
+- Não iniciar modo Anki sem pedido explícito do usuário — é opcional, não etapa automática de fechamento.
 - Não criar arquivo-filho sem justificativa clara de complexidade própria.
 - Não resolver artificialmente controvérsias ativas.
 - Não omitir referências por medo de recomendar material longo — o leitor precisa saber o que existe.

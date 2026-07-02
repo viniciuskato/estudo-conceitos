@@ -116,6 +116,11 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
 
 ## Modo Anki
 
+Opcional — nunca etapa automática de fechamento, nem exclusividade desta skill: ativar
+somente mediante pedido explícito do usuário. `compendio` e `sistema` também podem
+receber sessão de revisão Anki; esta seção é o procedimento canônico referenciado por
+ambos.
+
 ### Fase 1 — Triagem por múltipla escolha
 1. Verificar `anki/anki_[material].json` — carregar para retomar.
 2. Verificar `_docs/DEBT.md` — aplicar pendências antes de iniciar.

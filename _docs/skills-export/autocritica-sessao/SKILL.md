@@ -33,11 +33,8 @@ Princípio de entrega: o usuário teve que pedir melhorias após receber o mater
 Qualquer fricção que exigiu workaround manual
 
 Passo 2 — Verificar o que já está nas instruções
-Localizar o arquivo de instruções via bash (o path do session ID muda a cada sessão):
-bash: find /sessions -name "instrucoes-projeto.txt" 2>/dev/null | head -1
-Depois usar esse path para grep:
-bash: INSTR=$(find /sessions -name "instrucoes-projeto.txt" 2>/dev/null | head -1)
-grep -n "TERMO_RELEVANTE" "$INSTR"
+Usar a ferramenta Grep diretamente no caminho Windows real do arquivo (ex.: C:\...\_docs\instrucoes-projeto.txt) — não bash `find`/`grep`. Motivo: bash lê essa pasta pelo cache do OneDrive/sandbox, que pode retornar conteúdo desatualizado ou sinalizar falsamente o arquivo como binário (confirmado numa sessão real: `grep` via bash reportou "binary file matches" em vez do texto, no mesmo arquivo que a ferramenta Grep leu normalmente). Mesma razão pela qual o Passo 3 já usa Read/Edit em vez de bash para editar o arquivo — aplicar aqui também.
+Grep { pattern: "TERMO_RELEVANTE", path: "<caminho completo do instrucoes-projeto.txt>" }
 
 Se já está e foi ignorado: a instrução é ambígua ou está mal posicionada → reformular ou mover.
 Se não está: adicionar.

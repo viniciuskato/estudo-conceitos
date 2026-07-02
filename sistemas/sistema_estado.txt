@@ -1,0 +1,22 @@
+=== SISTEMAS — ESTADO DA SESSÃO ===
+Última sessão: 2026-07-02
+
+=== Histórico ===
+2026-07-02 — Skill `sistema` criada a partir de discussão com o usuário: carros
+             (chassi, motorização, transmissão etc.) não se encaixam nem em compendio
+             (área de conhecimento inteira) nem em mecanismo (conceito único em
+             profundidade máxima) — precisam de um terceiro tipo que mapeie um
+             artefato/sistema técnico bounded, seus subsistemas, e principalmente como
+             eles se integram entre si. Skill pai `sistema` + primeira subskill
+             `sistema-veiculos` criadas (SKILL.md, dispatch em instrucoes-projeto.txt,
+             empacotar_skills.py, pastas sistemas/ e sistemas/veiculos/).
+             Decisão do usuário na mesma sessão: Anki deixa de ser exclusivo da skill
+             mecanismo — passa a ser modo opcional disponível para compendio, mecanismo
+             e sistema, ativado só sob pedido explícito (nunca etapa automática de
+             fechamento). Ajustado em compendio/SKILL.md, mecanismo/SKILL.md e
+             sistema/SKILL.md.
+             Nenhum compêndio de sistema gerado ainda nesta sessão — apenas a estrutura
+             da skill. Próximo passo (quando o usuário pedir): gerar o compêndio-pai de
+             veículos automotivos em sistemas/veiculos/, com pré-geração completa
+             (ponto de partida, recorte, idioma, checagem de modelo/esforço — 1ª geração
+             completa recomenda Opus + Esforço Alto/Extra).
