@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compêndio — Física</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 0 6px;display:flex;justify-content:center;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:4px;line-height:1;transition:color .15s}
+#toggle-btn:hover{color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding-bottom:40px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.s-logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac);padding:16px 20px 12px;border-bottom:1px solid var(--border);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase;transition:opacity .2s}
+.s-logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:3px;letter-spacing:0;text-transform:none}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px;transition:opacity .2s}
+a.sl{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,border-color .15s,opacity .2s}
+a.sl:hover{color:var(--text)}
+a.sl.active{color:var(--ac);border-left-color:var(--ac)}
+a.sl.sub{padding-left:30px;font-size:12px}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--ac);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:16px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border);transition:color .3s}
+section.in-view>h2{color:var(--ac)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+p{margin-bottom:1.1em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+.term-orig{font-style:italic;color:var(--muted);font-size:.9em}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.kbox p{margin:0}
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--ac);border-radius:0 5px 5px 0;padding:12px 18px;margin:16px 0;font-family:var(--font-ui);font-size:16px;color:var(--text);text-align:center;line-height:1.9;overflow-x:auto}
+.eq i{color:var(--ac2);font-style:italic}
+.eq small{display:block;font-size:12px;color:var(--muted);margin-top:6px;font-style:normal;text-align:center}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.subarea-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.subarea-card{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:14px 16px;transition:border-color .2s}
+.subarea-card:hover{border-color:var(--ac)}
+.subarea-card h3{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--ac2);margin:0 0 5px}
+.subarea-card p{font-family:var(--font-ui);font-size:.83rem;color:var(--muted);margin:0;line-height:1.55}
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:16px 18px;margin-bottom:14px}
+.controversia h3{font-family:var(--font-ui);font-size:.9rem;font-weight:600;color:var(--text);margin:0 0 12px}
+.posicoes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.posicao{background:var(--bg3);border-radius:5px;padding:11px 13px}
+.posicao .label{font-family:var(--font-ui);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:5px}
+.posicao p{font-family:var(--font-ui);font-size:.82rem;color:var(--text);margin:0;line-height:1.55}
+.roteiro-step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.step-num{min-width:26px;height:26px;background:var(--ac);color:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.step-body{font-size:.92rem;line-height:1.72}
+.ref-group h3{font-family:var(--font-ui);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:24px 0 10px}
+.ref-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 15px;margin-bottom:9px}
+.ref-item .ref-title{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.ref-item .ref-meta{font-family:var(--font-ui);font-size:.78rem;color:var(--ac);margin-bottom:5px}
+.ref-item .ref-nota{font-family:var(--font-ui);font-size:.79rem;color:var(--muted);margin:0}
+.tag{display:inline-block;background:var(--bg3);border-radius:4px;padding:2px 6px;font-family:var(--font-ui);font-size:10px;color:var(--ac2);margin-right:3px}
+.questoes ol{padding-left:20px}
+.questoes li{margin-bottom:11px;line-height:1.72;font-size:.95rem}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.table-wrap{overflow-x:auto;margin:18px 0}
+.data-table{width:100%;border-collapse:collapse;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--text);font-weight:600}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic;margin:6px 0 0}
+@media(max-width:900px){
+  #mob-bar{display:flex}
+  #sidebar{position:fixed;top:0;left:0;z-index:200;height:100vh;transform:translateX(-100%);transition:transform .25s}
+  #sidebar.open{transform:translateX(0)}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .subarea-grid{grid-template-columns:1fr}
+  .posicoes{grid-template-columns:1fr}
+}
+@media print{body{background:#fff;color:#000}#sidebar,#mob-bar,#progress-bar,.anchor{display:none}#content{padding:20px}a{color:#000}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <span class="mb-title">Compêndio · Física</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Menu</button>
+</div>
+
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Colapsar sidebar">‹</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      Compêndio · Física
+      <a href="../../index.html">← Voltar ao índice</a>
+    </div>
+    <div class="s-group">Navegação</div>
+    <a class="sl" href="#o-que-estuda">O que a física estuda</a>
+    <a class="sl" href="#mapa">Mapa do campo</a>
+    <div class="s-group">As subáreas</div>
+    <a class="sl sub" href="#classica">Mecânica clássica</a>
+    <a class="sl sub" href="#termo">Termodinâmica</a>
+    <a class="sl sub" href="#em">Eletromagnetismo</a>
+    <a class="sl sub" href="#ondas">Óptica e ondas</a>
+    <a class="sl sub" href="#relatividade">Relatividade</a>
+    <a class="sl sub" href="#quantica">Mecânica quântica</a>
+    <a class="sl sub" href="#particulas">Partículas e campos</a>
+    <a class="sl sub" href="#condensada">Matéria condensada</a>
+    <a class="sl sub" href="#astro">Astrofísica e cosmologia</a>
+    <div class="s-group">Contexto</div>
+    <a class="sl" href="#historico">Percurso histórico</a>
+    <a class="sl" href="#brasil">Física no Brasil</a>
+    <a class="sl" href="#questoes">Questões centrais</a>
+    <a class="sl" href="#metodos">Ferramentas e métodos</a>
+    <a class="sl" href="#conexoes">Conexões</a>
+    <a class="sl" href="#controversias">Controvérsias ativas</a>
+    <a class="sl" href="#abertas">Perguntas em aberto</a>
+    <a class="sl" href="#por-onde-comecar">Por onde começar</a>
+    <a class="sl" href="#referencias">Referências</a>
+    <a class="sl" href="#sintese">Síntese</a>
+  </div>
+</nav>
+
+<main id="content">
+<div class="prose">
+
+  <div class="doc-header">
+    <h1>Física</h1>
+    <p class="doc-meta">Compêndio de área · Física · Campo amplo</p>
+    <div class="doc-chips">
+      <span class="chip">⏱ ~50 min de leitura</span>
+      <span class="chip">📍 Nível: campo amplo · do ensino médio</span>
+      <span class="chip">🗓 Última revisão: 2026-07-01</span>
+    </div>
+  </div>
+
+  <div class="pergunta">
+    <div class="plabel">Pergunta orientadora</div>
+    <p>Um punhado de equações — que cabem numa camiseta — descreve desde a queda de uma maçã até a colisão de buracos negros a bilhões de anos-luz. <em>Por que a natureza se deixa escrever em matemática, e até onde esse alfabeto alcança?</em></p>
+  </div>
+
+  <!-- O QUE ESTUDA -->
+  <section id="o-que-estuda">
+    <h2>O que a física estuda <a class="anchor" href="#o-que-estuda">¶</a></h2>
+    <p>A <strong>física</strong> <span class="term-orig">(do grego <em>phýsis</em>, natureza)</span> é a ciência que busca as regularidades mais fundamentais da natureza — as leis que governam matéria, energia, espaço e tempo, e as interações entre eles. Sua aposta característica é que, por trás da variedade dos fenômenos, existem poucos princípios gerais, expressos em linguagem matemática, dos quais o resto pode em princípio ser derivado. É a ciência que pergunta não o que <em>existe</em> num caso particular, mas <em>como tudo se comporta</em>, no nível mais básico que se consegue alcançar.</p>
+    <p>O que distingue a física das demais ciências naturais é o grau de <strong>abstração e unificação</strong> que ela persegue. A química estuda como átomos se combinam; a biologia, como a matéria se organiza em seres vivos. A física fica um degrau abaixo: pergunta o que é um átomo, por que forças o mantêm coeso, e por que a energia se conserva em toda reação. Em princípio, química e biologia são física aplicada a sistemas complexos — embora, na prática, cada nível de organização tenha leis próprias que não se leem diretamente das partículas (o problema da <em>emergência</em>).</p>
+    <p>A física trabalha por <strong>modelos idealizados</strong> e por <strong>escalas</strong>. Nenhuma equação descreve um objeto real em todos os detalhes; o físico isola o essencial (um "ponto material" sem tamanho, um "gás ideal" sem interações) e mede o quanto a idealização se afasta do real. E cada teoria tem um <em>domínio de validade</em>: a mecânica de Newton descreve maçãs e planetas com precisão extraordinária, mas falha perto da velocidade da luz (onde entra a relatividade) e na escala dos átomos (onde entra a mecânica quântica). Saber os limites de cada teoria é tão parte da física quanto saber suas fórmulas.</p>
+    <div class="kbox">
+      <div class="klabel">A régua das escalas</div>
+      <p>A física cobre <strong>mais de 60 ordens de grandeza</strong> em tamanho: do comprimento de Planck (~10<sup>−35</sup> m, onde a própria noção de espaço talvez se dissolva) ao diâmetro do universo observável (~10<sup>27</sup> m). E cerca de 40 ordens de grandeza em energia, da física de baixas temperaturas aos raios cósmicos de altíssima energia. Teorias diferentes reinam em faixas diferentes dessa régua — e um dos grandes projetos da física é descobrir se elas são casos-limite de uma teoria única.</p>
+    </div>
+    <p>Há uma divisão de trabalho interna importante. A <strong>física teórica</strong> constrói e desenvolve os modelos matemáticos; a <strong>física experimental</strong> os põe à prova, medindo com precisão crescente. Nenhuma vale sozinha: uma teoria que não faz previsões testáveis não é física, e uma medida sem teoria que a interprete é apenas um número. O ciclo entre as duas — previsão, medição, discrepância, revisão — é o motor do campo.</p>
+  </section>
+
+  <!-- MAPA DO CAMPO -->
+  <section id="mapa">
+    <h2>Mapa do campo <a class="anchor" href="#mapa">¶</a></h2>
+    <p>A física costuma ser dividida em nove grandes territórios. Uma clivagem transversal atravessa todos eles: a <strong>física clássica</strong> (até cerca de 1900 — mecânica, termodinâmica, eletromagnetismo, óptica), que trata grandezas como contínuas e o mundo como determinístico; e a <strong>física moderna</strong> (século XX em diante — relatividade e quântica), que reescreveu os fundamentos ao descobrir que o espaço-tempo é maleável e que a matéria é granular e probabilística. Os cards abaixo dão a visão de conjunto; cada subárea é aprofundada em sua própria seção logo adiante.</p>
+    <div class="subarea-grid">
+      <div class="subarea-card">
+        <h3>Mecânica clássica</h3>
+        <p>Movimento e forças em objetos macroscópicos e lentos. Leis de Newton; formulações de Lagrange e Hamilton; mecânica celeste. A base sobre a qual tudo se ergueu.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Termodinâmica e estatística</h3>
+        <p>Calor, energia, entropia e temperatura. As quatro leis; a ponte estatística de Boltzmann entre o mundo das moléculas e as grandezas macroscópicas.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Eletromagnetismo</h3>
+        <p>Cargas, correntes, campos elétricos e magnéticos. As quatro equações de Maxwell unificam eletricidade, magnetismo e luz num só fenômeno.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Óptica e ondas</h3>
+        <p>Propagação, interferência, difração e polarização. A luz como onda e a física comum a todos os fenômenos ondulatórios, do som ao mar.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Relatividade</h3>
+        <p>Restrita: espaço e tempo relativos, <i>E</i>&nbsp;=&nbsp;<i>mc</i><sup>2</sup>. Geral: a gravidade como curvatura do espaço-tempo. A teoria do muito rápido e do muito massivo.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Mecânica quântica</h3>
+        <p>O mundo atômico e subatômico: quantização, dualidade onda-partícula, incerteza, superposição. Determinística nas probabilidades, não nos resultados.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Partículas e campos</h3>
+        <p>Os constituintes últimos da matéria e suas interações. O Modelo Padrão, quarks e léptons, as forças fundamentais e o campo de Higgs.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Matéria condensada</h3>
+        <p>Como bilhões de átomos juntos geram propriedades novas: sólidos, semicondutores, supercondutividade, transições de fase. A física da tecnologia.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Astrofísica e cosmologia</h3>
+        <p>Estrelas, galáxias e o universo como um todo — sua origem no Big Bang, sua expansão, e os enigmas da matéria e energia escuras.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MECÂNICA CLÁSSICA -->
+  <section id="classica">
+    <h2>Mecânica clássica <a class="anchor" href="#classica">¶</a></h2>
+    <p>A <strong>mecânica clássica</strong> descreve como objetos se movem sob a ação de forças, no regime das velocidades comuns e dos tamanhos maiores que o átomo. É a mais antiga e a mais intuitiva das teorias físicas — e ainda hoje a que projeta pontes, lança foguetes e prevê eclipses.</p>
+    <p>Seu núcleo são as <strong>três leis de Newton</strong> (1687). A <em>primeira</em> (inércia) diz que um corpo mantém seu estado de repouso ou movimento retilíneo uniforme se nenhuma força resultante age sobre ele — o repouso não é o estado "natural", o movimento constante também é. A <em>segunda</em> quantifica como uma força muda esse movimento, e é a equação central de toda a mecânica:</p>
+    <div class="eq"><i>F</i> = <i>m</i> · <i>a</i><small>força resultante (N) = massa (kg) × aceleração (m/s²)</small></div>
+    <p>A <em>terceira</em> lei (ação e reação) afirma que forças vêm sempre aos pares: se A empurra B, B empurra A com força igual e oposta. É dela que decorre a <strong>conservação do momento linear</strong> (<i>p</i>&nbsp;=&nbsp;<i>m</i>·<i>v</i>), uma das grandezas que a física descobriu nunca se criarem nem destruírem num sistema isolado — apenas se transferirem.</p>
+    <p>A <strong>gravitação universal</strong> foi o triunfo inaugural da teoria. Newton mostrou que a mesma força que faz a maçã cair mantém a Lua em órbita, com uma única lei: a atração entre duas massas cresce com o produto delas e decai com o quadrado da distância.</p>
+    <div class="eq"><i>F</i> = <i>G</i> · <i>m</i><sub>1</sub><i>m</i><sub>2</sub> / <i>r</i><sup>2</sup><small><i>G</i> ≈ 6,674 × 10<sup>−11</sup> N·m²/kg² (constante gravitacional)</small></div>
+    <p>Com ela, as três <strong>leis de Kepler</strong> sobre o movimento planetário — antes regras empíricas extraídas de observação — tornaram-se <em>consequências dedutíveis</em>. Esse foi o momento fundador do programa da física: reduzir muitos fatos díspares a um princípio único e calculável. Situando a escala: a mesma equação descreve a queda de um objeto (<i>g</i> ≈ 9,8 m/s² na Terra) e o período de translação de Netuno (165 anos).</p>
+    <p>Dois séculos depois, a mecânica ganhou <strong>reformulações mais profundas</strong>, matematicamente equivalentes a Newton mas mais poderosas. A <em>formulação lagrangiana</em> (Lagrange, 1788) descreve o movimento por um princípio de mínima ação: de todos os caminhos possíveis entre dois pontos, a natureza escolhe aquele que minimiza uma quantidade chamada <em>ação</em>. A <em>formulação hamiltoniana</em> (Hamilton, 1833) reescreve tudo em termos de energia e é a ponte pela qual a mecânica quântica seria construída. Elas não são "outra física" — são a mesma mecânica vista de um ângulo que revela suas simetrias e se estende naturalmente a sistemas que Newton não alcançava.</p>
+    <div class="kbox">
+      <div class="klabel">Simetria e conservação (teorema de Noether, 1918)</div>
+      <p>Emmy Noether provou um dos resultados mais belos da física: <strong>a cada simetria contínua da natureza corresponde uma lei de conservação</strong>. Porque as leis não mudam com o tempo, a energia se conserva; porque não mudam de lugar para lugar, conserva-se o momento; porque não mudam com a orientação, conserva-se o momento angular. As "leis de conservação" deixam de ser fatos brutos e passam a ser reflexos da estrutura do espaço e do tempo.</p>
+    </div>
+    <p>A mecânica clássica também revelou seus próprios limites de previsibilidade. Mesmo sendo determinística — dado o estado inicial, o futuro está fixado —, sistemas com três ou mais corpos que interagem podem ser <strong>caóticos</strong>: uma diferença ínfima nas condições iniciais cresce exponencialmente, tornando a previsão de longo prazo impossível na prática. O clima e a órbita de longo prazo do Sistema Solar são exemplos. O caos mostrou que determinismo não implica previsibilidade.</p>
+  </section>
+
+  <!-- TERMODINÂMICA -->
+  <section id="termo">
+    <h2>Termodinâmica e mecânica estatística <a class="anchor" href="#termo">¶</a></h2>
+    <p>A <strong>termodinâmica</strong> nasceu no século XIX de uma pergunta prática — como extrair trabalho do calor, o problema das máquinas a vapor — e acabou revelando princípios que valem para o universo inteiro. Ela trata de <em>calor</em>, <em>temperatura</em>, <em>energia</em> e <em>entropia</em>, e o faz sem precisar saber do que a matéria é feita: são leis sobre grandezas macroscópicas.</p>
+    <p>Suas <strong>leis</strong> são quatro. A <em>lei zero</em> funda a noção de temperatura: se dois corpos estão em equilíbrio térmico com um terceiro, estão em equilíbrio entre si. A <em>primeira lei</em> é a conservação da energia com o calor incluído: a energia interna de um sistema muda pelo calor que recebe menos o trabalho que realiza.</p>
+    <div class="eq">Δ<i>U</i> = <i>Q</i> − <i>W</i><small>variação de energia interna = calor recebido − trabalho realizado</small></div>
+    <p>A <em>segunda lei</em> é a mais profunda e a mais estranha. Ela afirma que a <strong>entropia</strong> <span class="term-orig">(<em>entropy</em>)</span> de um sistema isolado nunca diminui: os processos naturais têm uma direção preferencial. O calor flui do quente para o frio, nunca o contrário espontaneamente; um copo quebra, mas cacos não se remontam sozinhos. É a segunda lei que define a <strong>seta do tempo</strong> — a única lei fundamental que distingue passado de futuro.</p>
+    <p>A <em>terceira lei</em> afirma que é impossível atingir o zero absoluto (0 K = −273,15 °C) em um número finito de passos; ao se aproximar dele, a entropia de um cristal perfeito tende a um valor mínimo.</p>
+    <div class="kbox">
+      <div class="klabel">A ponte de Boltzmann: entropia é contagem</div>
+      <p>A <strong>mecânica estatística</strong> (Boltzmann, Gibbs, fim do século XIX) explicou <em>por que</em> a termodinâmica funciona, ligando o macro ao micro. Sua equação-síntese, gravada no túmulo de Boltzmann, define a entropia como o logaritmo do número de arranjos microscópicos (<i>W</i>) compatíveis com o estado macroscópico observado:</p>
+      <div class="eq"><i>S</i> = <i>k</i><sub>B</sub> · ln <i>W</i><small><i>k</i><sub>B</sub> ≈ 1,38 × 10<sup>−23</sup> J/K (constante de Boltzmann)</small></div>
+      <p>A entropia mede, portanto, o número de maneiras microscópicas de realizar o mesmo estado macroscópico. O calor flui do quente para o frio não por uma força, mas porque há avassaladoramente <em>mais</em> arranjos correspondentes ao estado misturado do que ao separado. A segunda lei passa a ser uma afirmação sobre probabilidade — o improvável não é impossível, apenas fantasticamente raro.</p>
+    </div>
+    <p>Essa releitura estatística tem uma consequência filosófica que ainda inquieta: as leis microscópicas (de Newton, de Maxwell) são <strong>reversíveis no tempo</strong> — não distinguem passado de futuro —, mas o comportamento macroscópico é <strong>irreversível</strong>. Como a irreversibilidade emerge de leis reversíveis? Esse é o <em>problema de Boltzmann</em>, ligado à hipótese de que o universo começou em um estado de entropia extraordinariamente baixa (ver <a class="cross-link" href="#controversias">Controvérsias ativas</a>).</p>
+    <p>A termodinâmica também governa as <strong>transições de fase</strong> — quando a água vira gelo ou vapor, quando um metal se torna magnético. Perto do ponto crítico dessas transições, sistemas fisicamente muito diferentes se comportam de modo idêntico (<em>universalidade</em>), um fenômeno cuja explicação — o <em>grupo de renormalização</em> de Kenneth Wilson (1971) — conecta a termodinâmica à física de partículas.</p>
+  </section>
+
+  <!-- ELETROMAGNETISMO -->
+  <section id="em">
+    <h2>Eletromagnetismo <a class="anchor" href="#em">¶</a></h2>
+    <p>O <strong>eletromagnetismo</strong> é a teoria de uma das quatro forças fundamentais — a que responde por praticamente tudo que experimentamos além da gravidade: a luz, a química, a coesão da matéria sólida, toda a eletrônica. Sua história é o exemplo canônico de <em>unificação</em> em física: fenômenos tidos como separados — eletricidade, magnetismo e luz — revelaram-se três faces de um só campo.</p>
+    <p>No início do século XIX, eletricidade e magnetismo eram estudos distintos. Então <strong>Oersted</strong> (1820) notou que uma corrente elétrica desvia uma bússola — corrente gera magnetismo — e <strong>Faraday</strong> (1831) descobriu o inverso: um ímã em movimento gera corrente (a <em>indução eletromagnética</em>, princípio de todo gerador e transformador). Faraday introduziu a ideia decisiva de <strong>campo</strong>: a força não age à distância pelo vácuo, mas por meio de uma entidade que preenche o espaço e transmite a interação.</p>
+    <p>Foi <strong>James Clerk Maxwell</strong> (1865) quem completou a síntese, reunindo tudo em quatro equações. Elas dizem, em palavras: (1) cargas elétricas criam campos elétricos; (2) não existem "cargas magnéticas" isoladas — todo ímã tem dois polos; (3) campos magnéticos variáveis geram campos elétricos (Faraday); e (4) correntes <em>e campos elétricos variáveis</em> geram campos magnéticos. Foi o termo que Maxwell acrescentou à quarta equação que fechou o círculo.</p>
+    <div class="kbox">
+      <div class="klabel">A luz é uma onda eletromagnética</div>
+      <p>Ao combinar suas equações, Maxwell obteve uma <em>onda</em>: um campo elétrico variável gera um magnético variável, que regenera o elétrico, e assim a perturbação se propaga sozinha pelo vácuo. A velocidade dessa onda saía das equações a partir de duas constantes medidas em laboratório — e coincidia com a velocidade da luz. A conclusão foi inescapável: <strong>a luz é uma onda eletromagnética</strong>. Rádio, micro-ondas, infravermelho, luz visível, raios X e gama são a mesma coisa, em frequências diferentes.</p>
+      <div class="eq"><i>c</i> = 299 792 458 m/s<small>velocidade da luz no vácuo — hoje um valor <em>definido</em>, que fixa o metro</small></div>
+    </div>
+    <p>As equações de Maxwell tiveram uma consequência que só a relatividade resolveria: elas dão <em>um</em> valor para a velocidade da luz, sem dizer "em relação a quê". Se a luz tem sempre a mesma velocidade, independentemente de quem a mede, a física newtoniana de somar velocidades não pode estar totalmente certa. Essa tensão foi o ponto de partida de Einstein (ver <a class="cross-link" href="#relatividade">Relatividade</a>).</p>
+    <p>O eletromagnetismo é também a força que <strong>estrutura a matéria</strong>: são forças elétricas que ligam elétrons a núcleos, átomos em moléculas e moléculas em sólidos. Quando você toca uma mesa, o que sente é a repulsão eletromagnética entre os elétrons da sua mão e os da mesa — nunca há contato "real" entre superfícies. A química inteira é eletromagnetismo somado à mecânica quântica.</p>
+  </section>
+
+  <!-- ÓPTICA E ONDAS -->
+  <section id="ondas">
+    <h2>Óptica e ondas <a class="anchor" href="#ondas">¶</a></h2>
+    <p>Uma <strong>onda</strong> é uma perturbação que transporta energia (e informação) sem transportar matéria: a rolha sobe e desce, mas a onda do mar avança. O estudo das ondas é transversal a toda a física — som, luz, ondas sísmicas, ondas na corda de um violão e até ondas gravitacionais obedecem às mesmas relações. Toda onda tem <em>comprimento de onda</em> (λ, a distância entre dois picos), <em>frequência</em> (<i>f</i>, quantos picos passam por segundo) e <em>velocidade</em>, ligados por uma relação simples:</p>
+    <div class="eq"><i>v</i> = λ · <i>f</i><small>velocidade = comprimento de onda × frequência</small></div>
+    <p>A <strong>óptica</strong> é o estudo específico da luz. Em escalas grandes comparadas ao comprimento de onda, a luz se comporta como se viajasse em raios retos — é a <em>óptica geométrica</em>, que explica espelhos, lentes, o olho, a câmera e o arco-íris pela <em>refração</em> (o desvio ao mudar de meio) e a <em>reflexão</em>. É a óptica das aulas de ensino médio, e basta para projetar a maioria dos instrumentos.</p>
+    <p>Mas a luz revela sua natureza ondulatória em dois fenômenos que raios não explicam. A <strong>interferência</strong>: duas ondas que se superpõem podem se somar (cristas coincidentes) ou se cancelar (crista sobre vale). O experimento da <em>fenda dupla</em> de Thomas Young (1801) — luz passando por duas fendas produz faixas claras e escuras alternadas — provou que a luz é onda, encerrando (por um século) o debate com a teoria corpuscular de Newton. A <strong>difração</strong>: ondas contornam obstáculos e se espalham ao passar por aberturas, tanto mais quanto menor a abertura em relação a λ.</p>
+    <p>A <strong>polarização</strong> revela ainda que a luz é uma onda <em>transversal</em> — oscila perpendicularmente à direção de propagação —, e que essa oscilação tem uma orientação, que filtros polarizadores (óculos de sol, telas LCD) selecionam. Som, por ser onda <em>longitudinal</em> (oscila na direção da propagação), não se polariza — uma diferença que distingue os dois tipos de onda.</p>
+    <div class="box info">
+      <strong>Onde os regimes se encontram:</strong> a óptica geométrica é o <em>limite</em> da óptica ondulatória quando o comprimento de onda é desprezível frente aos objetos — assim como a mecânica de Newton é o limite da relatividade a baixas velocidades. E a própria óptica ondulatória se revelaria, no século XX, um limite: a luz também é feita de <em>fótons</em>, pacotes de energia. Onda ou partícula, conforme o experimento — o paradoxo que a <a class="cross-link" href="#quantica">mecânica quântica</a> teria de encarar de frente.</p>
+    </div>
+    <p>Um fenômeno ondulatório universal é o <strong>efeito Doppler</strong>: a frequência aumenta quando a fonte se aproxima e diminui quando se afasta (a sirene que muda de tom ao passar). Aplicado à luz das galáxias, ele se torna o <em>desvio para o vermelho</em> que revelou a expansão do universo (ver <a class="cross-link" href="#astro">Astrofísica e cosmologia</a>) — um exemplo de como um conceito de ondas atravessa toda a física.</p>
+  </section>
+
+  <!-- RELATIVIDADE -->
+  <section id="relatividade">
+    <h2>Relatividade <a class="anchor" href="#relatividade">¶</a></h2>
+    <p>A <strong>relatividade</strong>, obra de Einstein em dois atos (1905 e 1915), refez a física do espaço e do tempo. Onde Newton os tratava como um palco fixo e universal — o mesmo relógio e a mesma régua para todos —, Einstein mostrou que ambos são <em>relativos</em> ao observador e ao movimento, e que a gravidade é uma propriedade da própria geometria do universo.</p>
+    <p>A <strong>relatividade restrita</strong> (1905) parte de dois postulados simples: (1) as leis da física são as mesmas para todos os observadores em movimento uniforme; e (2) a velocidade da luz no vácuo é a mesma para todos, não importa como se movam — exatamente o que as equações de Maxwell exigiam. Dessas duas premissas seguem consequências que desafiam o senso comum, todas confirmadas experimentalmente: relógios em movimento andam mais devagar (<em>dilatação do tempo</em>), objetos em movimento encurtam na direção do movimento (<em>contração do comprimento</em>) e a simultaneidade é relativa — dois eventos simultâneos para mim podem não ser para você.</p>
+    <p>Do mesmo formalismo sai a equação mais famosa da ciência, que afirma que massa e energia são a mesma coisa em unidades diferentes:</p>
+    <div class="eq"><i>E</i> = <i>m</i> · <i>c</i><sup>2</sup><small>uma massa <em>m</em> equivale a uma energia <em>E</em> — o fator <i>c</i><sup>2</sup> é enorme</small></div>
+    <p>Como <i>c</i><sup>2</sup> é um número gigantesco, uma quantidade minúscula de massa guarda uma energia imensa: é a fonte da energia do Sol (fusão nuclear) e das usinas e bombas atômicas. A mecânica de Newton reaparece aqui como o <strong>limite de baixas velocidades</strong> da relatividade — para <i>v</i> muito menor que <i>c</i>, as correções relativísticas somem e recuperamos <i>F</i>&nbsp;=&nbsp;<i>m·a</i>. Nenhuma teoria "derruba" a anterior; ela a contém como caso particular.</p>
+    <div class="kbox">
+      <div class="klabel">Relatividade geral: a gravidade é geometria</div>
+      <p>Em 1915, Einstein estendeu a teoria para incluir a gravidade e a aceleração. Sua ideia central: <strong>massa e energia curvam o espaço-tempo, e essa curvatura é o que chamamos de gravidade</strong>. A Terra não "puxa" a Lua por uma força invisível — ela deforma o espaço-tempo ao redor, e a Lua segue o caminho mais reto possível nessa geometria curva. Como resumiu John Wheeler: "a matéria diz ao espaço-tempo como se curvar; o espaço-tempo diz à matéria como se mover".</p>
+    </div>
+    <p>A relatividade geral fez previsões extraordinárias, todas confirmadas: a luz se curva ao passar perto do Sol (medido no eclipse de 1919, que consagrou Einstein), o tempo passa mais devagar em campos gravitacionais fortes (o GPS <em>precisa</em> corrigir isso para funcionar), e o próprio espaço-tempo pode ondular. Em 2015, o observatório <strong>LIGO</strong> detectou diretamente <em>ondas gravitacionais</em> — ondulações no espaço-tempo produzidas pela colisão de dois buracos negros a mais de um bilhão de anos-luz —, um século depois de a teoria as prever.</p>
+    <p>A teoria também prevê suas próprias fronteiras. Onde a curvatura se torna extrema — no centro de um <strong>buraco negro</strong> ou no instante inicial do <strong>Big Bang</strong> —, ela aponta para <em>singularidades</em>: pontos de densidade infinita onde as equações deixam de fazer sentido. Isso é lido como sinal de que a relatividade, tão bem-sucedida no grande, precisa ser substituída por uma teoria quântica da gravidade no muito pequeno (ver <a class="cross-link" href="#abertas">Perguntas em aberto</a>).</p>
+  </section>
+
+  <!-- MECÂNICA QUÂNTICA -->
+  <section id="quantica">
+    <h2>Mecânica quântica <a class="anchor" href="#quantica">¶</a></h2>
+    <p>A <strong>mecânica quântica</strong> é a teoria do muito pequeno — átomos, elétrons, fótons — e a mais precisa e mais bem-testada da história da física. Também é a mais contraintuitiva: no domínio quântico, a matéria é <em>granular</em>, o acaso é <em>fundamental</em>, e objetos podem estar em vários estados ao mesmo tempo. Nenhuma imagem do cotidiano se aplica; resta a matemática, que funciona com precisão espantosa.</p>
+    <p>Ela nasceu de um impasse. Em 1900, para explicar a radiação de corpos quentes, <strong>Planck</strong> foi forçado a supor que a energia não é emitida continuamente, mas em <strong>pacotes discretos</strong> (<em>quanta</em>). Em 1905, <strong>Einstein</strong> aplicou a ideia à luz (o efeito fotoelétrico, que lhe deu o Nobel): a luz é feita de <em>fótons</em>, cada um com energia proporcional à frequência.</p>
+    <div class="eq"><i>E</i> = <i>h</i> · <i>f</i><small><i>h</i> ≈ 6,626 × 10<sup>−34</sup> J·s (constante de Planck) — o "grão" da ação</small></div>
+    <p>Daí veio o primeiro grande enigma: a <strong>dualidade onda-partícula</strong>. A luz, que Young provara ser onda, também é partícula; e De Broglie (1924) mostrou que o inverso vale — elétrons, que são partículas, também difratam como ondas. No experimento da fenda dupla feito com elétrons um a um, cada elétron chega como um ponto (partícula), mas o padrão acumulado é de interferência (onda). O objeto quântico não é onda nem partícula: é algo novo, que se manifesta de um jeito ou de outro conforme a pergunta que o experimento faz.</p>
+    <p>O estado de um sistema quântico é descrito por uma <strong>função de onda</strong> (ψ), que evolui de modo perfeitamente determinístico pela <strong>equação de Schrödinger</strong> (1926). O que a função de onda fornece, porém, não é o resultado de uma medida, mas a <em>probabilidade</em> de cada resultado possível (regra de Born: a probabilidade é |ψ|²). Antes de medir, o sistema está em <strong>superposição</strong> de todos os resultados; a medida devolve um só, aparentemente ao acaso.</p>
+    <div class="kbox">
+      <div class="klabel">O princípio da incerteza (Heisenberg, 1927)</div>
+      <p>Não é limitação dos instrumentos, e sim da natureza: certos pares de grandezas — como posição e momento — não têm valores definidos simultaneamente. Quanto mais precisa a posição de uma partícula, mais indefinido seu momento, e vice-versa:</p>
+      <div class="eq">Δ<i>x</i> · Δ<i>p</i> ≥ <i>ħ</i>/2<small><i>ħ</i> = <i>h</i>/2π — o produto das incertezas tem um piso irredutível</small></div>
+      <p>A partícula quântica simplesmente não <em>possui</em> posição e momento exatos ao mesmo tempo. É um dos rompimentos mais radicais com a física clássica, onde tudo tinha valores precisos, mesmo quando desconhecidos.</p>
+    </div>
+    <p>A quântica introduziu ainda o <strong>spin</strong> (um momento angular intrínseco sem análogo clássico) e o <strong>emaranhamento</strong> <span class="term-orig">(<em>entanglement</em>)</span>: duas partículas podem ficar correlacionadas de tal modo que medir uma determina instantaneamente o estado da outra, por mais distantes que estejam. Einstein chamou isso de "ação fantasmagórica à distância" e recusou-se a aceitá-lo; os experimentos de Bell (a partir dos anos 1970, premiados com o Nobel de 2022) deram razão à quântica e não a Einstein — o emaranhamento é real. Ele é hoje o recurso dos <em>computadores quânticos</em> e da <em>criptografia quântica</em>.</p>
+    <p>A relação com a física clássica é o <strong>princípio da correspondência</strong>: para números quânticos grandes, ou quando a constante de Planck é desprezível frente às grandezas em jogo, as previsões quânticas convergem para as clássicas. O mundo macroscópico é quântico "por baixo", mas a granularidade e a superposição se tornam imperceptíveis na nossa escala — em parte por causa da <em>decoerência</em>, o rápido embaralhamento das superposições pela interação com o ambiente. <em>O que a função de onda de fato representa</em> continua em disputa aberta (ver <a class="cross-link" href="#controversias">Controvérsias ativas</a>).</p>
+  </section>
+
+  <!-- PARTÍCULAS E CAMPOS -->
+  <section id="particulas">
+    <h2>Física de partículas e teoria quântica de campos <a class="anchor" href="#particulas">¶</a></h2>
+    <p>A <strong>física de partículas</strong> busca os constituintes últimos da matéria e as regras de suas interações. Sua linguagem é a <strong>teoria quântica de campos</strong> (QFT), que unifica a mecânica quântica com a relatividade restrita: nela, cada tipo de partícula é uma <em>excitação</em> de um campo que preenche todo o espaço — o elétron é uma vibração do campo do elétron, o fóton do campo eletromagnético, e assim por diante.</p>
+    <p>O resultado consolidado é o <strong>Modelo Padrão</strong>, construído entre os anos 1960 e 1970 e verificado com precisão notável desde então. Ele organiza toda a matéria conhecida em dois grupos de partículas fundamentais: os <strong>quarks</strong> (seis tipos; combinam-se em prótons e nêutrons) e os <strong>léptons</strong> (seis tipos, incluindo o elétron e os neutrinos). As interações entre elas são mediadas por partículas <em>mensageiras</em> (bósons): o fóton transmite a força eletromagnética, os glúons a força forte, e os bósons W e Z a força fraca.</p>
+    <div class="kbox">
+      <div class="klabel">O campo de Higgs (previsto em 1964, confirmado em 2012)</div>
+      <p>O Modelo Padrão só é consistente se existir um campo extra permeando o espaço — o <strong>campo de Higgs</strong> — cuja interação com as partículas lhes confere <em>massa</em>. Partículas que interagem mais com ele são mais "pesadas"; o fóton, que não interage, não tem massa e viaja à velocidade da luz. Em 2012, o <strong>LHC</strong> (o grande colisor do CERN) detectou o <em>bóson de Higgs</em>, a excitação desse campo, fechando a lista de partículas do Modelo Padrão quase meio século depois da previsão de Peter Higgs e outros.</p>
+    </div>
+    <p>As <strong>quatro forças fundamentais</strong> são o esqueleto de toda a física. Três delas estão descritas pelo Modelo Padrão em linguagem quântica; a gravidade, a mais familiar, é justamente a que resiste a ser quantizada — a grande lacuna da física teórica.</p>
+    <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Força</th><th>Alcance</th><th>Intensidade relativa</th><th>Mediador</th><th>O que faz</th></tr></thead>
+      <tbody>
+        <tr><td class="td-label">Forte</td><td>~10<sup>−15</sup> m (núcleo)</td><td>1 (a mais forte)</td><td>Glúons</td><td>Mantém quarks unidos em prótons/nêutrons e o núcleo coeso</td></tr>
+        <tr><td class="td-label">Eletromagnética</td><td>Infinito</td><td>~10<sup>−2</sup></td><td>Fóton</td><td>Liga elétrons a núcleos; química, luz, eletrônica</td></tr>
+        <tr><td class="td-label">Fraca</td><td>~10<sup>−18</sup> m</td><td>~10<sup>−6</sup></td><td>Bósons W e Z</td><td>Decaimento radioativo; alimenta a fusão nas estrelas</td></tr>
+        <tr><td class="td-label">Gravitacional</td><td>Infinito</td><td>~10<sup>−39</sup> (a mais fraca)</td><td>(gráviton, hipotético)</td><td>Atrai toda massa/energia; domina em escala astronômica</td></tr>
+      </tbody>
+    </table>
+    <p class="table-caption">Tabela 1 — As quatro interações fundamentais. A gravidade é a mais fraca por muitas ordens de grandeza, mas a única sem descrição quântica aceita — e a única que se acumula (não se cancela) em grandes massas, por isso domina o cosmos.</p>
+    </div>
+    <p>Note o paradoxo das intensidades: a gravidade é <em>trilhões de trilhões</em> de vezes mais fraca que as demais — um ímã de geladeira vence a atração gravitacional do planeta inteiro sobre um clipe. Ela só domina em grande escala porque, ao contrário da força elétrica (em que cargas opostas se cancelam), a gravidade sempre atrai e se acumula com a massa. Explicar <em>por que</em> ela é tão fraca (o "problema da hierarquia") é uma das questões abertas que motivaram teorias além do Modelo Padrão, como a supersimetria.</p>
+    <p>Apesar de seu sucesso, o Modelo Padrão é reconhecidamente <strong>incompleto</strong>: não inclui a gravidade, não explica a matéria escura nem a energia escura, não diz por que há mais matéria que antimatéria no universo, e trata os neutrinos como sem massa (embora saibamos que têm um pouco). É a teoria mais bem-sucedida que temos <em>e</em>, ao mesmo tempo, a evidência mais clara de que falta física por descobrir.</p>
+  </section>
+
+  <!-- MATÉRIA CONDENSADA -->
+  <section id="condensada">
+    <h2>Matéria condensada <a class="anchor" href="#condensada">¶</a></h2>
+    <p>A <strong>física da matéria condensada</strong> estuda o que acontece quando um número imenso de átomos se junta — sólidos e líquidos, sobretudo. É a maior subárea da física em número de pesquisadores e a mais próxima da tecnologia: transistores, lasers, LEDs, ímãs, baterias e materiais supercondutores saem daqui. Seu princípio orientador é a <strong>emergência</strong>: propriedades que nenhum átomo isolado tem surgem do comportamento <em>coletivo</em> de muitos.</p>
+    <p>O físico Philip Anderson resumiu essa ideia em 1972 na frase "<em>more is different</em>" (mais é diferente): saber a equação de um átomo não permite prever a supercondutividade, do mesmo modo que conhecer a biologia de um neurônio não explica a consciência. Cada nível de complexidade tem leis próprias, não redutíveis na prática às do nível abaixo — uma tese que reposiciona a física de partículas como não sendo "mais fundamental" que as demais em todo sentido.</p>
+    <p>A base é a <strong>estrutura cristalina</strong>: nos sólidos, os átomos se arranjam em padrões periódicos regulares. A mecânica quântica aplicada a esse arranjo mostra que os elétrons só podem ocupar certas <em>bandas</em> de energia, separadas por lacunas proibidas. A largura dessa lacuna decide tudo: se é fácil de vencer, o material conduz eletricidade (condutor); se é grande, isola (isolante); se é intermediária e controlável, é um <strong>semicondutor</strong> — o silício —, base de toda a eletrônica e da revolução digital.</p>
+    <div class="kbox">
+      <div class="klabel">Supercondutividade</div>
+      <p>Abaixo de uma temperatura crítica, certos materiais perdem <em>toda</em> resistência elétrica: uma corrente flui indefinidamente sem perder energia, e o material expulsa campos magnéticos (permitindo levitação). Descoberta em 1911, só foi explicada em 1957 (teoria BCS): os elétrons, que normalmente se repelem, formam <em>pares</em> que se movem em coordenação perfeita, sem colidir com a rede. A supercondutividade a alta temperatura, descoberta em 1986, ainda <strong>não tem explicação teórica completa</strong> — um dos maiores problemas em aberto da matéria condensada, com enorme apelo prático (transmissão de energia sem perdas, ímãs potentes).</p>
+    </div>
+    <p>A matéria condensada também é o palco onde as <strong>transições de fase</strong> e o conceito de <em>quebra espontânea de simetria</em> aparecem de forma tangível: um material magnético, ao esfriar, "escolhe" uma direção para seus spins que antes não existia. Esse mesmo mecanismo, transposto para a física de partículas, é o que o campo de Higgs realiza — uma das pontes conceituais mais profundas entre as duas subáreas, e a razão de o Brasil investir numa fonte de luz síncrotron como o <a class="cross-link" href="#brasil">Sirius</a> para sondar materiais em detalhe atômico.</p>
+  </section>
+
+  <!-- ASTROFÍSICA E COSMOLOGIA -->
+  <section id="astro">
+    <h2>Astrofísica e cosmologia <a class="anchor" href="#astro">¶</a></h2>
+    <p>A <strong>astrofísica</strong> aplica as leis da física aos objetos do céu — estrelas, galáxias, buracos negros — e a <strong>cosmologia</strong> trata do universo como um todo: sua origem, estrutura e destino. É a subárea onde todas as outras se encontram, pois o cosmos é o único laboratório com energias, densidades e escalas de tempo que nenhum experimento terrestre alcança.</p>
+    <p>As <strong>estrelas</strong> são reatores de fusão nuclear em equilíbrio: a gravidade as comprime, e a energia liberada pela fusão do hidrogênio em hélio (força forte + relatividade, via <i>E</i>&nbsp;=&nbsp;<i>mc</i><sup>2</sup>) as impede de colapsar. Quando o combustível acaba, esse equilíbrio se rompe e a estrela morre conforme sua massa: as pequenas viram anãs brancas; as grandes explodem como <em>supernovas</em>, forjando nos seus últimos instantes os elementos pesados de que somos feitos, e deixando para trás <strong>estrelas de nêutrons</strong> ou <strong>buracos negros</strong>. A frase de Carl Sagan — "somos poeira de estrelas" — é literalmente verdadeira: o cálcio dos ossos e o ferro do sangue foram fabricados em estrelas mortas.</p>
+    <div class="kbox">
+      <div class="klabel">O universo em expansão e o Big Bang</div>
+      <p>Em 1929, <strong>Hubble</strong> descobriu que as galáxias se afastam de nós, e tanto mais rápido quanto mais distantes (medindo o <em>desvio para o vermelho</em> de sua luz — o efeito Doppler cósmico). A conclusão: o universo se <em>expande</em>. Rebobinando essa expansão, chega-se a um início quente e denso há cerca de <strong>13,8 bilhões de anos</strong> — o <em>Big Bang</em>. A prova decisiva veio em 1965 com a descoberta da <strong>radiação cósmica de fundo</strong>, o "eco" térmico daquele instante inicial, hoje resfriado a 2,7 K e detectável em todas as direções do céu.</p>
+    </div>
+    <p>A grande reviravolta recente veio de dois enigmas. Primeiro, as galáxias giram rápido demais: a matéria visível não tem gravidade suficiente para mantê-las coesas — falta massa. Postula-se então a <strong>matéria escura</strong>, que não emite luz e só se manifesta pela gravidade. Segundo, em 1998 descobriu-se que a expansão do universo está <em>acelerando</em>, empurrada por algo que se batizou de <strong>energia escura</strong>. Somando tudo, a composição do universo, segundo os dados do satélite Planck (2018), é desconcertante:</p>
+    <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Componente</th><th>Fração do universo</th><th>O que é</th></tr></thead>
+      <tbody>
+        <tr><td class="td-label">Energia escura</td><td>~68%</td><td>Causa desconhecida da expansão acelerada; consistente com uma "constante cosmológica"</td></tr>
+        <tr><td class="td-label">Matéria escura</td><td>~27%</td><td>Matéria invisível, detectada só pela gravidade; natureza desconhecida</td></tr>
+        <tr><td class="td-label">Matéria comum</td><td>~5%</td><td>Tudo que conhecemos: estrelas, planetas, gás, nós — átomos</td></tr>
+      </tbody>
+    </table>
+    <p class="table-caption">Tabela 2 — Composição do universo (Planck 2018). Cerca de 95% do cosmos é feito de substâncias cuja natureza física ignoramos — talvez o maior escândalo aberto da ciência.</p>
+    </div>
+    <p>Ou seja: tudo que a física estudou em quatro séculos — toda a matéria de átomos — é apenas <strong>5% do universo</strong>. Os outros 95% são de natureza ignorada. Vale ressaltar o grau de honestidade dos nomes: "matéria escura" e "energia escura" são <em>rótulos para a nossa ignorância</em>, não explicações. Dados recentes do levantamento DESI (2024–2025) sugerem inclusive que a energia escura pode não ser constante, mas variar com o tempo — o que, se confirmado, obrigaria a revisar o modelo cosmológico padrão (ver <a class="cross-link" href="#controversias">Controvérsias ativas</a>).</p>
+  </section>
+
+  <!-- PERCURSO HISTÓRICO -->
+  <section id="historico">
+    <h2>Percurso histórico <a class="anchor" href="#historico">¶</a></h2>
+    <p>A física não avança por acúmulo linear, mas por <em>revoluções</em> que reformulam os fundamentos — e por longos períodos de consolidação entre elas. Conhecer essa história é entender por que as teorias têm a forma que têm, e por que cada uma delimita seu domínio de validade.</p>
+    <div class="hist"><span class="hl">Revolução científica</span><strong>1543–1687 — de Copérnico a Newton.</strong> Copérnico tira a Terra do centro; Galileu funde matemática e experimento e formula a inércia; Kepler extrai da observação as leis das órbitas. Em 1687, os <em>Principia</em> de Newton unificam céu e Terra sob as mesmas leis do movimento e da gravitação — nasce a física como ciência matemática.</div>
+    <p>A <strong>síntese newtoniana</strong> reinou por dois séculos, tão bem-sucedida que ao fim do século XIX muitos julgavam a física quase completa — restariam "dois pequenos problemas". No século XVIII e XIX, ela foi refinada pelas formulações de Lagrange e Hamilton, e a física expandiu-se para novos domínios: a <strong>termodinâmica</strong>, movida pela Revolução Industrial e pelo estudo das máquinas a vapor (Carnot, Clausius, Kelvin), e o <strong>eletromagnetismo</strong>, que Oersted, Faraday e sobretudo Maxwell (1865) reuniram numa teoria unificada da eletricidade, do magnetismo e da luz.</p>
+    <div class="hist"><span class="hl">A dupla revolução</span><strong>1900–1927 — quântica e relatividade.</strong> Os "dois pequenos problemas" (a radiação de corpo negro e o resultado nulo do experimento de Michelson-Morley sobre o éter) explodiram os fundamentos. Planck (1900) quantiza a energia; Einstein reescreve espaço e tempo (1905) e a gravidade (1915); Bohr, Heisenberg, Schrödinger, Dirac e Born constroem a mecânica quântica (1925–1927). Em 25 anos, a física clássica passou de teoria final a caso-limite.</div>
+    <p>O <strong>pós-guerra</strong> foi a era da física de partículas e da consolidação. A teoria quântica de campos amadureceu (a eletrodinâmica quântica de Feynman, Schwinger e Tomonaga nos anos 1940 tornou-se a teoria mais precisa já testada), e entre 1960 e 1975 o <strong>Modelo Padrão</strong> reuniu três das quatro forças. Em paralelo, a relatividade geral, adormecida por décadas, renasceu com a cosmologia do Big Bang e o estudo dos buracos negros.</p>
+    <p>A física contemporânea vive uma situação peculiar: possui duas teorias extraordinariamente bem-sucedidas — o Modelo Padrão (o muito pequeno) e a relatividade geral (o muito grande) — que são, no entanto, <strong>mutuamente incompatíveis</strong> nos regimes onde ambas deveriam valer (buracos negros, Big Bang). Unificá-las numa <em>gravidade quântica</em> é o grande problema em aberto herdado do século XX, ainda sem solução testada.</p>
+  </section>
+
+  <!-- FÍSICA NO BRASIL -->
+  <section id="brasil">
+    <h2>Física no Brasil <a class="anchor" href="#brasil">¶</a></h2>
+    <p>A física brasileira tem pouco mais de um século, mas produziu momentos de nível mundial. Seu marco fundador na pesquisa é a chegada de físicos europeus à recém-criada <strong>Universidade de São Paulo</strong> (USP, 1934), entre eles o italiano Gleb Wataghin, que formou a primeira geração de físicos experimentais e teóricos do país.</p>
+    <div class="hist"><span class="hl">Marco brasileiro</span><strong>1947 — a descoberta do méson pi (píon).</strong> O paulista <strong>César Lattes</strong>, com Giuseppe Occhialini e Cecil Powell (Bristol), identificou o <em>méson π</em> em placas fotográficas expostas à radiação cósmica nos Andes — a partícula que Yukawa previra como mediadora da força nuclear forte. No ano seguinte, Lattes participou da primeira produção artificial do píon no cíclotron de Berkeley. Powell recebeu o Nobel de 1950; Lattes, então com 26 anos, tornou-se o físico brasileiro mais célebre.</div>
+    <p>O prestígio da descoberta impulsionou a institucionalização da área. Em 1949 fundou-se o <strong>Centro Brasileiro de Pesquisas Físicas</strong> (CBPF) no Rio, e em 1951 o <strong>CNPq</strong>, agência que estruturaria o financiamento da ciência nacional — Lattes foi peça central em ambos. Formaram-se depois grupos fortes em áreas teóricas, com destaque para <strong>Mário Schenberg</strong> (astrofísica; o "processo Urca" de resfriamento de supernovas, batizado em homenagem a um cassino do Rio) e <strong>José Leite Lopes</strong> (física de partículas).</p>
+    <p>Hoje a maior aposta em infraestrutura é o <strong>Sirius</strong>, fonte de luz síncrotron de 4ª geração operada pelo LNLS/CNPEM em Campinas — a maior e mais complexa instalação científica já construída no país. Um síncrotron acelera elétrons a quase a velocidade da luz para gerar radiação intensíssima, usada para "enxergar" a estrutura da matéria em escala atômica (materiais, proteínas, fármacos). Em 2025, das 14 estações experimentais planejadas, <strong>10 já operam</strong>, atendendo centenas de projetos de pesquisa por ano. Ao lado dele, o Brasil participa de grandes colaborações internacionais, do LHC (CERN) a observatórios de raios cósmicos como o Observatório Pierre Auger, na Argentina, com forte presença brasileira.</p>
+  </section>
+
+  <!-- QUESTÕES CENTRAIS -->
+  <section id="questoes">
+    <h2>Questões centrais <a class="anchor" href="#questoes">¶</a></h2>
+    <p>Estas são as perguntas que organizam a física fundamental hoje — genuinamente abertas, no sentido de que físicos competentes discordam sobre elas ou simplesmente não sabem a resposta.</p>
+    <div class="questoes">
+      <ol>
+        <li>Como unir a relatividade geral e a mecânica quântica numa única <strong>teoria da gravidade quântica</strong>, capaz de descrever buracos negros e o Big Bang sem singularidades infinitas?</li>
+        <li>O que são, fisicamente, a <strong>matéria escura</strong> e a <strong>energia escura</strong>, que respondem por ~95% do universo? São novas partículas e campos, ou sinais de que nossa teoria da gravidade está errada?</li>
+        <li>Por que o universo é feito de <strong>matéria e quase nenhuma antimatéria</strong>, se o Big Bang deveria tê-las produzido em quantidades iguais?</li>
+        <li>O que a <strong>função de onda</strong> quântica <em>representa</em> — um estado real do mundo, ou apenas nosso conhecimento sobre ele? (o "problema da medida")</li>
+        <li>Há física <strong>além do Modelo Padrão</strong>? Por que a gravidade é tão absurdamente mais fraca que as outras forças (o problema da hierarquia)?</li>
+        <li>Como a <strong>irreversibilidade</strong> macroscópica (a seta do tempo) emerge de leis microscópicas reversíveis, e por que o universo começou com entropia tão baixa?</li>
+        <li>Existe uma explicação para a <strong>supercondutividade a alta temperatura</strong>, e é possível um supercondutor à temperatura ambiente?</li>
+        <li>As constantes fundamentais da natureza (a massa do elétron, a força das interações) poderiam ter outros valores — e por que têm exatamente os que permitem a existência de estrelas e vida (o problema do "ajuste fino")?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FERRAMENTAS E MÉTODOS -->
+  <section id="metodos">
+    <h2>Ferramentas e métodos <a class="anchor" href="#metodos">¶</a></h2>
+    <p>A física produz e valida conhecimento por um ciclo entre teoria e experimento, amarrado por uma exigência inegociável: <strong>toda afirmação deve, em princípio, ser testável por medição</strong>. Os métodos abaixo são as engrenagens desse ciclo.</p>
+    <p><strong>Modelagem matemática:</strong> traduzir um fenômeno em equações que capturam suas variáveis essenciais e ignoram o resto. O poder da física vem de que essas equações fazem <em>previsões quantitativas</em> — não "o objeto cai", mas "cai percorrendo <i>d</i>&nbsp;=&nbsp;½<i>gt</i>²". A precisão da previsão é o que se põe à prova.</p>
+    <p><strong>Experimento controlado:</strong> isolar uma variável, variá-la e medir o efeito, mantendo as demais fixas. Foi a inovação de Galileu — planos inclinados para "diluir" a gravidade e medir a queda — e continua no coração do método, do laboratório de bancada aos grandes colisores.</p>
+    <p><strong>Medição de precisão:</strong> boa parte da física de fronteira é a arte de medir cada vez melhor. Foi uma discrepância na sexta casa decimal que revelou a antimatéria e outra que apontou o momento magnético do elétron — a grandeza mais precisamente confirmada da ciência, com concordância teoria-experimento em mais de dez casas decimais.</p>
+    <p><strong>Grandes instrumentos:</strong> a física moderna depende de máquinas colossais — aceleradores de partículas (LHC), telescópios espaciais (James Webb, Planck), detectores de ondas gravitacionais (LIGO) e fontes de luz síncrotron (<a class="cross-link" href="#brasil">Sirius</a>). Custam bilhões e reúnem milhares de cientistas, marcando a passagem da física do gênio solitário à "big science" colaborativa.</p>
+    <p><strong>Simulação computacional:</strong> quando as equações não têm solução analítica (a maioria dos sistemas reais), simula-se numericamente. Tornou-se um "terceiro pilar", entre teoria e experimento, essencial da previsão do clima à cromodinâmica quântica na rede (que calcula a massa do próton a partir dos quarks).</p>
+    <div class="box info">
+      <strong>O critério de demarcação:</strong> o que separa a física de especulações que a imitam? A resposta clássica de Karl Popper é a <em>falseabilidade</em> — uma teoria científica precisa proibir alguma observação possível, expondo-se a ser refutada. Teorias que "explicam tudo" e nada arriscam não são físicas. Esse critério, hoje refinado e debatido, está por trás da desconfiança quanto a propostas como certas versões da teoria de cordas, difíceis de testar experimentalmente (ver <a class="cross-link" href="#controversias">Controvérsias ativas</a>).</p>
+    </div>
+  </section>
+
+  <!-- CONEXÕES -->
+  <section id="conexoes">
+    <h2>Conexões com outros campos <a class="anchor" href="#conexoes">¶</a></h2>
+    <p><strong>Matemática:</strong> é a linguagem nativa da física, mas a relação vai além do uso. Áreas inteiras da matemática (cálculo, com Newton e Leibniz; geometria diferencial, que a relatividade geral exigiu) nasceram ou floresceram por demanda da física, e problemas físicos ainda hoje geram matemática nova. A "eficácia irracional da matemática nas ciências naturais" (Wigner) é ela própria um enigma filosófico.</p>
+    <p><strong>Química:</strong> é, em larga medida, física aplicada — a ligação química é eletromagnetismo mais mecânica quântica, e a tabela periódica decorre da estrutura quântica dos átomos. A fronteira entre físico-química e química-física é hoje quase invisível.</p>
+    <p><strong>Biologia:</strong> a biofísica aplica métodos físicos a sistemas vivos — da difração de raios X que revelou a dupla hélice do DNA à mecânica das proteínas e à termodinâmica do metabolismo. O Sirius, no Brasil, é usado justamente para isso.</p>
+    <p><strong>Filosofia:</strong> a física alimenta e é alimentada pela filosofia da ciência (o que é uma teoria, o que é uma explicação, o critério de demarcação) e pela metafísica (a natureza do tempo, a causalidade, o determinismo). As interpretações da mecânica quântica são tanto física quanto filosofia. <a class="cross-link" href="../filosofia/epistemologia.html">Ver compêndio de Epistemologia</a>.</p>
+    <p><strong>Ciência da computação:</strong> a computação quântica traduz princípios da física (superposição, emaranhamento) em poder de cálculo; e a própria física usa aprendizado de máquina para peneirar dados de colisores e telescópios. Há ainda a conexão profunda entre <em>informação</em> e <em>entropia</em>, que liga termodinâmica e teoria da informação. <a class="cross-link" href="../ia/inteligencia-artificial.html">Ver compêndio de Inteligência Artificial</a>.</p>
+    <p><strong>Engenharia e tecnologia:</strong> a rota da física básica à aplicação define o mundo moderno — o transístor (matéria condensada) fez a era digital, o laser (óptica quântica) a comunicação por fibra, e a ressonância magnética (física nuclear e supercondutividade) a medicina de imagem.</p>
+  </section>
+
+  <!-- CONTROVÉRSIAS -->
+  <section id="controversias">
+    <h2>Controvérsias ativas <a class="anchor" href="#controversias">¶</a></h2>
+    <div class="controversia">
+      <h3>O que a função de onda representa? (interpretações da mecânica quântica)</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Copenhague / epistêmica</div>
+          <p>A função de onda representa nosso <em>conhecimento</em> ou informação sobre o sistema, não uma realidade física. A medida a "colapsa" porque atualiza o que sabemos. Não há mais o que explicar; perguntar o que "de fato" acontece antes da medida é ir além do que a teoria autoriza.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Muitos-mundos / ôntica</div>
+          <p>A função de onda é real e nunca colapsa: todos os resultados possíveis ocorrem, cada um em um "ramo" do universo que se divide a cada medida. Preserva o determinismo e a evolução de Schrödinger, ao custo de um número inimaginável de universos paralelos.</p>
+        </div>
+      </div>
+      <p style="font-family:var(--font-ui);font-size:.82rem;color:var(--muted);margin:10px 0 0">Há ainda a interpretação de <em>Bohm</em> (partículas com trajetórias reais guiadas por uma onda-piloto, determinista mas não-local), o <em>colapso objetivo</em> (GRW, que modifica a equação) e o <em>QBism</em> (a função de onda como aposta bayesiana do observador). Nenhuma faz previsão experimental distinta das outras — por ora, a disputa é sobre o que a mesma matemática significa.</p>
+    </div>
+    <div class="controversia">
+      <h3>Como ir além do Modelo Padrão? (o caminho para a gravidade quântica)</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Teoria de cordas</div>
+          <p>As partículas seriam vibrações de "cordas" unidimensionais, num espaço-tempo de 10 ou 11 dimensões. Unifica todas as forças, incluindo a gravidade, com elegância matemática — mas até hoje não fez nenhuma previsão testável em energias acessíveis, o que leva críticos a questionar se é ciência ou matemática.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Gravidade quântica em loop</div>
+          <p>Quantiza diretamente o espaço-tempo, que seria granular na escala de Planck, sem exigir dimensões extras nem novas partículas. Preserva a relatividade geral, mas tem dificuldade em recuperar o espaço-tempo liso e a matéria do Modelo Padrão.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controversia">
+      <h3>A energia escura é constante ou evolui?</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Constante cosmológica (ΛCDM)</div>
+          <p>A energia escura é uma constante — a energia do próprio vácuo —, uniforme no espaço e imutável no tempo. É o modelo padrão da cosmologia, que ajusta a maioria dos dados com poucos parâmetros. Simples e bem-sucedido, embora não explique <em>por que</em> a constante tem o valor que tem.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Energia escura dinâmica</div>
+          <p>Dados recentes do levantamento DESI (2024–2025) sugerem que a energia escura pode <em>variar</em> com o tempo cósmico (quintessência), enfraquecendo. Se confirmado por mais dados, derrubaria a constante cosmológica e abriria um novo capítulo — mas a significância estatística ainda é debatida.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controversia">
+      <h3>Matéria escura: nova partícula ou gravidade modificada?</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Partícula (matéria escura)</div>
+          <p>Existe uma partícula ainda não detectada, fora do Modelo Padrão, que compõe a matéria escura. Explica bem a formação de galáxias, as lentes gravitacionais e a radiação de fundo — mas décadas de buscas diretas por essa partícula não a encontraram.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Gravidade modificada (MOND)</div>
+          <p>Não falta matéria; falha nossa lei da gravidade em baixas acelerações. Ajusta as curvas de rotação de galáxias sem partícula nova, mas tem dificuldade com escalas maiores (aglomerados, radiação de fundo), onde a matéria escura se sai melhor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERGUNTAS EM ABERTO -->
+  <section id="abertas">
+    <h2>Perguntas em aberto <a class="anchor" href="#abertas">¶</a></h2>
+    <p>Além das controvérsias com lados definidos, há fronteiras onde a física ainda não tem sequer candidatos consensuais a resposta.</p>
+    <div class="qa-block">
+      <div class="qa-label">Gravidade quântica</div>
+      <p>Não existe teoria testada que una a relatividade geral e a mecânica quântica. No interior de um buraco negro e no primeiro instante do Big Bang, as duas se contradizem — e nenhum experimento atual alcança a escala de energia (Planck) onde a resposta se decidiria.</p>
+    </div>
+    <div class="qa-block">
+      <div class="qa-label">O problema da medida</div>
+      <p>A equação de Schrödinger descreve superposições que evoluem suavemente; a medição sempre entrega um único resultado definido. O que, exatamente, conta como "medida", e por que ela quebra a superposição, permanece sem resposta consensual — o coração das interpretações rivais.</p>
+    </div>
+    <div class="qa-block">
+      <div class="qa-label">O ajuste fino das constantes</div>
+      <p>Pequenas mudanças nas constantes fundamentais tornariam impossíveis estrelas, átomos ou química. Isso é coincidência, necessidade ainda não compreendida, ou sinal de um "multiverso" onde todos os valores ocorrem e habitamos o que permite observadores? Não há como decidir experimentalmente hoje.</p>
+    </div>
+    <div class="qa-block">
+      <div class="qa-label">A seta do tempo</div>
+      <p>Por que o tempo tem uma direção, se quase todas as leis fundamentais não a distinguem? A resposta usual — a baixa entropia inicial do universo — apenas empurra a pergunta para: por que o universo começou tão ordenado?</p>
+    </div>
+  </section>
+
+  <!-- POR ONDE COMEÇAR -->
+  <section id="por-onde-comecar">
+    <h2>Por onde começar <a class="anchor" href="#por-onde-comecar">¶</a></h2>
+    <div class="roteiro-step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Panorama sem fórmulas pesadas:</strong> as <em>Six Easy Pieces</em> (Richard Feynman) são a melhor porta de entrada — seis capítulos das lendárias <em>Feynman Lectures</em> escolhidos por exigir pouca matemática, com a intuição física de um dos maiores professores do século. Cobrem átomos, energia, gravitação e comportamento quântico.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>A base com cálculo:</strong> um curso sério começa por <em>Halliday, Resnick &amp; Walker — Fundamentals of Physics</em>, o livro-texto introdutório canônico. Requer cálculo básico e cobre mecânica, termodinâmica, eletromagnetismo e ondas com milhares de problemas — a espinha dorsal de qualquer graduação.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Física moderna para o grande público:</strong> para relatividade e cosmologia sem equações, <em>Uma Breve História do Tempo</em> (Stephen Hawking); para a estranheza quântica, o material introdutório é vasto, mas comece pela seção quântica das <em>Feynman Lectures</em> antes de qualquer divulgação — ela evita as distorções comuns.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Aprofundar uma subárea (nível graduação):</strong> escolher um pilar e ir ao texto dedicado — <em>Griffiths</em> para eletromagnetismo e para a introdução à mecânica quântica (didáticos e rigorosos), <em>Kittel &amp; Kroemer</em> para física térmica. É onde a intuição vira competência de cálculo.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>Fronteira e rigor máximo:</strong> para quem domina o núcleo, o <em>Course of Theoretical Physics</em> de Landau &amp; Lifshitz é a referência avançada; e o acompanhamento da pesquisa atual se faz pelo <em>arXiv.org</em> (pré-prints gratuitos) e pela <em>Physical Review</em> (APS), o padrão-ouro da revisão por pares.</div>
+    </div>
+  </section>
+
+  <!-- REFERÊNCIAS -->
+  <section id="referencias">
+    <h2>Referências anotadas <a class="anchor" href="#referencias">¶</a></h2>
+    <div class="ref-group"><h3>Ponto de entrada</h3>
+      <div class="ref-item">
+        <div class="ref-title">Six Easy Pieces <span class="tag">início recomendado</span></div>
+        <div class="ref-meta"><span class="tag">Livro</span> Richard P. Feynman · Basic Books · 1994 (das <em>Lectures</em>, 1963)</div>
+        <div class="ref-nota">A melhor porta de entrada para quem parte do ensino médio: intuição física de primeira linha com o mínimo de matemática. É por aqui que o leitor deste compêndio deve começar.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Uma Breve História do Tempo</div>
+        <div class="ref-meta"><span class="tag">Livro</span> Stephen Hawking · Bantam · 1988</div>
+        <div class="ref-nota">Panorama de relatividade, buracos negros e cosmologia sem equações. Ótimo para mapear as grandes questões da física moderna antes de encarar o formalismo.</div>
+      </div>
+    </div>
+    <div class="ref-group"><h3>Aprofundamento</h3>
+      <div class="ref-item">
+        <div class="ref-title">The Feynman Lectures on Physics (3 vols.)</div>
+        <div class="ref-meta"><span class="tag">Livro-texto</span> Feynman, Leighton &amp; Sands · 1963 · (gratuito em feynmanlectures.caltech.edu)</div>
+        <div class="ref-nota">Desenvolvimento conceitual raro, do introdutório ao sofisticado. Disponível online de graça e integralmente — a referência de intuição física por excelência.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Fundamentals of Physics</div>
+        <div class="ref-meta"><span class="tag">Livro-texto</span> Halliday, Resnick &amp; Walker · Wiley · ed. atual</div>
+        <div class="ref-nota">O livro-texto introdutório padrão de graduação. Cobre toda a física clássica com rigor e imensa coleção de problemas — a base sobre a qual o resto se constrói.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Introduction to Electrodynamics · Introduction to Quantum Mechanics</div>
+        <div class="ref-meta"><span class="tag">Livro-texto</span> David J. Griffiths · Cambridge/Pearson</div>
+        <div class="ref-nota">Os dois textos de graduação mais usados no mundo para eletromagnetismo e quântica: claros, rigorosos e com a voz didática que os tornou padrão.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Principia (Princípios Matemáticos de Filosofia Natural)</div>
+        <div class="ref-meta"><span class="tag">Texto-fonte</span> Isaac Newton · 1687</div>
+        <div class="ref-nota">O texto fundador da física matemática: as três leis e a gravitação universal. Difícil no original (geometria, não cálculo), mas insubstituível para ver o programa da física nascer.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Sobre a Eletrodinâmica dos Corpos em Movimento</div>
+        <div class="ref-meta"><span class="tag">Artigo seminal</span> Albert Einstein · <em>Annalen der Physik</em> · 1905</div>
+        <div class="ref-nota">O artigo que introduziu a relatividade restrita, notoriamente legível e quase sem matemática avançada. Ao lado dos outros papers do "ano milagroso" de Einstein, mostra ideias revolucionárias em estado puro.</div>
+      </div>
+    </div>
+    <div class="ref-group"><h3>Consulta especializada</h3>
+      <div class="ref-item">
+        <div class="ref-title">Course of Theoretical Physics (10 vols.)</div>
+        <div class="ref-meta"><span class="tag">Livro</span> L. D. Landau &amp; E. M. Lifshitz · desde 1951</div>
+        <div class="ref-nota">A referência avançada de rigor máximo, da mecânica à teoria de campos. Densa e exigente; para quem já domina o núcleo e quer o tratamento definitivo.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Modern Quantum Mechanics · Classical Electrodynamics</div>
+        <div class="ref-meta"><span class="tag">Livro</span> J. J. Sakurai · / J. D. Jackson · pós-graduação</div>
+        <div class="ref-nota">Os textos de pós-graduação padrão nas respectivas áreas. Jackson é célebre pela dificuldade dos problemas; Sakurai, pela abordagem moderna via formalismo abstrato.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">arXiv.org · Physical Review (APS) · CODATA</div>
+        <div class="ref-meta"><span class="tag">Fonte primária</span> repositórios e periódicos de pesquisa</div>
+        <div class="ref-nota">Para a fronteira: arXiv reúne pré-prints gratuitos (seções physics, quant-ph, gr-qc, hep-th); a Physical Review é o padrão de revisão por pares; a CODATA fornece os valores oficiais das constantes fundamentais.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SÍNTESE -->
+  <section id="sintese">
+    <h2>Síntese <a class="anchor" href="#sintese">¶</a></h2>
+    <p>A pergunta orientadora — <em>por que a natureza se deixa escrever em matemática, e até onde esse alfabeto alcança?</em> — atravessa tudo o que foi visto. Quanto à primeira parte, a física não responde <em>por quê</em>, mas demonstra <em>que</em> sim: de <i>F</i>&nbsp;=&nbsp;<i>m·a</i> às equações de Maxwell, de <i>E</i>&nbsp;=&nbsp;<i>mc</i><sup>2</sup> à equação de Schrödinger, um punhado de relações compactas descreve fenômenos separados por dezenas de ordens de grandeza. A "eficácia irracional da matemática" continua um enigma — mas o padrão histórico é claro: cada grande avanço foi uma <strong>unificação</strong>, mostrando que fenômenos tidos como distintos eram faces de uma lei só (céu e Terra em Newton; eletricidade, magnetismo e luz em Maxwell; espaço, tempo e gravidade em Einstein; três forças no Modelo Padrão).</p>
+    <p>Quanto à segunda parte — <em>até onde alcança</em> —, a resposta é humilde. Cada teoria tem seu domínio, e nas fronteiras entre eles a física atual <em>quebra</em>: relatividade geral e mecânica quântica se contradizem onde ambas deveriam valer, e 95% do conteúdo do universo escapa a qualquer descrição — matéria e energia escuras são nomes para nossa ignorância. A teoria mais bem-sucedida da história (o Modelo Padrão) é, ao mesmo tempo, a prova mais nítida de que falta física por descobrir.</p>
+    <p>Daí emerge uma implicação que o corpo do compêndio não enunciou diretamente: o sucesso da física <em>gera</em> seus próprios limites. Foi a precisão de Newton que expôs, dois séculos depois, as anomalias que só a relatividade e a quântica explicariam; é a precisão do Modelo Padrão e da relatividade geral que hoje torna visível o que elas <em>não</em> explicam. A história da física não converge para uma "teoria final" tranquila — cada resposta bem medida abre uma pergunta mais funda. Talvez seja esse, mais que qualquer equação, o verdadeiro método da física: transformar ignorância vaga em ignorância precisa, e é a precisão da pergunta que, no fim, se torna conhecimento.</p>
+  </section>
+
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive: true});
+
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const collapsed = sessionStorage.getItem('sidebar-collapsed') === 'true';
+if (collapsed) { sidebar.classList.add('collapsed'); bodyWrap.classList.add('sidebar-collapsed'); toggleBtn.textContent = '›'; }
+toggleBtn.addEventListener('click', () => {
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', isCollapsed);
+  toggleBtn.textContent = isCollapsed ? '›' : '‹';
+  sessionStorage.setItem('sidebar-collapsed', isCollapsed);
+});
+
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+function updateActive() {
+  let cur = null;
+  const st = document.documentElement.scrollTop || document.body.scrollTop;
+  sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+  links.forEach(l => l.classList.remove('active'));
+  if (cur) {
+    const a = document.querySelector(`a.sl[href="#${cur.id}"]`);
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive: true});
+window.addEventListener('load', updateActive);
+
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+}, {rootMargin: '-10% 0px -60% 0px'});
+sections.forEach(s => obs2.observe(s));
+</script>
+</body>
+</html>

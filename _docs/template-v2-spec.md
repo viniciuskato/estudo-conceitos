@@ -43,7 +43,9 @@ Fontes via Google Fonts: Source Serif 4 (corpo **17px**, line-height 1.78) + Int
 
 ## Idioma e tooltips de tradução
 
-O idioma do compêndio segue o idioma predominante das fontes primárias: literatura internacional (PubMed, guidelines, livros-texto canônicos, textos-fonte em inglês) → compêndio em inglês; fontes predominantemente em português (diretrizes brasileiras, epidemiologia nacional) → compêndio em português.
+O idioma do compêndio segue o idioma predominante das fontes primárias: literatura internacional (PubMed, guidelines, livros-texto canônicos, textos-fonte em inglês) → compêndio em inglês; fontes predominantemente em português (diretrizes brasileiras, epidemiologia nacional) → compêndio em português. Vale tanto para compêndio de área quanto para mecanismo. Na prática: física, IA, filosofia e a maior parte da medicina têm literatura-fonte majoritariamente anglófona → inglês; conteúdo ancorado em diretrizes/epidemiologia brasileiras → português.
+
+**Escopo da regra (decidido 2026-07-02):** aplica-se a material CRIADO A PARTIR DESTA DATA. O acervo anterior em `pt-BR` (25 dos 26 HTMLs ativos em jul/2026 — imunologia, fisiologia, farmacologia, fisiopatologia, microbiologia, IA, filosofia, investimentos) é **grandfathered**: não retroagir a conversão de idioma só porque a regra passou a ser seguida (ver "Escopo de melhorias — não retroagir" em instrucoes-projeto.txt). Converter um material antigo de idioma só se ele for reaberto por outro motivo e o usuário pedir. Primeiro material nascido sob a regra: `compêndios/fisica/fisica.html` (2026-07-02, em inglês, fontes anglófonas — Feynman/Halliday/Griffiths/Landau/arXiv). O único HTML em inglês anterior à regra era `compêndios/medicina/cardiologia-anatomia.html`.
 
 Dentro do texto, independente do idioma principal:
 - Latim (anatômico ou de outra área) entre parênteses na primeira ocorrência dos termos principais (ex: "crista terminalis").

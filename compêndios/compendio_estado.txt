@@ -1,5 +1,5 @@
 === COMPÊNDIOS — ESTADO DA SESSÃO ===
-Última sessão: 2026-07-01
+Última sessão: 2026-07-02
 
 === Histórico ===
 2026-06-30 — Estrutura inicial criada. Compêndios de área separados dos mecanismos.
@@ -49,3 +49,39 @@
              (cache do OneDrive mostrando versão truncada do empacotar_skills.py, embora
              o arquivo real esteja íntegro via Read) — usuário precisa rodar localmente
              (duplo clique) e reinstalar via Settings > Capabilities > Skills.
+2026-07-02 — Primeiro compêndio de física criado: compêndios/fisica/fisica.html
+             (subskill compendio-fisica). Mapa de campo amplo, idioma PT, partida
+             ensino médio (formalismo introduzido com cuidado, situando cada equação).
+             Estrutura: o que estuda (escala/idealização/domínio de validade), mapa do
+             campo (9 cards), 9 seções de subárea aprofundadas (mecânica clássica c/ Newton/
+             Kepler/Lagrange-Hamilton/Noether/caos; termo+estatística c/ 4 leis/entropia/
+             Boltzmann/seta do tempo; eletromagnetismo c/ Maxwell/luz=onda EM; óptica-ondas
+             c/ fenda dupla/Doppler; relatividade restrita+geral c/ E=mc²/LIGO; quântica
+             c/ Planck/dualidade/incerteza/emaranhamento/Bell 2022; partículas/QFT c/ Modelo
+             Padrão/Higgs 2012 + TABELA 4 forças; matéria condensada c/ bandas/BCS/emergência;
+             astro/cosmologia c/ Big Bang/CMB + TABELA composição Planck 2018 68/27/5).
+             História (revolução científica→síntese newtoniana→dupla revolução→pós-guerra),
+             Física no Brasil (Lattes/píon 1947, CBPF 1949, Sirius 10/14 estações 2025),
+             questões centrais, métodos (falseabilidade/Popper), conexões (cross-link p/
+             epistemologia e IA), 4 controvérsias (interpretações MQ, além do MP/cordas×loop,
+             energia escura constante×dinâmica DESI 2024-25, matéria escura×MOND), perguntas
+             em aberto (gravidade quântica, medida, ajuste fino, seta do tempo), por onde
+             começar, referências em 3 camadas (Feynman/Hawking → Feynman Lectures/Halliday/
+             Griffiths/Principia/Einstein1905 → Landau/Sakurai/Jackson/arXiv/PRL/CODATA),
+             síntese fechando a pergunta orientadora. 2 tabelas .data-table (td-label);
+             classe .eq nova para equações em bloco (formalismo central junto do conceito).
+             Fatos confirmados via WebSearch (Sirius, Planck 2018, DESI).
+2026-07-02 — REVISÃO DE IDIOMA (mesmo dia): usuário questionou o idioma. Levantamento
+             mostrou que as fontes primárias da física são majoritariamente anglófonas
+             (Feynman/Halliday/Griffiths/Landau/arXiv), e que a regra do spec (idioma=fontes)
+             não estava sendo seguida no acervo (25/26 HTMLs em PT). Decisão do usuário: a
+             regra VALE (seguir idioma das fontes) para material NOVO; acervo PT anterior é
+             grandfathered (não retroagir). Logo o fisica.html foi REESCRITO EM INGLÊS
+             (lang=en) com tooltips .term (tradução PT) e sidebar bilíngue .sl-pt — padrão
+             de compêndio em idioma estrangeiro do spec. Versão PT arquivada em
+             _archive/fisica_2026-07-02.html. Spec atualizado (seção "Idioma", escopo da
+             regra + legado grandfathered). DEBT: entrada de legado PT como decisão em aberto
+             (não retroagir). Verificação bash EN OK confirmada via Read direto (684 linhas,
+             fecha </body></html>, sem char substituição, 21 seções=21 links, 14 .term,
+             21 .sl-pt); wc -l/tail do bash reportaram 659 truncado (cache OneDrive), integridade
+             confirmada por Read. Verificação visual via surge PENDENTE.

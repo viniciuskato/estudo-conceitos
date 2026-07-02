@@ -1,5 +1,5 @@
 === COMPÊNDIOS — MAPA DE ÁREAS COBERTAS ===
-Última atualização: 2026-07-01
+Última atualização: 2026-07-02
 
 === Medicina ===
 --- Cardiologia (Medicina Básica) ---
@@ -13,6 +13,9 @@
 
 === Filosofia ===
 - filosofia/epistemologia.html — Epistemologia (mapa de campo amplo: análise do conhecimento/Gettier, estrutura da justificação, fontes, ceticismo, história, controvérsias) [2026-07-01]
+
+=== Física ===
+- fisica/fisica.html — Physics / Física (mapa de campo amplo, EM INGLÊS por regra idioma=fontes anglófonas; partida ensino médio: 9 subáreas — classical mechanics, thermodynamics/statistical, electromagnetism, optics/waves, relativity, quantum, particles/QFT, condensed matter, astrophysics/cosmology; history, physics in Brazil, central questions, methods, connections, controversies, layered references). Sidebar bilíngue .sl-pt + tooltips .term (tradução PT). Versão PT original arquivada em _archive/fisica_2026-07-02.html [2026-07-02]
 
 Nota (2026-07-01): a entrada "Automóveis" foi removida deste mapa — os dois arquivos correspondentes
 (eficiencia-combustivel-saveiro-nivus-s90.html, falha-airbag-nivus-2023.html) estão em _acervo/automoveis/,
