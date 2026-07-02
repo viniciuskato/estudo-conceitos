@@ -5,9 +5,9 @@ description: >
   que exaurem um campo de estudo inteiro com profundidade real. Use SEMPRE que o usuário
   mencionar "compêndio de área", quiser cobrir um campo inteiro (medicina,
   investimentos, IA, física, etc.), ou pedir material denso sobre uma área ampla de estudo.
-  Após identificar a área, carregar a subskill correspondente:
-  compendio-medicina-basica, compendio-medicina-clinica, compendio-investimentos,
-  compendio-ia, compendio-filosofia ou compendio-fisica.
+  Após identificar a área, carregar a subskill correspondente: compendio-medicina
+  (medicina, que por sua vez carrega compendio-medicina-basica ou compendio-medicina-clinica),
+  compendio-investimentos, compendio-ia, compendio-filosofia ou compendio-fisica.
 ---
 
 # Skill Compêndio de Área
@@ -28,8 +28,7 @@ Após identificar a área solicitada, carregar a subskill correspondente antes d
 
 | Área | Subskill a carregar |
 |------|-------------------|
-| Imunologia, fisiologia, bioquímica, microbiologia, anatomia | `compendio-medicina-basica` |
-| Farmacologia, fisiopatologia, semiologia, clínica médica | `compendio-medicina-clinica` |
+| Medicina (imunologia, fisiologia, bioquímica, microbiologia, anatomia, farmacologia, fisiopatologia, semiologia, clínica médica) | `compendio-medicina` (que roteia para `compendio-medicina-basica` ou `compendio-medicina-clinica`) |
 | Investimentos, finanças, economia aplicada | `compendio-investimentos` |
 | Inteligência Artificial, machine learning, LLMs | `compendio-ia` |
 | Filosofia, epistemologia, metafísica, ética, lógica | `compendio-filosofia` |

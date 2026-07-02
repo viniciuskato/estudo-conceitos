@@ -6,6 +6,7 @@ Os arquivos .skill serao gerados nesta mesma pasta.
 Skills geradas:
   - compendio.skill
   - mecanismo.skill
+  - compendio-medicina.skill
   - compendio-medicina-basica.skill
   - compendio-medicina-clinica.skill
   - compendio-investimentos.skill
@@ -26,6 +27,7 @@ script_dir = Path(__file__).parent
 skills = [
     "compendio",
     "mecanismo",
+    "compendio-medicina",
     "compendio-medicina-basica",
     "compendio-medicina-clinica",
     "compendio-investimentos",

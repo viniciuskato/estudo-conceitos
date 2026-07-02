@@ -3,14 +3,15 @@ name: compendio-medicina-basica
 description: >
   Contexto epistêmico para criação e revisão de compêndios de área de medicina básica:
   imunologia, fisiologia, bioquímica, microbiologia e anatomia. Carregada pela skill
-  compendio quando o tema pertence a essas áreas. Ative sempre que o usuário pedir compêndio
-  de área de imunologia, fisiologia, microbiologia, bioquímica ou anatomia.
+  compendio-medicina quando o tema pertence a essas áreas. Ative sempre que o usuário pedir
+  compêndio de área de imunologia, fisiologia, microbiologia, bioquímica ou anatomia.
 ---
 
 # Subskill Compêndio de Área — Medicina Básica
 
 Contexto específico para mapas de campo das ciências básicas da medicina.
 As regras gerais de formato, fluxo e verificação estão na skill `compendio` (compêndio de área).
+O roteamento e o contexto comum entre básica e clínica estão em `compendio-medicina`.
 Esta subskill fornece o contexto epistêmico da área.
 
 ## Subáreas cobertas

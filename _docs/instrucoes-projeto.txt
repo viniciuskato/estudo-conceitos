@@ -12,12 +12,13 @@ Fonte das skills: _docs/skills-export/ (SKILL.md por pasta + empacotar_skills.py
 Atualização: editar SKILL.md → rodar empacotar_skills.py → reinstalar via Settings > Capabilities > Skills.
 
 === Criação de subskill nova ===
-Ao criar uma subskill nova sob demanda (área sem subskill ainda, seja de compendio ou mecanismo), tocar todos os arquivos abaixo na mesma sessão — esquecer um deixa o dispatch inconsistente com o que está de fato instalável:
+Vale tanto para subskill de área nova sob demanda (área sem subskill ainda) quanto para inserção de subskill agrupadora/intermediária entre a skill pai e subskills que já existem (ex.: compendio-medicina entre compendio e {compendio-medicina-basica, compendio-medicina-clinica}). Em ambos os casos, tocar todos os arquivos abaixo na mesma sessão — esquecer um deixa o dispatch inconsistente com o que está de fato instalável:
 1. `_docs/skills-export/<nova-subskill>/SKILL.md` — seguir o padrão mais enxuto entre as subskills existentes da mesma skill pai (ex.: compendio-filosofia/compendio-investimentos, não duplicar CSS que já não está em template-v2-spec.md).
 2. Dispatch da skill pai (`compendio/SKILL.md` ou `mecanismo/SKILL.md`): tabela de subskills + lista de áreas na `description` do frontmatter.
 3. `_docs/skills-export/empacotar_skills.py`: adicionar a nova subskill nas duas listas (docstring e lista `skills`).
 4. Registro de histórico: `compêndios/compendio_estado.txt` (compendio) ou `_docs/project_estado.md` (mecanismo) — mesmo sem compêndio/mecanismo ainda criado na área.
 5. Lembrar o usuário de rodar `empacotar_skills.py` localmente e reinstalar via Settings > Capabilities > Skills.
+6. Se a nova subskill é agrupadora/intermediária: atualizar também o frontmatter `description` das subskills existentes que passam a ser carregadas por ela em vez da skill pai diretamente (referência "Carregada pela skill X").
 
 === Estrutura de pastas ===
 compêndios/          → compêndios de área (skill compendio)

@@ -85,3 +85,19 @@
              fecha </body></html>, sem char substituição, 21 seções=21 links, 14 .term,
              21 .sl-pt); wc -l/tail do bash reportaram 659 truncado (cache OneDrive), integridade
              confirmada por Read. Verificação visual via surge PENDENTE.
+2026-07-02 — Hierarquia de medicina reestruturada a pedido do usuário: nova subskill
+             agrupadora `compendio-medicina` inserida entre `compendio` e
+             {`compendio-medicina-basica`, `compendio-medicina-clinica`}. Antes, as duas
+             subskills de subárea eram carregadas direto pela tabela de dispatch de
+             `compendio`; agora `compendio` carrega `compendio-medicina`, que roteia para
+             básica ou clínica conforme a subárea e concentra o que é comum às duas (pasta
+             única `compêndios/medicina/`, relação básica↔clínica via cross-link, heurística
+             MCP PubMed compartilhada). Escopo desta sessão: só a árvore `compendio` — a
+             árvore `mecanismo` (que tem a mesma estrutura paralela hoje, sem agrupador) foi
+             deixada como está, decisão explícita do usuário. Arquivos tocados:
+             `_docs/skills-export/compendio-medicina/SKILL.md` (novo), dispatch de
+             `compendio/SKILL.md` (tabela + description), frontmatter de
+             `compendio-medicina-basica` e `compendio-medicina-clinica` (referência atualizada
+             para compendio-medicina), `empacotar_skills.py` (nova skill nas duas listas).
+             Empacotamento (.skill) e reinstalação ainda pendentes — usuário precisa rodar
+             `empacotar_skills.py` localmente e reinstalar via Settings > Capabilities > Skills.
