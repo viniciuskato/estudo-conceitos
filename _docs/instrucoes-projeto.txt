@@ -43,6 +43,7 @@ _docs/               → documentação do projeto
   project_mapa_materiais.md
   skills-export/     → fonte das skills (SKILL.md + empacotar_skills.py)
   instrucoes-projeto.txt  → este arquivo
+  operacoes-bash.md  → regras mecânicas de Edit/Write/bash, verificação pós-HTML, surge e arquivamento (lido sob demanda, não em toda mensagem)
 
 === Protocolo de abertura de sessão ===
 Ao iniciar sessão sem tarefa direta:
@@ -52,7 +53,7 @@ Ao iniciar sessão sem tarefa direta:
    Se a área não tiver subskill: sinalizar ao usuário ANTES de gerar e propor criação da subskill.
    Se o pedido é um compêndio PANORÂMICO de uma área inteira que tem subskill agrupadora (ex.: medicina → compendio-medicina), a geração é governada pela skill agrupadora + skill pai (compendio) — NÃO descer para as subskills-folha (ex.: básica/clínica) quando nenhuma subárea foi especificada; as subáreas entram como ramos MAPEADOS dentro do compêndio, não como skills que governam a redação. Só descer para uma folha quando o recorte for uma subárea específica.
 4. Verificar _docs/DEBT.md — informar dívidas críticas antes de prosseguir.
-5. Comandos git (`git rev-parse`, `git status`, `git log`) FALHAM POR COMPLETO no bash do sandbox (`fatal: not a git repository`) desde a migração do `.git` para fora do OneDrive (ver DEBT.md, resolvido em 2026-07-01) — o gitdir aponta para um caminho Windows que o sandbox Linux não alcança. Não gastar uma chamada tentando essa checagem no sandbox. Para detectar edições incompletas de sessões anteriores ou usar histórico como referência, confiar em Read/Grep direto no conteúdo atual (ver seção "Verificação bash obrigatória"); qualquer verificação de fato via git (status, log, diff) depende do terminal Windows nativo do usuário.
+5. Comandos git (`git rev-parse`, `git status`, `git log`) FALHAM POR COMPLETO no bash do sandbox (`fatal: not a git repository`) desde a migração do `.git` para fora do OneDrive (ver DEBT.md, resolvido em 2026-07-01) — o gitdir aponta para um caminho Windows que o sandbox Linux não alcança. Não gastar uma chamada tentando essa checagem no sandbox. Para detectar edições incompletas de sessões anteriores ou usar histórico como referência, confiar em Read/Grep direto no conteúdo atual (ver _docs/operacoes-bash.md, seção "Verificação bash obrigatória"); qualquer verificação de fato via git (status, log, diff) depende do terminal Windows nativo do usuário.
 
 === Pré-geração (regras compartilhadas) ===
 - Perguntas de pré-geração sempre via AskUserQuestion — nunca em texto.
@@ -69,7 +70,7 @@ Regras de idioma predominante, sidebar bilíngue (.sl-pt), tooltips técnicos (.
 Quando disponível na sessão, usar o conector MCP de busca PubMed/PMC (busca de artigos, texto completo, lookup por citação, metadados, DOI/PMID) para localizar referências reais ao gerar ou revisar material de medicina — em vez de citar de memória. Cobre medicina, biologia, bioquímica, microbiologia, farmacologia, fisiologia; não cobre economia, CS, humanas nem guidelines de sociedades/RENAME (esses continuam via busca web). Uso detalhado por subárea: ver "Heurística de fontes" no SKILL.md de compendio-medicina-básica/clínica e mecanismo-medicina-básica/clínica. Se o conector não estiver conectado na sessão, seguir a hierarquia de fontes normal e sinalizar ao usuário que a busca de literatura automatizada não está disponível.
 
 === Subagentes para auditoria em lote ===
-Ao revisar múltiplos compêndios de uma vez (ex.: aplicar o checklist de "Verificação bash obrigatória" ou a "Auditoria visual proativa" a vários arquivos da mesma subpasta), despachar um subagente por arquivo em vez de processar sequencialmente na sessão principal — cada subagente lê o arquivo, roda o checklist correspondente (fechamento, encoding, artefatos, pranchas/tabelas por seção, densidade de parágrafo) e retorna um relatório curto (achado/ausente por item). Consolidar os relatórios num resumo único antes de aplicar correções. A mesma lógica já vale para lookup pontual isolado (ver seção Pré-geração — Haiku via subagent).
+Ao revisar múltiplos compêndios de uma vez (ex.: aplicar o checklist de "Verificação bash obrigatória" — ver _docs/operacoes-bash.md — ou a "Auditoria visual proativa" a vários arquivos da mesma subpasta), despachar um subagente por arquivo em vez de processar sequencialmente na sessão principal — cada subagente lê o arquivo, roda o checklist correspondente (fechamento, encoding, artefatos, pranchas/tabelas por seção, densidade de parágrafo) e retorna um relatório curto (achado/ausente por item). Consolidar os relatórios num resumo único antes de aplicar correções. A mesma lógica já vale para lookup pontual isolado (ver seção Pré-geração — Haiku via subagent).
 Não despachar subagente para a redação do compêndio em si (prosa nova ou revisão de conteúdo/argumentação): coerência de voz e densidade de parágrafo ao longo de um arquivo dependem de um único contexto contínuo — fragmentar a escrita entre subagentes tende a produzir prosa desconexa, contrariando "Harmonia entre exaustividade e didática".
 
 === Imagens e pranchas ===
@@ -91,48 +92,8 @@ Cobertura exaustiva de um campo e digestibilidade da prosa são critérios simul
 Adicionar o que faltar sem esperar que o usuário peça.
 (Checagens de completude específicas da estrutura de cada skill — ex.: cards do "mapa do campo" no compendio — ficam no SKILL.md da skill correspondente, não aqui.)
 
-=== Eficiência operacional (regras compartilhadas) ===
-- Edit: nunca >~150 linhas por bloco new_string. Backup antes de editar HTML.
-- Write: arquivo novo ou reescrita completa <300 linhas.
-- Python: conteúdo com acentos PT-BR, símbolos tipográficos e entidades HTML. Nunca echo ou heredoc bash (corrompe encoding).
-- sed: substituições pontuais em arquivos >500 linhas.
-- HTML binário: se grep retornar 'binary file matches', editar via python3 com open(path, 'r', encoding='utf-8') diretamente — não copiar para /tmp.
-- bash append: completar conteúdo ao final de arquivo íntegro.
-- HTML novo >300 linhas: Write estrutura inicial (~150 linhas) → verificar → Python escreve restante → cat >> arquivo → verificar.
-- Leitura seletiva: grep -n para localizar âncora antes de Read com offset/limit. Ler arquivo inteiro só quando estritamente necessário.
-- Wrapper HTML: antes de manipular seções via Python (content_start/content_end), confirmar o seletor do wrapper principal com grep: grep -n 'id="content"' arquivo.html — pode ser <div> ou <main>.
-- plate-caption: fecha com </div> (não </p>). Regex Python para manipular deve usar r'(<div class="plate-caption">)(.*?)(</div>)' com re.DOTALL.
-- Verificação preditiva: antes de Edit com new_string >80 linhas, calcular linhas esperadas. Após o Edit, wc -l e comparar — divergência ±5 indica truncamento.
-- Comandos de diagnóstico independentes no mesmo bash: usar ";" em vez de "&&" entre eles — uma falha esperada num comando (ex.: `ls` numa pasta que pode não existir) não deve impedir os comandos seguintes de rodar silenciosamente.
-
-=== Verificação bash obrigatória após qualquer escrita de HTML ===
-(a) fecha com </body></html>
-(b) wc -l compatível com o esperado
-(c) sem const const / var var
-(d) encoding UTF-8 intacto: grep -c "ã\|ç\|é\|ñ\|→\|–" > 0 (compêndios PT-BR); para inglês, grep -c "\xef\xbf\xbd" deve ser 0. Em compêndios em inglês, conferir também que não entrou texto de outro script por engano — grep da faixa CJK (hiragana/katakana/han) deve ser 0 (incidente 2026-07-02: fragmento em japonês digitado por engano numa caixa .hist, corrigido na hora).
-(e) sem artefatos: grep -w "TODO\|FIXME" (case-sensitive) + grep -iw "placeholder\|debug\|rascunho" — ambos vazios
-Corrigir antes de prosseguir. Mesma verificação de fechamento vale para .md core editado na sessão (template-v2-spec.md, instrucoes-projeto.txt, DEBT.md, SKILL.md de skills): confirmar via Read do final do arquivo (não só wc -l) que termina em frase/seção completa, não cortado no meio.
-
-Pasta sincronizada via OneDrive — regra geral: bash não é confiável para verificar integridade de conteúdo nesta pasta (wc -l, cat, tail); o cache pode mostrar conteúdo desatualizado ou truncado tanto na leitura quanto na escrita, mesmo logo após salvar. Única fonte confiável de conteúdo real: Read/Grep direto. O mesmo cache afeta a EXECUÇÃO de scripts Python nesta pasta (ex.: `empacotar_skills.py`) — bash pode rodar uma versão desatualizada/truncada do arquivo mesmo com o conteúdo real íntegro (confirmado 2026-07-01: `SyntaxError` em duas tentativas de rodar `empacotar_skills.py` via bash do sandbox após editar via Edit tool). Não insistir mais de ~2 tentativas: pedir para o usuário rodar o script localmente (duplo clique). Comandos git (`status`, `diff`, `add`, `commit`, `log`, `show`) FALHAM POR COMPLETO no bash do sandbox (`fatal: not a git repository`) desde a migração do `.git` para fora do OneDrive — não tentar verificação ou operação git via bash do sandbox; pedir para o usuário rodar localmente (`push.bat` ou terminal nativo), que usa Windows nativo e não sofre essa limitação. Histórico completo dos incidentes que fundamentam esta regra: `_docs/DEBT.md`.
-
-=== Verificação visual ===
-Novos arquivos e reescritas ≥30%: verificação visual obrigatória via Claude in Chrome.
-ANTES de encerrar a sessão, Claude deve propor ativamente: "A mudança foi ≥30% — quer verificar no browser via surge antes de fechar?"
-Workflow para arquivos locais (Chrome não abre file://):
-  1. Usuário roda no CMD: surge "<caminho_pasta>" <subdominio>.surge.sh
-  2. Claude abre https://<subdominio>.surge.sh/<arquivo>.html no Chrome
-  3. Verificar: layout, sidebar, float das pranchas, lightbox, botão de retorno, tabelas, acentuação
-  Economia de tokens (IMPORTANTE — screenshots são imagens grandes e caras no contexto): usar `read_page` (árvore de acessibilidade/texto, barato) para conferir estrutura, conteúdo e acentuação; reservar `screenshot` para poucos pontos genuinamente visuais (cabeçalho, uma tabela, um componente especial como kbox/prancha), teto de ~3 por verificação. Não "passear" rolando o documento inteiro tirando screenshots.
-  Lag de pintura: após `scroll`/`navigate` no Chrome, esperar ~1–2s antes do `screenshot`. Um quadro totalmente preto, ou com conteúdo só na base e vão preto acima, é atraso de pintura da página — NÃO bug de layout no HTML. Re-tirar o screenshot após esperar, em vez de investigar o HTML (confirmado em 2026-07-01: vários screenshots pretos na verificação de epistemologia eram só lag).
-  Nota: se a mudança não aparecer após redeploy, forçar recarga do browser (Ctrl+Shift+R) antes de depurar o HTML — surge pode servir versão cacheada.
-  Subd.: compendios-medicina.surge.sh -> compêndios/medicina/
-  Conta surge: vinicius.kato.734@gmail.com (token no Windows)
-
-=== Arquivamento ===
-Sobrescrever com archive em _archive/ + sufixo de data quando mudança ≥30%. Editar no lugar para correções pontuais.
-Uma atualização de modelo completa (CSS + tabelas + JS combinados no mesmo arquivo, mesmo que aplicada em vários Edits pequenos) conta como mudança estrutural, não como correção pontual — sempre fazer backup em _archive/ antes de começar, mesmo que cada edição individual pareça pequena.
-Ao renomear pastas: verificar e atualizar links em index.html — caminhos antigos causam 404 no app publicado.
-Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
+=== Operações de bash e arquivo ===
+Regras de Edit/Write/sed/encoding, verificação obrigatória pós-escrita de HTML, limitações do sandbox (OneDrive, git, rede), verificação visual via surge e arquivamento em _archive/: ver _docs/operacoes-bash.md. Ler ANTES de escrever/editar HTML ou rodar bash — não repetido aqui porque só é relevante nesses momentos, não em toda mensagem.
 
 === Escopo de melhorias — não retroagir ===
 O projeto está sempre melhorando (novo padrão de tabela, novo tipo de tooltip, nova convenção de CSS, etc.). Quando uma melhoria surge durante o trabalho em um material específico:
@@ -146,8 +107,3 @@ O projeto está sempre melhorando (novo padrão de tabela, novo tipo de tooltip,
 === Publicação (GitHub Pages) ===
 O repositório já está publicado em https://viniciuskato.github.io/estudo-conceitos/ ("app publicado") — atualiza sozinho a cada `push.bat`, sem passo manual de deploy.
 Antes de propor infraestrutura nova para pedidos do tipo "deixar acessível", "funcionar offline", "funcionar como aplicativo" ou "escalar para mais materiais": checar primeiro se essa publicação já resolve (ex.: via fetch da URL acima) antes de desenhar alternativas como servidor local — muitas vezes já está pronto.
-
-=== GitHub ===
-Ao concluir a sessão (usuário sinalizar "terminamos", "pode fechar" ou similar), após aplicar as mudanças aprovadas: rodar `git add -A`, `git commit` com mensagem descrevendo o que foi feito na sessão, e `git push` para enviar ao repositório remoto.
-Se o push falhar (conflito, sem credenciais configuradas no ambiente, etc.): informar o usuário do erro específico e deixar o commit local intacto — não forçar (`--force`) nem tentar contornar credenciais.
-Deleções manuais pendentes: se, durante a sessão, uma ou mais remoções de arquivo falharam por lock de sincronização do OneDrive (ver seção anterior), não reportar cada uma isoladamente no meio da sessão. Consolidar todas num único checklist ao final, junto do lembrete de `push.bat` — o usuário resolve tudo de uma vez depois que o OneDrive terminar de sincronizar.

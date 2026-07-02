@@ -73,9 +73,9 @@ Melhorias aplicadas: N
 Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Após reportar, exibir o conteúdo completo do arquivo no chat para que o usuário possa copiar diretamente nas configurações do projeto (Project Instructions) sem precisar abrir o arquivo manualmente.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
 
-Antes de montar o checklist, rodar `git status --short` para ver EXATAMENTE o que a sessão tocou — nunca listar pendências de memória. Regras para o item de reempacotamento:
+Antes de montar o checklist, reconstruir EXATAMENTE o que a sessão tocou a partir do próprio histórico de tool calls desta sessão (arquivos lidos/editados/criados) — NÃO rodar `git status --short`: comandos git falham por completo neste sandbox (ver instrucoes-projeto.txt, seção "Verificação bash obrigatória"), então a chamada seria desperdiçada. Nunca listar pendências de memória (sessões anteriores) como se fossem desta sessão. Regras para o item de reempacotamento:
 - `instrucoes-projeto.txt` é Project Instructions, NÃO uma skill — editá-lo nunca gera reempacotamento. Sua única pendência é o usuário copiá-lo nas Project Instructions.
-- Só incluir o item de reempacotar/reinstalar se algum `_docs/skills-export/<skill>/SKILL.md` foi editado NESTA sessão (confirmar pelo `git status --short`).
+- Só incluir o item de reempacotar/reinstalar se algum `_docs/skills-export/<skill>/SKILL.md` foi editado NESTA sessão (confirmar pelo histórico de edições da própria sessão, não por git).
 - Quando incluir, NOMEAR cada skill afetada (ex.: `compendio`, `autocritica-sessao`) — nunca escrever "skills modificadas" genericamente. Se esta sessão editou o próprio SKILL.md da autocritica-sessao, incluí-la nominalmente.
 - Não confundir pendências antigas de reempacotamento (de sessões anteriores, no DEBT.md) com o que ESTA sessão modificou — se mencionar as antigas, rotulá-las como "pendência anterior (não desta sessão)".
 
