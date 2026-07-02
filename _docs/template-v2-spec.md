@@ -70,6 +70,77 @@ Escopo: marcar primeira ocorrência de cada termo técnico relevante por seção
 
 Aplicar (`.sl-pt` e `.term`) em todos os compêndios novos e ao revisar existentes.
 
+**Tooltip enriquecido (`.term-rich`) — padrão preferencial em compêndios de idioma estrangeiro:** onde o `.term` simples mostra só a palavra traduzida (uma linha via `data-pt`), o `.term-rich` mostra a tradução PT em negrito **mais** uma glosa curta explicativa, em tooltip multilinha. É o padrão a usar em compêndios em inglês (não só a tradução, mas uma mini-definição junto). Estrutura autossuficiente (não precisa combinar com `.term`):
+
+```html
+<span class="term-rich">termo<span class="tip"><b>tradução PT</b><i>glosa curta em inglês</i></span></span>
+```
+```css
+.term-rich{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:normal}
+.term-rich .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:6px;padding:7px 11px;font-family:var(--font-ui);font-size:11.5px;line-height:1.45;white-space:normal;width:max-content;max-width:230px;text-align:left;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term-rich .tip b{display:block;color:var(--ac);font-weight:600;margin-bottom:2px}
+.term-rich .tip i{display:block;color:var(--muted);font-style:normal}
+.term-rich:hover .tip{opacity:1}
+```
+Escopo igual ao `.term`: primeira ocorrência de cada termo técnico relevante por seção. A glosa é uma definição de uma frase curta — não repetir a tradução, acrescentar informação. `.term` simples segue válido para casos em que a tradução isolada basta.
+
+**Dicionário ao vivo (`#dict-panel`) — padrão em compêndios de idioma estrangeiro:** complementa o `.term-rich`. Enquanto o `.term-rich` cobre os termos técnicos curados (com tradução + glosa autoral), o `#dict-panel` cobre o **vocabulário geral**: duplo-clique em qualquer palavra abre um painel flutuante com a definição em inglês, buscada ao vivo na API pública `dictionaryapi.dev`. Termos curados são pulados (o guard ignora `.term` e `.term-rich`, que já têm seu próprio tooltip). Cobre só inglês — usar apenas em compêndios em inglês. Promovido de piloto a padrão em 2026-07-02 (antes só em `cardiologia-anatomia.html`; aplicado também em `fisica.html` e `medicina.html`).
+
+```css
+#dict-panel{display:none;position:absolute;z-index:1001;background:var(--bg3);border:1px solid var(--ac);border-radius:8px;padding:10px 30px 10px 14px;max-width:280px;font-family:var(--font-ui);font-size:12.5px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+#dict-panel.open{display:block}
+#dict-close{position:absolute;top:4px;right:8px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;font-family:var(--font-ui)}
+#dict-close:hover{color:var(--text)}
+.dict-word{font-family:var(--font-body);font-weight:600;color:var(--ac);font-size:14px;margin-bottom:3px;text-transform:lowercase}
+.dict-pos{font-style:italic;color:var(--muted);margin:4px 0 2px}
+.dict-def{margin-bottom:3px;color:var(--text)}
+.dict-ex{color:var(--muted);font-style:italic;margin-bottom:3px}
+.dict-src{color:var(--muted);font-size:10px;margin-top:4px}
+.dict-loading{color:var(--muted)}
+```
+
+JS (bloco próprio, dentro de um IIFE antes de `</script>`; o guard `closest('.term, .term-rich')` evita disparar sobre termos curados):
+
+```js
+(function(){
+  var dictPanel = document.createElement('div');
+  dictPanel.id = 'dict-panel';
+  dictPanel.innerHTML = '<button id="dict-close" aria-label="Fechar">×</button><div id="dict-body"></div>';
+  document.body.appendChild(dictPanel);
+  document.getElementById('dict-close').addEventListener('click', function(){ dictPanel.classList.remove('open'); });
+  document.addEventListener('click', function(e){ if(dictPanel.classList.contains('open') && !dictPanel.contains(e.target)) dictPanel.classList.remove('open'); });
+  var content = document.getElementById('content');
+  if(content){
+    content.addEventListener('dblclick', function(e){
+      if(e.target.closest('.term, .term-rich')) return;
+      var word = window.getSelection().toString().trim().replace(/[^a-zA-Z-]/g, '');
+      if(!word || word.length < 2) return;
+      dictPanel.style.left = Math.min(e.pageX, window.innerWidth - 300) + 'px';
+      dictPanel.style.top = (e.pageY + 14) + 'px';
+      dictPanel.classList.add('open');
+      var body = document.getElementById('dict-body');
+      body.innerHTML = '<p class="dict-loading">Buscando "' + word + '"…</p>';
+      fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word.toLowerCase()))
+        .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); })
+        .then(function(data){
+          var entry = data[0];
+          var html = '<div class="dict-word">' + entry.word + '</div>';
+          (entry.meanings || []).slice(0, 2).forEach(function(m){
+            html += '<div class="dict-pos">' + m.partOfSpeech + '</div>';
+            (m.definitions || []).slice(0, 2).forEach(function(d){
+              html += '<p class="dict-def">' + d.definition + '</p>';
+              if(d.example) html += '<p class="dict-ex">"' + d.example + '"</p>';
+            });
+          });
+          html += '<p class="dict-src">via dictionaryapi.dev</p>';
+          body.innerHTML = html;
+        })
+        .catch(function(){ body.innerHTML = '<p class="dict-loading">Sem definição encontrada. Vocabulário técnico costuma não estar nessa base — ver tooltip dos termos sublinhados.</p>'; });
+    });
+  }
+})();
+```
+
 ---
 
 ## Link de retorno ao índice (`#s-home`) — obrigatório
@@ -248,10 +319,10 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:var(--bg3)}
-.data-table td.td-label{color:var(--text);font-weight:600}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
 ```
 
-Uso de `.data-table`: a primeira célula de cada linha (o rótulo/nome da linha) recebe `class="td-label"` para destacá-la visualmente das demais colunas — ver exemplos em `medicina/imunologia/*.html`. Sempre envolver em `<div class="table-wrap">` e seguir com `<caption>` ou `<p class="table-caption">` numerada. Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferencial clínico, tabela de territórios/classificações — preferir a `.data-table` à lista de bullets nesses casos.
+Uso de `.data-table`: a primeira célula de cada linha (o rótulo/nome da linha) recebe `class="td-label"` para destacá-la visualmente das demais colunas, na cor de destaque `--ac` (âmbar) com `white-space:nowrap` — padrão seguindo `cardiologia-anatomia.html`. (O acervo PT anterior usa `--text` e é grandfathered — não retroagir.) Sempre envolver em `<div class="table-wrap">` e seguir com `<caption>` ou `<p class="table-caption">` numerada. Usar quando: comparação de estruturas (≥3 itens com ≥3 atributos), diferencial clínico, tabela de territórios/classificações — preferir a `.data-table` à lista de bullets nesses casos. Cada `<table class="data-table">` deve levar um `aria-label` descritivo (acessibilidade para leitores de tela), ex.: `<table class="data-table" aria-label="Comparison of cardiac valves">` — convenção adotada de `cardiologia-anatomia.html`.
 
 ---
 
@@ -384,7 +455,7 @@ Arquivos na raiz do repositório (fora de `compêndios/`, `medicina/` etc.) que 
 - `.nojekyll` (raiz, arquivo vazio) — desativa o processamento Jekyll do GitHub Pages. Necessário porque Jekyll por padrão *exclui* pastas com nome começando em `_` (`_docs/`, `_archive/`, `_acervo/`) do build; sem esse arquivo, qualquer link público para dentro dessas pastas quebra.
 - `index.html` (raiz) é o `start_url` do manifest — é a tela inicial do app instalado, então manter seu catálogo atualizado importa mais do que antes (ver `_docs/DEBT.md` para pendências).
 
-Piloto de dicionário interativo (tooltip enriquecido + busca ao vivo): ver entrada em `_docs/DEBT.md` — aplicado só em `compêndios/medicina/cardiologia-anatomia.html` até o momento, não é padrão a replicar automaticamente sem confirmar com o usuário.
+Dicionário interativo (tooltip enriquecido `.term-rich` + busca ao vivo `#dict-panel`): promovido a **padrão** para compêndios em idioma estrangeiro em 2026-07-02 — ver seção "Idioma e tooltips de tradução" acima (CSS + JS canônicos). Antes era piloto isolado em `cardiologia-anatomia.html`; agora aplicado também em `fisica.html` e `medicina.html`.
 
 **Discussão:** três movimentos — (1) convergência, fechando a pergunta motivadora com os conceitos desenvolvidos; (2) tensão/paradoxos/limitações; (3) implicação derivada que emerge mas não foi enunciada no corpo. Não resumir — elevar abstração.
 

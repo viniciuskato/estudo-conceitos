@@ -2,6 +2,8 @@
 Última atualização: 2026-07-02
 
 === Medicina ===
+- medicina/medicina.html — Medicine (mapa de campo panorâmico de TODA a medicina, nível compendio-medicina; EM INGLÊS por regra idioma=fontes anglófonas — Harrison/Robbins/Guyton/Gray's/NEJM; partida zero. Três camadas: ciências básicas (anatomia+histologia, fisiologia, bioquímica+biologia celular, microbiologia+imunologia, patologia+fisiopatologia, genética+genômica, farmacologia), ciências clínicas (semiologia+método clínico, clínica médica+especialidades, saúde pública+epidemiologia), e contexto (história: hipocrático→Galeno→Vesalius/Harvey→teoria dos germes→Flexner→antibióticos→RCT 1948→molecular/MBE; medicina no Brasil: Oswaldo Cruz/Fiocruz, Chagas 1909, Revolta da Vacina, SUS 1988, Demografia Médica 2025 — 494 escolas, ~635k médicos, Mais Médicos 27,3k; questões centrais, métodos, conexões, controvérsias, perguntas em aberto, referências em 3 camadas). Sidebar bilíngue .sl-pt + 16 tooltips .term (tradução PT). Cross-links: cardiologia-anatomia, mecanismos de fisiologia/imunologia/microbiologia/farmacologia/fisiopatologia, física, IA, epistemologia. Verificação visual via surge PENDENTE [2026-07-02]
+
 --- Cardiologia (Medicina Básica) ---
 - medicina/cardiologia-anatomia.html — Anatomia Cardíaca (câmaras, valvas, coronárias, condução, pericárdio, topografia) [2026-06-30]
 

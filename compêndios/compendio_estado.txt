@@ -101,3 +101,64 @@
              para compendio-medicina), `empacotar_skills.py` (nova skill nas duas listas).
              Empacotamento (.skill) e reinstalação ainda pendentes — usuário precisa rodar
              `empacotar_skills.py` localmente e reinstalar via Settings > Capabilities > Skills.
+2026-07-02 — Primeiro compêndio panorâmico de medicina criado: compêndios/medicina/medicina.html
+             (nível compendio-medicina — arquivo-pai de TODA a medicina; usuário corrigiu que
+             o mapa panorâmico PARA no agrupador medicina e NÃO desce para básica/clínica, já
+             que nenhuma subárea foi especificada — básica/clínica não governam a geração,
+             aparecem como ramos mapeados). Idioma decidido via AskUserQuestion: INGLÊS + aparato
+             bilíngue (lang=en, .sl-pt na sidebar + tooltips .term), pela regra idioma=fontes
+             (literatura que define o campo é anglófona: Harrison/Robbins/Guyton/Gray's/NEJM);
+             confirmado com o usuário ANTES de gerar por ser a decisão de maior custo (precedente
+             física). Partida zero. Base estrutural: fisica.html (arquivo-pai/mapa de campo em
+             inglês sob o spec atual), CSS reaproveitado integralmente. Estrutura (22 seções =
+             22 links): o que a medicina estuda (ciência+arte, básica/clínica/população, saúde≠
+             ausência de doença, ética), mapa do campo (10 cards, 3 camadas concêntricas), 7
+             seções de ciências básicas (anatomia+histologia, fisiologia c/ homeostase, bioquímica
+             +biologia celular, microbiologia+imunologia c/ teoria dos germes, patologia+
+             fisiopatologia c/ Virchow, genética+genômica c/ DNA/HGP/CRISPR, farmacologia c/
+             dose=veneno), 3 seções clínicas (semiologia+método clínico bayesiano, clínica médica+
+             especialidades, saúde pública+epidemiologia c/ John Snow/prevenção), história
+             (hipocrático→Galeno→Vesalius 1543/Harvey→germes Pasteur-Koch→Flexner 1910→antibióticos
+             →RCT estreptomicina 1948→DNA/HGP/MBE), medicina no Brasil (Oswaldo Cruz/Fiocruz 1900,
+             Chagas 1909 doença inteira, Revolta da Vacina 1904, SUS 1988, Demografia Médica 2025:
+             494 escolas/~635k médicos/Mais Médicos 27,3k — confirmado via WebSearch), questões
+             centrais (8), métodos (método clínico, tecnologia diagnóstica, MBE+hierarquia de
+             evidências, epidemiologia, pesquisa translacional, método ético 4 princípios),
+             conexões (biologia/química/física/estatística/psicologia/IA/filosofia com cross-links),
+             4 controvérsias (MBE×julgamento clínico, reducionismo×sistêmico, rastreio×
+             sobrediagnóstico, medicalização×tratar cedo), 4 perguntas em aberto (placebo/mente-
+             corpo, mecanismo psiquiátrico, regeneração, microbioma), por onde começar (Porter→
+             Guyton→Robbins→Harrison/Bates→MBE/journals), referências em 3 camadas, síntese
+             fechando a pergunta orientadora. Incidente pontual: fragmento em japonês (記録)
+             digitado por engano numa caixa .hist, detectado e corrigido na hora (bedside
+             record-keeping). Verificação bash-equivalente via Grep/Read OK (fecha </body></html>,
+             633 linhas, sem const const, sem CJK residual, sem artefatos, 22 seções=22 links,
+             38 marcadores bilíngues = 22 .sl-pt + 16 .term, acentos PT íntegros). Verificação
+             visual via surge PENDENTE (subdomínio compendios-medicina.surge.sh já mapeado para
+             compêndios/medicina/ nas instruções).
+2026-07-02 — PADRONIZAÇÃO do tooltip enriquecido .term-rich (mesma sessão): usuário notou que o
+             tooltip rico do cardiologia-anatomia.html (tradução PT em negrito + glosa multilinha)
+             tinha ficado restrito àquele arquivo, enquanto fisica.html e medicina.html usavam só
+             o .term simples (uma linha). Decisão via AskUserQuestion: padronizar .term-rich
+             (autossuficiente) no template-v2-spec.md para compêndios em idioma estrangeiro + aplicar
+             já em fisica e medicina (não retroagir ao acervo PT). Aplicado: CSS .term-rich +
+             conversão de 18 tooltips em medicina e 14 em física; aria-label nas 2 data-tables de
+             física (convenção também registrada no spec, seção Elementos visuais). Painel de
+             dicionário ao vivo #dict-panel (dictionaryapi.dev) do cardiologia MANTIDO como piloto
+             isolado — não promovido. Divergência anotada (não propagada): cardiologia usa td-label
+             --ac contra --text do spec. Verificação Grep/Read OK: 0 .term/data-pt órfãos nos dois
+             arquivos, tips bem-formados, ambos fecham </body></html>. Verificação visual via surge
+             de fisica e medicina com os novos tooltips PENDENTE. Spec atualizado (nova subseção
+             .term-rich em "Idioma e tooltips de tradução" + aria-label em "Elementos visuais").
+2026-07-02 — REVERSÃO na mesma sessão: usuário pediu o dicionário ao vivo (#dict-panel). O que
+             tinha sido mantido como piloto isolado foi promovido a padrão. CSS #dict-panel/.dict-*
+             + JS (IIFE, busca em dictionaryapi.dev por duplo-clique) adicionados a fisica.html e
+             medicina.html; registrado no template-v2-spec.md (CSS+JS canônicos + nota do App shell
+             atualizada). Adaptação vs. cardiologia: guard do duplo-clique de closest('.term') para
+             closest('.term, .term-rich') — física/medicina usam .term-rich sozinho, senão clicar
+             num termo curado abriria o painel. Escopo: só compêndios em inglês (API só inglês),
+             não retroagir ao acervo PT. Verificação Grep/Read OK (CSS+JS nos dois, IIFE fecha,
+             ambos fecham </body></html>). Pendência ao usuário: escolher cor padrão do td-label
+             nas data-tables (âmbar --ac do cardiologia vs bege-negrito --text do spec) — explicado,
+             aguardando decisão; nada alterado nesse ponto ainda. Verificação visual via surge de
+             fisica e medicina (tooltips ricos + dicionário) PENDENTE.

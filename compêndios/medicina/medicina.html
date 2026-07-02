@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compendium — Medicine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;--text:#e2ddd6;--muted:#9e9890;--ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s linear}
+#mob-bar{display:none;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+#mob-bar .mb-title{font-family:var(--font-ui);font-size:13px;font-weight:500;color:var(--text)}
+#mob-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:5px 12px;color:var(--muted);font-family:var(--font-ui);font-size:12px;cursor:pointer}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;transition:width .25s cubic-bezier(.4,0,.2,1)}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 0 6px;display:flex;justify-content:center;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:4px;line-height:1;transition:color .15s}
+#toggle-btn:hover{color:var(--ac)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding-bottom:40px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.s-logo{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac);padding:16px 20px 12px;border-bottom:1px solid var(--border);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase;transition:opacity .2s}
+.s-logo a{color:var(--muted);text-decoration:none;font-size:10px;font-weight:400;display:block;margin-top:3px;letter-spacing:0;text-transform:none}
+.s-logo a:hover{color:var(--ac)}
+.s-group{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:14px 20px 6px;transition:opacity .2s}
+a.sl{display:block;padding:5px 20px;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,border-color .15s,opacity .2s}
+a.sl:hover{color:var(--text)}
+a.sl.active{color:var(--ac);border-left-color:var(--ac)}
+a.sl.sub{padding-left:30px;font-size:12px}
+.sl-pt{display:block;font-size:10.5px;color:var(--muted);opacity:.7;margin-top:1px;font-style:italic}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s cubic-bezier(.4,0,.2,1)}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+h1{font-family:var(--font-body);font-size:2rem;font-weight:600;color:var(--ac);line-height:1.3;margin-bottom:10px}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin-bottom:16px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+h2{font-family:var(--font-body);font-size:1.35rem;font-weight:600;color:var(--text);margin:56px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border);transition:color .3s}
+section.in-view>h2{color:var(--ac)}
+h3{font-family:var(--font-body);font-size:1.1rem;font-weight:600;color:var(--text);margin:32px 0 12px}
+p{margin-bottom:1.1em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+.term-orig{font-style:italic;color:var(--muted);font-size:.9em}
+.term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap}
+.term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term:hover::after{opacity:1}
+.term-rich{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:normal}
+.term-rich .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:6px;padding:7px 11px;font-family:var(--font-ui);font-size:11.5px;line-height:1.45;white-space:normal;width:max-content;max-width:230px;text-align:left;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term-rich .tip b{display:block;color:var(--ac);font-weight:600;margin-bottom:2px}
+.term-rich .tip i{display:block;color:var(--muted);font-style:normal}
+.term-rich:hover .tip{opacity:1}
+#dict-panel{display:none;position:absolute;z-index:1001;background:var(--bg3);border:1px solid var(--ac);border-radius:8px;padding:10px 30px 10px 14px;max-width:280px;font-family:var(--font-ui);font-size:12.5px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+#dict-panel.open{display:block}
+#dict-close{position:absolute;top:4px;right:8px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;font-family:var(--font-ui)}
+#dict-close:hover{color:var(--text)}
+.dict-word{font-family:var(--font-body);font-weight:600;color:var(--ac);font-size:14px;margin-bottom:3px;text-transform:lowercase}
+.dict-pos{font-style:italic;color:var(--muted);margin:4px 0 2px}
+.dict-def{margin-bottom:3px;color:var(--text)}
+.dict-ex{color:var(--muted);font-style:italic;margin-bottom:3px}
+.dict-src{color:var(--muted);font-size:10px;margin-top:4px}
+.dict-loading{color:var(--muted)}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.hist strong{color:var(--text);font-weight:500}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:14px 0;font-size:15px}
+.box.info{border-left:2px solid var(--ac);background:var(--bg3)}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.kbox p{margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+.subarea-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.subarea-card{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:14px 16px;transition:border-color .2s}
+.subarea-card:hover{border-color:var(--ac)}
+.subarea-card h3{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--ac2);margin:0 0 5px}
+.subarea-card p{font-family:var(--font-ui);font-size:.83rem;color:var(--muted);margin:0;line-height:1.55}
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:16px 18px;margin-bottom:14px}
+.controversia h3{font-family:var(--font-ui);font-size:.9rem;font-weight:600;color:var(--text);margin:0 0 12px}
+.posicoes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.posicao{background:var(--bg3);border-radius:5px;padding:11px 13px}
+.posicao .label{font-family:var(--font-ui);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:5px}
+.posicao p{font-family:var(--font-ui);font-size:.82rem;color:var(--text);margin:0;line-height:1.55}
+.roteiro-step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.step-num{min-width:26px;height:26px;background:var(--ac);color:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+.step-body{font-size:.92rem;line-height:1.72}
+.ref-group h3{font-family:var(--font-ui);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:24px 0 10px}
+.ref-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px 15px;margin-bottom:9px}
+.ref-item .ref-title{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.ref-item .ref-meta{font-family:var(--font-ui);font-size:.78rem;color:var(--ac);margin-bottom:5px}
+.ref-item .ref-nota{font-family:var(--font-ui);font-size:.79rem;color:var(--muted);margin:0}
+.tag{display:inline-block;background:var(--bg3);border-radius:4px;padding:2px 6px;font-family:var(--font-ui);font-size:10px;color:var(--ac2);margin-right:3px}
+.questoes ol{padding-left:20px}
+.questoes li{margin-bottom:11px;line-height:1.72;font-size:.95rem}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.table-wrap{overflow-x:auto;margin:18px 0}
+.data-table{width:100%;border-collapse:collapse;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic;margin:6px 0 0}
+@media(max-width:900px){
+  #mob-bar{display:flex}
+  #sidebar{position:fixed;top:0;left:0;z-index:200;height:100vh;transform:translateX(-100%);transition:transform .25s}
+  #sidebar.open{transform:translateX(0)}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .subarea-grid{grid-template-columns:1fr}
+  .posicoes{grid-template-columns:1fr}
+}
+@media print{body{background:#fff;color:#000}#sidebar,#mob-bar,#progress-bar,.anchor{display:none}#content{padding:20px}a{color:#000}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<div id="mob-bar">
+  <span class="mb-title">Compendium · Medicine</span>
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Menu</button>
+</div>
+
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Back to index">⌂ <span class="home-label">Index</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Collapse sidebar">‹</button></div>
+  <div class="s-inner">
+    <div class="s-logo">
+      Compendium · Medicine
+      <a href="../../index.html">← Voltar ao índice</a>
+    </div>
+    <div class="s-group">Navigation</div>
+    <a class="sl" href="#what">What medicine studies<span class="sl-pt">O que a medicina estuda</span></a>
+    <a class="sl" href="#map">Map of the field<span class="sl-pt">Mapa do campo</span></a>
+    <div class="s-group">Basic sciences</div>
+    <a class="sl sub" href="#anatomy">Anatomy and histology<span class="sl-pt">Anatomia e histologia</span></a>
+    <a class="sl sub" href="#physiology">Physiology<span class="sl-pt">Fisiologia</span></a>
+    <a class="sl sub" href="#biochem">Biochemistry and cell biology<span class="sl-pt">Bioquímica e biologia celular</span></a>
+    <a class="sl sub" href="#micro">Microbiology and immunology<span class="sl-pt">Microbiologia e imunologia</span></a>
+    <a class="sl sub" href="#pathology">Pathology and pathophysiology<span class="sl-pt">Patologia e fisiopatologia</span></a>
+    <a class="sl sub" href="#genetics">Genetics and genomics<span class="sl-pt">Genética e genômica</span></a>
+    <a class="sl sub" href="#pharma">Pharmacology and therapeutics<span class="sl-pt">Farmacologia e terapêutica</span></a>
+    <div class="s-group">Clinical sciences</div>
+    <a class="sl sub" href="#semiology">Semiology and the clinical method<span class="sl-pt">Semiologia e método clínico</span></a>
+    <a class="sl sub" href="#clinical">Clinical medicine and specialties<span class="sl-pt">Clínica médica e especialidades</span></a>
+    <a class="sl sub" href="#publichealth">Public health and epidemiology<span class="sl-pt">Saúde pública e epidemiologia</span></a>
+    <div class="s-group">Context</div>
+    <a class="sl" href="#history">Historical path<span class="sl-pt">Percurso histórico</span></a>
+    <a class="sl" href="#brazil">Medicine in Brazil<span class="sl-pt">Medicina no Brasil</span></a>
+    <a class="sl" href="#questions">Central questions<span class="sl-pt">Questões centrais</span></a>
+    <a class="sl" href="#methods">Tools and methods<span class="sl-pt">Ferramentas e métodos</span></a>
+    <a class="sl" href="#connections">Connections<span class="sl-pt">Conexões</span></a>
+    <a class="sl" href="#controversies">Active controversies<span class="sl-pt">Controvérsias ativas</span></a>
+    <a class="sl" href="#open">Open questions<span class="sl-pt">Perguntas em aberto</span></a>
+    <a class="sl" href="#start">Where to start<span class="sl-pt">Por onde começar</span></a>
+    <a class="sl" href="#references">References<span class="sl-pt">Referências</span></a>
+    <a class="sl" href="#synthesis">Synthesis<span class="sl-pt">Síntese</span></a>
+  </div>
+</nav>
+
+<main id="content">
+<div class="prose">
+
+  <div class="doc-header">
+    <h1>Medicine</h1>
+    <p class="doc-meta">Field compendium · Medicine · Broad map</p>
+    <div class="doc-chips">
+      <span class="chip">⏱ ~55 min read</span>
+      <span class="chip">📍 Level: broad field · from zero</span>
+      <span class="chip">🗓 Last revision: 2026-07-02</span>
+    </div>
+  </div>
+
+  <div class="pergunta">
+    <div class="plabel">Guiding question</div>
+    <p>Medicine is at once one of the oldest human arts and one of the youngest sciences — for most of its history, a visit to the doctor was about as likely to harm as to heal. <em>What turned healing into a science, and why, even now, does so much of it remain judgment under uncertainty?</em></p>
+  </div>
+
+  <!-- WHAT MEDICINE STUDIES -->
+  <section id="what">
+    <h2>What medicine studies <a class="anchor" href="#what">¶</a></h2>
+    <p><strong>Medicine</strong> <span class="term-orig">(from the Latin <em>ars medicina</em>, the art of healing)</span> is the science and practice concerned with health and disease in the human body — understanding how the organism works, why it fails, how to tell one failure from another, and how to prevent, treat, or relieve them. It is unusual among the sciences in having a double nature: it is a body of knowledge (what causes disease, how the body responds) and, at the same time, a practice aimed at a concrete goal — the good of an individual patient. This is why it is often described as a science <em>and</em> an art.</p>
+    <p>What distinguishes medicine from the pure biological sciences is its <strong>orientation toward action on the individual</strong>. Biology asks how life works in general; medicine asks what is wrong with <em>this</em> person and what to do about it. That shift from the general to the particular is decisive: a mechanism true "on average" across a population may not settle what is best for the patient in front of the doctor, and much of the difficulty of medicine lives precisely in that gap between general knowledge and the single case.</p>
+    <p>Medicine is built on a foundation of <strong>basic sciences</strong> — anatomy, physiology, biochemistry, microbiology, pathology, pharmacology — that describe the normal body and the mechanisms of its diseases. On top of that foundation sit the <strong>clinical sciences</strong>, which apply it at the bedside: the diagnostic reasoning of semiology, the management of internal medicine and the specialties, surgery. The two layers are not separable in practice — a clinician who does not grasp the physiology cannot interpret the sign — and one of the aims of this map is to show how the parts connect. <a class="cross-link" href="#map">See the map of the field.</a></p>
+    <p>There is a third dimension that neither the basic nor the strictly clinical view captures: the <strong>population</strong>. <span class="term-rich">Epidemiology<span class="tip"><b>epidemiologia</b><i>the study of disease patterns across populations</i></span></span> and public health study health and disease not in one body but across whole communities — who gets sick, why, and what interventions reduce suffering at scale. Vaccination, sanitation, and tobacco control saved more lives in the twentieth century than any bedside treatment, a reminder that the greatest gains in medicine have often come from prevention rather than cure.</p>
+    <div class="kbox">
+      <div class="klabel">Health is not merely the absence of disease</div>
+      <p>The World Health Organization's founding definition (1948) calls health "a state of complete physical, mental, and social well-being, and not merely the absence of disease or infirmity." Ambitious and much criticized — by that standard almost no one is ever fully healthy — it nonetheless marks a decisive widening of the field: medicine's object is not only the broken organ but the whole person in a social context. Where exactly to draw the line between health and disease is itself one of medicine's <a class="cross-link" href="#questions">central open questions</a>.</p>
+    </div>
+    <p>Finally, medicine is inseparable from <strong>ethics</strong>. Because it acts on vulnerable people, often with power over life and death, every clinical decision is also a moral one. The oldest surviving professional code in any field is medical — the Hippocratic tradition — and the modern framework of autonomy, beneficence, non-maleficence, and justice governs everything from informed consent to the allocation of scarce organs. A technically correct act that violates the patient's will is not good medicine.</p>
+  </section>
+
+  <!-- MAP OF THE FIELD -->
+  <section id="map">
+    <h2>Map of the field <a class="anchor" href="#map">¶</a></h2>
+    <p>Medicine is best seen as three concentric layers. At the core, the <strong>basic sciences</strong> describe the normal body and the mechanisms of disease — from structure (anatomy) through function (physiology) down to molecules (biochemistry, genetics), the agents of disease (microbiology, immunology), the lesions they cause (pathology), and the drugs that intervene (pharmacology). Around that core, the <strong>clinical sciences</strong> turn mechanism into care at the bedside: diagnostic reasoning (semiology), the management of disease (clinical medicine and its specialties, surgery). And enclosing both, the <strong>population sciences</strong> (epidemiology, public health) study disease across communities and the evidence that tells us what actually works. The cards below give the overview; each territory is developed in its own section just ahead.</p>
+    <div class="subarea-grid">
+      <div class="subarea-card">
+        <h3>Anatomy and histology</h3>
+        <p>The structure of the body, from organs visible to the eye down to the microscopic architecture of tissues. The map on which everything else is located.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Physiology</h3>
+        <p>How the healthy body works: the integrated function of the cardiovascular, respiratory, renal, nervous, and endocrine systems, and how they hold the internal environment stable.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Biochemistry and cell biology</h3>
+        <p>The molecular machinery of life: metabolism, enzymes, energy, and the cell as the basic unit. The chemistry from which physiology is built.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Microbiology and immunology</h3>
+        <p>The agents of infectious disease — bacteria, viruses, fungi, parasites — and the immune system that defends against them (and sometimes turns on the body itself).</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Pathology and pathophysiology</h3>
+        <p>What disease <em>is</em> at the level of cells and tissues, and how a mechanism goes wrong to produce the signs and symptoms of illness. The hinge between basic and clinical.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Genetics and genomics</h3>
+        <p>Heredity and the genome: single-gene diseases, the genetic component of common illness, and the reading of DNA that is reshaping diagnosis and treatment.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Pharmacology and therapeutics</h3>
+        <p>How drugs act on the body and the body on drugs: mechanisms, dosing, benefit and harm. The science behind the prescription.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Semiology and the clinical method</h3>
+        <p>The craft of diagnosis: eliciting the history, examining the patient, reading signs and symptoms, and reasoning from them to a diagnosis under uncertainty.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Clinical medicine and specialties</h3>
+        <p>The management of disease across the body's systems — internal medicine and its branches, surgery, pediatrics, obstetrics, psychiatry. Where knowledge becomes care.</p>
+      </div>
+      <div class="subarea-card">
+        <h3>Public health and epidemiology</h3>
+        <p>Health at the scale of populations: who gets sick and why, how to measure it, and the prevention — vaccines, sanitation, policy — that saves the most lives.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANATOMY -->
+  <section id="anatomy">
+    <h2>Anatomy and histology <a class="anchor" href="#anatomy">¶</a></h2>
+    <p><strong>Anatomy</strong> is the study of the body's structure — the shape, position, and relationships of its parts. It is the oldest of the medical sciences and, for centuries, was medicine's only firm ground: before anyone understood how organs worked, one could at least map where they were. It remains the language in which all of medicine is written, because you cannot describe a disease, perform surgery, or read a scan without first knowing the normal architecture.</p>
+    <p><strong>Macroscopic (gross) anatomy</strong> describes what the eye can see: the skeleton, muscles, organs, vessels, and nerves, organized into systems. Its method was, from the start, <span class="term-rich">dissection<span class="tip"><b>dissecação</b><i>cutting the body apart to study its structure</i></span></span> — the direct examination of the body, taken apart. The great turning point was Andreas Vesalius's <em>De humani corporis fabrica</em> (1543), which replaced inherited authority with what the dissector actually saw, correcting errors that had stood for over a thousand years. <a class="cross-link" href="cardiologia-anatomia.html">See the compendium on cardiac anatomy</a> for how this plays out in a single organ.</p>
+    <p><strong>Histology</strong> — microscopic anatomy — descends a level, to the architecture of tissues. The whole body is built from just four basic tissue types (epithelial, connective, muscle, and nervous), whose arrangement gives each organ its function. This level became visible only with the microscope, and its central insight, that the body is made of cells, opened the door to understanding disease as something that happens <em>to cells</em>.</p>
+    <p>Modern anatomy is no longer only a matter of the cadaver. <strong>Radiological and functional anatomy</strong> — the body seen through X-ray, ultrasound, CT, and MRI — lets the clinician study structure in the living patient, and even watch it in motion. The dependence of imaging on physics is one of medicine's deepest cross-disciplinary ties (<a class="cross-link" href="../fisica/fisica.html">see the Physics compendium</a>): every modern scan is applied physics turned into a picture of the inside of a person.</p>
+  </section>
+
+  <!-- PHYSIOLOGY -->
+  <section id="physiology">
+    <h2>Physiology <a class="anchor" href="#physiology">¶</a></h2>
+    <p><strong>Physiology</strong> is the study of how the healthy body <em>works</em> — the functions and mechanisms of its organs and systems. If anatomy is the map, physiology is the traffic: how blood circulates, how the kidney cleans it, how a nerve fires, how a hormone signals. It is the science that makes the leap from structure to function, and it is the indispensable base of clinical reasoning, because every disease is, at bottom, a physiology gone wrong.</p>
+    <p>Its organizing idea is <strong>homeostasis</strong>: the body actively keeps its internal environment — temperature, blood pressure, glucose, pH, oxygen — within narrow limits, despite a changing outside world. The concept, from Claude Bernard's <span class="term-orig"><em>milieu intérieur</em></span> (the internal environment) in the nineteenth century, formalized by Walter Cannon as <span class="term-rich">homeostasis<span class="tip"><b>homeostase</b><i>active maintenance of a stable internal environment</i></span></span>, is the single most unifying principle in the field: most physiology is some feedback loop defending a set point, and much of disease is a set point lost.</p>
+    <p>Physiology is studied by <strong>system</strong>: cardiovascular (the heart as a pump and the circulation it drives), respiratory (gas exchange), renal (filtration and the balance of water and salts), digestive, endocrine (hormonal signaling), and nervous (the fastest control system). Each is a control problem in its own right, and the great difficulty — and beauty — of physiology is that they are all coupled: blood pressure, for instance, is set jointly by the heart, the vessels, the kidney, and the nervous system at once. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">See the mechanism compendium on the cardiac cycle</a>.</p>
+    <p>The line between physiology and its neighbors is deliberately porous. Below it lies <strong>biochemistry</strong>, since every physiological function is ultimately a set of molecular events; above it lies <strong>pathophysiology</strong>, which is simply physiology under disease. To understand why a patient is short of breath, the clinician runs the film backward from symptom to failed mechanism to broken molecule — which is why physiology is the pivot of the whole basic-science curriculum.</p>
+  </section>
+
+  <!-- BIOCHEMISTRY -->
+  <section id="biochem">
+    <h2>Biochemistry and cell biology <a class="anchor" href="#biochem">¶</a></h2>
+    <p><strong>Biochemistry</strong> is the chemistry of life — the molecules the body is made of and the reactions among them. It sits at the deepest basic-science layer that medicine routinely uses: below physiology, which it explains, and just above pure chemistry. Every heartbeat, thought, and immune response is, in the end, a cascade of molecular events, and biochemistry is how medicine reaches that level.</p>
+    <p>Its subject is the four great classes of <strong>biomolecules</strong> — proteins, nucleic acids, carbohydrates, and lipids — and the <span class="term-rich">metabolism<span class="tip"><b>metabolismo</b><i>the cell's managed flow of energy and matter</i></span></span> that builds and breaks them. Metabolism is the managed flow of energy and matter through the cell: glucose burned for fuel, fats stored and mobilized, proteins assembled from amino acids. Its central currency is ATP, the molecule in which the cell banks usable energy. Whole diseases are metabolic pathways gone wrong — diabetes is a failure of glucose handling; many inborn errors of metabolism are a single missing enzyme.</p>
+    <p>The <strong>enzyme</strong> is biochemistry's central actor: a protein catalyst that makes a specific reaction run fast enough to matter, under the mild conditions of the body. Because each enzyme is so specific, it is also a precise target — an enormous fraction of all drugs work by blocking one enzyme or receptor, which is where biochemistry hands off to <a class="cross-link" href="#pharma">pharmacology</a>.</p>
+    <p><strong>Cell biology</strong> is the structural companion to this chemistry: the cell as the basic unit of life, with its membrane, nucleus, mitochondria, and internal machinery. The recognition, in the nineteenth century, that all organisms are made of cells — and that every cell comes from another cell (Virchow) — is one of the foundational statements of biology and medicine alike. It reframed disease as a disturbance of cells, the premise on which modern pathology was built.</p>
+  </section>
+
+  <!-- MICROBIOLOGY AND IMMUNOLOGY -->
+  <section id="micro">
+    <h2>Microbiology and immunology <a class="anchor" href="#micro">¶</a></h2>
+    <p><strong>Microbiology</strong> studies the microorganisms that cause infectious disease — <span class="term-rich">bacteria<span class="tip"><b>bactérias</b><i>single-celled living microbes; targets of antibiotics</i></span></span>, viruses, fungi, and parasites — and <strong>immunology</strong> studies the body's defenses against them. The two are inseparable, a permanent arms race between pathogen and host, and together they underlie the single most consequential idea in the history of medicine: that specific diseases are caused by specific, invisible living agents.</p>
+    <p>The <strong>germ theory of disease</strong>, established by Louis Pasteur and Robert Koch in the second half of the nineteenth century, was medicine's true scientific revolution. Before it, disease was blamed on bad air, imbalance, or divine will; after it, one could name the cause of tuberculosis, cholera, and anthrax, and — crucially — attack it. Koch's postulates gave a rigorous criterion for proving that a given microbe causes a given disease, and the payoff was staggering: sanitation, antisepsis, vaccines, and eventually antibiotics, the interventions that added decades to human life expectancy.</p>
+    <p>The pathogens divide into deeply different kinds, which matters enormously in practice because each demands a different weapon. Bacteria are living cells, killed by antibiotics; <span class="term-rich">viruses<span class="tip"><b>vírus</b><i>genetic parasites that hijack host cells; untouched by antibiotics</i></span></span> are not cells at all but genetic parasites that hijack our own cells, largely untouched by antibiotics and requiring antivirals or, better, vaccines; fungi and parasites are different again. Treating a viral illness with antibiotics — a common error — does nothing but breed resistance. <a class="cross-link" href="../../medicina/microbiologia/virologia-geral.html">See the mechanism compendium on general virology</a>.</p>
+    <p><strong>Immunology</strong> is the defense side of the story, and one of the most intricate systems in the body. It runs on two lines: the fast, general <span class="term-rich">innate immunity<span class="tip"><b>imunidade inata</b><i>the fast, general first line of defense</i></span></span> (barriers, inflammation, phagocytes) and the slow, specific, memory-forming <span class="term-rich">adaptive immunity<span class="tip"><b>imunidade adaptativa</b><i>the slow, specific defense that forms memory</i></span></span> (the lymphocytes and antibodies that learn a pathogen and remember it). Vaccination is the deliberate training of that memory, and it is the single most cost-effective intervention in all of medicine. <a class="cross-link" href="../../medicina/imunologia/imunidade-inata.html">See the mechanism compendia on immunology</a>.</p>
+    <p>The immune system's power is also its danger. Turned against the body's own tissues, it produces <strong>autoimmune disease</strong> (type 1 diabetes, rheumatoid arthritis, lupus); overreacting to the harmless, it produces <strong>allergy</strong>; failing, it leaves the body open to infection and cancer. Much of modern therapeutics — from anti-inflammatories to the immunotherapies now transforming cancer treatment — is the art of tuning this system up or down.</p>
+  </section>
+
+  <!-- PATHOLOGY -->
+  <section id="pathology">
+    <h2>Pathology and pathophysiology <a class="anchor" href="#pathology">¶</a></h2>
+    <p><strong>Pathology</strong> is the study of disease itself — its causes, mechanisms, and the changes it produces in cells, tissues, and organs. It is the hinge of the whole field: the point where the basic sciences (what is normal) meet the clinical ones (what to do about the abnormal). A clinician who understands the pathology of a disease understands <em>why</em> it produces the signs it does, and that understanding is the difference between memorizing medicine and reasoning through it.</p>
+    <p>The founding insight, from Rudolf Virchow's <em>Cellular Pathology</em> (1858), is that disease is not a disturbance of vague "humors" but something that happens to <strong>cells</strong> — the seat of illness is cellular. From this grew the classic catalogue of how tissue goes wrong: <span class="term-rich">inflammation<span class="tip"><b>inflamação</b><i>the tissue response to injury or infection</i></span></span>, degeneration, cell death, abnormal growth. The pathologist reads these changes directly, in biopsies and at autopsy, and the microscope remains one of the most decisive diagnostic instruments in medicine — a cancer diagnosis is, in the end, usually a pathologist's verdict on a slide.</p>
+    <p><strong>Pathophysiology</strong> is the functional companion: not the static lesion but the dynamic story of how a mechanism goes wrong and produces symptoms. It runs the physiology in reverse — from the patient's shortness of breath back to the failing heart, the congested lungs, the fluid in the tissues. It is the science that lets the clinician build a causal chain from complaint to mechanism, and it is where most of clinical medicine's explanatory power lives. <a class="cross-link" href="../../medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html">See the mechanism compendium on circulatory shock</a>.</p>
+    <p>Disease has a limited number of great <strong>mechanistic categories</strong>, and learning them is more powerful than memorizing thousands of named illnesses: infection, inflammation, neoplasia (cancer), degeneration, ischemia (loss of blood supply), autoimmunity, metabolic derangement, genetic defect, and trauma. Most named diseases are one of these mechanisms acting on a particular organ. Seeing that shared structure — that a heart attack and a stroke are both ischemia, in different places — is one of the intellectual pleasures the field offers.</p>
+  </section>
+
+  <!-- GENETICS -->
+  <section id="genetics">
+    <h2>Genetics and genomics <a class="anchor" href="#genetics">¶</a></h2>
+    <p><strong>Medical genetics</strong> studies heredity and the role of the genome in health and disease — how traits and disorders pass from parents to children, and how variations in DNA make a person more or less susceptible to illness. Once a niche concerned with rare inherited syndromes, it has moved to the center of medicine as the technology to read the genome has become fast and cheap.</p>
+    <p>Its classical domain is the <strong>single-gene (Mendelian) disorder</strong>: a disease caused by a defect in one gene, inherited in predictable patterns — cystic fibrosis, sickle cell disease, Huntington's. These are rare individually but illuminating, because the causal chain from a single mutation to a defective protein to a disease is clean enough to understand completely, the closest medicine comes to a fully solved problem.</p>
+    <p>Far more consequential for the population, and far harder, is the genetics of <strong>common, complex disease</strong> — heart disease, diabetes, most cancers, psychiatric illness. Here there is no single gene; risk is spread across hundreds of variants, each contributing a little, interacting with environment and chance. Untangling this <span class="term-rich">polygenic<span class="tip"><b>herança poligênica</b><i>caused by many genes, each of small effect</i></span></span> architecture is one of the field's central and unfinished projects, and a caution against the popular idea that there is "a gene for" any given trait.</p>
+    <div class="kbox">
+      <div class="klabel">From the double helix to the genome</div>
+      <p>The structure of DNA (Watson and Crick, 1953) revealed how information is stored and copied in the cell, founding molecular biology. Half a century later, the <strong>Human Genome Project</strong> (completed 2003) read the entire human sequence for the first time. The cost of sequencing a genome has since fallen from billions of dollars to a few hundred — a collapse faster than Moore's law — putting genomic information within reach of routine care and opening the era of <em>precision medicine</em>, in which treatment is tailored to a patient's molecular profile (most visibly in cancer). The gene-editing tool <strong>CRISPR</strong> now makes it possible not only to read but to rewrite DNA, with the first approved gene-editing therapies (for sickle cell disease) arriving in the 2020s.</p>
+    </div>
+    <p>Genomics also carries genuinely new <strong>ethical weight</strong>. Predictive testing can reveal a disease years before symptoms, sometimes one that cannot be prevented; genetic information touches not just the patient but their relatives; and the prospect of editing the human germline raises questions medicine has never had to face. The science has outrun the settled ethics, which is why this is as much a frontier of medical ethics as of biology.</p>
+  </section>
+
+  <!-- PHARMACOLOGY -->
+  <section id="pharma">
+    <h2>Pharmacology and therapeutics <a class="anchor" href="#pharma">¶</a></h2>
+    <p><strong>Pharmacology</strong> is the science of how drugs act on the body and how the body acts on drugs. It is the discipline behind the prescription — the most common medical intervention of all — and it turns the abstract knowledge of a disease mechanism into a concrete molecule that changes its course. Its logic is simple to state and endlessly subtle in practice: find a step in the disease and interfere with it, without doing more harm than good.</p>
+    <p>The field has two halves. <strong>Pharmacodynamics</strong> is what the drug does to the body — its mechanism of action, usually the binding to a specific <span class="term-rich">receptor<span class="tip"><b>receptor</b><i>the molecule a drug binds to, producing its effect</i></span></span> or enzyme, and the effect that follows. <strong>Pharmacokinetics</strong> is what the body does to the drug — how it is absorbed, distributed, metabolized (mostly by the liver), and excreted (mostly by the kidney), which together decide how much drug reaches the target and for how long. Getting the dose right is an exercise in both at once.</p>
+    <p>The governing principle of all therapeutics is the <strong>dose and the therapeutic window</strong>. Paracelsus's maxim — "the dose makes the poison" — is literally the founding law of pharmacology: every drug is toxic at some dose, and the art is to stay in the window between too little (no effect) and too much (harm). This is why there is no such thing as a drug without side effects, only a favorable enough balance of benefit and risk — a balance that must be weighed for each patient.</p>
+    <p>Drugs are organized into <strong>therapeutic classes</strong> by mechanism — antibiotics, antihypertensives, analgesics, anticoagulants, and so on — and knowing the class often tells you the main effects and dangers of any member. <a class="cross-link" href="../../medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html">See the mechanism compendium on antihypertensives and the renin–angiotensin system</a>. The proof that a drug actually works, however, comes not from its mechanism but from the clinical trial, which is where pharmacology hands off to <a class="cross-link" href="#methods">evidence-based medicine</a>.</p>
+    <div class="box info">
+      <strong>The therapeutic revolution is recent.</strong> For nearly all of history, doctors had almost no effective drugs — and some treatments (bloodletting, mercury) actively killed. The transformation is barely a century old: aspirin (1899), insulin (1922), the sulfonamides (1930s), penicillin in clinical use (1940s). Before this, medicine was mostly diagnosis, comfort, and hope; the ability to reliably alter the course of disease with a molecule is one of the youngest powers the field possesses.</p>
+    </div>
+  </section>
+
+  <!-- SEMIOLOGY -->
+  <section id="semiology">
+    <h2>Semiology and the clinical method <a class="anchor" href="#semiology">¶</a></h2>
+    <p><strong>Semiology</strong> <span class="term-orig">(from the Greek <em>sēmeîon</em>, sign)</span> is the study of the signs and symptoms of disease and the reasoning that leads from them to a diagnosis. It is the point where all the basic sciences are put to use at the bedside, and it is the core skill of the physician: the ability to sit with a patient, gather the evidence, and work out what is wrong. Long before any test, this is where diagnosis begins — and, for most patients most of the time, where it ends.</p>
+    <p>Its two classical instruments are the <strong>history</strong> and the <strong>physical examination</strong>. The history — the patient's own account, skillfully elicited — is the single most powerful diagnostic tool in medicine: studies repeatedly find that the history alone yields the correct diagnosis in the majority of cases, before any hands-on exam or test. The physical examination — inspection, <span class="term-rich">palpation<span class="tip"><b>palpação</b><i>examining the body by feeling with the hands</i></span></span>, percussion, auscultation — adds the physician's direct observation of the body, from listening to the heart to feeling for an enlarged liver.</p>
+    <p>What ties these together is the <strong>clinical method</strong>: a structured process of reasoning under uncertainty. From the findings, the clinician builds a <span class="term-rich">differential diagnosis<span class="tip"><b>diagnóstico diferencial</b><i>the ranked list of possible explanations</i></span></span> — a ranked list of possible explanations — then orders tests to raise or lower the probability of each, converging on a diagnosis and a plan. It is, in essence, Bayesian: each finding updates the probability of each disease, and a good clinician is one whose mental probabilities are well-calibrated. <a class="cross-link" href="../filosofia/epistemologia.html">The philosophy of evidence and probability underlies this reasoning</a>.</p>
+    <p>This is also where medicine is most visibly an <strong>art</strong>. Two clinicians with the same facts may weigh them differently; experience shapes which patterns are seen quickly and which are missed; and the encounter is human, not just technical — a frightened patient who is not put at ease will not give a good history. The rise of powerful tests has not made this obsolete, only shifted it: knowing <em>which</em> test to order, and how to interpret it in context, is itself clinical judgment, and over-testing has its own harms.</p>
+  </section>
+
+  <!-- CLINICAL MEDICINE -->
+  <section id="clinical">
+    <h2>Clinical medicine and the specialties <a class="anchor" href="#clinical">¶</a></h2>
+    <p><strong>Clinical medicine</strong> is the application of all the foregoing to the care of patients — the diagnosis and management of disease across the body's systems. It is the largest and most visible part of the field, and it is organized, of necessity, into <strong>specialties</strong>, because no single person can master the whole of modern medicine. The map of the specialties is itself worth knowing, because it structures how care is actually delivered.</p>
+    <p>The broad trunk is <strong>internal medicine</strong> <span class="term-orig">(clínica médica)</span>: the non-surgical care of adult disease, and the home of diagnostic reasoning at its most demanding. From it branch the medical specialties defined by organ system — cardiology (heart), pulmonology (lungs), nephrology (kidneys), gastroenterology, endocrinology, neurology, hematology, oncology, and more. Each takes one system to great depth, and each rests on the physiology and pathology of that system. <a class="cross-link" href="cardiologia-anatomia.html">See the compendium on cardiac anatomy</a> for the structural base of cardiology.</p>
+    <p><strong>Surgery</strong> is the other great branch: the treatment of disease by physical intervention on the body. Once a brutal, high-mortality trade, it was transformed by three nineteenth-century advances — anesthesia (which made painless operation possible), antisepsis (which made it survivable), and, later, the control of bleeding and transfusion. It too subdivides — general, orthopedic, cardiac, neurosurgery, and the rest — and it has trended toward the <span class="term-rich">minimally invasive<span class="tip"><b>minimamente invasiva</b><i>operating through tiny incisions with cameras</i></span></span>, operating through tiny incisions with cameras and, increasingly, robots.</p>
+    <p>Several specialties are defined not by organ but by <strong>population or setting</strong>: pediatrics (the care of children, who are not merely small adults), obstetrics and gynecology (pregnancy and the female reproductive system), geriatrics (the aged), and psychiatry (mental illness, the specialty where the gap between mechanism and treatment is widest and the mind–body question most acute). Cutting across all of them are the specialties of <em>method</em> — radiology, pathology, anesthesiology, intensive care, emergency medicine — that serve the others.</p>
+    <p>Underneath this branching sits a unifying tension the whole of clinical medicine must manage: the pull between <strong>generalism and specialism</strong>. Specialists command depth but can lose the whole patient; the generalist — the family doctor, the internist — holds the patient together but cannot match the specialist's depth in any one area. Good systems need both, and the coordination between them, especially in patients with several diseases at once, is one of the hardest practical problems in medicine.</p>
+  </section>
+
+  <!-- PUBLIC HEALTH -->
+  <section id="publichealth">
+    <h2>Public health and epidemiology <a class="anchor" href="#publichealth">¶</a></h2>
+    <p><strong>Public health</strong> shifts the object of medicine from the individual to the <strong>population</strong>: its concern is the health of communities and the prevention of disease at scale. It is easy to overlook next to the drama of the bedside, but by the numbers it is medicine's greatest success — the largest gains in human life expectancy came not from treating the sick but from stopping people getting sick in the first place, through clean water, sanitation, nutrition, and vaccination.</p>
+    <p>Its scientific engine is <strong>epidemiology</strong>: the study of how disease is distributed in populations and what causes that distribution. Epidemiology is the discipline that can establish that smoking causes lung cancer without ever examining a single cell — by comparing rates between groups, controlling for confounding, and reasoning carefully about cause from correlation. Its founding legend is John Snow, who in 1854 traced a London cholera outbreak to a single contaminated water pump and removed its handle, decades before anyone had seen the bacterium responsible.</p>
+    <p>Epidemiology also supplies the <strong>measurement tools</strong> that the rest of medicine borrows: incidence and prevalence, relative and absolute risk, and the properties of diagnostic tests — <span class="term-rich">sensitivity<span class="tip"><b>sensibilidade</b><i>a test's ability to correctly detect the sick</i></span></span> (catching the sick) and <span class="term-rich">specificity<span class="tip"><b>especificidade</b><i>a test's ability to correctly clear the well</i></span></span> (clearing the well). These are not academic niceties: misreading them is why screening programs can do harm, and why a "positive" test for a rare disease is often a false alarm. This same toolkit is the basis of the clinical trial and of <a class="cross-link" href="#methods">evidence-based medicine</a>.</p>
+    <p><strong>Prevention</strong> is public health's characteristic mode, and it comes in levels: <em>primary</em> (stopping disease before it starts — vaccines, clean water, tobacco control), <em>secondary</em> (catching it early, through screening), and <em>tertiary</em> (limiting the damage of established disease). The recurring, and politically charged, lesson is that prevention is usually cheaper and more effective than cure — yet health systems everywhere spend the bulk of their money on cure, because a death prevented is invisible while a life saved on the operating table is not.</p>
+    <p>Public health is also, inescapably, <strong>political and social</strong>. Who gets sick is powerfully shaped by income, education, housing, and access to care — the "social determinants of health" — so improving health at the population level is as much a matter of policy as of medicine. This is the terrain of the great collective questions: how to run a health system, how to distribute scarce resources fairly, and how to balance individual liberty against collective protection, questions thrown into sharp relief by every epidemic.</p>
+  </section>
+
+  <!-- HISTORICAL PATH -->
+  <section id="history">
+    <h2>Historical path <a class="anchor" href="#history">¶</a></h2>
+    <p>Medicine's history is a slow separation of two things that began fused — <em>care</em>, which is ancient, and <em>effective knowledge</em>, which is recent. For most of the past, doctors could describe and comfort but rarely cure, and some of what they did was worse than nothing. Understanding that arc explains why the field trusts evidence so warily today: it has been fooled by plausible theory too many times.</p>
+    <div class="hist"><span class="hl">Naturalistic origins</span><strong>c. 5th century BC — Hippocratic medicine.</strong> The Hippocratic tradition made the decisive break of treating disease as a <em>natural</em> phenomenon with natural causes, not a punishment of the gods — to be studied by observation, prognosis, and careful bedside record-keeping. Its ethics (the Hippocratic Oath) still echo. But its <em>theory</em> — the four humors — was wrong, and would misdirect treatment (bleeding, purging) for two thousand years.</div>
+    <p>The humoral theory, systematized by <strong>Galen</strong> in the second century AD, then hardened into dogma. Galen's authority was so great that his errors — including an anatomy based on dissecting animals, not humans — went unchallenged for over a millennium. This is the long "pre-scientific" phase of medicine: intellectually serious, internally coherent, and largely ineffective, a caution about the power of a wrong framework to survive.</p>
+    <div class="hist"><span class="hl">The anatomical revolution</span><strong>1543 — Vesalius, <em>De humani corporis fabrica</em>.</strong> In the same year Copernicus moved the Earth, Andreas Vesalius rebuilt anatomy on direct human dissection, correcting Galen and asserting that observation trumps authority. In 1628, William Harvey showed by experiment and measurement that the heart pumps blood in a circle — the first triumph of experimental physiology. Structure and function began to be known truly.</div>
+    <p>Yet knowing the body did not yet mean curing it. The decisive turn came in the nineteenth century on two fronts at once. <strong>Cellular pathology</strong> (Virchow, 1858) located disease in the cell; and the <strong>germ theory</strong> (Pasteur and Koch, 1860s–1880s) identified the living causes of infectious disease. Germ theory was the single greatest shift in medical history — from it flowed antisepsis (Lister), sanitation, and vaccines, the measures that actually began to lengthen lives.</p>
+    <div class="hist"><span class="hl">Medicine becomes scientific and effective</span><strong>1910–1950 — from the Flexner Report to antibiotics.</strong> The Flexner Report (1910) reformed medical education around the basic sciences, closing the diploma mills. Then came the therapeutic revolution: insulin (1922), the sulfonamides (1930s), and penicillin in clinical use (1940s) gave doctors, for the first time in history, reliable cures. In 1948 the streptomycin trial for tuberculosis became the first modern <em>randomized controlled trial</em>, founding the science of clinical evidence.</div>
+    <p>The second half of the twentieth century was <strong>molecular and evidential</strong>. The structure of DNA (1953) launched molecular medicine, culminating in the Human Genome Project (2003). In parallel, the recognition that even doctors are fooled by anecdote gave rise, in the 1990s, to <strong>evidence-based medicine</strong> — the insistence that treatments be justified by rigorous trials, not authority or mechanism alone. Contemporary medicine lives in the tension between two great promises: the molecular precision of genomics, and the population rigor of evidence — and the enduring problem of joining them at the level of the individual patient.</p>
+  </section>
+
+  <!-- MEDICINE IN BRAZIL -->
+  <section id="brazil">
+    <h2>Medicine in Brazil <a class="anchor" href="#brazil">¶</a></h2>
+    <p>Brazilian medicine carries a distinctive stamp: a strong tradition in <strong>tropical medicine and public health</strong>, born of the country's disease burden, and one of the world's most ambitious experiments in universal public healthcare. Its scientific founding moment is the sanitary reform of the early twentieth century, led by <strong>Oswaldo Cruz</strong>, who organized campaigns against yellow fever, plague, and smallpox in Rio de Janeiro and founded the research institute (1900) that bears his name — today the <strong>Fiocruz</strong>, a pillar of Brazilian science.</p>
+    <div class="hist"><span class="hl">A Brazilian landmark</span><strong>1909 — Carlos Chagas describes a disease whole.</strong> Working for the Oswaldo Cruz Institute, Carlos Chagas did something unique in the history of medicine: he identified a new infectious disease (American trypanosomiasis, now <em>Chagas disease</em>), its parasite (<em>Trypanosoma cruzi</em>), its insect vector, and its clinical picture — the entire chain, single-handed. It remains a major disease of Latin America and a source of national scientific pride.</div>
+    <p>That sanitary tradition had a turbulent side. The compulsory smallpox vaccination law of 1904 provoked the <strong>Vaccine Revolt</strong> (<em>Revolta da Vacina</em>), a popular uprising in Rio — an early, vivid lesson that public health is never purely technical, but collides with liberty, trust, and politics, a lesson every epidemic since has renewed.</p>
+    <div class="kbox">
+      <div class="klabel">The SUS: healthcare as a right</div>
+      <p>The 1988 Constitution created the <strong>Sistema Único de Saúde (SUS)</strong> — the Unified Health System — declaring health "a right of all and a duty of the State." It is one of the largest public health systems on Earth, offering universal, free care to a population of over 210 million, from primary care to transplants, and it anchors a great deal of Brazilian medicine in the realities of national epidemiology and access. Its primary-care arm, built on Family Health teams, is its distinctive strength; chronic underfunding and inequality are its persistent strains.</p>
+    </div>
+    <p>Today Brazilian medicine is marked by rapid, contested <strong>expansion of training</strong>. By 2025 the country had reached roughly <strong>494 medical schools</strong> — second in the world only to India — with more than 50,000 first-year places a year, some 80% of them in private institutions, and a physician workforce approaching 635,000. This growth has widened access to the profession but raised sharp debates about the quality and distribution of training, and about whether more doctors reach the underserved interior — the concern the federal <em>Mais Médicos</em> program (about 27,000 physicians in primary care by 2025) was designed to address.</p>
+    <p>Brazil's medical research plays to its strengths: infectious and tropical disease, vaccine production (Fiocruz and the Butantan Institute are major global suppliers, as their role in COVID-19 vaccines showed), and the epidemiology of a large, diverse, unequal population. The country is a natural laboratory for exactly the questions where individual medicine and public health meet — which is where the deepest problems of the field, seen throughout this map, tend to live.</p>
+  </section>
+
+  <!-- CENTRAL QUESTIONS -->
+  <section id="questions">
+    <h2>Central questions <a class="anchor" href="#questions">¶</a></h2>
+    <p>These are the questions that organize medicine today — not gaps in this compendium, but genuinely unsettled matters on which thoughtful clinicians and researchers disagree or simply do not yet know.</p>
+    <div class="questoes">
+      <ol>
+        <li>Where is the <strong>boundary between health and disease</strong>? As tests grow more sensitive and thresholds are lowered (pre-hypertension, pre-diabetes), more people are labeled sick — is this earlier care, or the manufacture of illness (<em>medicalization</em>)?</li>
+        <li>How should medicine act <strong>under uncertainty</strong>, when much of what is done still lacks strong evidence, and even good evidence speaks about populations rather than the individual patient in the room?</li>
+        <li>Can the population rigor of <strong>evidence-based medicine</strong> be reconciled with the molecular promise of <strong>precision medicine</strong> — treating each patient as a statistical average, or as a unique molecular case?</li>
+        <li>Most common diseases are <strong>multifactorial</strong> — genes, environment, behavior, chance — so how far can a reductionist, single-cause model of disease actually take us?</li>
+        <li>How do <strong>mind and body</strong> interact in disease? What explains the placebo effect, and how do stress and psychological state translate into physical illness?</li>
+        <li>Is <strong>aging</strong> itself a disease to be treated, or the natural background against which disease occurs — and would treating it be a medical goal or a category error?</li>
+        <li>Can medicine stay ahead of <strong>evolution</strong> — of antimicrobial resistance and of cancer's ability to adapt to therapy — or is it in a permanent, unwinnable arms race?</li>
+        <li>How should societies close the <strong>equity gap</strong> between what medicine <em>can</em> do and who actually receives it — the largest determinant of health outcomes at the population level?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- TOOLS AND METHODS -->
+  <section id="methods">
+    <h2>Tools and methods <a class="anchor" href="#methods">¶</a></h2>
+    <p>Medicine produces and validates knowledge through a distinctive method, shaped by a hard-won lesson: plausible reasoning about mechanism is not enough, because the history of medicine is littered with treatments that made perfect theoretical sense and turned out to be useless or harmful. The methods below are how the field now guards against fooling itself.</p>
+    <p><strong>The clinical method:</strong> the structured reasoning from patient to diagnosis to treatment — history, examination, differential diagnosis, testing, and follow-up. Its logic is probabilistic: each finding updates the likelihood of each candidate disease, and the skilled clinician is one whose judgments are well-calibrated against reality. It is the everyday method of medicine, applied millions of times a day. <a class="cross-link" href="#semiology">See semiology.</a></p>
+    <p><strong>Diagnostic technology:</strong> the instruments that extend the senses — laboratory tests (blood chemistry, microbiology, genetics), imaging (X-ray, ultrasound, CT, MRI, nuclear medicine), and pathology (the microscope, biopsy). Much of the twentieth-century transformation of medicine is the story of being able to see inside the living body, most of it borrowed physics turned to medical use.</p>
+    <p><strong>Evidence-based medicine:</strong> the discipline of grounding practice in the best available evidence, organized by a <span class="term-rich">hierarchy of evidence<span class="tip"><b>hierarquia de evidências</b><i>ranking of study designs by reliability</i></span></span>. At its base sit expert opinion and case reports (weak); above them observational studies; and at the top the <strong>randomized controlled trial</strong> — which, by assigning treatment at random, is the one design that can isolate cause from confounding — and the <strong>systematic review and meta-analysis</strong> that pool many trials. This is the modern gold standard for asking "does this treatment actually work?"</p>
+    <p><strong>Epidemiology and biostatistics:</strong> the quantitative backbone of the whole enterprise — measures of risk, the properties of tests (sensitivity, specificity), the control of confounding, and the statistics that separate a real effect from noise. Without it, neither a clinical trial nor a screening program can be correctly interpreted. <a class="cross-link" href="#publichealth">See public health and epidemiology.</a></p>
+    <p><strong>Basic and translational research:</strong> the pipeline from the laboratory bench to the bedside — from a molecular mechanism, through animal models and early-phase trials, to an approved therapy. It is slow, expensive, and failure-ridden (most promising compounds never reach patients), and improving its efficiency is a central concern of contemporary medical science.</p>
+    <div class="box info">
+      <strong>The ethical method.</strong> Uniquely among the sciences, medicine's method includes an explicit ethical framework, because its experiments and interventions act on people. The four principles — <em>autonomy</em> (the patient's right to decide), <em>beneficence</em> (act for their good), <em>non-maleficence</em> (<span class="term-rich">first, do no harm<span class="tip"><b>primeiro, não causar dano</b><i>the principle of non-maleficence</i></span></span>), and <em>justice</em> (fairness in distribution) — govern everything from informed consent to the design of trials. After the abuses of the twentieth century, research ethics (the Declaration of Helsinki, ethics committees) became as much a part of the method as statistics.</p>
+    </div>
+  </section>
+
+  <!-- CONNECTIONS -->
+  <section id="connections">
+    <h2>Connections with other fields <a class="anchor" href="#connections">¶</a></h2>
+    <p><strong>Biology:</strong> medicine is, at its foundation, applied human biology — physiology, genetics, and cell biology are shared wholesale. The border is one of purpose, not content: biology seeks to understand life; medicine bends that understanding toward the health of a person.</p>
+    <p><strong>Chemistry:</strong> biochemistry and pharmacology are chemistry applied to the body. Every drug is a molecule designed to fit a target, and every metabolic disease is a reaction gone wrong — the chemical bond is where a great deal of medicine ultimately happens.</p>
+    <p><strong>Physics:</strong> modern diagnosis and much of treatment are applied physics. X-rays, ultrasound, magnetic resonance, and radiotherapy all translate physical principles into the ability to see inside or act upon the living body without opening it. <a class="cross-link" href="../fisica/fisica.html">See the Physics compendium.</a></p>
+    <p><strong>Statistics:</strong> the science of evidence in medicine <em>is</em> statistics — the clinical trial, the meta-analysis, and the interpretation of any test rest on it. A physician who misreads a probability misreads the patient, which is why biostatistics is now core to medical training.</p>
+    <p><strong>Psychology and the social sciences:</strong> health is shaped by behavior, mind, and society as much as by biology. Psychology bears on the doctor–patient relationship, adherence, pain, and mental illness; sociology and economics on the "social determinants" that decide, more than any drug, who lives longer.</p>
+    <p><strong>Computer science and artificial intelligence:</strong> AI is reshaping diagnosis (reading scans and slides), drug discovery, and the handling of medical records, while raising new questions about trust, bias, and responsibility for a machine's recommendation. <a class="cross-link" href="../ia/inteligencia-artificial.html">See the Artificial Intelligence compendium.</a></p>
+    <p><strong>Philosophy and ethics:</strong> medicine feeds and is fed by the philosophy of science (what counts as evidence, how to reason from a test) and by moral philosophy (autonomy, the value of life, justice in allocation). Bioethics is a living branch of philosophy precisely because medicine keeps forcing new dilemmas. <a class="cross-link" href="../filosofia/epistemologia.html">See the Epistemology compendium.</a></p>
+  </section>
+
+  <!-- CONTROVERSIES -->
+  <section id="controversies">
+    <h2>Active controversies <a class="anchor" href="#controversies">¶</a></h2>
+    <div class="controversia">
+      <h3>Evidence-based medicine versus clinical judgment</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Evidence first</div>
+          <p>Practice should be governed by the best trial evidence, not by the authority or intuition of the individual doctor, whose judgment is demonstrably fooled by anecdote and bias. Systematizing care around evidence reduces unwarranted variation and harm — the whole point of EBM.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Judgment first</div>
+          <p>Trials describe average patients; the one in front of you may match none of them (multiple diseases, old age, the very cases trials exclude). Over-rigid protocols crowd out the experienced clinician's ability to individualize, reducing medicine to cookbook care. Evidence informs judgment; it cannot replace it.</p>
+        </div>
+      </div>
+      <p style="font-family:var(--font-ui);font-size:.82rem;color:var(--muted);margin:10px 0 0">Most clinicians accept both in principle; the live dispute is where to draw the line in practice, especially for complex patients and questions no trial has answered.</p>
+    </div>
+    <div class="controversia">
+      <h3>Reductionism versus a systems view of disease</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Molecular reductionism</div>
+          <p>Disease is best understood and treated at the lowest level — the gene, the molecule, the mutation. Precision medicine, targeted cancer therapy, and gene editing are the fruit of this program, and its successes are undeniable.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Systems / holistic</div>
+          <p>Most common disease is emergent — the product of many interacting factors across levels, not reducible to one molecule. Focusing on mechanism can miss behavior, environment, and the whole person, where the largest health gains actually lie.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controversia">
+      <h3>Screening: early detection versus overdiagnosis</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Screen widely</div>
+          <p>Finding disease early — cancers, high blood pressure — saves lives by allowing treatment before harm is done. For many conditions, screening programs have measurably reduced mortality.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Screen cautiously</div>
+          <p>Sensitive tests detect abnormalities that would never have caused harm, leading to <em>overdiagnosis</em> and the anxiety, cost, and harm of treating them (PSA for prostate cancer, some mammography debates). More screening is not always more health.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controversia">
+      <h3>Expanding disease definitions: earlier care or medicalization?</h3>
+      <div class="posicoes">
+        <div class="posicao">
+          <div class="label">Treat earlier</div>
+          <p>Lowering diagnostic thresholds (pre-hypertension, pre-diabetes, lower cholesterol targets) catches risk before damage accumulates, and preventive treatment of high-risk states demonstrably averts events.</p>
+        </div>
+        <div class="posicao">
+          <div class="label">Beware disease-mongering</div>
+          <p>Each lowered threshold turns millions of healthy people into patients, medicating risk factors rather than illness, with side effects, cost, and the loss of "being well" — sometimes driven by interests that profit from more diagnosis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPEN QUESTIONS -->
+  <section id="open">
+    <h2>Open questions <a class="anchor" href="#open">¶</a></h2>
+    <p>Beyond the controversies with defined sides, there are frontiers where medicine lacks even a consensual candidate answer.</p>
+    <div class="qa-block">
+      <div class="qa-label">The placebo effect and the mind–body link</div>
+      <p>A patient can improve measurably from an inert pill, and stress can produce real physical disease. How psychological state translates into physiology — and how to harness it ethically — remains poorly understood, sitting at the edge of what a mechanistic model can currently reach.</p>
+    </div>
+    <div class="qa-block">
+      <div class="qa-label">The mechanisms of psychiatric disease</div>
+      <p>Psychiatry treats real, disabling illness, yet still lacks the biomarkers and mechanistic understanding the rest of medicine relies on. Depression and schizophrenia are diagnosed by symptom, not by any test — a gap between the reality of the suffering and our grasp of its cause.</p>
+    </div>
+    <div class="qa-block">
+      <div class="qa-label">Why the human body barely regenerates</div>
+      <p>Some animals regrow limbs; humans scar. Why our regenerative capacity is so limited, and whether regenerative medicine can unlock it, is an open biological question with vast clinical stakes.</p>
+    </div>
+    <div class="qa-block">
+      <div class="qa-label">The causal role of the microbiome</div>
+      <p>The trillions of microbes living in and on us are associated with conditions from obesity to autoimmunity to mood. But association is not cause, and disentangling which relationships are causal — and therefore treatable — is one of medicine's newest and least settled frontiers.</p>
+    </div>
+  </section>
+
+  <!-- WHERE TO START -->
+  <section id="start">
+    <h2>Where to start <a class="anchor" href="#start">¶</a></h2>
+    <div class="roteiro-step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>The field in one book, no prerequisites:</strong> Roy Porter's <em>The Greatest Benefit to Mankind</em> is the best single entry point — a readable history of medicine that shows how each idea arose and why the field has the shape it does. It gives the map before the detail.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>The basic-science base:</strong> a serious start goes to <em>Guyton &amp; Hall, Textbook of Medical Physiology</em> — the canonical, unusually readable physiology text — paired with a good anatomy atlas. Physiology is the pivot on which everything clinical later turns.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>The hinge to disease:</strong> <em>Robbins &amp; Cotran, Pathologic Basis of Disease</em> is where the basic sciences become clinical. It explains what disease <em>is</em> at the level of cell and tissue, and it is the book most physicians credit with teaching them to reason about illness.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>The clinical reference:</strong> <em>Harrison's Principles of Internal Medicine</em> is the standard comprehensive text of clinical medicine, and <em>Bates' Guide to Physical Examination</em> teaches the craft of semiology — history and examination — that no textbook of disease replaces.</div>
+    </div>
+    <div class="roteiro-step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>Evidence and the frontier:</strong> to read medicine critically rather than absorb it, learn evidence-based medicine (Sackett's <em>Clinical Epidemiology</em>) and follow the major journals — <em>NEJM</em>, <em>The Lancet</em>, <em>JAMA</em>, <em>BMJ</em> — and the <em>Cochrane Library</em> for the syntheses of what the trials actually show.</div>
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section id="references">
+    <h2>Annotated references <a class="anchor" href="#references">¶</a></h2>
+    <div class="ref-group"><h3>Entry point</h3>
+      <div class="ref-item">
+        <div class="ref-title">The Greatest Benefit to Mankind: A Medical History of Humanity <span class="tag">recommended start</span></div>
+        <div class="ref-meta"><span class="tag">Book</span> Roy Porter · W. W. Norton · 1997</div>
+        <div class="ref-nota">The best single overview of the whole field for someone starting from zero: how medicine grew from art to science, why its ideas took the form they did. Begin here to get the map before the detail.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">The Emperor of All Maladies · How Doctors Think</div>
+        <div class="ref-meta"><span class="tag">Book</span> S. Mukherjee (2010) · J. Groopman (2007)</div>
+        <div class="ref-nota">Two superb popular works: the first a "biography" of cancer that conveys how medical research actually advances; the second a window into clinical reasoning and how it goes right and wrong. Both readable without any background.</div>
+      </div>
+    </div>
+    <div class="ref-group"><h3>Going deeper</h3>
+      <div class="ref-item">
+        <div class="ref-title">Guyton &amp; Hall Textbook of Medical Physiology</div>
+        <div class="ref-meta"><span class="tag">Textbook</span> Hall &amp; Hall · Elsevier · current ed.</div>
+        <div class="ref-nota">The canonical physiology text, famous for explaining mechanism clearly rather than merely listing facts. The single most important basic-science foundation for everything clinical.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Robbins &amp; Cotran Pathologic Basis of Disease</div>
+        <div class="ref-meta"><span class="tag">Textbook</span> Kumar, Abbas &amp; Aster · Elsevier · current ed.</div>
+        <div class="ref-nota">The standard pathology text worldwide and the true hinge between basic and clinical medicine — what disease is, mechanism by mechanism. If one book teaches medical reasoning, it is this.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Harrison's Principles of Internal Medicine</div>
+        <div class="ref-meta"><span class="tag">Textbook</span> ed. Loscalzo et al. · McGraw Hill · current ed.</div>
+        <div class="ref-nota">The comprehensive reference of clinical medicine, spanning the diseases of every system with their mechanism, presentation, and management. The clinician's encyclopedia.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">De humani corporis fabrica · De motu cordis</div>
+        <div class="ref-meta"><span class="tag">Primary source</span> Vesalius (1543) · Harvey (1628)</div>
+        <div class="ref-nota">The founding texts of scientific anatomy and experimental physiology. Read (in translation, or about) to watch medicine break with authority and begin to rest on observation and experiment.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Streptomycin treatment of pulmonary tuberculosis</div>
+        <div class="ref-meta"><span class="tag">Seminal paper</span> MRC · <em>BMJ</em> · 1948</div>
+        <div class="ref-nota">The first modern randomized controlled trial, and thus the birth certificate of clinical evidence. Short and historic — the moment medicine learned how to test whether a treatment truly works.</div>
+      </div>
+    </div>
+    <div class="ref-group"><h3>Specialized consultation</h3>
+      <div class="ref-item">
+        <div class="ref-title">Goodman &amp; Gilman's The Pharmacological Basis of Therapeutics</div>
+        <div class="ref-meta"><span class="tag">Book</span> ed. Brunton et al. · McGraw Hill</div>
+        <div class="ref-nota">The definitive pharmacology reference, mechanism by mechanism and class by class. For when the question is precisely how and why a drug does what it does.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">Cellular and Molecular Immunology · Bates' Guide to Physical Examination</div>
+        <div class="ref-meta"><span class="tag">Book</span> Abbas et al. · / Bickley et al.</div>
+        <div class="ref-nota">Abbas is the standard immunology text; Bates the standard on semiology and the physical exam — the two ends of medicine, the molecular defense system and the craft of the bedside.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-title">NEJM · The Lancet · JAMA · BMJ · Cochrane Library · PubMed</div>
+        <div class="ref-meta"><span class="tag">Primary source</span> journals and databases</div>
+        <div class="ref-nota">For the frontier and the evidence: the four leading general journals publish the practice-changing trials; the Cochrane Library synthesizes them into systematic reviews; PubMed/MEDLINE indexes the whole biomedical literature.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYNTHESIS -->
+  <section id="synthesis">
+    <h2>Synthesis <a class="anchor" href="#synthesis">¶</a></h2>
+    <p>The guiding question — <em>what turned healing into a science, and why does so much of it remain judgment under uncertainty?</em> — runs through the whole map. To the first part, the history gives a clear answer: medicine became a science when it stopped trusting authority and coherent theory and began to demand two things instead — <strong>mechanism grounded in the basic sciences</strong> (anatomy, physiology, germ theory, molecular biology) and <strong>proof grounded in evidence</strong> (the controlled trial). The germ theory and the randomized trial, a century apart, are the two hinges on which the transformation turned; before them, medicine could describe and comfort, but rarely cure.</p>
+    <p>To the second part, the answer is structural, not a failing to be fixed. Medicine's object is the <strong>individual under uncertainty</strong>, and its best knowledge is general — a mechanism true on average, a trial result about a population. The gap between the general law and the single patient can be narrowed by better science, but never closed: the patient in the room always has features no study exactly captured, and a decision must be made anyway. That is why medicine remains irreducibly a matter of judgment, and why it is fairly called a science <em>and</em> an art at once.</p>
+    <p>An implication emerges that the body of the compendium did not state directly: medicine's greatest advances have repeatedly come from its <strong>humblest, least dramatic</strong> corners. Sanitation and vaccination saved more lives than any operation; the unglamorous randomized trial did more for the reliability of treatment than any single drug; hand-washing, once ridiculed, undid a century of iatrogenic death. The lesson threaded through the field is that the prevention of disease outperforms its cure, and that honest measurement outperforms brilliant theory. Perhaps that, more than any instrument or molecule, is the real method of medicine: the discipline to prefer what can be shown to work over what merely ought to.</p>
+  </section>
+
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive: true});
+
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+const toggleBtn = document.getElementById('toggle-btn');
+const collapsed = sessionStorage.getItem('sidebar-collapsed') === 'true';
+if (collapsed) { sidebar.classList.add('collapsed'); bodyWrap.classList.add('sidebar-collapsed'); toggleBtn.textContent = '›'; }
+toggleBtn.addEventListener('click', () => {
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', isCollapsed);
+  toggleBtn.textContent = isCollapsed ? '›' : '‹';
+  sessionStorage.setItem('sidebar-collapsed', isCollapsed);
+});
+
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('a.sl');
+function updateActive() {
+  let cur = null;
+  const st = document.documentElement.scrollTop || document.body.scrollTop;
+  sections.forEach(s => { if (s.offsetTop - 120 <= st) cur = s; });
+  links.forEach(l => l.classList.remove('active'));
+  if (cur) {
+    const a = document.querySelector(`a.sl[href="#${cur.id}"]`);
+    if (a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive: true});
+window.addEventListener('load', updateActive);
+
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+}, {rootMargin: '-10% 0px -60% 0px'});
+sections.forEach(s => obs2.observe(s));
+
+(function(){
+  var dictPanel = document.createElement('div');
+  dictPanel.id = 'dict-panel';
+  dictPanel.innerHTML = '<button id="dict-close" aria-label="Fechar">×</button><div id="dict-body"></div>';
+  document.body.appendChild(dictPanel);
+  document.getElementById('dict-close').addEventListener('click', function(){ dictPanel.classList.remove('open'); });
+  document.addEventListener('click', function(e){ if(dictPanel.classList.contains('open') && !dictPanel.contains(e.target)) dictPanel.classList.remove('open'); });
+  var content = document.getElementById('content');
+  if(content){
+    content.addEventListener('dblclick', function(e){
+      if(e.target.closest('.term, .term-rich')) return;
+      var word = window.getSelection().toString().trim().replace(/[^a-zA-Z-]/g, '');
+      if(!word || word.length < 2) return;
+      dictPanel.style.left = Math.min(e.pageX, window.innerWidth - 300) + 'px';
+      dictPanel.style.top = (e.pageY + 14) + 'px';
+      dictPanel.classList.add('open');
+      var body = document.getElementById('dict-body');
+      body.innerHTML = '<p class="dict-loading">Buscando "' + word + '"...</p>';
+      fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word.toLowerCase()))
+        .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); })
+        .then(function(data){
+          var entry = data[0];
+          var html = '<div class="dict-word">' + entry.word + '</div>';
+          (entry.meanings || []).slice(0, 2).forEach(function(m){
+            html += '<div class="dict-pos">' + m.partOfSpeech + '</div>';
+            (m.definitions || []).slice(0, 2).forEach(function(d){
+              html += '<p class="dict-def">' + d.definition + '</p>';
+              if(d.example) html += '<p class="dict-ex">"' + d.example + '"</p>';
+            });
+          });
+          html += '<p class="dict-src">via dictionaryapi.dev</p>';
+          body.innerHTML = html;
+        })
+        .catch(function(){ body.innerHTML = '<p class="dict-loading">Sem definição encontrada. Vocabulário técnico costuma não estar nessa base — ver tooltip dos termos sublinhados.</p>'; });
+    });
+  }
+})();
+</script>
+</body>
+</html>

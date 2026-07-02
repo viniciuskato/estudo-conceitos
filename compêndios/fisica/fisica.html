@@ -59,6 +59,21 @@ h2:hover .anchor,h3:hover .anchor{opacity:1}
 .term{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:nowrap}
 .term::after{content:attr(data-pt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:5px;padding:4px 9px;font-size:11.5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
 .term:hover::after{opacity:1}
+.term-rich{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:normal}
+.term-rich .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:6px;padding:7px 11px;font-family:var(--font-ui);font-size:11.5px;line-height:1.45;white-space:normal;width:max-content;max-width:230px;text-align:left;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term-rich .tip b{display:block;color:var(--ac);font-weight:600;margin-bottom:2px}
+.term-rich .tip i{display:block;color:var(--muted);font-style:normal}
+.term-rich:hover .tip{opacity:1}
+#dict-panel{display:none;position:absolute;z-index:1001;background:var(--bg3);border:1px solid var(--ac);border-radius:8px;padding:10px 30px 10px 14px;max-width:280px;font-family:var(--font-ui);font-size:12.5px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+#dict-panel.open{display:block}
+#dict-close{position:absolute;top:4px;right:8px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;font-family:var(--font-ui)}
+#dict-close:hover{color:var(--text)}
+.dict-word{font-family:var(--font-body);font-weight:600;color:var(--ac);font-size:14px;margin-bottom:3px;text-transform:lowercase}
+.dict-pos{font-style:italic;color:var(--muted);margin:4px 0 2px}
+.dict-def{margin-bottom:3px;color:var(--text)}
+.dict-ex{color:var(--muted);font-style:italic;margin-bottom:3px}
+.dict-src{color:var(--muted);font-size:10px;margin-top:4px}
+.dict-loading{color:var(--muted)}
 .pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
 .pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 .hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
@@ -104,7 +119,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
 .data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:var(--bg3)}
-.data-table td.td-label{color:var(--text);font-weight:600}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
 .table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic;margin:6px 0 0}
 @media(max-width:900px){
   #mob-bar{display:flex}
@@ -184,7 +199,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
   <section id="what">
     <h2>What physics studies <a class="anchor" href="#what">¶</a></h2>
     <p><strong>Physics</strong> <span class="term-orig">(from the Greek <em>phýsis</em>, nature)</span> is the science that seeks the most fundamental regularities of nature — the laws governing matter, energy, space, and time, and the interactions among them. Its defining bet is that behind the variety of phenomena lie a few general principles, expressed in mathematical language, from which the rest can in principle be derived. It is the science that asks not what <em>exists</em> in a particular case, but <em>how everything behaves</em> at the most basic level we can reach.</p>
-    <p>What sets physics apart from the other natural sciences is the degree of <strong>abstraction and unification</strong> it pursues. Chemistry studies how atoms combine; biology, how matter organizes itself into living things. Physics sits one rung below: it asks what an atom <em>is</em>, what forces hold it together, and why energy is conserved in every reaction. In principle, chemistry and biology are physics applied to complex systems — though, in practice, each level of organization has its own laws that do not read off directly from the particles (the problem of <span class="term" data-pt="emergência">emergence</span>).</p>
+    <p>What sets physics apart from the other natural sciences is the degree of <strong>abstraction and unification</strong> it pursues. Chemistry studies how atoms combine; biology, how matter organizes itself into living things. Physics sits one rung below: it asks what an atom <em>is</em>, what forces hold it together, and why energy is conserved in every reaction. In principle, chemistry and biology are physics applied to complex systems — though, in practice, each level of organization has its own laws that do not read off directly from the particles (the problem of <span class="term-rich">emergence<span class="tip"><b>emergência</b><i>new properties arising from collective behavior, absent in the parts</i></span></span>).</p>
     <p>Physics works through <strong>idealized models</strong> and through <strong>scales</strong>. No equation describes a real object in every detail; the physicist isolates the essential (a "point mass" with no size, an "ideal gas" with no interactions) and measures how far the idealization strays from reality. And every theory has a <em>domain of validity</em>: Newton's mechanics describes apples and planets with extraordinary precision, but fails near the speed of light (where relativity takes over) and at the scale of atoms (where quantum mechanics does). Knowing the limits of each theory is as much a part of physics as knowing its formulas.</p>
     <div class="kbox">
       <div class="klabel">The ruler of scales</div>
@@ -241,13 +256,13 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
   <section id="classical">
     <h2>Classical mechanics <a class="anchor" href="#classical">¶</a></h2>
     <p><strong>Classical mechanics</strong> describes how objects move under the action of forces, in the regime of everyday speeds and sizes larger than the atom. It is the oldest and most intuitive of the physical theories — and still the one that designs bridges, launches rockets, and predicts eclipses.</p>
-    <p>At its core are <strong>Newton's three laws</strong> (1687). The <em>first</em> (<span class="term" data-pt="inércia">inertia</span>) states that a body keeps its state of rest or uniform straight-line motion unless a net force acts on it — rest is not the "natural" state; constant motion is just as natural. The <em>second</em> quantifies how a force changes that motion, and is the central equation of all mechanics:</p>
+    <p>At its core are <strong>Newton's three laws</strong> (1687). The <em>first</em> (<span class="term-rich">inertia<span class="tip"><b>inércia</b><i>a body's resistance to any change in its motion</i></span></span>) states that a body keeps its state of rest or uniform straight-line motion unless a net force acts on it — rest is not the "natural" state; constant motion is just as natural. The <em>second</em> quantifies how a force changes that motion, and is the central equation of all mechanics:</p>
     <div class="eq"><i>F</i> = <i>m</i> · <i>a</i><small>net force (N) = mass (kg) × acceleration (m/s²)</small></div>
     <p>The <em>third</em> law (action and reaction) states that forces always come in pairs: if A pushes B, B pushes A with an equal and opposite force. From it follows the <strong>conservation of linear momentum</strong> (<i>p</i>&nbsp;=&nbsp;<i>m</i>·<i>v</i>), one of the quantities physics found are never created or destroyed in an isolated system — only transferred.</p>
     <p><strong>Universal gravitation</strong> was the theory's inaugural triumph. Newton showed that the same force that makes an apple fall keeps the Moon in orbit, with a single law: the attraction between two masses grows with their product and falls off with the square of the distance.</p>
     <div class="eq"><i>F</i> = <i>G</i> · <i>m</i><sub>1</sub><i>m</i><sub>2</sub> / <i>r</i><sup>2</sup><small><i>G</i> ≈ 6.674 × 10<sup>−11</sup> N·m²/kg² (gravitational constant)</small></div>
     <p>With it, <strong>Kepler's three laws</strong> of planetary motion — previously empirical rules extracted from observation — became <em>derivable consequences</em>. That was the founding moment of the program of physics: reducing many disparate facts to a single, calculable principle. To situate the scale: the same equation describes the fall of an object (<i>g</i> ≈ 9.8 m/s² on Earth) and the orbital period of Neptune (165 years).</p>
-    <p>Two centuries later, mechanics gained <strong>deeper reformulations</strong>, mathematically equivalent to Newton but more powerful. The <em>Lagrangian formulation</em> (Lagrange, 1788) describes motion via a principle of least action: of all possible paths between two points, nature picks the one that minimizes a quantity called the <span class="term" data-pt="ação">action</span>. The <em>Hamiltonian formulation</em> (Hamilton, 1833) recasts everything in terms of energy and is the bridge through which quantum mechanics would later be built. They are not "another physics" — they are the same mechanics seen from an angle that reveals its symmetries and extends naturally to systems Newton could not reach.</p>
+    <p>Two centuries later, mechanics gained <strong>deeper reformulations</strong>, mathematically equivalent to Newton but more powerful. The <em>Lagrangian formulation</em> (Lagrange, 1788) describes motion via a principle of least action: of all possible paths between two points, nature picks the one that minimizes a quantity called the <span class="term-rich">action<span class="tip"><b>ação</b><i>the quantity nature minimizes along the actual path</i></span></span>. The <em>Hamiltonian formulation</em> (Hamilton, 1833) recasts everything in terms of energy and is the bridge through which quantum mechanics would later be built. They are not "another physics" — they are the same mechanics seen from an angle that reveals its symmetries and extends naturally to systems Newton could not reach.</p>
     <div class="kbox">
       <div class="klabel">Symmetry and conservation (Noether's theorem, 1918)</div>
       <p>Emmy Noether proved one of the most beautiful results in physics: <strong>to every continuous symmetry of nature there corresponds a conservation law</strong>. Because the laws do not change over time, energy is conserved; because they do not change from place to place, momentum is conserved; because they do not change with orientation, angular momentum is conserved. "Conservation laws" cease to be brute facts and become reflections of the structure of space and time.</p>
@@ -270,14 +285,14 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
       <p>Entropy thus measures the number of microscopic ways to realize the same macroscopic state. Heat flows from hot to cold not because of a force, but because there are overwhelmingly <em>more</em> arrangements corresponding to the mixed state than to the separated one. The second law becomes a statement about probability — the improbable is not impossible, merely fantastically rare.</p>
     </div>
     <p>This statistical rereading has a philosophical consequence that still unsettles: the microscopic laws (Newton's, Maxwell's) are <strong>time-reversible</strong> — they do not distinguish past from future — yet macroscopic behavior is <strong>irreversible</strong>. How does irreversibility emerge from reversible laws? This is <em>Boltzmann's problem</em>, tied to the hypothesis that the universe began in a state of extraordinarily low entropy (see <a class="cross-link" href="#controversies">Active controversies</a>).</p>
-    <p>Thermodynamics also governs <strong>phase transitions</strong> — when water turns to ice or steam, when a metal becomes magnetic. Near the critical point of these transitions, physically very different systems behave identically (<span class="term" data-pt="universalidade">universality</span>), a phenomenon whose explanation — Kenneth Wilson's <em>renormalization group</em> (1971) — connects thermodynamics to particle physics.</p>
+    <p>Thermodynamics also governs <strong>phase transitions</strong> — when water turns to ice or steam, when a metal becomes magnetic. Near the critical point of these transitions, physically very different systems behave identically (<span class="term-rich">universality<span class="tip"><b>universalidade</b><i>different systems behaving identically near a critical point</i></span></span>), a phenomenon whose explanation — Kenneth Wilson's <em>renormalization group</em> (1971) — connects thermodynamics to particle physics.</p>
   </section>
 
   <!-- ELECTROMAGNETISM -->
   <section id="em">
     <h2>Electromagnetism <a class="anchor" href="#em">¶</a></h2>
     <p><strong>Electromagnetism</strong> is the theory of one of the four fundamental forces — the one responsible for practically everything we experience beyond gravity: light, chemistry, the cohesion of solid matter, all of electronics. Its history is the canonical example of <em>unification</em> in physics: phenomena taken to be separate — electricity, magnetism, and light — turned out to be three faces of a single field.</p>
-    <p>In the early nineteenth century, electricity and magnetism were distinct studies. Then <strong>Oersted</strong> (1820) noticed that an electric current deflects a compass needle — current generates magnetism — and <strong>Faraday</strong> (1831) discovered the reverse: a moving magnet generates a current (<span class="term" data-pt="indução eletromagnética">electromagnetic induction</span>, the principle of every generator and transformer). Faraday introduced the decisive idea of the <strong>field</strong>: the force does not act at a distance across empty space, but through an entity that fills space and transmits the interaction.</p>
+    <p>In the early nineteenth century, electricity and magnetism were distinct studies. Then <strong>Oersted</strong> (1820) noticed that an electric current deflects a compass needle — current generates magnetism — and <strong>Faraday</strong> (1831) discovered the reverse: a moving magnet generates a current (<span class="term-rich">electromagnetic induction<span class="tip"><b>indução eletromagnética</b><i>a changing magnetic field generating a current</i></span></span>, the principle of every generator and transformer). Faraday introduced the decisive idea of the <strong>field</strong>: the force does not act at a distance across empty space, but through an entity that fills space and transmits the interaction.</p>
     <p>It was <strong>James Clerk Maxwell</strong> (1865) who completed the synthesis, gathering everything into four equations. They say, in words: (1) electric charges create electric fields; (2) there are no isolated "magnetic charges" — every magnet has two poles; (3) changing magnetic fields generate electric fields (Faraday); and (4) currents <em>and changing electric fields</em> generate magnetic fields. It was the term Maxwell added to the fourth equation that closed the loop.</p>
     <div class="kbox">
       <div class="klabel">Light is an electromagnetic wave</div>
@@ -293,7 +308,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     <h2>Optics and waves <a class="anchor" href="#waves">¶</a></h2>
     <p>A <strong>wave</strong> is a disturbance that carries energy (and information) without carrying matter: the cork bobs up and down, but the sea wave moves forward. The study of waves is transversal to all of physics — sound, light, seismic waves, waves on a guitar string, and even gravitational waves obey the same relations. Every wave has a <em>wavelength</em> (λ, the distance between two crests), a <em>frequency</em> (<i>f</i>, how many crests pass per second), and a <em>speed</em>, linked by a simple relation:</p>
     <div class="eq"><i>v</i> = λ · <i>f</i><small>speed = wavelength × frequency</small></div>
-    <p><strong>Optics</strong> is the specific study of light. At scales large compared to the wavelength, light behaves as if it traveled in straight rays — this is <em>geometrical optics</em>, which explains mirrors, lenses, the eye, the camera, and the rainbow through <span class="term" data-pt="refração">refraction</span> (the bending when changing medium) and <span class="term" data-pt="reflexão">reflection</span>. It is the optics of high-school classes, and it suffices to design most instruments.</p>
+    <p><strong>Optics</strong> is the specific study of light. At scales large compared to the wavelength, light behaves as if it traveled in straight rays — this is <em>geometrical optics</em>, which explains mirrors, lenses, the eye, the camera, and the rainbow through <span class="term-rich">refraction<span class="tip"><b>refração</b><i>the bending of light when it changes medium</i></span></span> (the bending when changing medium) and <span class="term-rich">reflection<span class="tip"><b>reflexão</b><i>the bouncing of light off a surface</i></span></span>. It is the optics of high-school classes, and it suffices to design most instruments.</p>
     <p>But light reveals its wave nature in two phenomena that rays cannot explain. <strong>Interference</strong>: two overlapping waves can add up (coinciding crests) or cancel out (crest over trough). Thomas Young's <em>double-slit</em> experiment (1801) — light through two slits produces alternating bright and dark fringes — proved that light is a wave, closing (for a century) the debate with Newton's corpuscular theory. <strong>Diffraction</strong>: waves bend around obstacles and spread out on passing through openings, the more so the smaller the opening is relative to λ.</p>
     <p><strong>Polarization</strong> further reveals that light is a <em>transverse</em> wave — it oscillates perpendicular to the direction of propagation — and that this oscillation has an orientation, which polarizing filters (sunglasses, LCD screens) select. Sound, being a <em>longitudinal</em> wave (it oscillates along the direction of propagation), cannot be polarized — a difference that distinguishes the two kinds of wave.</p>
     <div class="box info">
@@ -306,7 +321,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
   <section id="relativity">
     <h2>Relativity <a class="anchor" href="#relativity">¶</a></h2>
     <p><strong>Relativity</strong>, Einstein's work in two acts (1905 and 1915), remade the physics of space and time. Where Newton treated them as a fixed, universal stage — the same clock and ruler for everyone — Einstein showed that both are <em>relative</em> to the observer and to motion, and that gravity is a property of the geometry of the universe itself.</p>
-    <p><strong>Special relativity</strong> (1905) starts from two simple postulates: (1) the laws of physics are the same for all observers in uniform motion; and (2) the speed of light in vacuum is the same for everyone, no matter how they move — exactly what Maxwell's equations required. From these two premises follow consequences that defy common sense, all experimentally confirmed: moving clocks run slower (<span class="term" data-pt="dilatação do tempo">time dilation</span>), moving objects shorten along the direction of motion (<span class="term" data-pt="contração do comprimento">length contraction</span>), and simultaneity is relative — two events simultaneous for me may not be for you.</p>
+    <p><strong>Special relativity</strong> (1905) starts from two simple postulates: (1) the laws of physics are the same for all observers in uniform motion; and (2) the speed of light in vacuum is the same for everyone, no matter how they move — exactly what Maxwell's equations required. From these two premises follow consequences that defy common sense, all experimentally confirmed: moving clocks run slower (<span class="term-rich">time dilation<span class="tip"><b>dilatação do tempo</b><i>moving clocks running slower</i></span></span>), moving objects shorten along the direction of motion (<span class="term-rich">length contraction<span class="tip"><b>contração do comprimento</b><i>moving objects shortening along their motion</i></span></span>), and simultaneity is relative — two events simultaneous for me may not be for you.</p>
     <p>From the same formalism comes the most famous equation in science, stating that mass and energy are the same thing in different units:</p>
     <div class="eq"><i>E</i> = <i>m</i> · <i>c</i><sup>2</sup><small>a mass <em>m</em> is equivalent to an energy <em>E</em> — the factor <i>c</i><sup>2</sup> is enormous</small></div>
     <p>Because <i>c</i><sup>2</sup> is a gigantic number, a tiny amount of mass holds an immense energy: it is the source of the Sun's energy (nuclear fusion) and of nuclear power plants and bombs. Newton's mechanics reappears here as the <strong>low-speed limit</strong> of relativity — for <i>v</i> much smaller than <i>c</i>, the relativistic corrections vanish and we recover <i>F</i>&nbsp;=&nbsp;<i>m·a</i>. No theory "overthrows" the previous one; it contains it as a special case.</p>
@@ -315,17 +330,17 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
       <p>In 1915, Einstein extended the theory to include gravity and acceleration. His central idea: <strong>mass and energy curve spacetime, and that curvature is what we call gravity</strong>. The Earth does not "pull" the Moon by an invisible force — it deforms the spacetime around it, and the Moon follows the straightest possible path through that curved geometry. As John Wheeler put it: "matter tells spacetime how to curve; spacetime tells matter how to move."</p>
     </div>
     <p>General relativity made extraordinary predictions, all confirmed: light bends when passing near the Sun (measured in the 1919 eclipse, which made Einstein famous), time passes more slowly in strong gravitational fields (the GPS <em>must</em> correct for this to work), and spacetime itself can ripple. In 2015, the <strong>LIGO</strong> observatory directly detected <em>gravitational waves</em> — ripples in spacetime produced by the collision of two black holes more than a billion light-years away — a century after the theory predicted them.</p>
-    <p>The theory also predicts its own frontiers. Where the curvature becomes extreme — at the center of a <strong>black hole</strong> or at the initial instant of the <strong>Big Bang</strong> — it points to <span class="term" data-pt="singularidades">singularities</span>: points of infinite density where the equations stop making sense. This is read as a sign that relativity, so successful on the large scale, must be replaced by a quantum theory of gravity on the very small scale (see <a class="cross-link" href="#open">Open questions</a>).</p>
+    <p>The theory also predicts its own frontiers. Where the curvature becomes extreme — at the center of a <strong>black hole</strong> or at the initial instant of the <strong>Big Bang</strong> — it points to <span class="term-rich">singularities<span class="tip"><b>singularidades</b><i>points of infinite density where the equations break down</i></span></span>: points of infinite density where the equations stop making sense. This is read as a sign that relativity, so successful on the large scale, must be replaced by a quantum theory of gravity on the very small scale (see <a class="cross-link" href="#open">Open questions</a>).</p>
   </section>
 
   <!-- QUANTUM MECHANICS -->
   <section id="quantum">
     <h2>Quantum mechanics <a class="anchor" href="#quantum">¶</a></h2>
     <p><strong>Quantum mechanics</strong> is the theory of the very small — atoms, electrons, photons — and the most precise and best-tested theory in the history of physics. It is also the most counterintuitive: in the quantum domain, matter is <em>granular</em>, chance is <em>fundamental</em>, and objects can be in several states at once. No image from everyday life applies; what remains is the mathematics, which works with astonishing precision.</p>
-    <p>It was born of an impasse. In 1900, to explain the radiation of hot bodies, <strong>Planck</strong> was forced to assume that energy is not emitted continuously, but in <strong>discrete packets</strong> (<span class="term" data-pt="quanta">quanta</span>). In 1905, <strong>Einstein</strong> applied the idea to light (the photoelectric effect, which earned him the Nobel): light is made of <em>photons</em>, each with energy proportional to its frequency.</p>
+    <p>It was born of an impasse. In 1900, to explain the radiation of hot bodies, <strong>Planck</strong> was forced to assume that energy is not emitted continuously, but in <strong>discrete packets</strong> (<span class="term-rich">quanta<span class="tip"><b>quanta</b><i>discrete, indivisible packets of energy</i></span></span>). In 1905, <strong>Einstein</strong> applied the idea to light (the photoelectric effect, which earned him the Nobel): light is made of <em>photons</em>, each with energy proportional to its frequency.</p>
     <div class="eq"><i>E</i> = <i>h</i> · <i>f</i><small><i>h</i> ≈ 6.626 × 10<sup>−34</sup> J·s (Planck constant) — the "grain" of action</small></div>
     <p>From there came the first great puzzle: <strong>wave-particle duality</strong>. Light, which Young had proved to be a wave, is also a particle; and De Broglie (1924) showed that the reverse holds — electrons, which are particles, also diffract like waves. In the double-slit experiment done with electrons one at a time, each electron arrives as a point (particle), yet the accumulated pattern is one of interference (wave). The quantum object is neither wave nor particle: it is something new, which manifests one way or the other depending on the question the experiment asks.</p>
-    <p>The state of a quantum system is described by a <strong>wave function</strong> (ψ), which evolves perfectly deterministically through the <strong>Schrödinger equation</strong> (1926). What the wave function provides, however, is not the outcome of a measurement, but the <em>probability</em> of each possible outcome (Born rule: the probability is |ψ|²). Before measurement, the system is in a <span class="term" data-pt="superposição">superposition</span> of all outcomes; the measurement returns just one, apparently at random.</p>
+    <p>The state of a quantum system is described by a <strong>wave function</strong> (ψ), which evolves perfectly deterministically through the <strong>Schrödinger equation</strong> (1926). What the wave function provides, however, is not the outcome of a measurement, but the <em>probability</em> of each possible outcome (Born rule: the probability is |ψ|²). Before measurement, the system is in a <span class="term-rich">superposition<span class="tip"><b>superposição</b><i>a quantum system being in several states at once</i></span></span> of all outcomes; the measurement returns just one, apparently at random.</p>
     <div class="kbox">
       <div class="klabel">The uncertainty principle (Heisenberg, 1927)</div>
       <p>It is not a limitation of the instruments, but of nature: certain pairs of quantities — such as position and momentum — do not have simultaneously definite values. The more precise a particle's position, the more indefinite its momentum, and vice versa:</p>
@@ -333,7 +348,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
       <p>The quantum particle simply does not <em>possess</em> an exact position and momentum at the same time. It is one of the most radical breaks with classical physics, where everything had precise values, even when unknown.</p>
     </div>
     <p>Quantum theory also introduced <strong>spin</strong> (an intrinsic angular momentum with no classical analogue) and <strong>entanglement</strong> <span class="term-orig">(<em>emaranhamento</em>)</span>: two particles can become correlated in such a way that measuring one instantly determines the state of the other, however far apart they are. Einstein called this "spooky action at a distance" and refused to accept it; Bell's experiments (from the 1970s onward, awarded the 2022 Nobel) proved quantum theory right and Einstein wrong — entanglement is real. It is now the resource behind <em>quantum computers</em> and <em>quantum cryptography</em>.</p>
-    <p>The relation to classical physics is the <strong>correspondence principle</strong>: for large quantum numbers, or when the Planck constant is negligible compared to the quantities involved, the quantum predictions converge to the classical ones. The macroscopic world is quantum "underneath," but granularity and superposition become imperceptible at our scale — partly because of <span class="term" data-pt="decoerência">decoherence</span>, the rapid scrambling of superpositions by interaction with the environment. <em>What the wave function actually represents</em> remains an open dispute (see <a class="cross-link" href="#controversies">Active controversies</a>).</p>
+    <p>The relation to classical physics is the <strong>correspondence principle</strong>: for large quantum numbers, or when the Planck constant is negligible compared to the quantities involved, the quantum predictions converge to the classical ones. The macroscopic world is quantum "underneath," but granularity and superposition become imperceptible at our scale — partly because of <span class="term-rich">decoherence<span class="tip"><b>decoerência</b><i>loss of superposition through interaction with the environment</i></span></span>, the rapid scrambling of superpositions by interaction with the environment. <em>What the wave function actually represents</em> remains an open dispute (see <a class="cross-link" href="#controversies">Active controversies</a>).</p>
   </section>
 
   <!-- PARTICLES AND FIELDS -->
@@ -347,7 +362,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     </div>
     <p>The <strong>four fundamental forces</strong> are the skeleton of all of physics. Three of them are described by the Standard Model in quantum language; gravity, the most familiar, is precisely the one that resists being quantized — the great gap in theoretical physics.</p>
     <div class="table-wrap">
-    <table class="data-table">
+    <table class="data-table" aria-label="The four fundamental interactions">
       <thead><tr><th>Force</th><th>Range</th><th>Relative strength</th><th>Mediator</th><th>What it does</th></tr></thead>
       <tbody>
         <tr><td class="td-label">Strong</td><td>~10<sup>−15</sup> m (nucleus)</td><td>1 (the strongest)</td><td>Gluons</td><td>Holds quarks together in protons/neutrons and binds the nucleus</td></tr>
@@ -386,7 +401,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     </div>
     <p>The great recent upheaval came from two puzzles. First, galaxies rotate too fast: the visible matter does not have enough gravity to hold them together — mass is missing. So <strong>dark matter</strong> is postulated, which emits no light and shows up only through gravity. Second, in 1998 it was discovered that the expansion of the universe is <em>accelerating</em>, pushed by something dubbed <strong>dark energy</strong>. Adding it all up, the composition of the universe, according to data from the Planck satellite (2018), is disconcerting:</p>
     <div class="table-wrap">
-    <table class="data-table">
+    <table class="data-table" aria-label="Composition of the universe (Planck 2018)">
       <thead><tr><th>Component</th><th>Fraction of the universe</th><th>What it is</th></tr></thead>
       <tbody>
         <tr><td class="td-label">Dark energy</td><td>~68%</td><td>Unknown cause of the accelerating expansion; consistent with a "cosmological constant"</td></tr>
@@ -447,7 +462,7 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     <p><strong>Large instruments:</strong> modern physics depends on colossal machines — particle accelerators (LHC), space telescopes (James Webb, Planck), gravitational-wave detectors (LIGO), and synchrotron light sources (<a class="cross-link" href="#brazil">Sirius</a>). They cost billions and bring together thousands of scientists, marking the passage of physics from the lone genius to collaborative "big science."</p>
     <p><strong>Computational simulation:</strong> when the equations have no analytic solution (most real systems), one simulates numerically. It has become a "third pillar," between theory and experiment, essential from weather forecasting to lattice quantum chromodynamics (which computes the mass of the proton from the quarks).</p>
     <div class="box info">
-      <strong>The demarcation criterion:</strong> what separates physics from speculations that imitate it? Karl Popper's classic answer is <span class="term" data-pt="falseabilidade">falsifiability</span> — a scientific theory must forbid some possible observation, exposing itself to refutation. Theories that "explain everything" and risk nothing are not physics. That criterion, today refined and debated, lies behind the wariness toward proposals such as certain versions of string theory, hard to test experimentally (see <a class="cross-link" href="#controversies">Active controversies</a>).</p>
+      <strong>The demarcation criterion:</strong> what separates physics from speculations that imitate it? Karl Popper's classic answer is <span class="term-rich">falsifiability<span class="tip"><b>falseabilidade</b><i>a theory must forbid some observation to count as scientific</i></span></span> — a scientific theory must forbid some possible observation, exposing itself to refutation. Theories that "explain everything" and risk nothing are not physics. That criterion, today refined and debated, lies behind the wariness toward proposals such as certain versions of string theory, hard to test experimentally (see <a class="cross-link" href="#controversies">Active controversies</a>).</p>
     </div>
   </section>
 
@@ -679,6 +694,44 @@ const obs2 = new IntersectionObserver(entries => {
   entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
 }, {rootMargin: '-10% 0px -60% 0px'});
 sections.forEach(s => obs2.observe(s));
+
+(function(){
+  var dictPanel = document.createElement('div');
+  dictPanel.id = 'dict-panel';
+  dictPanel.innerHTML = '<button id="dict-close" aria-label="Fechar">×</button><div id="dict-body"></div>';
+  document.body.appendChild(dictPanel);
+  document.getElementById('dict-close').addEventListener('click', function(){ dictPanel.classList.remove('open'); });
+  document.addEventListener('click', function(e){ if(dictPanel.classList.contains('open') && !dictPanel.contains(e.target)) dictPanel.classList.remove('open'); });
+  var content = document.getElementById('content');
+  if(content){
+    content.addEventListener('dblclick', function(e){
+      if(e.target.closest('.term, .term-rich')) return;
+      var word = window.getSelection().toString().trim().replace(/[^a-zA-Z-]/g, '');
+      if(!word || word.length < 2) return;
+      dictPanel.style.left = Math.min(e.pageX, window.innerWidth - 300) + 'px';
+      dictPanel.style.top = (e.pageY + 14) + 'px';
+      dictPanel.classList.add('open');
+      var body = document.getElementById('dict-body');
+      body.innerHTML = '<p class="dict-loading">Buscando "' + word + '"...</p>';
+      fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word.toLowerCase()))
+        .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); })
+        .then(function(data){
+          var entry = data[0];
+          var html = '<div class="dict-word">' + entry.word + '</div>';
+          (entry.meanings || []).slice(0, 2).forEach(function(m){
+            html += '<div class="dict-pos">' + m.partOfSpeech + '</div>';
+            (m.definitions || []).slice(0, 2).forEach(function(d){
+              html += '<p class="dict-def">' + d.definition + '</p>';
+              if(d.example) html += '<p class="dict-ex">"' + d.example + '"</p>';
+            });
+          });
+          html += '<p class="dict-src">via dictionaryapi.dev</p>';
+          body.innerHTML = html;
+        })
+        .catch(function(){ body.innerHTML = '<p class="dict-loading">Sem definição encontrada. Vocabulário técnico costuma não estar nessa base — ver tooltip dos termos sublinhados.</p>'; });
+    });
+  }
+})();
 </script>
 </body>
 </html>
