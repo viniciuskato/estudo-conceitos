@@ -84,7 +84,7 @@ Aplicar (`.sl-pt` e `.term`) em todos os compêndios novos e ao revisar existent
 ```
 Escopo igual ao `.term`: primeira ocorrência de cada termo técnico relevante por seção. A glosa é uma definição de uma frase curta — não repetir a tradução, acrescentar informação. `.term` simples segue válido para casos em que a tradução isolada basta.
 
-**Dicionário ao vivo (`#dict-panel`) — padrão em compêndios de idioma estrangeiro:** complementa o `.term-rich`. Enquanto o `.term-rich` cobre os termos técnicos curados (com tradução + glosa autoral), o `#dict-panel` cobre o **vocabulário geral**: duplo-clique em qualquer palavra abre um painel flutuante com a definição em inglês, buscada ao vivo na API pública `dictionaryapi.dev`. Termos curados são pulados (o guard ignora `.term` e `.term-rich`, que já têm seu próprio tooltip). Cobre só inglês — usar apenas em compêndios em inglês. Promovido de piloto a padrão em 2026-07-02 (antes só em `cardiologia-anatomia.html`; aplicado também em `fisica.html` e `medicina.html`).
+**Dicionário ao vivo (`#dict-panel`) — padrão em compêndios de idioma estrangeiro:** complementa o `.term-rich`. Enquanto o `.term-rich` cobre os termos técnicos curados (com tradução + glosa autoral), o `#dict-panel` cobre o **vocabulário geral**: duplo-clique em qualquer palavra abre um painel flutuante com a definição em inglês, buscada ao vivo na API pública `dictionaryapi.dev`, mais a tradução PT-BR buscada em paralelo na API pública `api.mymemory.translated.net` (grátis, sem chave). Termos curados são pulados (o guard ignora `.term` e `.term-rich`, que já têm seu próprio tooltip). Cobre só inglês — usar apenas em compêndios em inglês. Promovido de piloto a padrão em 2026-07-02 (antes só em `cardiologia-anatomia.html`; aplicado também em `fisica.html` e `medicina.html`). Tradução PT-BR (via MyMemory) adicionada em 2026-07-02.
 
 ```css
 #dict-panel{display:none;position:absolute;z-index:1001;background:var(--bg3);border:1px solid var(--ac);border-radius:8px;padding:10px 30px 10px 14px;max-width:280px;font-family:var(--font-ui);font-size:12.5px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.5)}
@@ -92,6 +92,8 @@ Escopo igual ao `.term`: primeira ocorrência de cada termo técnico relevante p
 #dict-close{position:absolute;top:4px;right:8px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;font-family:var(--font-ui)}
 #dict-close:hover{color:var(--text)}
 .dict-word{font-family:var(--font-body);font-weight:600;color:var(--ac);font-size:14px;margin-bottom:3px;text-transform:lowercase}
+.dict-pt{font-family:var(--font-body);color:var(--text);font-size:12.5px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.dict-pt b{color:var(--ac);font-weight:600}
 .dict-pos{font-style:italic;color:var(--muted);margin:4px 0 2px}
 .dict-def{margin-bottom:3px;color:var(--text)}
 .dict-ex{color:var(--muted);font-style:italic;margin-bottom:3px}
@@ -120,11 +122,20 @@ JS (bloco próprio, dentro de um IIFE antes de `</script>`; o guard `closest('.t
       dictPanel.classList.add('open');
       var body = document.getElementById('dict-body');
       body.innerHTML = '<p class="dict-loading">Buscando "' + word + '"…</p>';
-      fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word.toLowerCase()))
-        .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); })
-        .then(function(data){
+      var defFetch = fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word.toLowerCase()))
+        .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); });
+      var ptFetch = fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word.toLowerCase()) + '&langpair=en|pt-BR')
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .catch(function(){ return null; });
+      Promise.all([defFetch.catch(function(){ return null; }), ptFetch])
+        .then(function(results){
+          var data = results[0], trans = results[1];
+          if(!data){ body.innerHTML = '<p class="dict-loading">Sem definição encontrada. Vocabulário técnico costuma não estar nessa base — ver tooltip dos termos sublinhados.</p>'; return; }
           var entry = data[0];
+          var pt = trans && trans.responseData && trans.responseData.translatedText;
+          if(pt && (pt.toLowerCase() === word.toLowerCase() || /MYMEMORY WARNING/i.test(pt))) pt = null;
           var html = '<div class="dict-word">' + entry.word + '</div>';
+          if(pt) html += '<div class="dict-pt">PT: <b>' + pt.toLowerCase() + '</b></div>';
           (entry.meanings || []).slice(0, 2).forEach(function(m){
             html += '<div class="dict-pos">' + m.partOfSpeech + '</div>';
             (m.definitions || []).slice(0, 2).forEach(function(d){
@@ -132,10 +143,9 @@ JS (bloco próprio, dentro de um IIFE antes de `</script>`; o guard `closest('.t
               if(d.example) html += '<p class="dict-ex">"' + d.example + '"</p>';
             });
           });
-          html += '<p class="dict-src">via dictionaryapi.dev</p>';
+          html += '<p class="dict-src">via dictionaryapi.dev' + (pt ? ' + MyMemory' : '') + '</p>';
           body.innerHTML = html;
-        })
-        .catch(function(){ body.innerHTML = '<p class="dict-loading">Sem definição encontrada. Vocabulário técnico costuma não estar nessa base — ver tooltip dos termos sublinhados.</p>'; });
+        });
     });
   }
 })();
