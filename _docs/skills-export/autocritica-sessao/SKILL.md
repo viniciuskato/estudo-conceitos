@@ -32,6 +32,7 @@ Ferramentas e recursos do projeto não usados: havia subagente, MCP, subskill, s
 Texto ambíguo ou incompleto: alguma instrução gerou comportamento inesperado ou precisou de correção manual?
 Etapas puladas ou fora de ordem: o fluxo definido foi seguido? Se não, por quê?
 Alinhamento com o objetivo: cada regra nas instruções serve diretamente ao propósito do modo de trabalho ativado?
+Crescimento estrutural desorganizado: alguma regra em instrucoes-projeto.txt é específica demais para uma skill/subárea pontual (só relevante em certos momentos, não em toda mensagem) e deveria ter migrado para o SKILL.md correspondente em vez de continuar acumulada ali? O arquivo ganhou redundância, repetição entre seções, ou perda de enxutez a ponto de prejudicar a eficiência de leitura no início de cada sessão?
 Princípio de entrega: o usuário teve que pedir melhorias após receber o material? Se sim, o que nas instruções deveria garantir isso proativamente?
 Qualquer fricção que exigiu workaround manual
 Auditoria estrutural leve: os arquivos de controle referenciados ou tocados nesta sessão (ver detalhamento abaixo) batem com o estado real do disco?
@@ -57,6 +58,7 @@ Para cada melhoria identificada, classificar ANTES de propor:
 (a) Dispatch de skills, protocolo de abertura de sessão, ou regra cross-cutting que precisa estar carregada em toda mensagem → destino: instrucoes-projeto.txt
 (b) Mecânica de edição de arquivo/bash, verificação pós-escrita de HTML, workflows de arquivamento (relevante só nesses momentos específicos, não em toda mensagem) → destino: _docs/operacoes-bash.md
 (c) Conhecimento do artefato (padrões de HTML, CSS, comportamento de sidebar, estrutura de seções) → destino: skill relevante ou template-v2-spec.md
+(d) Regra hoje em instrucoes-projeto.txt por acúmulo histórico, mas específica de uma área/skill e não necessária em toda mensagem → destino: mover para o SKILL.md da área correspondente (remover de instrucoes-projeto.txt ao mover, não duplicar em ambos)
 
 ANTES do AskUserQuestion: apresentar cada melhoria em prosa, numerada, com "Causa:" (por que aconteceu) e "Consequência:" (o efeito de não corrigir) explícitos — não pular direto para a pergunta técnica.
 OBRIGATÓRIO em seguida: apresentar todas as mudanças propostas ao usuário via AskUserQuestion (multiSelect: true), com uma opção por mudança. Descrever em cada opção: o que aconteceu (fato), o que vai mudar, e em qual arquivo será aplicado.
