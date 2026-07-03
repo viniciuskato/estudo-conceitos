@@ -66,15 +66,16 @@ A subskill de área define o que adaptar ou omitir do template.
 
 1. Cabeçalho (`doc-header`): título, `doc-meta`, chips (tempo de leitura, última revisão).
 2. Pergunta motivadora (`.pergunta`): uma frase que captura o problema central do campo.
-3. O que essa área estuda: definição formal, escopo, limites, distinção com campos adjacentes.
-4. Mapa do campo: subdivisões principais com parágrafo descritivo cada. Cards (`.subarea-grid`) para visão rápida; prosa para profundidade. Links para arquivos-filhos onde existirem.
-5. Contexto histórico: quando e por que o campo surgiu, marcos fundadores, viragens paradigmáticas. Usar `.hist` para marcos pontuais; prosa para desenvolvimento.
-6. Contexto brasileiro: como o campo se desenvolveu/aplica no Brasil. Omitir se irrelevante.
-7. Questões centrais: 5–10 perguntas abertas que o campo tenta responder. Não respostas — perguntas genuínas.
-8. Ferramentas e métodos: como o campo produz conhecimento. Com densidade real, não apenas listagem.
-9. Conexões com outros campos. Usar `a.cross-link` para linkar compêndios existentes.
-10. Controvérsias ativas (`.controversia`): disputas genuínas com as duas posições representadas. Nunca resolver artificialmente.
-11. Referências anotadas em camadas: "Ponto de entrada" → "Aprofundamento" → "Consulta especializada". Cada referência com tipo, título, autor, ano e anotação justificando a presença.
+3. Painel de dependências (`.dep-panel`): obrigatório mesmo no arquivo-pai (ver `template-v2-spec.md`). Num arquivo-pai "partida zero" (sem pré-requisito real), as colunas "Este compêndio usa" e "Leia antes se necessário" podem ficar vazias/com nota explícita de ausência — a seção continua presente. A coluna "Materiais que dependem deste" lista os arquivos-filhos e compêndios de mecanismo que pressupõem este mapa (ex.: os já cross-linkados no corpo do texto).
+4. O que essa área estuda: definição formal, escopo, limites, distinção com campos adjacentes.
+5. Mapa do campo: subdivisões principais com parágrafo descritivo cada. Cards (`.subarea-grid`) para visão rápida; prosa para profundidade. Links para arquivos-filhos onde existirem.
+6. Contexto histórico: quando e por que o campo surgiu, marcos fundadores, viragens paradigmáticas. Usar `.hist` para marcos pontuais; prosa para desenvolvimento.
+7. Contexto brasileiro: como o campo se desenvolveu/aplica no Brasil. Omitir se irrelevante.
+8. Questões centrais: 5–10 perguntas abertas que o campo tenta responder. Não respostas — perguntas genuínas.
+9. Ferramentas e métodos: como o campo produz conhecimento. Com densidade real, não apenas listagem.
+10. Conexões com outros campos. Usar `a.cross-link` para linkar compêndios existentes.
+11. Controvérsias ativas (`.controversia`): disputas genuínas com as duas posições representadas. Nunca resolver artificialmente.
+12. Referências anotadas em camadas: "Ponto de entrada" → "Aprofundamento" → "Consulta especializada". Cada referência com tipo, título, autor, ano e anotação justificando a presença.
 
 ## Profundidade
 
@@ -126,6 +127,7 @@ aprofundamento discursivo nos erros; registro em `anki/`): ver seção "Modo Ank
 Vale tanto para gerar um compêndio novo quanto para revisar um existente — ao revisar, reconferir proativamente todos os itens abaixo, sem esperar que o usuário peça (mesmo espírito da "Auditoria visual proativa" em instrucoes-projeto.txt, aplicado ao conteúdo, não só ao visual).
 
 - [ ] A pergunta motivadora está desenvolvida ao longo do texto?
+- [ ] Painel de dependências presente (mesmo que com colunas vazias/nota explícita num arquivo-pai partida-zero)?
 - [ ] Cada subárea tem profundidade real, não apenas uma frase? Conferir cada card do "Mapa do campo" contra o corpo do texto: todo conceito nomeado no card (não só o card como um todo) precisa ter desenvolvimento correspondente — um card pode prometer 4 conceitos e desenvolver só 2, o que já falha este item mesmo com o restante do compêndio bem coberto.
 - [ ] As referências têm anotação justificando sua presença?
 - [ ] As controvérsias ativas têm as duas posições representadas sem resolução artificial?

@@ -78,6 +78,13 @@ h2:hover .anchor,h3:hover .anchor{opacity:1}
 .dict-loading{color:var(--muted)}
 .pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
 .pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
 .hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted);line-height:1.65}
 .hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
 .hist strong{color:var(--text);font-weight:500}
@@ -187,13 +194,36 @@ a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px
     <div class="doc-chips">
       <span class="chip">⏱ ~55 min read</span>
       <span class="chip">📍 Level: broad field · from zero</span>
-      <span class="chip">🗓 Last revision: 2026-07-02</span>
+      <span class="chip">🗓 Last revision: 2026-07-03</span>
     </div>
   </div>
 
   <div class="pergunta">
     <div class="plabel">Guiding question</div>
     <p>Medicine is at once one of the oldest human arts and one of the youngest sciences — for most of its history, a visit to the doctor was about as likely to harm as to heal. <em>What turned healing into a science, and why, even now, does so much of it remain judgment under uncertainty?</em></p>
+  </div>
+
+  <div class="dep-panel">
+    <div class="dep-label">Dependency map</div>
+    <div class="dep-row">
+      <div class="dep-group">
+        <div class="dgt">This compendium uses</div>
+        <span class="dep-item">No internal prerequisite — entry point of the field</span>
+      </div>
+      <div class="dep-group">
+        <div class="dgt">Read before if necessary</div>
+        <span class="dep-item">None — written for a reader starting from zero</span>
+      </div>
+      <div class="dep-group">
+        <div class="dgt">Materials that depend on this</div>
+        <a class="dep-item" href="cardiologia-anatomia.html">Cardiac anatomy (area compendium)</a>
+        <a class="dep-item" href="../../medicina/fisiologia/ciclo-cardiaco.html">Cardiac cycle (physiology mechanism)</a>
+        <a class="dep-item" href="../../medicina/microbiologia/virologia-geral.html">General virology (mechanism)</a>
+        <a class="dep-item" href="../../medicina/imunologia/imunidade-inata.html">Innate immunity (mechanism)</a>
+        <a class="dep-item" href="../../medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html">Antihypertensives and RAAS (mechanism)</a>
+        <a class="dep-item" href="../../medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html">Circulatory shock (mechanism)</a>
+      </div>
+    </div>
   </div>
 
   <!-- WHAT MEDICINE STUDIES -->
@@ -642,7 +672,7 @@ window.addEventListener('load', updateActive);
 
 const obs2 = new IntersectionObserver(entries => {
   entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
-}, {rootMargin: '-10% 0px -60% 0px'});
+}, {rootMargin: '-10% 0px -55% 0px'});
 sections.forEach(s => obs2.observe(s));
 
 (function(){

@@ -1,7 +1,32 @@
 === COMPÊNDIOS — ESTADO DA SESSÃO ===
-Última sessão: 2026-07-02
+Última sessão: 2026-07-03
 
 === Histórico ===
+2026-07-03 — Auditoria de conformidade de compêndios/medicina/medicina.html contra o
+             template-v2-spec.md atual, a pedido do usuário. Achado principal: o Painel de
+             dependências (dep-panel), marcado "obrigatório" no spec logo após a pergunta
+             motivadora e presente em praticamente todo o resto do acervo (incluindo o irmão
+             cardiologia-anatomia.html na mesma pasta), estava ausente tanto em medicina.html
+             quanto em compêndios/fisica/fisica.html — os dois únicos compêndios de ÁREA
+             (arquivo-pai, nível "partida zero") em inglês. Causa provável: a lista de 11
+             seções obrigatórias do arquivo-pai em compendio/SKILL.md não inclui esse painel,
+             divergindo do template-v2-spec.md (que não abre exceção para arquivo-pai). Usuário
+             optou por corrigir apenas medicina.html nesta sessão (não fisica.html, e sem
+             mexer nos documentos normativos) — ver DEBT.md para os dois itens deixados em
+             aberto. Aplicado a medicina.html: CSS .dep-panel/.dep-row/.dep-group/.dep-item
+             (copiado do padrão já usado em cardiologia-anatomia.html) + bloco HTML logo após
+             a pergunta motivadora, 3 colunas: "This compendium uses" (nenhum — ponto de
+             partida), "Read before if necessary" (nenhum), "Materials that depend on this"
+             (cardiologia-anatomia.html + 5 mecanismos já cross-linkados no corpo: ciclo
+             cardíaco, virologia geral, imunidade inata, anti-hipertensivos/SRAA, choque
+             circulatório). Achado secundário corrigido no mesmo Edit: rootMargin do
+             IntersectionObserver de h2 ativo estava em -60% (deveria ser -55% por spec,
+             igual ao resto do acervo) — cosmético, sem impacto funcional. Chip "Última
+             revisão" atualizado para 2026-07-03. Verificação Grep/Read OK: fecha
+             </body></html>, sem TODO/FIXME/placeholder reais (único match do grep foi falso
+             positivo em "métodos"/"método", substring de "todo"), 21 ocorrências de
+             classes dep-* confirmando o bloco inserido corretamente. Verificação visual via
+             surge continua PENDENTE (não refeita nesta sessão).
 2026-06-30 — Estrutura inicial criada. Compêndios de área separados dos mecanismos.
              Pastas temáticas movidas para compêndios/.
              Arquivos de estado criados.
