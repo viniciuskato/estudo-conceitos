@@ -67,7 +67,7 @@ Melhorias aplicadas: N
 1. [Ponto de melhoria] → [O que mudou]
 2. ...
 
-Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Após reportar, exibir o conteúdo completo do arquivo no chat para que o usuário possa copiar diretamente nas configurações do projeto (Project Instructions) sem precisar abrir o arquivo manualmente.
+Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Após reportar, chamar `mcp__cowork__present_files` com o caminho do arquivo para que ele apareça como card no painel lateral do Cowork, de onde o usuário copia direto para Project Instructions. NUNCA colar o conteúdo do arquivo (inteiro ou trecho longo) em bloco de texto na resposta do chat — nem "para facilitar", nem porque o arquivo é curto.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
 
 Antes de montar o checklist, reconstruir EXATAMENTE o que a sessão tocou a partir do próprio histórico de tool calls desta sessão (arquivos lidos/editados/criados) — NÃO rodar `git status --short`: comandos git falham por completo neste sandbox (ver instrucoes-projeto.txt, seção "Verificação bash obrigatória"), então a chamada seria desperdiçada. Nunca listar pendências de memória (sessões anteriores) como se fossem desta sessão. Regras para o item de reempacotamento:
@@ -90,3 +90,4 @@ O foco é sempre o objetivo declarado nas instruções: cada mudança deve aprox
 Nunca reportar "nenhuma melhoria" sem ter verificado ativamente cada categoria do Passo 1.
 Não reformular instruções que funcionaram bem só para "melhorar o estilo" — mudanças devem ter origem em gap real.
 Antes do AskUserQuestion, sempre apresentar as melhorias em prosa numerada com "Causa:"/"Consequência:" explícitos (Passo 2.5) — nunca pular direto para a pergunta técnica.
+Nunca colar `instrucoes-projeto.txt` (ou qualquer SKILL.md editado) em bloco de texto no chat ao final da sessão — sempre `mcp__cowork__present_files` (ver Passo 4). Esta regra já tinha sido corrigida por feedback do usuário e reincidiu numa sessão porque só estava implícita no Passo 4; agora está redundante aqui para não depender de uma única menção.
