@@ -7,6 +7,7 @@ Skills geradas:
   - compendio.skill
   - mecanismo.skill
   - sistema.skill
+  - prova.skill
   - compendio-medicina.skill
   - compendio-medicina-basica.skill
   - compendio-medicina-clinica.skill
@@ -17,6 +18,7 @@ Skills geradas:
   - mecanismo-medicina-basica.skill
   - mecanismo-medicina-clinica.skill
   - sistema-veiculos.skill
+  - prova-medicina.skill
   - autocritica-sessao.skill
 
 Instalacao: Settings > Capabilities > Skills no Claude desktop.
@@ -30,6 +32,7 @@ skills = [
     "compendio",
     "mecanismo",
     "sistema",
+    "prova",
     "compendio-medicina",
     "compendio-medicina-basica",
     "compendio-medicina-clinica",
@@ -40,6 +43,7 @@ skills = [
     "mecanismo-medicina-basica",
     "mecanismo-medicina-clinica",
     "sistema-veiculos",
+    "prova-medicina",
     "autocritica-sessao",
 ]
 

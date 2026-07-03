@@ -117,9 +117,9 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
 ## Modo Anki
 
 Opcional — nunca etapa automática de fechamento, nem exclusividade desta skill: ativar
-somente mediante pedido explícito do usuário. `compendio` e `sistema` também podem
-receber sessão de revisão Anki; esta seção é o procedimento canônico referenciado por
-ambos.
+somente mediante pedido explícito do usuário. `compendio`, `sistema` e `prova` também
+podem receber sessão de revisão Anki; esta seção é o procedimento canônico referenciado
+por todas.
 
 ### Fase 1 — Triagem por múltipla escolha
 1. Verificar `anki/anki_[material].json` — carregar para retomar.
@@ -133,6 +133,34 @@ ambos.
 7. Uma pergunta aberta por vez. Se parcial: pista antes de revelar.
 8. Classificar: "dominada" (exige articulação do mecanismo), "parcial" ou "não soube". Parcial e não soube retomados após 3–5 questões novas.
 
+### Schema de `anki/anki_[material].json`
+
+Campos obrigatórios: `material`, `ultima_sessao`, `ponto_de_parada`, `perguntas[]`. Campo
+`data_prova` é opcional — presente apenas quando o material tem prova com data definida
+(uso típico na skill `prova`; nas demais skills, omitir).
+
+```json
+{
+  "material": "nome-do-material",
+  "data_prova": "AAAA-MM-DD",
+  "ultima_sessao": "AAAA-MM-DD",
+  "ponto_de_parada": "Seção X — descrição",
+  "perguntas": [
+    {
+      "id": 1,
+      "secao": "Nome da seção",
+      "pergunta": "...",
+      "classificacao": "dominada",
+      "historico": ["dominada"]
+    }
+  ],
+  "resumo": { "dominada": 0, "parcial": 0, "nao_soube": 0, "total": 0 }
+}
+```
+
+Classificações válidas: `"dominada"`, `"parcial"`, `"nao_soube"`. `historico` acumula
+todas as classificações em ordem cronológica, para identificar progresso ou estagnação.
+
 ### Encerramento do Anki
 9. Síntese dos pontos fracos + seção a revisar.
 10. Atualizar `anki/anki_[material].json`.
@@ -144,6 +172,25 @@ ambos.
 - Erro: ...
 - Correto: ...
 ```
+
+### Loop Anki → revisão do material
+
+Se ao encerrar uma sessão Anki houver ≥2 tópicos classificados como "não soube" na mesma
+seção, isso indica lacuna no material — não apenas no estudo. Propor ao usuário revisão
+didática daquela seção antes da próxima sessão Anki, em vez de só repetir as mesmas
+perguntas.
+
+### Protocolo de véspera (quando há data de prova/entrega definida)
+
+1. Listar tópicos "parcial" e "não soube" do `anki_[material].json`.
+2. Listar tópicos com menor domínio no material (mapa de cobertura, quando existir —
+   ver skill `prova`).
+3. Gerar `[material]-vespera.html` com **apenas** esses conteúdos — triagem cirúrgica, não
+   revisão geral.
+4. **Fallback sem Anki prévio**: se `anki_[material].json` não existir, priorizar por (a)
+   tópicos marcados como incompletos no mapa de cobertura, quando existir, ou (b) seções
+   mais densas em ressalvas/exceções/pegadinhas. Avisar o usuário que a triagem é estimada,
+   não baseada em desempenho real.
 
 ## Qualidade de entrega
 

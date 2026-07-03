@@ -1,0 +1,44 @@
+=== PROVAS — ESTADO DA SESSÃO ===
+Última sessão: 2026-07-03
+
+=== Histórico ===
+2026-07-03 — Skill `prova` criada a partir de revisão geral da pasta Cowork do usuário
+             (pedido: "de uma revisão geral" das pastas que contribuem/se sobrepõem a
+             Base de estudos). Achado: o projeto Cowork "Estudo para prova" reimplementava,
+             de forma paralela e independente, um sistema com o mesmo propósito central
+             desta base (material didático denso em HTML, modo Anki, ciclo de
+             autocrítica) — incluindo uma cópia própria da skill `autocritica-sessao`
+             (arquivo `.skill` empacotado dentro da pasta Cowork "Estudo para prova",
+             divergente da versão canônica deste projeto) e um `template-base.html`
+             próprio, não alinhado a `_docs/template-v2-spec.md`.
+             Decisão do usuário (via AskUserQuestion): tratar como quarta skill-pai, não
+             como subskill de `compendio`/`mecanismo` — o princípio de "escopo fechado
+             pelo edital, profundidade suficiente (não máxima)" é o oposto do critério de
+             exaustividade de `compendio` e do critério de saturação máxima de
+             `mecanismo`, portanto é um modo de trabalho genuíno, não um desvio dos
+             existentes.
+             Criados nesta sessão: `_docs/skills-export/prova/SKILL.md`,
+             `_docs/skills-export/prova-medicina/SKILL.md` (subskill inicial),
+             `empacotar_skills.py` atualizado (prova + prova-medicina nas duas listas),
+             `instrucoes-projeto.txt` atualizado (cabeçalho 3→4 modos, "distinção
+             principal", "Estrutura de pastas", "Protocolo de abertura de sessão" passo 1,
+             referência de Modo Anki incluindo prova).
+             Promovido ao canônico (`mecanismo/SKILL.md`, seção "Modo Anki", compartilhada
+             pelas quatro skills): protocolo de véspera, schema JSON de
+             `anki_[material].json` e o loop "Anki → revisão do HTML" (≥2 tópicos "não
+             soube" na mesma seção sinaliza lacuna didática, não só de estudo) — recursos
+             que só existiam, mais desenvolvidos, no projeto Cowork de origem.
+             Migrados (cópia mecânica, preservando conteúdo): os 4 HTMLs de "Estudo para
+             prova" → `provas/medicina/` (agressao-defesa.html, epidemiologia.html,
+             pesquisa-em-saude.html, semiologia.html), mais os caches de conteúdo
+             existentes (`provas/medicina/_cache/`).
+             Pendência registrada em `_docs/DEBT.md`: os 4 arquivos migrados preservam o
+             template do projeto de origem, não `template-v2-spec.md` — alinhamento ao
+             spec canônico é reescrita de conteúdo significativa. Recomendação (não
+             requisito): sessão em Opus + Esforço Alto tende a dar mais qualidade nesse
+             volume de recalibração; decisão de modelo é do usuário.
+             Pendência do usuário (fora do escopo desta sessão, ação local): rodar
+             `empacotar_skills.py` e reinstalar via Settings > Capabilities > Skills;
+             decidir se remove manualmente a skill `.skill` e o `instrucoes-projeto.md`
+             duplicados na pasta Cowork "Estudo para prova" (fora de Base de estudos —
+             este agente não apaga arquivos fora desta pasta sem confirmação explícita).

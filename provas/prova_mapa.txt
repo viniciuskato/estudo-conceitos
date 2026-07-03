@@ -1,0 +1,26 @@
+=== PROVAS — MAPA DE DISCIPLINAS/EDITAIS COBERTOS ===
+Última atualização: 2026-07-03
+
+=== Medicina (skill prova-medicina) ===
+- `provas/medicina/agressao-defesa.html` — Agressão e Defesa I (RA3): fungos patogênicos e
+  antifúngicos, virologia geral e antivirais (influenza, herpes), resposta imune contra
+  fungos/vírus, vacinas/imunidade ativa e passiva, congestão/edema, infarto, hemostasia,
+  trombose, embolia, aterosclerose, farmacologia da trombose e do infarto, hipolipemiantes,
+  reparo tecidual (cicatrização/fibrose/cirrose). Migrado de Cowork/"Estudo para prova"
+  em 2026-07-03; template ainda não alinhado a `template-v2-spec.md` (ver DEBT.md).
+- `provas/medicina/epidemiologia.html` — Epidemiologia, Vigilância e Métodos Diagnósticos
+  (PAB II): introdução à epidemiologia, doenças transmissíveis, vigilância epidemiológica e
+  sanitária, transição demográfica/epidemiológica e DANTs, epidemiologia clínica e MBE,
+  métodos diagnósticos. Migrado de Cowork/"Estudo para prova" em 2026-07-03; template
+  pendente de alinhamento.
+- `provas/medicina/pesquisa-em-saude.html` — Pesquisa em Saúde 2: seleção de temas,
+  tipos de estudo, análise crítica de artigo científico, projeto de pesquisa, escrita
+  acadêmica em saúde. Migrado de Cowork/"Estudo para prova" em 2026-07-03; template
+  pendente de alinhamento.
+- `provas/medicina/semiologia.html` — Semiologia Médica (HP3): exame físico geral
+  (ectoscopia e bases, aspectos qualitativos/quantitativos), propedêutica cardiovascular
+  (anamnese/exame físico, ausculta), semiologia pulmonar e síndromes pleuropulmonares,
+  registro do exame físico. Migrado de Cowork/"Estudo para prova" em 2026-07-03; template
+  pendente de alinhamento; sobreposição de domínio com o projeto Cowork "Anamnese e Exame
+  Físico" (propósito diferente — relatório clínico individual, não material de prova)
+  observada e mantida como projetos distintos.

@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semiologia Médica — HP3 | Guia de Prova</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #181b23;
+    --bg3: #1e2130;
+    --border: #2a2f45;
+    --text: #e2e8f0;
+    --muted: #8892aa;
+    --blue: #60a5fa;
+    --blue-dim: #1e3a5f;
+    --green: #34d399;
+    --green-dim: #064e3b;
+    --yellow: #fbbf24;
+    --yellow-dim: #451a03;
+    --red: #f87171;
+    --red-dim: #450a0a;
+    --purple: #a78bfa;
+    --purple-dim: #2e1065;
+    --cyan: #22d3ee;
+    --cyan-dim: #083344;
+    --orange: #fb923c;
+    --orange-dim: #431407;
+    --sidebar-w: 260px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    display: flex;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 1.5rem 0;
+    z-index: 100;
+  }
+  #sidebar h2 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding: 0 1.2rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+  #sidebar ul { list-style: none; }
+  #sidebar ul li a {
+    display: block;
+    padding: 0.32rem 1.2rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  #sidebar ul li a:hover { color: var(--text); background: var(--bg3); }
+  #sidebar ul li a.active {
+    color: var(--blue);
+    border-left-color: var(--blue);
+    background: var(--blue-dim);
+  }
+  #sidebar ul li.sub a { padding-left: 2rem; font-size: 0.77rem; }
+  #sidebar ul li.sub2 a { padding-left: 2.8rem; font-size: 0.73rem; }
+
+  /* ── MAIN ── */
+  #main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: 900px;
+    padding: 2.5rem 2.5rem 6rem;
+  }
+
+  /* ── SECTIONS ── */
+  section { margin-bottom: 4rem; }
+  h1 { font-size: 2rem; color: var(--blue); margin-bottom: 0.3rem; }
+  h2.section-title {
+    font-size: 1.5rem;
+    color: var(--cyan);
+    border-bottom: 2px solid var(--cyan);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    color: var(--yellow);
+    margin: 1.6rem 0 0.6rem;
+  }
+  h4 {
+    font-size: 1rem;
+    color: var(--purple);
+    margin: 1.2rem 0 0.4rem;
+  }
+  p { margin-bottom: 0.9rem; }
+  strong { color: var(--text); }
+  em { color: var(--cyan); font-style: normal; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    border-left: 4px solid;
+  }
+  .callout-blue { background: var(--blue-dim); border-color: var(--blue); }
+  .callout-green { background: var(--green-dim); border-color: var(--green); }
+  .callout-yellow { background: var(--yellow-dim); border-color: var(--yellow); }
+  .callout-red { background: var(--red-dim); border-color: var(--red); }
+  .callout-purple { background: var(--purple-dim); border-color: var(--purple); }
+  .callout-orange { background: var(--orange-dim); border-color: var(--orange); }
+  .callout-cyan { background: var(--cyan-dim); border-color: var(--cyan); }
+  .callout .label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+  .callout-blue .label { color: var(--blue); }
+  .callout-green .label { color: var(--green); }
+  .callout-yellow .label { color: var(--yellow); }
+  .callout-red .label { color: var(--red); }
+  .callout-purple .label { color: var(--purple); }
+  .callout-orange .label { color: var(--orange); }
+  .callout-cyan .label { color: var(--cyan); }
+
+  /* ── TABLES ── */
+  .tbl-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; border-radius: 8px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  thead { background: var(--bg3); }
+  th { padding: 0.7rem 1rem; text-align: left; color: var(--cyan); font-weight: 600; border-bottom: 1px solid var(--border); }
+  td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg3); }
+
+  /* ── CHIPS / BADGES ── */
+  .chip {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    margin: 0.1rem;
+  }
+  .chip-blue { background: var(--blue-dim); color: var(--blue); }
+  .chip-green { background: var(--green-dim); color: var(--green); }
+  .chip-red { background: var(--red-dim); color: var(--red); }
+  .chip-yellow { background: var(--yellow-dim); color: var(--yellow); }
+  .chip-purple { background: var(--purple-dim); color: var(--purple); }
+  .chip-orange { background: var(--orange-dim); color: var(--orange); }
+  .chip-cyan { background: var(--cyan-dim); color: var(--cyan); }
+
+  /* ── MNEMÔNICO ── */
+  .mnemo {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 0.8rem 0;
+    font-family: monospace;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .mnemo span { color: var(--yellow); font-weight: 700; }
+
+  /* ── FLOW ── */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0.8rem 0;
+  }
+  .flow-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .flow-arrow { color: var(--muted); font-size: 1.2rem; }
+
+  /* ── GRID 2-col ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.8rem 0; }
+  @media(max-width:700px){ .grid2 { grid-template-columns: 1fr; } }
+
+  /* ── CITE ── */
+  a.cite {
+    font-size: 0.75rem;
+    vertical-align: super;
+    color: var(--blue);
+    text-decoration: none;
+  }
+  a.cite:hover { color: var(--cyan); }
+
+  /* ── HEADER ── */
+  .doc-header {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+  }
+  .doc-header p { color: var(--muted); font-size: 0.88rem; }
+
+  /* ── KEY CONCEPTS ── */
+  #conceitos-chave ol { padding-left: 1.4rem; }
+  #conceitos-chave li { margin-bottom: 0.7rem; }
+
+  /* ── REFS ── */
+  #referencias ol { padding-left: 1.4rem; font-size: 0.85rem; }
+  #referencias li { margin-bottom: 0.5rem; color: var(--muted); }
+
+  /* ── NORMAL BOX ── */
+  .normal-box {
+    background: var(--green-dim);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    font-style: italic;
+    color: #a7f3d0;
+  }
+  .normal-box strong { color: var(--green); font-style: normal; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════ -->
+<nav id="sidebar">
+  <h2>Semiologia HP3</h2>
+  <ul>
+    <li><a href="#efg1">1. Exame Físico Geral I</a></li>
+    <li class="sub"><a href="#efg1-ectoscopia">Ectoscopia</a></li>
+    <li class="sub"><a href="#efg1-tecnicas">4 Técnicas Básicas</a></li>
+    <li class="sub"><a href="#efg1-estado-geral">Estado Geral</a></li>
+    <li class="sub"><a href="#efg1-consciencia">Consciência</a></li>
+    <li class="sub"><a href="#efg1-facies">Fácies</a></li>
+    <li class="sub"><a href="#efg1-biotipo">Biotipo</a></li>
+    <li class="sub"><a href="#efg1-linfonodos">Linfonodos</a></li>
+
+    <li><a href="#efg2">2. Exame Físico Geral II</a></li>
+    <li class="sub"><a href="#efg2-palidez">Palidez</a></li>
+    <li class="sub"><a href="#efg2-hidratacao">Hidratação</a></li>
+    <li class="sub"><a href="#efg2-ictericia">Icterícia</a></li>
+    <li class="sub"><a href="#efg2-cianose">Cianose</a></li>
+    <li class="sub"><a href="#efg2-edema">Edema</a></li>
+    <li class="sub"><a href="#efg2-quantitativo">Sinais Vitais e Medidas</a></li>
+    <li class="sub"><a href="#efg2-descricao">Descrição Normal</a></li>
+
+    <li><a href="#cardio1">3. Propedêutica Cardiovascular I</a></li>
+    <li class="sub"><a href="#cardio1-anamnese">Anamnese Cardíaca</a></li>
+    <li class="sub"><a href="#cardio1-dor">Dor Torácica</a></li>
+    <li class="sub"><a href="#cardio1-palpitacoes">Palpitações</a></li>
+    <li class="sub"><a href="#cardio1-dispneia">Dispneia Cardíaca</a></li>
+    <li class="sub"><a href="#cardio1-sincope">Síncope</a></li>
+    <li class="sub"><a href="#cardio1-fr">Fatores de Risco</a></li>
+    <li class="sub"><a href="#cardio1-ef">Exame Físico Cardiovascular</a></li>
+
+    <li><a href="#cardio2">4. Propedêutica Cardiovascular II</a></li>
+    <li class="sub"><a href="#cardio2-bulhas">Bulhas Cardíacas</a></li>
+    <li class="sub"><a href="#cardio2-b3b4">B3 e B4</a></li>
+    <li class="sub"><a href="#cardio2-sopros">Sopros</a></li>
+    <li class="sub"><a href="#cardio2-focos">Focos de Ausculta</a></li>
+
+    <li><a href="#pulmonar">5. Semiologia Pulmonar</a></li>
+    <li class="sub"><a href="#pulm-anamnese">Anamnese Pulmonar</a></li>
+    <li class="sub"><a href="#pulm-dispneia">Dispneia</a></li>
+    <li class="sub"><a href="#pulm-tosse">Tosse</a></li>
+    <li class="sub"><a href="#pulm-expectoracao">Expectoração</a></li>
+    <li class="sub"><a href="#pulm-ef">Exame Físico Pulmonar</a></li>
+    <li class="sub"><a href="#pulm-ausculta">Ausculta — Sons</a></li>
+
+    <li><a href="#sindromes">6. Síndromes Pleuropulmonares</a></li>
+    <li class="sub"><a href="#sind-bronquica">Síndrome Brônquica</a></li>
+    <li class="sub"><a href="#sind-consolidacao">Consolidação</a></li>
+    <li class="sub"><a href="#sind-atelectasia">Atelectasia</a></li>
+    <li class="sub"><a href="#sind-enfisema">Enfisema/Hiperaeração</a></li>
+    <li class="sub"><a href="#sind-derrame">Derrame Pleural</a></li>
+    <li class="sub"><a href="#sind-pneumotorax">Pneumotórax</a></li>
+    <li class="sub"><a href="#sind-tabela">Tabela Comparativa</a></li>
+
+    <li><a href="#descricao">7. Descrição do Exame Físico</a></li>
+    <li class="sub"><a href="#desc-geral">Geral</a></li>
+    <li class="sub"><a href="#desc-toracico">Torácico</a></li>
+    <li class="sub"><a href="#desc-abdome">Abdome</a></li>
+
+    <li><a href="#conceitos-chave">📌 Conceitos-Chave</a></li>
+    <li><a href="#leituras">Leituras Recomendadas</a></li>
+    <li><a href="#referencias">Referências ABNT</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     MAIN
+═══════════════════════════════════════ -->
+<main id="main">
+
+  <div class="doc-header">
+    <h1>Semiologia Médica</h1>
+    <p>Habilidades Profissionais III — Guia completo para a prova teórica | 18/06/2026</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 1 — EXAME FÍSICO GERAL I
+  ══════════════════════════════════════ -->
+  <section id="efg1">
+    <h2 class="section-title">1. Exame Físico Geral I — Ectoscopia e Bases</h2>
+
+    <p>Antes de medir qualquer sinal vital ou tocar o paciente, o olhar clínico já coleta informações essenciais. Esse processo sistemático de observação geral recebe o nome de <strong>ectoscopia</strong> (ou somatoscopia) — literalmente "olhar de fora".<a href="#referencias" class="cite">[1]</a></p>
+
+    <h3 id="efg1-ectoscopia">Condições Preliminares</h3>
+    <p>Para que o exame seja válido: ambiente com boa iluminação, temperatura confortável, silêncio adequado para ausculta, privacidade garantida. O paciente deve estar em posição adequada ao momento (decúbito dorsal para abdome, sentado para ausculta pulmonar posterior). Apresentar-se, explicar o que será feito e pedir consentimento são etapas obrigatórias.<a href="#referencias" class="cite">[1]</a></p>
+
+    <h3 id="efg1-tecnicas">As 4 Técnicas Básicas</h3>
+    <div class="grid2">
+      <div class="callout callout-blue">
+        <div class="label">Inspeção</div>
+        Observação visual sistemática. Sempre a primeira a ser realizada — não interfere nos achados das demais técnicas.
+      </div>
+      <div class="callout callout-green">
+        <div class="label">Palpação</div>
+        Tato para avaliar textura, temperatura, consistência, mobilidade, sensibilidade. Exceção no abdome: ausculta precede palpação.
+      </div>
+      <div class="callout callout-yellow">
+        <div class="label">Percussão</div>
+        Produção de sons percutindo a parede corporal. Sons variam conforme o conteúdo subjacente (ar, líquido, sólido).
+      </div>
+      <div class="callout callout-purple">
+        <div class="label">Ausculta</div>
+        Captação de sons internos com estetoscópio. Diafragma = sons agudos; campânula = sons graves.
+      </div>
+    </div>
+
+    <div class="callout callout-cyan">
+      <div class="label">Estetoscópio — regra prática</div>
+      <strong>Diafragma</strong> (peça plana): B1, B2, sopros de regurgitação aórtica/mitral, murmúrio vesicular, ruídos intestinais, atrito pericárdico.<br>
+      <strong>Campânula</strong> (peça em cone, pressão leve): B3, B4, sopro de estenose mitral — sons de baixa frequência.
+    </div>
+
+    <h3 id="efg1-estado-geral">Estado Geral (EG)</h3>
+    <p>A primeira impressão global do paciente é resumida em três categorias — e esta é a primeira informação registrada na descrição do exame físico:</p>
+    <div class="grid2">
+      <div class="callout callout-green"><div class="label">BEG</div>Bom estado geral — aspecto preservado, sem sofrimento evidente.</div>
+      <div class="callout callout-yellow"><div class="label">REG</div>Regular estado geral — comprometimento moderado perceptível.</div>
+    </div>
+    <div class="callout callout-red"><div class="label">MEG</div>Mau estado geral — comprometimento importante, paciente em sofrimento ou prostrado.</div>
+
+    <h3 id="efg1-consciencia">Nível de Consciência</h3>
+    <p>A consciência tem dois componentes: <strong>nível</strong> (alerta/arousal) e <strong>conteúdo</strong> (orientação). Eles se deterioram em gradação:<a href="#referencias" class="cite">[1]</a></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Termo</th><th>Definição clínica</th></tr></thead>
+        <tbody>
+          <tr><td><span class="chip chip-green">Consciente</span></td><td>Acordado, alerta, responde adequadamente a estímulos verbais.</td></tr>
+          <tr><td><span class="chip chip-yellow">Obnubilado</span></td><td>Sonolento, responde a estímulos verbais simples; pode apresentar confusão leve.</td></tr>
+          <tr><td><span class="chip chip-yellow">Sonolento</span></td><td>Dorme facilmente mas é despertável por estímulo verbal; retorna ao sono.</td></tr>
+          <tr><td><span class="chip chip-orange">Confuso</span></td><td>Desorientado, pensamento desorganizado, mas ainda responde.</td></tr>
+          <tr><td><span class="chip chip-orange">Torporoso</span></td><td>Requer estímulo doloroso para responder; movimentos de defesa presentes.</td></tr>
+          <tr><td><span class="chip chip-red">Coma</span></td><td>Irresponsivo a qualquer estímulo; sem abertura ocular espontânea.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Orientação</h4>
+    <p>Avalia-se a orientação em <strong>três esferas</strong>: <em>tempo</em> (dia, mês, ano), <em>espaço</em> (onde está, em que cidade) e <em>pessoa</em> (quem é, quem são as pessoas à volta). "Orientado no tempo e no espaço" é o padrão esperado num adulto saudável.</p>
+
+    <h3 id="efg1-facies">Fácies Patológicas</h3>
+    <p>A fácies é o conjunto de características faciais. A fácies atípica (ou inexpressiva) é o achado normal — apenas as fácies com padrão específico recebem nome próprio:<a href="#referencias" class="cite">[1]</a></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Fácies</th><th>Características</th><th>Condição associada</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mongolóide</strong></td><td>Olhos oblíquos, epicanto, fissura palpebral estreita</td><td>Síndrome de Down (Trissomia 21)</td></tr>
+          <tr><td><strong>Cushingóide</strong></td><td>Face em "lua cheia", rubor, hirsutismo</td><td>Síndrome de Cushing / corticoterapia</td></tr>
+          <tr><td><strong>Hipocrática</strong></td><td>Olhos fundos, nariz afilado, palidez, sudorese — "olhos encovados"</td><td>Estado agônico, sepse grave</td></tr>
+          <tr><td><strong>Mixedematosa</strong></td><td>Edema periorbitário, macroglossia, pele seca e amarelada, expressão apática</td><td>Hipotireoidismo</td></tr>
+          <tr><td><strong>Basedowiana</strong></td><td>Exoftalmia, olhar brilhante, agitação</td><td>Hipertireoidismo (Doença de Graves)</td></tr>
+          <tr><td><strong>Leonina</strong></td><td>Espessamento de pele, nódulos, perda das sobrancelhas</td><td>Hanseníase virchowiana</td></tr>
+          <tr><td><strong>Parkinsoniana</strong></td><td>Rígida, inexpressiva, sialorréia, piscamento raro, tremor de repouso</td><td>Doença de Parkinson</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="efg1-biotipo">Biotipo (Constituição)</h3>
+    <div class="grid2">
+      <div class="callout callout-blue"><div class="label">Longilíneo</div>Membros longos, tronco curto, ângulo de Charpy &lt;90°. Predisposição a pneumotórax espontâneo.</div>
+      <div class="callout callout-blue"><div class="label">Mediolíneo / Normolíneo</div>Proporções equilibradas, ângulo ≈ 90°. É o padrão descrito como normal.</div>
+    </div>
+    <div class="callout callout-blue"><div class="label">Brevilíneo</div>Tronco longo, membros curtos, ângulo de Charpy &gt;90°. Maior propensão a colelitíase.</div>
+
+    <h3>Estado Nutricional</h3>
+    <p><strong>Eutrófico</strong> = nutrição normal. Outras possibilidades: emagrecido (caquético em casos extremos), sobrepeso, obeso. O estado nutricional será quantificado pelo índice de massa corporal (IMC) na parte quantitativa.</p>
+
+    <h3 id="efg1-linfonodos">Linfonodos (Adenomegalias)</h3>
+    <p>Quando um linfonodo é palpável, deve-se descrever sistematicamente:</p>
+    <div class="flow">
+      <div class="flow-box">Localização</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Tamanho (cm)</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Consistência (mole / endurecido / pétreo)</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Mobilidade (móvel / fixo)</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Superfície (lisa / irregular)</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Dor</div>
+    </div>
+    <div class="callout callout-red">
+      <div class="label">⚠ Alerta clínico</div>
+      Linfonodo pétreo + fixo + superfície irregular = suspeita de neoplasia maligna até prova em contrário. Exemplo clássico: nódulo supraclavicular esquerdo (linfonodo de Virchow) = metástase gástrica.
+    </div>
+
+    <h3>Divisões da Superfície Corporal</h3>
+    <p>O tronco é dividido em três andares para facilitar a localização de achados — mnemônico <strong>TAI</strong>: <em>T</em>órax, <em>A</em>bdome, <em>I</em>nferior (pelve/genitais).</p>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 2 — EXAME FÍSICO GERAL II
+  ══════════════════════════════════════ -->
+  <section id="efg2">
+    <h2 class="section-title">2. Exame Físico Geral II — Aspectos Qualitativos e Quantitativos</h2>
+
+    <h3 id="efg2-palidez">Palidez (Coloração das Mucosas)</h3>
+    <p>A anemia ou redução do débito periférico se manifesta primeiro nas mucosas — estruturas com vascularização superficial abundante e facilmente visíveis. Os locais de escolha são:<a href="#referencias" class="cite">[1]</a></p>
+    <div class="flow">
+      <div class="flow-box">Conjuntiva ocular</div>
+      <div class="flow-box">Mucosa oral (lábios)</div>
+      <div class="flow-box">Leito ungueal</div>
+      <div class="flow-box">Palma das mãos</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Termo</th><th>Achado</th></tr></thead>
+        <tbody>
+          <tr><td><span class="chip chip-green">Corado</span></td><td>Mucosas rosadas — perfusão e hemoglobina normais</td></tr>
+          <tr><td><span class="chip chip-yellow">Descorado +1/4 ou +2/4</span></td><td>Palidez leve a moderada</td></tr>
+          <tr><td><span class="chip chip-red">Descorado +3/4 ou +4/4</span></td><td>Palidez intensa — anemia grave ou hipoperfusão</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="efg2-hidratacao">Hidratação</h3>
+    <p>O corpo humano adulto é ~60% água. A desidratação instala-se progressivamente — da sede leve ao choque hipovolêmico. Os sinais de desidratação, em ordem de progressão, são:<a href="#referencias" class="cite">[1]</a></p>
+    <div class="flow">
+      <div class="flow-box">Sede</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Perda de peso</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Pele seca + turgor ↓</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Mucosas secas</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Olhos afundados</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Oligúria</div><div class="flow-arrow">→</div>
+      <div class="flow-box">Hipotensão</div>
+    </div>
+    <p>Termos: <em>hidratado</em> (normal) ou <em>desidratado</em> (+1 a +3).</p>
+
+    <h3 id="efg2-ictericia">Icterícia</h3>
+    <p>A bilirrubina se acumula nos tecidos quando supera a capacidade de conjugação/excreção hepática. Deposita-se preferencialmente na esclera ocular (coloração amarelada visível com bilirrubina &gt;2 mg/dL).<a href="#referencias" class="cite">[1]</a></p>
+    <p>Locais de pesquisa: <strong>escleras</strong> (mais sensível), freio lingual, palma das mãos. Termos: <em>anictérico</em> (normal) ou <em>ictérico</em> (+1 a +4).</p>
+
+    <h3 id="efg2-cianose">Cianose</h3>
+    <p>Coloração azulada causada pelo excesso de hemoglobina desoxigenada (&gt;5 g/dL) nos capilares. Pode resultar de hipoxemia arterial (cianose central) ou de estase periférica com maior extração de O₂ (cianose periférica). Os locais mais visíveis: <strong>lábios, leito ungueal, extremidades</strong>. Termo: <em>acianótico</em> (normal) ou <em>cianótico</em>.<a href="#referencias" class="cite">[1]</a></p>
+
+    <h3 id="efg2-edema">Edema</h3>
+    <p>Acúmulo patológico de líquido no espaço intersticial. O sinal do cacifo (godet) — depressão que persiste após pressão digital — confirma edema com hipertensão capilar. A descrição deve incluir:<a href="#referencias" class="cite">[1]</a></p>
+    <div class="flow">
+      <div class="flow-box">Distribuição (localizado/generalizado)</div>
+      <div class="flow-box">Intensidade (+1 a +4)</div>
+      <div class="flow-box">Consistência</div>
+      <div class="flow-box">Temperatura</div>
+    </div>
+
+    <h3 id="efg2-quantitativo">Aspectos Quantitativos — Sinais Vitais e Medidas</h3>
+
+    <h4>Pressão Arterial (PA)</h4>
+    <p>Técnica em 10 passos (A a J): posição sentada/deitada, braço apoiado, sem ter bebido café ou fumado nos últimos 30 min; manguito 2–3 cm acima da fossa cubital; palpar artéria radial e insuflar até desaparecer o pulso + 30 mmHg; desinsuflar lentamente (2 mmHg/s); primeiro som = PAS (Korotkoff I); desaparecimento = PAD (Korotkoff V).<a href="#referencias" class="cite">[1]</a></p>
+
+    <h4>Frequência Cardíaca (FC)</h4>
+    <p>Normal: <strong>60–100 bpm</strong>. Avaliar ritmo (regular / irregular) e amplitude do pulso. &lt;60 = bradicardia; &gt;100 = taquicardia.</p>
+
+    <h4>Frequência Respiratória (FR)</h4>
+    <p>Normal: <strong>12–20 irpm</strong>. Contar sem que o paciente perceba (interferência voluntária). &lt;12 = bradipneia; &gt;20 = taquipneia.</p>
+
+    <h4>Temperatura (T)</h4>
+    <p>Normal: 35–37,7°C. <strong>Febre ≥ 37,8°C</strong>; hipotermia &lt;35°C. Afebril é o termo para temperatura normal.</p>
+
+    <h4>IMC e Circunferência Abdominal</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>IMC (kg/m²)</th><th>Classificação</th></tr></thead>
+        <tbody>
+          <tr><td>&lt;18,5</td><td>Magreza</td></tr>
+          <tr><td>18,5–24,9</td><td><span class="chip chip-green">Saudável (eutrófico)</span></td></tr>
+          <tr><td>25–29,9</td><td>Sobrepeso</td></tr>
+          <tr><td>30–34,9</td><td>Obesidade Grau I</td></tr>
+          <tr><td>35–39,9</td><td>Obesidade Grau II</td></tr>
+          <tr><td>≥40</td><td>Obesidade Grau III (mórbida)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Sexo</th><th>Risco elevado</th><th>Risco muito elevado</th></tr></thead>
+        <tbody>
+          <tr><td>Feminino</td><td>≥ 80 cm</td><td>≥ 88 cm</td></tr>
+          <tr><td>Masculino</td><td>≥ 94 cm</td><td>≥ 102 cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="efg2-descricao">Descrição do Exame Físico Geral Normal</h3>
+    <div class="mnemo">
+      Mnemônico: <span>LOTE</span> + <span>CHAAAE</span><br><br>
+      <span>L</span>úcido (consciente) · <span>O</span>rientado (tempo e espaço) · <span>T</span>em boa fala · <span>E</span>utrófico<br>
+      <span>C</span>orado · <span>H</span>idratado · <span>A</span>febril · <span>A</span>nictérico · <span>A</span>cianótico · <span>E</span>upneico
+    </div>
+    <div class="normal-box">
+      <strong>Exemplo de descrição normal:</strong><br>
+      "BEG, consciente, orientado no tempo e no espaço, sem alterações na fala e linguagem, fácies atípica, normolíneo, eutrófico, musculatura sem alterações, linfonodos sem alterações, hidratado, corado, anictérico, acianótico, eupneico, sem alterações cutâneas, sem edema, ausência de movimentos involuntários e marcha normal. PA 120/80 mmHg, FC 80 bpm, FR 14 rpm, sat O₂ 95%, temp 36°C, altura 173 cm, peso 68 kg, IMC 22,7 kg/m²."
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 3 — PROPEDÊUTICA CARDIOVASCULAR I
+  ══════════════════════════════════════ -->
+  <section id="cardio1">
+    <h2 class="section-title">3. Propedêutica Cardiovascular I — Anamnese e Exame Físico</h2>
+
+    <h3 id="cardio1-anamnese">Sintomas Cardíacos na Anamnese</h3>
+    <p>O coração "fala" por meio de seis sintomas principais: dor torácica, palpitações, dispneia, ortopneia, dispneia paroxística noturna (DPN), edema e síncope. Cada um possui uma semiótica própria que orienta o diagnóstico.<a href="#referencias" class="cite">[2]</a></p>
+
+    <h3 id="cardio1-dor">Dor Torácica</h3>
+    <p>O problema subjacente que torna a dor torácica clinicamente urgente é a isquemia miocárdica: a artéria coronária não entrega O₂ suficiente ao miocárdio em demanda → células musculares produzem metabólitos anaeróbicos → ativação de nociceptores viscerais → dor visceral difusa com irradiação característica.<a href="#referencias" class="cite">[2]</a></p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Aspecto</th><th>Angina Estável</th><th>Angina Instável</th><th>Infarto (IAM)</th></tr></thead>
+        <tbody>
+          <tr><td>Duração</td><td>&lt;5–10 min</td><td>Até 20 min</td><td><strong>&gt;20 min</strong></td></tr>
+          <tr><td>Fator desencadeante</td><td>Esforço, frio, emoção</td><td>Esforço mínimo ou repouso</td><td>Repouso (espontâneo)</td></tr>
+          <tr><td>Melhora com</td><td>Repouso + nitrato</td><td>Nitrato (resposta parcial)</td><td>Não melhora com nitrato</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Localização e Irradiação da Dor Isquêmica</h4>
+    <p>A dor isquêmica é tipicamente <strong>retroesternal</strong>, com qualidade de "aperto / opressão / peso / queimação / sufocação". Irradia para: pavilhões auriculares, maxilar, nuca, cervical, membros superiores (especialmente braço esquerdo), ombros, epigástrio e região interescapulovertebral. Sintomas associados: náuseas, vômitos, palidez e sudorese fria.<a href="#referencias" class="cite">[2]</a></p>
+
+    <div class="callout callout-red">
+      <div class="label">⚠ Sinal de Levine</div>
+      Paciente comprime o punho sobre o esterno ao descrever a dor — altamente sugestivo de dor coronariana (fist sign).
+    </div>
+
+    <h3 id="cardio1-palpitacoes">Palpitações</h3>
+    <p>Percepção incômoda e consciente dos próprios batimentos cardíacos — que normalmente não são sentidos. O problema pode ser o ritmo que ficou irregular, a força do batimento que aumentou, ou a sensação de "disparo" ou "pausa".</p>
+    <div class="grid2">
+      <div class="callout callout-blue">
+        <div class="label">Causas Cardíacas</div>
+        Arritmias, insuficiência cardíaca (IC), miocardites, miocardiopatias
+      </div>
+      <div class="callout callout-purple">
+        <div class="label">Causas Não-Cardíacas</div>
+        Hipertensão arterial sistêmica (HAS), hipertireoidismo, anemia, esforço, emoções, síndrome do pânico, medicamentos, café, tabaco, drogas
+      </div>
+    </div>
+
+    <h3 id="cardio1-dispneia">Dispneia Cardíaca</h3>
+    <p>Quando o ventrículo esquerdo (VE) falha, o sangue acumula nas veias pulmonares → pressão hidrostática aumenta nos capilares alveolares → transudação de líquido para o interstício e alvéolos → hematose comprometida → o paciente sente falta de ar.<a href="#referencias" class="cite">[2]</a></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Mecanismo</th><th>Causa clássica</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Ortopneia</strong></td><td>Deitado, sangue redistribui para o tórax → ↑ pré-carga → ↑ congestão. Melhora sentado.</td><td>IC esquerda, estenose mitral</td></tr>
+          <tr><td><strong>DPN</strong></td><td>Paciente acorda com dispneia intensa, deve sentar na beira do leito.</td><td>Edema agudo de pulmão (VE ou estenose mitral)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Graus de dispneia: <em>grandes esforços → médios esforços → pequenos esforços → repouso</em>.</p>
+
+    <h3 id="cardio1-sincope">Síncope</h3>
+    <p>Perda transitória da consciência com perda do tônus muscular, de início rápido, curta duração e recuperação espontânea completa — o mecanismo sempre é hipoperfusão cerebral global transitória.<a href="#referencias" class="cite">[2]</a></p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Mecanismo</th><th>Exemplos</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Reflexa (vasovagal)</strong></td><td>Reflexo vagal exacerbado → bradicardia + vasodilatação → ↓ PA</td><td>Dor, medo, ortostatismo prolongado, situacional (tosse, micção)</td></tr>
+          <tr><td><strong>Hipotensão ortostática</strong></td><td>Ao levantar, PA cai ≥20 mmHg sistólica ou ≥10 mmHg diastólica</td><td>Hipovolemia, neuropatia autonômica, medicamentos</td></tr>
+          <tr><td><strong>Cardíaca</strong></td><td>Arritmia ou obstrução ao fluxo → débito cardíaco insuficiente</td><td>Taquicardia/bradicardia grave, cardiomiopatia hipertrófica, estenose aórtica, IAM</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-yellow">
+      <div class="label">Lipotímia ≠ Síncope</div>
+      Lipotímia = sensação iminente de desmaio (escurecimento visual, fraqueza, tontura) <strong>sem perda efetiva</strong> de consciência. O paciente não cai.
+    </div>
+
+    <h3 id="cardio1-fr">Fatores de Risco Coronariano</h3>
+    <div class="flow">
+      <div class="flow-box">HF positiva</div>
+      <div class="flow-box">Tabagismo</div>
+      <div class="flow-box">Dieta inadequada</div>
+      <div class="flow-box">Álcool</div>
+      <div class="flow-box">Inatividade física</div>
+      <div class="flow-box">HAS</div>
+      <div class="flow-box">Obesidade</div>
+      <div class="flow-box">Dislipidemia</div>
+      <div class="flow-box">Diabetes Mellitus</div>
+      <div class="flow-box">CA ≥102cm ♂ / ≥88cm ♀</div>
+    </div>
+
+    <h3 id="cardio1-ef">Exame Físico Cardiovascular I</h3>
+
+    <h4>Pulso Carotídeo</h4>
+    <p>Palpar <strong>apenas um lado de cada vez</strong> — comprimir ambas as carótidas simultaneamente pode causar síncope ou AVC em pacientes ateroscleróticos. O pulso carotídeo é o melhor para avaliar amplitude e forma de onda.<a href="#referencias" class="cite">[2]</a></p>
+
+    <h4>Pressão Venosa Jugular (PVJ)</h4>
+    <p>A jugular interna direita conecta-se diretamente ao átrio direito (AD) sem válvulas. Ao avaliar a PVJ a 45°, conseguimos estimar indiretamente a pressão de enchimento do VD.</p>
+    <div class="callout callout-blue">
+      <div class="label">Método de Lewis (45°)</div>
+      Normal: coluna de sangue ≤ 4,5 cm acima do ângulo esternal (≤ 8 cm acima do AD). Elevada (&gt;3 cm acima do ângulo) = IC direita, pericardite constritiva, hipertensão pulmonar (HTP), estenose tricúspide. Diminuída = hipovolemia.
+    </div>
+
+    <h4>Ictus Cordis (Ponto de Impulso Máximo — PIM)</h4>
+    <p>Corresponde ao choque da ponta do coração na parede torácica durante a sístole. Localização normal: <strong>4º-5º espaço intercostal (EIC) × linha hemiclavicular esquerda</strong>, área de 1–2,5 cm.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Achado</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Deslocado para a esquerda</td><td>Cardiomegalia, hipertrofia do VE, gravidez</td></tr>
+          <tr><td>Deslocado para a direita</td><td>Dextrocardia</td></tr>
+          <tr><td>Amplitude aumentada</td><td>Hipertireoidismo, anemia grave, sobrecarga de VE</td></tr>
+          <tr><td>Amplitude reduzida / impalpável</td><td>Derrame pericárdico, obesidade, enfisema</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Palpabilidade normal: 25–40% em decúbito dorsal (DD); 50–70% em decúbito lateral esquerdo (DLE).</p>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 4 — PROPEDÊUTICA CARDIOVASCULAR II
+  ══════════════════════════════════════ -->
+  <section id="cardio2">
+    <h2 class="section-title">4. Propedêutica Cardiovascular II — Ausculta Cardíaca</h2>
+
+    <h3 id="cardio2-bulhas">Bulhas Cardíacas — B1 e B2</h3>
+    <p>O coração produz sons porque as valvas não fecham silenciosamente — o sangramento brusco ao fechar cria vibrações audíveis. Para entender quando cada bulha ocorre, é preciso entender o ciclo cardíaco:<a href="#referencias" class="cite">[3]</a></p>
+
+    <div class="callout callout-blue">
+      <div class="label">Ciclo Cardíaco — Raciocínio Encadeado</div>
+      Sístole = VE contrai → sangue precisa sair pela aorta → valvas AV (mitral + tricúspide) <strong>fecham</strong> = <strong>B1</strong> ("Tum") → sangue sai → ao fim da sístole, pressão aórtica supera a ventricular → valvas semilunares (aórtica + pulmonar) <strong>fecham</strong> = <strong>B2</strong> ("Tá") → início da diástole.
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Bulha</th><th>Evento</th><th>Valvas</th><th>Fase</th><th>Som</th><th>Melhor em</th></tr></thead>
+        <tbody>
+          <tr><td><strong>B1</strong></td><td>Início da sístole</td><td>Mitral + Tricúspide fecham</td><td>Sístole</td><td>"Tum"</td><td>Ápice (mais intensa)</td></tr>
+          <tr><td><strong>B2</strong></td><td>Início da diástole</td><td>Aórtica + Pulmonar fecham</td><td>Diástole</td><td>"Tá"</td><td>Base (mais intensa)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Como Identificar B1 e B2</h4>
+    <p>Simultaneamente à ausculta, palpar a carótida direita: o impulso ascendente do pulso ocorre <em>logo após</em> B1 (pois é a sístole que gera o pulso). Então: <strong>B1 ocorre ANTES do pulso carotídeo; B2 ocorre APÓS</strong>.<a href="#referencias" class="cite">[3]</a></p>
+
+    <h4>Regra base/ápice:</h4>
+    <p>Na <strong>BASE</strong> (foco aórtico e pulmonar): B2 &gt; B1. No <strong>ÁPICE</strong> (foco mitral): B1 &gt; B2.</p>
+
+    <h4>Desdobramento de B2</h4>
+    <p>Normalmente A2 (aórtica) e P2 (pulmonar) fundem-se em B2. Na <strong>inspiração</strong>, o retorno venoso ao VD aumenta → VD demora mais para esvaziar → P2 retarda → ouve-se "Trá" (A2–P2 separados). Na expiração, fundem-se em "Tá". Isso é o desdobramento fisiológico.<a href="#referencias" class="cite">[3]</a></p>
+
+    <h3 id="cardio2-b3b4">B3 e B4 — Sons Acessórios</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Bulha</th><th>Fase</th><th>Mecanismo</th><th>Causa clínica</th><th>Ausculta</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>B3</strong></td>
+            <td>1/3 inicial da diástole (precoce) — após B2</td>
+            <td>Enchimento rápido do VE em câmara dilatada ou com complacência ↓ → vibração das paredes</td>
+            <td>IC sistólica, insuficiência mitral; <em>normal em jovens e crianças</em></td>
+            <td>Campânula, DLE. "Ken-tuc-ky" (B1-B2-B3)</td>
+          </tr>
+          <tr>
+            <td><strong>B4</strong></td>
+            <td>1/3 final da diástole (pré-sistólico) — antes de B1</td>
+            <td>Contração atrial contra VE com complacência muito ↓ (rigidez)</td>
+            <td>HAS, cardiomiopatia hipertrófica, estenose aórtica importante, coronariopatias; <em>ausente na FA</em></td>
+            <td>Campânula, DLE. "Ten-nes-see" (B4-B1-B2)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="cardio2-sopros">Sopros Cardíacos</h3>
+    <p>Sopros resultam de fluxo turbulento — em vez do fluxo laminar silencioso normal. Turbulência ocorre quando a velocidade aumenta ou o calibre da valva está alterado. Antes de interpretar qualquer sopro, é preciso perguntar: <em>qual valva está envolvida e o que ela está fazendo de errado?</em><a href="#referencias" class="cite">[3]</a></p>
+
+    <div class="callout callout-blue">
+      <div class="label">Lógica dos Sopros — Raciocínio por Fase</div>
+      <strong>Sopro sistólico</strong> (entre B1 e B2): ocorre durante a contração. Valvas que deveriam estar <em>fechadas</em> e estão abertas = regurgitação mitral / tricúspide. Valvas que deveriam estar <em>abertas</em> e estão fechadas = estenose aórtica / pulmonar.<br><br>
+      <strong>Sopro diastólico</strong> (entre B2 e B1): ocorre durante o relaxamento. Valvas que deveriam estar <em>fechadas</em> e estão abertas = regurgitação aórtica / pulmonar. Valvas que deveriam estar <em>abertas</em> e estão fechadas = estenose mitral / tricúspide.
+    </div>
+
+    <h4>Características dos Sopros</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Característica</th><th>Detalhes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Localização</strong></td><td>Foco de maior intensidade (ver focos abaixo)</td></tr>
+          <tr><td><strong>Irradiação</strong></td><td>Estenose aórtica → pescoço (carótidas). Regurgitação mitral → axila.</td></tr>
+          <tr><td><strong>Duração</strong></td><td>Proto (início), meso (meio), tele (final), pan/holossistólico (toda a fase)</td></tr>
+          <tr><td><strong>Formato</strong></td><td>Crescendo, decrescendo, crescendo-decrescendo (diamante), platô</td></tr>
+          <tr><td><strong>Intensidade</strong></td><td>Grau 1/6 (muito fraco) a 6/6 (audível sem estetoscópio)</td></tr>
+          <tr><td><strong>Timbre</strong></td><td>Suave, rude, musical</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="cardio2-focos">Focos de Ausculta Cardíaca</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Foco</th><th>Localização</th><th>Valva avaliada</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Aórtico</strong></td><td>2º EIC direito (paraesternal)</td><td>Valva Aórtica</td></tr>
+          <tr><td><strong>Pulmonar</strong></td><td>2º EIC esquerdo (paraesternal)</td><td>Valva Pulmonar</td></tr>
+          <tr><td><strong>Aórtico Acessório (Erb)</strong></td><td>3º EIC esquerdo</td><td>Regurgitação aórtica (melhor aqui)</td></tr>
+          <tr><td><strong>Tricúspide</strong></td><td>5º EIC esquerdo (borda esternal)</td><td>Valva Tricúspide</td></tr>
+          <tr><td><strong>Mitral (Ápice)</strong></td><td>5º EIC esquerdo × linha hemiclavicular</td><td>Valva Mitral</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Posicionamento para Ausculta</h4>
+    <div class="grid2">
+      <div class="callout callout-purple">
+        <div class="label">Decúbito Lateral Esquerdo</div>
+        Melhor para: estenose mitral, B3, B4 — foco mitral fica mais superficial.
+      </div>
+      <div class="callout callout-purple">
+        <div class="label">Sentado + Inclinado para Frente</div>
+        Melhor para: regurgitação aórtica — o coração se aproxima da parede anterior.
+      </div>
+    </div>
+
+    <div class="normal-box">
+      <strong>Descrição cardiovascular normal:</strong><br>
+      "Ausência de estase jugular. Ictus cordis palpável no cruzamento da linha hemiclavicular esquerda com o 5º EIC. Pulsos radiais e carotídeos sem alterações. Ausência de sopro carotídeo. Bulhas rítmicas normofonéticas sem sopros (BRNF S/ SOPROS)." — ou alternativamente: "Ritmo cardíaco regular (RCR) 2T sem sopros."
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 5 — SEMIOLOGIA PULMONAR
+  ══════════════════════════════════════ -->
+  <section id="pulmonar">
+    <h2 class="section-title">5. Semiologia Pulmonar — Anamnese e Exame Físico</h2>
+
+    <h3 id="pulm-anamnese">Dados Relevantes na Anamnese Pulmonar</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Dado</th><th>Relevância</th></tr></thead>
+        <tbody>
+          <tr><td>Sexo</td><td>Mulheres &gt; colagenoses; Homens &gt; tabagismo</td></tr>
+          <tr><td>Cor da pele</td><td>Negros &gt; tuberculose e sarcoidose; Caucasianos &gt; colagenoses</td></tr>
+          <tr><td>Profissão/exposição</td><td>Poeiras → pneumoconioses; aves → histoplasmose; sprays → fibrose intersticial</td></tr>
+          <tr><td>Passado alérgico</td><td>Asma, rinite, bronquite</td></tr>
+          <tr><td>Imunossupressão</td><td>Agentes oportunistas</td></tr>
+          <tr><td>Tabagismo</td><td>Carga tabágica em maços-ano; tentativas de cessação</td></tr>
+          <tr><td>Medicamentos</td><td>Vários induzem fibrose pulmonar / tosse (IECAs)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="pulm-dispneia">Dispneia</h3>
+    <p>Dificuldade para respirar — pode ser subjetiva (só o paciente percebe) ou objetiva (evidenciada ao exame). A <em>"dispneia objetiva nem sempre é admitida pelo paciente"</em>.<a href="#referencias" class="cite">[4]</a></p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Definição</th><th>Causas clássicas</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Ortopneia</strong></td><td>Piora deitado, melhora sentado</td><td>IC, DPOC, obesidade, ascite, tumor de mediastino</td></tr>
+          <tr><td><strong>Trepopneia</strong></td><td>Piora ao deitar do lado do pulmão afetado</td><td>Derrame pleural, doença parenquimatosa unilateral</td></tr>
+          <tr><td><strong>Platipneia</strong></td><td>Piora ao sentar, melhora ao deitar</td><td>Shunts intrapulmonares (distúrbios V/Q)</td></tr>
+          <tr><td><strong>DPN</strong></td><td>Paciente acorda com dispneia intensa, deve sentar na beira da cama</td><td>Edema agudo de pulmão por falência de VE ou estenose mitral</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Causas Comuns de Dispneia</h4>
+    <p>Doença pulmonar obstrutiva crônica (DPOC), asma, tromboembolismo pulmonar (TEP), síndromes coronarianas, insuficiência cardíaca, arritmias, anemia, hipo/hipertireoidismo, acidose, descondicionamento físico, transtorno de ansiedade, altitude elevada.<a href="#referencias" class="cite">[4]</a></p>
+
+    <h3 id="pulm-tosse">Tosse</h3>
+    <p>Reflexo protetor das vias aéreas — expele secreções e corpos estranhos. Deve-se caracterizar: frequência, intensidade, presença de expectoração, relação com o decúbito e horário predominante.<a href="#referencias" class="cite">[4]</a></p>
+    <div class="grid2">
+      <div class="callout callout-blue">
+        <div class="label">Tosse Seca</div>
+        Asma, enfisema, corpo estranho, doença pulmonar intersticial, medicamentos (IECAs), estímulos fora da árvore brônquica (pleura, mediastino, canal auditivo)
+      </div>
+      <div class="callout callout-cyan">
+        <div class="label">Tosse Produtiva (Úmida)</div>
+        Bronquite, pneumonia, TEP + IC + estenose mitral (secreção espumosa com sangue), pós-traqueostomia/AVC (conteúdo gástrico)
+      </div>
+    </div>
+
+    <h3 id="pulm-expectoracao">Expectoração e Hemoptise</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Tipo de escarro</th><th>Aspecto</th><th>Contexto</th></tr></thead>
+        <tbody>
+          <tr><td>Seroso</td><td>Aquoso, translúcido</td><td>Edema pulmonar (espumoso rosado)</td></tr>
+          <tr><td>Mucoso</td><td>"Clara de ovo", viscoso, esbranquiçado</td><td>Asma, bronquite crônica</td></tr>
+          <tr><td>Purulento</td><td>Amarelado / esverdeado</td><td>Infecção bacteriana</td></tr>
+          <tr><td>Hemoptoico</td><td>Estrias de sangue</td><td>TB, neoplasia, bronquiectasia</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Hemoptise</strong>: eliminação de sangue pela boca passando através da glote. Origem: vasos brônquicos, capilares alveolares. Causas: infecciosas (TB, pneumonia), vasculites, infarto, neoplasias, abscesso, aneurisma, bronquite, edema. Caracterizar: volume, frequência, fatores de melhora/piora.</p>
+
+    <h3 id="pulm-ef">Exame Físico Pulmonar — As 4 Técnicas</h3>
+
+    <h4>Inspeção</h4>
+    <p>Avaliar frequência respiratória (14–20 irpm), ritmo, profundidade, esforço respiratório e simetria. Deformidades torácicas relevantes:<a href="#referencias" class="cite">[4]</a></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Deformidade</th><th>Característica</th><th>Causa</th></tr></thead>
+        <tbody>
+          <tr><td>Tórax em tonel (barril)</td><td>Diâmetro AP aumentado</td><td>DPOC, envelhecimento</td></tr>
+          <tr><td>Pectus excavatum (escavado)</td><td>Depressão na porção inferior do esterno</td><td>Pode causar sopros (compressão cardíaca)</td></tr>
+          <tr><td>Pectus carinatum (carinado)</td><td>Esterno protruso anteriormente</td><td>Congênito ou doenças do colágeno</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Padrões Respiratórios</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Padrão</th><th>Descrição</th><th>Causa</th></tr></thead>
+        <tbody>
+          <tr><td>Normal (eupneia)</td><td>14–20 irpm, regular, profundidade adequada</td><td>—</td></tr>
+          <tr><td>Bradipneia</td><td>Lenta (&lt;12 irpm), com ou sem ↑ volume corrente</td><td>Uremia, depressão respiratória por drogas, ↑ PIC</td></tr>
+          <tr><td>Taquipneia</td><td>Rápida e superficial (&gt;20 irpm)</td><td>Dor pleurítica, doença restritiva, intoxicação por salicilato</td></tr>
+          <tr><td>Hiperpneia / Hiperventilação</td><td>Rápida e profunda</td><td>Exercício, altitude, sepse, anemia, acidose (Kussmaul)</td></tr>
+          <tr><td>Cheyne-Stokes</td><td>Ciclos de hiperpneia → apneia → hiperpneia</td><td>IC grave, uremia, lesão encefálica bilateral, AVC, drogas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Sinais de Angústia Respiratória</h4>
+    <div class="flow">
+      <div class="flow-box">↑ ou ↓ FR</div>
+      <div class="flow-box">Cianose / palidez</div>
+      <div class="flow-box">Estridor (obstrução laríngea)</div>
+      <div class="flow-box">Uso de músculos acessórios (ECM, escalenos, intercostais)</div>
+      <div class="flow-box">Assimetria na expansão</div>
+      <div class="flow-box">Desvio de traqueia</div>
+    </div>
+
+    <h4>Hipocratismo Digital (Baqueteamento)</h4>
+    <p>Aumento do volume da falange distal por proliferação de tecido conjuntivo vascular subungueal. O ângulo entre a base da unha e a pele supera 180°. Mais de 80% dos casos têm <strong>causa pulmonar</strong> (neoplasias, bronquiectasias, abscesso, fibrose pulmonar). Pode também ocorrer por cardiopatia cianótica, cirrose ou ser hereditário.<a href="#referencias" class="cite">[4]</a></p>
+
+    <h4>Palpação — Expansão e Frêmito</h4>
+    <p><strong>Expansão torácica</strong>: mãos espalmadas nas bases posteriores, polegares na linha mediana — pedisse ao paciente inspirar profundamente. Normal: movimento simétrico e amplo.</p>
+    <p><strong>Frêmito toracovocal (FTV)</strong>: vibrações transmitidas pela árvore broncopulmonar ao falar "trinta e três". Pesquisar nos mesmos pontos da ausculta. Normal: simétrico e mais proeminente na região interescapular.<a href="#referencias" class="cite">[4]</a></p>
+
+    <h4>Percussão</h4>
+    <p>Dedo plexímetro firme sobre o espaço intercostal (nunca sobre escápula); dedo plexor golpeia na articulação distal. Sons possíveis:<a href="#referencias" class="cite">[4]</a></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Som</th><th>Intensidade</th><th>Tom</th><th>Localização normal</th><th>Patologia</th></tr></thead>
+        <tbody>
+          <tr><td>Macicez pétrea</td><td>Suave</td><td>Agudo</td><td>Coxa</td><td>Grande derrame pleural</td></tr>
+          <tr><td>Macicez</td><td>Média</td><td>Médio</td><td>Fígado</td><td>Pneumonia lobar, consolidação</td></tr>
+          <tr><td><span class="chip chip-green">Ressonância (claro pulmonar)</span></td><td>Alta</td><td>Grave</td><td>Pulmão saudável</td><td>Bronquite crônica simples</td></tr>
+          <tr><td>Hiper-ressonância</td><td>Muito alta</td><td>Mais grave</td><td>Geralmente nenhuma</td><td>DPOC, pneumotórax</td></tr>
+          <tr><td>Timpanismo</td><td>Alta</td><td>Agudo</td><td>Bolha gástrica</td><td>Grande pneumotórax</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="pulm-ausculta">Ausculta Pulmonar</h3>
+
+    <h4>Sons Respiratórios Normais</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Som</th><th>Inspiração vs Expiração</th><th>Tom exp.</th><th>Local normal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Vesicular</strong> (murmúrio vesicular)</td><td>Inspiração &gt; expiração</td><td>Grave</td><td>A maior parte dos dois pulmões</td></tr>
+          <tr><td><strong>Broncovesicular</strong></td><td>Ins ≈ Exp</td><td>Intermediário</td><td>1º–2º EIC anteriores; entre escápulas</td></tr>
+          <tr><td><strong>Brônquico</strong></td><td>Expiração &gt; inspiração</td><td>Agudo</td><td>Sobre o manúbrio (grandes vias)</td></tr>
+          <tr><td><strong>Traqueal</strong></td><td>Ins ≈ Exp</td><td>Agudo</td><td>Traqueia no pescoço</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-yellow">
+      <div class="label">Murmúrio Vesicular Diminuído/Abolido</div>
+      Ocorre quando há: ↓ fluxo aéreo (DPOC, fraqueza muscular) OU ↓ transmissão do som (derrame pleural, pneumotórax).
+    </div>
+
+    <h4>Ruídos Adventícios (Sons Anormais)</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Ruído</th><th>Mecanismo</th><th>Fase</th><th>Causa típica</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Estertores / Crepitações</strong></td><td>Abertura brusca de alvéolos colabados ou liquido intraluminal</td><td>Inspiração (finos = alveolares; grossos = brônquicos)</td><td>Pneumonia, IC, fibrose (finos); bronquite, DPOC (grossos)</td></tr>
+          <tr><td><strong>Sibilos</strong></td><td>Fluxo turbulento em via estreita — tom musical agudo</td><td>Expiração (predomina)</td><td>Asma, DPOC, edema de mucosa</td></tr>
+          <tr><td><strong>Roncos</strong></td><td>Idem sibilos, em via maior — tom grave</td><td>Expiração</td><td>Bronquite, muco em via aérea maior</td></tr>
+          <tr><td><strong>Estridor</strong></td><td>Obstrução de via aérea superior (laringe/traqueia)</td><td>Inspiração</td><td>Crupe, corpo estranho, angioedema</td></tr>
+          <tr><td><strong>Atrito Pleural</strong></td><td>Pleuras inflamadas friccionando-se</td><td>Ins e Exp</td><td>Pleurite (infecciosa, neoplásica)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="normal-box">
+      <strong>Descrição pulmonar normal:</strong><br>
+      "Sem anormalidades à inspeção. Expansibilidade preservada em ápices e bases pulmonares. FTV presente e simétrico em ambos os hemitórax (HTX). Percussão: som claro pulmonar em ambos os HTX. Murmúrio vesicular presente sem ruídos adventícios (MV + S/RA)."
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 6 — SÍNDROMES PLEUROPULMONARES
+  ══════════════════════════════════════ -->
+  <section id="sindromes">
+    <h2 class="section-title">6. Síndromes Pleuropulmonares</h2>
+
+    <p>As síndromes agrupam sinais e sintomas em padrões reconhecíveis. A lógica de cada síndrome segue a mesma sequência: <em>qual estrutura foi afetada</em> → <em>o que acontece com o ar nessa estrutura</em> → <em>como isso se manifesta nas 4 técnicas de exame</em>.<a href="#referencias" class="cite">[5]</a></p>
+
+    <h3 id="sind-bronquica">Síndrome Brônquica (Asma e Bronquite)</h3>
+    <p>O problema central é a redução do calibre e/ou hipersecreção da árvore brônquica. Na asma, é inflamação alérgica reversível; na bronquite, resposta inflamatória a partículas ou gases tóxicos (tabaco).</p>
+    <p>Consequência: <strong>ar passa com dificuldade</strong>, sobretudo na expiração → sibilos, roncos, hiper-ressonância.</p>
+
+    <h3 id="sind-consolidacao">Síndrome de Consolidação Pulmonar</h3>
+    <p>Os espaços alveolares são ocupados por células, exsudato inflamatório ou sangue — o ar é substituído por tecido denso. Causas: pneumonia, infarto pulmonar, tuberculose.</p>
+    <p>Consequência: o tecido sólido conduz melhor o som → FTV aumentado, macicez à percussão, sopro brônquico à ausculta (broncofonia).</p>
+
+    <h3 id="sind-atelectasia">Atelectasia</h3>
+    <p>Desaparecimento do ar dos alvéolos por colapso (alveolares "murcham"). Ocorre por obstrução total da via aérea: neoplasias obstruindo um brônquio, rolha de muco, corpo estranho, ou intubação seletiva.</p>
+    <p>Consequência: sem ar, sem condução de som → FTV abolido, macicez, murmúrio vesicular abolido. O mediastino se desvia para o lado da atelectasia.</p>
+
+    <h3 id="sind-enfisema">Enfisema / Síndrome de Hiperaeração</h3>
+    <p>O tabagismo (principalmente) destrói os septos alveolares → dilatação dos espaços aéreos → ↑ complacência + ↓ elasticidade → ar fica preso (aprisionamento aéreo) → hiperinsuflação. O tórax fica em posição inspiratória permanente — tórax em tonel.</p>
+    <p>Consequência: excesso de ar → hiper-ressonância / timpanismo à percussão, murmúrio vesicular globalmente reduzido (pouca área de troca real). FTV normal ou reduzido.</p>
+
+    <h3 id="sind-derrame">Derrame Pleural</h3>
+    <p>Acúmulo de <strong>líquido</strong> no espaço pleural. O tipo de líquido indica a etiologia: transudato (IC, síndrome nefrótica), exsudato (pneumonia, neoplasia), hemotórax (trauma), quilotórax.</p>
+    <p>O líquido afasta o pulmão da parede torácica. Consequência: o som não chega à superfície → FTV diminuído/abolido, macicez à percussão, murmúrio vesicular abolido. O mediastino desvia para o lado oposto ao derrame (se grande).<a href="#referencias" class="cite">[5]</a></p>
+
+    <h3 id="sind-pneumotorax">Pneumotórax</h3>
+    <p>Acúmulo de <strong>ar</strong> no espaço pleural. Causas: trauma, ruptura de bolha subpleural (jovens longilíneos), comunicação de ducto com o espaço pleural (pneumonia, neoplasia, TB).</p>
+    <p>O ar no espaço pleural também afasta o pulmão da parede, mas é ar — e ar não conduz som. Consequência: FTV abolido, hiper-ressonância/timpanismo à percussão, murmúrio vesicular abolido. Em pneumotórax hipertensivo: desvio do mediastino para o lado oposto + colapso circulatório.</p>
+
+    <h3 id="sind-tabela">Tabela Comparativa das Síndromes</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Síndrome</th>
+            <th>FTV</th>
+            <th>Percussão</th>
+            <th>Murmúrio Vesicular</th>
+            <th>Ruídos Adventícios</th>
+            <th>Desvio de Mediastino</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Normal</strong></td>
+            <td><span class="chip chip-green">Normal</span></td>
+            <td>Som claro pulmonar</td>
+            <td><span class="chip chip-green">Presente</span></td>
+            <td>Ausentes</td>
+            <td>Central</td>
+          </tr>
+          <tr>
+            <td><strong>Brônquica (asma/bronquite)</strong></td>
+            <td>Normal</td>
+            <td>Hiper-ressonância</td>
+            <td>Reduzido</td>
+            <td><span class="chip chip-yellow">Sibilos / Roncos</span></td>
+            <td>Central</td>
+          </tr>
+          <tr>
+            <td><strong>Consolidação</strong></td>
+            <td><span class="chip chip-green">Aumentado</span></td>
+            <td>Macicez</td>
+            <td>Reduzido / Sopro brônquico</td>
+            <td>Estertores</td>
+            <td>Central</td>
+          </tr>
+          <tr>
+            <td><strong>Atelectasia</strong></td>
+            <td><span class="chip chip-red">Abolido</span></td>
+            <td>Macicez</td>
+            <td><span class="chip chip-red">Abolido</span></td>
+            <td>Ausentes</td>
+            <td>Ipsilateral</td>
+          </tr>
+          <tr>
+            <td><strong>Enfisema</strong></td>
+            <td>Normal / ↓</td>
+            <td>Hiper-ressonância</td>
+            <td>Globalmente reduzido</td>
+            <td>Sibilos (exacerbação)</td>
+            <td>Central</td>
+          </tr>
+          <tr>
+            <td><strong>Derrame Pleural</strong></td>
+            <td><span class="chip chip-red">Abolido/↓</span></td>
+            <td>Macicez</td>
+            <td><span class="chip chip-red">Abolido</span></td>
+            <td>Atrito pleural (se pleurite)</td>
+            <td>Contralateral (se grande)</td>
+          </tr>
+          <tr>
+            <td><strong>Pneumotórax</strong></td>
+            <td><span class="chip chip-red">Abolido</span></td>
+            <td>Timpanismo/Hiper-res.</td>
+            <td><span class="chip chip-red">Abolido</span></td>
+            <td>Ausentes</td>
+            <td>Contralateral (se hipertensivo)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-yellow">
+      <div class="label">Regra Mnemônica FTV</div>
+      <strong>FTV aumentado</strong> = parênquima sólido com brônquio permeável (consolidação). Sólido conduz melhor as vibrações.<br>
+      <strong>FTV diminuído/abolido</strong> = líquido ou ar no espaço pleural (derrame, pneumotórax) OU brônquio obstruído (atelectasia). O som não chega à superfície.
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SEÇÃO 7 — DESCRIÇÃO DO EXAME FÍSICO
+  ══════════════════════════════════════ -->
+  <section id="descricao">
+    <h2 class="section-title">7. Descrição do Exame Físico — Como Registrar os Achados</h2>
+
+    <p>A descrição do exame físico é uma narrativa clínica estruturada que segue uma sequência lógica: geral → torácico (pulmonar + cardiovascular) → abdominal. A linguagem é objetiva, sistemática e sem julgamentos diagnósticos prematuros.<a href="#referencias" class="cite">[6]</a></p>
+
+    <h3 id="desc-geral">Segmento Geral</h3>
+    <div class="mnemo">
+      <span>Sinais vitais</span>: PA, FC, FR, Sat O₂, Temp, Altura, Peso, IMC, Circ. Abdominal<br><br>
+      <span>LOTE + CHAAAE</span>:<br>
+      BEG/REG/MEG, consciente, orientado (tempo e espaço), corado, hidratado, afebril, anictérico, acianótico, eupneico<br><br>
+      + fácies, biotipo, estado nutricional, fala, edema, adenomegalias
+    </div>
+
+    <div class="normal-box">
+      <strong>Exemplo 1 (normal):</strong><br>
+      PA 120/80 mmHg, FC 88 bpm, FR 14 rpm, sat O₂ 96%, temp 36,7°C, altura 175 cm, 89 kg, IMC 29, circ. abdominal 92 cm.<br>
+      BEG, consciente, orientado no tempo e espaço, corado, hidratado, afebril, anictérico, acianótico, eupneico, fácies atípica, normolíneo, eutrófico, sem anormalidades na fala. Ausência de edema e adenomegalias.
+    </div>
+    <div class="callout callout-red">
+      <div class="label">Exemplo 2 (com achados)</div>
+      PA 120/80, FC 88, FR 14, sat 96%, temp 36,7°C...<br>
+      BEG, consciente, orientado, <strong>descorado +2/4</strong>, hidratado, anictérico, <strong>com cianose em pontas digitais de ambas as mãos</strong>, eupneico, fácies atípica, normolíneo, <strong>emagrecido</strong>, sem anormalidades na fala. <strong>Presença de edema +3/4 com cacifo.</strong><br>
+      <strong>Linfonodo de ~6 cm na região supraclavicular esquerda, consistência endurecida, fixo, superfície irregular.</strong>
+    </div>
+
+    <h3 id="desc-toracico">Segmento Torácico</h3>
+    <div class="callout callout-blue">
+      <div class="label">Sequência Integrada (Alternativa Eficiente)</div>
+      <strong>Inspeção:</strong> sem anormalidades à inspeção<br>
+      <strong>Palpação:</strong> expansibilidade preservada em ápices e bases; FTV presente e simétrico em ambos os HTX; ictus cordis palpável no cruzamento da linha hemiclavicular esquerda com o 5º EIC<br>
+      <strong>Percussão:</strong> som claro pulmonar<br>
+      <strong>Ausculta pulmonar:</strong> MV presente, S/RA<br>
+      <strong>Ausculta cardíaca:</strong> BRNF 2T sem sopros
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="label">Exemplo com Achados Pulmonares</div>
+      Inspeção: tórax em tonel<br>
+      Palpação: expansibilidade preservada. FTV aumentado na região inferior do HTX direito<br>
+      Percussão: som atimpânico em ambos HTX<br>
+      Ausculta: MV globalmente reduzido com sibilos esparsos e estertores finos na base do HTX direito
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="label">Exemplo com Achados Cardiovasculares</div>
+      Presença de estase jugular bilateralmente<br>
+      Ictus cordis palpável e deslocado para a esquerda ao longo do 5º EIC<br>
+      Pulsos radiais e carotídeos sem alterações<br>
+      Presença de sopro carotídeo direito<br>
+      Bulhas arrítmicas, hipofonéticas, com sopro em foco aórtico e mitral
+    </div>
+
+    <h3 id="desc-abdome">Segmento Abdominal</h3>
+    <p>Atenção à sequência única do abdome: <strong>inspeção → ausculta → percussão → palpação</strong>. A ausculta vem antes da palpação para não alterar a motilidade intestinal.<a href="#referencias" class="cite">[6]</a></p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Técnica</th><th>Normal</th><th>Achados patológicos possíveis</th></tr></thead>
+        <tbody>
+          <tr><td>Inspeção</td><td>Abdome plano, sem cicatrizes ou nodulações</td><td>Globoso (ascite, obesidade), escavado, hérnias, caput medusae</td></tr>
+          <tr><td>Ausculta</td><td>RHA presentes sem alterações, ausência de sopros</td><td>RHA ↑ (obstrução precoce), ↓/abolidos (íleo paralítico), sopro aórtico</td></tr>
+          <tr><td>Percussão</td><td>Distribuição adequada de timpanismo e macicez</td><td>Macicez difusa + Piparote (+) = ascite; timpanismo ↑ = distensão gasosa</td></tr>
+          <tr><td>Palpação</td><td>Indolor, sem massas, sem visceromegalias</td><td>Dor, sinal de descompressão (+), hepatomegalia, esplenomegalia, massas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="normal-box">
+      <strong>Descrição abdominal normal:</strong><br>
+      "Abdome plano, sem cicatrizes ou nodulações, sem alterações de pele. RHA presentes sem alterações, ausência de sopros. Percussão: distribuição adequada entre timpanismo e macicez. Indolor à palpação, sem massas palpáveis, sem visceromegalias (VCM)."
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CONCEITOS-CHAVE
+  ══════════════════════════════════════ -->
+  <section id="conceitos-chave">
+    <h2 class="section-title">📌 Conceitos-Chave para Fixação</h2>
+
+    <p>A semiologia médica é um encadeamento de raciocínios clínicos. Os pontos abaixo conectam os conceitos de forma progressiva:</p>
+
+    <ol>
+      <li>O exame físico começa <em>antes de tocar</em> o paciente: ectoscopia fornece estado geral, fácies, biotipo, movimentos involuntários, marcha e padrão respiratório à distância — portanto, qualquer dado que exija contato físico só vem depois da inspeção.</li>
+      <li>O estado geral (BEG/REG/MEG), a orientação em três esferas e o mnemônico LOTE+CHAAAE condensam o exame geral — sua memorização garante que nenhum item seja omitido na descrição.</li>
+      <li>A progressão da desidratação (sede → perda de peso → turgor ↓ → mucosas secas → olhos fundos → oligúria → hipotensão) segue a lógica fisiológica do déficit de volume: quanto mais severo, mais sistemas são comprometidos.</li>
+      <li>Na propedêutica cardiovascular, a dor torácica isquêmica obedece ao gradiente de demanda × oferta: angina estável só aparece no esforço; angina instável já ocorre com esforço mínimo; IAM ocorre em repouso e dura mais de 20 minutos — portanto, duração e fator desencadeante são os discriminadores mais importantes.</li>
+      <li>As bulhas cardíacas B1 e B2 são geradas pelo fechamento das valvas — não pela abertura. B1 = fechamento das AV (início da sístole); B2 = fechamento das semilunares (início da diástole). Daí deriva toda a lógica dos sopros: sopro sistólico por regurgitação mitral significa que a mitral não fecha direito.</li>
+      <li>B3 sinaliza câmara VE com volume excessivo ou complacência reduzida que vibra no enchimento rápido (diástole precoce). B4 sinaliza câmara VE rígida que resiste ao enchimento do átrio (diástole tardia, pré-sistólica). B4 não existe em fibrilação atrial — pois não há contração atrial organizada.</li>
+      <li>O frêmito toracovocal (FTV) é o discriminador central das síndromes: aumenta quando o parênquima está sólido e o brônquio permeável (consolidação); diminui/some quando há interposição de líquido ou ar entre o pulmão e a parede (derrame, pneumotórax), ou quando o brônquio está obstruído (atelectasia).</li>
+      <li>Derrame pleural e pneumotórax são opostos na percussão (macicez vs. timpanismo/hiper-ressonância), mas idênticos no FTV (abolido em ambos) e no murmúrio vesicular (abolido) — o que os distingue à beira do leito é o som à percussão.</li>
+      <li>A descrição do exame físico segue o protocolo IPPA (Inspeção → Palpação → Percussão → Ausculta), exceto no abdome, onde a ausculta precede a palpação para não artificialmente alterar os RHA.</li>
+      <li>O mnemônico BRNF 2T S/sopros resume o exame cardiovascular normal; MV + S/RA resume o pulmonar normal. Dominar essas frases de memória permite identificar qualquer desvio com rapidez.</li>
+    </ol>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       LEITURAS RECOMENDADAS
+  ══════════════════════════════════════ -->
+  <section id="leituras">
+    <h2 class="section-title">Leituras Recomendadas</h2>
+
+    <h3>Livros-Texto</h3>
+    <div class="callout callout-green">
+      <div class="label">VOCÊ TEM — Rang &amp; Dale's Pharmacology (10ª ed.)</div>
+      Rang HP, Dale MM, Ritter JM, et al. Rang &amp; Dale's Pharmacology. 10ª ed. Elsevier, 2023. — Complementa especialmente os mecanismos dos fármacos cardiovasculares (nitratos, antiarrítmicos) mencionados na propedêutica.
+    </div>
+    <p><strong>Bickley LS, Szilagyi PG.</strong> <em>Bates — Propedêutica Médica.</em> 13ª ed. Guanabara Koogan, 2022. — Referência padrão ouro para o exame físico completo com ilustrações detalhadas dos achados.</p>
+    <p><strong>Porto CC, Porto AL.</strong> <em>Semiologia Médica.</em> 8ª ed. Guanabara Koogan, 2019. — Referência clássica nacional; usada diretamente pelas aulas de HP3.</p>
+    <p><strong>Swartz MH.</strong> <em>Textbook of Physical Diagnosis: History and Examination.</em> 8ª ed. Elsevier, 2021.</p>
+
+    <h3>Artigos e Recursos Online</h3>
+    <p>LeBlond RF, DeGowin RL, Brown DD. <em>DeGowin's Diagnostic Examination.</em> 10ª ed. McGraw-Hill, 2015.</p>
+    <p>Sforza A, Zammitti M. Clubbing. In: StatPearls. Treasure Island (FL): StatPearls Publishing; 2023. Disponível em: <a href="https://www.ncbi.nlm.nih.gov/books/NBK442025/" target="_blank" rel="noopener" style="color: var(--blue);">NCBI/StatPearls ↗</a></p>
+    <p>Maisel AS et al. Bedside B-type natriuretic peptide in the emergency diagnosis of heart failure. <em>N Engl J Med.</em> 2002;347:161–167. DOI: <a href="https://doi.org/10.1056/NEJMoa020233" target="_blank" rel="noopener" style="color: var(--blue);">10.1056/NEJMoa020233 ↗</a></p>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       REFERÊNCIAS ABNT
+  ══════════════════════════════════════ -->
+  <section id="referencias">
+    <h2 class="section-title">Referências ABNT (NBR 6023:2018)</h2>
+    <ol>
+      <li>PORTO, Celmo Celeno; PORTO, Arnaldo Lemos. <em>Semiologia Médica.</em> 8. ed. Rio de Janeiro: Guanabara Koogan, 2019. (Aulas de Exame Físico Geral I e II — HP3 PUC 2026.)</li>
+      <li>BICKLEY, Lynn S.; SZILAGYI, Peter G. <em>Bates: Propedêutica Médica.</em> 13. ed. Rio de Janeiro: Guanabara Koogan, 2022. (Aulas de Propedêutica Cardiovascular I — HP3 PUC 2026.)</li>
+      <li>BICKLEY, Lynn S.; SZILAGYI, Peter G. <em>Bates: Propedêutica Médica.</em> 13. ed. Rio de Janeiro: Guanabara Koogan, 2022. (Aulas de Propedêutica Cardiovascular II — HP3 PUC 2026.)</li>
+      <li>PORTO, Celmo Celeno; PORTO, Arnaldo Lemos. <em>Semiologia Médica.</em> 8. ed. Rio de Janeiro: Guanabara Koogan, 2019. (Aula de Semiologia Pulmonar — HP3 PUC 2026.)</li>
+      <li>PORTO, Celmo Celeno; PORTO, Arnaldo Lemos. <em>Semiologia Médica.</em> 8. ed. Rio de Janeiro: Guanabara Koogan, 2019. (Aula de Síndromes Pleuropulmonares — HP3 PUC 2026.)</li>
+      <li>PUC — HABILIDADES PROFISSIONAIS III. <em>Descrição do Exame Físico.</em> Material didático das aulas teóricas, 2026. (Aula HP3 PUC 2026.)</li>
+      <li>SFORZA, Anthony; ZAMMITTI, Michael A. Clubbing. In: StatPearls. Treasure Island: StatPearls Publishing, 2023. Disponível em: <a href="https://www.ncbi.nlm.nih.gov/books/NBK442025/" target="_blank" rel="noopener" style="color: var(--blue);">NCBI/StatPearls ↗</a>. Acesso em: 18 jun. 2026.</li>
+      <li>MAISEL, Alan S. et al. Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. <em>New England Journal of Medicine</em>, Boston, v. 347, n. 3, p. 161–167, 2002. DOI: <a href="https://doi.org/10.1056/NEJMoa020233" target="_blank" rel="noopener" style="color: var(--blue);">10.1056/NEJMoa020233 ↗</a>.</li>
+    </ol>
+  </section>
+
+</main>
+
+<script>
+// IntersectionObserver — destaque automático da seção na sidebar
+const sections = document.querySelectorAll('section[id], h3[id], h4[id]');
+const links = document.querySelectorAll('#sidebar a');
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`#sidebar a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>

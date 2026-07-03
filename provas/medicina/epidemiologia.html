@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Epidemiologia, Vigilância e Métodos Diagnósticos — PAB II PUCPR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #111010; --bg2: #1a1919; --bg3: #222121; --border: #333131;
+  --text: #e2ddd6; --muted: #9e9890;
+  --ac: #d4924a; --ac2: #c0604a; --ac2bg: #2a1810;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.75; }
+
+/* Progress bar */
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--ac); width: 0%; z-index: 1000; transition: width .1s linear; }
+
+/* Layout */
+#body-wrap { display: flex; height: 100vh; overflow: hidden; }
+#sidebar { width: 280px; position: sticky; height: 100vh; overflow: hidden; display: flex; flex-direction: column; transition: width .25s; background: var(--bg2); border-right: 1px solid var(--border); flex-shrink: 0; }
+#sidebar.collapsed { width: 44px; }
+#s-toggle { padding: 8px; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.s-inner { flex: 1; overflow-y: auto; width: 280px; padding: 0 12px 24px; }
+#content { flex: 1; padding: 52px 72px 120px; transition: padding .25s; overflow-y: auto; }
+.prose { max-width: 88ch; margin: 0 auto; }
+#body-wrap.sidebar-collapsed #content { padding: 52px 100px 120px; }
+#body-wrap.sidebar-collapsed .prose { max-width: 114ch; }
+
+/* Toggle btn */
+#toggle-btn { background: none; border: 1px solid var(--border); color: var(--muted); font-family: var(--font-ui); font-size: 13px; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: 100%; text-align: left; }
+#toggle-btn:hover { background: var(--bg3); color: var(--text); }
+
+/* Sidebar nav */
+.s-section { margin-top: 16px; }
+.s-section-title { font-family: var(--font-ui); font-size: 9px; font-weight: 700; color: var(--ac); text-transform: uppercase; letter-spacing: .12em; padding: 6px 4px 4px; }
+.s-link { display: block; font-family: var(--font-ui); font-size: 12.5px; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 4px; margin-bottom: 1px; border-left: 2px solid transparent; }
+.s-link:hover { background: var(--bg3); color: var(--text); }
+.s-link.active { color: var(--ac); border-left-color: var(--ac); background: var(--ac2bg); }
+
+/* Typography */
+h1 { font-size: 2rem; font-weight: 600; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
+h2 { font-size: 1.45rem; font-weight: 600; color: var(--text); margin: 56px 0 16px; padding-top: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 1.15rem; font-weight: 600; color: var(--ac); margin: 32px 0 10px; }
+h4 { font-size: 1rem; font-weight: 600; color: var(--muted); margin: 20px 0 8px; font-family: var(--font-ui); text-transform: uppercase; font-size: 11px; letter-spacing: .08em; }
+p { margin-bottom: 14px; }
+ul, ol { margin: 0 0 14px 1.4em; }
+li { margin-bottom: 4px; }
+strong { color: var(--ac); font-weight: 600; }
+em { color: var(--text); }
+code { font-family: monospace; background: var(--bg3); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-size: .87em; color: var(--ac); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+/* Doc header */
+.doc-header { margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.doc-meta { font-family: var(--font-ui); font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+.doc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--font-ui); font-size: 11px; color: var(--muted); background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; }
+
+/* Histbars / case boxes */
+.hist { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 12px 16px; margin: 0 0 20px; font-size: 14px; font-family: var(--font-ui); color: var(--muted); }
+.hist .hl { font-size: 9px; font-weight: 600; color: var(--ac); text-transform: uppercase; letter-spacing: .09em; display: block; margin-bottom: 5px; }
+.kbox { background: var(--ac2bg); border-left: 2px solid var(--ac2); border-radius: 0 5px 5px 0; padding: 12px 16px; margin: 14px 0; }
+.kbox .klabel { font-family: var(--font-ui); font-size: 9px; font-weight: 600; color: var(--ac2); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+.trap-box { background: #1a1510; border: 1px solid #4a3020; border-left: 3px solid #d4924a; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; }
+.trap-box .trap-label { font-family: var(--font-ui); font-size: 9px; font-weight: 600; color: var(--ac); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+.caso { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--muted); border-radius: 0 6px 6px 0; padding: 14px 18px; margin-bottom: 24px; font-size: 15px; }
+.caso .caso-label { font-family: var(--font-ui); font-size: 9px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+.ck-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+.ck-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 10px 13px; }
+.ck-card .ckt { font-family: var(--font-ui); font-size: 12px; font-weight: 600; color: var(--ac2); margin-bottom: 4px; }
+.coverage-table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: 13px; margin: 14px 0; }
+.coverage-table th { background: var(--bg3); color: var(--muted); font-weight: 600; padding: 8px 12px; text-align: left; border: 1px solid var(--border); }
+.coverage-table td { padding: 7px 12px; border: 1px solid var(--border); color: var(--text); }
+.status-ok { color: #6abf69; }
+.status-parcial { color: #d4924a; }
+.status-falta { color: #c0604a; }
+.formula-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 5px; padding: 12px 16px; font-family: var(--font-ui); font-size: 14px; margin: 12px 0; text-align: center; color: var(--ac); }
+.tabela2x2 { border-collapse: collapse; margin: 14px auto; font-family: var(--font-ui); font-size: 13px; }
+.tabela2x2 th, .tabela2x2 td { border: 1px solid var(--border); padding: 8px 14px; text-align: center; }
+.tabela2x2 th { background: var(--bg3); color: var(--muted); }
+.tabela2x2 .vp { color: #6abf69; font-weight: 700; }
+.tabela2x2 .fp { color: var(--ac2); font-weight: 700; }
+.tabela2x2 .fn { color: var(--ac2); font-weight: 700; }
+.tabela2x2 .vn { color: #6abf69; font-weight: 700; }
+.info-box { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid #5a8fd4; border-radius: 0 6px 6px 0; padding: 12px 16px; margin: 14px 0; }
+.info-box .info-label { font-family: var(--font-ui); font-size: 9px; font-weight: 600; color: #5a8fd4; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle"><button id="toggle-btn">☰ Menu</button></div>
+  <div class="s-inner">
+    <div class="s-section">
+      <div class="s-section-title">Início</div>
+      <a class="s-link" href="#cabecalho">Cabeçalho</a>
+      <a class="s-link" href="#cobertura">Mapa de Cobertura</a>
+      <a class="s-link" href="#fundamentos">Fundamentos</a>
+    </div>
+    <div class="s-section">
+      <div class="s-section-title">1 — Introdução</div>
+      <a class="s-link" href="#intro-epi">O que é Epidemiologia</a>
+      <a class="s-link" href="#historia-epi">História</a>
+      <a class="s-link" href="#conceitos-basicos">Conceitos Básicos</a>
+      <a class="s-link" href="#dt-transmissiveis">Doenças Transmissíveis</a>
+      <a class="s-link" href="#enfoque">Enfoque Tempo/Lugar/Pessoa</a>
+    </div>
+    <div class="s-section">
+      <div class="s-section-title">2 — Vigilância Epidemiológica</div>
+      <a class="s-link" href="#vig-epi-def">Definição e Histórico</a>
+      <a class="s-link" href="#processo-vig">Processo de Trabalho</a>
+      <a class="s-link" href="#notificacao">Notificação Compulsória</a>
+      <a class="s-link" href="#sistemas-info">Sistemas de Informação</a>
+      <a class="s-link" href="#vig-sanitaria">Vigilância Sanitária</a>
+    </div>
+    <div class="s-section">
+      <div class="s-section-title">3 — Transição</div>
+      <a class="s-link" href="#trans-demografica">Transição Demográfica</a>
+      <a class="s-link" href="#trans-epidemiologica">Transição Epidemiológica</a>
+      <a class="s-link" href="#dants">DANTs</a>
+      <a class="s-link" href="#modelo-assistencial">Modelo Assistencial</a>
+    </div>
+    <div class="s-section">
+      <div class="s-section-title">4 — Epi Clínica + MBE</div>
+      <a class="s-link" href="#epi-clinica-origem">Origem</a>
+      <a class="s-link" href="#variaveis">Variáveis e Probabilidade</a>
+      <a class="s-link" href="#vies">Viés e Acaso</a>
+      <a class="s-link" href="#validade">Validade Interna/Externa</a>
+      <a class="s-link" href="#mbe">MBE</a>
+      <a class="s-link" href="#pico">PICO e Hierarquia</a>
+    </div>
+    <div class="s-section">
+      <div class="s-section-title">5 — Métodos Diagnósticos</div>
+      <a class="s-link" href="#teste-diag">Teste Diagnóstico</a>
+      <a class="s-link" href="#padrao-ouro">Padrão Ouro</a>
+      <a class="s-link" href="#sens-espec">Sensibilidade e Especificidade</a>
+      <a class="s-link" href="#vp-vn">Valores Preditivos</a>
+      <a class="s-link" href="#acuracia">Acurácia</a>
+      <a class="s-link" href="#exercicios">Exercícios Resolvidos</a>
+    </div>
+    <div class="s-section">
+      <div class="s-section-title">Revisão</div>
+      <a class="s-link" href="#pegadinhas">Pegadinhas</a>
+      <a class="s-link" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="s-link" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+<!-- CABEÇALHO -->
+<section id="cabecalho">
+<div class="doc-header">
+  <h1>Epidemiologia, Vigilância e Métodos Diagnósticos</h1>
+  <p class="doc-meta">Práticas em Atenção Básica II · PUCPR Londrina · Prova 22/06/2026 · Material do professor</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~90 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>Epidemiologia básica, SUS, APS</b></span>
+    <span class="chip">📅 Prova: <b>22/06/2026</b></span>
+    <span class="chip">📍 Área: <b>Saúde Coletiva / Epidemiologia</b></span>
+  </div>
+</div>
+</section>
+
+<!-- MAPA DE COBERTURA -->
+<section id="cobertura">
+<h2>Mapa de Cobertura da Prova</h2>
+<table class="coverage-table">
+  <thead>
+    <tr><th>Tópico</th><th>Subtemas</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1. Introdução à Epidemiologia</td><td>Definição, história, conceitos (surto/epidemia/pandemia), enfoque TLP</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>2. Aspectos Epidemiológicos das Doenças Transmissíveis</td><td>Hospedeiro, agente, reservatório, modos de transmissão, controle</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>3. Vigilância Epidemiológica</td><td>Objetivos, processo de trabalho, notificação compulsória, sistemas de informação</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>4. Vigilância Sanitária</td><td>Definição, histórico, ANVISA, áreas de atuação, processo de trabalho</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>5. Transição Demográfica e Epidemiológica</td><td>4 estágios demográficos, perfil epidemiológico, envelhecimento</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>6. DANTs</td><td>Doenças cardiovasculares, câncer, diabetes, causas externas, fatores de risco comportamentais</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>7. Epidemiologia Clínica + MBE</td><td>Viés, acaso, validade, PICO, hierarquia de evidências</td><td class="status-ok">✔ Coberto</td></tr>
+    <tr><td>8. Métodos Diagnósticos</td><td>Sensibilidade, especificidade, VPP, VPN, acurácia, padrão ouro, prevalência</td><td class="status-ok">✔ Coberto</td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- FUNDAMENTOS -->
+<section id="fundamentos">
+<h2>Fundamentos Necessários</h2>
+<p>Antes de mergulhar nos tópicos, relembre estes pontos de apoio:</p>
+<ul>
+  <li><strong>Sistema Único de Saúde (SUS):</strong> sistema público universal; a atenção primária à saúde (APS) é sua base.</li>
+  <li><strong>Indicadores epidemiológicos:</strong> <em>incidência</em> (casos novos/período) e <em>prevalência</em> (casos totais/ponto do tempo) são métricas distintas.</li>
+  <li><strong>Cadeia de transmissão:</strong> agente → reservatório → porta de saída → meio de transmissão → porta de entrada → hospedeiro suscetível.</li>
+  <li><strong>Probabilidade:</strong> a clínica trabalha com probabilidades, não certezas; todo diagnóstico é uma estimativa.</li>
+  <li><strong>Tabela 2×2:</strong> ferramenta central dos métodos diagnósticos — você precisará calculá-la na prova.</li>
+</ul>
+</section>
+
+<!-- SEÇÃO 1 — INTRODUÇÃO À EPIDEMIOLOGIA -->
+<section id="intro-epi">
+<h2>1 · Introdução à Epidemiologia</h2>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Uma UBS de Londrina registra, em 3 semanas, 18 casos de diarreia com febre em moradores do mesmo bairro. O médico de família precisa saber: quem adoeceu? Quando? Onde? Sem epidemiologia ele não tem ferramentas para responder.
+</div>
+
+<h3>Por que existe a Epidemiologia?</h3>
+<p>A clínica tradicional foca no indivíduo doente. Mas algumas perguntas simplesmente não têm resposta individual: por que o tabagismo causa câncer? Qual vacina funciona melhor? Essa lacuna foi preenchida pela <strong>epidemiologia</strong> — a ciência que estuda a distribuição e os determinantes dos eventos de saúde em populações, e aplica esse estudo ao controle dos problemas de saúde.</p>
+
+<div class="hist">
+  <span class="hl">Etimologia</span>
+  <strong>Epi</strong> (sobre) + <strong>Démos</strong> (povo) + <strong>Logos</strong> (estudo) → "ciência do que se abate sobre o povo".
+</div>
+
+<p>Segundo Rouquayrol (2018), a epidemiologia "é a abordagem dos fenômenos da saúde-doença por meio da quantificação, usando bastante o cálculo matemático e as técnicas estatísticas de amostragens e de análises." É considerada a <em>principal ciência da informação em saúde</em>.</p>
+
+<h3>As três raízes históricas</h3>
+<p>A epidemiologia emerge da articulação de três campos:</p>
+<ul>
+  <li><strong>Clínica</strong> — estudo das doenças e sua fisiopatologia.</li>
+  <li><strong>Medicina Social</strong> — contexto socioeconômico e ambiental.</li>
+  <li><strong>Estatística</strong> — quantificação e inferência probabilística.</li>
+</ul>
+
+<h3>Três funções principais</h3>
+<ol>
+  <li><strong>Estudo dos determinantes</strong> de saúde-doença: causas das doenças (clínica).</li>
+  <li><strong>Análise das situações de saúde</strong>: diagnóstico de saúde da comunidade.</li>
+  <li><strong>Avaliação de tecnologias e processos</strong>: eficácia de diagnósticos e terapêuticas.</li>
+</ol>
+
+<div class="kbox">
+  <div class="klabel">Frase-chave para a prova</div>
+  "Enquanto a clínica se dedica ao estudo da doença no <em>indivíduo</em>, a epidemiologia debruça-se sobre os problemas de saúde em <em>grupos de pessoas</em>." — Rouquayrol
+</div>
+
+<h3>Exemplos de descobertas epidemiológicas</h3>
+<ul>
+  <li>Leucemia e exposição a raio X na gestação.</li>
+  <li>Trombose venosa profunda (TVP) e uso de anticoncepcionais.</li>
+  <li>Tabagismo e câncer de pulmão.</li>
+  <li>Cegueira e deficiência de vitamina A em crianças subnutridas.</li>
+</ul>
+</section>
+
+<section id="historia-epi">
+<h3>História da Epidemiologia</h3>
+<p>Hipócrates foi o primeiro a observar que doenças seguem padrões ambientais (ares, águas e lugares). Seus seguidores, porém, migraram para o atendimento individual mais rentável.</p>
+<ul>
+  <li><strong>Roma 201 a.C.:</strong> Galeno; censos periódicos e registro de nascimentos e óbitos.</li>
+  <li><strong>Idade Média:</strong> predomínio de práticas médico-religiosas; registros demográficos foram preservados pelo mundo árabe.</li>
+  <li><strong>Final do século XVIII:</strong> urbanização, Revolução Francesa e Industrial → intervenções estatais sobre a saúde coletiva.</li>
+  <li><strong>John Snow (1813–1858):</strong> epidemia de cólera em Soho, Londres, 1854. Mapeou os casos aos pontos de distribuição de água, concluindo que a transmissão era hídrica — 30 anos antes de Pasteur provar o agente bacteriano. Considerado o pai da epidemiologia moderna.</li>
+  <li><strong>1960:</strong> computação eletrônica acelera análises; introdução da análise multivariada.</li>
+  <li><strong>1980:</strong> Epidemiologia Clínica; <strong>1990:</strong> Epidemiologia Molecular.</li>
+  <li><strong>Atualidade:</strong> farmacoepidemiologia, epidemiologia genética e de serviços de saúde.</li>
+</ul>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha Clássica</div>
+  John Snow não usou microscópio nem sabia o que era o Vibrio cholerae — e mesmo assim identificou a fonte do surto. A pegadinha: <strong>método epidemiológico ≠ conhecimento microbiológico</strong>. O raciocínio causal pode preceder a prova laboratorial.
+</div>
+</section>
+<!-- CONCEITOS BÁSICOS -->
+<section id="conceitos-basicos">
+<h2>2 · Conceitos Básicos e Aspectos Epidemiológicos das Doenças Transmissíveis</h2>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Em um colégio interno, 5 alunos desenvolvem febre e rigidez de nuca em 48h. O médico do serviço precisa definir: isso é surto? Epidemia? Qual a cadeia de transmissão? Quais medidas tomar?
+</div>
+
+<h3>Definições Fundamentais</h3>
+
+<div class="hist">
+  <span class="hl">Doença Transmissível (OPAS, 1983)</span>
+  Qualquer doença causada por agente infeccioso específico ou seus produtos tóxicos, transmitida de reservatório a hospedeiro suscetível — direta ou indiretamente por vetor, hospedeiro intermediário ou meio ambiente inanimado.
+</div>
+
+<p><strong>Doença Emergente:</strong> doença transmissível cuja incidência em humanos vem aumentando nos últimos 25 anos do século XX ou que ameaça aumentar. Exemplos: Zika, Chikungunya, AIDS, Ebola.</p>
+<p><strong>Doença Reemergente:</strong> doença transmissível previamente conhecida que <em>reaparece</em> como problema de saúde pública após declínio significativo. Exemplos: Febre Amarela, Tuberculose nos anos 1990.</p>
+
+<h4>Gradação dos Eventos Epidemiológicos</h4>
+<ul>
+  <li><strong>Conglomerado (cluster):</strong> agregação rara de eventos de saúde agrupados no tempo e/ou espaço em quantidade maior que a esperada por acaso. Pode ser a expressão inicial de um surto.</li>
+  <li><strong>Surto:</strong> aumento <em>pouco comum</em> de casos relacionados epidemiologicamente, de aparecimento súbito, <em>limitado a um espaço localizado</em> (escola, hospital, navio, bairro). É a expressão inicial de uma epidemia.</li>
+  <li><strong>Epidemia:</strong> ocorrência de casos com incidência <em>maior que a esperada</em> para uma área geográfica e período determinados. Transcende os limites geográficos de um surto. Pode ser definida por apenas 1 caso em contextos de erradicação (ex.: poliomielite nas Américas).</li>
+  <li><strong>Pandemia:</strong> epidemia que se dissemina por vários países ou continentes.</li>
+  <li><strong>Endemia:</strong> presença habitual e constante de uma doença em determinada área geográfica.</li>
+</ul>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha</div>
+  A quantidade de casos NÃO define sozinha uma epidemia. O que define é o excesso em relação ao <strong>esperado</strong>. Um único caso de poliomielite selvagem nas Américas já configura epidemia pelo contexto de erradicação.
+</div>
+
+<h3>A Tríade Epidemiológica: Agente, Hospedeiro, Ambiente</h3>
+<ul>
+  <li><strong>Hospedeiro:</strong> ser capaz de conceder subsistência a agentes patogênicos. Pode ser suscetível ou resistente.</li>
+  <li><strong>Agente Infeccioso:</strong> ser vivo cujo ciclo reprodutivo, parcialmente em outro ser vivo, pode causar doença.</li>
+  <li><strong>Reservatório (OPAS, 1983):</strong> "ser humano, animal, artrópode, planta, solo ou matéria inanimada em que um agente infeccioso normalmente vive e se multiplica em condições de dependência primordial para a sobrevivência."
+    <ul>
+      <li>Hanseníase (MH): o doente é o reservatório.</li>
+      <li>Dengue: doente + mosquito (Aedes aegypti).</li>
+      <li>Paracoccidioidomicose: solo/plantas.</li>
+      <li>Toxoplasmose: gato, água contaminada.</li>
+    </ul>
+  </li>
+  <li><strong>Imunidade:</strong> capacidade de resistência, mediada por anticorpos, específica contra determinado agente.
+    <ul>
+      <li>Natural vs. Artificial; Ativa vs. Passiva.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Modos de Transmissão</h3>
+<p>A transmissão é o processo pelo qual o agente infeccioso, a partir de um indivíduo infectado, acessa o meio interno de um novo hospedeiro.</p>
+<ul>
+  <li><strong>Transmissão Horizontal:</strong>
+    <ul>
+      <li><em>Direta imediata:</em> contato físico direto, como nas ISTs (Infecções Sexualmente Transmissíveis).</li>
+      <li><em>Direta mediata:</em> mãos contaminadas (Infecções Hospitalares), fômites, secreções aeronasais (gripe).</li>
+      <li><em>Indireta:</em> via veículo (água, alimentos), hospedeiro intermediário (vetor biológico como mosquito) ou suporte mediatizador.</li>
+    </ul>
+  </li>
+  <li><strong>Transmissão Vertical:</strong> de mãe para filho durante gestação, parto ou amamentação. Exemplos: HIV, Sífilis congênita, Toxoplasmose congênita.</li>
+</ul>
+
+<h3>Estratégias de Controle de Doenças Infecciosas</h3>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Diminuir Reservatórios</div>Tratamento de casos de TB e Hanseníase; reduz a fonte de transmissão na comunidade.</div>
+  <div class="ck-card"><div class="ckt">Combater Intermediários</div>Controle de vetores (Aedes), saneamento básico, Vigilância Sanitária nos alimentos.</div>
+  <div class="ck-card"><div class="ckt">Diminuir Suscetíveis</div>Vacinação em massa; cria imunidade de rebanho na população.</div>
+  <div class="ck-card"><div class="ckt">Barreira Direta</div>Uso de preservativos nas ISTs; equipamentos de proteção individual em ambiente hospitalar.</div>
+  <div class="ck-card"><div class="ckt">Diagnóstico Precoce</div>Triagem sorológica em bancos de sangue; identificação e tratamento antes da transmissão.</div>
+  <div class="ck-card"><div class="ckt">Educação em Saúde</div>Mudança de comportamento — higiene das mãos, manipulação de alimentos, uso de calçados.</div>
+</div>
+</section>
+<!-- ENFOQUE TEMPO LUGAR PESSOA -->
+<section id="enfoque">
+<h3>O Enfoque Epidemiológico: Tempo, Lugar e Pessoa</h3>
+<p>O epidemiologista organiza qualquer evento de saúde respondendo sistematicamente três perguntas:</p>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">TEMPO — Quando?</div>
+    <p>Doenças infecciosas costumam ser agudas; muitas têm <strong>sazonalidade</strong> (ex.: dengue no verão/chuvas). A análise temporal permite identificar fatores de risco — ex.: surto de leptospirose pós-enchentes. Usa-se a <strong>curva epidêmica</strong> (casos por tempo) e o <strong>canal endêmico</strong> (limites esperados de casos numa série histórica).</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">LUGAR — Onde?</div>
+    <p>Localização geográfica determina extensão e velocidade de disseminação. A unidade pode ser domicílio, bairro, município, estado. Exemplo clássico: John Snow mapeando casos de cólera em Soho às bombas d'água.</p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">PESSOA — Quem?</div>
+    <p>Distribuição dos casos por <strong>sexo, faixa etária, ocupação</strong>, condições de vida. Permite identificar grupos de risco e gerar hipóteses causais.</p>
+  </div>
+</div>
+
+<h4>Geração de Hipóteses</h4>
+<p>Ao sintetizar as informações de tempo, lugar e pessoa, o epidemiologista formula hipóteses sobre:</p>
+<ol>
+  <li>A <strong>fonte provável</strong> do agente causal.</li>
+  <li>O <strong>modo de transmissão</strong> provável.</li>
+  <li>A <strong>exposição</strong> associada ao maior risco de adoecer.</li>
+</ol>
+<p>Essas hipóteses subsidiam estudos de aprofundamento e medidas de controle imediatas.</p>
+</section>
+
+<!-- VIGILÂNCIA EPIDEMIOLÓGICA -->
+<section id="vig-epi-def">
+<h2>3 · Vigilância Epidemiológica e Sanitária</h2>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Uma criança de 4 anos chega ao pronto-atendimento com febre alta e petéquias. O médico suspeita de Doença Meningocócica. Além de tratar, ele sabe que deve notificar em até 24h. Mas por quê? E para quê?
+</div>
+
+<h3>O que é Vigilância em Saúde?</h3>
+<div class="hist">
+  <span class="hl">Definição — Langmuir, 1963</span>
+  "A observação contínua da distribuição e tendências da incidência de doenças mediante a coleta sistemática, consolidação e avaliação de informes de morbidade e mortalidade, assim como de outros dados relevantes, e a regular disseminação dessas informações a todos os que necessitam conhecê-la."
+</div>
+
+<p>A Vigilância em Saúde é o pilar que transforma dados em ação. Ela é responsável por todas as ações de vigilância, prevenção e controle de agravos, com monitoramento epidemiológico de doenças transmissíveis e não transmissíveis.</p>
+
+<h4>Componentes da Vigilância em Saúde</h4>
+<ul>
+  <li><strong>Vigilância Epidemiológica</strong> — monitoramento de doenças e agravos.</li>
+  <li><strong>Vigilância Sanitária</strong> — controle de produtos, serviços e ambientes de saúde.</li>
+  <li><strong>Vigilância Ambiental</strong> — qualidade da água, ar, solo.</li>
+  <li><strong>Saúde do Trabalhador</strong> — riscos e agravos relacionados ao trabalho.</li>
+  <li><strong>Imunizações</strong> — Programa Nacional de Imunizações (PNI).</li>
+</ul>
+
+<h3>Histórico da Vigilância Epidemiológica</h3>
+<ul>
+  <li><strong>Século XIV, Veneza:</strong> vigilância de navios com quarentenas para evitar a Peste Negra.</li>
+  <li><strong>Final da Idade Média:</strong> surgimento dos Estados Nacionais → coleta de dados demográficos e de mortalidade.</li>
+  <li><strong>2ª metade do século XIX — Europa e EUA:</strong> notificação compulsória de doenças infecciosas → isolamento e quarentena.</li>
+  <li><strong>Brasil, 1894:</strong> publicação da primeira lista de doenças de notificação compulsória. O termo "Vigilância" referia-se ao monitoramento de pessoas em contato com doença contagiosa.</li>
+  <li><strong>EUA, 1951:</strong> CDC implanta o EIS (Epidemiologic Intelligence Service). "Vigilância" passa a designar a detecção de casos em programas de controle (malária, varíola).</li>
+  <li><strong>OMS, década de 1960:</strong> implantação da Unidade de Vigilância Epidemiológica. A campanha de erradicação da varíola dissemina práticas de vigilância pelo mundo.</li>
+  <li><strong>Brasil, 1966–1973:</strong> campanha de erradicação da varíola — marco da institucionalização da vigilância no país. Estruturação das unidades estaduais de vigilância.</li>
+  <li><strong>Brasil, 1969:</strong> FSESP implanta sistema semanal de notificação e divulga boletins epidemiológicos.</li>
+  <li><strong>Brasil, contemporâneo:</strong> expansão para doenças crônicas e causas externas, usando a estrutura criada para infecciosas.</li>
+</ul>
+</section>
+<!-- PROCESSO DE TRABALHO VIG -->
+<section id="processo-vig">
+<h3>Objetivos da Vigilância Epidemiológica</h3>
+<ol>
+  <li>Acompanhar o comportamento epidemiológico das doenças sob vigilância (detecção precoce de surtos, mudanças na distribuição).</li>
+  <li>Recomendar medidas de prevenção e controle; avaliar as medidas implementadas; interromper a cadeia de transmissão.</li>
+  <li>Identificar novos problemas de saúde pública (doenças emergentes e reemergentes).</li>
+</ol>
+
+<h3>Processo de Trabalho em Vigilância</h3>
+<p>O fluxo é cíclico:</p>
+<ol>
+  <li><strong>Seleção de Prioridades</strong> — critérios: magnitude (incidência, prevalência, mortalidade, letalidade), existência de intervenções eficazes, fatores de risco interveníveis, necessidade de maior conhecimento, acordos internacionais.</li>
+  <li><strong>Definição de Objetivos</strong> — para cada doença: acompanhamento, identificação de tendências, avaliação de medidas.</li>
+  <li><strong>Detecção de Casos:</strong>
+    <ul>
+      <li><em>Definição de caso:</em> depende do objetivo (sensibilidade vs. especificidade). Define quando suspeitar, investigar e confirmar.</li>
+      <li><em>Notificação dos casos:</em> sistema de notificação compulsória (ver abaixo).</li>
+    </ul>
+  </li>
+  <li><strong>Registro nos Sistemas</strong> — lançamento em sistemas oficiais (SINAN, SIM, etc.).</li>
+  <li><strong>Análise dos Bancos de Dados</strong> — tabulação, painéis de indicadores.</li>
+  <li><strong>Elaboração de Relatórios.</strong></li>
+  <li><strong>Recomendações de Medidas de Controle.</strong></li>
+  <li><strong>Avaliação da Eficácia das Medidas</strong> — feedback que reinicia o ciclo.</li>
+  <li><strong>Divulgação das Informações</strong> — boletins epidemiológicos.</li>
+</ol>
+</section>
+
+<!-- NOTIFICAÇÃO COMPULSÓRIA -->
+<section id="notificacao">
+<h3>Notificação Compulsória (Portaria nº 204/2016)</h3>
+<p>A notificação compulsória é <strong>obrigatória para médicos e demais profissionais de saúde</strong>, tanto em serviços públicos quanto privados, conforme o art. 8º da Lei nº 6.259/1975.</p>
+
+<h4>Tipos de Notificação</h4>
+<ul>
+  <li><strong>Notificação Compulsória Imediata (NCI):</strong> realizada em até <strong>24 horas</strong>, pelo meio mais rápido disponível. Exemplo: Meningite/Doença Meningocócica.</li>
+  <li><strong>Notificação Compulsória Semanal (NCS):</strong> realizada em até <strong>7 dias</strong>. Exemplo: Hanseníase.</li>
+  <li><strong>Notificação Compulsória Negativa:</strong> comunicação <em>semanal</em> informando que nenhum agravo da lista foi identificado no período. Exemplo: Paralisia Flácida Aguda (vigilância da poliomielite).</li>
+  <li><strong>Vigilância Sentinela:</strong> modelo realizado em estabelecimentos estratégicos, com <em>participação facultativa</em>. Fornece informações de qualidade sobre doenças de interesse. Exemplo: Síndrome Gripal (gripe/influenza).</li>
+</ul>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha</div>
+  A <strong>Notificação Negativa</strong> NÃO significa que não há doença na comunidade. Significa que o serviço não identificou casos <em>no período</em>. É essencial para manter o sistema ativo e detectar falhas de notificação.
+</div>
+
+<h4>Exemplos da Lista de Notificação Compulsória (Portaria 204/2016 atualizada 2024)</h4>
+<ul>
+  <li>Dengue (casos e óbitos); Covid-19; Tuberculose; Hanseníase; Sífilis (adquirida, congênita, em gestante).</li>
+  <li>HIV/AIDS; Hepatites virais; Leishmanioses; Malária; Leptospirose.</li>
+  <li>Febre Amarela; Febre Maculosa; Raiva humana; Botulismo; Cólera; Poliomielite.</li>
+  <li>Monkeypox (varíola dos macacos); Zika (incluindo em gestante e síndrome congênita).</li>
+  <li>Violência doméstica, sexual e tentativa de suicídio.</li>
+  <li>Óbitos infantil e materno.</li>
+  <li>Eventos adversos graves ou óbitos pós-vacinação.</li>
+</ul>
+</section>
+
+<!-- SISTEMAS DE INFORMAÇÃO -->
+<section id="sistemas-info">
+<h3>Sistemas de Informação em Saúde</h3>
+<p>O registro sistemático de dados de saúde é a matéria-prima da vigilância. Os principais sistemas:</p>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">SINAN</div>
+    Sistema de Informações de Agravos de Notificação. Início: 1990. Objetivo: registro e processamento de agravos de notificação em todo o território nacional. Base para análise do perfil de morbidade.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">SIM</div>
+    Sistema de Informações sobre Mortalidade. Criado em 1975. Unificou mais de 40 modelos de instrumentos de coleta de dados de mortalidade. Informatizado em 1979. Base: Declaração de Óbito (DO).
+  </div>
+  <div class="ck-card">
+    <div class="ckt">SINASC</div>
+    Sistema de Informações sobre Nascidos Vivos. Base: Declaração de Nascido Vivo (DNV). Permite calcular coeficientes de natalidade e mortalidade infantil.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">SIVEP-GRIPE</div>
+    Vigilância Sentinela para Síndrome Gripal e SRAG (Síndrome Respiratória Aguda Grave). Identifica cepas circulantes para desenvolvimento de vacinas.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">SIH / SIA</div>
+    SIH: Sistema de Informações Hospitalares do SUS. SIA: Sistema de Informações Ambulatoriais. Registram produção assistencial e permitem análise de internações e procedimentos.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Outros</div>
+    SISVAN (alimentar/nutricional), SI-PNI (imunizações), SISAGUA (qualidade da água), SIAB (atenção básica), SICLON/SISCEL (AIDS).
+  </div>
+</div>
+
+<h4>A Declaração de Óbito (DO) — Detalhamento do SIM</h4>
+<p>A DO é preenchida em duas partes:</p>
+<ul>
+  <li><strong>Parte I:</strong> cadeia causal da morte. As linhas devem ser preenchidas de cima para baixo, seguindo "devido a / como consequência de":
+    <ul>
+      <li>Linha <em>a</em>: causa terminal/imediata (o que causou a morte diretamente).</li>
+      <li>Linhas <em>b</em> e <em>c</em>: causas antecedentes/consequenciais (que produziram a causa da linha a).</li>
+      <li>Linha <em>d</em>: <strong>causa básica</strong> — doença ou lesão que iniciou a cadeia de eventos. É a que entra nas estatísticas de mortalidade.</li>
+    </ul>
+  </li>
+  <li><strong>Parte II:</strong> outras condições significativas que <em>contribuíram</em> para a morte mas não estavam na cadeia principal (causas contribuintes).</li>
+</ul>
+</section>
+<!-- VIGILÂNCIA SANITÁRIA -->
+<section id="vig-sanitaria">
+<h3>Vigilância Sanitária</h3>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Um farmacêutico identifica lotes de medicamentos sem registro na ANVISA sendo vendidos em uma farmácia do bairro. Qual autoridade atua? Com quais poderes? Quais medidas pode tomar?
+</div>
+
+<h4>Histórico</h4>
+<p>As ações de Vigilância Sanitária (VISA) no Brasil começaram no século XVIII com regulamentações portuguesas intensificadas com a chegada da família real (1808). Marcos históricos:</p>
+<ul>
+  <li><strong>1820:</strong> Inspetoria de Saúde Pública do Porto do Rio de Janeiro — normas para cidades (isolamento, cemitérios, alimentos, medicamentos).</li>
+  <li><strong>1832:</strong> Código de Posturas — licença para fábricas.</li>
+  <li><strong>1842:</strong> Poder de Polícia Sanitária — fiscalização e penalidades.</li>
+  <li><strong>1953:</strong> Criação do Ministério da Saúde; lei tornando obrigatória a iodação do sal (controle de bócio endêmico).</li>
+  <li><strong>1954:</strong> Laboratório Central de Controle de Drogas e Medicamentos (LCCDM).</li>
+  <li><strong>1976:</strong> Criação da Secretaria Nacional de Vigilância Sanitária.</li>
+  <li><strong>1981:</strong> Instituto Nacional de Controle de Qualidade em Saúde (INCQS) na Fiocruz.</li>
+  <li><strong>1988:</strong> Decreto tornando obrigatórios exames no sangue coletado para hemoterapia.</li>
+  <li><strong>1999:</strong> Criação da ANVISA (Agência Nacional de Vigilância Sanitária) — modernização com maior agilidade e proatividade.</li>
+</ul>
+
+<h4>O que a Vigilância Sanitária Regula?</h4>
+<p>Três grandes grupos:</p>
+<ul>
+  <li><strong>Produtos:</strong> alimentos, bebidas, medicamentos, cosméticos, saneantes, produtos de higiene, correlatos, equipamentos médico-hospitalares, imunobiológicos, sangue e hemoderivados, cigarros, produtos de engenharia genética.</li>
+  <li><strong>Serviços de saúde e de interesse da saúde:</strong> serviços ambulatoriais, hospitalares, de apoio diagnóstico; creches, asilos, presídios, salões de beleza, cantinas escolares, academias.</li>
+  <li><strong>Ambientes:</strong> instalações físicas, tecnologias e processos produtivos, incluindo destinação de resíduos.</li>
+</ul>
+
+<h4>Controle de Agrotóxicos — Competência Compartilhada</h4>
+<ul>
+  <li><strong>Ministério da Saúde (ANVISA):</strong> agrotóxicos para desinfecção doméstica, pública ou coletiva, tratamento de água, campanhas de saúde pública.</li>
+  <li><strong>Ministério da Agricultura:</strong> produtos de uso veterinário e agrotóxicos agrícolas.</li>
+  <li><strong>Ministério do Meio Ambiente:</strong> impactos ambientais dos agrotóxicos.</li>
+</ul>
+
+<h4>Processo de Trabalho em Vigilância Sanitária</h4>
+<table class="coverage-table">
+  <thead>
+    <tr><th>Ação</th><th>Responsabilidade</th><th>Objetivo</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Normatização</td><td>ANVISA, Estados, DF, Municípios</td><td>Estabelecer regras para padronizar atividades e prevenir riscos.</td></tr>
+    <tr><td>Registro</td><td>ANVISA</td><td>Controlar e autorizar produtos de interesse da saúde.</td></tr>
+    <tr><td>Cadastramento</td><td>Municípios, Estados, DF, ANVISA</td><td>Manter cadastro atualizado para planejamento de ações.</td></tr>
+    <tr><td>Licenciamento</td><td>Estados, DF, Municípios</td><td>Verificar cumprimento de normas em estabelecimentos.</td></tr>
+    <tr><td>Autorização de Funcionamento</td><td>ANVISA</td><td>Verificar normas em estabelecimentos de grande porte.</td></tr>
+    <tr><td>Fiscalização</td><td>ANVISA, Estados, DF, Municípios</td><td>Verificar cumprimento e induzir aprimoramentos.</td></tr>
+    <tr><td>Monitoramento de Produtos</td><td>ANVISA, Estados, DF, Municípios</td><td>Acompanhar conformidade dos produtos ao longo do tempo.</td></tr>
+    <tr><td>Monitoramento da Publicidade</td><td>ANVISA, Estados, DF, Municípios</td><td>Verificar cumprimento das normas de propaganda.</td></tr>
+    <tr><td>Investigação de Surtos e Agravos</td><td>ANVISA, Estados, DF, Municípios</td><td>Identificar causador e adotar medidas preventivas.</td></tr>
+    <tr><td>Orientação e Educação</td><td>ANVISA, Estados, DF, Municípios</td><td>Orientar profissionais, produtores e população.</td></tr>
+    <tr><td>Atendimento a Denúncias</td><td>ANVISA, Estados, DF, Municípios</td><td>Identificar problemas e adotar correções.</td></tr>
+  </tbody>
+</table>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha</div>
+  O <strong>Registro</strong> de medicamentos e alimentos industrializados é competência exclusiva da <strong>ANVISA</strong>. O <strong>Licenciamento</strong> de estabelecimentos é competência de <strong>Estados, DF e Municípios</strong>. Confundir isso é erro frequente.
+</div>
+</section>
+<!-- TRANSIÇÃO DEMOGRÁFICA -->
+<section id="trans-demografica">
+<h2>4 · Transição Demográfica e Epidemiológica + DANTs</h2>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Uma UBS no interior do Paraná percebe que, em 10 anos, a fila de atendimento mudou: antes predominavam crianças com diarreia e infecção respiratória; hoje são idosos com hipertensão, diabetes e depressão. O que explica essa transformação?
+</div>
+
+<h3>Transição Demográfica</h3>
+<p>O problema que motivou esse conceito: após a Revolução Industrial, países em desenvolvimento tiveram quedas rápidas na mortalidade sem redução equivalente na natalidade — gerando explosão populacional seguida de envelhecimento. Isso impõe demandas crescentes sobre os sistemas de saúde.</p>
+
+<p>A transição demográfica é a <strong>mudança nos coeficientes de mortalidade e natalidade após a Revolução Industrial</strong>, dividida em 4 estágios (Medronho, 2009):</p>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Estágio 1 — Pré-industrial</div>
+    Toda a história humana até o século XVIII. Natalidade e mortalidade <strong>ambas elevadas</strong> → crescimento lento. Sociedades rurais.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Estágio 2 — Intermediária</div>
+    Países em industrialização. <strong>Mortalidade cai</strong> (saneamento, alimentação) mas <strong>natalidade permanece alta</strong> → explosão populacional. Países ricos: séc. XVIII/XIX; países em desenvolvimento: séc. XX.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Estágio 3 — Urbanização</div>
+    <strong>Natalidade cai</strong> significativamente; mortalidade continua baixa. População <strong>envelhece</strong>. Países ricos completaram no séc. XX.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Estágio 4 — Pós-industrial</div>
+    Natalidade e mortalidade <strong>ambas baixas</strong>. Estabilização da população. Taxa de fecundidade apenas repõe a população. Aumento da expectativa de vida — especialmente nas mulheres.
+  </div>
+</div>
+
+<h4>O Brasil na Transição Demográfica</h4>
+<ul>
+  <li>Transição demográfica <strong>acelerada</strong>: redução abrupta da fecundidade + envelhecimento rápido.</li>
+  <li>Em 2005: <strong>9%</strong> da população com mais de 60 anos (≈20 milhões).</li>
+  <li>Em 2030: projeção de <strong>15%</strong> (mais de 40 milhões).</li>
+  <li>Em 2050: 1 em cada 5 pessoas terá mais de 60 anos (vs. 1 em 8 em 2017).</li>
+  <li>Crescimento do número de idosos vivendo sós, com implicações na rede de cuidados.</li>
+</ul>
+</section>
+
+<!-- TRANSIÇÃO EPIDEMIOLÓGICA -->
+<section id="trans-epidemiologica">
+<h3>Transição Epidemiológica</h3>
+<p>A partir da segunda metade do século XIX, os países mais desenvolvidos apresentaram mudança significativa no perfil epidemiológico, com duas forças principais:</p>
+<ol>
+  <li><strong>Envelhecimento da população</strong> (consequência da transição demográfica).</li>
+  <li><strong>Substituição gradual das doenças infecciosas e deficiências nutricionais pelas doenças crônico-degenerativas e causas externas</strong>.</li>
+</ol>
+
+<p>Globalmente, em 2019:</p>
+<ul>
+  <li>As Doenças e Agravos Não Transmissíveis (DANTs) — ou Doenças Crônicas Não Transmissíveis (DCNTs) — representaram <strong>74%</strong> de todas as mortes globais.</li>
+  <li>Declínio de HIV/AIDS e doenças diarreicas desde 2000 (ainda principais causas em países de baixa renda).</li>
+  <li>Diabetes Mellitus entrou nas 10 principais causas de morte; aumento de <strong>70%</strong> na mortalidade masculina desde 2000.</li>
+  <li>Doenças renais subiram da 13ª para a 10ª posição.</li>
+  <li>A partir de 1980, causas externas (acidentes e violências) tornaram-se grave problema de saúde pública — especialmente em adultos jovens.</li>
+</ul>
+</section>
+
+<!-- DANTs -->
+<section id="dants">
+<h3>DANTs — Doenças e Agravos Não Transmissíveis</h3>
+
+<div class="info-box">
+  <div class="info-label">Definição Operacional</div>
+  <strong>Óbito Prematuro por DCNT:</strong> óbito que ocorre entre 30 e 69 anos de idade. Em 2019, foram registrados 738.371 óbitos por DCNT no Brasil, dos quais <strong>41,8%</strong> (n=308.511) foram prematuros — taxa padronizada de 275,5/100.000 habitantes.
+</div>
+
+<h4>Principais DANTs e seus dados no Brasil</h4>
+<ul>
+  <li><strong>Doenças Cardiovasculares:</strong> maior causa de mortalidade em todo o período analisado, apesar de redução na magnitude ao longo do tempo.</li>
+  <li><strong>Câncer (Neoplasias Malignas):</strong> segunda causa de morte na maioria dos países; em 80% dos países, a tendência prejudica o alcance da meta 3.4 dos ODS (reduzir 1/3 da mortalidade prematura por DCNT até 2030).</li>
+  <li><strong>Diabetes Mellitus:</strong> crescimento expressivo; aumento de 70% na mortalidade masculina desde 2000.</li>
+  <li><strong>Quedas acidentais:</strong> relevantes em idosos, podendo causar incapacidade funcional e impacto em custos sociais.</li>
+</ul>
+
+<h4>Fatores de Risco Comportamentais (Modelo Lalonde, 1974)</h4>
+<p>Marc Lalonde identificou os campos de influência sobre a saúde: estilo de vida é o maior determinante de mortalidade, seguido de ambiente, biologia humana e organização do sistema de saúde.</p>
+<ul>
+  <li><strong>Tabagismo:</strong> em 2015, responsável por 156.216 mortes no Brasil (428 mortes/dia = 12,6% do total de mortes). Principal causa de mortes evitáveis.</li>
+  <li><strong>Obesidade:</strong> de 2006 a 2019, aumento de <strong>72%</strong> na prevalência em adultos nas capitais brasileiras (11,8% → 20,3%).</li>
+  <li><strong>Álcool:</strong> consumo abusivo = 4+ doses para mulheres ou 5+ doses para homens na mesma ocasião. Em 2017, ≈6,2% de todos os óbitos brasileiros estavam relacionados ao álcool. Terceiro principal fator de risco comportamental para carga de doença no Brasil (DALYs).</li>
+  <li><strong>Sedentarismo:</strong> em 2019, apenas 39% dos adultos brasileiros atingiram 150 min/semana de atividade moderada. Inversamente proporcional à idade e diretamente proporcional à escolaridade.</li>
+  <li><strong>Alimentação inadequada:</strong> baixo consumo de frutas e hortaliças; monitorado nas capitais pelo VIGITEL.</li>
+</ul>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha</div>
+  O período de 2000 a 2019 mostrou <strong>redução</strong> na proporção de óbitos prematuros por DCNT (47,4% → 41,8%). Isso pode parecer bom, mas o percentual ainda é elevado e há heterogeneidade regional. Não confunda "redução relativa" com "problema resolvido".
+</div>
+</section>
+
+<!-- MODELO ASSISTENCIAL -->
+<section id="modelo-assistencial">
+<h3>Impacto no Modelo Assistencial</h3>
+<p>A transição demográfica + epidemiológica cria um ciclo pernicioso no sistema de saúde:</p>
+<ul>
+  <li>Formação excessiva de especialistas (em detrimento de generalistas).</li>
+  <li>Especialistas lidando com problemas frequentes de APS.</li>
+  <li>Baixa custo-efetividade do sistema.</li>
+  <li>Desregulação de vagas na residência perpetua o ciclo.</li>
+</ul>
+<p>A solução é o <strong>ciclo virtuoso</strong>: generalistas na porta de entrada (médico de família e comunidade, geriatras) responsabilizando-se pela coordenação do cuidado de uma população definida, com especialistas atuando apenas nos casos que requerem sua formação específica.</p>
+<p>Características do modelo centrado na APS (Robert Janett): porta de entrada, visão integral bio-psico-social, coordenação do cuidado, empanelamento (paciente tem médico de referência), cuidado baseado em equipes multiprofissionais, orientado por evidências.</p>
+<p>Resultados de estudos do modelo de atenção primária fortalecida incluem: 36,3% de redução de dias de internação, 32,2% de redução em visitas ao PS, 15,6% de redução global de custos.</p>
+</section>
+<!-- EPIDEMIOLOGIA CLÍNICA -->
+<section id="epi-clinica-origem">
+<h2>5 · Epidemiologia Clínica e MBE</h2>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Você prescreve um antioxidante para prevenção cardiovascular baseado num artigo que leu. Mas o estudo tinha um defeito grave: quem usava antioxidante também tinha hábitos de vida mais saudáveis. O benefício era do suplemento ou do estilo de vida? Isso é viés de confundimento.
+</div>
+
+<h3>Como Surgiu a Epidemiologia Clínica?</h3>
+<p>A clínica tradicional do início do século XX era baseada em fisiologia, química e histopatologia — o que não respondia perguntas sobre diagnóstico mais eficaz, tratamento mais seguro, risco ou prognóstico. A epidemiologia clínica nasce da aplicação de métodos epidemiológicos e estatísticos a grupos de pacientes em serviços de saúde.</p>
+<ul>
+  <li><strong>1938:</strong> primeira menção por John Paul (Yale) — "nova ciência básica para a medicina preventiva, na qual a exploração de aspectos relevantes da ecologia humana e da saúde pública começaria com o estudo de pacientes individuais."</li>
+  <li><strong>A partir de 1970:</strong> grande impacto na prática médica com pesquisas bem estruturadas.</li>
+  <li><strong>1980:</strong> fundação da International Clinical Epidemiology Network para capacitar médicos de países em desenvolvimento.</li>
+</ul>
+
+<div class="hist">
+  <span class="hl">Síntese</span>
+  Epidemiologia Clínica = Desenhos de Estudos + Estatística (da epidemiologia) + Conhecimentos Fisiológicos/Químicos/Histopatológicos (da clínica). Objetivo: "fomentar métodos de observação e interpretação clínica que levem a conclusões válidas e a um melhor cuidado do paciente." (Fletcher, 5ª ed.)
+</div>
+
+<p>Bases científicas para a medicina clínica: ciências biológicas (modelos animais, células, moléculas, genes), ciências clínicas (pacientes individuais), epidemiologia clínica (questões sobre grupos de pacientes, métodos populacionais), epidemiologia (populações), serviços de saúde (sistemas de atenção).</p>
+</section>
+
+<!-- VARIÁVEIS E PROBABILIDADE -->
+<section id="variaveis">
+<h3>Variáveis, Números e Probabilidade</h3>
+
+<h4>Tipos de Variáveis</h4>
+<ul>
+  <li><strong>Variável Independente:</strong> suposta causa ou variável preditora. Ex.: ter ou não hipertensão.</li>
+  <li><strong>Variável Dependente:</strong> efeito possível ou variável de desfecho. Ex.: desenvolver IAM.</li>
+  <li><strong>Variáveis Externas / Covariáveis:</strong> alheias à questão principal mas parte do fenômeno. Ex.: ser fumante, além de hipertenso. Podem gerar viés de confundimento.</li>
+</ul>
+
+<h4>Por que usamos Probabilidade?</h4>
+<p>Quando analisamos um único paciente individualmente, as questões relativas a prognóstico, diagnóstico e evolução são <strong>incertas</strong>. A probabilidade, verificada em estudos com populações de condições semelhantes, resolve essa incerteza. Exemplo: o tabagismo <em>dobra</em> o risco de morte em adultos de meia idade; troponinas detectam ≈99% dos IAM em dor torácica aguda.</p>
+
+<h4>Populações e Amostras</h4>
+<ul>
+  <li><strong>População:</strong> todas as pessoas de um território ou com determinada característica comum.</li>
+  <li><strong>Amostra:</strong> subgrupo selecionado para pesquisa. Deve ser <em>representativa</em> da população de interesse.</li>
+  <li>Os achados na amostra devem ser inferíveis para a população — esse processo chama-se <strong>inferência estatística</strong>.</li>
+</ul>
+</section>
+
+<!-- VIÉS E ACASO -->
+<section id="vies">
+<h3>Viés (Erro Sistemático) e Acaso (Variação Aleatória)</h3>
+
+<div class="hist">
+  <span class="hl">Definição de Viés</span>
+  "Processo em qualquer estágio da inferência com tendência a produzir resultados que se afastem sistematicamente dos valores verdadeiros." É um erro — desde o planejamento até a publicação — que leva a conclusões sistematicamente (não aleatoriamente) diferentes da verdade.
+</div>
+
+<h4>Principais Tipos de Viés</h4>
+
+<p><strong>1. Viés de Seleção:</strong> ocorre quando são comparados grupos que diferem em outros determinantes do desfecho, além do que está sendo estudado.</p>
+<div class="kbox">
+  <div class="klabel">Exemplo Clássico</div>
+  Estudar tratamento de HAS em dois grupos: um com muitos afrodescendentes (maior risco basal de hipertensão grave) e outro de caucasianos. O resultado pode refletir a etnia, não o medicamento.
+</div>
+
+<p><strong>2. Viés de Aferição:</strong> quando a maneira de medir um sinal clínico influencia o resultado. Se os pesquisadores não seguem o mesmo protocolo de medição, a variação pode ser consequência do método, não do fenômeno.</p>
+<div class="kbox">
+  <div class="klabel">Exemplo Clássico</div>
+  Aferição de Pressão Arterial: a posição do paciente, o tempo de repouso antes, a velocidade de esvaziamento do esfigmomanômetro — tudo interfere no resultado.
+</div>
+
+<p><strong>3. Viés de Confundimento (Confusão):</strong> dois fatores estão associados (andam juntos) e o efeito de um se confunde com o do outro.</p>
+<div class="kbox">
+  <div class="klabel">Exemplo Clássico — Isqueiro e Câncer</div>
+  "Carregar isqueiro aumenta risco de câncer de pulmão?" — O hábito de fumar e o de carregar isqueiro andam juntos, mas só o fumo é causa do câncer. O isqueiro é variável de confundimento.
+</div>
+<div class="kbox">
+  <div class="klabel">Outro Exemplo — Antioxidantes</div>
+  Estudos iniciais mostravam vantagem de antioxidantes para prevenção cardiovascular. A causa real: quem usa antioxidantes costuma ter estilo de vida mais saudável em geral. A saúde cardiovascular era do estilo de vida, não do suplemento.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Distinção Importante</div>
+  Viés de <strong>seleção</strong> é percebido no <em>planejamento</em> do estudo; viés de <strong>confundimento</strong> é melhor percebido na <em>análise dos resultados</em>. Um estudo pode apresentar vários tipos de viés simultaneamente.
+</div>
+
+<h4>Acaso — Variação Aleatória</h4>
+<p>Mesmo sem viés, uma amostra pode divergir da população por puro acaso (<strong>variação aleatória</strong>). Quanto maior a amostra e mais repetições realizadas, mais os resultados convergem ao valor real (analogia: quanto mais vezes jogamos uma moeda, mais equilibrado o resultado entre cara e coroa). A estatística quantifica e ajusta esses efeitos do acaso — frequentemente aumentando o tamanho da amostra.</p>
+</section>
+
+<!-- VALIDADE -->
+<section id="validade">
+<h3>Validade Interna e Validade Externa</h3>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Validade Interna</div>
+    Grau em que os resultados estão corretos para a <em>amostra estudada</em>. Relaciona-se à qualidade da condução do estudo: delineamento, controle de vieses, coleta e análise. É necessária mas insuficiente para a utilidade prática.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Validade Externa</div>
+    Quanto os resultados obtidos se aplicam em <em>outros cenários</em>. É a capacidade de generalização. Exemplo: resultado em homens jovens pode não se aplicar a mulheres mais velhas.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Relação entre ambas</div>
+    Validade interna é pré-requisito para validade externa. Um estudo sem validade interna não pode ter validade externa. Mas ter validade interna não garante a generalização.
+  </div>
+</div>
+</section>
+<!-- MBE -->
+<section id="mbe">
+<h3>Medicina Baseada em Evidências (MBE)</h3>
+
+<div class="hist">
+  <span class="hl">Origem</span>
+  Expressão introduzida por Gordon Guyatt em 1992, significando "uma nova abordagem para a prática e o ensino da medicina".
+</div>
+
+<h4>5 Processos Necessários para Tomada de Decisão em Saúde</h4>
+<ol>
+  <li><strong>Geração de Evidências</strong> — realização de pesquisas primárias.</li>
+  <li><strong>Busca de Evidências</strong> — localizar a literatura pertinente.</li>
+  <li><strong>Avaliação Crítica das Evidências</strong> — analisar validade, importância e aplicabilidade.</li>
+  <li><strong>Aplicação das Evidências</strong> — incorporar na prática clínica.</li>
+  <li><strong>Síntese das Evidências</strong> — revisões sistemáticas e metanálises.</li>
+</ol>
+
+<h4>Outros "tipos de medicina" — o que NÃO é MBE</h4>
+<table class="coverage-table">
+  <thead><tr><th>Termo</th><th>Descrição</th></tr></thead>
+  <tbody>
+    <tr><td>Medicina baseada em eminência</td><td>Colegas experientes que creem que experiência supera evidências.</td></tr>
+    <tr><td>Medicina baseada em veemência</td><td>Substituição de evidências por volume e estridência do argumento.</td></tr>
+    <tr><td>Medicina baseada em nervosismo</td><td>Medo de processo judicial → excesso de investigação e tratamento.</td></tr>
+    <tr><td>Medicina baseada em providência</td><td>A decisão é deixada nas mãos do todo-poderoso.</td></tr>
+    <tr><td>Medicina baseada em defidência</td><td>Timidez excessiva para tomar decisões médicas.</td></tr>
+  </tbody>
+</table>
+
+<h4>Formulando Questões de Pesquisa Clínica — Critério FINER</h4>
+<p>Uma boa questão de pesquisa deve ser:</p>
+<ul>
+  <li><strong>F</strong>actível — pesquisador com domínio, recursos adequados, pacientes suficientes, escopo delimitado.</li>
+  <li><strong>I</strong>nteressante — interesse confirmado por especialistas da área.</li>
+  <li><strong>N</strong>ova (inovadora) — acrescenta informação nova; pode reabordar com novas técnicas.</li>
+  <li><strong>É</strong>tica — respeita autonomia, beneficência e não-maleficência.</li>
+  <li><strong>R</strong>elevante — impacto potencial no conhecimento científico, no cuidado e nas políticas de saúde.</li>
+</ul>
+</section>
+
+<!-- PICO E HIERARQUIA -->
+<section id="pico">
+<h3>PICO e Hierarquia das Evidências</h3>
+
+<h4>Estrutura PICO para Perguntas Clínicas</h4>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">P — Patients</div>Quais pacientes farão parte do estudo? Define a população de interesse.</div>
+  <div class="ck-card"><div class="ckt">I — Intervention</div>Qual a intervenção a ser estudada? (quando estudo de intervenção)</div>
+  <div class="ck-card"><div class="ckt">C — Comparison</div>Grupo de comparação (controle). O que é comparado à intervenção?</div>
+  <div class="ck-card"><div class="ckt">O — Outcome</div>Qual o desfecho? O que se pretende medir como resultado?</div>
+</div>
+
+<h4>Delineamento de Estudo x Tipo de Questão</h4>
+<table class="coverage-table">
+  <thead><tr><th>Tipo de Questão Clínica</th><th>Delineamento Ideal</th></tr></thead>
+  <tbody>
+    <tr><td>Diagnóstico</td><td>Estudo transversal</td></tr>
+    <tr><td>Tratamento</td><td>Ensaio clínico controlado randomizado (ECR) / Metanálises</td></tr>
+    <tr><td>Prognóstico</td><td>Estudos de coorte</td></tr>
+    <tr><td>Etiologia ou Danos</td><td>Estudos de coorte ou caso-controle</td></tr>
+  </tbody>
+</table>
+
+<h4>Hierarquia das Evidências (pirâmide)</h4>
+<ol>
+  <li><strong>Metanálise</strong> — nível mais alto; síntese de múltiplos ECRs.</li>
+  <li><strong>Ensaio Clínico Randomizado (ECR)</strong> — controle e aleatorização minimizam vieses.</li>
+  <li><strong>Ensaio Clínico não Randomizado.</strong></li>
+  <li><strong>Estudo de Coorte</strong> — seguimento prospectivo de expostos e não-expostos.</li>
+  <li><strong>Estudo Caso-Controle</strong> — compara casos (doentes) com controles (não doentes).</li>
+  <li><strong>Estudo Transversal</strong> — ponto do tempo; exposição e desfecho simultâneos.</li>
+  <li><strong>Série de Casos.</strong></li>
+  <li><strong>Relatos de Casos.</strong></li>
+  <li><strong>Opinião de Especialistas</strong> — nível mais baixo.</li>
+</ol>
+
+<h4>Bases de Dados para MBE</h4>
+<ul>
+  <li><strong>Cochrane Collaboration:</strong> rede global independente com mais de 37.000 voluntários de mais de 130 países; realiza revisões sistemáticas com metodologia Cochrane para apresentar a melhor evidência disponível.</li>
+  <li><strong>USPSTF (U.S. Preventive Services Task Force):</strong> recomendações baseadas em evidências para triagem e prevenção.</li>
+  <li>PubMed/MEDLINE, EMBASE, LILACS (literatura latino-americana).</li>
+</ul>
+
+<h4>Bases para a Prática da MBE — Ciclo</h4>
+<ol>
+  <li>Identificar problema clínico.</li>
+  <li>Transformar em pergunta clínica (PICO).</li>
+  <li>Definir estratégia de busca e selecionar literatura.</li>
+  <li>Avaliar criticamente e sintetizar evidências.</li>
+  <li>Aplicar resultados para resolver problema clínico.</li>
+</ol>
+</section>
+<!-- MÉTODOS DIAGNÓSTICOS -->
+<section id="teste-diag">
+<h2>6 · Métodos Diagnósticos</h2>
+
+<div class="caso">
+  <div class="caso-label">Caso Clínico</div>
+  Uma médica pede anti-HIV para um doador de sangue. O teste dá positivo. Qual a probabilidade de o doador realmente ter HIV? E se a mesma médica pedir o mesmo teste para um paciente com comportamento de alto risco que chegou com quadro clínico sugestivo? A mesma sensibilidade e especificidade — mas o resultado tem significado diferente.
+</div>
+
+<h3>O que é um Teste Diagnóstico?</h3>
+<p>O teste diagnóstico não se limita ao laboratório. Aplica-se também a informações obtidas pela <strong>anamnese, exame físico e procedimentos de imagem</strong>. O estabelecimento de um diagnóstico é um processo <em>imperfeito</em> — resulta em uma probabilidade, não em certeza. Cada vez mais o médico apresenta ao paciente uma <em>probabilidade</em> de ter determinada doença.</p>
+</section>
+
+<!-- PADRÃO OURO -->
+<section id="padrao-ouro">
+<h3>Padrão Ouro (Critério Padrão / Padrão de Referência)</h3>
+<p>Para avaliar um teste diagnóstico, precisamos de algo com o qual compará-lo: o <strong>padrão ouro</strong> — o exame de referência para o diagnóstico de determinada doença.</p>
+
+<ul>
+  <li>Pode ser simples e barato (detecção de antígeno ou anticorpo) ou complexo e caro (biópsia tecidual, cirurgia exploradora, necropsia).</li>
+  <li>Exemplo: padrão ouro para pneumonia = broncoscopia com biópsia pulmonar; na prática clínica usa-se o exame clínico + radiografia + cultura de escarro.</li>
+  <li>Outro exemplo: cateterismo vs. ECG + troponinas para IAM.</li>
+</ul>
+
+<h4>Problemas na Definição do Padrão Ouro</h4>
+<ul>
+  <li><strong>Falta de informações sobre testes negativos:</strong> médicos aprofundam investigações quando exames preliminares são positivos (gerando mais informação sobre VP e FP) mas raramente investigam quando são negativos (dificultando o conhecimento de VN e FN).</li>
+  <li><strong>Ausência de dados em não-doentes:</strong> muitos testes dão resultados anormais em pessoas saudáveis. Ex.: 22 a 58% das pessoas <em>sem lombalgia</em> apresentam hérnia discal na RM.</li>
+  <li><strong>Ausência de padrões objetivos para algumas doenças:</strong> angina, autismo, síndrome do intestino irritável, fogachos — não há critério único e firme; usam-se escores de sintomas.</li>
+</ul>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha</div>
+  A RM de coluna revelando hérnia discal não equivale ao diagnóstico de lombalgia por hérnia — uma parte enorme de pessoas assintomáticas tem hérnia. Isso é um problema de <strong>especificidade do padrão ouro</strong>.
+</div>
+</section>
+
+<!-- SENSIBILIDADE E ESPECIFICIDADE -->
+<section id="sens-espec">
+<h3>Sensibilidade e Especificidade</h3>
+
+<h4>A Tabela 2×2 — Fundamento de Tudo</h4>
+<p>Para calcular sensibilidade, especificidade e valores preditivos, monta-se uma tabela comparando o teste estudado com o diagnóstico pelo padrão ouro:</p>
+
+<table class="tabela2x2">
+  <tr>
+    <th></th><th></th><th colspan="2">DOENÇA (Padrão Ouro)</th><th></th>
+  </tr>
+  <tr>
+    <th></th><th></th><th>PRESENTE</th><th>AUSENTE</th><th>Total</th>
+  </tr>
+  <tr>
+    <th rowspan="2">TESTE</th><th>POSITIVO</th>
+    <td class="vp">a (VP)</td><td class="fp">b (FP)</td><td>a+b</td>
+  </tr>
+  <tr>
+    <th>NEGATIVO</th>
+    <td class="fn">c (FN)</td><td class="vn">d (VN)</td><td>c+d</td>
+  </tr>
+  <tr>
+    <th></th><th>Total</th><td>a+c</td><td>b+d</td><td>N</td>
+  </tr>
+</table>
+
+<ul>
+  <li><strong class="vp">VP (Verdadeiro Positivo — a):</strong> teste positivo em doente. ✓</li>
+  <li><strong class="fp">FP (Falso Positivo — b):</strong> teste positivo em saudável. ✗ (alarme falso)</li>
+  <li><strong class="fn">FN (Falso Negativo — c):</strong> teste negativo em doente. ✗ (perigo!)</li>
+  <li><strong class="vn">VN (Verdadeiro Negativo — d):</strong> teste negativo em saudável. ✓</li>
+</ul>
+
+<h4>Sensibilidade</h4>
+<div class="formula-box">
+  SENSIBILIDADE = VP / (VP + FN) = a / (a + c)
+</div>
+<p>Proporção de pessoas <strong>com a doença</strong> que têm resultado <strong>positivo</strong> no teste.</p>
+<ul>
+  <li>Alta sensibilidade → poucos FN → teste raramente deixa passar um doente.</li>
+  <li>Consequência: ↑ FP / ↓ FN.</li>
+  <li><strong>Uso ideal:</strong> triagem inicial; situações em que FN é perigoso. Exemplo: teste anti-HIV em doadores de sangue — um FN contamina o receptor.</li>
+</ul>
+
+<h4>Especificidade</h4>
+<div class="formula-box">
+  ESPECIFICIDADE = VN / (VN + FP) = d / (b + d)
+</div>
+<p>Proporção de pessoas <strong>sem a doença</strong> que têm resultado <strong>negativo</strong> no teste.</p>
+<ul>
+  <li>Alta especificidade → poucos FP → teste raramente classifica saudável como doente.</li>
+  <li>Consequência: ↑ FN / ↓ FP.</li>
+  <li><strong>Uso ideal:</strong> confirmar diagnóstico provável; situações em que FP é prejudicial. Exemplo: exame histopatológico antes de quimioterapia — um FP levaria paciente saudável a tratamento agressivo desnecessário.</li>
+</ul>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha Central</div>
+  <strong>Sensibilidade e especificidade são propriedades do teste</strong> — não dependem da prevalência da doença na população. Já os <strong>valores preditivos dependem da prevalência</strong>. Esse é o erro mais comum em provas.
+</div>
+
+<h4>Mnemônico SpIN / SnOUT</h4>
+<ul>
+  <li><strong>SpIN:</strong> alta Especificidade (<strong>Sp</strong>) → resultado Positivo confirma (<strong>IN</strong>) a doença. (Específico Positivo → regra-IN)</li>
+  <li><strong>SnOUT:</strong> alta Sensibilidade (<strong>Sn</strong>) → resultado Negativo exclui (<strong>OUT</strong>) a doença. (Sensível Negativo → regra-OUT)</li>
+</ul>
+</section>
+<!-- VALORES PREDITIVOS -->
+<section id="vp-vn">
+<h3>Valores Preditivos (VPP e VPN)</h3>
+<p>Os valores preditivos respondem à pergunta real do médico: "dado que o exame do meu paciente deu positivo (ou negativo), qual a probabilidade de ele ter (ou não ter) a doença?"</p>
+
+<h4>Valor Preditivo Positivo (VPP)</h4>
+<div class="formula-box">
+  VPP = VP / (VP + FP) = a / (a + b)
+</div>
+<p>Probabilidade de ter a doença quando o teste é <strong>positivo</strong>. É a proporção de verdadeiros positivos entre todos os testes positivos.</p>
+
+<h4>Valor Preditivo Negativo (VPN)</h4>
+<div class="formula-box">
+  VPN = VN / (VN + FN) = d / (c + d)
+</div>
+<p>Probabilidade de <strong>não ter</strong> a doença quando o teste é negativo. É a proporção de verdadeiros negativos entre todos os testes negativos.</p>
+
+<h4>Influência da Prevalência nos Valores Preditivos</h4>
+<p>Este é o ponto mais importante e mais cobrado. Considere um teste com <strong>90% de sensibilidade e 90% de especificidade</strong> em duas populações diferentes:</p>
+
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">População 1 — Prevalência 5%</div>
+    <p>1000 pessoas, 50 doentes, 950 saudáveis.</p>
+    <p>VP = 0,9 × 50 = 45; FP = 0,1 × 950 = 95</p>
+    <p>FN = 0,1 × 50 = 5; VN = 0,9 × 950 = 855</p>
+    <p><strong>VPP = 45/140 = 32,1%</strong></p>
+    <p><strong>VPN = 855/860 = 99,4%</strong></p>
+    <p><em>Em uma população universitária (baixa prevalência de gonorreia), mesmo com resultado positivo, a maioria NÃO tem a doença!</em></p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">População 2 — Prevalência 30%</div>
+    <p>1000 pessoas, 300 doentes, 700 saudáveis.</p>
+    <p>VP = 0,9 × 300 = 270; FP = 0,1 × 700 = 70</p>
+    <p>FN = 0,1 × 300 = 30; VN = 0,9 × 700 = 630</p>
+    <p><strong>VPP = 270/340 = 79,4%</strong></p>
+    <p><strong>VPN = 630/660 = 95,4%</strong></p>
+    <p><em>Em profissionais do sexo (alta prevalência), o mesmo teste positivo tem probabilidade muito maior de ser verdadeiro.</em></p>
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Conclusão Crítica</div>
+    <p>O <strong>mesmo teste</strong>, com a <strong>mesma sensibilidade e especificidade</strong>, em populações com <strong>prevalências diferentes</strong>, produz VPP e VPN completamente diferentes.</p>
+    <p>Alta prevalência → ↑ VPP, ↓ VPN.</p>
+    <p>Baixa prevalência → ↓ VPP, ↑ VPN.</p>
+  </div>
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Mega Pegadinha — Prevalência e Valores Preditivos</div>
+  Um teste positivo em população de baixa prevalência tem VPP baixo → muitos falsos positivos. Por isso, rastreamentos populacionais com teste de alta sensibilidade exigem <strong>confirmação com teste de alta especificidade</strong> (exemplo: ELISA para HIV em triagem de banco de sangue → Western Blot para confirmação).
+</div>
+</section>
+
+<!-- ACURÁCIA -->
+<section id="acuracia">
+<h3>Acurácia</h3>
+<div class="formula-box">
+  ACURÁCIA = (VP + VN) / Total = (a + d) / N
+</div>
+<p>Proporção de resultados corretos em relação ao total de testes realizados. Representa o quanto o teste acerta.</p>
+
+<p>Exemplo: com prevalência de 30%, VP=270, FP=70, FN=30, VN=630, N=1000:</p>
+<div class="formula-box">
+  Acurácia = (270 + 630) / 1000 = 900/1000 = <strong>90%</strong>
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Limitação da Acurácia</div>
+  A acurácia pode ser enganosa em doenças raras. Se a prevalência for 1%, um teste que classifica todos como negativos terá acurácia de 99% — mas não diagnostica ninguém. Por isso, sensibilidade, especificidade e valores preditivos são mais informativos.
+</div>
+</section>
+
+<!-- EXERCÍCIOS RESOLVIDOS -->
+<section id="exercicios">
+<h3>Exercícios Resolvidos do Professor</h3>
+
+<h4>Exercício 1 — Rubéola</h4>
+<div class="hist">
+  <span class="hl">Enunciado</span>
+  Inquérito soroepidemiológico para anticorpos IgM contra rubéola em 100 pacientes. O médico diagnosticou clinicamente a doença em 60%. O exame sorológico resultou positivo em 90 pacientes; desses, 55 tinham diagnóstico clínico. Não houve erro laboratorial. Construa a tabela 2×2 e calcule S, E, VPP, VPN — usando o exame sorológico como padrão ouro.
+</div>
+
+<table class="tabela2x2">
+  <tr><th></th><th></th><th>Sorologia + (Doente)</th><th>Sorologia − (Saudável)</th><th>Total</th></tr>
+  <tr><th rowspan="2">Diagnóstico Clínico</th><th>Positivo</th><td class="vp">55 (VP)</td><td class="fp">5 (FP)</td><td>60</td></tr>
+  <tr><th>Negativo</th><td class="fn">35 (FN)</td><td class="vn">5 (VN)</td><td>40</td></tr>
+  <tr><th></th><th>Total</th><td>90</td><td>10</td><td>100</td></tr>
+</table>
+
+<ul>
+  <li><strong>Sensibilidade</strong> = 55/90 × 100 = <strong>61%</strong></li>
+  <li><strong>Especificidade</strong> = 5/10 × 100 = <strong>50%</strong></li>
+  <li><strong>VPP</strong> = 55/60 × 100 = <strong>91%</strong></li>
+  <li><strong>VPN</strong> = 5/40 × 100 = <strong>13%</strong></li>
+  <li><strong>Prevalência</strong> = 90/100 = <strong>90%</strong></li>
+</ul>
+<p><em>Interpretação: a alta prevalência (90%) explica o VPP altíssimo (91%) e o VPN baixíssimo (13%). O diagnóstico clínico é pouco sensível (61%) e pouco específico (50%).</em></p>
+
+<h4>Exercício 2 — Doença de Chagas e Barbeiros</h4>
+<div class="hist">
+  <span class="hl">Enunciado</span>
+  200 pacientes com Doença de Chagas. 60% afirmavam existência de barbeiros nas habitações. Técnicos encontraram barbeiros em 140 moradias. Dentre essas 140, em 112 os doentes haviam relatado os insetos. Calcule S, E, VPP, VPN.
+</div>
+
+<table class="tabela2x2">
+  <tr><th></th><th></th><th>Visita + (Presença)</th><th>Visita − (Ausência)</th><th>Total</th></tr>
+  <tr><th rowspan="2">Informação do Paciente</th><th>Presença</th><td class="vp">112 (VP)</td><td class="fp">8 (FP)</td><td>120</td></tr>
+  <tr><th>Ausência</th><td class="fn">28 (FN)</td><td class="vn">52 (VN)</td><td>80</td></tr>
+  <tr><th></th><th>Total</th><td>140</td><td>60</td><td>200</td></tr>
+</table>
+
+<ul>
+  <li><strong>Sensibilidade</strong> = 112/140 × 100 = <strong>80%</strong></li>
+  <li><strong>Especificidade</strong> = 52/60 × 100 = <strong>87%</strong></li>
+  <li><strong>VPP</strong> = 112/120 × 100 = <strong>93%</strong></li>
+  <li><strong>VPN</strong> = 52/80 × 100 = <strong>65%</strong></li>
+  <li><strong>Prevalência</strong> = 140/200 = <strong>70%</strong></li>
+</ul>
+<p><em>Interpretação: a relato do paciente é razoavelmente sensível (80%) e específico (87%) para detectar barbeiros. Alta prevalência (70%) → VPP alto (93%).</em></p>
+</section>
+<!-- SEÇÃO DE PEGADINHAS CONSOLIDADA -->
+<section id="pegadinhas">
+<h2>Mapa de Pegadinhas — Pontos de Atenção</h2>
+<p>Estes são os conceitos que parecem simples mas têm exceção ou nuance importante para a prova:</p>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 1 — Epidemia não é sobre quantidade</div>
+  Uma epidemia não é definida pela quantidade de casos, mas pelo <strong>excesso em relação ao esperado</strong>. Um único caso de poliovírus selvagem nas Américas = epidemia. Uma gripe leve em 500 pessoas em uma cidade com histórico sazonal esperado daquele nível = endemia.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 2 — Surto ≠ Epidemia</div>
+  Surto é limitado a espaço <em>localizado</em>. Epidemia transcende limites geográficos mais amplos. O surto pode ser a expressão inicial de uma epidemia — identificá-lo precocemente evita epidemias.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 3 — Reservatório ≠ Vetor</div>
+  Reservatório é onde o agente <em>vive e se multiplica</em> para sobreviver. Vetor é um hospedeiro intermediário que <em>transmite</em> o agente. Na dengue: Aedes aegypti é vetor E reservatório do vírus. Na malária: Anopheles é vetor; humano é reservatório acidental.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 4 — Sensibilidade e Especificidade NÃO dependem de prevalência</div>
+  Sensibilidade e especificidade são características intrínsecas do teste. VPP e VPN <strong>dependem da prevalência</strong>. Na prova, se perguntarem "o que muda com a prevalência?" — a resposta são os valores preditivos, não S e E.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 5 — Alta prevalência sobe o VPP mas baixa o VPN</div>
+  Regra prática: quanto mais doentes na população testada, mais os positivos são verdadeiros (↑VPP) e mais os negativos são falsos (↓VPN). Em triagem de banco de sangue (baixa prevalência de HIV) → VPP baixo mesmo com teste excelente → sempre confirmar com padrão ouro.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 6 — Acurácia pode enganar</div>
+  Em doenças raras, um teste que classifica TODOS como negativos tem acurácia altíssima mas sensibilidade zero. Acurácia isolada não avalia o desempenho do teste adequadamente.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 7 — Viés de Seleção vs. Confundimento</div>
+  Viés de seleção → detectado no <em>planejamento</em>. Viés de confundimento → mais evidente na <em>análise dos resultados</em>. O carregar isqueiro é confundimento (não seleção) porque o fumante foi selecionado sem distinção, mas o fator tabagismo se confunde com carregar isqueiro.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 8 — Notificação Negativa não é opcional</div>
+  A notificação compulsória negativa é <em>obrigatória</em> e semanal — o estabelecimento deve informar que NÃO identificou casos. Isso mantém o sistema ativo e evita o silêncio epidemiológico.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 9 — Registro de Medicamentos vs. Licenciamento de Estabelecimento</div>
+  Registro de produtos (medicamentos, alimentos industrializados) = <strong>ANVISA</strong> (nível federal). Licenciamento de estabelecimentos de saúde = <strong>Estados, DF, Municípios</strong>.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 10 — DO: causa básica vs. causa imediata</div>
+  Na Declaração de Óbito, o que entra nas estatísticas de mortalidade é a <strong>causa básica</strong> (linha d), não a causa imediata (linha a). Exemplo: paciente com HIV (causa básica) que morreu de pneumocistose (causa imediata) — nos dados de mortalidade, registra-se HIV/AIDS.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 11 — John Snow sem microscópio</div>
+  O método epidemiológico precede o diagnóstico laboratorial. Snow eliminou a causa da epidemia de cólera sem saber que existia o Vibrio cholerae. Epidemiologia funciona mesmo antes do conhecimento microbiológico/molecular completo.
+</div>
+
+<div class="trap-box">
+  <div class="trap-label">⚠ Pegadinha 12 — Transição Epidemiológica no Brasil é "tripla carga"</div>
+  O Brasil não completou a transição — convive simultaneamente com doenças infecciosas (dengue, tuberculose), doenças crônicas (hipertensão, diabetes) e causas externas (violência). Isso é chamado de "tripla carga" ou transição epidemiológica polarizada.
+</div>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+<h2>Conceitos-chave para Fixação</h2>
+<div class="ck-grid">
+  <div class="ck-card">
+    <div class="ckt">Epidemiologia</div>
+    Ciência do que ocorre sobre o povo. Estuda distribuição e determinantes de eventos de saúde em populações para subsidiar controle.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">John Snow (1854)</div>
+    Pai da epi moderna. Método observacional sem microscópio. Mapa de óbitos → bomba d'água → cólera é hídrica.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Surto vs. Epidemia</div>
+    Surto: localizado. Epidemia: excede o esperado e transcende limites geográficos. Surto pode preceder epidemia.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Enfoque TLP</div>
+    Tempo (quando?), Lugar (onde?), Pessoa (quem?). As três perguntas básicas do epidemiologista de campo.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Notificação Imediata</div>
+    ≤24h. Exemplo: Doença Meningocócica. Notificação Semanal ≤7 dias. Exemplo: Hanseníase. Negativa: semanal, ausência de casos.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">SINAN / SIM</div>
+    SINAN: agravos de notificação (morbidade). SIM: mortalidade (DO). Causa básica = linha d da DO.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Transição Demográfica</div>
+    4 estágios. Brasil: transição acelerada. 2030: 15% da pop. com >60 anos (~40 milhões).
+  </div>
+  <div class="ck-card">
+    <div class="ckt">DANTs no Brasil (2019)</div>
+    738.371 óbitos; 41,8% prematuros (30–69 anos). DCV = 1ª causa. Câncer = 2ª. Óbito prematuro: 275,5/100.000.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Tabagismo</div>
+    156.216 mortes/ano no Brasil (2015) = 428/dia = 12,6% do total. Principal causa de mortes evitáveis.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Sensibilidade</div>
+    S = a/(a+c). Alta S → poucos FN → boa triagem. SnOUT: Sensível Negativo exclui doença.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Especificidade</div>
+    E = d/(b+d). Alta E → poucos FP → boa confirmação. SpIN: Específico Positivo confirma doença.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">VPP e VPN</div>
+    VPP = a/(a+b). VPN = d/(c+d). Ambos dependem da prevalência. Alta prevalência → ↑VPP, ↓VPN.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Acurácia</div>
+    (VP+VN)/N. Proporção de acertos totais. Pode ser enganosa em doenças raras.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">PICO</div>
+    Patients, Intervention, Comparison, Outcome. Estrutura a pergunta clínica para busca em MBE.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Hierarquia MBE</div>
+    Metanálise > ECR > Coorte > Caso-Controle > Transversal > Série de Casos > Opinião de Especialista.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Viés de Confundimento</div>
+    Dois fatores andam juntos e o efeito de um distorce o do outro. Exemplo: isqueiro e câncer (confundimento pelo tabagismo).
+  </div>
+  <div class="ck-card">
+    <div class="ckt">Validade Interna</div>
+    Resultados corretos para a amostra. Necessária mas insuficiente. Validade Externa = generalização.
+  </div>
+  <div class="ck-card">
+    <div class="ckt">ANVISA (1999)</div>
+    Registro de produtos (federal). Licenciamento de estabelecimentos (estados/municípios). Fiscalização compartilhada.
+  </div>
+</div>
+</section>
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+<h2>Referências ABNT</h2>
+<ul style="font-family: var(--font-ui); font-size: 13px; color: var(--muted); list-style: none; margin-left: 0;">
+  <li style="margin-bottom: 8px;">ROUQUAYROL, M. Z.; GURGEL, M. <strong>Rouquayrol: Epidemiologia e Saúde.</strong> 8. ed. Rio de Janeiro: MedBook, 2018.</li>
+  <li style="margin-bottom: 8px;">FLETCHER, R. H.; FLETCHER, S. W.; FLETCHER, G. S. <strong>Epidemiologia clínica: elementos essenciais.</strong> 5. ed. Porto Alegre: Artmed, 2014.</li>
+  <li style="margin-bottom: 8px;">MEDRONHO, R. A. et al. <strong>Epidemiologia.</strong> 2. ed. São Paulo: Atheneu, 2009.</li>
+  <li style="margin-bottom: 8px;">OPAS/OMS. <strong>Módulos de Princípios de Epidemiologia para o Controle de Enfermidades (MOPECE).</strong> Washington, D.C., 2011.</li>
+  <li style="margin-bottom: 8px;">BRASIL. Ministério da Saúde. Portaria nº 204, de 17 de fevereiro de 2016. Define a Lista Nacional de Notificação Compulsória de doenças, agravos e eventos de saúde pública. <em>Diário Oficial da União</em>, Brasília, DF, 18 fev. 2016. Atualizada em 19 fev. 2024.</li>
+  <li style="margin-bottom: 8px;">BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde. <strong>Plano de Ações Estratégicas para o Enfrentamento das Doenças Crônicas e Agravos Não Transmissíveis no Brasil 2021–2030.</strong> Brasília: Ministério da Saúde, 2021.</li>
+  <li style="margin-bottom: 8px;">ANVISA. <strong>Curso Básico em Vigilância Sanitária.</strong> Brasília: ANVISA, 2022. Disponível em: <a href="https://www.gov.br/anvisa" style="color: var(--ac);">www.gov.br/anvisa</a>.</li>
+  <li style="margin-bottom: 8px;">LALONDE, M. <strong>A New Perspective on the Health of Canadians.</strong> Ottawa: Government of Canada, 1974.</li>
+  <li style="margin-bottom: 8px;">IBGE. <strong>Projeções da Population do Brasil: 2000–2060.</strong> Rio de Janeiro: IBGE, 2013.</li>
+  <li style="margin-bottom: 8px;">JANETT, R. S. <strong>Patient-Centered Medical Home: Building the Team-Based Approach.</strong> Safety Net Medical Home Initiative, 2011.</li>
+</ul>
+</section>
+
+<hr>
+<div style="font-family: var(--font-ui); font-size: 12px; color: var(--muted); text-align: center; padding: 24px 0 48px;">
+  Material gerado para estudo — PAB II PUCPR — Prova 22/06/2026. Baseado no material do Prof. Wilson Liuti Costa Junior.
+</div>
+</div><!-- .prose -->
+</main>
+</div><!-- #body-wrap -->
+
+<script>
+// Barra de progresso
+const progressBar = document.getElementById('progress-bar');
+const content = document.getElementById('content');
+content.addEventListener('scroll', () => {
+  const scrollTop = content.scrollTop;
+  const scrollHeight = content.scrollHeight - content.clientHeight;
+  const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  progressBar.style.width = progress + '%';
+});
+
+// Sidebar toggle
+const toggleBtn = document.getElementById('toggle-btn');
+const sidebar = document.getElementById('sidebar');
+const bodyWrap = document.getElementById('body-wrap');
+
+const collapsed = sessionStorage.getItem('sidebar-collapsed') === 'true';
+if (collapsed) {
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+}
+
+toggleBtn.addEventListener('click', () => {
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', isCollapsed);
+  sessionStorage.setItem('sidebar-collapsed', isCollapsed);
+});
+
+// IntersectionObserver para highlight da seção ativa
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.s-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, {
+  root: content,
+  rootMargin: '-10% 0px -80% 0px',
+  threshold: 0
+});
+
+sections.forEach(section => observer.observe(section));
+
+// Smooth scroll para links da sidebar
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href').slice(1);
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Fecha sidebar em mobile se estiver aberta
+      if (window.innerWidth < 768) {
+        sidebar.classList.add('collapsed');
+        bodyWrap.classList.add('sidebar-collapsed');
+        sessionStorage.setItem('sidebar-collapsed', 'true');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

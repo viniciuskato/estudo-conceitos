@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agressão e Defesa I — RA3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.78;}
+a{color:var(--ac);text-decoration:none;}a:hover{text-decoration:underline;}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;}
+#body-wrap{display:flex;min-height:100vh;}
+#sidebar{width:280px;height:100vh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2);border-right:1px solid var(--border);transition:width .25s;flex-shrink:0;}
+#sidebar.collapsed{width:44px;}
+#s-toggle{padding:12px 10px 8px;display:flex;align-items:center;border-bottom:1px solid var(--border);flex-shrink:0;}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;border-radius:4px;padding:4px 8px;font-size:14px;font-family:var(--font-ui);flex-shrink:0;}
+#toggle-btn:hover{border-color:var(--ac);color:var(--ac);}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--ac);letter-spacing:.06em;text-transform:uppercase;margin-left:10px;white-space:nowrap;transition:opacity .2s;}
+#sidebar.collapsed .s-logo{opacity:0;pointer-events:none;}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 40px;}
+#sidebar.collapsed .s-inner{opacity:0;pointer-events:none;}
+.s-group{margin-bottom:20px;}
+.s-group-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 6px;}
+a.sl{display:block;font-family:var(--font-ui);font-size:12px;color:var(--muted);padding:5px 16px;border-left:2px solid transparent;transition:all .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+a.sl:hover{color:var(--text);background:var(--bg3);text-decoration:none;}
+a.sl.active{color:var(--ac);border-left-color:var(--ac);background:var(--ac2bg);}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s;min-width:0;}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px;}
+.prose{max-width:88ch;margin:0 auto;transition:max-width .25s;}
+#body-wrap.sidebar-collapsed .prose{max-width:114ch;}
+h1{font-size:2rem;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.2;}
+h2{font-size:1.4rem;font-weight:600;color:var(--text);margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+h3{font-size:1.1rem;font-weight:600;color:var(--ac);margin:28px 0 10px;}
+p{margin-bottom:14px;}
+ul,ol{margin:10px 0 14px 22px;}li{margin-bottom:4px;}
+strong{color:var(--text);font-weight:600;}
+section{margin-bottom:60px;}
+section.in-view>h2{color:var(--ac);transition:color .3s;}
+.doc-header{margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+.doc-meta{font-family:var(--font-ui);font-size:13px;color:var(--muted);margin:6px 0 14px;}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0;}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.trap-box{background:#1a1510;border:1px solid #4a3020;border-left:3px solid #d4924a;border-radius:0 6px 6px 0;padding:12px 16px;margin:14px 0;}
+.trap-box .trap-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.caso{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin-bottom:24px;font-size:15px;}
+.caso .caso-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.caso-resposta{background:#0e1a12;border:1px solid #2a4a32;border-left:3px solid #4caf82;border-radius:0 6px 6px 0;padding:14px 18px;margin-top:24px;font-size:15px;}
+.caso-resposta .caso-resposta-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:#4caf82;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px;}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px;}
+.coverage-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px;margin:14px 0;}
+.coverage-table th{background:var(--bg3);color:var(--muted);font-weight:600;padding:8px 12px;text-align:left;border:1px solid var(--border);}
+.coverage-table td{padding:7px 12px;border:1px solid var(--border);color:var(--text);}
+.status-ok{color:#6abf69;}.status-parcial{color:#d4924a;}.status-falta{color:#c0604a;}
+table.dt{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:13px;margin:16px 0;}
+table.dt th{background:var(--bg3);color:var(--ac);font-weight:600;padding:8px 12px;border:1px solid var(--border);text-align:left;}
+table.dt td{padding:7px 12px;border:1px solid var(--border);vertical-align:top;}
+table.dt tr:nth-child(even) td{background:var(--bg2);}
+.formula{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 18px;margin:14px 0;font-family:monospace;font-size:15px;color:var(--ac);text-align:center;}
+#mob-bar{display:none;}
+@media(max-width:900px){
+  #sidebar{display:none;position:fixed;top:0;left:0;z-index:200;height:100vh;}
+  #sidebar.open{display:flex;}
+  #mob-bar{display:flex;align-items:center;position:fixed;top:0;left:0;right:0;height:44px;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;z-index:150;gap:12px;}
+  #mob-menu-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:14px;}
+  #content{padding:60px 20px 80px!important;}
+  .ck-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">&#9776;</button>
+  <span style="font-family:var(--font-ui);font-size:12px;color:var(--muted)">Agressão e Defesa I &mdash; RA3</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-toggle">
+    <button id="toggle-btn">&#9664;</button>
+    <span class="s-logo">Agr &amp; Def &middot; RA3</span>
+  </div>
+  <div class="s-inner">
+    <div class="s-group">
+      <div class="s-group-label">Visão geral</div>
+      <a class="sl" href="#cobertura">Mapa de cobertura</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Micologia</div>
+      <a class="sl" href="#fungos">Fungos patogênicos</a>
+      <a class="sl" href="#antifungicos">Antifúngicos</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Virologia ★ cai</div>
+      <a class="sl" href="#virologia">Virologia geral</a>
+      <a class="sl" href="#antivirais">Antivirais</a>
+      <a class="sl" href="#imuno-fungos">Imunidade: vírus ★ (⚠ fungos fora)</a>
+      <a class="sl" href="#vacinas">Vacinas ★</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Cardiovascular</div>
+      <a class="sl" href="#congestao">Congestão &amp; Edema</a>
+      <a class="sl" href="#infarto">Infarto</a>
+      <a class="sl" href="#hemostasia">Hemostasia</a>
+      <a class="sl" href="#trombose">Trombose</a>
+      <a class="sl" href="#embolia">Embolia</a>
+      <a class="sl" href="#aterosclerose">Aterosclerose</a>
+      <a class="sl" href="#farm-trombose">Farm. Trombose/Infarto</a>
+      <a class="sl" href="#hipolipemiantes">Hipolipemiantes</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Reparo</div>
+      <a class="sl" href="#cicatriz">Reparo tecidual</a>
+    </div>
+    <div class="s-group">
+      <div class="s-group-label">Revisão</div>
+      <a class="sl" href="#pegadinhas">&#9888; Pegadinhas</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<!-- CABEÇALHO -->
+<div class="doc-header">
+  <h1>Agressão e Defesa I &mdash; RA3</h1>
+  <div class="doc-meta">PUCPR &middot; Medicina 3&ordm; período &middot; Prova: <strong>25&nbsp;jun&nbsp;2026</strong></div>
+  <div class="doc-chips">
+    <span class="chip">&#128337; ~55 min de leitura</span>
+    <span class="chip">10 tópicos do edital</span>
+    <span class="chip">Micologia &bull; Virologia &bull; Imunologia &bull; Patologia &bull; Farmacologia</span>
+  </div>
+  <div style="margin-top:14px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-family:var(--font-ui);font-size:13px;color:var(--muted);line-height:1.6;">
+    <strong style="color:var(--text);">Como usar este documento:</strong>
+    Se você tem <strong style="color:var(--ac);">50+ min</strong>: leia tudo em ordem — os casos âncora conectam as seções.
+    Se tem <strong style="color:var(--ac);">20 min</strong>: foque em Virologia + Antivirais + Vacinas (mais cobrados pela Prof. Edna) + Farmacologia da trombose + Hipolipemiantes.
+    Se tem <strong style="color:var(--ac);">5 min</strong>: leia as Pegadinhas consolidadas e os Conceitos-chave.
+    <strong style="color:#e05a5a;">⚠ Atenção:</strong> Resposta imune a <em>fungos</em> foi excluída do escopo (Prof. Edna, 23/06/2026) — só imunidade a vírus cai.
+  </div>
+</div>
+
+<!-- MAPA DE COBERTURA -->
+<section id="cobertura">
+  <h2>Mapa de cobertura</h2>
+  <table class="coverage-table">
+    <thead>
+      <tr><th>#</th><th>Tópico do edital</th><th>Cobertura no HTML</th><th>Domínio (Anki)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Fungos patogênicos — morfologia e micoses</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>2</td><td>Antifúngicos — mecanismos, FK/FD e resistência</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>3</td><td>Virologia — características gerais, patogenicidade, doenças</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>4</td><td>Antivirais — Influenza e Herpes</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>5</td><td>Resposta imune contra fungos e vírus</td><td class="status-parcial">~ Parcial — <strong>só vírus cai</strong> (Prof. Edna, 23/06/2026)</td><td>—</td></tr>
+      <tr><td>6</td><td>Vacinas, imunidade ativa e passiva</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>7</td><td>Doenças circulatórias (congestão, edema, infarto, hemostasia, trombose, embolia, aterosclerose)</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>8</td><td>Farmacologia da trombose/infarto (antiagregantes, anticoagulantes, trombolíticos)</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>9</td><td>Hipolipemiantes</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+      <tr><td>10</td><td>Reparo tecidual — cicatrização, fibrose, cirrose</td><td class="status-ok">&#10003; Completo</td><td>—</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TÓPICO 1 — FUNGOS -->
+<section id="fungos">
+  <h2>1. Fungos patogênicos</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Paciente de 28 anos, HIV positivo, CD4 = 80 células/mm&sup3;, com cefaleia progressiva há 3 semanas, febre baixa e confusão mental. A punção lombar revela LCR com pressão elevada, glicose baixa e exame direto com tinta da China positivo (halos claros ao redor das leveduras). Cultura positiva para levedura encapsulada.
+  </div>
+
+  <h3>Morfologia essencial</h3>
+  <p><strong>Leveduras</strong>: células únicas, ovóides, reprodução por brotamento; colônias cremosas. Exemplos: <em>Candida</em>, <em>Cryptococcus</em>.</p>
+  <p><strong>Filamentosos (bolores)</strong>: crescem em hifas (septadas ou cenocíticas); colônias aveludadas. Exemplos: <em>Aspergillus</em> (hifas septadas, ângulo 45°), <em>Rhizopus/Mucor</em> (hifas cenocíticas, ângulo 90°).</p>
+  <p><strong>Dimorfismo térmico</strong>: patogênicos sistêmicos assumem forma leveduriforme a 37&nbsp;°C (no hospedeiro) e filamentosa a 25&nbsp;°C (no ambiente). Mnemônico: <em>"Mould in Cold, Yeast in Heat"</em>. Exemplos: <em>Histoplasma capsulatum</em>, <em>Paracoccidioides brasiliensis</em>, <em>Coccidioides immitis</em>.</p>
+  <p><strong>Parede fúngica</strong>: quitina + &beta;-1,3-glucano + manoproteínas. Alvo de antifúngicos (equinocandinas atacam o glucano) e PAMPs reconhecidos pelo sistema imune (Dectin-1 reconhece &beta;-glucano; lectinas tipo C reconhecem mananas).</p>
+
+  <h3>Classificação das micoses</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Tipo</th><th>Exemplos de patógenos</th><th>Localização</th><th>Hospedeiro típico</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Superficiais</td><td><em>Malassezia furfur</em> (Tinea versicolor), Piedra</td><td>Camada córnea, pelos</td><td>Imunocompetente</td></tr>
+      <tr><td>Cutâneas</td><td>Dermatófitos: <em>Trichophyton</em>, <em>Microsporum</em>, <em>Epidermophyton</em></td><td>Epiderme, pelo, unhas</td><td>Imunocompetente</td></tr>
+      <tr><td>Subcutâneas</td><td>Esporotricose, Cromoblastomicose, Micetoma fúngico</td><td>Derme e tecido subcutâneo</td><td>Trauma (inoculação)</td></tr>
+      <tr><td>Sistêmicas primárias</td><td><em>Histoplasma</em>, <em>Paracoccidioides</em>, <em>Coccidioides</em></td><td>Pulmão &rarr; disseminação</td><td>Imunocompetente possível</td></tr>
+      <tr><td>Sistêmicas oportunistas</td><td><em>Candida</em>, <em>Cryptococcus</em>, <em>Aspergillus</em></td><td>Órgãos profundos</td><td>Imunocomprometido</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Perfis clínicos das principais micoses</h3>
+  <p><strong>Candidíase</strong>: agente <em>Candida albicans</em> (levedura dimórfica). A transição para hifa/pseudo-hifa em tecidos é o principal fator de virulência porque hifas penetram tecidos e células epiteliais mecanicamente, e pseudo-hifas são resistentes à fagocitose por neutrófilos — a forma leveduriforme é fagocitada com facilidade. Formas: oral (sapinho), vaginal, cutânea, sistêmica (candidemia em UTI, neutropênicos). Fatores de risco: antibiótico de amplo espectro (elimina flora bacteriana competidora), cateter (biofilme), neutropenia, corticoterapia.</p>
+  <p><strong>Criptococose</strong>: <em>Cryptococcus neoformans</em>, levedura encapsulada. A cápsula de glucuronoxilomanana é o principal fator de virulência — inibe a fagocitose por macrófagos, suprime produção de TNF e IL-12, estimula IL-10 (desvio anti-inflamatório). Clínica principal: meningoencefalite subaguda em HIV (CD4 &lt; 100 céls/mm&sup3;). Diagnóstico: tinta da China no LCR (halo claro = cápsula); antígeno capsular no soro ou LCR.</p>
+  <p><strong>Aspergilose</strong>: <em>Aspergillus fumigatus</em> (filamentoso, hifas septadas em ângulo de 45°). Formas: alérgica (aspergilose broncopulmonar alérgica — ABPA, em asmáticos/FC), aspergiloma (bola fúngica em cavidade pulmonar preexistente, ex-TB), invasiva (neutropênicos graves — leucêmicos, transplantados de medula). A forma invasiva tem alta mortalidade.</p>
+  <p><strong>Paracoccidioidomicose (PCM)</strong>: <em>Paracoccidioides brasiliensis</em> (dimórfico). Endêmica na América Latina; maior micose sistêmica do Brasil. Forma leveduriforme em tecido: "roda de leme" — célula mãe central com múltiplos brotamentos periféricos. Clínica: lesões ulceradas em mucosa oral/faríngea (morfopatologia moreira), pulmão crônico, linfadenomegalia. Mecanismo de evasão: desvia a resposta de Th1 (protetora) para Th2 (permissiva).</p>
+  <p><strong>Cromoblastomicose</strong>: fungos demáceos melanizados (<em>Fonsecaea pedrosoi</em>, <em>Cladophialophora carrionii</em>). Inoculação traumática. Diagnóstico histológico: <strong>corpúsculos de Medlar</strong> (células muriformes escurecidas = "moedas de cobre"). Crônica, em membros inferiores, difícil tratamento.</p>
+  <p><strong>Histoplasmose</strong>: <em>Histoplasma capsulatum</em> (dimórfico). Inalação de esporos em solos contaminados com fezes de aves ou morcegos (cavernas, galinheiros). No hospedeiro → forma leveduriforme → fagocitada por macrófagos alveolares → <em>sobrevive intracelularmente</em> inibindo maturação do fagolisossomo. Clinicamente: assintomática na maioria dos imunocompetentes; pneumonia subaguda; doença disseminada progressiva em HIV (CD4 &lt; 150). Diagnóstico: antígeno urinário (Histoplasma Ag) — o mais sensível na disseminada.</p>
+  <p><strong>Micetoma</strong>: tumor + fístulas + grânulos drenados. Eumicetoma (fúngico, grãos brancos/<em>Madurella</em>) vs. actinomicetoma (bacteriano — <em>Nocardia</em>, <em>Actinomyces</em>).</p>
+
+  <h3>Mecanismos de patogenicidade fúngica — visão integradora</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Mecanismo</th><th>Patógeno principal</th><th>Consequência clínica</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Transição levedura → hifa</td><td><em>Candida albicans</em></td><td>Invasão tecidual + resistência à fagocitose</td></tr>
+      <tr><td>Cápsula antifagocítica</td><td><em>Cryptococcus neoformans</em></td><td>Evasão de macrófagos → meningite</td></tr>
+      <tr><td>Sobrevivência intracelular</td><td><em>Histoplasma</em>, <em>Paracoccidioides</em></td><td>Requer imunidade celular (Th1) para controle</td></tr>
+      <tr><td>Melanina (scavenger de ROS)</td><td>Fungos demáceos, <em>Cryptococcus</em></td><td>Resistência ao killing oxidativo de macrófagos</td></tr>
+      <tr><td>Biofilme</td><td><em>Candida</em> em cateteres</td><td>Resistência intrínseca a antifúngicos; difícil erradicação</td></tr>
+      <tr><td>Enzimas (fosfolipases, proteases)</td><td><em>Candida</em>, <em>Aspergillus</em></td><td>Degradação de tecidos e barreira mucosa</td></tr>
+    </tbody>
+  </table>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha</div>
+    <strong>Aspergilose vs. Mucormicose</strong>: Ambas são filamentosas e invasivas em neutropênicos, mas <em>Aspergillus</em> tem hifas septadas com ângulo de 45° enquanto <em>Mucor/Rhizopus</em> tem hifas cenocíticas (sem septo) com ângulo de 90° — diferença crítica no histológico.
+  </div>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (criptococose em HIV)</div>
+    O quadro é <strong>meningoencefalite criptocócica</strong>: a levedura encapsulada é <em>Cryptococcus neoformans</em>, patógeno oportunista em CD4 &lt;100 céls/mm³. A cápsula de glucuronoxilomanana é o motivo do halo claro na tinta da China — o corante preenche o fundo escuro mas não penetra a cápsula. O tratamento é <strong>indução com anfotericina B + flucitosina</strong> por 2 semanas, seguida de <strong>manutenção com fluconazol</strong> (que penetra bem o LCR) por pelo menos 12 meses. Sem TARV reiniciada após controle da infecção oportunista — CD4 foi a porta de entrada do fungo.
+  </div>
+</section>
+
+<!-- TÓPICO 2 — ANTIFÚNGICOS -->
+<section id="antifungicos">
+  <h2>2. Antifúngicos</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Paciente leucêmico pós-transplante de medula, em uso de corticoide e antibiótico de amplo espectro, com febre persistente sem melhora após antibioticoterapia. Hemoculturas positivas para <em>Candida tropicalis</em>. Equipe decide iniciar antifúngico sistêmico injetável com mínimo de efeitos adversos sobre rins.
+  </div>
+
+  <h3>Mapa de alvos — visão integradora</h3>
+  <p>A diferença entre fungos e células humanas está, essencialmente, em <strong>dois alvos terapêuticos</strong>: (1) a membrana fúngica contém <strong>ergosterol</strong> (em vez de colesterol); e (2) a parede fúngica contém <strong>&beta;-1,3-glucano</strong> (células humanas não têm parede). Quase todos os antifúngicos exploram um desses dois alvos.</p>
+
+  <table class="dt">
+    <thead>
+      <tr><th>Fármaco</th><th>Alvo</th><th>Ação</th><th>Via</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Anfotericina B</td><td>Ergosterol (membrana)</td><td>Fungicida</td><td>IV/tópica</td></tr>
+      <tr><td>Azóis</td><td>CYP450 fúngico (14&alpha;-desmetilase)</td><td>Fungistático</td><td>VO/IV/tópica</td></tr>
+      <tr><td>Terbinafina</td><td>Esqualeno epoxidase</td><td>Fungicida</td><td>VO/tópica</td></tr>
+      <tr><td>Equinocandinas</td><td>&beta;-1,3-glucano sintase (parede)</td><td>Fungicida</td><td>IV</td></tr>
+      <tr><td>Flucitosina</td><td>RNA &amp; DNA (antimetabólito)</td><td>Fungistático</td><td>VO</td></tr>
+      <tr><td>Griseofulvina</td><td>Microtúbulos (mitose)</td><td>Fungistático</td><td>VO</td></tr>
+      <tr><td>Nistatina</td><td>Ergosterol (membrana)</td><td>Fungicida</td><td>Tópica apenas</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Anfotericina B — o antifúngico de maior espectro</h3>
+  <p>Macrolídeo poliênico (produzido por <em>Streptomyces</em>). Espectro mais amplo de todos os antifúngicos disponíveis — cobre tanto leveduras quanto fungos filamentosos. Funciona por <strong>dois mecanismos simultâneos</strong>:</p>
+  <ul>
+    <li><strong>Mecanismo 1</strong>: liga-se ao ergosterol da membrana fúngica → forma canais aquosos → extravasamento de cátions (K+, Mg²+) + geração de radicais livres → desestabilização e morte celular.</li>
+    <li><strong>Mecanismo 2</strong>: age como "esponja" para o ergosterol, extraindo-o da membrana → desestruturação da bicamada.</li>
+  </ul>
+  <p><strong>Farmacocinética</strong>: administração IV lenta (mal absorvida por VO — usada oralmente apenas para efeito local no TGI); penetração na barreira hematoencefálica (BHE) é limitada em pacientes sem inflamação meníngea; excreção renal lenta (detectável na urina por mais de 2 meses).</p>
+  <p><strong>RAM</strong>: nefrotoxicidade é a mais comum (80% dos pacientes) e mais grave — lesão tubular irreversível + hipocalemia em até 25%; reação infusional ("tempestade de citocinas": TNF e IL-1 → febre, calafrios, cefaleia, hipotensão — pré-medicar); anemia por deficiência de eritropoetina.</p>
+  <p>Formulações lipídicas (Abelcet, AmBisome) reduzem a toxicidade renal — o veículo lipídico funciona como reservatório que libera o fármaco gradualmente, diminuindo a ligação inespecífica às membranas de células humanas.</p>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha</div>
+    <strong>Azol + Anfotericina B = antagonismo!</strong> O azol inibe a síntese de ergosterol; a anfotericina B precisa do ergosterol para se ligar e agir. Se usados juntos, o azol depleta o alvo da anfotericina → menor eficácia + maior toxicidade (mais anfotericina liga inespecificamente a membranas humanas).
+  </div>
+
+  <h3>Azóis — imidazóis e triazóis</h3>
+  <p>Inibem a enzima 14&alpha;-desmetilase (CYP3A fúngico), que converte lanosterol em ergosterol. Sem ergosterol, a membrana perde fluidez e funções enzimáticas essenciais. Fungistáticos de amplo espectro.</p>
+  <ul>
+    <li><strong>Imidazóis</strong> (cetoconazol, miconazol, clotrimazol): menos seletivos para CYP fúngico &rarr; uso sistêmico limitado; preferência tópica. Cetoconazol: inibidor potente do CYP450 humano + hepatotoxicidade.</li>
+    <li><strong>Fluconazol</strong>: biodisponibilidade oral 100% (não influenciada por pH ou alimentos); penetra bem no LCR (50% do plasmático) → 1&ordf; escolha para meningite criptocócica (fase de manutenção). Inibe CYP3A4 hepático → interações importantes.</li>
+    <li><strong>Voriconazol</strong>: triazol de 2&ordf; geração; cobre cepas resistentes ao fluconazol; 1&ordf; escolha para aspergilose invasiva. RAM: alterações visuais agudas (30% por via IV).</li>
+    <li><strong>Itraconazol</strong>: biodisponibilidade oral variável (depende da formulação e do pH gástrico); FDA alerta para eventos cardiovasculares graves (prolongamento de QT, insuficiência cardíaca).</li>
+  </ul>
+
+  <h3>Equinocandinas (caspofungina, micafungina, anidulafungina)</h3>
+  <p>Atacam a parede fúngica (único grupo com esse alvo) — inibem a &beta;-1,3-glucano sintase → sem glucano → desestruturação da parede → lise osmótica. Como células animais não têm parede celular, as equinocandinas são as mais seguras do arsenal sistêmico. Uso exclusivamente IV; metabolização hepática; RAM mínimas (flebite local, possível liberação de histamina por degranulação de mastócitos). Indicação principal: candidíase invasiva; aspergilose refratária à anfotericina; profilaxia em transplantados.</p>
+
+  <h3>Flucitosina</h3>
+  <p>Pró-fármaco convertido especificamente pela citosina-desaminase fúngica (células humanas não possuem essa enzima — seletividade tóxica) em 5-fluoruracila (5-FU), que então: (1) forma 5-FUTP → incorporado ao RNA fúngico → erro na síntese proteica; (2) forma 5-FdUMP → inibe timidilato-sintase → bloqueia síntese de DNA. Espectro estreito (apenas leveduras). Resistência emerge rapidamente → sempre em associação (anfotericina B para criptococose). RAM: mielossupressão (microbiota intestinal converte parte do fármaco em 5-FU).</p>
+
+  <h3>Mecanismos de resistência fúngica</h3>
+  <ul>
+    <li><strong>1. Perda de permeabilidade / alteração do alvo</strong>: mutações em genes <em>ERG</em> (biossíntese do ergosterol) → ↓ teor de ergosterol na membrana → anfotericina e azóis perdem eficiência.</li>
+    <li><strong>2. Bombas de efluxo</strong>: superexpressão de transportadores CDR1/CDR2 (ABC transporters) e MDR1 → expulsam azóis do interior da célula fúngica → resistência adquirida ao fluconazol em <em>Candida</em>.</li>
+    <li><strong>3. Alteração do alvo enzimático</strong>: mutações no gene <em>ERG11</em> (14&alpha;-desmetilase) reduzem a afinidade dos azóis pelo sítio ativo → resistência primária ou adquirida.</li>
+  </ul>
+  <p><strong>Implicação clínica da resistência</strong>: <em>Candida</em> resistente ao fluconazol (mecanismo 2 e 3 combinados, comum em <em>C. glabrata</em> e <em>C. krusei</em>) → equinocandinas são o resgate de 1ª linha. <em>Aspergillus</em> resistente ao voriconazol → anfotericina B lipossomal + resgate cirúrgico nas formas invasivas.</p>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (candidemia em leucêmico)</div>
+    O antifúngico sistêmico injetável com <strong>menor nefrotoxicidade</strong> é a <strong>equinocandina</strong> (caspofungina, micafungina ou anidulafungina): ataca a parede fúngica (β-1,3-glucano sintase), alvo exclusivamente fúngico, sem efeito sobre membranas humanas — RAM mínimas. A anfotericina B convencional seria eficaz mas nefrotóxica em 80% dos casos; o fluconazol teria boa tolerância mas <em>Candida tropicalis</em> pode ser intrisecamente resistente ou com resposta variável. Portanto: <strong>equinocandina IV = escolha 1ª linha em candidemia em paciente instável ou nefropata</strong>.
+  </div>
+</section>
+
+<!-- TÓPICO 3 — VIROLOGIA -->
+<section id="virologia">
+  <h2>3. Virologia geral</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Em outubro de 2023, um hospital registra surto de síndrome gripal com febre alta, mialgia intensa e tosse seca em 12 funcionários da ala de oncologia em 72 horas. A maioria não havia se vacinado contra influenza naquele ano. A cepa circulante é identificada como H3N2. Por que a vacina do ano anterior não protegeu? Como esse vírus entra e sai da célula epitelial respiratória?
+  </div>
+
+  <h3>Estrutura viral — o essencial</h3>
+  <p>Todo vírus é um parasita intracelular obrigatório: não tem metabolismo próprio (sem organelas, sem ribossomos), dependendo completamente da maquinaria da célula hospedeira para se replicar.</p>
+  <ul>
+    <li><strong>Genoma</strong>: DNA ou RNA; simples fita (ss) ou dupla fita (ds); linear ou circular; segmentado ou não.</li>
+    <li><strong>Capsídeo</strong>: proteínas (capsômeros) organizadas em simetria <strong>icosaédrica</strong> (20 faces triangulares — alta estabilidade, ex: adenovírus, enterovírus) ou <strong>helicoidal</strong> (proteínas ao redor do genoma em espiral, ex: vírus da raiva, VSR).</li>
+    <li><strong>Envelope</strong>: bicamada lipídica derivada da membrana da célula hospedeira, com glicoproteínas virais inseridas. Presente apenas em vírus envelopados.</li>
+  </ul>
+  <p><strong>Vírus envelopados</strong>: saem por brotamento (não matam a célula imediatamente); sensíveis a detergentes, solventes, variações de pH e calor — menos estáveis no ambiente. Exemplos: herpesviridae, influenza, HIV, sarampo.</p>
+  <p><strong>Vírus não envelopados</strong>: saem por lise celular; resistentes a detergentes e a ambientes hostis (trato gastrointestinal) → transmissão fecal-oral. Exemplos: rotavírus, enterovírus, adenovírus, HAV.</p>
+
+  <h3>Classificação por tipo de genoma</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Genoma</th><th>Polaridade / Tipo</th><th>Exemplos</th><th>Replicação</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>DNA dupla fita</td><td>Linear</td><td>Herpesviridae, Adenovírus</td><td>Núcleo</td></tr>
+      <tr><td>DNA simples fita</td><td>+</td><td>Parvovírus B19</td><td>Núcleo</td></tr>
+      <tr><td>RNA simples fita</td><td>+ (age como mRNA)</td><td>Picornavírus, Coronavírus, Flavivírus, Togavírus</td><td>Citoplasma</td></tr>
+      <tr><td>RNA simples fita</td><td>&minus; (precisa de polimerase viral)</td><td>Influenza, Raiva, VSR, Sarampo, Ebola</td><td>Citoplasma</td></tr>
+      <tr><td>RNA dupla fita</td><td>&mdash;</td><td>Rotavírus, Reovírus</td><td>Citoplasma</td></tr>
+      <tr><td>RNA &rarr; DNA (retrovírus)</td><td>+ (mas precisa de transcriptase reversa)</td><td>HIV-1, HIV-2, HTLV-1</td><td>Núcleo (integração)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha frequente</div>
+    <strong>HIV é RNA de polaridade positiva</strong> — mas NÃO age diretamente como mRNA. O genoma do HIV precisa ser convertido em DNA pela transcriptase reversa antes de ser integrado ao genoma do hospedeiro. Não confundir com outros ssRNA+, que replicam diretamente no citoplasma usando o genoma como mRNA.
+  </div>
+
+  <h3>Ciclo replicativo — sequência lógica</h3>
+  <p>Para que um vírus infecte uma célula com sucesso, a célula precisa ser <strong>suscetível</strong> (tem o receptor de superfície correto) <em>e</em> <strong>permissiva</strong> (tem todo o maquinário intracelular necessário para completar o ciclo). Células suscetíveis que não são permissivas podem ligar o vírus mas não produzem progênie.</p>
+  <ol>
+    <li><strong>Adsorção</strong>: ligação específica de glicoproteínas/capsômeros virais a receptores celulares → determina tropismo viral. A ligação inicial é reversível e torna-se irreversível após mudanças conformacionais.</li>
+    <li><strong>Penetração</strong>: endocitose mediada por receptor (vírus não envelopados e alguns envelopados) OU fusão direta do envelope com a membrana plasmática (vírus envelopados).</li>
+    <li><strong>Desnudamento</strong>: liberação do genoma no citoplasma (ou no núcleo para DNA vírus).</li>
+    <li><strong>Replicação / Transcrição</strong>: síntese de proteínas precoces (enzimas, fatores de replicação) seguida de proteínas estruturais tardias.</li>
+    <li><strong>Montagem</strong>: auto-organização de capsômeros e genoma por afinidade molecular espontânea (sem gasto energético extra).</li>
+    <li><strong>Liberação</strong>: lise celular (não envelopados) ou brotamento (envelopados — célula sobrevive por mais tempo, liberando vírus gradualmente).</li>
+  </ol>
+
+  <h3>Tipos de infecção viral</h3>
+  <ul>
+    <li><strong>Produtiva</strong>: todas as etapas concluídas com sucesso; novos vírions são liberados.</li>
+    <li><strong>Abortiva</strong>: o vírus entra na célula mas falha em alguma etapa (sem progênie viável); diferente de latência.</li>
+    <li><strong>Latente</strong>: vírus permanece silente, integrado ou epissomal; reativa-se por estímulos (febre, imunossupressão, estresse). Exemplo clássico: HSV (reativa como herpes labial recorrente).</li>
+  </ul>
+
+  <h3>Influenza — o vírus das pandemias</h3>
+  <p>Genoma <strong>segmentado</strong> (8 segmentos de RNA negativo) → permite <strong>reassortment</strong> (rearranjo): dois vírus influenza A de diferentes subtipos infectam a mesma célula → segmentos misturados em novas partículas → variante totalmente nova → pandemia. <strong>Drift</strong> antigênico = mutações pontuais graduais na hemaglutinina → os anticorpos da vacina do ano anterior reconhecem mal a nova variante → epidemias sazonais. <em>É por isso que a vacina do caso âncora não protegeu</em>: a cepa H3N2 circulante sofreu drift em relação à cepa da vacina anterior.</p>
+  <p><strong>Hemaglutinina (H)</strong>: liga-se ao ácido siálico nas células epiteliais respiratórias → adesão e entrada. <strong>Neuraminidase (N)</strong>: cliva ligações de ácido siálico → permite que os novos vírions se desprendam e infectem novas células.</p>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (surto H3N2)</div>
+    A vacina do ano anterior não protegeu por <strong>drift antigênico</strong>: mutações pontuais graduais nas proteínas de superfície da hemaglutinina alteraram os epítopos reconhecíveis — os anticorpos gerados pela vacina anterior tinham baixa afinidade pela nova cepa H3N2. O vírus <strong>entra</strong> pela hemaglutinina (H) ligando-se ao ácido siálico das células epiteliais respiratórias → fusão com a membrana endossomal → desnudamento. Após replicação, <strong>sai</strong> pela ação da neuraminidase (N), que cliva as ligações de ácido siálico entre o vírion recém-formado e a célula hospedeira — sem N, os vírus ficariam presos (mecanismo explorado pelo oseltamivir).
+  </div>
+</section>
+
+<!-- TÓPICO 4 — ANTIVIRAIS -->
+<section id="antivirais">
+  <h2>4. Antivirais — Influenza e Herpes</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Adulto de 35 anos, imunocompetente, com lesões vesiculares dolorosas em dermátomo do tronco (faixa unilateral) há 2 dias, precedidas de dor em queimação. Diagnóstico: Herpes Zoster (reativação do vírus varicela-zóster — VZV). O médico indica antiviral oral. Qual o mecanismo de ativação do fármaco e por que ele é seletivo?
+  </div>
+
+  <h3>Antivirais contra herpesvírus — inibidores da DNA-polimerase</h3>
+  <p>O desafio dos antivirais é <em>matar o vírus sem matar a célula hospedeira</em>, já que o vírus usa a maquinaria celular. A solução do aciclovir é elegante: ele só é ativado dentro de células infectadas pelo herpesvírus.</p>
+
+  <h3>Aciclovir — seletividade por design</h3>
+  <p>Análogo da guanosina (nucleosídeo). Pró-fármaco ativado em 3 etapas:</p>
+  <ol>
+    <li><strong>1&ordf; fosforilação</strong>: feita pela <strong>timidina-cinase viral</strong> (TK viral) — enzima presente apenas em células infectadas pelo HSV/VZV. Esta etapa é a chave da seletividade: células não infectadas não possuem a TK viral e, portanto, não ativam o aciclovir.</li>
+    <li><strong>2&ordf; e 3&ordf; fosforilações</strong>: pelas cinases celulares → aciclovir trifosfato.</li>
+    <li><strong>Ação</strong>: aciclovir trifosfato compete com o dGTP pela DNA-polimerase viral → incorporado ao DNA → termina a cadeia de DNA (pois falta o grupo 3'-OH necessário para elongação).</li>
+  </ol>
+  <p><strong>Farmacocinética</strong>: formulações oral, tópica e IV. Biodisponibilidade oral baixa (10-30%) → o pró-fármaco valaciclovir tem biodisponibilidade muito superior (convertido em aciclovir no intestino/fígado). Boa distribuição, incluindo LCR (até 50% do plasmático). Eliminação renal (T&frac12; ~3h em função renal normal; ~20h na anúria).</p>
+  <p><strong>RAM</strong>: mínimas; IV em altas doses → nefrotoxicidade reversível (cristalização nos túbulos renais — prevenir com infusão lenta + hidratação adequada).</p>
+  <p><strong>Usos</strong>: HSV-1, HSV-2, VZV, varicela, herpes zoster. VZV é menos sensível → doses mais altas.</p>
+  <p><strong>Por que é seletivo?</strong> Dupla seletividade: (1) só é ativado em células com TK viral → células sãs não o convertem; (2) o aciclovir trifosfato tem afinidade ~100x maior pela DNA-polimerase <em>viral</em> do que pela polimerase humana → mesmo o que escapa para células sãs não as prejudica.</p>
+
+  <div class="kbox">
+    <div class="klabel">Conceito-chave</div>
+    Valaciclovir = pró-fármaco do aciclovir com maior biodisponibilidade oral. Fanciclovir = pró-fármaco do penciclovir. Penciclovir = análogo da guanosina com mecanismo similar ao aciclovir, mas permanece mais tempo na célula.
+  </div>
+
+  <h3>Foscarnet — quando o aciclovir falha</h3>
+  <p>Análogo do pirofosfato inorgânico. <strong>Não necessita de fosforilação</strong> (não depende da TK viral) → ativo mesmo contra cepas com mutação na TK (resistência ao aciclovir). Inibe diretamente e reversivelmente: DNA-polimerase do herpesvírus, RNA-polimerase do HIV e transcriptase reversa do HIV. Indicação: infecções resistentes ao aciclovir/ganciclovir. Sem disponibilidade oral; nefrotoxicidade mesmo em doses baixas. Não disponível no Brasil (importação).</p>
+
+  <h3>Antivirais contra influenza</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Fármaco</th><th>Alvo</th><th>Mecanismo</th><th>Via / Posologia</th><th>Observação</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Oseltamivir (Tamiflu)</td><td>Neuraminidase</td><td>Análogo do ácido siálico; inibe neuraminidase → vírion fica preso na célula</td><td>VO; pró-fármaco ativado no fígado</td><td>Iniciar &lt;48h; grupos de risco: até 5 dias</td></tr>
+      <tr><td>Baloxavir (Xofluza)</td><td>Endonuclease dependente de cap</td><td>Bloqueia síntese de RNAm viral ao inibir a endonuclease da RNA-polimerase</td><td>VO dose única; T&frac12; ~80h</td><td>Pró-fármaco; iniciar &lt;48h; cátions polivalentes reduzem absorção</td></tr>
+      <tr><td>Amantadina/Rimantadina</td><td>Canal iônico M2</td><td>Bloqueiam a entrada de H+ no endossomo → impedimento do desnudamento viral</td><td>VO</td><td>Altas taxas de resistência em H1N1/H3N2 &rarr; NÃO recomendados para influenza. No Brasil: antiparkinsonianos</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Oseltamivir — como e quando usar</h3>
+  <p>O oseltamivir funciona como um "travamento" da saída do vírus: a neuraminidase viral é necessária para clivar as ligações entre os novos vírions e o ácido siálico na superfície da célula hospedeira — sem essa clivagem, os vírus ficam presos e agregados, sem conseguir infectar novas células. Quanto mais cedo administrado, maior o benefício (replicação viral é máxima nas primeiras 48h).</p>
+  <p><strong>Indicação segundo o Ministério da Saúde/Brasil 2024</strong>: casos com fatores de risco para complicações (gestantes, puérperas até 2 semanas, adultos ≥60 anos, crianças &lt;5 anos, população indígena, pneumopatias, cardiopatias, imunossuprimidos, obesidade IMC ≥40, &lt;19 anos em uso de AAS). RAM: náuseas e vômitos (TGI); relatos de alucinações e comportamento anormal.</p>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (Herpes Zoster — mecanismo e seletividade)</div>
+    O médico indica <strong>valaciclovir oral</strong> (pró-fármaco do aciclovir com biodisponibilidade muito superior). A ativação é feita em 3 etapas: (1) a <strong>timidina-cinase viral do VZV</strong> faz a 1ª fosforilação — etapa crítica da seletividade, pois só ocorre em células infectadas pelo herpesvírus; (2) cinases celulares completam as 2ª e 3ª fosforilações; (3) aciclovir trifosfato incorpora-se ao DNA viral, terminando a cadeia (falta o 3'-OH). O fármaco é seletivo por dois motivos simultâneos: só é ativado em células com TK viral, e o metabólito ativo tem afinidade ~100× maior pela DNA-polimerase viral do que pela humana.
+  </div>
+</section>
+
+<!-- TÓPICO 5 — RESPOSTA IMUNE -->
+<section id="imuno-fungos">
+  <h2>5. Resposta imune contra fungos e vírus</h2>
+  <div class="trap-box" style="border-left-color:#e05a5a;background:#1a1010;">
+    <div class="trap-label" style="color:#e05a5a;">⚠ ATENÇÃO — ESCOPO REDUZIDO</div>
+    A Prof. Edna confirmou (23/06/2026): <strong>somente Resposta imune contra vírus e Vacinas serão cobrados na AS3.</strong> A parte de fungos ficou no plano de ensino por engano e <strong>não será avaliada</strong>. Você pode pular para a seção de vírus abaixo.
+  </div>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora — vírus (escopo da prova)</div>
+    Criança de 4 anos sem vacinação desenvolve sarampo (febre alta, tosse, coriza, manchas de Koplik). Após 10 dias a erupção regride. Por que o vírus foi eliminado? Por que a criança não voltará a ter sarampo? E por que o sarampo causa imunossupressão transitória?
+  </div>
+
+  <h3>Imunidade inata contra fungos</h3>
+  <p>Fungos têm <strong>PAMPs</strong> (padrões moleculares associados a patógenos) reconhecíveis em sua parede celular:</p>
+  <ul>
+    <li>&beta;-glucano → reconhecido por <strong>Dectin-1</strong> (lectina tipo C em neutrófilos/macrófagos/células dendríticas) → produção de IL-23, IL-6 e ROS.</li>
+    <li>Mananas → reconhecidas por <strong>MBL</strong> (lectina ligadora de manose) → via das lectinas do complemento.</li>
+    <li>Glucuronoxilomanana (<em>Cryptococcus</em>) e fosfolipomanana → ativam <strong>TLRs</strong> (TLR2, TLR4).</li>
+  </ul>
+  <p><strong>Neutrófilos</strong>: papel crítico contra fungos extracelulares (<em>Candida</em>, <em>Aspergillus</em>). Formam <strong>NETs</strong> (Neutrophil Extracellular Traps = DNA + histonas + elastase + mieloperoxidase) que capturam e matam fungos filamentosos. Neutropenia grave → risco de aspergilose invasiva e candidíase disseminada.</p>
+  <p><strong>Macrófagos</strong>: fagocitam leveduras → acidificação fagossomal + enzimas lisossomais + ROS (NADPH oxidase) + NO (iNOS).</p>
+  <p><strong>Complemento</strong>: via das lectinas (MBL + MASP1 → C4b2a como C3 convertase) → opsonização (C3b) + quimiotaxia (C5a) + lise (C5b-9).</p>
+
+  <h3>Imunidade adaptativa — fungos intracelulares (Th1)</h3>
+  <p>Fungos que sobrevivem dentro de macrófagos (<em>Histoplasma</em>, <em>Paracoccidioides</em>, <em>Cryptococcus</em>) são eliminados principalmente pela resposta <strong>Th1</strong>:</p>
+  <ol>
+    <li>Células dendríticas fagocitam o fungo → processam e apresentam antígenos via MHC-II + produzem <strong>IL-12</strong></li>
+    <li>IL-12 → ativa STAT4 → expressão de Tbet → diferenciação em <strong>CD4+ Th1</strong> → produção de <strong>IFN-&gamma;</strong></li>
+    <li>IFN-&gamma; → ativa macrófagos → ↑ NADPH oxidase + iNOS → destruição intracelular do fungo</li>
+    <li>Se fungo escapa para o citossol → apresentação via MHC-I → ativação de <strong>CD8+ citotóxicos</strong> (perforinas + granzimas)</li>
+  </ol>
+
+  <h3>Imunidade adaptativa — fungos extracelulares (Th17)</h3>
+  <p>Fungos na superfície de mucosas (<em>Candida albicans</em>, <em>Aspergillus</em>) são eliminados pela resposta <strong>Th17</strong>:</p>
+  <ol>
+    <li>APCs produzem <strong>IL-6 + IL-1 + TGF-&beta;</strong> → STAT3 + ROR&gamma;t → CD4+ <strong>Th17</strong></li>
+    <li>IL-23 (de APCs) amplifica e estabiliza Th17</li>
+    <li>Th17 produz <strong>IL-17</strong> e <strong>IL-22</strong> → recrutamento de neutrófilos + fortalecimento das barreiras epiteliais</li>
+  </ol>
+
+  <div class="kbox">
+    <div class="klabel">Lógica imunológica</div>
+    Neutropenia → risco de fungos extracelulares (Candida, Aspergillus invasiva). Deficiência de CD4+/Th1 (HIV) → risco de fungos intracelulares (Histoplasma, Cryptococcus). Deficiência congênita de IL-17 (síndrome de Job) → candidíase mucocutânea crônica.
+  </div>
+
+  <h3>Mecanismos de evasão fúngica</h3>
+  <ul>
+    <li><em>Cryptococcus neoformans</em>: cápsula inibe fagocitose + suprime TNF/IL-12 + estimula IL-10 (desvio anti-inflamatório) + melanina sequestra ROS</li>
+    <li><em>Paracoccidioides brasiliensis</em>: modula resposta de Th1 para Th2 → cytocinas Th2 não ativam macrófagos eficientemente</li>
+    <li><em>Histoplasma capsulatum</em>: inibe maturação fagolisossomal; sobrevive intracelularmente</li>
+    <li><em>Candida</em>: biofilme resiste a fagocitose e antifúngicos; hifas escapam da lise por neutrófilos</li>
+  </ul>
+
+  <h3 id="imuno-virus">Imunidade inata contra vírus</h3>
+  <p><strong>Interferons tipo I (IFN-&alpha; e IFN-&beta;)</strong>: produzidos pela célula infectada em resposta à detecção de RNA viral por PRRs (TLR3/7/8/9, RIG-I, MDA-5). Atuam de forma:</p>
+  <ul>
+    <li><strong>Autócrina</strong>: inibem replicação viral na própria célula infectada</li>
+    <li><strong>Parácrina</strong>: estabelecem "estado antiviral" em células vizinhas ainda não infectadas</li>
+    <li>Aumentam a expressão de MHC-I → melhora apresentação para CD8+</li>
+    <li>Aumentam a atividade de células NK</li>
+  </ul>
+  <p><strong>Células NK (natural killer)</strong>: destroem células infectadas que reduziram a expressão de MHC-I (mecanismo de evasão viral comum). Reconhecem a "ausência do normal" (missing self).</p>
+
+  <h3>Imunidade adaptativa contra vírus</h3>
+  <ul>
+    <li><strong>CD8+ citotóxicos (CTL)</strong>: reconhecem peptídeos virais no MHC-I de células infectadas → citotoxicidade (granzimas + perforinas + FasL). Principal mecanismo de eliminação de células infectadas.</li>
+    <li><strong>CD4+ Th1</strong>: produzem IFN-&gamma;, TNF-&alpha;, IL-2 → amplificam CD8+ e ativam macrófagos</li>
+    <li><strong>Linfócitos B / Anticorpos</strong>: IgM (fase aguda), IgG (memória), IgA (secretório, mucosas). Funções: neutralização (bloqueia ligação do vírus ao receptor celular), opsonização, ativação do complemento.</li>
+  </ul>
+
+  <h3>Mecanismos de evasão viral — como os vírus fogem da resposta imune</h3>
+  <p>Vírus bem-sucedidos evoluíram estratégias para subverter a resposta imune. A Prof. Edna aborda esse tema com exemplos específicos:</p>
+  <ul>
+    <li><strong>Downregulação de MHC-I</strong>: vírus (HSV, CMV, HIV) reduzem a expressão de MHC classe I na célula infectada → CTL CD8+ não "veem" o antígeno → célula sobrevive. Contramedida imune: células NK detectam a ausência de MHC-I (missing self) e matam a célula.</li>
+    <li><strong>Inibição do IFN tipo I</strong>: vírus como DENV e Influenza produzem proteínas não estruturais que bloqueiam as vias de sinalização do IFN. Ex.: NS5 do DENV interage com STAT2, impedindo a transcrição de genes antivirais. Influenza usa NS1 para sequestrar dsRNA e impedir ativação de RIG-I.</li>
+    <li><strong>Latência</strong>: HSV integra o genoma no gânglio sensorial e permanece silente → sem proteínas virais expressas → CTL não detectam. Reativa com queda da imunidade.</li>
+    <li><strong>EBV e mimetismo molecular</strong>: codifica homólogos de IL-10 (BCRF1/vIL-10) → suprime resposta Th1 → favorece latência em linfócitos B.</li>
+    <li><strong>ADE (Antibody-Dependent Enhancement)</strong>: anticorpos não neutralizantes de infecção prévia por sorotipo diferente de dengue facilitam a entrada do vírus em macrófagos via receptores FcγR → piora da doença na 2ª infecção (dengue hemorrágica).</li>
+    <li><strong>Variação antigênica (drift/shift do Influenza)</strong>: drift = mutações pontuais graduais → epidemias sazonais (anticorpos da temporada anterior perdem eficácia). Shift = reassortment entre dois subtipos → variante totalmente nova → potencial pandêmico (sem imunidade prévia na população).</li>
+  </ul>
+
+  <h3>Comparação Influenza A, B e C</h3>
+  <table class="dt">
+    <thead>
+      <tr><th></th><th>Influenza A</th><th>Influenza B</th><th>Influenza C</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Hospedeiros naturais</strong></td><td>Humanos, suínos, aves, equinos, mamíferos marinhos</td><td>Apenas humanos</td><td>Humanos, suínos</td></tr>
+      <tr><td><strong>Variação antigênica</strong></td><td>Drift <em>e</em> Shift (reassortment)</td><td>Apenas drift</td><td>Apenas drift</td></tr>
+      <tr><td><strong>Potencial pandêmico</strong></td><td>Sim (H1N1, H2N2, H3N2)</td><td>Não causa pandemias; epidemias em idosos/imunocomprometidos</td><td>Doença leve, sem sazonalidade marcada</td></tr>
+      <tr><td><strong>Subtipos H e N</strong></td><td>H1–H18, N1–N11 (em humanos: H1,H2,H3 e N1,N2)</td><td>Sem subtipagem H/N</td><td>Sem subtipagem H/N</td></tr>
+    </tbody>
+  </table>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha</div>
+    <strong>Células NK matam células com MHC-I ausente</strong> — não células normais. Quando vírus reduz MHC-I para escapar dos CTL, acaba ficando vulnerável às NK. É um trade-off evolutivo: se o vírus mantém MHC-I, o CTL o mata; se reduz MHC-I, a NK o mata.
+  </div>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (sarampo)</div>
+    <strong>Por que o vírus foi eliminado?</strong> IFN tipo I limitou a propagação nas primeiras 24–48h; células NK destruíram células infectadas com MHC-I reduzido; CTL CD8+ eliminaram células que apresentavam peptídeos do vírus do sarampo via MHC-I. <strong>Por que não haverá reinfecção?</strong> Linfócitos B geraram IgG específica → memória B e T de longa duração → resposta mais rápida e intensa em futuras exposições (resposta secundária). <strong>Por que sarampo causa imunossupressão transitória?</strong> O vírus infecta diretamente linfócitos e células dendríticas via receptor CD150 (SLAM) → depleção de células de memória preexistentes → janela de 2–3 anos de suscetibilidade aumentada a outras infecções.
+  </div>
+</section>
+
+<!-- TÓPICO 6 — VACINAS -->
+<section id="vacinas">
+  <h2>6. Vacinas, imunidade ativa e passiva</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Criança de 2 anos em uso de quimioterapia para leucemia linfoblástica aguda. A mãe pergunta se pode dar todas as vacinas do calendário. Quais podem e quais são contraindicadas? Qual o raciocínio imunológico?
+  </div>
+
+  <h3>Imunidade ativa vs. passiva</h3>
+  <table class="dt">
+    <thead>
+      <tr><th></th><th>Imunidade ativa</th><th>Imunidade passiva</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Mecanismo</strong></td><td>O próprio organismo produz anticorpos e células de memória</td><td>Transferência de anticorpos prontos de outro indivíduo/fonte</td></tr>
+      <tr><td><strong>Natural</strong></td><td>Infecção natural</td><td>Transplacentária (IgG), aleitamento (IgA secretória)</td></tr>
+      <tr><td><strong>Artificial</strong></td><td>Vacinação</td><td>Imunoglobulina IM ou IV (soro)</td></tr>
+      <tr><td><strong>Início de ação</strong></td><td>Dias a semanas (necessita processamento)</td><td>Imediato</td></tr>
+      <tr><td><strong>Duração</strong></td><td>Longa (anos a décadas; com memória imunológica)</td><td>Curta (semanas a meses — meia-vida dos anticorpos)</td></tr>
+      <tr><td><strong>Memória</strong></td><td>Sim</td><td>Não</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tipos de vacinas</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Tipo</th><th>Exemplos</th><th>Vantagens</th><th>Desvantagens</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Vivo atenuado</td><td>BCG, febre amarela, sarampo-caxumba-rubéola (SCR/tríplice viral), varicela, polio oral (VOP/Sabin), rotavírus</td><td>Melhor resposta imune (Th1 + Th2 + memória B + memória T); geralmente 1 dose; imunidade duradoura</td><td>Contraindicada em imunossuprimidos e gestantes; risco (raro) de reversão à virulência; requer refrigeração</td></tr>
+      <tr><td>Inativado</td><td>Gripe (influenza), hepatite A, raiva, polio injetável (VIP/Salk), febre tifóide</td><td>Segura para imunocomprometidos e gestantes; estável</td><td>Resposta imune menor; requer múltiplas doses + adjuvantes + reforços</td></tr>
+      <tr><td>Toxóide</td><td>Difteria (DTP), tétano</td><td>Segura; toxina inativada mas antigenicamente ativa</td><td>Requer reforços periódicos</td></tr>
+      <tr><td>Subunidade</td><td>Hepatite B (HBsAg recombinante), HPV (VLPs — proteína L1)</td><td>Alta segurança; produzida por DNA recombinante</td><td>Resposta humoral predominante; pode necessitar adjuvante</td></tr>
+      <tr><td>mRNA</td><td>COVID-19 (Pfizer/BNT162b2, Moderna)</td><td>Desenvolvimento rápido; induz resposta Th1 e anticorpos; nanopartícula lipídica como adjuvante intrínseco</td><td>Requer cadeia de frio rigorosa; nova tecnologia</td></tr>
+      <tr><td>Vetor viral</td><td>COVID-19 (AstraZeneca/ChAdOx1, Janssen)</td><td>Resposta CD8+ robusta</td><td>Anticorpos preexistentes contra o vetor podem reduzir eficácia</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Adjuvantes — o que são e por que importam</h3>
+  <p>Adjuvantes amplificam a imunogenicidade de vacinas inativadas, permitindo respostas mais duradouras com doses menores de antígeno. Tipos: <strong>sais de alumínio</strong> (Al(OH)3 — depot + ativação do inflamassomo), <strong>MPL-A</strong> (monophosphoryl lipid A — agonista de TLR4) e <strong>CpG</strong> (agonista de TLR9). <em>Não são usados em vacinas vivas atenuadas</em> — que já são inerentemente imunogênicas.</p>
+
+  <h3>Contraindicações de vacinas vivas atenuadas</h3>
+  <ul>
+    <li>Imunodeficiência congênita ou adquirida (HIV avançado, imunodeficiência combinada grave)</li>
+    <li>Neoplasia maligna ativa</li>
+    <li>Corticoterapia imunossupressora: &gt;2 mg/kg/dia de prednisona (crianças) ou &gt;20 mg/dia (adultos) por &gt;14 dias</li>
+    <li>Quimioterapia, radioterapia, imunossupressores (metotrexato, azatioprina)</li>
+    <li>Gestação (risco teórico de infecção fetal)</li>
+  </ul>
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (vacinação em quimioterapia)</div>
+    A criança em quimioterapia tem contraindicação a <strong>todas as vacinas vivas atenuadas</strong> (BCG, febre amarela, tríplice viral — SCR, varicela, VOP/Sabin): sem imunidade suficiente para controlar a cepa vacinal → risco real de doença disseminada pelo atenuado. Já <strong>vacinas inativadas, toxóides e subunidades</strong> (influenza injetável, hepatite A e B, DTPa, VIP/Salk, pneumocócica, meningocócica) são seguras e devem ser mantidas — a resposta imune será atenuada pela quimioterapia, mas o risco de infecção grave justifica a vacinação.
+  </div>
+
+  <h3>Fatores que influenciam a resposta vacinal</h3>
+  <ul>
+    <li>Antígenos extracelulares (vacinas inativadas, toxóides, subunidades) → apresentados via <strong>MHC classe II</strong> → ativação de CD4+ → resposta Th2 predominante + anticorpos</li>
+    <li>Antígenos intracelulares (vacinas vivas, mRNA, vetores) → apresentados via <strong>MHC classe I e II</strong> → resposta Th1 + Th2 + CD8+ → resposta mais intensa e duradoura</li>
+    <li>Antígenos polissacarídicos (timo-independentes) → resposta B sem memória T → solução: vacinas conjugadas (liga polissacarídeo a proteína carreadora → torna o antígeno timo-dependente → memória)</li>
+  </ul>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha</div>
+    <strong>Vacinas vivas NÃO são contraindicadas por:</strong> amamentação (ao contrário — o leite materno pode proteger a criança), desnutrição (exceto estado grave com comprometimento imune), doenças benignas comuns (IVAS, diarreia leve), prematuridade (exceto BCG — esperar peso &gt;2 kg), corticoterapia de curto prazo (&lt;2 semanas).
+  </div>
+</section>
+
+<!-- TÓPICO 7a — CONGESTÃO E EDEMA -->
+<section id="congestao">
+  <h2>7a. Congestão e edema</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Homem de 68 anos com insuficiência cardíaca congestiva (ICC) esquerda descompensada. Apresenta dispneia intensa, ortopneia, crepitações bibasais ao exame, edema bilateral de membros inferiores com cacifo (sinal do godet). Radiografia mostra opacidade em "asa de borboleta".
+  </div>
+
+  <h3>Hiperemia ativa vs. congestão</h3>
+  <p><strong>Hiperemia ativa (eritema)</strong>: processo <em>ativo</em> por dilatação arteriolar → ↑ fluxo sanguíneo local → cor vermelho-vivo, calor local. Pode ser fisiológica (exercício, rubor emocional) ou patológica (inflamação).</p>
+  <p><strong>Congestão (hiperemia passiva)</strong>: processo <em>passivo</em> por <strong>deficiência da drenagem venosa</strong> → distensão de vênulas e capilares → cor vermelho-escuro/roxo/cianótico. <em>Sempre patológica</em> (ex: ICC, cirrose). Leva à estase sanguínea, edema e hipóxia tecidual.</p>
+
+  <h3>Edema — mecanismos (as 5 causas)</h3>
+  <p>Edema = acúmulo de líquido no interstício ou em cavidades corporais quando o líquido filtrado supera a capacidade de drenagem linfática.</p>
+  <ol>
+    <li><strong>↑ Pressão hidrostática intravascular</strong>: retorno venoso deficiente (ICC, trombose venosa, cirrose), imobilismo (bomba muscular inativa), obstrução venosa (tumor). Resultado: transudato.</li>
+    <li><strong>↓ Pressão oncótica plasmática</strong>: perda de proteínas (síndrome nefrótica, enteropatia perdedora de proteína) ou ↓ síntese (cirrose hepática, desnutrição grave). Resultado: transudato.</li>
+    <li><strong>Retenção de sódio e água</strong>: na ICC, ↓ débito cardíaco → ↓ perfusão renal → ativa RAAS → aldosterona retém Na+ e água → ↑ volume circulante → ↑ pressão hidrostática → piora do edema (ciclo vicioso). Também ocorre na insuficiência renal primária. Resultado: transudato.</li>
+    <li><strong>Obstrução linfática</strong>: filariose (elefantíase), pós-cirúrgico, pós-radioterapia, neoplásica. Resultado: transudato rico em proteínas (quiloso).</li>
+    <li><strong>↑ Permeabilidade capilar por inflamação</strong>: histamina, bradicinina, VEGF → abertura de junções endoteliais. Resultado: exsudato (rico em proteínas, células inflamatórias).</li>
+  </ol>
+
+  <table class="dt">
+    <thead>
+      <tr><th>Característica</th><th>Transudato</th><th>Exsudato</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Teor de proteínas</td><td>Baixo (&lt;3 g/dL)</td><td>Alto (&gt;3 g/dL)</td></tr>
+      <tr><td>Densidade</td><td>&lt;1,020 g/mL</td><td>&gt;1,020 g/mL</td></tr>
+      <tr><td>Aspecto</td><td>Claro, aquoso</td><td>Turvo (células + fibrina)</td></tr>
+      <tr><td>Mecanismo</td><td>Hemodinâmico / osmótico</td><td>Inflamação (↑ permeabilidade)</td></tr>
+      <tr><td>Exemplo</td><td>ICC, síndrome nefrótica, cirrose</td><td>Pneumonia, peritonite, pleurite</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Edema agudo do pulmão</h3>
+  <p>Na ICC esquerda: ↓ débito do ventrículo esquerdo → ↑ pressão no átrio esquerdo → ↑ pressão nos capilares pulmonares → líquido transpassa para o interstício pulmonar → inundação alveolar (transudato nos alvéolos = material hialino acelular eosinofílico na histologia). Clinicamente: crepitações bibasais, ortopneia, dispneia paroxística noturna.</p>
+  <p><strong>Nomenclatura</strong>: anasarca = edema generalizado subcutâneo; hidrotórax = na pleura; hidropericárdio = no pericárdio; ascite/hidroperitôneo = na cavidade peritoneal.</p>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (ICC descompensada)</div>
+    O edema de membros inferiores e o derrame pulmonar do paciente resultam de <strong>dois mecanismos simultâneos</strong>: (1) ↓ débito do VE → ↑ pressão no capilar pulmonar → transudato nos alvéolos (opacidade em "asa de borboleta"); (2) ↓ perfusão renal → ativação do RAAS → retenção de Na⁺ e água → ↑ pressão hidrostática venosa sistêmica → edema com cacifo. Trata-se de <strong>congestão passiva</strong> bilateral com edema por mecanismo hemodinâmico (transudato) — não há inflamação primária, logo sem febre nem exsudato.
+  </div>
+</section>
+
+<!-- TÓPICO 7b — INFARTO -->
+<section id="infarto">
+  <h2>7b. Infarto</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Homem de 58 anos, hipertenso, diabético, fumante, chega à emergência com dor precordial opressiva em repouso há 2 horas, irradiando para o braço esquerdo. ECG com supradesnivelamento de ST em V1-V4. Troponina elevada. Coronariografia revela oclusão da artéria descendente anterior (DAA).
+  </div>
+
+  <h3>Conceito e etiologia</h3>
+  <p>Infarto = área de <strong>necrose isquêmica</strong> causada por obstrução do suprimento vascular a um tecido. A grande maioria dos infartos resulta de eventos trombóticos ou embólicos sobre uma placa aterosclerótica preexistente.</p>
+  <p>Outros mecanismos: vasoespasmo, compressão extrínseca do vaso (tumor), obstrução venosa (torção gonadal — infarto testicular/ovariano).</p>
+
+  <h3>Fatores que determinam se há infarto</h3>
+  <ul>
+    <li><strong>Circulação dupla vs. terminal</strong>: pulmão e intestino têm circulação dupla (menor risco de infarto); coração, rins e baço têm circulação terminal (maior risco)</li>
+    <li><strong>Velocidade da oclusão</strong>: oclusão lenta permite desenvolvimento de circulação colateral (ex: angina crônica estável x IAM agudo)</li>
+    <li><strong>Vulnerabilidade à hipóxia</strong>: neurônios &gt; miócitos cardíacos &gt; fibroblastos (neurônios morrem em 3-5 min de anóxia)</li>
+    <li><strong>Oxigenação do sangue</strong>: anemia ou hipoxemia sistêmica agravam o dano</li>
+  </ul>
+
+  <h3>Infarto branco (anêmico)</h3>
+  <p>Causado por obstrução <strong>arterial</strong> em <strong>órgãos sólidos com circulação terminal</strong>: coração, rins, baço. O sangue não reperfunde a área necrótica porque não há circulação colateral efetiva. Morfologia: <strong>forma de cunha</strong> (vértice apontando para o vaso ocluído, base na superfície do órgão); inicialmente mal definido e levemente hemorrágico (inflamação perilesional); com o tempo torna-se progressivamente mais pálido; eventualmente substituído por <strong>cicatriz fibrosa</strong>.</p>
+
+  <h3>Infarto vermelho (hemorrágico)</h3>
+  <p>Ocorre em situações onde o sangue reperfunde a área de necrose:</p>
+  <ul>
+    <li>Órgãos com <strong>circulação dupla ou colateral</strong>: pulmão (artéria pulmonar + circulação brônquica) e intestino</li>
+    <li>Tecidos <strong>frouxos</strong>: o sangue se acumula nos espaços intersticiais</li>
+    <li><strong>Obstrução venosa</strong>: torção de ovário, testículo → sangue chega pela artéria mas não sai → congestão hemorrágica → necrose</li>
+    <li>Após dissolução do êmbolo/trombo (reperfusão de infarto arterial)</li>
+  </ul>
+  <p>No pulmão: embolia de artéria pulmonar de médio calibre provoca hemorragia pulmonar mas <em>não</em> infarto (circulação dupla protetora) — <em>exceto</em> se há ICC esquerda concomitante (perfusão via brônquica comprometida).</p>
+
+  <h3>Evolução histológica do IAM</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Tempo</th><th>Achado histológico</th><th>Achado macroscópico</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0-6 h</td><td>Sem alterações visíveis (ou fibras onduladas*)</td><td>Aspecto normal (difícil distinguir)</td></tr>
+      <tr><td>12-24 h</td><td>Necrose de coagulação (miócitos sem núcleo, citoplasma eosinofílico)</td><td>Palidez, edema</td></tr>
+      <tr><td>2-4 dias</td><td>Infiltrado neutrofílico intenso</td><td>Área amarelada, amolecida</td></tr>
+      <tr><td>5-15 dias</td><td>Tecido de granulação (macrófagos M2, fibroblastos, vasos neoformados)</td><td>Bordas hiperêmicas, centro amarelado</td></tr>
+      <tr><td>Semanas-meses</td><td>Substituição por colágeno tipo I → cicatriz fibrosa</td><td>Área esbranquiçada, retraída</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:13px;color:var(--muted);margin-top:-10px">*<em>Fibras onduladas</em> = cardiomiócitos estirados mecanicamente pelo edema nos primeiros minutos; são o único sinal histológico possível nas primeiras horas. A troponina já está elevada no sangue (vaza por dano de membrana), mas o histológico ainda parece normal — por isso exame histológico não serve para diagnóstico de IAM muito recente.</p>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha</div>
+    <strong>Lesão por reperfusão</strong>: após restauração do fluxo (trombólise, angioplastia), pode ocorrer piora paradoxal do dano por: geração excessiva de radicais livres (burst de ROS por mitocôndrias "atordoadas"), influxo maciço de Ca²+, e recrutamento de neutrófilos. É paradoxal, mas ocorre — e faz parte do dano total do IAM.
+  </div>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (IAM — oclusão da DAA)</div>
+    O paciente tem <strong>infarto agudo do miocárdio com supradesnivelamento de ST (IAMSSST)</strong> por oclusão trombótica da descendente anterior — vaso de circulação terminal, sem alternativa colateral efetiva. O IAM branco (anêmico) desenvolve-se na parede anterior do VE. Nas primeiras horas: histológico quase normal (fibras onduladas, troponina já elevada). Entre 12–24h: necrose de coagulação visível. A conduta urgente é <strong>angioplastia primária</strong> para reperfundir — mas com cuidado à lesão de reperfusão (radicais livres, Ca²+, neutrófilos no momento da restauração do fluxo).
+  </div>
+</section>
+
+<!-- TÓPICO 7c — HEMOSTASIA -->
+<section id="hemostasia">
+  <h2>7c. Hemostasia</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Homem de 35 anos chega à emergência após acidente de moto com laceração profunda na coxa. O cirurgião observa que o sangramento espontâneo cessa parcialmente em minutos mesmo antes da sutura — mas em seguida nota que o paciente usa AAS por cardiopatia. Por que o sangramento inicial para? Por que o AAS prolonga o tempo de sangramento mas não elimina a hemostasia?
+  </div>
+
+  <h3>A sequência fisiológica</h3>
+  <p>Hemostasia = processo coordenado para interromper sangramento após lesão vascular, <em>sem</em> provocar trombose desnecessária. O desafio é manter o coágulo restrito ao sítio de lesão enquanto o restante do sistema circulatório permanece fluido. Isso exige equilíbrio dinâmico entre fatores pró- e anticoagulantes — o desequilíbrio para qualquer lado gera hemorragia ou trombose.</p>
+  <ol>
+    <li><strong>Vasoconstrição reflexa</strong>: imediata, reduz o fluxo local; mediada por reflexo neuronal e endotelina.</li>
+    <li><strong>Hemostasia primária — tampão plaquetário</strong>:
+      <ul>
+        <li>Colágeno subendotelial fica exposto → fator de von Willebrand (FvW) liga colágeno ao receptor <strong>GpIb</strong> plaquetário (adesão)</li>
+        <li>Plaquetas ativadas liberam ADP e <strong>TXA2</strong> → recruta mais plaquetas</li>
+        <li>Fibrinogênio liga receptores <strong>GpIIb-IIIa</strong> de plaquetas adjacentes (agregação) → tampão plaquetário primário</li>
+      </ul>
+    </li>
+    <li><strong>Hemostasia secundária — cascata de coagulação</strong>: fibrinogênio → fibrina (reforça o tampão). A via extrínseca (fator tecidual + VII) inicia; a via intrínseca amplifica.</li>
+    <li><strong>Anticoagulação e fibrinólise</strong>: limitam o processo ao sítio de lesão. Fatores chave: tPA (ativa plasminogênio → plasmina → digere fibrina), trombomodulina, ATIII, proteínas C e S.</li>
+  </ol>
+
+  <h3>Endotélio íntegro = anticoagulante natural</h3>
+  <ul>
+    <li><strong>PGI2 (prostaciclina)</strong>: vasodilatação + inibe ativação plaquetária (↑ AMPc)</li>
+    <li><strong>NO</strong>: inibe agregação plaquetária + vasodilatação</li>
+    <li><strong>ADPase</strong>: degrada o ADP liberado pelas plaquetas (ADP é pró-agregante)</li>
+    <li><strong>Trombomodulina</strong>: converte trombina em ativador da proteína C (anticoagulante)</li>
+    <li><strong>ATIII</strong>: inibe trombina e fatores IXa, Xa, XIa, XIIa (ativada por moléculas heparina-like na superfície endotelial)</li>
+    <li><strong>tPA</strong>: ativa plasminogênio → fibrinólise</li>
+  </ul>
+  <p>Com <strong>lesão endotelial</strong>, o endotélio passa a expressar fatores pró-coagulantes: FvW (adesão plaquetária), fator tecidual (via extrínseca), inibidor do tPA (mantém fibrina).</p>
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (laceração + AAS)</div>
+    O sangramento cessa parcialmente porque a <strong>hemostasia primária não depende do TXA2</strong>: a adesão plaquetária via FvW→GpIb e a agregação via GpIIb-IIIa (fibrinogênio) continuam íntegras mesmo com AAS. O AAS bloqueia irreversivelmente a COX-1 → sem TXA2 → falha o ciclo de amplificação plaquetária → o tampão se forma mais devagar e com menos plaquetas. O sangramento prolonga-se (↑ tempo de sangramento), mas não é abolido porque os passos iniciais de adesão/agregação independem do TXA2.
+  </div>
+</section>
+
+<!-- TÓPICO 7d — TROMBOSE -->
+<section id="trombose">
+  <h2>7d. Trombose</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Mulher de 42 anos, obesa, pós-operatório de cirurgia ortopédica de grande porte (8 horas de imobilização no leito), em uso de anticoncepcionais orais. Desenvolve dor, calor e edema em panturrilha esquerda. Doppler venoso confirma trombose venosa profunda (TVP) em veia poplítea.
+  </div>
+
+  <h3>Tríade de Virchow</h3>
+  <p>Trombose resulta da ativação patológica da coagulação, tipicamente por uma ou mais das três condições:</p>
+  <ol>
+    <li><strong>Lesão endotelial</strong>: maior causa de trombose arterial e cardíaca. Placa de ateroma → exposição de colágeno + FvW + fator tecidual → ativação plaquetária mesmo sob alta velocidade de fluxo. Disfunção endotelial (sem ruptura física) também conta: estresse hemodinâmico, tabagismo, hipercolesterolemia, inflamação → padrão gênico pró-trombótico.</li>
+    <li><strong>Alteração do fluxo sanguíneo</strong>:
+      <ul>
+        <li>Turbulência (trombose arterial): gera contracorrentes e zonas de estase local → lesão endotelial por força de cisalhamento excessiva (ex: bifurcações, placas ateroscleróticas)</li>
+        <li>Estase (trombose venosa): impede diluição de fatores de coagulação ativados + impede acesso de inibidores + favorece contato de plaquetas com endotélio (ex: imobilismo, ICC, gravidez)</li>
+      </ul>
+    </li>
+    <li><strong>Hipercoagulabilidade</strong>:
+      <ul>
+        <li>Primária (genética): mutação do <strong>Fator V de Leiden</strong> (fator V resistente à inativação pela proteína C — 60% dos casos de TVP hereditária); mutação da protrombina G20210A (↑ transcrição de protrombina → 3x risco de TVP)</li>
+        <li>Secundária (adquirida): neoplasias (produtos pró-coagulantes tumorais), imobilismo, obesidade, síndrome do anticorpo antifosfolipídio (ativação plaquetária + inibe proteína C), trombocitopenia induzida por heparina (TIH — autoimune), estados hiperestrogênicos (gravidez, ACO)</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h3>Morfologia dos trombos</h3>
+  <p><strong>Trombos arteriais</strong>: em zonas de lesão endotelial ou turbulência; compostos principalmente de plaquetas (trombo branco = rico em plaquetas + fibrina, com poucas hemácias); crescem de forma <em>retrógrada</em>; locais: coronárias, cerebrais, femorais.</p>
+  <p><strong>Trombos venosos</strong>: em zonas de estase; ricos em hemácias + fibrina (trombo vermelho = coágulo vermelho); crescem predominantemente de forma <em>anterógrada</em>; locais: veias poplítea, femoral, ilíaca (TVP), veias hepáticas (Budd-Chiari).</p>
+  <p><strong>Trombos murais</strong>: câmaras cardíacas ou aorta; associados a IAM (discinesia ventricular), arritmias (fibrilação atrial com estase no átrio), cardiomiopatias.</p>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha</div>
+    <strong>Trombo branco vs. trombo vermelho</strong>: Trombo branco = arterial = rico em plaquetas; Trombo vermelho = venoso = rico em hemácias e fibrina. Importante: ambos PODEM embolizar. O trombo vermelho venoso é o que mais comumente causa TEP.
+  </div>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (TVP pós-cirúrgica)</div>
+    A paciente apresenta a <strong>tríade de Virchow completa</strong>: estase venosa (8h de imobilização + obesidade), hipercoagulabilidade (ACO com estrogênio → ↑ fatores II, VII, IX, X + ↓ proteínas C e S) e lesão endotelial (cirurgia ortopédica). O trombo vermelho venoso formou-se na veia poplítea. O risco imediato é <strong>embolismo pulmonar</strong> — fragmentos da TVP acima do joelho embolizam para as artérias pulmonares em ~50% dos casos sem tratamento. Conduta: anticoagulação imediata com HBPM ou anticoagulante oral direto.
+  </div>
+</section>
+
+<!-- TÓPICO 7e — EMBOLIA -->
+<section id="embolia">
+  <h2>7e. Embolia</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Mulher de 38 anos, 4 dias após cirurgia ortopédica de quadril, desenvolve súbita dispneia intensa, taquicardia (FC 118 bpm), dessaturação (SpO2 = 88%) e dor pleurítica. Doppler venoso confirma TVP em veia femoral esquerda. Angiotomografia pulmonar mostra falha de enchimento em artéria pulmonar direita. O que aconteceu? Qual o caminho do êmbolo?
+  </div>
+
+  <h3>Conceito</h3>
+  <p>Êmbolo = massa intravascular solta (sólida, líquida ou gasosa) carreada pelo sangue de seu sítio de origem até local distante, onde causa obstrução. 99% dos êmbolos são trombos desalojados (tromboembolismo).</p>
+
+  <h3>Tromboembolismo pulmonar (TEP)</h3>
+  <p>95% dos casos originam-se de TVP das veias profundas das pernas <em>acima dos joelhos</em> (poplítea, femoral, ilíaca). <strong>Caminho do êmbolo no caso âncora</strong>: trombo na veia femoral esquerda → veia ilíaca externa → veia ilíaca comum → veia cava inferior → átrio direito → ventrículo direito → artéria pulmonar direita (falha de enchimento na angiotomografia). O êmbolo percorre sempre a circulação venosa → câmaras direitas → artérias pulmonares — nunca atravessa para o lado esquerdo, a não ser que haja comunicação interatrial (forame oval patente = TEP paradoxal).</p>
+  <ul>
+    <li><strong>Êmbolo grande</strong> (&gt;60% do leito pulmonar obstruído): morte súbita por colapso cardiovascular</li>
+    <li><strong>Êmbolo médio</strong>: obstrução de artéria de médio calibre → hemorragia pulmonar; raramente infarto pulmonar (circulação dupla é protetora — <em>exceto</em> se ICC esquerda concomitante com ↓ perfusão brônquica)</li>
+    <li><strong>Êmbolos pequenos</strong> (60-80% dos casos): clinicamente silenciosos; podem ser organizados e incorporados à parede vascular. Múltiplos êmbolos pequenos recorrentes → hipertensão pulmonar crônica → cor pulmonale (insuficiência cardíaca direita)</li>
+  </ul>
+
+  <h3>Tromboembolismo sistêmico</h3>
+  <p>Êmbolos do lado esquerdo do coração ou de artérias → circulação sistêmica. 80% originam-se de trombos murais intracardíacos (pós-IAM, fibrilação atrial). Destinos mais comuns: membros inferiores (75%), cérebro (10%), baço, rins.</p>
+
+  <h3>Outras formas de êmbolo</h3>
+  <ul>
+    <li><strong>Gorduroso</strong>: fratura de ossos longos → glóbulos de gordura da medula → oclusão de microvasos → petéquias, hipóxia, alterações neurológicas. Tríade da embolia gordurosa: hipóxia + confusão mental + petéquias.</li>
+    <li><strong>Líquido amniótico</strong>: rasgo nas membranas placentárias → infusão de líquido amniótico na circulação materna → coagulopatia intravascular disseminada + SARA. Alta mortalidade materna.</li>
+    <li><strong>Gasoso</strong>: procedimentos invasivos (cateterismo), mergulho (doença descompressiva — nitrogênio se dissolve em altas pressões e forma bolhas ao descomprimir).</li>
+  </ul>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (TEP pós-ortopedia)</div>
+    A paciente teve <strong>tromboembolismo pulmonar</strong>: o trombo vermelho formado na veia femoral esquerda (TVP) desprendeu-se → percorreu veia ilíaca externa → ilíaca comum → veia cava inferior → átrio direito → ventrículo direito → artéria pulmonar direita (falha de enchimento na angiotomografia). Esse é o caminho obrigatório de qualquer TEP de origem em TVP de membros inferiores — sempre pela circulação venosa → câmaras direitas → artérias pulmonares. A dispneia súbita + dessaturação + dor pleurítica configuram o quadro clássico de êmbolo médio; o tratamento é anticoagulação imediata.
+  </div>
+</section>
+
+<!-- TÓPICO 7f — ATEROSCLEROSE -->
+<section id="aterosclerose">
+  <h2>7f. Aterosclerose e placa de ateroma</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Homem de 55 anos, tabagista há 30 anos, hipertenso, LDL = 180 mg/dL, HDL = 35 mg/dL. Angiotomografia coronariana mostra placas ateroscleróticas calcificadas nas coronárias, com estenose de 70% na descendente anterior. Como essa placa se formou? O que pode torná-la perigosa?
+  </div>
+
+  <h3>Conceito e localização preferencial</h3>
+  <p>Aterosclerose = resposta inflamatória crônica e reparadora da parede arterial a uma lesão endotelial, com acúmulo de lipídios e tecido fibroso na túnica <em>íntima</em>. Afeta principalmente artérias elásticas grandes (aorta, carótidas, ilíacas) e artérias musculares de médio calibre (coronárias, poplíteas). Placas formam-se preferencialmente nos pontos de bifurcação e na parede posterior da aorta abdominal (onde o fluxo é turbulento e não laminar).</p>
+
+  <h3>Sequência da aterogênese</h3>
+  <ol>
+    <li><strong>Lesão endotelial</strong>: disfunção endotelial por distúrbios hemodinâmicos (hipertensão, turbulência), hiperlipidemia ou inflamação → ↑ permeabilidade + ↑ adesão de leucócitos + expressão de moléculas de adesão (VCAM-1, ICAM-1)</li>
+    <li><strong>Entrada de LDL na íntima</strong>: LDL acumula-se no espaço subendotelial em locais de ↑ permeabilidade</li>
+    <li><strong>Oxidação da LDL</strong>: radicais livres (ROS) gerados em macrófagos e células endoteliais oxidam a LDL → LDL oxidada é quimioatrativa para monócitos e citotóxica para o endotélio</li>
+    <li><strong>Recrutamento de monócitos</strong>: LDL oxidada + citocinas → monócitos aderem ao endotélio (selectinas → rolagem; integrinas → adesão firme) → migram para a íntima → diferenciam-se em macrófagos</li>
+    <li><strong>Formação de células espumosas</strong>: macrófagos captam LDL oxidada via receptores scavenger (SR-A, CD36) → acumulam ésteres de colesterol → células espumosas (foam cells)</li>
+    <li><strong>Estria gordurosa</strong>: acúmulo de células espumosas + linfócitos T na íntima → lesão inicial visível macroscopicamente como estria amarelada</li>
+    <li><strong>Migração e proliferação de CML</strong>: fatores de crescimento (PDGF, TGF-&beta;) atraem células musculares lisas da média → íntima → proliferam + depositam colágeno e matriz extracelular</li>
+    <li><strong>Placa ateromatosa constituída</strong>: capa fibrosa (colágeno + CML + macrófagos) + núcleo necrótico (lipídios + fendas de colesterol + restos celulares + células espumosas)</li>
+  </ol>
+
+  <h3>Papel dos cristais de colesterol</h3>
+  <p>Cristais de colesterol e ácidos graxos livres nos macrófagos ativam o <strong>inflamassomo NLRP3</strong> → processamento e secreção de <strong>IL-1&beta;</strong> → recruta mais mononucleares → amplifica a inflamação local → progressão da placa.</p>
+
+  <h3>Complicações da placa</h3>
+  <ul>
+    <li><strong>Estenose progressiva</strong>: angina de esforço estável</li>
+    <li><strong>Ruptura da placa</strong> (placa vulnerável = capa fibrosa fina + grande núcleo lipídico + inflamação intensa) → exposição de material trombogênico → trombose aguda → IAM ou AVC</li>
+    <li>Hemorragia intraplaca, calcificação, aneurisma (enfraquecimento da média)</li>
+  </ul>
+
+  <div class="kbox">
+    <div class="klabel">Sequência aterogênica resumida</div>
+    Lesão endotelial &rarr; Entrada e oxidação de LDL &rarr; Recrutamento de monócitos &rarr; Macrófagos + células espumosas &rarr; Estria gordurosa &rarr; Migração de CML + fibrose &rarr; Placa ateromatosa &rarr; Ruptura + trombose &rarr; IAM / AVC
+  </div>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (aterosclerose)</div>
+    A placa formou-se pela tríade tabagismo (disfunção endotelial por radicais livres) + hipertensão (estresse hemodinâmico) + hiperlipidemia (LDL alto/HDL baixo → acúmulo e oxidação na íntima). O que torna essa placa perigosa não é o grau de estenose (70%), mas suas características morfológicas: capa fibrosa fina + grande núcleo lipídico + inflamação intensa = placa "vulnerável" → risco de ruptura → trombose coronariana aguda → IAM. Uma placa com 90% de estenose mas capa fibrosa espessa é paradoxalmente mais estável — causa angina de esforço, raramente IAM abrupto.
+  </div>
+</section>
+
+<!-- TÓPICO 8 — FARMACOLOGIA DA TROMBOSE/INFARTO -->
+<section id="farm-trombose">
+  <h2>8. Farmacologia da trombose e do infarto</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Homem de 62 anos com IAM com supradesnivelamento de ST (IAMSSST). Recebe AAS + clopidogrel na emergência e é encaminhado para angioplastia primária. Qual o mecanismo do AAS? Por que usar dois antiagregantes? E se o paciente precisar de anticoagulação por fibrilação atrial concomitante?
+  </div>
+
+  <h3>Antiagregantes plaquetários</h3>
+  <p><strong>Por que as plaquetas são o alvo inicial?</strong> Na trombose arterial (alta velocidade de fluxo), o tampão plaquetário forma-se antes da cascata de coagulação. Bloquear a agregação plaquetária é fundamental para prevenir eventos arteriais.</p>
+
+  <p><strong>AAS (ácido acetilsalicílico)</strong>: inibe a COX-1 de forma <em>irreversível e covalente</em> → bloqueia a síntese de TXA2 (que induz vasoconstrição e agregação). Como plaquetas não têm núcleo → não sintetizam nova COX → o efeito dura 7-10 dias (vida útil da plaqueta). Dose antiagregante: 75-150 mg/dia (muito menor que a dose anti-inflamatória). RAM: sangramento GI (inibe prostaglandinas protetoras da mucosa), ↑ tempo de sangramento.</p>
+
+  <p><strong>Antagonistas do receptor P2Y12 (receptor de ADP)</strong>: ADP é liberado por plaquetas ativadas e recruta mais plaquetas via receptor P2Y12. Bloqueá-lo rompe esse ciclo de amplificação.</p>
+  <ul>
+    <li><strong>Clopidogrel</strong>: pró-fármaco; ativado por CYP2C19 → bloqueio irreversível do P2Y12. Interação importante: omeprazol inibe CYP2C19 → ↓ ativação do clopidogrel → ↓ efeito antiagregante.</li>
+    <li><strong>Prasugrel</strong>: pró-fármaco ativado independentemente de CYP2C19 → menos interações + início de ação mais rápido + maior inibição plaquetária. Contraindicado em pacientes com AVC/AIT prévio.</li>
+    <li><strong>Ticagrelor</strong>: não é pró-fármaco; antagonista reversível do P2Y12; início de ação mais previsível.</li>
+  </ul>
+
+  <p><strong>Inibidores de GP IIb/IIIa</strong> (abciximabe, eptifibatida, tirofibana): bloqueiam o receptor que liga o fibrinogênio às plaquetas → inibem o passo final da agregação. Uso IV; indicação: intervenção coronariana percutânea (ICP). RAM: sangramento, trombocitopenia.</p>
+
+  <h3>Anticoagulantes — varfarina e heparinas</h3>
+  <p><strong>Heparina não-fracionada (HNF)</strong>: ativa a ATIII → ATIII + heparina inibe trombina (IIa) e fatores Xa, IXa, XIa, XIIa (1000x mais rápido). Uso parenteral (IV ou SC); monitorar com TTPa. RAM: hemorragia; TIH (trombocitopenia induzida por heparina — autoimune, paradoxalmente pró-trombótica). Antídoto: sulfato de protamina.</p>
+  <p><strong>HBPM</strong> (enoxaparina, dalteparina): inibem seletivamente fator Xa; maior índice terapêutico; SC; sem necessidade de monitoramento rotineiro. Escolha na gestação (não atravessa placenta). Contraindicada em insuficiência renal grave.</p>
+  <p><strong>Varfarina</strong>: inibe VKORC1 → bloqueia regeneração da vitamina K → ↓ síntese de fatores II, VII, IX, X e proteínas C e S. Latência de 18-24h (fatores já sintetizados continuam em circulação). Monitoramento: RNI/INR. Atravessa a placenta → contraindicada na gravidez. Interações: indutores de CYP2C9 (rifampicina → ↓ efeito) e inibidores de CYP2C9 (amiodarona → ↑ efeito).</p>
+
+  <div class="trap-box">
+    <div class="trap-label">Pegadinha — Varfarina na 1&ordf; semana</div>
+    Necrose cutânea pode ocorrer nas primeiras semanas de tratamento: proteínas C e S (anticoagulantes endógenos vitamina K-dependentes) têm meia-vida mais curta que os fatores pró-coagulantes → são depletadas primeiro → estado hipercoagulável transitório → trombose microvascular → necrose. Maior risco em pacientes com deficiência prévia de proteína C ou S.
+  </div>
+
+  <p><strong>AODs (anticoagulantes orais diretos)</strong>:</p>
+  <ul>
+    <li>Dabigatrana: inibidor direto e reversível da trombina (IIa). Antídoto: idarucizumabe.</li>
+    <li>Rivaroxabana, Apixabana, Edoxabana: inibidores diretos do fator Xa. Antídoto: alfa-andexanete.</li>
+    <li>Vantagens vs. varfarina: sem monitoramento rotineiro, resposta previsível, menos interações, efeito mais rápido.</li>
+    <li>Desvantagem: meia-vida curta exige alta adesão (1-2 comprimidos/dia).</li>
+  </ul>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (IAM — DAPT e anticoagulação)</div>
+    <strong>Por que usar dois antiagregantes?</strong> AAS inibe COX-1 irreversivelmente → bloqueia TXA2 (via de ativação plaquetária). Clopidogrel bloqueia o receptor P2Y12 → interrompe a amplificação por ADP. As duas vias são independentes — bloqueá-las simultaneamente é mais eficaz que cada uma isolada (terapia antiplaquetária dupla, DAPT). Em FA concomitante (risco trombótico venoso/emboligênico), adicionar anticoagulante (warfarina ou AOD, dependendo do caso) cria a chamada "terapia tripla" — altamente hemorrágica. A tendência atual é reduzir o tempo da DAPT e usar apenas AOD + um antiagregante (geralmente AAS ou clopidogrel), com avaliação individual do risco.
+  </div>
+
+  <h3>Trombolíticos (fibrinolíticos)</h3>
+  <p>Indicados para lise de trombos em situações de emergência (IAM, AVC isquêmico agudo, TEP maciço). Atuam ativando o sistema fibrinolítico natural: ativam o plasminogênio → plasmina → digere a fibrina do trombo.</p>
+  <ul>
+    <li><strong>Alteplase (rt-PA)</strong>, <strong>tenecteplase</strong>, <strong>reteplase</strong>: ativadores de plasminogênio recombinantes; seletivos para plasminogênio ligado à fibrina (menos fibrinólise sistêmica que estreptoquinase).</li>
+    <li><strong>Janela terapêutica</strong>: máximo benefício em até 6h do início dos sintomas no IAM; 4,5h no AVC isquêmico.</li>
+    <li><strong>RAM</strong>: hemorragia (principal); &lt;1% hemorragia intracraniana.</li>
+    <li>Estreptoquinase: 1&ordf; geração; antigênica (não repetir) + fibrinólise sistêmica; fora do mercado.</li>
+  </ul>
+</section>
+
+<!-- TÓPICO 9 — HIPOLIPEMIANTES -->
+<section id="hipolipemiantes">
+  <h2>9. Farmacologia dos hipolipemiantes</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Homem de 50 anos, pós-IAM, LDL = 160 mg/dL em uso de atorvastatina 40 mg. Após 3 meses, LDL caiu para 110 mg/dL (meta &lt;70 mg/dL para alto risco). Quais as opções para potencializar a redução?
+  </div>
+
+  <h3>Por que tratar a dislipidemia?</h3>
+  <p>A sequência é clara: hiperlipidemia → disfunção endotelial → LDL oxidada → aterosclerose → eventos cardiovasculares. Reduzir o LDL-c é a principal estratégia farmacológica para reduzir o risco cardiovascular — cada ↓10 mg/dL de LDL = ↓5% no risco de eventos maiores.</p>
+
+  <h3>Estatinas — 1&ordf; linha universal</h3>
+  <p>Inibem competitivamente a <strong>HMG-CoA redutase</strong> (enzima limitante da síntese de colesterol). Com ↓ colesterol intracelular, o hepatócito expressa mais receptores de LDL (LDLR) na superfície → capta mais LDL do plasma → ↓ LDL-c circulante. Resultado: ↓ LDL 15-55%, ↓ TG 7-28%, ↑ HDL 2-10%.</p>
+  <p><strong>Efeitos pleitrópicos</strong> (além da redução do LDL, independentes dos lipídios): ↑ produção endotelial de NO, estabilização de placa aterosclerótica (↓ inflamação intraplaca), ↓ agregação plaquetária, ↓ fibrinogênio.</p>
+  <p><strong>Farmacocinética</strong>: lovastatina e sinvastatina são pró-drogas. A síntese hepática de colesterol é máxima entre 00h e 2h → sinvastatina deve ser tomada à noite. Atorvastatina e rosuvastatina têm meias-vidas longas → qualquer horário. Biotransformação via CYP3A4 (maioria) + CYP2C9 (fluvastatina, rosuvastatina).</p>
+  <p><strong>RAM</strong>: miopatia (dose-dependente; risco ↑ em idosos, asiáticos, combinação com fibratos, especialmente genfibrozila); hepatotoxicidade (rara); DM tipo 2 (benefício cardiovascular supera esse risco). Contraindicação: hepatopatia grave/instável, gravidez (1&ordm; trimestre).</p>
+
+  <h3>Ezetimiba — inibição da absorção intestinal</h3>
+  <p>Inibe seletivamente a proteína transportadora de colesterol <strong>NPC1L1</strong> (Niemann-Pick C1-like 1) nos enterócitos jejunais → ↓ absorção de colesterol dietético e biliar → ↓ LDL-c ~20%. Não interfere com absorção de substâncias lipossolúveis (vitaminas). Em combinação com estatinas: efeito sinérgico (estatina ↓ síntese de colesterol hepático; ezetimiba ↓ absorção intestinal → o fígado compensa aumentando mais ainda o LDLR). RAM: raras. Atenção: sequestradores de ácidos biliares ↓ absorção da ezetimiba → administrar com intervalo.</p>
+
+  <h3>Inibidores de PCSK9</h3>
+  <p><strong>PCSK9</strong> = protease hepática que degrada o LDLR após internalização → ↓ LDLR disponível → ↑ LDL plasmático. Inibir a PCSK9 → mais LDLR na superfície dos hepatócitos → ↓ LDL-c de forma muito expressiva.</p>
+  <ul>
+    <li><strong>Anticorpos monoclonais</strong> (evolocumabe/Repatha, alirocumabe/Praluent): SC a cada 2-4 semanas; ↓ LDL ~60% em usuários de estatinas. RAM: bem tolerados; reações no local.</li>
+    <li><strong>siRNA</strong> (inclisirana/Sybrava): silencia o gene do PCSK9; SC a cada 6-12 meses (!) → muito menos frequente → maior adesão. ↓ LDL ~55%. RAM: reação local, bronquite.</li>
+  </ul>
+  <p>Indicação: hipercolesterolemia primária, intolerância a estatinas, incapacidade de atingir LDL-alvo com estatina + ezetimiba.</p>
+
+  <h3>Fibratos — alvo principal: triglicerídeos</h3>
+  <p>Agonistas de <strong>PPAR-&alpha;</strong> (receptor ativado pelo proliferador de peroxissoma) → ↑ produção e atividade da lipoproteína-lipase (LPL) → ↑ catabolismo de VLDL rico em TG; ↓ ApoC-III (inibidor da LPL) → ↑ captação de TG pelos tecidos; ↑ ApoA-I e A-II → ↑ HDL. Resultado: ↓ TG 30-60%, ↑ HDL. Pouco efeito em LDL.</p>
+  <p>Indicação: <strong>1&ordf; linha quando TG ≥ 500 mg/dL</strong> (para reduzir risco de pancreatite aguda). RAM: miopatia (risco elevado com estatinas — preferir fenofibrato, não genfibrozila, se associação necessária); ↑ litogenicidade biliar; alterações de enzimas hepáticas.</p>
+
+  <h3>Ácido bempedoico — alternativa para intolerantes a estatinas</h3>
+  <p>Inibe a <strong>ATP-citrato liase (ACL)</strong>, enzima que precede a HMG-CoA redutase na síntese de colesterol. Pró-fármaco ativado <em>somente no fígado</em> (não no músculo → menor risco de miopatia). ↓ LDL ~30%. RAM: hiperuricemia (↓ secreção tubular), risco de ruptura de tendões, ↑ creatinina. No Brasil: combinação com ezetimiba (Nustendi).</p>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (hipolipemiante escalonado)</div>
+    LDL ainda 110 mg/dL, meta &lt;70 mg/dL — faltam ~40 mg/dL. Passos escalonados: (1) <strong>Dobrar a dose da estatina</strong> (regra dos 6: dobrar a dose reduz mais ~6% de LDL — benefício marginal). (2) <strong>Adicionar ezetimiba</strong> (~20% a mais de redução; sinérgica com estatina pois bloqueia absorção intestinal enquanto a estatina bloqueia síntese hepática). Com atorvastatina 40 + ezetimiba, o LDL deve cair para ~75–85 mg/dL. (3) Se ainda acima da meta: <strong>inibidor de PCSK9</strong> (evolocumabe ou alirocumabe SC) → reduz mais 50–60% sobre o baseline — neste caso provavelmente atingiria LDL &lt;45 mg/dL. Essa é a escada padrão para alto risco cardiovascular pós-IAM.
+  </div>
+
+  <h3>Ômega-3 e sequestradores de ácidos biliares</h3>
+  <p><strong>Ômega-3</strong> (EPA + DHA): ↓ TG 45% (dose 2-4 g/dia); mecanismo multifatorial (↑ catabolismo de VLDL). Indicação: TG ≥ 500 mg/dL. RAM: desconforto GI, sabor de peixe, ↑ tempo de sangramento.</p>
+  <p><strong>Sequestradores de ácidos biliares</strong> (colestiramina, colestipol, colesevelam): polímeros catiônicos insolúveis → ligam-se a ácidos biliares no intestino → excreção fecal → fígado usa colesterol para ressintetizar bile → ↑ LDLR → ↓ LDL-c ~20%. Não são absorvidos → mais seguros. Indicados em crianças e mulheres em idade fértil. Desvantagem: ↑ TG (contraindicado em hipertrigliceridemia); ↓ absorção de vitaminas lipossolúveis (A, D, E, K) e de outros fármacos → tomar outros medicamentos 1h antes ou 4h depois.</p>
+</section>
+
+<!-- TÓPICO 10 — REPARO TECIDUAL -->
+<section id="cicatriz">
+  <h2>10. Reparo tecidual — cicatrização, fibrose e cirrose</h2>
+
+  <div class="caso">
+    <div class="caso-label">Caso âncora</div>
+    Paciente diabético mal controlado com ferida aberta no pé há 3 meses, sem sinais de cicatrização. Há tecido necrótico e sinais de infecção local. Por que esse paciente não cicatriza adequadamente? Quais fatores biológicos estão comprometidos?
+  </div>
+
+  <h3>O problema que o reparo resolve</h3>
+  <p>Quando um tecido é lesado, há dois destinos possíveis: <strong>regeneração</strong> (substituição por células funcionais idênticas — possível em tecidos com células-tronco ativas como fígado, epitélio) ou <strong>reparação</strong> (substituição por tecido conjuntivo fibroso = cicatriz). O tipo de reparo depende da extensão da lesão e da capacidade regenerativa do tecido.</p>
+
+  <h3>Regeneração vs. reparação — o que determina o destino</h3>
+  <p>Nem todo tecido lesado cicatriza da mesma forma. A capacidade de regenerar depende de quantas células-tronco o tecido mantém em repouso:</p>
+  <table class="dt">
+    <thead>
+      <tr><th>Tipo</th><th>Característica</th><th>Exemplos</th><th>Destino após lesão</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Lábeis</strong></td><td>Divisão contínua ao longo da vida</td><td>Epitélio (pele, TGI, mucosas), células hematopoiéticas</td><td>Regeneração completa se a membrana basal estiver intacta</td></tr>
+      <tr><td><strong>Estáveis</strong></td><td>Em G0 em condições normais; proliferam em resposta a dano</td><td>Hepatócitos, túbulos renais, fibroblastos, células musculares lisas</td><td>Regeneração parcial + reparação; fígado pode regenerar extensivamente</td></tr>
+      <tr><td><strong>Permanentes</strong></td><td>Sem capacidade de divisão pós-natal</td><td>Neurônios, cardiomiócitos, músculo esquelético maduro</td><td>Reparação por cicatriz fibrosa — sem regeneração funcional</td></tr>
+    </tbody>
+  </table>
+  <p>Portanto: um IAM resulta em cicatriz fibrosa permanente (cardiomiócitos são permanentes); uma hepatite grave pode ter regeneração significativa (hepatócitos são estáveis); uma lesão na mucosa gástrica cicatriza quase sem cicatriz (epitélio é lábil).</p>
+
+  <h3>As 3 fases da cicatrização</h3>
+  <p><strong>Fase 1 — Inflamatória</strong> (imediata a ~3-5 dias):</p>
+  <ul>
+    <li>Ativação da cascata de coagulação → tampão plaquetário + fibrina → crosta</li>
+    <li>Mediadores vasoativos (histamina, bradicinina) → vasodilatação, ↑ permeabilidade → edema, rubor, calor, dor</li>
+    <li>Neutrófilos chegam primeiros → limpeza de debris e bactérias</li>
+    <li>Macrófagos M1 (dias 1-3) → fagocitose; depois M2 (pró-resolução) → liberam fatores de crescimento (TGF-&beta;, VEGF)</li>
+  </ul>
+
+  <p><strong>Fase 2 — Proliferativa (Coesão)</strong> (dias ~3 a 3 semanas):</p>
+  <ul>
+    <li>Fibroblastos proliferam e depositam colágeno tipo III (frouxo, provisório)</li>
+    <li>Angiogênese: VEGF + angiopoietinas + sinalização Notch/DLL4 → neovasos</li>
+    <li><strong>Tecido de granulação</strong> = tecido conjuntivo frouxo + numerosos vasos neoformados (confere aspecto granular/avermelhado) + leucócitos. Predomínio de colágeno tipo III + ácido hialurônico. Pouco resistente mecanicamente.</li>
+    <li>Reepitelização: queratinócitos migram pelas margens e cobrem a ferida</li>
+  </ul>
+
+  <p><strong>Fase 3 — Maturação (Resistência)</strong> (semanas a meses):</p>
+  <ul>
+    <li>Colágeno tipo III → colágeno tipo I (mais resistente), mediado por metaloproteinases</li>
+    <li>↓ Capilares (o tecido de granulação altamente vascularizado regride)</li>
+    <li>↓ Células inflamatórias (apoptose + fagocitose)</li>
+    <li>Fibroblastos diferenciam-se em <strong>miofibroblastos</strong> (com actina-&alpha; de músculo liso) → contração da ferida</li>
+    <li>Resultado: cicatriz mais pálida, firme e contrátil; resistência aumenta progressivamente</li>
+  </ul>
+
+  <h3>1&ordf; vs. 2&ordf; intenção</h3>
+  <table class="dt">
+    <thead>
+      <tr><th>Critério</th><th>1&ordf; intenção (bordes aproximadas)</th><th>2&ordf; intenção (bordes abertas)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Inflamação</td><td>Mínima</td><td>Intensa e prolongada</td></tr>
+      <tr><td>Tecido de granulação</td><td>Pequeno volume</td><td>Grande volume (preenche o defeito)</td></tr>
+      <tr><td>Contração</td><td>Mínima</td><td>Importante (reduz até 5-10% do tamanho em 6 semanas)</td></tr>
+      <tr><td>Cicatriz</td><td>Fina, linear, estética</td><td>Volumosa, retraída, risco de quelóide</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Fatores que prejudicam a cicatrização</h3>
+  <ul>
+    <li><strong>Infecção</strong>: prolonga a fase inflamatória, impede transição para proliferação</li>
+    <li><strong>Diabetes mellitus</strong>: ↓ perfusão tecidual (microangiopatia) + neuropatia (não percebe lesão) + disfunção de neutrófilos + glicação de proteínas</li>
+    <li><strong>Glicocorticoides</strong>: inibem a inflamação + angiogênese + síntese de colágeno</li>
+    <li><strong>Desnutrição</strong>: proteínas (substrato para colágeno), vitamina C (cofator da prolil-hidroxilase → síntese de colágeno), zinco (cofator de metaloproteinases), cálcio</li>
+    <li><strong>Isquemia / aterosclerose</strong>: ↓ O2 → ↓ síntese de colágeno + ↓ função fagocítica</li>
+    <li><strong>Corpo estranho</strong>: mantém inflamação crônica granulomatosa</li>
+    <li><strong>Idade avançada</strong>: ↓ capacidade regenerativa, ↓ resposta imune</li>
+  </ul>
+
+  <div class="caso-resposta">
+    <div class="caso-resposta-label">Resposta ao caso (pé diabético)</div>
+    O paciente falha em múltiplas etapas simultaneamente: microangiopatia → hipóxia local → ↓ síntese de colágeno + ↓ angiogênese; disfunção de neutrófilos/macrófagos em ambiente de hiperglicemia → fase inflamatória que não resolve e não transita para proliferação; glicação de proteínas da matriz → colágeno anômalo; neuropatia → pressão contínua sobre a ferida. O tecido necrótico e a infecção retroalimentam o bloqueio inflamatório — por isso a ferida persiste há 3 meses sem progredir.
+  </div>
+
+  <h3>Fibrose patológica</h3>
+  <p>Quando a destruição de células parenquimatosas é intensa ou persistente (dano repetitivo) e a capacidade regenerativa é ultrapassada → os fibroblastos depositam colágeno em excesso → fibrose. Exemplos: fibrose pulmonar idiopática (FPI), esclerodermia, cirrose hepática.</p>
+
+  <h3>Cirrose hepática</h3>
+  <p>Estágio final da fibrose hepática: nódulos de regeneração hepatocitária rodeados por bandas de fibrose. As principais células envolvidas são as <strong>células estreladas hepáticas</strong> (células de Ito): em condições normais armazenam vitamina A; ativadas por TGF-&beta;, IL-1, TNF (liberados por macrófagos/células de Kupffer em resposta à lesão) → transformam-se em miofibroblastos hepáticos → produzem colágeno tipo I e III. Causas principais: hepatite crônica por VHC/VHB, álcool, DHGNA (NAFLD), doenças biliares. Consequências: hipertensão portal, ascite, varizes esofágicas, encefalopatia hepática, insuficiência hepatocelular.</p>
+</section>
+
+<!-- PEGADINHAS CONSOLIDADAS -->
+<section id="pegadinhas">
+  <h2>Pegadinhas consolidadas</h2>
+
+  <div class="trap-box">
+    <div class="trap-label">Antifúngicos</div>
+    <ul>
+      <li><strong>Azol + anfotericina = antagonismo</strong>: o azol depleta ergosterol → anfotericina perde seu alvo → ↑ toxicidade sobre membranas humanas. Nunca combinar.</li>
+      <li><strong>Flucitosina sempre em combinação</strong>: resistência emerge rapidamente se usada sozinha. Usar com anfotericina (criptococose) ou itraconazol.</li>
+      <li><strong>Genfibrozila + estatinas &ne; Fenofibrato + estatinas</strong>: genfibrozila inibe glucuronidação das estatinas → ↑ concentração plasmática → miopatia grave. Fenofibrato é mais seguro na combinação.</li>
+      <li><strong>Equinocandinas NÃO cobrem Cryptococcus</strong> (as leveduras encapsuladas têm parede com pouco &beta;-glucano).</li>
+    </ul>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-label">Virologia</div>
+    <ul>
+      <li><strong>Envelope = fragilidade</strong>: vírus envelopados são MAIS sensíveis a detergentes e calor — não mais resistentes. Não confundir com vírus não envelopados, que são mais resistentes no ambiente.</li>
+      <li><strong>HIV = RNA polaridade positiva, MAS não age como mRNA</strong>: precisa de transcriptase reversa para ser convertido em DNA antes de ser integrado.</li>
+      <li><strong>Reassortment exclusivo de genomas segmentados</strong>: Influenza (8 segmentos) faz reassortment. Retrovírus como HIV não fazem.</li>
+      <li><strong>Infecção abortiva &ne; latência</strong>: abortiva = falha permanente, sem progênie; latente = integrado silente, com reativação posterior.</li>
+      <li><strong>Suscetível &ne; permissiva</strong>: ter receptor (suscetível) não garante replicação — a célula também precisa ter maquinário intracelular compatível (permissiva).</li>
+    </ul>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-label">Antivirais</div>
+    <ul>
+      <li><strong>Aciclovir e a TK viral</strong>: a 1&ordf; fosforilação (TK viral) só ocorre em células infectadas pelo HSV/VZV — não em células infectadas pelo HIV ou células saudáveis. Esse é o mecanismo da seletividade.</li>
+      <li><strong>Foscarnet não precisa de TK</strong>: por isso é ativo contra cepas resistentes ao aciclovir (que têm mutações na TK).</li>
+      <li><strong>Oseltamivir &lt;48h</strong>: máximo benefício nas primeiras 48h. Em grupos de risco pode ser usado em até 5 dias.</li>
+      <li><strong>Amantadina/rimantadina</strong>: altamente resistentes em cepas circulantes (H1N1, H3N2) — NÃO usar para influenza. São antiparkinsonianos no Brasil.</li>
+    </ul>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-label">Imunologia e vacinas</div>
+    <ul>
+      <li><strong>Neutropenia → Candida/Aspergillus</strong>; Deficiência de Th1 (HIV) → Histoplasma/Cryptococcus. A célula imune vulnerável determina o patógeno oportunista.</li>
+      <li><strong>IFN tipo I são auto e parácrinos</strong>: inibem replicação na própria célula E estabelecem estado antiviral nas vizinhas.</li>
+      <li><strong>Vacinas vivas são contraindicadas em imunossuprimidos</strong> — mas NÃO são contraindicadas em: amamentação, desnutrição leve, doenças benignas, prematuridade (exceto BCG &lt;2 kg).</li>
+      <li><strong>Anticorpos não são essenciais na imunidade antifúngica</strong>: camundongos sem células B não têm prejuízo relevante contra fungos — a imunidade celular (Th1/Th17) é predominante.</li>
+    </ul>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-label">Patologia e farmacologia circulatória</div>
+    <ul>
+      <li><strong>Transudato vs. exsudato</strong>: transudato = baixa proteína = mecanismo hemodinâmico (ICC, nefrose, cirrose); exsudato = alta proteína = inflamação. A densidade discrimina os dois.</li>
+      <li><strong>Infarto branco vs. vermelho</strong>: branco = órgão sólido + circulação terminal (coração, rim, baço); vermelho = circulação dupla (pulmão, intestino) ou obstrução venosa.</li>
+      <li><strong>Varfarina 1&ordf; semana = necrose cutânea</strong>: proteínas C e S têm meia-vida mais curta → depleção mais rápida que fatores pró-coagulantes → hipercoagulabilidade transitória.</li>
+      <li><strong>Clopidogrel + omeprazol</strong>: omeprazol inibe CYP2C19 → ↓ conversão do clopidogrel (pró-fármaco) em metabólito ativo → ↓ efeito antiagregante. Preferir pantoprazol.</li>
+      <li><strong>Trombo branco = plaquetário = arterial</strong>; Trombo vermelho = hemácias + fibrina = venoso. Ambos podem embolizar.</li>
+      <li><strong>Heparina não atravessa placenta</strong> → escolha na gestação. Varfarina atravessa → contraindicada.</li>
+      <li><strong>Colágeno tipo III → tipo I na maturação</strong>: não o contrário! O tecido de granulação é rico em colágeno tipo III (provisório); a cicatriz madura tem colágeno tipo I (resistente).</li>
+      <li><strong>Lesão por reperfusão</strong>: paradoxalmente, restaurar o fluxo pode piorar a lesão (radicais livres, Ca²+, neutrófilos). Ocorre mesmo com tratamento adequado.</li>
+    </ul>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-label">Imunologia — ADE</div>
+    <ul>
+      <li><strong>ADE (Antibody-Dependent Enhancement)</strong>: anticorpos <em>neutralizantes</em> de uma infecção bloqueiam o vírus. Anticorpos <em>não neutralizantes</em> (de sorotipo diferente de dengue) se ligam ao vírus mas não o neutralizam → complexo anticorpo-vírus é captado por macrófagos via FcγR → entrada facilitada → replicação intensificada → dengue grave na 2ª infecção. Pegadinha: o problema não é ter anticorpos, mas ter anticorpos do sorotipo errado.</li>
+    </ul>
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-label">Micologia específica</div>
+    <ul>
+      <li><strong>Cápsula do Cryptococcus + tinta da China</strong>: a tinta preenche o campo escuro ao redor da levedura — o halo claro é a cápsula que IMPEDE a entrada do corante. A levedura aparece no centro.</li>
+      <li><strong>PCM = roda de leme</strong>: múltiplos brotamentos periféricos ao redor da célula mãe de <em>Paracoccidioides brasiliensis</em>. Diagnóstico microscópico diferencial.</li>
+      <li><strong>Cromoblastomicose = corpúsculos de Medlar</strong>: células muriformes escuras em "moedas de cobre" — diagnóstico histológico específico.</li>
+      <li><strong>Aspergillus 45° vs. Mucor 90°</strong>: diferença crítica nas hifas — septadas e anguladas a 45° (<em>Aspergillus</em>) vs. cenocíticas e anguladas a 90° (<em>Mucor/Rhizopus</em>).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONCEITOS-CHAVE -->
+<section id="conceitos-chave">
+  <h2>Conceitos-chave para fixação</h2>
+  <div class="ck-grid">
+    <div class="ck-card"><div class="ckt">Ergosterol</div>Alvo compartilhado por anfotericina B (canal/esponja) e azóis (inibem síntese via CYP450 fúngico). Ausente em células humanas — seletividade terapêutica.</div>
+    <div class="ck-card"><div class="ckt">Dimorfismo fúngico</div>Levedura a 37°C (hospedeiro) e hifa a 25°C (ambiente). Mnemônico: <em>Mould in Cold, Yeast in Heat</em>. Exemplos: Histoplasma, Paracoccidioides, Coccidioides.</div>
+    <div class="ck-card"><div class="ckt">Aciclovir → TK viral</div>1ª fosforilação exclusiva pela timidina-cinase viral → ativa apenas em células infectadas pelo HSV/VZV. Seletividade por design.</div>
+    <div class="ck-card"><div class="ckt">Neuraminidase do Influenza</div>Cliva ácido siálico para liberar vírus replicado. Oseltamivir inibe → vírions ficam presos → sem disseminação. Iniciar &lt;48h.</div>
+    <div class="ck-card"><div class="ckt">IFN tipo I: auto + parácrino</div>Célula infectada produz IFN → inibe replicação em si mesma (autócrina) E estabelece estado antiviral nas células vizinhas (parácrina).</div>
+    <div class="ck-card"><div class="ckt">Missing self (NK)</div>Vírus reduz MHC-I para escapar dos CTL → fica vulnerável às NK (que matam justamente células sem MHC-I). Trade-off evolutivo.</div>
+    <div class="ck-card"><div class="ckt">Tríade de Virchow</div>Lesão endotelial + alteração de fluxo + hipercoagulabilidade. Trombose arterial: lesão endotelial domina. Trombose venosa: estase domina.</div>
+    <div class="ck-card"><div class="ckt">Th1 vs. Th17 antifúngico</div>Th1 + IFN-γ → ativa macrófagos → fungos intracelulares (Histoplasma, Crypto). Th17 + IL-17/22 → neutrófilos → fungos extracelulares (Candida, Aspergillus).</div>
+    <div class="ck-card"><div class="ckt">HMG-CoA redutase</div>Alvo das estatinas (inibição competitiva) → ↓ colesterol intracelular → hepatócito expressa mais LDLR → ↓ LDL-c plasmático.</div>
+    <div class="ck-card"><div class="ckt">Placa vulnerável</div>Capa fibrosa fina + grande núcleo lipídico + inflamação intensa → risco de ruptura → trombose aguda → IAM/AVC.</div>
+    <div class="ck-card"><div class="ckt">Tecidos lábeis/estáveis/permanentes</div>Lábeis (epitélio) regeneram; estáveis (hepatócitos) regeneram parcialmente; permanentes (neurônios, cardiomiócitos) só fibrosam.</div>
+    <div class="ck-card"><div class="ckt">Colágeno III → I</div>Cicatrização: fase proliferativa deposita colágeno III (provisório, frouxo); fase de maturação substitui por colágeno I (resistente). Nunca o contrário.</div>
+    <div class="ck-card"><div class="ckt">PCSK9 → LDLR</div>PCSK9 degrada receptores de LDL (LDLR) após internalização → menos LDLR → ↑ LDL plasmático. Inibir PCSK9 (anticorpo ou siRNA) → mais LDLR na superfície → ↓ LDL ~60%.</div>
+  </div>
+</section>
+
+<!-- LEITURAS RECOMENDADAS -->
+<section id="leituras" style="scroll-margin-top:60px">
+  <h2>Leituras recomendadas</h2>
+  <p><strong>VOCÊ TEM — capítulos específicos:</strong></p>
+  <ul>
+    <li>Rang &amp; Dale's Pharmacology (10ª ed.) — Cap. 49 (antifúngicos), Cap. 51 (antivirais), Cap. 24 (anticoagulantes e trombolíticos), Cap. 23 (hipolipemiantes)</li>
+    <li>Murray — Medical Microbiology (10ª ed.) — Cap. 74–76 (micologia), Cap. 54–58 (virologia geral e vírus específicos)</li>
+    <li>Abbas — Cellular and Molecular Immunology (11ª ed.) — Cap. 17 (imunidade a agentes infecciosos — seção vírus e fungos)</li>
+  </ul>
+  <p><strong>Recursos online (acesso aberto):</strong></p>
+  <ul>
+    <li>Robbins Pathology — resumos de hemostasia, trombose e aterosclerose: <a href="https://www.ncbi.nlm.nih.gov/books/NBK534776/" target="_blank" rel="noopener" style="color:var(--ac)">NCBI Bookshelf — Hemostasis</a></li>
+    <li>CDC — Influenza antiviral guidance: <a href="https://www.cdc.gov/flu/professionals/antivirals/index.htm" target="_blank" rel="noopener" style="color:var(--ac)">cdc.gov/flu/antivirals</a></li>
+  </ul>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section id="referencias">
+  <h2>Referências</h2>
+  <p>RANG, H. P. et al. <em>Rang &amp; Dale's Pharmacology</em>. 10. ed. Edinburgh: Elsevier, 2023.</p>
+  <p>MURRAY, P. R.; ROSENTHAL, K. S.; PFALLER, M. A. <em>Medical Microbiology</em>. 10. ed. Philadelphia: Elsevier, 2021.</p>
+  <p>ABBAS, A. K.; LICHTMAN, A. H.; PILLAI, S. <em>Cellular and Molecular Immunology</em>. 11. ed. Philadelphia: Elsevier, 2024.</p>
+  <p>KUMAR, V.; ABBAS, A. K.; ASTER, J. C. <em>Robbins &amp; Cotran — Patologia: Bases Patológicas das Doenças</em>. 10. ed. Rio de Janeiro: Elsevier, 2021.</p>
+</section>
+
+</div><!-- .prose -->
+</main>
+
+<script>
+// Progresso de leitura
+const bar = document.getElementById('progress-bar');
+if(bar){
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = pct + '%';
+  });
+}
+// Sidebar active link via IntersectionObserver
+const slinks = document.querySelectorAll('.sl');
+const sections = document.querySelectorAll('section[id]');
+if(sections.length){
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        slinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector('.sl[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(s => obs.observe(s));
+}
+// Sidebar toggle
+const tb = document.getElementById('toggle-btn');
+const bw = document.getElementById('body-wrap');
+if(tb && bw){
+  tb.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    bw.classList.toggle('sidebar-collapsed');
+    tb.textContent = tb.textContent === '◀' ? '▶' : '◀';
+  });
+}
+// Persist collapsed state
+const sc = sessionStorage.getItem('sb-collapsed');
+if(sc === '1'){
+  document.getElementById('sidebar')?.classList.add('collapsed');
+  bw?.classList.add('sidebar-collapsed');
+  if(tb) tb.textContent = '▶';
+}
+if(tb){
+  tb.addEventListener('click', () => {
+    sessionStorage.setItem('sb-collapsed', document.getElementById('sidebar').classList.contains('collapsed') ? '1' : '0');
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesquisa em Saúde 2 — Guia de Estudo</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #22263a;
+    --border: #2e3352;
+    --text: #e2e4f0;
+    --muted: #8b91b5;
+    --blue: #5b8fff;
+    --blue-dim: #3a5fc0;
+    --green: #4ade80;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --purple: #c084fc;
+    --teal: #2dd4bf;
+    --sidebar-w: 260px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.75;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* SIDEBAR */
+  #sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 24px 0 40px;
+  }
+  #sidebar h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .nav-group { margin-bottom: 4px; }
+  .nav-group-title {
+    display: block;
+    padding: 6px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  #sidebar a {
+    display: block;
+    padding: 5px 20px 5px 28px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  #sidebar a:hover { color: var(--text); background: var(--bg3); }
+  #sidebar a.active {
+    color: var(--blue);
+    border-left-color: var(--blue);
+    background: rgba(91,143,255,.08);
+  }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 48px 80px;
+    flex: 1;
+  }
+
+  /* TYPOGRAPHY */
+  h1 { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 48px; }
+  h2 {
+    font-size: 1.45rem; font-weight: 700; color: #fff;
+    margin: 56px 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  h3 {
+    font-size: 1.1rem; font-weight: 700; color: var(--blue);
+    margin: 32px 0 12px;
+  }
+  h4 {
+    font-size: .95rem; font-weight: 700; color: var(--yellow);
+    margin: 20px 0 8px;
+  }
+  p { margin-bottom: 14px; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 4px; }
+  strong { color: #fff; }
+
+  /* CITATION */
+  a.cite {
+    font-size: .75rem;
+    color: var(--blue);
+    vertical-align: super;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a.cite:hover { color: var(--teal); }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 18px 0;
+  }
+  .card-blue { border-left: 4px solid var(--blue); }
+  .card-green { border-left: 4px solid var(--green); }
+  .card-yellow { border-left: 4px solid var(--yellow); }
+  .card-purple { border-left: 4px solid var(--purple); }
+  .card-red { border-left: 4px solid var(--red); }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 24px;
+    font-size: 14px;
+  }
+  th {
+    background: var(--bg3);
+    color: var(--blue);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,.025); }
+
+  /* PYRAMID */
+  .pyramid { margin: 20px auto; max-width: 500px; }
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+  }
+  .pyramid-bar {
+    border-radius: 4px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  /* FLOWCHART */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 18px 0;
+  }
+  .flow-step {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    position: relative;
+    min-width: 280px;
+  }
+  .flow-step .num {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--blue-dim);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 22px;
+    margin-right: 10px;
+  }
+  .flow-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    padding: 2px 0 2px 28px;
+  }
+
+  /* BLOOM TAXONOMY */
+  .bloom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 18px 0;
+  }
+  .bloom-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .bloom-item .level {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .bloom-item .verb { font-size: 12px; color: var(--muted); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge-green { background: rgba(74,222,128,.18); color: var(--green); border: 1px solid rgba(74,222,128,.4); }
+  .badge-blue { background: rgba(91,143,255,.15); color: var(--blue); border: 1px solid rgba(91,143,255,.3); }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: rgba(91,143,255,.08);
+    border: 1px solid rgba(91,143,255,.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .highlight.warn {
+    background: rgba(251,191,36,.07);
+    border-color: rgba(251,191,36,.3);
+  }
+  .highlight.tip {
+    background: rgba(45,212,191,.07);
+    border-color: rgba(45,212,191,.3);
+  }
+
+  /* SMART grid */
+  .smart {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .smart-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .smart-item .letter {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1;
+  }
+  .smart-item .word {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    margin: 4px 0;
+  }
+  .smart-item .desc { font-size: 11px; color: var(--text); }
+
+  /* JADAD */
+  .jadad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .jadad-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .jadad-item .pts {
+    float: right;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  /* KEYS section */
+  #conceitos-chave h2 { color: var(--yellow); border-color: var(--yellow); }
+  .chain {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .chain .arrow { color: var(--blue); font-weight: 700; }
+
+  /* REFS */
+  #referencias a { color: var(--blue); text-decoration: none; }
+  #referencias a:hover { text-decoration: underline; }
+  .ref-item { margin-bottom: 12px; font-size: 14px; }
+  .ref-num {
+    display: inline-block;
+    min-width: 26px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 900px) {
+    #sidebar { display: none; }
+    .layout { display: block; }
+    main { padding: 24px 20px; }
+    .bloom { grid-template-columns: repeat(2,1fr); }
+    .smart { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <h2>Pesquisa em Saúde 2</h2>
+
+  <div class="nav-group">
+    <span class="nav-group-title">Conteúdo</span>
+    <a href="#selecao-temas">1. Seleção de Temas</a>
+    <a href="#selecao-criterios">↳ Critérios de seleção</a>
+    <a href="#selecao-literatura">↳ Levantamento de literatura</a>
+    <a href="#selecao-objetivos">↳ Objetivos SMART</a>
+    <a href="#tipos-estudo">2. Tipos de Estudo</a>
+    <a href="#tipos-classificacao">↳ Classificação geral</a>
+    <a href="#tipos-observacionais">↳ Estudos observacionais</a>
+    <a href="#tipos-experimentais">↳ Estudos experimentais</a>
+    <a href="#tipos-revisoes">↳ Revisões</a>
+    <a href="#tipos-escolha">↳ Como escolher o desenho</a>
+    <a href="#analise-critica">3. Análise Crítica de Artigo</a>
+    <a href="#analise-12passos">↳ 12 Passos</a>
+    <a href="#analise-evidencias">↳ Pirâmide de evidências</a>
+    <a href="#analise-ferramentas">↳ CASP, Jadad, CONSORT</a>
+    <a href="#projeto-pesquisa">4. Projeto de Pesquisa</a>
+    <a href="#projeto-estrutura">↳ Estrutura do projeto</a>
+    <a href="#projeto-bloom">↳ Taxonomia de Bloom</a>
+    <a href="#projeto-metodologia">↳ Metodologia</a>
+    <a href="#projeto-etica">↳ Ética em pesquisa</a>
+    <a href="#escrita-academica">5. Escrita Acadêmica</a>
+    <a href="#escrita-caracteristicas">↳ Características</a>
+    <a href="#escrita-citacoes">↳ Citações ABNT</a>
+    <a href="#escrita-etapas">↳ 13 Etapas da pesquisa</a>
+    <a href="#escrita-hipoteses">↳ Hipóteses</a>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-group-title">Revisão</span>
+    <a href="#conceitos-chave">Conceitos-chave</a>
+    <a href="#leituras">Leituras recomendadas</a>
+    <a href="#referencias">Referências ABNT</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <h1>Pesquisa em Saúde 2</h1>
+  <p class="subtitle">Guia de estudo completo — Prova 19/06/2026 · Dark mode · Baseado nas aulas e plano de ensino</p>
+
+  <!-- ======================================================== -->
+  <!-- SEÇÃO 1: SELEÇÃO DE TEMAS -->
+  <!-- ======================================================== -->
+  <section id="selecao-temas">
+    <h2>1. Seleção de Temas em Saúde</h2>
+
+    <p>Antes de qualquer pesquisa existe um problema sem resposta. O primeiro ato científico é transformar esse problema em uma <strong>pergunta formulável e respondível</strong> — e isso passa, necessariamente, pela escolha cuidadosa do tema. Sem critério na escolha, o pesquisador desperdiça recursos em questões irrelevantes ou impossíveis de responder.</p>
+
+    <h3 id="selecao-criterios">Por que selecionar temas com critérios?</h3>
+
+    <p>Ciência, na definição de Ander-Egg (1978), é "<em>um conjunto de conhecimentos racionais, certos ou prováveis, obtidos metodicamente, sistematizados e verificáveis, que fazem referência a objetos de uma mesma natureza</em>".<a href="#referencias" class="cite">[1]</a> Essa definição já impõe limites: não basta ter curiosidade — é preciso que o tema seja <strong>sistematizável, verificável e de natureza coerente</strong>.</p>
+
+    <p>Os critérios de seleção organizam-se em dois eixos:</p>
+
+    <div class="card card-blue">
+      <h4>Fatores externos (relativos ao tema)</h4>
+      <table>
+        <tr><th>Critério</th><th>Pergunta-guia</th></tr>
+        <tr><td><strong>Relevância social</strong></td><td>O tema contribui para a sociedade ou resolve problema real de saúde?</td></tr>
+        <tr><td><strong>Relevância científica</strong></td><td>Preenche lacuna no conhecimento? Contradiz ou confirma achados anteriores?</td></tr>
+        <tr><td><strong>Viabilidade</strong></td><td>Existe acesso a dados, equipamentos, participantes e financiamento?</td></tr>
+        <tr><td><strong>Originalidade</strong></td><td>Já foi respondido? Se sim, justifica nova abordagem (diferente população, método)?</td></tr>
+        <tr><td><strong>Significação</strong></td><td>A resposta fará diferença para a prática clínica ou para políticas de saúde?</td></tr>
+        <tr><td><strong>Prazo</strong></td><td>Pode ser concluído dentro do tempo disponível?</td></tr>
+        <tr><td><strong>Material</strong></td><td>Há recursos físicos, financeiros e humanos suficientes?</td></tr>
+      </table>
+    </div>
+
+    <div class="card card-purple">
+      <h4>Fatores internos (relativos ao pesquisador)</h4>
+      <ul>
+        <li><strong>Afetividade:</strong> interesse genuíno pelo tema sustenta o pesquisador nas fases difíceis.</li>
+        <li><strong>Tempo disponível:</strong> a carga de trabalho do pesquisador deve ser compatível com a complexidade.</li>
+        <li><strong>Capacidade técnica:</strong> o pesquisador domina os métodos necessários ou tem acesso a orientação?</li>
+      </ul>
+    </div>
+
+    <div class="highlight warn">
+      <strong>⚠️ Ponto de prova:</strong> Os critérios de seleção têm dois grupos distintos — <em>externos</em> (ligados ao tema em si: relevância, viabilidade, originalidade, significação, prazo, material) e <em>internos</em> (ligados ao pesquisador: afetividade, tempo, capacidade). Confundi-los é erro comum.
+    </div>
+
+    <h3 id="selecao-literatura">Levantamento de literatura</h3>
+
+    <p>Depois de identificar o tema, o pesquisador precisa saber <em>o que já foi publicado</em>. Sem isso, corre dois riscos opostos: replicar algo que já existe (desperdício) ou ignorar o estado da arte e propor algo inconsistente com o conhecimento atual. O levantamento de literatura é o ato de <strong>mapear o território antes de explorar</strong>.</p>
+
+    <p>O problema central é que a linguagem científica não é uniforme. O mesmo conceito pode aparecer como "infarto agudo do miocárdio", "IAM", "acute myocardial infarction" ou "AMI" dependendo do autor, do idioma e da época. Se o pesquisador buscar apenas "infarto" em português, perde toda a literatura em inglês. A solução é usar <strong>descritores controlados</strong> — palavras-chave padronizadas que representam um conceito independentemente da variação de linguagem do autor.</p>
+
+    <div class="card card-green">
+      <h4>O que é um vocabulário controlado?</h4>
+      <p>Um vocabulário controlado é uma lista de termos oficialmente aceitos para representar conceitos em determinada área do conhecimento. Quando um artigo é indexado numa base de dados, os indexadores atribuem a ele os descritores correspondentes ao seu conteúdo — independentemente de quais palavras o autor usou no texto. Isso significa que, ao buscar pelo descritor correto, você recupera todos os artigos sobre aquele conceito, mesmo os que usaram terminologia diferente.<a href="#referencias" class="cite">[2]</a></p>
+      <p><strong>Analogia:</strong> pense num vocabulário controlado como a classificação de produtos num supermercado. "Leite integral", "leite tipo A" e "whole milk" são produtos diferentes chamados por nomes diferentes, mas todos estão na mesma gôndola — o "laticínios". O descritor é a gôndola, não o rótulo.</p>
+    </div>
+
+    <div class="card card-green">
+      <h4>DeCS — Descritores em Ciências da Saúde</h4>
+      <p>O DeCS (Descritores em Ciências da Saúde) é o vocabulário controlado trilíngue desenvolvido e mantido pela BIREME (Centro Latino-Americano e do Caribe de Informação em Ciências da Saúde), vinculada à Organização Pan-Americana da Saúde (OPAS). Está disponível em <a href="https://decs.bvsalud.org" target="_blank" rel="noopener" style="color:var(--blue)">decs.bvsalud.org ↗</a>.</p>
+      <p><strong>Por que existe?</strong> Porque as bases de dados latino-americanas precisavam de um vocabulário que funcionasse em português e espanhol, não apenas em inglês. O DeCS é uma versão expandida do MeSH, traduzida e adaptada, com a adição de termos específicos da saúde pública e da realidade epidemiológica da América Latina.</p>
+      <p><strong>Como funciona:</strong> cada descritor tem um código único, sinônimos aceitos (entradas) e sinônimos não aceitos (que redirecionam para o termo correto). Por exemplo, se você buscar "pressão sanguínea alta", o sistema redireciona para o descritor oficial "Hipertensão". Os descritores são organizados em árvores hierárquicas — do mais geral ao mais específico.</p>
+      <p><strong>Onde usar:</strong> nas bases da Biblioteca Virtual em Saúde (BVS), especialmente LILACS e SciELO. Também funciona no Portal Capes.</p>
+    </div>
+
+    <div class="card card-green">
+      <h4>MeSH — Medical Subject Headings</h4>
+      <p>O MeSH (Medical Subject Headings) é o vocabulário controlado desenvolvido pela Biblioteca Nacional de Medicina dos EUA (NLM — National Library of Medicine). É usado para indexar os artigos do PubMed/MEDLINE — a maior base de dados biomédica do mundo.</p>
+      <p><strong>Estrutura em árvore:</strong> cada conceito tem uma posição numa hierarquia de até 12 níveis. Por exemplo: "Doenças Cardiovasculares" → "Doenças Vasculares" → "Hipertensão" → "Hipertensão Pulmonar" → "Hipertensão Pulmonar Primária". Quanto mais específico o nível, mais focada a busca.</p>
+      <p><strong>Major/Minor topics:</strong> ao indexar um artigo, o indexador marca se o assunto é o tema <em>principal</em> (major) ou apenas <em>mencionado</em> (minor) no artigo. Buscar apenas major topics reduz os resultados mas aumenta a precisão — útil quando a base retorna milhares de resultados.</p>
+      <p><strong>Onde usar:</strong> exclusivamente no PubMed. A interface do PubMed tem uma aba "MeSH Database" para encontrar o descritor correto antes de buscar.</p>
+    </div>
+
+    <div class="highlight">
+      <strong>DeCS vs MeSH na prática:</strong> o DeCS é essencialmente uma tradução expandida do MeSH, então os conceitos são compatíveis — mas nem sempre idênticos. Um termo pode existir no MeSH mas ainda não ter equivalente no DeCS (especialmente termos novos), e vice-versa. A estratégia mais robusta é fazer a busca nas duas plataformas para cobrir a literatura latino-americana (via DeCS/BVS) e a internacional (via MeSH/PubMed).
+    </div>
+
+    <div class="highlight tip">
+      <strong>Operadores booleanos:</strong> nas bases de dados, os descritores são combinados com operadores lógicos para afinar a busca. <strong>AND</strong> restringe (ambos os termos devem estar presentes); <strong>OR</strong> amplia (qualquer um dos termos serve); <strong>NOT</strong> exclui. Exemplo: ("Hypertension"[MeSH] AND "Exercise"[MeSH]) AND ("Young Adult"[MeSH]) retorna artigos sobre exercício e hipertensão em adultos jovens.
+    </div>
+
+    <h4>Principais bases de dados científicas</h4>
+    <p>As bases de dados são repositórios indexados de publicações científicas. Cada uma tem seu escopo, idioma predominante e critérios de qualidade. Conhecer as diferenças é essencial para não limitar a busca a uma única fonte.</p>
+    <table>
+      <tr><th>Base</th><th>Escopo e características</th><th>Acesso</th></tr>
+      <tr>
+        <td><strong>PubMed / MEDLINE</strong></td>
+        <td>A maior base biomédica do mundo. MEDLINE é o índice; PubMed é a interface de busca da NLM. Indexa mais de 35 milhões de artigos em biomedicina, enfermagem, odontologia, medicina veterinária e saúde pública. Usa MeSH para indexação.</td>
+        <td>Gratuito (NIH)</td>
+      </tr>
+      <tr>
+        <td><strong>LILACS</strong></td>
+        <td>Literatura Latino-Americana e do Caribe em Ciências da Saúde. Indexa publicações produzidas na América Latina e Caribe que não aparecem no PubMed. Essencial para encontrar estudos brasileiros e latino-americanos. Acessado via Portal BVS.</td>
+        <td>Gratuito (BVS)</td>
+      </tr>
+      <tr>
+        <td><strong>Embase</strong></td>
+        <td>Base europeia com foco em farmacologia e dispositivos médicos. Indexa mais revistas europeias que o MEDLINE. Importante para revisões sistemáticas sobre medicamentos, pois complementa o PubMed com literatura não coberta por ele.</td>
+        <td>Assinatura</td>
+      </tr>
+      <tr>
+        <td><strong>Portal Capes</strong></td>
+        <td>Portal do Ministério da Educação que reúne acesso a centenas de bases e revistas para instituições públicas de ensino superior brasileiras. Não é uma base em si, mas um agregador de acesso.</td>
+        <td>Via IP institucional</td>
+      </tr>
+      <tr>
+        <td><strong>Google Acadêmico</strong></td>
+        <td>Rastreia documentos acadêmicos em toda a web, incluindo teses, dissertações, preprints e literatura cinzenta (não publicada em revistas indexadas). Amplo, mas sem controle de qualidade — qualquer documento pode aparecer. Útil para complementar, não para substituir bases indexadas.</td>
+        <td>Gratuito</td>
+      </tr>
+    </table>
+
+    <div class="highlight warn">
+      <strong>Literatura cinzenta:</strong> são documentos científicos não publicados em periódicos indexados — relatórios técnicos, anais de congressos, dissertações, teses, documentos governamentais. São importantes em revisões sistemáticas porque estudos com resultados negativos tendem a não ser publicados em revistas (viés de publicação), mas podem aparecer como literatura cinzenta. O Google Acadêmico e repositórios institucionais são fontes para esse tipo de material.
+    </div>
+
+    <div class="flow">
+      <div class="flow-step"><span class="num">1</span>Delimitar o tema com precisão (população, intervenção/exposição, desfecho)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">2</span>Buscar os descritores corretos em DeCS (decs.bvsalud.org) e MeSH (PubMed → MeSH Database)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">3</span>Montar a estratégia de busca com operadores booleanos (AND, OR, NOT)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">4</span>Executar a busca nas bases selecionadas e registrar: base, data, descritores usados, nº de resultados</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">5</span>Triagem: leitura de títulos e resumos → selecionar os potencialmente relevantes</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">6</span>Leitura completa dos selecionados: exploratória → analítica → interpretativa</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">7</span>Formular/refinar a pergunta de pesquisa com base no que foi encontrado</div>
+    </div>
+
+    <h3 id="selecao-objetivos">Metas SMART e Objetivos</h3>
+
+    <p>Uma vez que o tema está delimitado e a literatura revisada, o pesquisador formula seus objetivos. Aqui mora um problema frequente: objetivos vagos como "estudar a hipertensão" ou "analisar o impacto do exercício" parecem plausíveis mas são impossíveis de avaliar — ao final do estudo, não há como dizer se foram atingidos. A estrutura <strong>SMART</strong> resolve isso ao forçar o pesquisador a transformar uma intenção vaga em uma meta concreta e verificável.<a href="#referencias" class="cite">[3]</a></p>
+
+    <div class="smart">
+      <div class="smart-item">
+        <div class="letter">S</div>
+        <div class="word">Specific</div>
+        <div class="desc">Específico: define exatamente <em>o quê</em>, em <em>quem</em> e em <em>qual contexto</em>. Sem espaço para múltiplas interpretações.</div>
+      </div>
+      <div class="smart-item">
+        <div class="letter">M</div>
+        <div class="word">Measurable</div>
+        <div class="desc">Mensurável: existe um indicador quantificável que permite saber se a meta foi atingida. "Melhorar a saúde" não é mensurável; "reduzir a PA sistólica em ≥10 mmHg" é.</div>
+      </div>
+      <div class="smart-item">
+        <div class="letter">A</div>
+        <div class="word">Achievable</div>
+        <div class="desc">Atingível: é realista dado o tempo, orçamento e capacidade disponíveis. Um objetivo tecnicamente correto mas impossível de executar não serve à pesquisa.</div>
+      </div>
+      <div class="smart-item">
+        <div class="letter">R</div>
+        <div class="word">Relevant</div>
+        <div class="desc">Relevante: conectado à pergunta de pesquisa e ao problema real que motivou o estudo. Evita que o pesquisador responda a uma questão diferente da que importa.</div>
+      </div>
+      <div class="smart-item">
+        <div class="letter">T</div>
+        <div class="word">Time-bound</div>
+        <div class="desc">Temporal: tem prazo definido. Sem prazo, qualquer objetivo pode ser postergado indefinidamente.</div>
+      </div>
+    </div>
+
+    <div class="card card-blue">
+      <h4>Objetivo Geral vs. Específicos</h4>
+      <p><strong>Objetivo geral (OG):</strong> enuncia a finalidade maior do estudo — o que se pretende alcançar de forma ampla. É sempre um só, orientador, e costuma corresponder ao título do estudo. Usa verbos de nível mais alto da Taxonomia de Bloom: avaliar, analisar, investigar, verificar.</p>
+      <p><strong>Objetivos específicos (OE):</strong> são os passos operacionais que, somados, permitem alcançar o objetivo geral. Cada OE corresponde a uma etapa concreta da pesquisa, tem um verbo de ação preciso e é verificável de forma independente. Em geral, cada OE gera uma coluna de dados ou uma análise específica no estudo.</p>
+      <div class="highlight tip">
+        <strong>Exemplo aplicado:</strong><br>
+        <strong>OG:</strong> "Avaliar a prevalência de hipertensão arterial e seus fatores associados em estudantes universitários de Curitiba (18–25 anos), em 2026."<br><br>
+        <strong>OE 1:</strong> "Medir a pressão arterial sistólica e diastólica de todos os participantes em duas aferições consecutivas."<br>
+        <strong>OE 2:</strong> "Calcular a prevalência de hipertensão por sexo e faixa etária."<br>
+        <strong>OE 3:</strong> "Identificar a associação entre hipertensão e prática de atividade física, tabagismo e índice de massa corporal."<br><br>
+        Note que cada OE é uma pergunta específica com resposta verificável. A soma dos três responde ao OG.
+      </div>
+      <div class="highlight warn" style="margin-top:10px">
+        <strong>Erro comum:</strong> usar verbos vagos nos OE — "abordar", "discutir", "estudar". Esses verbos não indicam o que concretamente será feito. Prefira: "medir", "comparar", "identificar", "calcular", "descrever", "avaliar" (com parâmetro definido).
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SEÇÃO 2: TIPOS DE ESTUDO -->
+  <!-- ======================================================== -->
+  <section id="tipos-estudo">
+    <h2>2. Tipos de Estudo em Pesquisa em Saúde</h2>
+
+    <p>A escolha do desenho de estudo não é arbitrária — ela é determinada pela <strong>pergunta de pesquisa</strong>. Um desenho inadequado pode impedir que a pergunta seja respondida, mesmo com coleta de dados impecável. Entender os tipos de estudo é entender <em>quais perguntas cada desenho consegue responder e quais vieses cada um carrega</em>.</p>
+
+    <h3 id="tipos-classificacao">Classificação geral</h3>
+
+    <div class="card card-blue">
+      <table>
+        <tr><th>Eixo</th><th>Categorias</th></tr>
+        <tr><td><strong>Quanto à intervenção</strong></td><td>Observacionais (o pesquisador observa sem intervir) vs. Experimentais (o pesquisador intervém e controla)</td></tr>
+        <tr><td><strong>Quanto ao tempo</strong></td><td>Transversais (um ponto no tempo) vs. Longitudinais (seguimento ao longo do tempo)</td></tr>
+        <tr><td><strong>Quanto à direção temporal</strong></td><td>Prospectivos (seguem para o futuro) vs. Retrospectivos (olham para o passado)</td></tr>
+        <tr><td><strong>Quanto ao objetivo</strong></td><td>Descritivos (descreve a distribuição de doenças/eventos) vs. Analíticos (testa associações/causalidade)</td></tr>
+      </table>
+    </div>
+
+    <h3 id="tipos-observacionais">Estudos Observacionais</h3>
+
+    <p>Nos estudos observacionais, o pesquisador não determina quem recebe qual exposição — ele apenas <em>observa o que já ocorreu</em> ou <em>está ocorrendo</em> naturalmente. Por isso, não podem estabelecer causalidade com a mesma força que um experimento, mas são essenciais quando randomizar seria impossível ou antiético.</p>
+
+    <h4>Estudo Transversal (Cross-sectional)</h4>
+    <div class="card card-purple">
+      <p><strong>O que é:</strong> fotografia da população em um único momento — exposição e desfecho são medidos simultaneamente.</p>
+      <p><strong>Pergunta típica:</strong> "Qual é a prevalência de hipertensão nos universitários de Curitiba?"</p>
+      <p><strong>Medida de frequência:</strong> <strong>Prevalência</strong> (casos existentes / população em risco, em dado momento).</p>
+      <p><strong>Vantagem:</strong> rápido, barato, bom para doenças crônicas e planejamento de saúde pública.</p>
+      <p><strong>Limitação:</strong> não permite determinar temporalidade (causa → efeito); viés de sobrevivência (os mais doentes podem ter morrido antes de serem incluídos).</p>
+    </div>
+
+    <h4>Estudo de Coorte</h4>
+    <div class="card card-green">
+      <p><strong>O que é:</strong> grupo de pessoas livres do desfecho é seguido ao longo do tempo para verificar quem desenvolve a doença/evento de acordo com sua exposição.</p>
+      <p><strong>Direção:</strong> exposição → desfecho (prospectivo, mais comum; ou retrospectivo com dados históricos).</p>
+      <p><strong>Pergunta típica:</strong> "Fumantes desenvolvem câncer de pulmão mais frequentemente que não fumantes?"</p>
+      <p><strong>Medida de associação:</strong> <strong>Risco Relativo (RR)</strong> = risco no grupo exposto / risco no grupo não exposto.</p>
+      <ul>
+        <li>RR = 1 → sem associação</li>
+        <li>RR &gt; 1 → fator de risco</li>
+        <li>RR &lt; 1 → fator protetor</li>
+      </ul>
+      <p><strong>Medida de frequência:</strong> <strong>Incidência</strong> (casos novos / população em risco, em período de tempo).</p>
+      <p><strong>Vantagem:</strong> permite estabelecer temporalidade (exposição precede desfecho); permite calcular incidência e RR.</p>
+      <p><strong>Limitação:</strong> caro, demorado (especialmente para doenças raras ou de longo período de latência); perdas de seguimento podem introduzir viés.</p>
+    </div>
+
+    <h4>Estudo Caso-Controle</h4>
+    <div class="card card-yellow">
+      <p><strong>O que é:</strong> parte do <em>desfecho</em> e olha para trás — compara pessoas com a doença (casos) com pessoas sem a doença (controles) para identificar diferenças de exposição prévia.</p>
+      <p><strong>Direção:</strong> desfecho → exposição passada (sempre retrospectivo).</p>
+      <p><strong>Pergunta típica:</strong> "Pacientes com câncer gástrico tiveram mais exposição a H. pylori que controles sem câncer?"</p>
+      <p><strong>Medida de associação:</strong> <strong>Odds Ratio (OR)</strong> — razão de chances de exposição entre casos e controles. Para doenças raras, OR ≈ RR.</p>
+      <ul>
+        <li>OR = 1 → sem associação</li>
+        <li>OR &gt; 1 → exposição mais frequente nos casos (possível fator de risco)</li>
+        <li>OR &lt; 1 → exposição menos frequente nos casos (possível fator protetor)</li>
+      </ul>
+      <p><strong>Vantagem:</strong> eficiente para doenças raras; rápido e barato; permite estudar múltiplas exposições para um único desfecho.</p>
+      <p><strong>Limitação:</strong> sujeito a <strong>viés de memória</strong> (casos lembram melhor exposições passadas); não permite calcular incidência; seleção de controles é crítica e difícil.</p>
+    </div>
+
+    <h4>Estudo Ecológico</h4>
+    <div class="card card-blue">
+      <p><strong>O que é:</strong> unidade de análise é uma <em>população</em> (país, cidade, hospital), não indivíduos. Correlaciona dados populacionais de exposição e desfecho.</p>
+      <p><strong>Exemplo:</strong> correlação entre consumo per capita de açúcar por país e prevalência de obesidade.</p>
+      <p><strong>Limitação principal:</strong> <strong>falácia ecológica</strong> — associação observada no nível populacional pode não existir no nível individual.</p>
+    </div>
+
+    <h4>Relato de Caso e Série de Casos</h4>
+    <div class="card card-blue">
+      <p><strong>Relato de caso:</strong> descrição detalhada de um único paciente com apresentação incomum. Gera hipóteses; não permite generalização.</p>
+      <p><strong>Série de casos:</strong> descrição de um grupo de pacientes com a mesma condição, sem grupo controle. Útil para caracterizar doenças raras ou novas; nível baixo de evidência por ausência de comparação.</p>
+    </div>
+
+    <h3 id="tipos-experimentais">Estudos Experimentais</h3>
+
+    <p>Nos estudos experimentais, o pesquisador <strong>controla a exposição</strong> — decide quem recebe a intervenção. Isso permite controlar confundidores e estabelecer causalidade com mais força, mas impõe restrições éticas: só é possível randomizar intervenções que sejam potencialmente benéficas.</p>
+
+    <h4>Ensaio Clínico Randomizado (ECR)</h4>
+    <div class="card card-green">
+      <p><strong>O que é:</strong> participantes são alocados aleatoriamente (randomização) para receber intervenção ou controle (placebo ou tratamento padrão). É o padrão-ouro para avaliar eficácia de intervenções.<a href="#referencias" class="cite">[17]</a></p>
+      <p><strong>Pergunta típica:</strong> "O novo anti-hipertensivo X reduz mais a PA sistólica que o tratamento padrão Y?"</p>
+      <p><strong>Elementos essenciais:</strong></p>
+      <ul>
+        <li><strong>Randomização:</strong> distribui confundidores conhecidos e desconhecidos igualmente entre os grupos → viés de seleção controlado.</li>
+        <li><strong>Cegamento:</strong>
+          <ul>
+            <li><em>Simples-cego:</em> participante não sabe qual grupo está.</li>
+            <li><em>Duplo-cego:</em> participante E avaliador não sabem — ideal para reduzir viés de detecção e de performance.</li>
+            <li><em>Triplo-cego:</em> inclui também o analista estatístico.</li>
+          </ul>
+        </li>
+        <li><strong>Grupo controle:</strong> comparação necessária (placebo, tratamento padrão ou sem tratamento).</li>
+        <li><strong>Análise por intenção de tratar (ITT):</strong> analisa todos os randomizados no grupo para o qual foram alocados, independentemente de terem completado o tratamento — preserva o efeito da randomização.</li>
+      </ul>
+      <p><strong>Relato padronizado:</strong> CONSORT. <strong>Avaliação de qualidade:</strong> Escala de Jadad.</p>
+    </div>
+
+    <h4>Ensaio Comunitário e Quase-experimental</h4>
+    <div class="card card-purple">
+      <p><strong>Ensaio comunitário:</strong> a unidade de randomização é a comunidade (bairro, escola, cidade), não o indivíduo. Ex: avaliar programa de vacinação em massa.</p>
+      <p><strong>Quase-experimental (antes-depois, série temporal):</strong> sem randomização, mas com comparação estruturada no tempo ou entre grupos naturais. Mais fraco que o ECR, porém útil quando randomizar é impraticável.</p>
+    </div>
+
+    <h3 id="tipos-revisoes">Revisões da Literatura</h3>
+
+    <table>
+      <tr><th>Tipo</th><th>Método</th><th>Força</th></tr>
+      <tr>
+        <td><strong>Revisão narrativa</strong></td>
+        <td>Síntese qualitativa, sem protocolo sistemático; autores selecionam artigos com base em expertise</td>
+        <td>Baixa — sujeita a viés de seleção</td>
+      </tr>
+      <tr>
+        <td><strong>Revisão sistemática</strong></td>
+        <td>Protocolo pré-registrado, busca exaustiva em múltiplas bases, critérios explícitos de inclusão/exclusão, avaliação de qualidade (CASP/Jadad)</td>
+        <td>Alta — minimiza viés; relato por PRISMA</td>
+      </tr>
+      <tr>
+        <td><strong>Meta-análise</strong></td>
+        <td>Revisão sistemática + combinação estatística dos resultados dos estudos incluídos (forest plot, heterogeneidade I²)</td>
+        <td>Muito alta — aumenta poder estatístico; nível 1A na pirâmide</td>
+      </tr>
+      <tr>
+        <td><strong>Scoping review</strong></td>
+        <td>Mapeia extensão, natureza e distribuição da evidência em uma área ampla; não sintetiza eficácia</td>
+        <td>Exploratória — identifica lacunas para pesquisa futura</td>
+      </tr>
+    </table>
+
+    <h3 id="tipos-escolha">Como escolher o desenho de estudo</h3>
+
+    <div class="highlight tip">
+      <strong>Regra prática:</strong> a pergunta determina o desenho. Identifique primeiro o <em>tipo de pergunta</em>, depois escolha o desenho mais adequado e viável.
+    </div>
+
+    <div class="card card-blue">
+      <table>
+        <tr><th>Tipo de pergunta</th><th>Desenho ideal</th><th>Alternativa quando inviável</th></tr>
+        <tr><td>Eficácia de uma intervenção</td><td>ECR (duplo-cego)</td><td>Quase-experimental, coorte</td></tr>
+        <tr><td>Fator de risco para doença rara</td><td>Caso-controle</td><td>Coorte retrospectiva</td></tr>
+        <tr><td>Fator de risco — doença comum, seguimento longo</td><td>Coorte prospectiva</td><td>Caso-controle</td></tr>
+        <tr><td>Prevalência / distribuição da doença</td><td>Transversal</td><td>Dados secundários (registros)</td></tr>
+        <tr><td>Descrever apresentação clínica incomum</td><td>Relato / série de casos</td><td>—</td></tr>
+        <tr><td>Sintetizar evidências existentes</td><td>Revisão sistemática ± meta-análise</td><td>Revisão narrativa</td></tr>
+      </table>
+    </div>
+
+    <div class="card card-red">
+      <h4>Principais vieses por desenho</h4>
+      <table>
+        <tr><th>Viés</th><th>Definição</th><th>Estudos mais afetados</th></tr>
+        <tr><td><strong>Seleção</strong></td><td>Grupos comparados diferem em características além da exposição/intervenção</td><td>Caso-controle, coorte retrospectiva</td></tr>
+        <tr><td><strong>Memória</strong></td><td>Casos lembram exposições passadas de forma diferente dos controles</td><td>Caso-controle</td></tr>
+        <tr><td><strong>Detecção / Aferição</strong></td><td>Desfecho avaliado diferentemente nos grupos (avaliador não-cego)</td><td>ECR sem cegamento</td></tr>
+        <tr><td><strong>Confundimento</strong></td><td>Terceira variável associada à exposição e ao desfecho distorce a estimativa</td><td>Todos os observacionais</td></tr>
+        <tr><td><strong>Sobrevivência</strong></td><td>Participantes mais graves morrem antes de ser incluídos</td><td>Transversal, caso-controle</td></tr>
+        <tr><td><strong>Publicação</strong></td><td>Estudos com resultados positivos têm mais chance de ser publicados</td><td>Meta-análises (resolvido com funil de Egger)</td></tr>
+      </table>
+    </div>
+
+    <div class="highlight warn">
+      <strong>⚠️ ECR não é sempre o melhor:</strong> randomizar pessoas a fumar para estudar câncer de pulmão é antiético. Para exposições nocivas, o estudo de coorte ou caso-controle é a alternativa metodologicamente mais sólida e eticamente viável.
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SEÇÃO 3: ANÁLISE CRÍTICA DE ARTIGO -->
+  <!-- ======================================================== -->
+  <section id="analise-critica">
+    <h2>3. Análise Crítica de Artigo Científico</h2>
+
+    <p>Um artigo publicado não é, por si só, sinônimo de verdade. Todo estudo carrega limitações metodológicas que, se não identificadas, podem levar o clínico a adotar condutas baseadas em evidências frágeis. A análise crítica existe para responder: <strong>posso confiar nesse resultado o suficiente para mudar minha prática?</strong></p>
+
+    <p>O artigo científico é a unidade fundamental de comunicação científica. Ele tem estrutura padronizada (IMRaD: Introdução, Métodos, Resultados e Discussão) justamente para permitir que outros pesquisadores repliquem e avaliem o trabalho.<a href="#referencias" class="cite">[4]</a></p>
+
+    <h3 id="analise-12passos">Os 12 Passos da Análise Crítica</h3>
+
+    <p>A análise crítica é feita de forma sistemática, percorrendo o artigo do início ao fim. Cada passo corresponde a uma seção do artigo e a um conjunto de perguntas específicas. O objetivo não é destruir o estudo, mas identificar <em>o quanto suas conclusões são confiáveis</em> — e em que contexto podem ser aplicadas.</p>
+
+    <div class="card card-blue">
+      <table>
+        <tr><th>#</th><th>Passo</th><th>O que avaliar e por quê importa</th></tr>
+        <tr>
+          <td>1</td>
+          <td><strong>Título</strong></td>
+          <td>Reflete fielmente o conteúdo? Títulos sensacionalistas ou vagos são sinal de alerta. Um bom título enuncia população, intervenção/exposição e desfecho.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Autores / Conflito de interesses</strong></td>
+          <td>Quem são os autores e qual sua qualificação para o estudo? Há financiamento da indústria? Conflito de interesses não invalida o estudo, mas deve ser declarado e considerado na interpretação dos resultados — estudos financiados pela indústria têm maior probabilidade de resultados favoráveis ao produto.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Resumo (Abstract)</strong></td>
+          <td>Condensa fielmente o estudo? Os resultados do abstract são consistentes com os do corpo do texto? É comum autores enfatizarem resultados positivos no abstract e minimizarem os negativos — a discrepância entre abstract e corpo do artigo é um sinal grave.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Introdução</strong></td>
+          <td>A justificativa é clara? A lacuna no conhecimento está bem identificada? A pergunta de pesquisa está explícita? Uma introdução bem escrita culmina em uma pergunta específica que o estudo se propõe a responder.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Objetivos</strong></td>
+          <td>Estão definidos antes da coleta de dados? Há correspondência entre o objetivo declarado e o desfecho efetivamente medido? "HARKing" (Hypothesizing After Results are Known) — formular hipóteses após ver os dados — é uma prática fraudulenta, mas difícil de detectar.</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Métodos — Desenho</strong></td>
+          <td>O tipo de estudo é adequado à pergunta? Um transversal não pode responder se A causa B; um ECR é excessivo para descrever prevalência. O desenho deve ser o mais eficiente e ético para a pergunta.</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Métodos — Amostra</strong></td>
+          <td>Os critérios de inclusão e exclusão estão claramente definidos? O tamanho amostral foi calculado a priori (cálculo de poder)? Uma amostra pequena pode não ter poder suficiente para detectar uma diferença real — isso gera um resultado falso-negativo, não necessariamente ausência de efeito.</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>Métodos — Intervenção/Exposição</strong></td>
+          <td>A intervenção (ou exposição) está descrita com detalhes suficientes para que outro pesquisador replique o estudo? Sem reprodutibilidade, os resultados ficam isolados e não podem ser confirmados.</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>Métodos — Desfechos</strong></td>
+          <td>O desfecho primário está definido antes da coleta? É clinicamente relevante ou apenas estatisticamente conveniente? Desfechos substitutos (ex: redução de colesterol) nem sempre equivalem a desfechos clínicos reais (ex: redução de infarto).</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>Resultados</strong></td>
+          <td>Tabelas e gráficos são claros e sem manipulação visual? Todos os objetivos foram respondidos (inclusive os negativos)? O resultado é estatisticamente significante (p ≤ 0,05) E clinicamente relevante (tamanho de efeito adequado)? Um p=0,001 com diferença de 1 mmHg na PA raramente muda conduta clínica.</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><strong>Discussão / Conclusão</strong></td>
+          <td>As conclusões são suportadas pelos dados apresentados? As limitações são reconhecidas honestamente? A generalização é apropriada — os resultados se aplicam a populações além da estudada? Conclusões que extrapolam os dados são um erro frequente.</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><strong>Referências</strong></td>
+          <td>As referências são atualizadas e relevantes? Há auto-citação excessiva (inflar métricas do próprio grupo)? A seleção de referências é equilibrada ou favorece apenas uma perspectiva?</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3 id="analise-evidencias">Pirâmide de Níveis de Evidências</h3>
+
+    <p>Nem toda evidência vale o mesmo. O conceito central da Medicina Baseada em Evidências (MBE) é que determinados desenhos de estudo controlam melhor o viés — e portanto têm maior força para orientar decisões clínicas. A pirâmide organiza essa hierarquia.<a href="#referencias" class="cite">[5]</a></p>
+
+    <div class="pyramid">
+      <div style="text-align:center; margin-bottom:14px; font-size:13px; color:var(--muted);">↑ Maior força de evidência / menor risco de viés</div>
+      <div class="pyramid-level">
+        <div class="pyramid-bar" style="width:100%; background:rgba(74,222,128,.25); color:var(--green);">
+          <strong>1A</strong> — Revisão sistemática de ensaios clínicos randomizados (ECR)
+        </div>
+      </div>
+      <div class="pyramid-level" style="margin-top:3px">
+        <div class="pyramid-bar" style="width:90%; background:rgba(74,222,128,.18); color:var(--green);">
+          <strong>1B</strong> — ECR individual de alta qualidade
+        </div>
+      </div>
+      <div class="pyramid-level" style="margin-top:3px">
+        <div class="pyramid-bar" style="width:78%; background:rgba(45,212,191,.2); color:var(--teal);">
+          <strong>2A</strong> — Revisão sistemática de estudos de coorte
+        </div>
+      </div>
+      <div class="pyramid-level" style="margin-top:3px">
+        <div class="pyramid-bar" style="width:66%; background:rgba(45,212,191,.15); color:var(--teal);">
+          <strong>2B</strong> — Estudo de coorte individual / ECR de baixa qualidade
+        </div>
+      </div>
+      <div class="pyramid-level" style="margin-top:3px">
+        <div class="pyramid-bar" style="width:54%; background:rgba(91,143,255,.2); color:var(--blue);">
+          <strong>3A/3B</strong> — Revisão sistemática / estudos caso-controle
+        </div>
+      </div>
+      <div class="pyramid-level" style="margin-top:3px">
+        <div class="pyramid-bar" style="width:42%; background:rgba(192,132,252,.2); color:var(--purple);">
+          <strong>4</strong> — Séries de casos, estudos transversais
+        </div>
+      </div>
+      <div class="pyramid-level" style="margin-top:3px">
+        <div class="pyramid-bar" style="width:30%; background:rgba(248,113,113,.2); color:var(--red);">
+          <strong>5</strong> — Opinião de especialistas, consenso de comitês
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:8px; font-size:13px; color:var(--muted);">↓ Menor força de evidência</div>
+    </div>
+
+    <div class="highlight">
+      <strong>Por que a revisão sistemática de ECR está no topo?</strong> Porque ela combina os resultados de múltiplos ensaios randomizados usando meta-análise, reduzindo o erro aleatório (pequena amostra) e o viés de publicação (ao buscar estudos não publicados). Um único ECR, ainda que randomizado, pode ter chegado ao resultado por acaso — a revisão sistemática consolida a evidência.
+    </div>
+
+    <h3 id="analise-ferramentas">Ferramentas de Avaliação de Qualidade</h3>
+
+    <h4>Escala de Jadad</h4>
+    <p>Avalia especificamente a qualidade metodológica de ECR. Pontuação de <strong>0 a 5</strong>; estudos com ≥3 pontos são considerados de qualidade adequada.<a href="#referencias" class="cite">[6]</a></p>
+
+    <div class="jadad">
+      <div class="jadad-item">
+        <span class="pts">+1 pt</span>
+        O estudo foi descrito como randomizado?
+      </div>
+      <div class="jadad-item">
+        <span class="pts">+1 pt</span>
+        O método de randomização foi adequado? (ex: tabela de números aleatórios)
+      </div>
+      <div class="jadad-item">
+        <span class="pts">+1 pt</span>
+        O estudo foi descrito como duplo-cego?
+      </div>
+      <div class="jadad-item">
+        <span class="pts">+1 pt</span>
+        O método de cegamento foi adequado? (ex: placebo idêntico)
+      </div>
+      <div class="jadad-item">
+        <span class="pts">+1 pt</span>
+        Há descrição das perdas e exclusões (attrition)?
+      </div>
+      <div class="jadad-item">
+        <span class="pts">−1 pt</span>
+        Randomização inadequada (ex: por data de nascimento)
+      </div>
+      <div class="jadad-item">
+        <span class="pts">−1 pt</span>
+        Método de cegamento inadequado
+      </div>
+    </div>
+
+    <h4>CASP (Critical Appraisal Skills Programme)</h4>
+    <p>O CASP é um programa britânico que desenvolveu checklists padronizados de análise crítica para diferentes tipos de estudo. A lógica é simples: cada desenho de estudo tem suas vulnerabilidades específicas — um checklist de ECR precisa perguntar sobre randomização; um de coorte, sobre perdas de seguimento. Por isso existem checklists diferentes para cada desenho.<a href="#referencias" class="cite">[7]</a></p>
+    <p>Independentemente do tipo de estudo, cada checklist CASP está estruturado em três blocos que representam três perguntas progressivas:</p>
+    <div class="card card-purple">
+      <table>
+        <tr><th>Bloco</th><th>Pergunta central</th><th>O que se avalia</th></tr>
+        <tr>
+          <td><strong>1. Validade interna</strong></td>
+          <td>Os resultados são verdadeiros para essa amostra?</td>
+          <td>Metodologia: randomização, cegamento, vieses, confundimento, perdas. Se a metodologia é fraca, os resultados não são confiáveis — e o restante da análise perde sentido.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Resultados</strong></td>
+          <td>Quais são os resultados e qual a precisão da estimativa?</td>
+          <td>Tamanho do efeito (RR, OR, NNT, diferença de médias), intervalo de confiança de 95% (IC 95%), valor de p. O IC 95% é tão importante quanto o p: um IC que cruza o valor nulo (RR=1 ou OR=1) indica resultado não significante, independentemente do p.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Aplicabilidade (validade externa)</strong></td>
+          <td>Os resultados se aplicam ao meu contexto/paciente?</td>
+          <td>Os participantes do estudo são semelhantes ao meu paciente? Os desfechos são relevantes para minha prática? Os benefícios superam os riscos no meu contexto? Um estudo pode ser metodologicamente impecável mas inaplicável à sua realidade.</td>
+        </tr>
+      </table>
+    </div>
+    <div class="highlight warn">
+      <strong>Atenção:</strong> o CASP não gera uma pontuação numérica como o Jadad. Ele é um guia de raciocínio — as respostas "sim/não/não sei" orientam o julgamento, mas a conclusão final sobre a qualidade do estudo é qualitativa. Isso diferencia o CASP do Jadad, que é quantitativo e restrito a ECR.
+    </div>
+
+    <h4>CONSORT 2025</h4>
+    <p>O CONSORT (Consolidated Standards of Reporting Trials) é um guia que define o que um ECR precisa relatar para ser avaliável e replicável. Ele não avalia a qualidade do estudo em si — avalia a <em>qualidade do relato</em>. Um estudo pode ter sido bem conduzido mas mal relatado, tornando impossível confirmar isso.<a href="#referencias" class="cite">[8]</a></p>
+    <p>Os elementos centrais que o CONSORT exige incluem: descrição detalhada do método de randomização (sequência aleatória e ocultação de alocação), método de cegamento com justificativa, <strong>CONSORT flow diagram</strong> (fluxograma com número de participantes em cada fase: triados → randomizados → receberam intervenção → completaram → analisados → perdas e motivos), análise por intenção de tratar, e descrição de todos os desfechos pré-registrados.</p>
+    <div class="highlight tip">
+      <strong>Por que o flow diagram importa?</strong> Porque a diferença entre quantos foram randomizados e quantos foram analisados revela as perdas. Perdas elevadas ou assimétricas entre grupos podem introduzir viés e comprometer toda a validade do estudo — mesmo que a randomização inicial tenha sido perfeita.
+    </div>
+
+    <h4>PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)</h4>
+    <p>O PRISMA é o equivalente do CONSORT para revisões sistemáticas e meta-análises. Define o que deve ser relatado para que a revisão seja transparente, reproduzível e avaliável. O elemento mais reconhecível é o <strong>PRISMA flow diagram</strong>: um fluxograma que mostra quantos estudos foram identificados nas bases, quantos foram excluídos em cada etapa de triagem e por qual motivo, e quantos foram incluídos na síntese final.<a href="#referencias" class="cite">[9]</a></p>
+    <p>Além do fluxograma, o PRISMA exige: pré-registro do protocolo da revisão (PROSPERO), estratégia de busca completa e reproduzível, critérios de elegibilidade explícitos, avaliação de risco de viés de cada estudo incluído, e descrição da heterogeneidade entre estudos (I²) na meta-análise.</p>
+
+    <div class="card card-blue">
+      <h4>CONSORT vs PRISMA vs CASP vs Jadad — resumo das funções</h4>
+      <table>
+        <tr><th>Ferramenta</th><th>Para quê serve</th><th>Gera pontuação?</th></tr>
+        <tr><td><strong>Jadad</strong></td><td>Avaliar qualidade metodológica de ECR (0–5 pts)</td><td>Sim (quantitativa)</td></tr>
+        <tr><td><strong>CASP</strong></td><td>Análise crítica de qualquer tipo de estudo (checklists por desenho)</td><td>Não (qualitativa)</td></tr>
+        <tr><td><strong>CONSORT</strong></td><td>Guia de como <em>relatar</em> um ECR adequadamente</td><td>Não</td></tr>
+        <tr><td><strong>PRISMA</strong></td><td>Guia de como <em>relatar</em> uma revisão sistemática/meta-análise</td><td>Não</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SEÇÃO 3: PROJETO DE PESQUISA -->
+  <!-- ======================================================== -->
+  <section id="projeto-pesquisa">
+    <h2>4. Projeto de Pesquisa</h2>
+
+    <p>Antes de uma pesquisa existir, ela precisa ser planejada. O <strong>projeto de pesquisa</strong> é o documento que transforma a intenção de investigar em um plano operacionalizável — ele descreve <em>o que, por que, como, onde, quando e com quem</em> se vai pesquisar, permitindo que outros avaliem sua viabilidade e coerência metodológica antes que qualquer dado seja coletado.<a href="#referencias" class="cite">[10]</a></p>
+
+    <h3 id="projeto-estrutura">Estrutura do Projeto</h3>
+
+    <div class="card card-blue">
+      <table>
+        <tr><th>Elemento</th><th>Pergunta que responde</th><th>Conteúdo essencial</th></tr>
+        <tr><td><strong>Introdução + Justificativa</strong></td><td>Por quê pesquisar?</td><td>Contexto, relevância do problema, lacuna na literatura, justificativa social e científica</td></tr>
+        <tr><td><strong>Objetivo Geral</strong></td><td>O quê?</td><td>Meta ampla do estudo</td></tr>
+        <tr><td><strong>Objetivos Específicos</strong></td><td>O quê (detalhado)?</td><td>Metas operacionais mensuráveis</td></tr>
+        <tr><td><strong>Metodologia</strong></td><td>Como? Onde? Com quem?</td><td>Desenho, local, população, critérios, instrumentos, análise estatística</td></tr>
+        <tr><td><strong>Resultados Esperados</strong></td><td>E se funcionar?</td><td>Impacto esperado, produtos da pesquisa</td></tr>
+        <tr><td><strong>Cronograma</strong></td><td>Quando?</td><td>Etapas e prazos em tabela</td></tr>
+        <tr><td><strong>Referências</strong></td><td>Em que literatura se baseia?</td><td>ABNT NBR 6023:2018</td></tr>
+        <tr><td><strong>Apêndices</strong></td><td>Materiais criados pelo autor</td><td>TCLE, questionários próprios, roteiros</td></tr>
+        <tr><td><strong>Anexos</strong></td><td>Materiais NÃO criados pelo autor</td><td>Escalas validadas por terceiros, documentos institucionais</td></tr>
+      </table>
+    </div>
+
+    <div class="highlight warn">
+      <strong>⚠️ Distinção fundamental:</strong> <strong>Apêndice</strong> = material criado pelo próprio pesquisador (TCLE, questionário elaborado por ele). <strong>Anexo</strong> = material de terceiros incorporado ao projeto (ex: escala de depressão validada por outro grupo). Essa distinção frequentemente cai em prova.
+    </div>
+
+    <p>A estrutura da <strong>introdução</strong> segue uma lógica narrativa específica:</p>
+    <div class="card card-purple">
+      <ol>
+        <li><strong>Por que</strong> → contexto e relevância do problema</li>
+        <li><strong>O que</strong> → conceitos centrais e o que se sabe sobre o tema</li>
+        <li><strong>Como</strong> → o que já foi feito metodologicamente, lacunas encontradas</li>
+        <li><strong>E se...</strong> → o que acontece se a hipótese for confirmada (impacto esperado)</li>
+      </ol>
+    </div>
+
+    <h3 id="projeto-bloom">Taxonomia de Bloom aplicada aos Objetivos</h3>
+
+    <p>Os verbos usados nos objetivos de pesquisa não são neutros. Eles indicam o nível cognitivo exigido. A Taxonomia de Bloom organiza esses níveis do mais simples ao mais complexo — e um objetivo bem escrito usa o verbo adequado ao nível de profundidade pretendido.<a href="#referencias" class="cite">[11]</a></p>
+
+    <div class="bloom">
+      <div class="bloom-item" style="border-left: 3px solid #4ade80;">
+        <div class="level" style="color: #4ade80;">Nível 1 — Lembrar</div>
+        <div class="verb">Listar, identificar, nomear, reconhecer, definir, repetir</div>
+      </div>
+      <div class="bloom-item" style="border-left: 3px solid #a3e635;">
+        <div class="level" style="color: #a3e635;">Nível 2 — Compreender</div>
+        <div class="verb">Descrever, explicar, interpretar, resumir, classificar, comparar</div>
+      </div>
+      <div class="bloom-item" style="border-left: 3px solid #fbbf24;">
+        <div class="level" style="color: #fbbf24;">Nível 3 — Aplicar</div>
+        <div class="verb">Usar, demonstrar, calcular, executar, implementar, resolver</div>
+      </div>
+      <div class="bloom-item" style="border-left: 3px solid #fb923c;">
+        <div class="level" style="color: #fb923c;">Nível 4 — Analisar</div>
+        <div class="verb">Diferenciar, organizar, distinguir, examinar, questionar, testar</div>
+      </div>
+      <div class="bloom-item" style="border-left: 3px solid #f87171;">
+        <div class="level" style="color: #f87171;">Nível 5 — Avaliar</div>
+        <div class="verb">Julgar, defender, priorizar, selecionar, justificar, criticar</div>
+      </div>
+      <div class="bloom-item" style="border-left: 3px solid #c084fc;">
+        <div class="level" style="color: #c084fc;">Nível 6 — Criar</div>
+        <div class="verb">Projetar, formular, construir, planejar, produzir, elaborar</div>
+      </div>
+    </div>
+
+    <h3 id="projeto-metodologia">Metodologia: as quatro perguntas</h3>
+
+    <p>Uma metodologia bem escrita responde a quatro perguntas fundamentais, tornando o estudo replicável por outro pesquisador independente:</p>
+
+    <div class="card card-green">
+      <table>
+        <tr><th>Pergunta</th><th>Elemento metodológico</th><th>Detalhe</th></tr>
+        <tr><td><strong>Onde?</strong></td><td>Local de estudo</td><td>Instituição, município, contexto (hospital, UBS, escola). Justificar a escolha.</td></tr>
+        <tr><td><strong>Com quem?</strong></td><td>População e amostra</td><td>Critérios de inclusão e exclusão claramente definidos; cálculo do tamanho amostral; TCLE</td></tr>
+        <tr><td><strong>Como?</strong></td><td>Métodos e instrumentos</td><td>Desenho do estudo; instrumentos de coleta (escalas, questionários, exames); procedimentos</td></tr>
+        <tr><td><strong>Quanto?</strong></td><td>Análise estatística</td><td>Software, testes utilizados; nível de significância adotado (<strong>p ≤ 0,05</strong>)</td></tr>
+      </table>
+    </div>
+
+    <div class="highlight">
+      <strong>p ≤ 0,05:</strong> convenção estabelecida de que a probabilidade de o resultado ter ocorrido ao acaso é de no máximo 5%. Abaixo disso, o resultado é considerado estatisticamente significante. Importante: significância estatística ≠ relevância clínica — um resultado pode ser p &lt; 0,001 mas com diferença clinicamente irrelevante.
+    </div>
+
+    <h3 id="projeto-etica">Ética em Pesquisa com Seres Humanos</h3>
+
+    <p>Imagine que um pesquisador, sem avisar ninguém, coleta amostras de sangue de pacientes hospitalizados para um estudo não aprovado. Os dados podem ser valiosos, mas a pesquisa é eticamente inaceitável — os participantes não consentiram, não sabem os riscos e não podem recusar. Esse cenário não é hipotético: foi o que aconteceu em escândalos históricos como os experimentos de Tuskegee (1932–1972), onde homens negros com sífilis foram deliberadamente não tratados para estudar a progressão da doença.</p>
+
+    <p>Foi em resposta a esses abusos que surgiu a regulamentação ética da pesquisa com seres humanos. No Brasil, qualquer pesquisa que envolva seres humanos — seja coleta de dados, amostras biológicas, análise de prontuários ou questionários — deve ser aprovada por um Comitê de Ética em Pesquisa (CEP) antes de iniciar a coleta.<a href="#referencias" class="cite">[12]</a></p>
+
+    <div class="card card-red">
+      <h4>Sistema CEP/CONEP e Plataforma Brasil</h4>
+      <p><strong>CEP (Comitê de Ética em Pesquisa):</strong> órgão colegiado vinculado a instituições (universidades, hospitais, centros de pesquisa). Avalia e aprova projetos locais, acompanha sua execução e recebe denúncias de irregularidades. É a primeira instância de avaliação — a maioria dos projetos começa e termina no CEP.</p>
+      <p><strong>CONEP (Comissão Nacional de Ética em Pesquisa):</strong> instância nacional subordinada ao Conselho Nacional de Saúde (CNS). Avalia pesquisas que envolvem maior complexidade ética: genética e reprodução humana, populações vulneráveis (indígenas, presidiários, crianças), novas tecnologias sem aprovação sanitária, pesquisas em que o CEP local tenha dúvidas. É a segunda instância — um projeto reprovado pelo CEP pode recorrer à CONEP, e pesquisas de alta complexidade são obrigatoriamente encaminhadas a ela.</p>
+      <p><strong>Plataforma Brasil:</strong> sistema eletrônico unificado do Ministério da Saúde onde todos os projetos de pesquisa com seres humanos são submetidos digitalmente. Permite rastrear o tramite do projeto, receber pareceres e acompanhar a aprovação. A submissão na Plataforma Brasil é obrigatória — não existe aprovação ética fora dela no sistema nacional.</p>
+    </div>
+
+    <div class="card card-yellow">
+      <h4>TCLE — Termo de Consentimento Livre e Esclarecido</h4>
+      <p>O TCLE é o documento que materializa o princípio ético da <em>autonomia</em>: o participante tem o direito de decidir, de forma informada e sem coerção, se quer ou não participar da pesquisa. "Livre" significa sem pressão ou dependência; "esclarecido" significa com plena compreensão do que está sendo proposto.</p>
+      <p>O TCLE deve conter obrigatoriamente: objetivos e procedimentos do estudo; riscos previsíveis e benefícios esperados; garantia de confidencialidade dos dados; direito de retirar o consentimento a qualquer momento sem qualquer prejuízo (incluindo assistência à saúde, no caso de pesquisas em contextos de tratamento); contato do pesquisador e do CEP para dúvidas ou denúncias.</p>
+      <p>No projeto de pesquisa, o TCLE vai como <strong>Apêndice</strong> — pois é criado pelo próprio pesquisador. Um instrumento validado por terceiros (ex: escala de ansiedade já publicada) vai como <strong>Anexo</strong>.</p>
+      <div class="highlight" style="margin-top:10px">
+        <strong>Base ética — Relatório Belmont (1979):</strong> publicado após o caso Tuskegee, o Relatório Belmont estabeleceu os três princípios que fundamentam a ética em pesquisa com seres humanos até hoje:<a href="#referencias" class="cite">[13]</a>
+        <ul style="margin-top:8px">
+          <li><strong>Respeito pelas pessoas (autonomia):</strong> os indivíduos devem ser tratados como agentes autônomos; pessoas com autonomia diminuída (crianças, incapazes) merecem proteção especial. → Operacionalizado pelo TCLE.</li>
+          <li><strong>Beneficência:</strong> maximizar os benefícios e minimizar os danos. Não basta não prejudicar — é preciso ativamente buscar o benefício. → Operacionalizado pela análise risco-benefício no CEP.</li>
+          <li><strong>Justiça:</strong> os benefícios e os ônus da pesquisa devem ser distribuídos equitativamente — nenhum grupo (especialmente os mais vulneráveis) deve arcar com os riscos para que outros se beneficiem. → Foi exatamente o que foi violado em Tuskegee.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SEÇÃO 4: ESCRITA ACADÊMICA -->
+  <!-- ======================================================== -->
+  <section id="escrita-academica">
+    <h2>5. Escrita Acadêmica em Pesquisa em Saúde</h2>
+
+    <p>A escrita científica não é uma habilidade inata — é um conjunto de convenções aprendidas que servem a um único propósito: <strong>comunicar conhecimento de forma que outros possam verificar, replicar e construir sobre ele</strong>. Um dado correto mal comunicado tem o mesmo impacto prático de um dado incorreto: nenhum.<a href="#referencias" class="cite">[14]</a></p>
+
+    <h3 id="escrita-caracteristicas">Características da Linguagem Científica</h3>
+
+    <div class="card card-blue">
+      <table>
+        <tr><th>Característica</th><th>O que significa</th><th>Exemplo inadequado → adequado</th></tr>
+        <tr><td><strong>Objetividade</strong></td><td>Sem rodeios; cada frase serve a um propósito informativo</td><td>"É muito importante notar que..." → "O dado indica que..."</td></tr>
+        <tr><td><strong>Impessoalidade</strong></td><td>Foco no objeto de estudo, não no pesquisador; 3ª pessoa ou voz passiva</td><td>"Eu encontrei que..." → "Observou-se que..." / "Os resultados mostram que..."</td></tr>
+        <tr><td><strong>Clareza e precisão</strong></td><td>Um termo, um conceito; evitar ambiguidade e jargão desnecessário</td><td>"O paciente melhorou muito" → "A pontuação na escala X reduziu 40% (p=0,02)"</td></tr>
+        <tr><td><strong>Coerência e coesão</strong></td><td>Progresso lógico de ideias; frases e parágrafos conectados</td><td>Saltar de conclusões sem apresentar dados → construir raciocínio encadeado</td></tr>
+      </table>
+    </div>
+
+    <h4>Linguagem hedgeada vs. afirmações excessivas</h4>
+    <p>Ciência opera em graus de certeza. A linguagem <strong>hedgeada</strong> (do inglês <em>hedge</em> = sebe, proteção) usa termos que indicam que o resultado é provável, mas não absoluto — porque praticamente nenhum resultado científico é absoluto.</p>
+    <div class="card card-purple">
+      <table>
+        <tr><th>Afirmação excessiva ❌</th><th>Linguagem hedgeada ✓</th></tr>
+        <tr><td>"A droga X cura a doença Y."</td><td>"Os dados sugerem que X pode reduzir a progressão de Y."</td></tr>
+        <tr><td>"Ficou comprovado que..."</td><td>"Os resultados indicam que..." / "Há evidências de que..."</td></tr>
+        <tr><td>"Todos os pacientes melhoraram."</td><td>"A maioria dos participantes (82%) apresentou melhora..."</td></tr>
+      </table>
+    </div>
+
+    <h3 id="escrita-citacoes">Citações segundo a ABNT</h3>
+
+    <p>Citar é ao mesmo tempo um dever ético (reconhecer que aquela ideia pertence a outro autor) e científico (permitir que o leitor verifique a fonte e avalie se a afirmação está sendo corretamente interpretada). A Norma Brasileira NBR 10520:2023 regulamenta as formas de citar em textos acadêmicos brasileiros.<a href="#referencias" class="cite">[15]</a></p>
+
+    <p>Existem dois sistemas de chamada: o <strong>sistema autor-data</strong> (o mais comum na área da saúde — ex: MARCONI; LAKATOS, 2021) e o <strong>sistema numérico</strong> (referências numeradas em sequência, como neste guia). O autor deve adotar um e não misturar os dois no mesmo documento.</p>
+
+    <div class="card card-green">
+      <table>
+        <tr><th>Tipo de citação</th><th>Quando usar</th><th>Como formatar</th></tr>
+        <tr>
+          <td><strong>Direta curta</strong></td>
+          <td>Quando a transcrição literal tem até 3 linhas e as palavras exatas do autor são importantes para o argumento</td>
+          <td>Inserida no parágrafo, entre aspas duplas, seguida de (SOBRENOME, ano, p. X). Ex: "A ciência é um conjunto de conhecimentos racionais" (ANDER-EGG, 1978, p. 14).</td>
+        </tr>
+        <tr>
+          <td><strong>Direta longa</strong></td>
+          <td>Transcrição literal com mais de 3 linhas — deve ser usada com parcimônia; excesso de citações longas indica que o autor não processou o conteúdo</td>
+          <td>Parágrafo independente, recuado 4 cm da margem esquerda, fonte menor (10pt), sem aspas, sem itálico, espaçamento simples. A indicação de autor e página vem após o ponto final.</td>
+        </tr>
+        <tr>
+          <td><strong>Indireta (paráfrase)</strong></td>
+          <td>Forma mais recomendada: o autor reproduz a ideia com suas próprias palavras, mostrando que compreendeu e processou o conteúdo</td>
+          <td>Sem aspas. A autoria pode vir integrada: "Segundo Marconi e Lakatos (2021), ..." ou entre parênteses ao final: "... (MARCONI; LAKATOS, 2021)." Notar: dois autores separados por ponto-e-vírgula; três ou mais → usar o primeiro seguido de "et al."</td>
+        </tr>
+        <tr>
+          <td><strong>Apud (citação de citação)</strong></td>
+          <td>Quando não é possível acessar o documento original — o autor cita uma obra que está sendo citada dentro de outra obra</td>
+          <td>Ex: (FOUCAULT, 1975 apud SOUZA, 2020, p. 45). Nas referências finais, entra <em>apenas</em> a obra consultada (Souza, 2020) — nunca a obra original que não foi lida.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="highlight warn">
+      <strong>Apud com moderação:</strong> usar <em>apud</em> é admitir que não foi à fonte primária. Isso é aceitável quando a obra original é inacessível (ex: tese estrangeira antiga), mas é problemático quando o original está disponível. A fonte primária pode ter sido mal interpretada na obra que a cita — ao usar <em>apud</em>, você está confiando na interpretação de outro autor, não verificando você mesmo.
+    </div>
+
+    <div class="highlight tip">
+      <strong>Formatação ABNT — pontos frequentes em prova:</strong>
+      <ul style="margin-top:8px">
+        <li>Um autor: SOBRENOME, Ano → Ex: (LAKATOS, 2021)</li>
+        <li>Dois autores: SOBRENOME; SOBRENOME, Ano → Ex: (MARCONI; LAKATOS, 2021)</li>
+        <li>Três ou mais autores: SOBRENOME et al., Ano → Ex: (OLIVEIRA et al., 2020)</li>
+        <li>Citação direta sempre exige número de página: (AUTOR, ano, p. X)</li>
+        <li>Citação indireta não exige página (mas pode incluir)</li>
+      </ul>
+    </div>
+
+    <h4>Partes do projeto e suas perguntas (mnemônico)</h4>
+    <div class="card card-blue">
+      <table>
+        <tr><th>Seção</th><th>Pergunta que responde</th></tr>
+        <tr><td>Objetivos</td><td><strong>O QUÊ</strong> vai ser investigado?</td></tr>
+        <tr><td>Justificativa</td><td><strong>POR QUÊ</strong> vale a pena investigar?</td></tr>
+        <tr><td>Metodologia</td><td><strong>COMO</strong> vai ser investigado?</td></tr>
+        <tr><td>Locus</td><td><strong>ONDE</strong> será realizado?</td></tr>
+        <tr><td>Cronograma</td><td><strong>QUANDO</strong> cada etapa ocorrerá?</td></tr>
+        <tr><td>Orçamento</td><td><strong>QUANTO VAI CUSTAR?</strong></td></tr>
+      </table>
+    </div>
+
+    <h3 id="escrita-etapas">As 13 Etapas da Pesquisa Científica</h3>
+
+    <p>A pesquisa científica não é um evento único — é um processo sequencial. Conhecer as etapas permite ao pesquisador saber em que fase está e o que vem a seguir. As etapas 1 a 7 constituem o <strong>pré-projeto</strong> (fase de planejamento).<a href="#referencias" class="cite">[10]</a></p>
+
+    <div class="card card-blue">
+      <table>
+        <tr><th>#</th><th>Etapa</th><th>Fase</th></tr>
+        <tr><td>1</td><td>Escolha do tema</td><td rowspan="7" style="background:rgba(91,143,255,.08); text-align:center; font-weight:700; color:var(--blue);">PRÉ-PROJETO</td></tr>
+        <tr><td>2</td><td>Levantamento bibliográfico preliminar</td></tr>
+        <tr><td>3</td><td>Formulação do problema</td></tr>
+        <tr><td>4</td><td>Definição dos termos ou conceitos</td></tr>
+        <tr><td>5</td><td>Delimitação da pesquisa</td></tr>
+        <tr><td>6</td><td>Formulação das hipóteses</td></tr>
+        <tr><td>7</td><td>Seleção dos métodos e técnicas</td></tr>
+        <tr><td>8</td><td>Organização do instrumental de pesquisa</td><td rowspan="6" style="background:rgba(74,222,128,.06); text-align:center; font-weight:700; color:var(--green);">EXECUÇÃO</td></tr>
+        <tr><td>9</td><td>Teste do instrumental (pré-teste / piloto)</td></tr>
+        <tr><td>10</td><td>Coleta de dados</td></tr>
+        <tr><td>11</td><td>Elaboração dos dados</td></tr>
+        <tr><td>12</td><td>Análise e interpretação dos dados</td></tr>
+        <tr><td>13</td><td>Representação dos resultados / Redação do relatório final</td></tr>
+      </table>
+    </div>
+
+    <h3 id="escrita-hipoteses">Hipóteses: H0 e H1</h3>
+
+    <p>Antes de coletar qualquer dado, o pesquisador precisa declarar o que espera encontrar. Esse ato — formular hipóteses antes de ver os dados — é fundamental para a integridade científica. Se as hipóteses fossem formuladas após ver os resultados (prática chamada de HARKing), qualquer dado poderia ser "encaixado" numa hipótese conveniente.<a href="#referencias" class="cite">[16]</a></p>
+
+    <p>A lógica da hipótese científica é por <strong>refutação</strong>, não por confirmação. Isso vem de Karl Popper: não é possível provar que algo é sempre verdadeiro, mas é possível provar que é falso em pelo menos um caso. Por isso o teste estatístico não "confirma" a hipótese do pesquisador — ele tenta <em>refutar a hipótese de que não há efeito</em>.</p>
+
+    <div class="card card-purple">
+      <table>
+        <tr><th>Hipótese</th><th>O que afirma</th><th>Exemplo prático</th></tr>
+        <tr>
+          <td><strong>H0 — Hipótese Nula</strong></td>
+          <td>Afirma que <em>não há diferença, associação ou efeito</em> entre as variáveis estudadas. É o "status quo" conservador — a posição que os dados precisam refutar para que a pesquisa avance.</td>
+          <td>"Não há diferença na redução da pressão arterial sistólica entre pacientes que receberam o medicamento X e os que receberam placebo após 12 semanas."</td>
+        </tr>
+        <tr>
+          <td><strong>H1 — Hipótese Alternativa</strong></td>
+          <td>Afirma que <em>há diferença, associação ou efeito</em>. É o que o pesquisador espera encontrar com base na literatura e na teoria. Pode ser direcional ("X é maior que Y") ou não-direcional ("X é diferente de Y").</td>
+          <td>"Pacientes que receberam o medicamento X apresentarão redução significativamente maior na pressão arterial sistólica em comparação ao grupo placebo após 12 semanas."</td>
+        </tr>
+      </table>
+
+      <div class="highlight" style="margin-top:14px">
+        <strong>Lógica do teste estatístico passo a passo:</strong><br>
+        1. O pesquisador formula H0 e H1 <em>antes</em> de coletar dados.<br>
+        2. Coleta os dados e calcula a estatística de teste (t, qui-quadrado, F, etc.).<br>
+        3. Obtém o valor de p — a probabilidade de obter um resultado tão ou mais extremo que o observado, <em>se H0 fosse verdadeira</em>.<br>
+        4. Se p ≤ 0,05 → o resultado seria muito improvável por acaso → <strong>rejeita H0</strong>, os dados apoiam H1.<br>
+        5. Se p > 0,05 → o resultado poderia ter ocorrido por acaso → <strong>não rejeita H0</strong>.<br><br>
+        <strong>⚠️ Armadilha:</strong> "não rejeitar H0" não significa que H0 é verdadeira. Significa apenas que os dados não foram suficientes para refutá-la — pode ser que a amostra fosse pequena (baixo poder estatístico) ou que o efeito real seja menor que o esperado.
+      </div>
+    </div>
+
+    <div class="highlight warn">
+      <strong>Erro tipo I vs Erro tipo II:</strong> ao usar p ≤ 0,05, aceitamos uma probabilidade de 5% de rejeitar H0 quando ela é verdadeira (falso positivo = <strong>Erro tipo I</strong>, α). O <strong>Erro tipo II</strong> (β) é não rejeitar H0 quando ela é falsa (falso negativo) — ocorre quando a amostra é pequena. O poder estatístico (1−β) é a capacidade do estudo de detectar um efeito real; convencionalmente fixado em 80%.
+    </div>
+
+    <h4>Revisão bibliográfica: fluxo completo</h4>
+    <div class="flow">
+      <div class="flow-step"><span class="num">1</span>Delimitação do tema → termos precisos</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">2</span>Levantamento dos descritores (DeCS/MeSH)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">3</span>Expansão para sinônimos e termos relacionados</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">4</span>Seleção das fontes (bases de dados)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">5</span>Localização dos documentos</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">6</span>Leitura: exploratória → seletiva → analítica → interpretativa</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><span class="num">7</span>Redação da revisão com citações adequadas</div>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- CONCEITOS-CHAVE -->
+  <!-- ======================================================== -->
+  <section id="conceitos-chave">
+    <h2>Conceitos-chave para Fixação</h2>
+
+    <div class="chain">
+      <strong>0a. Pergunta determina o desenho — nunca o contrário</strong><br>
+      Antes de escolher o tipo de estudo, identifica-se o tipo de pergunta: eficácia de intervenção → ECR; fator de risco de doença rara → caso-controle; prevalência → transversal; síntese de evidências → revisão sistemática. <span class="arrow">→</span> Usar ECR quando a pergunta pede prevalência é tão errado quanto usar transversal para avaliar eficácia de um medicamento.
+    </div>
+
+    <div class="chain">
+      <strong>0b. Observacional vs. experimental → temporalidade e viés</strong><br>
+      Observacional = pesquisador não controla a exposição → confundimento é ameaça real; só pode sugerir associação. Experimental (ECR) = randomização controla confundidores conhecidos e desconhecidos → pode estabelecer causalidade. <span class="arrow">→</span> Mas randomizar exposições nocivas é antiético — para tabagismo, a coorte é a alternativa mais forte. Medidas: transversal (prevalência), coorte (incidência, RR), caso-controle (OR).
+    </div>
+
+    <div class="chain">
+      <strong>1. Seleção de temas → pesquisa viável e relevante</strong><br>
+      Um tema inadequado → estudo não concluído ou sem impacto. Portanto, antes de qualquer coisa avalia-se: relevância (social + científica) + viabilidade (prazo, material, capacidade) + originalidade. Internamente, o pesquisador precisa ter afetividade, tempo e capacidade técnica. <span class="arrow">→</span> Sem esse filtro, recursos são desperdiçados em perguntas já respondidas ou sem resposta possível.
+    </div>
+
+    <div class="chain">
+      <strong>2. Descritores controlados → busca eficiente → revisão completa</strong><br>
+      DeCS (português/espanhol/inglês, BVS) e MeSH (inglês, PubMed) são vocabulários controlados. Sem eles, a busca retorna termos coloquiais e perde publicações relevantes. <span class="arrow">→</span> A qualidade da revisão bibliográfica depende diretamente da qualidade da estratégia de busca.
+    </div>
+
+    <div class="chain">
+      <strong>3. Pirâmide de evidências → escolha racional da conduta clínica</strong><br>
+      Nem toda evidência vale o mesmo. Revisão sistemática de ECR (nível 1A) tem menor risco de viés que opinião de especialista (nível 5). <span class="arrow">→</span> Quando disponível, a melhor evidência deve orientar a decisão; opiniões de especialistas são úteis quando não há evidências de melhor qualidade.
+    </div>
+
+    <div class="chain">
+      <strong>4. Jadad (ECR) → CASP (qualquer desenho) → CONSORT (relato de ECR) → PRISMA (relato de revisão)</strong><br>
+      Cada ferramenta tem foco específico. Jadad avalia qualidade metodológica de ECR (0–5 pts). CASP avalia criticamente qualquer tipo de estudo com foco em validade, resultados e relevância. CONSORT diz como reportar um ECR. PRISMA diz como reportar uma revisão sistemática. <span class="arrow">→</span> Confundir suas funções é erro frequente.
+    </div>
+
+    <div class="chain">
+      <strong>5. Projeto de pesquisa: apêndice ≠ anexo</strong><br>
+      Apêndice = criado pelo pesquisador (TCLE, questionário próprio). Anexo = criado por terceiro (escala validada externamente). <span class="arrow">→</span> O TCLE é sempre Apêndice; uma escala de ansiedade validada por outro grupo é sempre Anexo.
+    </div>
+
+    <div class="chain">
+      <strong>6. Taxonomia de Bloom → verbos corretos nos objetivos</strong><br>
+      "Identificar" (Lembrar) ≠ "Analisar" ≠ "Elaborar" (Criar). O verbo escolhido sinaliza o nível cognitivo do objetivo. <span class="arrow">→</span> Objetivos mal escritos com verbos vagos ("abordar", "discutir") não permitem avaliar se foram atingidos.
+    </div>
+
+    <div class="chain">
+      <strong>7. p ≤ 0,05: o que significa e o que NÃO significa</strong><br>
+      Significa: probabilidade ≤ 5% de o resultado ter ocorrido por acaso → rejeitamos H0. NÃO significa: que H0 é falsa com certeza, nem que o efeito é clinicamente importante. <span class="arrow">→</span> Significância estatística e relevância clínica são conceitos distintos.
+    </div>
+
+    <div class="chain">
+      <strong>8. H0 vs H1: lógica do teste estatístico</strong><br>
+      O pesquisador parte da H0 (não há efeito). Coleta dados e testa se os dados são compatíveis com H0. Se p ≤ 0,05, rejeita H0 e aceita H1. <span class="arrow">→</span> "Não rejeitar H0" ≠ "H0 é verdadeira" — apenas significa que os dados não foram suficientes para refutá-la.
+    </div>
+
+    <div class="chain">
+      <strong>9. Citação apud: usar com parcimônia</strong><br>
+      Apud cita uma fonte que você não acessou diretamente. Nas referências, só entra o texto que você leu. <span class="arrow">→</span> Excesso de apud = sinal de revisão bibliográfica superficial; buscar a fonte primária é sempre preferível.
+    </div>
+
+    <div class="chain">
+      <strong>10. CEP/CONEP/Plataforma Brasil: obrigatoriedade ética</strong><br>
+      Nenhuma pesquisa com seres humanos pode iniciar a coleta sem aprovação ética. Plataforma Brasil é o sistema unificado de submissão. CEP aprova localmente; CONEP avalia casos complexos. O TCLE é o instrumento que materializa o respeito à autonomia do participante.
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- LEITURAS RECOMENDADAS -->
+  <!-- ======================================================== -->
+  <section id="leituras">
+    <h2>Leituras Recomendadas</h2>
+
+    <h3>Livros-texto</h3>
+    <ul>
+      <li>
+        MARCONI, Marina de Andrade; LAKATOS, Eva Maria. <strong>Fundamentos de metodologia científica</strong>. 9. ed. São Paulo: Atlas, 2021.
+        <span class="badge badge-green">VOCÊ TEM</span>
+      </li>
+      <li>
+        PAGANO, Marcello; GAUVREAU, Kimberlee. <strong>Princípios de bioestatística</strong>. São Paulo: Cengage Learning, 2004.
+      </li>
+      <li>
+        ROTHMAN, Kenneth J. <strong>Epidemiology: an introduction</strong>. 2. ed. Oxford: Oxford University Press, 2012.
+      </li>
+      <li>
+        SACKETT, David L. et al. <strong>Evidence-Based Medicine: how to practice and teach EBM</strong>. 2. ed. Edinburgh: Churchill Livingstone, 2000.
+      </li>
+      <li>
+        GIL, Antonio Carlos. <strong>Como elaborar projetos de pesquisa</strong>. 7. ed. São Paulo: Atlas, 2022.
+      </li>
+    </ul>
+
+    <h3>Artigos e recursos online</h3>
+    <ul>
+      <li>
+        JADAD, Alejandro R. et al. Assessing the quality of reports of randomized clinical trials: is blinding necessary? <em>Controlled Clinical Trials</em>, v. 17, p. 1–12, 1996.
+        <a href="https://doi.org/10.1016/0197-2456(95)00134-4" target="_blank" rel="noopener" style="color:var(--blue);">https://doi.org/10.1016/0197-2456(95)00134-4 ↗</a>
+      </li>
+      <li>
+        MOHER, David et al. CONSORT 2010 Statement: Updated Guidelines for Reporting Parallel Group Randomized Trials. <em>PLOS Medicine</em>, 2010.
+        <a href="https://doi.org/10.1371/journal.pmed.1000251" target="_blank" rel="noopener" style="color:var(--blue);">https://doi.org/10.1371/journal.pmed.1000251 ↗</a>
+      </li>
+      <li>
+        PAGE, Matthew J. et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. <em>BMJ</em>, 2021.
+        <a href="https://doi.org/10.1136/bmj.n71" target="_blank" rel="noopener" style="color:var(--blue);">https://doi.org/10.1136/bmj.n71 ↗</a>
+      </li>
+    </ul>
+
+    <h3>Recursos institucionais online</h3>
+    <ul>
+      <li><a href="https://decs.bvsalud.org" target="_blank" rel="noopener" style="color:var(--blue);">DeCS — Descritores em Ciências da Saúde ↗</a> — busca de descritores controlados em português, espanhol e inglês</li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener" style="color:var(--blue);">PubMed ↗</a> — base de dados MEDLINE, acesso gratuito</li>
+      <li><a href="https://plataformabrasil.saude.gov.br" target="_blank" rel="noopener" style="color:var(--blue);">Plataforma Brasil ↗</a> — submissão de projetos ao CEP/CONEP</li>
+      <li><a href="https://casp-uk.net/casp-tools-checklists/" target="_blank" rel="noopener" style="color:var(--blue);">CASP Checklists ↗</a> — ferramentas de análise crítica por tipo de estudo</li>
+    </ul>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- REFERÊNCIAS ABNT -->
+  <!-- ======================================================== -->
+  <section id="referencias">
+    <h2>Referências</h2>
+
+    <div class="ref-item"><span class="ref-num">[1]</span> ANDER-EGG, Ezequiel. <em>Introducción a las técnicas de investigación social</em>. 7. ed. Buenos Aires: Humanitas, 1978.</div>
+    <div class="ref-item"><span class="ref-num">[2]</span> BIREME/OPAS/OMS. <em>Descritores em Ciências da Saúde — DeCS</em>. São Paulo: BIREME, 2023. Disponível em: <a href="https://decs.bvsalud.org" target="_blank" rel="noopener">decs.bvsalud.org ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[3]</span> DORAN, George T. There's a S.M.A.R.T. way to write management's goals and objectives. <em>Management Review</em>, v. 70, n. 11, p. 35–36, 1981.</div>
+    <div class="ref-item"><span class="ref-num">[4]</span> INTERNATIONAL COMMITTEE OF MEDICAL JOURNAL EDITORS (ICMJE). <em>Recommendations for the Conduct, Reporting, Editing, and Publication of Scholarly Work in Medical Journals</em>. Atualizado em 2024. Disponível em: <a href="https://www.icmje.org/recommendations/" target="_blank" rel="noopener">ICMJE ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[5]</span> OXFORD CENTRE FOR EVIDENCE-BASED MEDICINE. <em>Levels of Evidence</em>. Oxford: OCEBM, 2011. Disponível em: <a href="https://www.cebm.ox.ac.uk/resources/levels-of-evidence/oxford-centre-for-evidence-based-medicine-levels-of-evidence-march-2009" target="_blank" rel="noopener">CEBM Oxford ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[6]</span> JADAD, Alejandro R. et al. Assessing the quality of reports of randomized clinical trials: is blinding necessary? <em>Controlled Clinical Trials</em>, v. 17, n. 1, p. 1–12, 1996. Disponível em: <a href="https://doi.org/10.1016/0197-2456(95)00134-4" target="_blank" rel="noopener">https://doi.org/10.1016/0197-2456(95)00134-4 ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[7]</span> CRITICAL APPRAISAL SKILLS PROGRAMME (CASP). <em>CASP Checklists</em>. Oxford: CASP UK, 2018. Disponível em: <a href="https://casp-uk.net/casp-tools-checklists/" target="_blank" rel="noopener">CASP UK ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[8]</span> SCHULZ, Kenneth F. et al. CONSORT 2010 Statement: Updated Guidelines for Reporting Parallel Group Randomized Trials. <em>PLOS Medicine</em>, v. 7, n. 3, e1000251, 2010. Disponível em: <a href="https://doi.org/10.1371/journal.pmed.1000251" target="_blank" rel="noopener">https://doi.org/10.1371/journal.pmed.1000251 ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[9]</span> PAGE, Matthew J. et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. <em>BMJ</em>, v. 372, n. 71, 2021. Disponível em: <a href="https://doi.org/10.1136/bmj.n71" target="_blank" rel="noopener">https://doi.org/10.1136/bmj.n71 ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[10]</span> MARCONI, Marina de Andrade; LAKATOS, Eva Maria. <em>Fundamentos de metodologia científica</em>. 9. ed. São Paulo: Atlas, 2021.</div>
+    <div class="ref-item"><span class="ref-num">[11]</span> BLOOM, Benjamin S. et al. <em>Taxonomy of Educational Objectives: The Classification of Educational Goals — Handbook I: Cognitive Domain</em>. New York: Longman, 1956. [Revisão de Anderson & Krathwohl, 2001].</div>
+    <div class="ref-item"><span class="ref-num">[12]</span> BRASIL. Conselho Nacional de Saúde. Resolução nº 466, de 12 de dezembro de 2012. Diretrizes e normas regulamentadoras de pesquisas envolvendo seres humanos. <em>Diário Oficial da União</em>, Brasília, 13 jun. 2013.</div>
+    <div class="ref-item"><span class="ref-num">[13]</span> NATIONAL COMMISSION FOR THE PROTECTION OF HUMAN SUBJECTS OF BIOMEDICAL AND BEHAVIORAL RESEARCH. <em>The Belmont Report: Ethical Principles and Guidelines for the Protection of Human Subjects of Research</em>. Washington, D.C.: U.S. Government Printing Office, 1979. Disponível em: <a href="https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/index.html" target="_blank" rel="noopener">HHS.gov ↗</a>. Acesso em: 18 jun. 2026.</div>
+    <div class="ref-item"><span class="ref-num">[14]</span> BOOTH, Wayne C.; COLOMB, Gregory G.; WILLIAMS, Joseph M. <em>A arte da pesquisa</em>. 2. ed. São Paulo: Martins Fontes, 2005.</div>
+    <div class="ref-item"><span class="ref-num">[15]</span> ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. <em>NBR 10520: Informação e documentação — Citações em documentos — Apresentação</em>. Rio de Janeiro: ABNT, 2023.</div>
+    <div class="ref-item"><span class="ref-num">[16]</span> PAGANO, Marcello; GAUVREAU, Kimberlee. <em>Princípios de bioestatística</em>. São Paulo: Cengage Learning, 2004.</div>
+    <div class="ref-item"><span class="ref-num">[17]</span> SCHULZ, Kenneth F.; GRIMES, David A. <em>The Lancet Handbook of Essential Concepts in Clinical Research</em>. London: Elsevier, 2006.</div>
+  </section>
+
+</main>
+</div><!-- /.layout -->
+
+<script>
+  // IntersectionObserver para destacar link ativo na sidebar
+  const sections = document.querySelectorAll('section[id], h2[id], h3[id]');
+  const links = document.querySelectorAll('#sidebar a');
+
+  const allTargets = document.querySelectorAll('[id]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  allTargets.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
