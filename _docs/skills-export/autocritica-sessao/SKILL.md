@@ -94,6 +94,8 @@ Formato obrigatório:
 
 Objetivo das instruções: [objetivo declarado]
 Falhas de execução desta sessão: [lista curta de desvios do processo prescrito nesta sessão — verificações puladas, workarounds, subskill que deveria ter sido carregada e não foi — ou "nenhuma"; reportar sempre esta linha, mesmo quando nenhuma melhoria de instrução resultar disso]
+Auditoria estrutural leve: [achado de divergência entre arquivo de controle e disco, ou "sem divergências"; reportar sempre esta linha — é obrigatória em toda sessão por definição (ver Passo 1), então precisa aparecer mesmo quando o resultado é limpo]
+Sinal entre-projetos (leve): [sinalização de possível fusão ou desmembramento, ou "nenhum sinal"; reportar sempre esta linha pelo mesmo motivo — os dois sinais (fusão/desmembramento) são obrigatórios em todo fechamento por definição (ver "Lente entre-projetos Cowork")]
 Melhorias aplicadas: N
 
 1. [Ponto de melhoria] → [O que mudou]
