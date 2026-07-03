@@ -69,6 +69,11 @@ _docs/               → documentação do projeto
   instrucoes-projeto.txt  → este arquivo
   operacoes-bash.md  → regras mecânicas de Edit/Write/bash, verificação pós-HTML, surge e arquivamento (lido sob demanda, não em toda mensagem)
 
+=== Escopo do repositório — evitar duplicação em pastas Cowork paralelas ===
+Princípio geral: qualquer material cujo propósito se encaixe no escopo de uma das skills deste repositório (compendio, mecanismo, sistema, prova — ou skill-pai futura equivalente) deve nascer e viver dentro de Base de estudos, na estrutura de pastas definida acima — não em uma pasta de projeto Cowork separada e paralela que reimplemente template, skill de fechamento de sessão ou convenção de arquivo próprios. Uma pasta Cowork separada só se justifica quando o propósito é genuinamente distinto do que as quatro skills cobrem: deliverable pontual não recorrente (trabalho de faculdade avulso, relatório clínico), dados ao vivo ou pessoais de terceiros (carteira de investimentos, projeto de pesquisa de outra pessoa), formato de entrega que não é HTML autônomo de estudo (docx, planilha), ou fluxo de trabalho estruturalmente diferente dos quatro modos (ex.: sessão Socrática ligada a um documento de abertura externo e não recorrente, sem compêndio de referência permanente).
+Ao identificar, no início de uma sessão ou durante o trabalho, uma pasta Cowork externa que pareça se sobrepor ao escopo de uma skill existente, sinalizar ao usuário antes de duplicar esforço — não assumir migração automática nem ignorar silenciosamente.
+(Incidente que originou esta regra: o projeto Cowork "Estudo para prova" reimplementava, em `_recursos/`, um sistema próprio de skill `autocritica-sessao`, `instrucoes-projeto.md` e `template-base.html` divergente para o mesmo propósito hoje coberto por `prova`/`prova-medicina`. Os 4 HTMLs de conteúdo (agressao-defesa, epidemiologia, pesquisa-em-saude, semiologia) e os 2 caches foram migrados para `provas/medicina/` em 2026-07-03; a pasta de origem, confirmada 100% redundante após comparação byte-a-byte do conteúdo migrado, foi removida na mesma sessão.)
+
 === Protocolo de abertura de sessão ===
 Ao iniciar sessão sem tarefa direta:
 1. Perguntar ao usuário se o trabalho é Compêndio de área, Mecanismo, Sistema ou Prova.
