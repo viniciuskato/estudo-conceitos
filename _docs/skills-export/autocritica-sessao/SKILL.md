@@ -11,24 +11,27 @@ Ativar quando o usuário disser "terminamos", "pode fechar", "acabou" ou similar
 
 Protocolo
 
-Passo 1 — Avaliar as instruções em relação ao objetivo da sessão
-Reler o objetivo declarado no início de instrucoes-projeto.txt. Depois revisar mentalmente o que ocorreu na sessão e perguntar: as instruções atuais permitiriam atingir esse objetivo da melhor forma possível?
+Passo 1 — Avaliar as instruções, o estado atual do projeto e a sessão em relação ao objetivo
+Reler o propósito do modo de trabalho ativado na sessão (compendio/mecanismo/sistema — ver "A distinção principal" no início de instrucoes-projeto.txt) e revisar mentalmente o que a sessão de fato produziu ou tentou produzir. Perguntar: as instruções atuais permitiriam atingir esse propósito da melhor forma possível?
+
+Levantar também o estado ATUAL do projeto relevante à sessão — não só o texto das instruções: subskills existentes na área tocada, ferramentas disponíveis (subagentes via Agent tool, MCPs conectados na sessão, scripts como empacotar_skills.py), arquivos irmãos na mesma subpasta, itens pertinentes em DEBT.md. Comparar esse estado real com o que a sessão efetivamente usou — isso é distinto de checar o texto das instruções: um recurso pode existir no projeto e nunca ter sido mencionado em instrucoes-projeto.txt.
 
 Inspecionar também o próprio SKILL.md da autocritica-sessao (localizado em _docs/skills-export/autocritica-sessao/SKILL.md): o protocolo da skill em si tem gaps? Alguma etapa foi pulada, precisou de correção manual, ou gerou fricção nesta sessão?
 
 Para cada ponto de melhoria identificado, responder:
 
 O que aconteceu ou deixou de acontecer? (fato objetivo)
-Por que aconteceu? (instrução ausente, ambígua, mal posicionada, ou função não usada?)
+Por que aconteceu? (instrução ausente, ambígua, mal posicionada, função não usada, ou recurso do projeto disponível mas não acionado?)
 Já está nas instruções? (verificar via bash)
-O que mudar? (nova regra, reformulação, remoção de função não usada, ou reposicionamento)
+O que mudar? (nova regra, reformulação, remoção de função não usada, reposicionamento, ou uso mais proativo de um recurso já existente?)
 
 Categorias a inspecionar obrigatoriamente:
 
 Funções/seções não usadas: havia partes das instruções que nunca foram acionadas? São necessárias para o objetivo?
+Ferramentas e recursos do projeto não usados: havia subagente, MCP, subskill, script ou arquivo já disponível no projeto que teria melhorado a sessão e não foi acionado? (checar contra o estado atual do projeto, não de memória)
 Texto ambíguo ou incompleto: alguma instrução gerou comportamento inesperado ou precisou de correção manual?
 Etapas puladas ou fora de ordem: o fluxo definido foi seguido? Se não, por quê?
-Alinhamento com o objetivo: cada regra nas instruções serve diretamente ao objetivo declarado?
+Alinhamento com o objetivo: cada regra nas instruções serve diretamente ao propósito do modo de trabalho ativado?
 Princípio de entrega: o usuário teve que pedir melhorias após receber o material? Se sim, o que nas instruções deveria garantir isso proativamente?
 Qualquer fricção que exigiu workaround manual
 
@@ -42,20 +45,21 @@ Se está mas é redundante com outra regra: consolidar.
 
 Passo 2.5 — Classificar destino e apresentar mudanças para aprovação
 Para cada melhoria identificada, classificar ANTES de propor:
-(a) Regra operacional transversal (como editar arquivos, verificar integridade, workflows bash) → destino: instrucoes-projeto.txt
-(b) Conhecimento do artefato (padrões de HTML, CSS, comportamento de sidebar, estrutura de seções) → destino: skill relevante ou template-v2-spec.md
+(a) Dispatch de skills, protocolo de abertura de sessão, ou regra cross-cutting que precisa estar carregada em toda mensagem → destino: instrucoes-projeto.txt
+(b) Mecânica de edição de arquivo/bash, verificação pós-escrita de HTML, workflows de arquivamento (relevante só nesses momentos específicos, não em toda mensagem) → destino: _docs/operacoes-bash.md
+(c) Conhecimento do artefato (padrões de HTML, CSS, comportamento de sidebar, estrutura de seções) → destino: skill relevante ou template-v2-spec.md
 
 ANTES do AskUserQuestion: apresentar cada melhoria em prosa, numerada, com "Causa:" (por que aconteceu) e "Consequência:" (o efeito de não corrigir) explícitos — não pular direto para a pergunta técnica.
 OBRIGATÓRIO em seguida: apresentar todas as mudanças propostas ao usuário via AskUserQuestion (multiSelect: true), com uma opção por mudança. Descrever em cada opção: o que aconteceu (fato), o que vai mudar, e em qual arquivo será aplicado.
 Aplicar SOMENTE as mudanças aprovadas. Se nenhuma for aprovada, encerrar sem alterar arquivos.
 
 Passo 3 — Aplicar mudanças aprovadas
-instrucoes-projeto.txt normalmente cabe bem abaixo do limite de 200 linhas do Edit tool: preferir Read (para obter o texto exato) + Edit tool diretamente no caminho do usuário (ex.: C:\...\_docs\instrucoes-projeto.txt), em vez de python3 via bash. Motivo: essa pasta é sincronizada via OneDrive e o bash pode ler uma versão desatualizada/cortada do arquivo (confirmado numa sessão real: bash reportou menos linhas do que o arquivo realmente tinha) — o Edit tool não passa por esse cache. Reservar python3+bash para esse arquivo apenas se ele já tiver passado de ~200 linhas e a edição for grande demais para o Edit tool.
+A mesma lógica Read (para obter o texto exato) + Edit tool diretamente no caminho do usuário — nunca python3 via bash para ler ou verificar — vale para QUALQUER arquivo de destino classificado no Passo 2.5: instrucoes-projeto.txt, _docs/operacoes-bash.md, _docs/template-v2-spec.md, ou o SKILL.md de qualquer skill (autocritica-sessao ou outra, ex. compendio/SKILL.md). Motivo: essa pasta é sincronizada via OneDrive e o bash pode ler/escrever uma versão desatualizada ou cortada de qualquer arquivo nela (confirmado numa sessão real com instrucoes-projeto.txt) — o Edit tool não passa por esse cache. Reservar python3+bash apenas se o arquivo já tiver passado de ~200 linhas e a edição for grande demais para o Edit tool.
 
 Verificar após cada mudança usando Read (não bash tail/wc -l, pelo mesmo motivo do cache do OneDrive):
 Read com offset perto do fim do arquivo para confirmar que o texto novo está lá e nada foi cortado.
 
-Se o SKILL.md da autocritica-sessao também tiver mudanças aprovadas: editar via Read + Edit tool, mesma lógica acima. Lembrar o usuário de reempacotar com empacotar_skills.py e reinstalar a skill.
+Se algum SKILL.md foi editado (autocritica-sessao ou outra skill): lembrar o usuário de reempacotar com empacotar_skills.py e reinstalar a skill correspondente — nomeada explicitamente (ver Passo 4).
 
 Passo 4 — Reportar ao usuário
 Formato obrigatório:
@@ -67,10 +71,10 @@ Melhorias aplicadas: N
 1. [Ponto de melhoria] → [O que mudou]
 2. ...
 
-Instruções atualizadas em `_docs/instrucoes-projeto.txt`. Após reportar, chamar `mcp__cowork__present_files` com o caminho do arquivo para que ele apareça como card no painel lateral do Cowork, de onde o usuário copia direto para Project Instructions. NUNCA colar o conteúdo do arquivo (inteiro ou trecho longo) em bloco de texto na resposta do chat — nem "para facilitar", nem porque o arquivo é curto.
+Para cada arquivo efetivamente editado nesta sessão, nomeá-lo explicitamente — ex.: "Atualizado em `_docs/instrucoes-projeto.txt`" e/ou "Atualizado em `_docs/operacoes-bash.md`" e/ou "Atualizado em `compendio/SKILL.md`" — nunca fixar a frase em instrucoes-projeto.txt quando o destino real foi outro arquivo (ver Passo 2.5 para a classificação de destino). Após reportar, chamar `mcp__cowork__present_files` com o(s) caminho(s) do(s) arquivo(s) editado(s) para que apareçam como cards no painel lateral do Cowork — instrucoes-projeto.txt é o único que o usuário copia direto para Project Instructions; os demais (operacoes-bash.md, template-v2-spec.md, SKILL.md) já estão salvos no lugar certo, o card serve para conferência. NUNCA colar o conteúdo de nenhum arquivo (inteiro ou trecho longo) em bloco de texto na resposta do chat — nem "para facilitar", nem porque o arquivo é curto.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
 
-Antes de montar o checklist, reconstruir EXATAMENTE o que a sessão tocou a partir do próprio histórico de tool calls desta sessão (arquivos lidos/editados/criados) — NÃO rodar `git status --short`: comandos git falham por completo neste sandbox (ver instrucoes-projeto.txt, seção "Verificação bash obrigatória"), então a chamada seria desperdiçada. Nunca listar pendências de memória (sessões anteriores) como se fossem desta sessão. Regras para o item de reempacotamento:
+Antes de montar o checklist, reconstruir EXATAMENTE o que a sessão tocou a partir do próprio histórico de tool calls desta sessão (arquivos lidos/editados/criados) — NÃO rodar `git status --short`: comandos git falham por completo neste sandbox (ver _docs/operacoes-bash.md, seção "Verificação bash obrigatória"), então a chamada seria desperdiçada. Nunca listar pendências de memória (sessões anteriores) como se fossem desta sessão. Regras para o item de reempacotamento:
 - `instrucoes-projeto.txt` é Project Instructions, NÃO uma skill — editá-lo nunca gera reempacotamento. Sua única pendência é o usuário copiá-lo nas Project Instructions.
 - Só incluir o item de reempacotar/reinstalar se algum `_docs/skills-export/<skill>/SKILL.md` foi editado NESTA sessão (confirmar pelo histórico de edições da própria sessão, não por git).
 - Quando incluir, NOMEAR cada skill afetada (ex.: `compendio`, `autocritica-sessao`) — nunca escrever "skills modificadas" genericamente. Se esta sessão editou o próprio SKILL.md da autocritica-sessao, incluí-la nominalmente.
@@ -86,8 +90,8 @@ Regras da skill
 
 Nunca pular o Passo 1 mesmo que a sessão pareça ter corrido bem — melhorias sutis existem.
 Nunca aplicar mudanças sem aprovação via AskUserQuestion (Passo 2.5) — sem exceções.
-O foco é sempre o objetivo declarado nas instruções: cada mudança deve aproximar as instruções desse objetivo.
-Nunca reportar "nenhuma melhoria" sem ter verificado ativamente cada categoria do Passo 1.
+O foco é sempre o propósito do modo de trabalho ativado na sessão (compendio/mecanismo/sistema) e a distinção principal entre eles: cada mudança deve aproximar as instruções desse propósito.
+Nunca reportar "nenhuma melhoria" sem ter verificado ativamente cada categoria do Passo 1 — incluindo a checagem de ferramentas/recursos do projeto não usados, não só o texto das instruções.
 Não reformular instruções que funcionaram bem só para "melhorar o estilo" — mudanças devem ter origem em gap real.
 Antes do AskUserQuestion, sempre apresentar as melhorias em prosa numerada com "Causa:"/"Consequência:" explícitos (Passo 2.5) — nunca pular direto para a pergunta técnica.
-Nunca colar `instrucoes-projeto.txt` (ou qualquer SKILL.md editado) em bloco de texto no chat ao final da sessão — sempre `mcp__cowork__present_files` (ver Passo 4). Esta regra já tinha sido corrigida por feedback do usuário e reincidiu numa sessão porque só estava implícita no Passo 4; agora está redundante aqui para não depender de uma única menção.
+Nunca colar o conteúdo de nenhum arquivo editado (instrucoes-projeto.txt, operacoes-bash.md, template-v2-spec.md ou qualquer SKILL.md) em bloco de texto no chat ao final da sessão — sempre `mcp__cowork__present_files` (ver Passo 4). Esta regra já tinha sido corrigida por feedback do usuário e reincidiu numa sessão porque só estava implícita no Passo 4; agora está redundante aqui para não depender de uma única menção.
