@@ -34,6 +34,15 @@ Etapas puladas ou fora de ordem: o fluxo definido foi seguido? Se não, por quê
 Alinhamento com o objetivo: cada regra nas instruções serve diretamente ao propósito do modo de trabalho ativado?
 Princípio de entrega: o usuário teve que pedir melhorias após receber o material? Se sim, o que nas instruções deveria garantir isso proativamente?
 Qualquer fricção que exigiu workaround manual
+Auditoria estrutural leve: os arquivos de controle referenciados ou tocados nesta sessão (ver detalhamento abaixo) batem com o estado real do disco?
+Padrões entre sessões (memória): o tipo de gap encontrado nesta sessão já apareceu em sessões anteriores, segundo os arquivos de memória? (ver detalhamento abaixo)
+
+Auditoria estrutural — leve por padrão, completa sob pedido
+Em toda sessão, mesmo sem pedido explícito: checar se os arquivos de controle relevantes à ÁREA TOCADA nesta sessão — contagens em `instrucoes-projeto.txt`, entradas pertinentes em `_docs/DEBT.md`, `compêndios/compendio_mapa.txt`/`compendio_estado.txt`, `sistemas/sistema_mapa.txt`/`sistema_estado.txt`, `_docs/project_estado.md`/`project_mapa_materiais.md`, seção "Material existente no projeto" da subskill carregada — ainda refletem o estado real do disco. Usar `ls`/`find`/Grep pontuais (arquivo citado existe? contagem bate?). Este escopo leve é obrigatório em toda sessão, mesmo quando nenhuma melhoria de conteúdo for encontrada.
+Uma varredura COMPLETA do projeto (todos os SKILL.md, todos os mapas/estados, toda a memória) só roda mediante pedido explícito do usuário ("revise tudo", "sem pontas soltas" ou equivalente) — não é etapa automática de todo fechamento, por custo de tokens. Ao rodar a varredura completa: despachar um subagente por SKILL.md ou por subpasta de meta-documentação (mesma lógica de "Subagentes para auditoria em lote" em `instrucoes-projeto.txt`, hoje escrita só para compêndios HTML — vale também para arquivos de instrução/skill), cada um retornando um relatório curto para consolidar antes de aplicar correções.
+
+Padrões entre sessões (memória)
+Ler `MEMORY.md` e os arquivos `feedback_*`/`project_*` relevantes à área tocada nesta sessão. Se o mesmo TIPO de gap (não uma correção pontual específica já registrada — isso é coberto por "Reincidência de correção" em `instrucoes-projeto.txt`) aparecer em ≥2 registros de memória de sessões diferentes, tratar como sinal de requisito estrutural novo — propor no Passo 2.5 como melhoria de instrução/skill, não apenas anotar de novo em memória.
 
 Passo 2 — Verificar o que já está nas instruções
 Usar a ferramenta Grep diretamente no caminho Windows real do arquivo (ex.: C:\...\_docs\instrucoes-projeto.txt) — não bash `find`/`grep`. Motivo: bash lê essa pasta pelo cache do OneDrive/sandbox, que pode retornar conteúdo desatualizado ou sinalizar falsamente o arquivo como binário (confirmado numa sessão real: `grep` via bash reportou "binary file matches" em vez do texto, no mesmo arquivo que a ferramenta Grep leu normalmente). Mesma razão pela qual o Passo 3 já usa Read/Edit em vez de bash para editar o arquivo — aplicar aqui também.
@@ -62,10 +71,12 @@ Read com offset perto do fim do arquivo para confirmar que o texto novo está l�
 Se algum SKILL.md foi editado (autocritica-sessao ou outra skill): lembrar o usuário de reempacotar com empacotar_skills.py e reinstalar a skill correspondente — nomeada explicitamente (ver Passo 4).
 
 Passo 4 — Reportar ao usuário
+O checklist de pendências abaixo (recopiar instruções / reempacotar skill / push.bat) não é exclusivo desta skill: `_docs/operacoes-bash.md` (seção "GitHub") torna esse checklist obrigatório em QUALQUER sessão que edite `instrucoes-projeto.txt`, um `SKILL.md` ou `template-v2-spec.md`/`operacoes-bash.md`, mesmo sem o gatilho de `autocritica-sessao`. Esta seção define o formato exato a seguir nos dois casos.
 Formato obrigatório:
 **Autocrítica da sessão — [data]**
 
 Objetivo das instruções: [objetivo declarado]
+Falhas de execução desta sessão: [lista curta de desvios do processo prescrito nesta sessão — verificações puladas, workarounds, subskill que deveria ter sido carregada e não foi — ou "nenhuma"; reportar sempre esta linha, mesmo quando nenhuma melhoria de instrução resultar disso]
 Melhorias aplicadas: N
 
 1. [Ponto de melhoria] → [O que mudou]

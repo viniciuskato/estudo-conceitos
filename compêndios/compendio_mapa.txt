@@ -2,22 +2,22 @@
 Última atualização: 2026-07-02
 
 === Medicina ===
-- medicina/medicina.html — Medicine (mapa de campo panorâmico de TODA a medicina, nível compendio-medicina; EM INGLÊS por regra idioma=fontes anglófonas — Harrison/Robbins/Guyton/Gray's/NEJM; partida zero. Três camadas: ciências básicas (anatomia+histologia, fisiologia, bioquímica+biologia celular, microbiologia+imunologia, patologia+fisiopatologia, genética+genômica, farmacologia), ciências clínicas (semiologia+método clínico, clínica médica+especialidades, saúde pública+epidemiologia), e contexto (história: hipocrático→Galeno→Vesalius/Harvey→teoria dos germes→Flexner→antibióticos→RCT 1948→molecular/MBE; medicina no Brasil: Oswaldo Cruz/Fiocruz, Chagas 1909, Revolta da Vacina, SUS 1988, Demografia Médica 2025 — 494 escolas, ~635k médicos, Mais Médicos 27,3k; questões centrais, métodos, conexões, controvérsias, perguntas em aberto, referências em 3 camadas). Sidebar bilíngue .sl-pt + 16 tooltips .term (tradução PT). Cross-links: cardiologia-anatomia, mecanismos de fisiologia/imunologia/microbiologia/farmacologia/fisiopatologia, física, IA, epistemologia. Verificação visual via surge PENDENTE [2026-07-02]
+- compêndios/medicina/medicina.html — Medicine (mapa de campo panorâmico de TODA a medicina, nível compendio-medicina; EM INGLÊS por regra idioma=fontes anglófonas — Harrison/Robbins/Guyton/Gray's/NEJM; partida zero. Três camadas: ciências básicas (anatomia+histologia, fisiologia, bioquímica+biologia celular, microbiologia+imunologia, patologia+fisiopatologia, genética+genômica, farmacologia), ciências clínicas (semiologia+método clínico, clínica médica+especialidades, saúde pública+epidemiologia), e contexto (história: hipocrático→Galeno→Vesalius/Harvey→teoria dos germes→Flexner→antibióticos→RCT 1948→molecular/MBE; medicina no Brasil: Oswaldo Cruz/Fiocruz, Chagas 1909, Revolta da Vacina, SUS 1988, Demografia Médica 2025 — 494 escolas, ~635k médicos, Mais Médicos 27,3k; questões centrais, métodos, conexões, controvérsias, perguntas em aberto, referências em 3 camadas). Sidebar bilíngue .sl-pt + 16 tooltips .term (tradução PT). Cross-links: cardiologia-anatomia, mecanismos de fisiologia/imunologia/microbiologia/farmacologia/fisiopatologia, física, IA, epistemologia. Verificação visual via surge PENDENTE [2026-07-02]
 
 --- Cardiologia (Medicina Básica) ---
-- medicina/cardiologia-anatomia.html — Anatomia Cardíaca (câmaras, valvas, coronárias, condução, pericárdio, topografia) [2026-06-30]
+- compêndios/medicina/cardiologia-anatomia.html — Anatomia Cardíaca (câmaras, valvas, coronárias, condução, pericárdio, topografia) [2026-06-30]
 
 === Investimentos ===
-- investimentos/fundamentos-investimentos.html — Fundamentos de Investimentos [atualizado ao modelo atual em 2026-07-01]
+- compêndios/investimentos/fundamentos-investimentos.html — Fundamentos de Investimentos [atualizado ao modelo atual em 2026-07-01]
 
 === IA ===
-- ia/inteligencia-artificial.html — Inteligência Artificial (mapa de campo amplo) [2026-06-30; JS de sidebar atualizado em 2026-07-01]
+- compêndios/ia/inteligencia-artificial.html — Inteligência Artificial (mapa de campo amplo) [2026-06-30; JS de sidebar atualizado em 2026-07-01; conteúdo ainda sinalizado como raso pela subskill compendio-ia — ver DEBT.md]
 
 === Filosofia ===
-- filosofia/epistemologia.html — Epistemologia (mapa de campo amplo: análise do conhecimento/Gettier, estrutura da justificação, fontes, ceticismo, história, controvérsias) [2026-07-01]
+- compêndios/filosofia/epistemologia.html — Epistemologia (mapa de campo amplo: análise do conhecimento/Gettier, estrutura da justificação, fontes, ceticismo, história, controvérsias) [2026-07-01]
 
 === Física ===
-- fisica/fisica.html — Physics / Física (mapa de campo amplo, EM INGLÊS por regra idioma=fontes anglófonas; partida ensino médio: 9 subáreas — classical mechanics, thermodynamics/statistical, electromagnetism, optics/waves, relativity, quantum, particles/QFT, condensed matter, astrophysics/cosmology; history, physics in Brazil, central questions, methods, connections, controversies, layered references). Sidebar bilíngue .sl-pt + tooltips .term (tradução PT). Versão PT original arquivada em _archive/fisica_2026-07-02.html [2026-07-02]
+- compêndios/fisica/fisica.html — Physics / Física (mapa de campo amplo, EM INGLÊS por regra idioma=fontes anglófonas; partida ensino médio: 9 subáreas — classical mechanics, thermodynamics/statistical, electromagnetism, optics/waves, relativity, quantum, particles/QFT, condensed matter, astrophysics/cosmology; history, physics in Brazil, central questions, methods, connections, controversies, layered references). Sidebar bilíngue .sl-pt + tooltips .term (tradução PT). Versão PT original arquivada em _archive/fisica_2026-07-02.html [2026-07-02]
 
 Nota (2026-07-01): a entrada "Automóveis" foi removida deste mapa — os dois arquivos correspondentes
 (eficiencia-combustivel-saveiro-nivus-s90.html, falha-airbag-nivus-2023.html) estão em _acervo/automoveis/,

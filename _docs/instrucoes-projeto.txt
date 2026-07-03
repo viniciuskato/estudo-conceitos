@@ -41,9 +41,9 @@ compêndios/          → compêndios de área (skill compendio)
   <área>/            → arquivos HTML dos compêndios de área
   medicina/          → compêndios de área de medicina (skill compendio + subskill)
 medicina/            → compêndios de MECANISMO (skill mecanismo)
-  imunologia/        → 10 compêndios ativos
+  imunologia/        → 13 compêndios ativos
   farmacologia/      → 3 compêndios ativos
-  fisiologia/        → 1 compêndio ativo
+  fisiologia/        → 2 compêndios ativos
   fisiopatologia/    → 3 compêndios ativos
   microbiologia/     → 2 compêndios ativos
 sistemas/            → compêndios de SISTEMA (skill sistema — artefato/sistema técnico bounded)

@@ -25,7 +25,7 @@ Esta subskill fornece o contexto epistêmico da área.
 
 ## Material existente no projeto
 
-Nenhum compêndio de filosofia criado até o momento. Primeiro material planejado: epistemologia.
+- `compêndios/filosofia/epistemologia.html` — mapa de campo amplo criado em 2026-07-01, idioma português: análise do conhecimento (JTB, problema de Gettier e respostas), estrutura da justificação (trilema de Agripa; fundacionismo/coerentismo/infinitismo), fontes, ceticismo, história (antiga → racionalismo×empirismo → Kant → virada analítica pós-Gettier), controvérsias, referências em camadas. Verificar `compêndios/compendio_mapa.txt` antes de considerar novo material.
 
 ## Heurística de fontes
 

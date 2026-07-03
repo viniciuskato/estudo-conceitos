@@ -16,8 +16,8 @@ Esta subskill fornece o contexto epistêmico da área.
 
 ## Subáreas e pastas
 
-- `medicina/imunologia/` — 10 compêndios ativos (imunidade inata, adaptativa, complemento, MHC, anticorpos, linfócitos T, Th1/Th2/Th17, vacinas, citocinas, hipersensibilidade, resposta a patógenos, células, órgãos linfoides, moléculas)
-- `medicina/fisiologia/` — hipotensão pós-exercício e barorreflexo
+- `medicina/imunologia/` — 13 compêndios ativos (órgãos e tecidos linfoides, células, moléculas, imunidade inata, sistema complemento, MHC/apresentação antigênica, anticorpos/imunidade humoral, linfócitos T/diferenciação, resposta a patógenos, hipersensibilidade, vacinas/imunidade protetora, citocinas, Th1/Th2/Th17)
+- `medicina/fisiologia/` — 2 compêndios ativos: ciclo cardíaco (potenciais de ação, ciclo mecânico, Frank-Starling, regulação); hipotensão pós-exercício e barorreflexo
 - `medicina/microbiologia/` — virologia geral, micologia médica
 
 ## Heurística de fontes
@@ -48,6 +48,7 @@ Antes de escrever explicação inline, verificar se já existe compêndio:
 - Hipersensibilidade → `medicina/imunologia/hipersensibilidade.html`
 - Citocinas → `medicina/imunologia/citocinas-visao-integradora.html`
 - Barorreflexo → `medicina/fisiologia/hipotensao-pos-exercicio-barorreflexo.html`
+- Ciclo cardíaco, potenciais de ação, Frank-Starling → `medicina/fisiologia/ciclo-cardiaco.html`
 
 ## Checklist adicional para medicina básica
 

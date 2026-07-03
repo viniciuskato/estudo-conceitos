@@ -30,7 +30,7 @@ Esta subskill fornece o contexto epistêmico da área.
 
 ## Material existente no projeto
 
-Nenhum compêndio de física criado até o momento.
+- `compêndios/fisica/fisica.html` — mapa de campo amplo criado em 2026-07-02, EM INGLÊS (regra idioma=fontes anglófonas): 9 subáreas aprofundadas (mecânica clássica, termo/estatística, eletromagnetismo, óptica/ondas, relatividade, quântica, partículas/QFT, matéria condensada, astrofísica/cosmologia), história, física no Brasil, controvérsias estruturais, referências em camadas. Sidebar bilíngue `.sl-pt` + tooltips `.term`. Versão PT original (pré-regra de idioma) arquivada em `_archive/fisica_2026-07-02.html`. Verificar `compêndios/compendio_mapa.txt` antes de considerar novo material.
 
 ## Heurística de fontes
 

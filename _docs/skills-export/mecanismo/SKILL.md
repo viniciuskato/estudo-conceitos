@@ -90,7 +90,7 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
    - (e) sem artefatos: `grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho"` vazio
 5. Verificação visual (novos compêndios e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
 6. Rodar grep nos demais HTMLs antes de fechar — nunca corrigir só o arquivo em foco.
-7. Atualizar `index.html`, `_docs/MIGRATION.md` (se aplicável), `_docs/DEBT.md` e `_docs/project_mapa_materiais.md`.
+7. Atualizar `index.html`, `_docs/DEBT.md` e `_docs/project_mapa_materiais.md`.
 8. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
 
 ## Eficiência operacional
@@ -112,7 +112,7 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
 - [ ] Cross-links apontam para âncoras de seção específica?
 - [ ] Cross-links verificáveis (IDs de destino existem)?
 - [ ] Campo "Última revisão" atualizado?
-- [ ] `index.html`, `_docs/MIGRATION.md` e `_docs/DEBT.md` atualizados?
+- [ ] `index.html` e `_docs/DEBT.md` atualizados?
 
 ## Modo Anki
 

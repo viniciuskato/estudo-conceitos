@@ -56,3 +56,35 @@ investigação de defeito específico), não um recorte de área para estudo sis
 não há questões centrais, subdivisões ou corpo de literatura que justifiquem um compêndio de área.
 Reavaliar apenas se houver decisão explícita de tratar "automóveis" como área contínua
 de estudo (ex.: mecânica, engenharia automotiva) em vez de casos pontuais.
+
+---
+
+## docs-legado/ — Instruções e SKILL.md de eras anteriores do projeto
+
+Documentação substituída por versões atuais, preservada por referência histórica — não
+apaga o raciocínio por trás de decisões antigas, mas nenhuma instrução ativa do projeto
+depende destes arquivos.
+
+### Arquivos
+
+- `instrucoes-atlas-raiz.txt`, `instrucoes-atlas-docs.txt` — instruções da era "Atlas"
+  (nome anterior da skill `compendio`), substituídas em 2026-07-01.
+- `claude-skills-legado/atlas-SKILL.md`, `claude-skills-legado/mecanismo-SKILL.md` —
+  versões anteriores das skills estruturais, de antes da skill `sistema` existir e de
+  antes da separação em subskills de subárea.
+- `instrucoes-projeto-ia.txt` — instruções da era pré-skill de IA (antes de
+  `compendio`/`mecanismo`/`sistema` existirem como skills separadas): descrevia um
+  "formato único: compêndio", referenciava `project_estado.md`/`project_mapa_materiais.md`
+  como arquivos de IA especificamente, e tinha estrutura de pastas (`ia/fundamentos/`,
+  `ia/modelos-linguagem/`) divergente da atual (`compêndios/ia/`). Continha também uma
+  cópia própria e desatualizada do procedimento de Anki, restrita a IA — hoje o Anki é
+  modo opcional das três skills estruturais, com o texto único do procedimento vivendo em
+  `mecanismo/SKILL.md`. Movido para cá em 2026-07-03 (ver `_docs/DEBT.md`).
+- `MIGRATION.md` — rastreamento do status de migração ao "Template v2", da era anterior
+  à separação em compêndio/mecanismo/sistema. Todo o acervo ativo já foi migrado ao
+  modelo atual (ver `_docs/DEBT.md`, sessão de atualização em massa de 2026-07-01); o
+  arquivo parou de ser atualizado e ficou com caminhos e status incorretos (ex.: listava
+  compêndios de imunologia/farmacologia ainda como "template v1", já corrigidos há muito).
+  Movido para cá em 2026-07-03 — o histórico de cada compêndio agora vive em
+  `compêndios/compendio_estado.txt`, `_docs/project_estado.md` (mecanismo) e
+  `sistemas/sistema_estado.txt` (sistema).

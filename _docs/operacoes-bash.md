@@ -47,7 +47,14 @@ Uma atualização de modelo completa (CSS + tabelas + JS combinados no mesmo arq
 Ao renomear pastas: verificar e atualizar links em index.html — caminhos antigos causam 404 no app publicado.
 Material inadequado ao modelo atual → _acervo/ com nota no LEIA-ME.md (não deletar).
 
+Duas convenções de `_archive/` coexistem no projeto, ambas válidas — não é erro, é uma divergência documentada aqui para não gerar confusão em sessão futura: `compêndios/`, `index.html` e os arquivos centrais de `_docs/` usam um `_archive/` único na raiz do projeto; os compêndios de mecanismo em `medicina/` usam um `_archive/` aninhado por subpasta (ex.: `medicina/imunologia/_archive/`, `medicina/fisiopatologia/_archive/`, `medicina/farmacologia/_archive/`). Ao arquivar um compêndio de mecanismo, seguir o padrão aninhado já em uso na subpasta; ao arquivar um compêndio de área ou arquivo central de `_docs/`, usar o `_archive/` da raiz. Não migrar arquivos de uma convenção para outra sem motivo — a coexistência é aceita, não uma dívida a resolver.
+
 === GitHub ===
 Ao concluir a sessão (usuário sinalizar "terminamos", "pode fechar" ou similar), após aplicar as mudanças aprovadas: rodar `git add -A`, `git commit` com mensagem descrevendo o que foi feito na sessão, e `git push` para enviar ao repositório remoto.
 Se o push falhar (conflito, sem credenciais configuradas no ambiente, etc.): informar o usuário do erro específico e deixar o commit local intacto — não forçar (`--force`) nem tentar contornar credenciais.
 Deleções manuais pendentes: se, durante a sessão, uma ou mais remoções de arquivo falharam por lock de sincronização do OneDrive (ver seção anterior), não reportar cada uma isoladamente no meio da sessão. Consolidar todas num único checklist ao final, junto do lembrete de `push.bat` — o usuário resolve tudo de uma vez depois que o OneDrive terminar de sincronizar.
+
+Checklist de encerramento — cross-cutting, não depende do gatilho de `autocritica-sessao`: sempre que a sessão editar `instrucoes-projeto.txt`, qualquer `SKILL.md` em `_docs/skills-export/`, `_docs/template-v2-spec.md` ou este próprio `operacoes-bash.md`, encerrar a resposta com o checklist de pendências (mesmo sem o usuário dizer "terminamos"/"pode fechar" ou pedir autocrítica) — não esperar o gatilho explícito da skill `autocritica-sessao` para isso, que continua sendo quem detalha o formato exato do checklist (ver `autocritica-sessao/SKILL.md`, Passo 4). Incluir só os itens aplicáveis:
+- `instrucoes-projeto.txt` editado → lembrar de recopiar em Project Instructions.
+- Algum `SKILL.md` editado → lembrar de reempacotar (nomeando cada skill) e reinstalar via Settings > Capabilities > Skills.
+- Qualquer arquivo do repositório editado → lembrar de rodar `push.bat` na raiz.
