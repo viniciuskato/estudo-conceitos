@@ -14,7 +14,7 @@ Protocolo
 Passo 1 — Avaliar as instruções, o estado atual do projeto e a sessão em relação ao objetivo
 Reler o propósito do modo de trabalho ativado na sessão (compendio/mecanismo/sistema/prova — ver "A distinção principal" no início de instrucoes-projeto.txt) e revisar mentalmente o que a sessão de fato produziu ou tentou produzir. Perguntar: as instruções atuais permitiriam atingir esse propósito da melhor forma possível?
 
-Levantar também o estado ATUAL do projeto relevante à sessão — não só o texto das instruções: subskills existentes na área tocada, ferramentas disponíveis (subagentes via Agent tool, MCPs conectados na sessão, scripts como empacotar_skills.py), arquivos irmãos na mesma subpasta, itens pertinentes em DEBT.md. Comparar esse estado real com o que a sessão efetivamente usou — isso é distinto de checar o texto das instruções: um recurso pode existir no projeto e nunca ter sido mencionado em instrucoes-projeto.txt.
+Levantar também o estado ATUAL do projeto relevante à sessão — não só o texto das instruções: subskills existentes na área tocada, ferramentas disponíveis (subagentes via Agent tool, MCPs conectados na sessão), arquivos irmãos na mesma subpasta, itens pertinentes em DEBT.md. Comparar esse estado real com o que a sessão efetivamente usou — isso é distinto de checar o texto das instruções: um recurso pode existir no projeto e nunca ter sido mencionado em instrucoes-projeto.txt.
 
 Inspecionar também o próprio SKILL.md da autocritica-sessao (localizado em _docs/skills-export/autocritica-sessao/SKILL.md): o protocolo da skill em si tem gaps? Alguma etapa foi pulada, precisou de correção manual, ou gerou fricção nesta sessão?
 
@@ -72,7 +72,7 @@ A mesma lógica Read (para obter o texto exato) + Edit tool diretamente no camin
 Verificar após cada mudança usando Read (não bash tail/wc -l, pelo mesmo motivo do cache do OneDrive):
 Read com offset perto do fim do arquivo para confirmar que o texto novo está lá e nada foi cortado.
 
-Se algum SKILL.md foi editado (autocritica-sessao ou outra skill): lembrar o usuário de reempacotar com empacotar_skills.py e reinstalar a skill correspondente — nomeada explicitamente (ver Passo 4).
+Se algum SKILL.md foi editado (autocritica-sessao ou outra skill): empacotar a skill correspondente — nomeada explicitamente — e apresentá-la via `mcp__cowork__present_files` como parte do Passo 4, para o usuário instalar com um clique em "Save skill".
 
 Passo 4 — Reportar ao usuário
 O checklist de pendências abaixo (recopiar instruções / reempacotar skill / push.bat) não é exclusivo desta skill: `_docs/operacoes-bash.md` (seção "GitHub") torna esse checklist obrigatório em QUALQUER sessão que edite `instrucoes-projeto.txt`, um `SKILL.md` ou `template-v2-spec.md`/`operacoes-bash.md`, mesmo sem o gatilho de `autocritica-sessao`. Esta seção define o formato exato a seguir nos dois casos.
@@ -90,15 +90,14 @@ Melhorias aplicadas: N
 Para cada arquivo efetivamente editado nesta sessão, nomeá-lo explicitamente — ex.: "Atualizado em `_docs/instrucoes-projeto.txt`" e/ou "Atualizado em `_docs/operacoes-bash.md`" e/ou "Atualizado em `compendio/SKILL.md`" — nunca fixar a frase em instrucoes-projeto.txt quando o destino real foi outro arquivo (ver Passo 2.5 para a classificação de destino). Após reportar, chamar `mcp__cowork__present_files` com o(s) caminho(s) do(s) arquivo(s) editado(s) para que apareçam como cards no painel lateral do Cowork — instrucoes-projeto.txt é o único que o usuário copia direto para Project Instructions; os demais (operacoes-bash.md, template-v2-spec.md, SKILL.md) já estão salvos no lugar certo, o card serve para conferência. NUNCA colar o conteúdo de nenhum arquivo (inteiro ou trecho longo) em bloco de texto na resposta do chat — nem "para facilitar", nem porque o arquivo é curto.
 Se nenhuma melhoria for encontrada: reportar explicitamente "Nenhuma melhoria identificada — instruções sem alteração."
 
-Antes de montar o checklist, reconstruir EXATAMENTE o que a sessão tocou a partir do próprio histórico de tool calls desta sessão (arquivos lidos/editados/criados) — NÃO rodar `git status --short`: comandos git falham por completo neste sandbox (ver _docs/operacoes-bash.md, seção "Verificação bash obrigatória"), então a chamada seria desperdiçada. Nunca listar pendências de memória (sessões anteriores) como se fossem desta sessão. Regras para o item de reempacotamento:
-- `instrucoes-projeto.txt` é Project Instructions, NÃO uma skill — editá-lo nunca gera reempacotamento. Sua única pendência é o usuário copiá-lo nas Project Instructions.
-- Só incluir o item de reempacotar/reinstalar se algum `_docs/skills-export/<skill>/SKILL.md` foi editado NESTA sessão (confirmar pelo histórico de edições da própria sessão, não por git).
-- Quando incluir, NOMEAR cada skill afetada (ex.: `compendio`, `autocritica-sessao`) — nunca escrever "skills modificadas" genericamente. Se esta sessão editou o próprio SKILL.md da autocritica-sessao, incluí-la nominalmente.
-- Não confundir pendências antigas de reempacotamento (de sessões anteriores, no DEBT.md) com o que ESTA sessão modificou — se mencionar as antigas, rotulá-las como "pendência anterior (não desta sessão)".
+Antes de montar o checklist, reconstruir EXATAMENTE o que a sessão tocou a partir do próprio histórico de tool calls desta sessão (arquivos lidos/editados/criados) — NÃO rodar `git status --short`: comandos git falham por completo neste sandbox (ver _docs/operacoes-bash.md, seção "Verificação bash obrigatória"), então a chamada seria desperdiçada. Nunca listar pendências de memória (sessões anteriores) como se fossem desta sessão. Regras para o item de empacotamento:
+- `instrucoes-projeto.txt` é Project Instructions, NÃO uma skill — editá-lo nunca gera empacotamento. Sua única pendência é o usuário copiá-lo nas Project Instructions.
+- Só empacotar/apresentar se algum `_docs/skills-export/<skill>/SKILL.md` foi editado NESTA sessão (confirmar pelo histórico de edições da própria sessão, não por git). Fazer isso ANTES de fechar a resposta, não deixar como pendência do usuário.
+- NOMEAR cada skill afetada (ex.: `compendio`, `autocritica-sessao`) ao apresentar — nunca um card genérico sem dizer qual skill é. Se esta sessão editou o próprio SKILL.md da autocritica-sessao, empacotá-la e apresentá-la também.
 
 Sempre encerrar com checklist de pendências do usuário. Modelo (incluir apenas os itens que se aplicam à sessão atual, com as skills nomeadas):
 - [ ] Copiar instrucoes-projeto.txt nas configurações do projeto (Project Instructions)
-- [ ] Reempacotar e reinstalar as skills editadas NESTA sessão — nomear cada uma (ex.: `autocritica-sessao`): `python empacotar_skills.py` em `_docs/skills-export/` + Settings > Capabilities > Skills. (Omitir este item inteiro se nenhum SKILL.md foi editado na sessão.)
+- [ ] Clicar "Save skill" nos cards apresentados para cada skill editada NESTA sessão — nomear cada uma (ex.: `autocritica-sessao`). (Omitir este item inteiro se nenhum SKILL.md foi editado na sessão.)
 - [ ] Rodar `push.bat` na raiz para sincronizar com o GitHub
 Incluir apenas os itens que se aplicam à sessão atual.
 

@@ -11,29 +11,27 @@ Anki é opcional para qualquer um dos quatro modos, nunca exclusivo de um só �
 
 Ativar a skill correspondente antes de iniciar qualquer trabalho de geração ou revisão.
 
-Fonte das skills: _docs/skills-export/ (SKILL.md por pasta + empacotar_skills.py).
-Atualização: editar SKILL.md → rodar empacotar_skills.py → reinstalar via Settings > Capabilities > Skills.
+Fonte das skills: _docs/skills-export/ (um SKILL.md por pasta, versionado e auditável — fonte de verdade, não o cache de skills instaladas).
+Atualização: editar o SKILL.md correspondente → Claude empacota em .skill e apresenta via present_files → usuário clica "Save skill" para instalar/atualizar. Sem script local, sem passo manual pelo Settings > Capabilities.
 
 === Criação de subskill nova ===
 Vale tanto para subskill de área nova sob demanda (área sem subskill ainda) quanto para inserção de subskill agrupadora/intermediária entre a skill pai e subskills que já existem (ex.: compendio-medicina entre compendio e {compendio-medicina-basica, compendio-medicina-clinica}). Em ambos os casos, tocar todos os arquivos abaixo na mesma sessão — esquecer um deixa o dispatch inconsistente com o que está de fato instalável:
 1. `_docs/skills-export/<nova-subskill>/SKILL.md` — seguir o padrão mais enxuto entre as subskills existentes da mesma skill pai (ex.: compendio-filosofia/compendio-investimentos, não duplicar CSS que já não está em template-v2-spec.md).
 2. Dispatch da skill pai (`compendio/SKILL.md`, `mecanismo/SKILL.md` ou `sistema/SKILL.md`): tabela de subskills + lista de áreas/domínios na `description` do frontmatter.
-3. `_docs/skills-export/empacotar_skills.py`: adicionar a nova subskill nas duas listas (docstring e lista `skills`).
-4. Registro de histórico: `compêndios/compendio_estado.txt` (compendio), `_docs/project_estado.md` (mecanismo) ou `sistemas/sistema_estado.txt` (sistema) — mesmo sem compêndio/mecanismo/sistema ainda criado na área.
-5. Lembrar o usuário de rodar `empacotar_skills.py` localmente e reinstalar via Settings > Capabilities > Skills.
-6. Se a nova subskill é agrupadora/intermediária: atualizar também o frontmatter `description` das subskills existentes que passam a ser carregadas por ela em vez da skill pai diretamente (referência "Carregada pela skill X").
+3. Registro de histórico: `compêndios/compendio_estado.txt` (compendio), `_docs/project_estado.md` (mecanismo) ou `sistemas/sistema_estado.txt` (sistema) — mesmo sem compêndio/mecanismo/sistema ainda criado na área.
+4. Empacotar a(s) skill(s) tocada(s) (nova subskill + skill pai, se o dispatch dela mudou) e apresentar via `present_files` para o usuário instalar com um clique em "Save skill" — não pedir para o usuário rodar script nem abrir Settings > Capabilities.
+5. Se a nova subskill é agrupadora/intermediária: atualizar também o frontmatter `description` das subskills existentes que passam a ser carregadas por ela em vez da skill pai diretamente (referência "Carregada pela skill X").
 
 === Criação de skill-pai nova (nível 1) ===
 Para quando surge um modo de trabalho inteiramente novo, paralelo a compendio/mecanismo/sistema (não uma subskill sob uma skill-pai existente — ver seção acima para esse caso). Tocar todos os arquivos abaixo na mesma sessão:
 1. `_docs/skills-export/<nova-skill>/SKILL.md` — distinção explícita com as skills-pai existentes, hierarquia de subskills (mesmo que só uma inicialmente), protocolo de abertura de sessão, pré-geração, formato, fluxo de trabalho, checklist, "o que não fazer". Seguir a estrutura de `compendio/SKILL.md` ou `mecanismo/SKILL.md` como modelo.
 2. Ao menos uma subskill inicial de domínio — seguir o processo de "Criação de subskill nova" acima para ela.
-3. `_docs/skills-export/empacotar_skills.py`: adicionar a nova skill-pai E sua subskill inicial nas duas listas (docstring e lista `skills`).
-4. Registro de histórico: criar `<pasta-raiz-nova>/<nome>_estado.txt` e `<pasta-raiz-nova>/<nome>_mapa.txt`, mesmo padrão de `compêndios/compendio_estado.txt`/`compendio_mapa.txt`.
-5. Cabeçalho deste arquivo ("Um repositório, N modos de trabalho"): incrementar N, listar a nova skill com uma frase de distinção, e atualizar o parágrafo "A distinção principal".
-6. Seção "Estrutura de pastas" abaixo: adicionar o bloco da nova pasta-raiz.
-7. "Protocolo de abertura de sessão", passo 1: incluir a nova opção na pergunta ao usuário sobre o tipo de trabalho.
-8. Avaliar se features cross-cutting já existentes (ex.: Modo Anki) devem se estender à skill nova — se sim, tocar também o SKILL.md das skills-irmãs que documentam essa feature.
-9. Lembrar o usuário de rodar `empacotar_skills.py` localmente e reinstalar via Settings > Capabilities > Skills.
+3. Registro de histórico: criar `<pasta-raiz-nova>/<nome>_estado.txt` e `<pasta-raiz-nova>/<nome>_mapa.txt`, mesmo padrão de `compêndios/compendio_estado.txt`/`compendio_mapa.txt`.
+4. Cabeçalho deste arquivo ("Um repositório, N modos de trabalho"): incrementar N, listar a nova skill com uma frase de distinção, e atualizar o parágrafo "A distinção principal".
+5. Seção "Estrutura de pastas" abaixo: adicionar o bloco da nova pasta-raiz.
+6. "Protocolo de abertura de sessão", passo 1: incluir a nova opção na pergunta ao usuário sobre o tipo de trabalho.
+7. Avaliar se features cross-cutting já existentes (ex.: Modo Anki) devem se estender à skill nova — se sim, tocar também o SKILL.md das skills-irmãs que documentam essa feature.
+8. Empacotar a nova skill-pai e sua subskill inicial e apresentar via `present_files` para instalação com um clique em "Save skill".
 
 === Estrutura de pastas ===
 compêndios/          → compêndios de área (skill compendio)
@@ -65,7 +63,7 @@ _docs/               → documentação do projeto
   DEBT.md            → dívida técnica unificada
   project_estado.md
   project_mapa_materiais.md
-  skills-export/     → fonte das skills (SKILL.md + empacotar_skills.py)
+  skills-export/     → fonte das skills (um SKILL.md por pasta; empacotamento e instalação sob demanda por Claude via present_files)
   instrucoes-projeto.txt  → este arquivo
   operacoes-bash.md  → regras mecânicas de Edit/Write/bash, verificação pós-HTML, surge e arquivamento (lido sob demanda, não em toda mensagem)
 
