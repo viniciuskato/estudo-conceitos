@@ -3,33 +3,39 @@ name: mecanismo-medicina-clinica
 description: >
   Contexto epistêmico para criação, revisão e estudo (Anki) de compêndios de mecanismo
   de medicina clínica: farmacologia, fisiopatologia, semiologia e clínica médica.
-  Carregada pela skill mecanismo quando o tema pertence a essas áreas. Ative sempre
-  que o usuário quiser aprofundar um mecanismo de farmacologia, fisiopatologia ou
-  clínica médica, ou fazer sessão Anki sobre esses compêndios.
+  Subskill-folha carregada por `compendio-medicina-clinica` quando o pedido é sobre um
+  mecanismo específico dessas áreas (não a área inteira) — não mais carregada por uma
+  skill `mecanismo` de entrada direta. Ative sempre que o usuário quiser aprofundar um
+  mecanismo de farmacologia, fisiopatologia ou clínica médica, ou fazer sessão Anki sobre
+  esses compêndios.
 ---
 
 # Subskill Mecanismo — Medicina Clínica
 
 Contexto específico para compêndios de mecanismo das disciplinas clínicas.
-As regras gerais de formato, fluxo, estrutura de seções e modo Anki estão na skill `mecanismo`.
+As regras gerais de formato, fluxo, estrutura de seções e modo Anki estão em `mecanismo/SKILL.md`
+(arquivo de referência compartilhado, não mais skill de entrada direta — ver reenquadramento lá).
 Esta subskill fornece o contexto epistêmico da área.
 
 ## Subáreas e pastas
 
-- `medicina/farmacologia/` — 3 compêndios ativos:
+- `compêndios/medicina/mecanismos/farmacologia/` — 3 compêndios ativos:
   - `hipertensao_sraa_anti-hipertensivos.html` — SRAA, IECA, BRA, BCC, diuréticos, betabloqueadores
   - `antiagregantes-anticoagulantes-tromboliticos.html` — AAS, clopidogrel, heparina, warfarina, NOACs, tPA
   - `antifungicos.html` — azóis, polienos, equinocandinas, alilaminas
-- `medicina/fisiopatologia/` — 3 compêndios ativos:
+- `compêndios/medicina/mecanismos/fisiopatologia/` — 3 compêndios ativos:
   - `trombose-e-hemostasia.html`
   - `doencas-circulatorias.html`
   - `choque-circulatorio/choque-circulatorio.html`
+- `compêndios/medicina/mecanismos/semiologia/` — 1 compêndio ativo:
+  - `sindromes-bronco-pleuro-pulmonares.html` — IPPA torácico, síndromes brônquicas (asma, DPOC, bronquiectasias), parenquimatosas (condensação, atelectasia, enfisema, congestão passiva, cavitação), pleurais (derrame, pneumotórax) e diafragmáticas/mediastínicas (SVCS)
 
 ## Relação com medicina básica
 
 Compêndios clínicos dependem de mecanismos básicos já cobertos. Antes de escrever
 explicação inline sobre imunologia, fisiologia ou bioquímica, verificar se existe
-compêndio em `medicina/imunologia/` ou `medicina/fisiologia/` e linkar.
+compêndio em `compêndios/medicina/mecanismos/imunologia/` ou
+`compêndios/medicina/mecanismos/fisiologia/` e linkar.
 
 Exemplos de dependências frequentes:
 - Farmacologia cardiovascular → fisiologia do barorreflexo, SRAA
@@ -56,12 +62,13 @@ Exemplos de dependências frequentes:
 
 ## Cross-links prioritários entre compêndios existentes
 
-- Hemostasia e trombose → `medicina/fisiopatologia/trombose-e-hemostasia.html`
-- Doenças circulatórias → `medicina/fisiopatologia/doencas-circulatorias.html`
-- Choque circulatório → `medicina/fisiopatologia/choque-circulatorio/choque-circulatorio.html`
-- Anti-hipertensivos/SRAA → `medicina/farmacologia/hipertensao_sraa_anti-hipertensivos.html`
-- Antiagregantes/anticoagulantes → `medicina/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html`
-- Antifúngicos → `medicina/farmacologia/antifungicos.html`
+- Hemostasia e trombose → `compêndios/medicina/mecanismos/fisiopatologia/trombose-e-hemostasia.html`
+- Doenças circulatórias → `compêndios/medicina/mecanismos/fisiopatologia/doencas-circulatorias.html`
+- Choque circulatório → `compêndios/medicina/mecanismos/fisiopatologia/choque-circulatorio/choque-circulatorio.html`
+- Anti-hipertensivos/SRAA → `compêndios/medicina/mecanismos/farmacologia/hipertensao_sraa_anti-hipertensivos.html`
+- Antiagregantes/anticoagulantes → `compêndios/medicina/mecanismos/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html`
+- Antifúngicos → `compêndios/medicina/mecanismos/farmacologia/antifungicos.html`
+- Síndromes bronco-pleuro-pulmonares (semiologia respiratória) → `compêndios/medicina/mecanismos/semiologia/sindromes-bronco-pleuro-pulmonares.html`
 
 ## Checklist adicional para medicina clínica
 

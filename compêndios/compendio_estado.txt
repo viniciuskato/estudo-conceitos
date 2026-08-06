@@ -1,7 +1,199 @@
 === COMPÊNDIOS — ESTADO DA SESSÃO ===
-Última sessão: 2026-07-03
+Última sessão: 2026-08-05
 
 === Histórico ===
+2026-08-05 — Compêndio de área criado: compêndios/medicina/infectologia-fundamentos.html (subskill
+             compendio-medicina-clinica), a partir de PDF de aula introdutória "Agressão e Defesa II"
+             enviado pelo usuário (PUCPR, Prof. Ronaldo S. Paiva). Domínio esclarecido via
+             AskUserQuestion (material de prova × compêndio de área × só a aula) — usuário escolheu
+             compêndio de área, mas restringiu o escopo explicitamente a "usar apenas os dados de
+             infecto" (não a disciplina inteira — Aids/antimicrobianos/hepatites/meningites/
+             parasitologia ficam para compêndios-filhos futuros, se e quando o usuário pedir).
+             Ponto de partida (zero) e idioma (PT-BR) decididos via AskUserQuestion, seguindo o
+             precedente de hematologia-hemograma-anemias.html e cardiologia-semiologia.html.
+             Pesquisa de verificação via PubMed MCP (2 meta-análises 2024 sobre acurácia de
+             procalcitonina/PCR — PMID 38499017 lactentes febris, PMID 39672463 meningite
+             bacteriana pediátrica) e WebSearch (epidemia recorde de dengue no Brasil em 2024,
+             6,48 milhões de casos e 5.972 óbitos, Ministério da Saúde) antes da redação — conteúdo
+             conceitual de base (infecção×contaminação×colonização, fases da infecção, síndromes)
+             redigido a partir de conhecimento médico consolidado, não recitado de memória sem
+             checagem nos pontos numéricos/factuais. 19 seções = 19 links de sidebar: fundamentos
+             (infecção/contaminação/colonização, fases da infecção com tabela), diagnóstico
+             (clínico/clínico-epidemiológico/laboratorial, abordagens de estudo, síndromes
+             infecciosas com tabela de 9 síndromes), exames inespecíficos (hemograma — cinética
+             leucocitária, cross-link para leucograma de hematologia-hemograma-anemias.html em vez
+             de reexplicar —, padrões por agente, provas de fase aguda), exames específicos
+             (diagnóstico direto e indireto), raciocínio clínico integrado, história, Brasil
+             (SINAN, dengue 2024), questões centrais, métodos, conexões, 2 controvérsias
+             (procalcitonina×custo-efetividade; diagnóstico sindrômico×confirmação laboratorial),
+             4 perguntas em aberto, discussão fechando a pergunta motivadora, referências em 3
+             camadas. Nível de evidência (regra do CLAUDE.md de Compêndios, 2026-08-05) aplicado
+             via <span class="evid"> nos achados de meta-análise e no dado epidemiológico oficial.
+             Cross-link bidirecional pendente: hematologia-hemograma-anemias.html ainda não lista
+             este novo compêndio como dependente no seu próprio dep-panel — registrado em DEBT.md.
+             Sem pranchas de imagem nesta sessão (conteúdo majoritariamente conceitual/laboratorial,
+             sem correspondente anatômico direto — registrado em DEBT.md). Verificação
+             bash-equivalente via Grep/Read OK: fecha `</body></html>`, 548 linhas, sem const
+             const/var var, sem TODO/FIXME/placeholder/debug/rascunho reais (únicos matches do
+             grep foram falsos positivos em "método"/"todos"), 108 ocorrências de acentuação
+             PT-BR, 19 seções = 19 links de sidebar (contagem batendo). Verificação visual via
+             Chrome/surge PENDENTE (mesmo padrão de pendência já registrado para os demais
+             compêndios do acervo — surge não rodado nesta sessão). index.html (catálogo raiz)
+             ainda não recebeu o card deste novo compêndio — registrado em DEBT.md.
+2026-08-05 — Compêndio de área criado: compêndios/medicina/medicina-familia-comunidade.html
+             (subskill compendio-medicina-clinica), a partir de PDF de aula introdutória de MFC
+             enviado pelo usuário (PUCPR, Luci Kuromoto de Castro). Domínio esclarecido via
+             AskUserQuestion (Compêndios × Trabalhos genéricos × Provas) — usuário escolheu
+             Compêndios (medicina clínica). Idioma PT-BR (fontes: aula PUCPR, Wonca 2010,
+             Resolução CNE/CES nº 3/2025, Demografia Médica no Brasil 2025). Dois fatos recentes
+             citados na aula (Resolução CNE/CES nº 3/2025 — DCN de Medicina; Demografia Médica
+             2025 coordenada por Mário Scheffer) verificados via WebSearch antes da redação —
+             confirmados como documentos reais, com o dado dos 30% de internato em MFC/Urgência-
+             Emergência batendo com a fonte primária. 17 seções: Flexner e a formação médica
+             (mudança na formação, escolas caóticas dos EUA, relatório 1910, modelo francês×
+             alemão, consequências — incluindo o fechamento de escolas para negros/mulheres —,
+             citação de Dostoiévski), determinantes sociais da saúde (Dahlgren-Whitehead), DCN
+             2025 (Art. 2º/4º/6º/9º + parágrafo único dos 30% de internato), definição de MFC
+             (Wonca 2010), histórico da MFC no Brasil (MGC 1981→MFC 2001, PSF 1994), atuação
+             (público/privado/educador/gestor), demografia médica 2025 (escolas/vagas/
+             concorrência, ranking de especialidades, salto 2.392→15.542 especialistas em MFC),
+             comparação internacional (Canadá/Portugal/Inglaterra/Espanha — 50%+ médicos em MFC),
+             a consulta em MFC (estrutura/processo/resultados), caso ilustrativo centrado na
+             pessoa (dor no pé × HAS descontrolada), Registro Clínico Orientado por Problemas —
+             RCOP (base de dados, lista de problemas, notas SOAP com exemplo, fichas de
+             acompanhamento; enriquecido com a origem histórica do POMR de Lawrence Weed, 1968,
+             não presente na aula original), perguntas em aberto, conexões, 2 controvérsias
+             (legado do Relatório Flexner; MFC como porta de entrada×livre acesso), discussão,
+             referências em 3 camadas. Sem pranchas de imagem — conteúdo histórico-conceitual sem
+             correspondente anatômico direto, registrado em DEBT.md (mesmo padrão de medicina.html
+             e fisica.html). Cross-link para medicina.html (mapa panorâmico); nenhum compêndio
+             existente do acervo era pré-requisito direto (primeiro material de MFC/APS).
+             Verificação bash-equivalente via Grep/Read OK: fecha </body></html>, 508 linhas, sem
+             TODO/FIXME/placeholder/rascunho/debug, 112 acentos PT-BR, 17 seções = 17 links de
+             sidebar (contagem batendo). Verificação visual via Chrome/surge PENDENTE.
+             compendio_mapa.txt atualizado na mesma sessão; index.html (catálogo raiz) recebeu
+             card novo (listagem geral + tab-atlas), replicando o padrão já usado para
+             hematologia-hemograma-anemias.html.
+2026-08-05 — Incorporação de material de aula a compêndios/medicina/hematologia-hemograma-anemias.html:
+             usuário anexou 2 PDFs de slide de aula ("Abordagem da anemia em adultos", 32 págs;
+             "Hemograma", 29 págs — este último >20MB, extraído via pypdf em vez de Read nativo,
+             conforme exceção de leitura read-only de binário já registrada no CLAUDE.md raiz).
+             Comparação com o compêndio já existente (criado mais cedo no mesmo dia) identificou
+             6 gaps reais de conteúdo, cobertos nesta sessão: (1) epidemiologia global da anemia
+             (OMS 2013, 1,93bi) + mortalidade de anemia adquirida no hospital, com números exatos
+             do estudo de Koch et al. citado no slide, verificados via PubMed MCP (J Hosp Med 2013,
+             PMID 23873739; J Patient Saf 2014, PMID 25290084) — novo parágrafo em
+             "Classificação das anemias"; (2) anemia sideroblástica, ausente do compêndio original,
+             adicionada como novo kbox mecanístico (via ferro→protoporfirina→heme+globina) +
+             entrada na matriz VCM×IPR, citando Bottomley & Fleming 2014 (PMID 25064706); (3) nova
+             subseção de variáveis pré-analíticas/analíticas/pós-analíticas em "Como o hemograma é
+             feito" (nova Tabela 1, renumerando as 7 tabelas subsequentes em sequência); (4)
+             leucograma expandido: basófilos e monócitos (ausentes do compêndio original),
+             linfocitopenia, e neutropenia por 4 níveis de gravidade + limiar étnico mais baixo em
+             ascendência africana (neutropenia étnica benigna, mecanismo DARC/Duffy, PMID 29596498)
+             — cross-linkado com "Hematologia no Brasil"; (5) algoritmo anemia+citopenias/citoses
+             via esplenomegalia, novo em "Algoritmo diagnóstico integrado"; (6) via bioquímica da
+             hemólise extra/intravascular (globina/ferro/protoporfirina→bilirrubina;
+             metahemalbumina/hemoglobinúria), novo kbox em "Anemias hemolíticas". 4 referências
+             novas adicionadas à seção Referências (2 em Aprofundamento, 2 em Consulta
+             especializada). Nenhuma seção nova de sidebar (24 seções = 24 links, sem mudança) —
+             todo o conteúdo novo entrou dentro de seções já existentes. Verificação
+             bash-equivalente via Grep/Read OK: fecha `</body></html>`, 710 linhas, divs
+             balanceados (102/102), 24 `<section id=` = 24 `</section>` reais = 24 `a class="sl"`,
+             tabelas renumeradas 1–8 sem lacuna, sem TODO/FIXME/placeholder. Verificação visual via
+             surge PENDENTE (mesmo padrão de pendência já registrado para o compêndio antes desta
+             sessão).
+2026-08-05 — Compêndio de área criado: compêndios/medicina/hematologia-hemograma-anemias.html
+             (subskill compendio-medicina-clinica). Primeiro compêndio de hematologia do acervo.
+             Idioma decidido via AskUserQuestion: português (mesmo precedente de
+             cardiologia-semiologia.html — Failace, Zago e PCDT do Ministério da Saúde como
+             fontes predominantes). Escopo também decidido via AskUserQuestion: partida zero,
+             hemograma completo (eritrograma+leucograma+plaquetas) em profundidade, com peso
+             maior em anemias por ser o foco explícito do pedido do usuário. Pesquisa de
+             verificação via PubMed MCP (diretriz OMS 2024 de cortes de hemoglobina, PMID
+             38910369) e WebSearch (PCDT Anemia Ferropriva MS, diagnóstico B12/folato) antes da
+             redação — conteúdo fisiológico/patológico de base (bem estabelecido, não sujeito a
+             mudança por trial recente) redigido a partir de conhecimento médico consolidado
+             (Failace/Hoffbrand/Harrison/Robbins/Zago), não recitado de memória sem checagem nos
+             pontos numéricos (limiares de Hb, fórmulas de índices). 24 seções = 24 links de
+             sidebar: fundamentos (hematopoiese/eritropoiese, técnica do hemograma), eritrograma
+             e índices (VCM/HCM/CHCM/RDW/reticulócitos/IPR), classificação de anemias (matriz
+             VCM×IPR), 6 anemias por mecanismo (ferropriva, doença crônica, megaloblástica,
+             hemolítica, hemoglobinopatias, aplásica/hipoplásica), leucograma, plaquetas,
+             algoritmo diagnóstico integrado, raciocínio clínico bayesiano, história, Brasil,
+             questões centrais, métodos, conexões, 2 controvérsias, 4 perguntas em aberto,
+             discussão, referências em 3 camadas. Nível de evidência (regra do CLAUDE.md de
+             Compêndios, 2026-08-05) aplicado via marcador <span class="evid"> em recomendações
+             de conduta (PCDT ferro, triagem neonatal falciforme). Cross-links bidirecionais:
+             dep-panel de medicina.html atualizado para listar o novo compêndio como dependente;
+             index.html (catálogo raiz) recebeu card novo nas duas seções relevantes (listagem
+             geral + tab-atlas). Achado colateral registrado em DEBT.md: cardiologia-semiologia.html
+             (criado em sessão anterior, mesmo dia) nunca foi adicionado ao catálogo de
+             index.html — gap pré-existente, não desta sessão, sinalizado para correção futura.
+             Sem pranchas de imagem nesta sessão (não buscadas — registrado em DEBT.md, mesmo
+             padrão de cardiologia-semiologia antes de suas pranchas serem adicionadas depois).
+             Verificação bash-equivalente via Grep/Read OK: fecha </body></html>, 663 linhas,
+             sem const const/var var, sem TODO/FIXME/placeholder/debug/rascunho, 158 ocorrências
+             de acentuação PT-BR, 24 seções = 24 links de sidebar (contagem batendo). Verificação
+             visual via Chrome/surge PENDENTE (mesmo padrão de pendência já registrado para os
+             demais compêndios do acervo — surge não rodado nesta sessão).
+
+2026-08-05 — PRANCHAS DE IMAGEM ADICIONADAS (mesmo dia, após conectar o Claude in Chrome): duas
+             imagens sourced e verificadas via navegação real (não fetch cru, que seguia
+             bloqueado) — método: navigate+get_page_text na página File: do Commons para
+             descrição/licença, hash MD5 do nome do arquivo calculado localmente para montar a
+             URL direta de upload, navigate+screenshot para confirmar carregamento antes de
+             referenciar. Fig. 1 "Heart sounds auscultation areas" (domínio público) em "Focos de
+             ausculta"; Fig. 2 "Wiggers Diagram" (CC BY-SA 2.5) em "Bulhas cardíacas normais",
+             cross-linkada em "Pulso venoso jugular". CSS de plate-block/lightbox (ausente até
+             então, pois o arquivo nasceu sem imagens) adicionado ao cardiologia-semiologia.html.
+             Método documentado em `_docs/template-v2-spec.md`, seção "Fontes de imagens", para
+             reuso — `javascript_tool` com fetch()+querystring é bloqueado por filtro de segurança
+             do Chrome MCP, não tentar contornar.
+2026-08-05 — CORREÇÃO DE CONTRASTE (mesmo dia, logo após o padrão de tema claro/escuro abaixo):
+             usuário sentiu falta de contraste no modo claro. Recálculo WCAG confirmou: `--ac`/
+             `--ac2` originais (#8a6a3f/#a8452f) mediam só 4.0-4.9:1 conforme a superfície —
+             abaixo do mínimo AA (4.5:1) no pior caso (`--bg3`, ex. cabeçalho de `.data-table`).
+             Escurecidos para #6b4023/#8a3620 (mesma família âmbar/ferrugem) — agora 7.0-8.8:1 e
+             6.4-7.0:1 respectivamente nas três superfícies onde aparecem. Corrigido em
+             `_docs/template-v2-spec.md` (padrão canônico) e nos 2 arquivos já aplicados
+             (cardiologia-semiologia.html, cardiologia-anatomia.html).
+2026-08-05 — NOVO PADRÃO DE TEMPLATE (mesma sessão, após a criação abaixo): usuário pediu largura
+             igual a Investimentos + modo claro/escuro como padrão. Verificado antes de aplicar:
+             Investimentos usa `.container{max-width:1180px}` (layout de dashboard sem sidebar,
+             diferente do sidebar+prose de Compêndios) e o modo claro/escuro (data-theme +
+             toggle flutuante) existe hoje só como piloto isolado em
+             `Investimentos/Orçamento/Simulador.html` — não era padrão de domínio nenhum antes
+             desta sessão. Via AskUserQuestion, decidido: (1) largura da `.prose` recalibrada de
+             ch para px fixos — 1000px com sidebar aberta, 1180px recolhida (número literal de
+             Investimentos no estado de maior espaço); (2) modo claro/escuro replicado com a
+             mesma paleta/mecanismo do Simulador.html (chave `theme` no localStorage, script
+             pre-paint no `<head>`, botão flutuante 🌙/☀️, contraste conferido: texto/bg >12:1,
+             --ac claro sobre bg2 branco ≈4.7:1). Ambos promovidos a padrão canônico em
+             `_docs/template-v2-spec.md` (novas seções "Largura da coluna de leitura" e "Modo
+             claro/escuro (tema)") — vale para todo compêndio/mecanismo novo, e por tabela para
+             Sistemas/Provas (mesmo arquivo de spec compartilhado). Aplicado nesta sessão em
+             cardiologia-semiologia.html e cardiologia-anatomia.html (chip "Last revised" desta
+             última atualizado para 2026-08-05); resto do acervo (~23 arquivos) NÃO retroaplicado
+             por padrão, conforme "Escopo de melhorias — não retroagir". Verificação Grep OK nos
+             dois arquivos (fecham </body></html>, sem artefatos, ids de toggle únicos).
+2026-08-05 — Compêndio de área criado: compêndios/medicina/cardiologia-semiologia.html (subskill
+             compendio-medicina-clinica). Item já previsto em DEBT.md desde 2026-06-30 ("criar
+             compêndios futuros de cardiologia... semiologia"). Idioma decidido via AskUserQuestion
+             + pesquisa web (ementas de faculdades brasileiras e bibliografia usual): português,
+             por Porto - Semiologia Médica e Bates - Propedêutica Médica (tradução PT) serem as
+             fontes predominantes desta disciplina especificamente no Brasil — diferente do irmão
+             cardiologia-anatomia.html (inglês, fonte Gray's). Estrutura: anamnese cardiovascular,
+             inspeção, palpação (ictus + tabela de morfologias de pulso), pressão arterial (técnica
+             + classificação SBC/AHA + hipotensão ortostática), ausculta cardíaca (focos, B1/B2 e
+             desdobramentos, B3/B4, sopros com escala de Levine + manobras dinâmicas, atritos
+             pericárdicos), pulso venoso jugular, síndromes clínicas integradas, raciocínio clínico
+             bayesiano, histórico (Laennec 1816), contexto brasileiro, 2 controvérsias (limiar HAS
+             SBC×ACC/AHA; ausculta×POCUS). Cross-links para cardiologia-anatomia.html e
+             ciclo-cardiaco.html atualizados nos dois sentidos (dep-panel de cardiologia-anatomia.html
+             também corrigido, removendo placeholder "in progress"). Sem pranchas de imagem — busca
+             via Wikimedia API sem retorno nesta sessão, registrado em DEBT.md. Verificação
+             bash-equivalente via Grep OK; verificação visual PENDENTE (ver DEBT.md).
 2026-07-03 — Auditoria de conformidade de compêndios/medicina/medicina.html contra o
              template-v2-spec.md atual, a pedido do usuário. Achado principal: o Painel de
              dependências (dep-panel), marcado "obrigatório" no spec logo após a pergunta

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparativo de Câmbios — SUVs Cupê Compactos, Brasil 2026</title>
+<style>
+  :root{
+    --bg: #0f1115;
+    --bg-alt: #151821;
+    --card: #1a1e28;
+    --card-border: #262b38;
+    --text: #e8eaf0;
+    --text-dim: #9aa2b4;
+    --accent: #5eb5ff;
+    --accent-2: #8b7bff;
+    --green: #4fd1a5;
+    --amber: #f4b942;
+    --red: #ff6b6b;
+    --teal: #2dd4bf;
+    --table-head: #21273a;
+    --table-row-alt: #171b26;
+    --radius: 14px;
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: radial-gradient(circle at 20% -10%, #1c2233 0%, var(--bg) 45%) fixed;
+    color: var(--text);
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Inter", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    padding: 0 0 80px;
+  }
+
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  header.hero{
+    padding: 56px 24px 40px;
+    text-align:center;
+    background: linear-gradient(180deg, rgba(94,181,255,0.08), transparent 70%);
+    border-bottom: 1px solid var(--card-border);
+    margin-bottom: 40px;
+  }
+  header.hero h1{
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  header.hero p{ color: var(--text-dim); max-width: 680px; margin: 0 auto; font-size: 0.98rem; }
+
+  .callout{
+    max-width: var(--maxw); margin: 0 auto 40px; padding: 16px 20px;
+    border-radius: var(--radius); background: rgba(244,185,66,0.08);
+    border: 1px solid rgba(244,185,66,0.35); color: #f4d99a; font-size: 0.92rem;
+  }
+  .callout strong{ color: var(--amber); }
+
+  section{ margin-bottom: 52px; }
+
+  h2.section-title{
+    font-size: 1.35rem; margin: 0 0 4px; color: var(--text);
+    display:flex; align-items:center; gap: 10px; flex-wrap: wrap;
+  }
+  h2.section-title .tag{
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 3px 10px; border-radius: 999px; font-weight: 600;
+  }
+  .tag.cvt{ background: rgba(94,181,255,0.15); color: var(--accent); border: 1px solid rgba(94,181,255,0.35); }
+  .tag.auto{ background: rgba(244,185,66,0.15); color: var(--amber); border: 1px solid rgba(244,185,66,0.35); }
+  .tag.dct{ background: rgba(139,123,255,0.15); color: var(--accent-2); border: 1px solid rgba(139,123,255,0.35); }
+  .tag.manual{ background: rgba(79,209,165,0.15); color: var(--green); border: 1px solid rgba(79,209,165,0.35); }
+  .tag.hybridcvt{ background: rgba(45,212,191,0.15); color: var(--teal); border: 1px solid rgba(45,212,191,0.35); }
+
+  .section-sub{ color: var(--text-dim); font-size: 0.9rem; margin: 0 0 20px; }
+
+  .card{
+    background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius);
+    padding: 24px 26px; box-shadow: 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  table{ width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-bottom: 14px; }
+  thead th{
+    background: var(--table-head); text-align: left; padding: 12px 14px; font-weight: 600;
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent);
+  }
+  thead th:first-child{ border-top-left-radius: 8px; }
+  thead th:last-child{ border-top-right-radius: 8px; }
+  tbody td{ padding: 11px 14px; border-bottom: 1px solid var(--card-border); vertical-align: top; color: var(--text); }
+  tbody tr:nth-child(even){ background: var(--table-row-alt); }
+  tbody tr:hover{ background: rgba(94,181,255,0.06); }
+  tbody tr:last-child td{ border-bottom: none; }
+  td.model{ font-weight: 600; white-space: nowrap; }
+  .dim{ color: var(--text-dim); }
+
+  .subhead{
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-dim); margin: 20px 0 8px; font-weight: 700;
+  }
+  .subhead:first-child{ margin-top: 0; }
+  .subhead.good{ color: var(--green); }
+  .subhead.bad{ color: var(--red); }
+  .subhead.warn{ color: var(--amber); }
+
+  p.body-text{ margin: 0 0 4px; font-size: 0.93rem; }
+
+  ul.plain{ margin: 0; padding-left: 20px; }
+  ul.plain li{ margin-bottom: 6px; font-size: 0.9rem; }
+
+  .brasil-box{
+    margin-top: 6px; padding: 14px 16px; border-radius: 10px;
+    background: var(--bg-alt); border: 1px solid var(--card-border);
+  }
+  .brasil-box .modelo-item{ margin-bottom: 10px; font-size: 0.88rem; }
+  .brasil-box .modelo-item:last-child{ margin-bottom: 0; }
+  .brasil-box .modelo-item strong{ color: var(--text); }
+
+  .badge-crit{
+    display:inline-block; font-size: 0.68rem; padding: 2px 8px; border-radius: 999px;
+    background: rgba(255,107,107,0.15); color: var(--red); border: 1px solid rgba(255,107,107,0.35);
+    font-weight: 600; margin-left: 6px;
+  }
+  .badge-ok{
+    display:inline-block; font-size: 0.68rem; padding: 2px 8px; border-radius: 999px;
+    background: rgba(79,209,165,0.15); color: var(--green); border: 1px solid rgba(79,209,165,0.35);
+    font-weight: 600; margin-left: 6px;
+  }
+
+  .aside-note{
+    margin-top: 18px; padding: 16px 20px; background: rgba(45,212,191,0.08);
+    border: 1px solid rgba(45,212,191,0.3); border-radius: 12px; font-size: 0.9rem; color: #bff5ee;
+  }
+  .aside-note strong{ color: var(--teal); }
+
+  .rec-card{
+    background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 24px;
+  }
+  ul.rec-list{ margin: 0; padding-left: 20px; }
+  ul.rec-list li{ margin-bottom: 12px; font-size: 0.92rem; }
+  ul.rec-list li strong{ color: var(--accent); }
+
+  footer{ text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-top: 60px; }
+
+  ::-webkit-scrollbar{ height: 8px; width: 8px; }
+  ::-webkit-scrollbar-thumb{ background: var(--card-border); border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Tipos de Câmbio — Guia Comparativo</h1>
+  <p>CVT, automático convencional, dupla embreagem, manual e mild-hybrid com CVT simulada — aplicados aos SUVs cupê compactos do mercado brasileiro, julho de 2026</p>
+</header>
+
+<div class="wrap">
+
+  <div class="callout">
+    <strong>Sobre esta pesquisa:</strong> os problemas crônicos listados vêm de reclamações registradas em Reclame Aqui, fóruns especializados e matérias jornalísticas — refletem queixas recorrentes reportadas até julho/2026, não uma taxa de falha estatística. Câmbios podem variar por geração/calibração mesmo dentro da mesma marca.
+  </div>
+
+  <section>
+    <h2 class="section-title">Referência rápida — quem usa o quê</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Modelo</th><th>Tipo</th><th>Fabricante / código</th><th>Marchas</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="model">VW Nivus</td><td>Automático convencional</td><td>Aisin AQ250 (TF-60SN)</td><td>6</td></tr>
+          <tr><td class="model">VW Taos</td><td>Automático convencional</td><td>Aisin AQ300 (substituiu o AQ250 6vel)</td><td>8</td></tr>
+          <tr><td class="model">VW Tera</td><td>Manual / Automático convencional</td><td>Aisin AQ160/AQ200 (automático)</td><td>5 (manual) / 6 (auto)</td></tr>
+          <tr><td class="model">Fiat Pulse / Fastback (combustão)</td><td>CVT</td><td>Aisin (família K312), 7 marchas simuladas</td><td>variável contínua</td></tr>
+          <tr><td class="model">Fiat Pulse / Fastback Hybrid</td><td>Mild-hybrid + CVT simulada</td><td>mesma base Aisin CVT + BSG 48V</td><td>variável contínua</td></tr>
+          <tr><td class="model">Citroën Basalt</td><td>Manual / CVT</td><td>CVT com 7 marchas simuladas</td><td>5 (manual) / variável contínua</td></tr>
+          <tr><td class="model">Renault Kardian</td><td>Manual / DCT</td><td>EDC (Efficient Dual Clutch), banhada a óleo</td><td>6</td></tr>
+          <tr><td class="model">Chevrolet Tracker</td><td>Automático convencional</td><td>Aisin</td><td>6</td></tr>
+          <tr><td class="model">Hyundai Creta</td><td>Automático convencional (maioria) / DCT (Ultimate)</td><td>6 marchas na maioria; DCT no 1.6 turbo Ultimate</td><td>6 / 7</td></tr>
+          <tr><td class="model">Jeep Renegade</td><td>Automático convencional</td><td>6 marchas (dianteira) / ZF9 (4x4 Willys/Trailhawk)</td><td>6 / 9</td></tr>
+          <tr><td class="model">Nissan Kicks</td><td>CVT</td><td>Xtronic (Jatco)</td><td>variável contínua</td></tr>
+          <tr><td class="model">Toyota Corolla Cross Hybrid</td><td>e-CVT planetário <span class="dim">(referência híbrida completa)</span></td><td>Toyota Hybrid System, trem planetário</td><td>variável contínua eletrônica</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">CVT — Variador Contínuo <span class="tag cvt">Correia + polias</span></h2>
+    <p class="section-sub">Exemplos: Fiat Pulse/Fastback (Aisin), Citroën Basalt, Nissan Kicks (Xtronic)</p>
+    <div class="card">
+      <p class="subhead">Princípio de funcionamento</p>
+      <p class="body-text">Duas polias de diâmetro variável ligadas por uma correia (ou corrente) metálica. Ao variar o diâmetro de cada polia, a relação de transmissão muda de forma contínua, sem "degraus" fixos de marcha. Para evitar a sensação estranha de rotação constante subindo sem o carro acelerar junto, os fabricantes programam "marchas simuladas" — no caso da Aisin usada por Fiat/Citroën, são 7 pontos programados que imitam trocas reais.</p>
+
+      <p class="subhead">Experiência no dia a dia</p>
+      <p class="body-text">Rotação do motor fica sempre na faixa ideal, gerando trânsito muito suave e silencioso. Em acelerações fortes ou subidas longas pode surgir a sensação de "elástico" (o motor sobe de giro antes da velocidade acompanhar), mais perceptível em unidades mal calibradas. O Aisin K312 usado por Fiat e Citroën é considerado bem ajustado nesse quesito; a Xtronic da Nissan tem reputação bem pior no Brasil.</p>
+
+      <p class="subhead good">Qualidades</p>
+      <ul class="plain">
+        <li>Suavidade constante, ideal para trânsito parado e uso urbano.</li>
+        <li>Boa eficiência de combustível por manter o motor na rotação ótima.</li>
+        <li>Mecanismo relativamente simples, poucas peças móveis comparado a automáticos de múltiplas marchas.</li>
+      </ul>
+
+      <p class="subhead bad">Defeitos</p>
+      <ul class="plain">
+        <li>Correia tem limite de torque — não é usado em motores muito potentes.</li>
+        <li>Sensação de "elástico" sob aceleração forte se a calibração não for boa.</li>
+        <li>Menos tolerante a uso extremamente pesado (reboque, estilo agressivo) que um automático convencional.</li>
+      </ul>
+
+      <p class="subhead">Vida útil e manutenção</p>
+      <p class="body-text">Troca de fluido recomendada a cada 40.000 km (uso severo pode exigir antes, algumas fontes citam até 80.000 km em uso leve). Correia e polias bem cuidadas tendem a acompanhar a vida útil do carro — mas isso depende muito da calibração e qualidade de cada unidade, como mostra o contraste Aisin vs. Xtronic abaixo.</p>
+
+      <p class="subhead warn">Problemas crônicos no Brasil</p>
+      <div class="brasil-box">
+        <div class="modelo-item"><strong>Fiat Pulse (CVT Aisin)</strong><span class="badge-crit">queixa recorrente</span> — câmbio trava na posição "P", impedindo retirar a chave; queixas frequentes em Reclame Aqui, sem recall anunciado pela Stellantis até o momento.</div>
+        <div class="modelo-item"><strong>Nissan Kicks (Xtronic)</strong><span class="badge-crit">crítico</span> — histórico grave: patinação, trepidação, superaquecimento e perda de tração, às vezes com o carro entrando em modo de segurança. Reparo custa R$ 28.000–30.000 (quase metade do valor do carro), com relatos frequentes de negativa de garantia mesmo em carros revisados em dia.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Automático Convencional <span class="tag auto">Conversor de torque</span></h2>
+    <p class="section-sub">Exemplos: VW Nivus (Aisin AQ250), VW Taos (Aisin AQ300), VW Tera, Chevrolet Tracker, Jeep Renegade</p>
+    <div class="card">
+      <p class="subhead">Princípio de funcionamento</p>
+      <p class="body-text">Um conversor de torque hidráulico faz o papel da embreagem (não há disco de fricção seco), acoplado a um conjunto de engrenagens planetárias com um número fixo de marchas (6, 8 ou 9). É a tecnologia mais antiga e mais madura entre os câmbios automáticos — praticamente sem risco de "travar" ao arrancar do zero.</p>
+
+      <p class="subhead">Experiência no dia a dia</p>
+      <p class="body-text">Trocas de marcha um pouco mais perceptíveis que CVT ou DCT, mas suaves e previsíveis. Comportamento muito bom em subidas e retomadas, porque o conversor de torque multiplica força na saída do repouso. É a sensação "clássica" de dirigir automático — sem surpresas.</p>
+
+      <p class="subhead good">Qualidades</p>
+      <ul class="plain">
+        <li>Robustez e tolerância a uso pesado (reboque, subidas constantes, tráfego pesado).</li>
+        <li>Comportamento previsível, sem "hesitação" típica de embreagens automatizadas.</li>
+        <li>Historicamente a manutenção mais barata entre os automáticos, quando não há defeito.</li>
+      </ul>
+
+      <p class="subhead bad">Defeitos</p>
+      <ul class="plain">
+        <li>Um pouco menos eficiente em consumo que CVT ou DCT (mais atrito/peso no conversor).</li>
+        <li>Trocas de marcha mais lentas que DCT em condução esportiva.</li>
+      </ul>
+
+      <p class="subhead">Vida útil e manutenção</p>
+      <p class="body-text">Fabricantes costumam declarar fluido "vitalício" (sem troca programada), mas oficinas especializadas recomendam troca preventiva a cada 80.000–100.000 km para prolongar a vida útil do conjunto. Bem mantido, o câmbio tende a acompanhar toda a vida do carro.</p>
+
+      <p class="subhead warn">Problemas crônicos no Brasil</p>
+      <div class="brasil-box">
+        <div class="modelo-item"><strong>VW Nivus / Taos / Tera (Aisin AQ250/AQ300/AQ160-200)</strong><span class="badge-ok">reputação sólida</span> — sem padrão de falha grave disseminado; a VW inclusive atualizou a calibração de software desses câmbios em Polo, Nivus, Virtus e T-Cross para refinar as trocas, sinal de manutenção ativa da marca sobre o produto.</div>
+        <div class="modelo-item"><strong>Chevrolet Tracker (Aisin 6 marchas)</strong><span class="badge-crit">defeito crônico</span> — mensagem no painel pedindo para colocar o câmbio em "P" mesmo já engatado (às vezes impede desligar o motor), vazamentos de óleo e "caça-marcha" sob carga são queixas repetidas e reconhecidas como crônicas.</div>
+        <div class="modelo-item"><strong>Jeep Renegade 4x4 (ZF9, 9 marchas)</strong><span class="badge-crit">defeito crônico</span> — trancos nas trocas, atraso de até 2 segundos para engatar "D" após a ré, câmbio descrito como "indeciso"; queixas de defeito presente desde o zero km documentadas no Reclame Aqui. A versão dianteira de 6 marchas não compartilha esse histórico.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Automatizado de Dupla Embreagem <span class="tag dct">DCT / DSG / EDC</span></h2>
+    <p class="section-sub">Exemplos: Renault Kardian (EDC), Hyundai Creta Ultimate (DCT 7vel), histórico VW DSG7 seco (DQ200)</p>
+    <div class="card">
+      <p class="subhead">Princípio de funcionamento</p>
+      <p class="body-text">Duas embreagens independentes — uma para marchas pares, outra para ímpares — permitem trocar sem interromper o fluxo de potência: a próxima marcha já fica pré-selecionada. Pode ser embreagem seca (mais barata, mais sensível a uso urbano pesado e ladeiras) ou banhada a óleo/úmida (mais robusta, tolera melhor calor e trânsito parado). O Kardian usa embreagem úmida — em tese mais adequada ao trânsito brasileiro que a seca.</p>
+
+      <p class="subhead">Experiência no dia a dia</p>
+      <p class="body-text">Trocas quase instantâneas, ótima resposta em ultrapassagens e modo esportivo com borboletas no volante. Em trânsito parado ou rampa, embreagem seca tende a ficar trepidante; a úmida do Kardian se propõe a resolver isso, embora ainda existam queixas de comportamento (ver abaixo).</p>
+
+      <p class="subhead good">Qualidades</p>
+      <ul class="plain">
+        <li>Trocas de marcha muito rápidas, sensação esportiva.</li>
+        <li>Boa eficiência de combustível, próxima da CVT.</li>
+        <li>Versão úmida (como a EDC do Kardian) tolera melhor uso urbano que a seca.</li>
+      </ul>
+
+      <p class="subhead bad">Defeitos</p>
+      <ul class="plain">
+        <li>A mecatrônica (módulo eletrônico que comanda as embreagens) é historicamente o ponto fraco do setor inteiro, não só de uma marca.</li>
+        <li>Custo de reparo elevado quando falha — geralmente o mais caro desta lista.</li>
+        <li>Embreagem seca (histórico VW) é sensível a uso urbano pesado com subidas e arrancadas frequentes.</li>
+      </ul>
+
+      <p class="subhead">Vida útil e manutenção</p>
+      <p class="body-text">Fluido de embreagem úmida: troca recomendada a cada 60.000–80.000 km. A vida útil real depende muito mais da mecatrônica (eletrônica de comando) do que do desgaste mecânico puro — não há uma "regra" confiável, varia por geração e calibração.</p>
+
+      <p class="subhead warn">Problemas crônicos no Brasil</p>
+      <div class="brasil-box">
+        <div class="modelo-item"><strong>VW DSG7 seco (DQ200)</strong><span class="badge-crit">histórico grave</span> — teve recalls no exterior (EUA, Austrália, China, Japão, Nova Zelândia) por falha de mecatrônica, mas nunca recall oficial no Brasil apesar de queixas de sensores, trepidação e reparos acima de R$ 25.000. Esse histórico foi motivo direto para a própria VW abandonar o DSG no Brasil em favor dos automáticos convencionais Aisin.</div>
+        <div class="modelo-item"><strong>Renault Kardian EDC</strong><span class="badge-crit">em aberto, 2025–2026</span> — mesmo sendo embreagem úmida, já acumula queixas de trancos, estalos e travamento na primeira marcha; um caso documentado teve troca completa do câmbio orçada em ~R$ 48.000, coberta pela Renault na garantia. Reportagens de 2026 indicam que o problema ainda não foi solucionado de forma definitiva pela marca.</div>
+        <div class="modelo-item"><strong>Hyundai Creta Ultimate (DCT 7 marchas, 1.6 turbo)</strong><span class="badge-ok">sem padrão relevante até o momento</span> — tecnologia mais recente da Hyundai no Brasil, sem volume de queixas graves disseminado nesta pesquisa.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Manual Convencional <span class="tag manual">Embreagem a pedal</span></h2>
+    <p class="section-sub">Exemplos: Renault Kardian, Citroën Basalt, VW Tera (versões de entrada)</p>
+    <div class="card">
+      <p class="subhead">Princípio de funcionamento</p>
+      <p class="body-text">O motorista aciona a embreagem pelo pedal e seleciona a marcha manualmente em um trem de engrenagens sincronizadas — não existe eletrônica nem hidráulica decidindo quando ou como trocar.</p>
+
+      <p class="subhead">Experiência no dia a dia</p>
+      <p class="body-text">Depende inteiramente da habilidade do motorista. Bem operado, costuma ser o mais eficiente em consumo e o que dá mais controle em ladeira e ultrapassagem. Cansa mais em trânsito parado e exige atenção constante.</p>
+
+      <p class="subhead good">Qualidades</p>
+      <ul class="plain">
+        <li>Mecanismo mais simples e barato do mercado — sem eletrônica de câmbio para dar defeito.</li>
+        <li>Praticamente livre de "defeito crônico de câmbio" nesta lista inteira.</li>
+        <li>Conserto acessível e disponível em qualquer oficina do país, não exige rede especializada.</li>
+      </ul>
+
+      <p class="subhead bad">Defeitos</p>
+      <ul class="plain">
+        <li>Menos prático em trânsito parado e subidas com semáforo.</li>
+        <li>Revenda ligeiramente pior por queda geral de demanda por carros manuais.</li>
+        <li>Desgaste do kit de embreagem varia muito com o estilo de condução.</li>
+      </ul>
+
+      <p class="subhead">Vida útil e manutenção</p>
+      <p class="body-text">Kit de embreagem dura tipicamente 60.000–100.000 km dependendo do uso urbano e do estilo do motorista. A caixa de câmbio em si costuma acompanhar toda a vida útil do carro sem problema — é o item de manutenção mais previsível e barato de toda a lista.</p>
+
+      <p class="subhead warn">Problemas crônicos no Brasil</p>
+      <div class="brasil-box">
+        <div class="modelo-item"><strong>Kardian, Basalt e Tera (versões manuais)</strong><span class="badge-ok">sem padrão crônico</span> — praticamente nenhum problema estrutural de câmbio reportado; as queixas desses modelos concentram-se em outros sistemas do carro (elétrica, suspensão), não no câmbio manual em si.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Mild-Hybrid com CVT Simulada <span class="tag hybridcvt">MHEV + CVT</span></h2>
+    <p class="section-sub">Exemplos: Fiat Pulse Hybrid, Fiat Fastback Hybrid</p>
+    <div class="card">
+      <p class="subhead">Princípio de funcionamento</p>
+      <p class="body-text">Reaproveita a base CVT Aisin da versão a combustão, somando um motor-gerador de 48V integrado à correia do motor (BSG — Belt Starter Generator) e uma bateria pequena. O sistema assiste a arrancada, desliga o motor a combustão em desacelerações e paradas de forma quase imperceptível, e recupera um pouco de energia da frenagem.</p>
+
+      <p class="subhead">Experiência no dia a dia</p>
+      <p class="body-text">Arrancada mais suave — o elétrico ajuda a cobrir o atraso do turbo. Religamento do motor no semáforo é quase imperceptível. A frenagem regenerativa é discreta, não tem o efeito de "freio motor pesado" de um elétrico puro. No restante, comporta-se como o CVT da versão a combustão equivalente.</p>
+
+      <p class="subhead good">Qualidades</p>
+      <ul class="plain">
+        <li>Reaproveita hardware de câmbio já maduro (mesma base Aisin da versão combustão).</li>
+        <li>Ganho real, ainda que modesto, de suavidade e consumo.</li>
+        <li>Não exige rede de manutenção especializada — mesma oficina que atende a versão a combustão.</li>
+      </ul>
+
+      <p class="subhead bad">Defeitos</p>
+      <ul class="plain">
+        <li>Herda os limites do CVT convencional (correia, sensibilidade a uso pesado).</li>
+        <li>Soma um componente novo (BSG + bateria 48V) cuja durabilidade de longo prazo no Brasil ainda tem pouco histórico.</li>
+      </ul>
+
+      <p class="subhead">Vida útil e manutenção</p>
+      <p class="body-text">Mesma janela de troca de fluido do CVT convencional (~40.000 km). A bateria 48V e o BSG ainda não têm prazo de vida útil "comprovado" no mercado brasileiro — tecnologia local desde 2022–2023, portanto poucos carros de alta quilometragem para servir de referência.</p>
+
+      <p class="subhead warn">Problemas crônicos no Brasil</p>
+      <div class="brasil-box">
+        <div class="modelo-item"><strong>Fiat Pulse Hybrid / Fastback Hybrid</strong><span class="badge-crit">mesmo padrão do CVT combustão</span> — a queixa de câmbio travando em "P" já relatada na versão a combustão também aparece em relatos da versão Hybrid, por compartilharem a mesma base CVT. Ainda não há volume relevante de queixas específicas sobre o BSG/bateria 48V — amostra pequena e frota ainda jovem.</div>
+      </div>
+    </div>
+
+    <div class="aside-note">
+      <strong>À parte — e-CVT planetário do Corolla Cross Hybrid:</strong> fisicamente diferente de tudo nesta lista. Não usa correia nem embreagens — um trem de engrenagens planetárias reparte a potência entre o motor a combustão e os motores elétricos, gerenciado eletronicamente. Sem peça de atrito por deslizamento como a correia do CVT convencional, é historicamente o sistema híbrido mais confiável do mercado global, e não aparece com padrão de queixa crônica de câmbio no Brasil. Contrapartida: é tecnologia exclusiva de híbridos completos (não existe versão só a combustão com esse câmbio) e custa consideravelmente mais caro de entrada.
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Qual tipo escolher</h2>
+    <div class="rec-card">
+      <ul class="rec-list">
+        <li><strong>Cidade com trânsito parado, prioridade em suavidade:</strong> CVT bem calibrado (Pulse/Fastback com Aisin) é uma ótima escolha — evitar a Xtronic do Kicks, que tem o pior histórico desta lista.</li>
+        <li><strong>Rodagem com subida constante, reboque ou uso mais pesado:</strong> automático convencional (Nivus, Taos, Tera) é a aposta historicamente mais segura — evitar o ZF9 4x4 do Renegade, que concentra as piores queixas da categoria.</li>
+        <li><strong>Resposta esportiva, mas com tolerância a risco de tecnologia ainda instável no Brasil:</strong> DCT é a categoria mais arriscada da lista hoje — o Kardian EDC ainda está resolvendo problemas reportados em 2025–2026, e o histórico do DSG seco da própria VW é um alerta sobre a categoria como um todo.</li>
+        <li><strong>Orçamento apertado, prioridade em manutenção barata e previsível:</strong> manual simples ainda vence, principalmente nas versões de entrada de Kardian, Basalt e Tera.</li>
+        <li><strong>Máxima confiabilidade de longo prazo, mesmo pagando mais:</strong> o e-CVT híbrido da Toyota (Corolla Cross Hybrid) tem o histórico mais limpo de toda a comparação — mas exige subir de categoria de preço.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Comparativo elaborado em julho de 2026 · Baseado em reclamações públicas, fóruns especializados e reportagens — não substitui um test-drive e checklist de compra específico do veículo desejado.</footer>
+
+</div>
+</body>
+</html>

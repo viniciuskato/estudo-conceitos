@@ -38,24 +38,60 @@ existe. O passo 1 abaixo está parcialmente superado; falta apenas o passo 2 (me
 
 ---
 
-## automoveis/ — Automóveis
+## produtos/ — Estudo de produtos e comparativo de produtos
 
-Casos pontuais de pesquisa, não área de estudo sistemático. Sem plano de mecanismo.
+Renomeado de `automoveis/` em 2026-07-09 (auditoria raio-x-cowork) — o recorte real nunca foi
+"carros" especificamente, é pesquisa orientada a produto/decisão de compra em geral. Automóveis
+continuam sendo o único caso concreto até agora, mas a pasta deixa de presumir isso pelo nome.
+Duas ramificações paralelas que se intercambiam — estudar um produto isoladamente pode gerar
+material que alimenta um comparativo depois; um comparativo pode motivar aprofundar um produto
+específico que se destacou nele:
+
+- `produtos/estudo/` — aprofundamento de **um** produto específico (defeito, funcionamento,
+  característica pontual) — não é comparação entre alternativas.
+- `produtos/comparativo/` — comparação **entre** dois ou mais produtos concorrentes, orientada
+  a decisão de compra.
+
+Casos pontuais de pesquisa, não área de estudo sistemático (não confundir com `sistema-veiculos`,
+que cobre o funcionamento técnico de veículos como sistema — chassi, motorização, transmissão —
+independente de decisão de compra). Sem plano de mecanismo.
 
 ### Arquivos
 
-- `automoveis/eficiencia-combustivel-saveiro-nivus-s90.html` — Comparativo de eficiência
+- `produtos/estudo/falha-airbag-nivus-2023.html` — Investigação de falha de airbag no Nivus 2023
+  (produto único, não comparativo).
+- `produtos/comparativo/eficiencia-combustivel-saveiro-nivus-s90.html` — Comparativo de eficiência
   de combustível entre Saveiro, Nivus e S90.
-- `automoveis/falha-airbag-nivus-2023.html` — Investigação de falha de airbag no Nivus 2023.
+- `produtos/comparativo/Comparativo_Cambios_2026.html` — Comparativo de câmbios de SUVs cupê
+  compactos, Brasil 2026. Movido de `Cowork/` raiz (estava órfão, sem roteamento) em 2026-07-09.
+- `produtos/comparativo/Comparativo_SUVs_Cupe_2026.html` e `.md` — Comparativo de SUVs/crossovers
+  cupê compactos (Nivus vs. Fastback), Brasil, julho/2026. Mesma origem e mesma data de migração
+  do item acima.
 
-### Avaliação (2026-07-01)
+### Avaliação (2026-07-01, revisada em 2026-07-09)
 
-Decisão: manter em `_acervo/` como referência — não promover a `compêndios/automoveis/`.
-Os dois arquivos são pesquisas pontuais orientadas a decisão (comparativo de compra,
-investigação de defeito específico), não um recorte de área para estudo sistemático —
-não há questões centrais, subdivisões ou corpo de literatura que justifiquem um compêndio de área.
-Reavaliar apenas se houver decisão explícita de tratar "automóveis" como área contínua
-de estudo (ex.: mecânica, engenharia automotiva) em vez de casos pontuais.
+Decisão original (01/07): manter em `_acervo/` como referência — não promover a compêndio de área.
+Os arquivos são pesquisas pontuais orientadas a decisão (comparativo de compra, investigação de
+defeito específico), não um recorte de área para estudo sistemático — não há questões centrais,
+subdivisões ou corpo de literatura que justifiquem um compêndio de área. Essa avaliação permanece
+válida após a ampliação de escopo em 09/07 (ainda é só a categoria "carro" dentro de "produtos" —
+nenhum outro tipo de produto apareceu ainda). Reavaliar promoção para domínio próprio (fora de
+`_acervo/`) apenas se o padrão se repetir com outra categoria de produto (ex.: eletrônicos,
+eletrodomésticos) — ver `_docs/DEBT.md`.
+
+---
+
+## farmacologia/ — Material didático pré-modelo (anti-inflamatórios, anti-histamínicos, antibacterianos)
+
+Movido em 2026-07-09 (auditoria raio-x-cowork, revisão da fronteira Cowork↔Dados) de `Dados/Medicina/Estudos próprios/Material_Didatico_Farmacologia.html` — formato de documento para impressão (capa, índice, "mapa mental"), anterior ao modelo Compêndio/Mecanismo, não os três compêndios de farmacologia já ativos em `medicina/farmacologia/` (antiagregantes/anticoagulantes/trombolíticos, antifúngicos, hipertensão/SRAA/anti-hipertensivos).
+
+### Arquivos
+
+- `farmacologia/Material_Didatico_Farmacologia.html` — cobre anti-inflamatórios, anti-histamínicos e antibacterianos: temas que **não** se sobrepõem aos três compêndios de farmacologia já existentes (confirmado por comparação de títulos/seções nesta sessão) — gap real de conteúdo, não duplicata.
+
+### O que fazer ao retomar
+
+Conteúdo confirmado como gap, não overlap — mas ainda no formato/estilo antigo (impressão, sem CSS/estrutura do `template-v2-spec.md`). Ao retomar farmacologia: usar este arquivo como fonte de conteúdo (não reescrever do zero) e adaptar ao modelo atual de `mecanismo-medicina-clinica` — provavelmente 3 arquivos novos em `medicina/farmacologia/` (um por classe: anti-inflamatórios, anti-histamínicos, antibacterianos), seguindo a mesma convenção dos três já existentes. Registrado também em `_docs/DEBT.md`.
 
 ---
 

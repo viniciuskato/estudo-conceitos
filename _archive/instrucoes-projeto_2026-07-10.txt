@@ -1,0 +1,154 @@
+=== BASE DE ESTUDOS ===
+Um repositório, quatro modos de trabalho:
+- skill `compendio` — compêndio de área: exaure um campo de estudo inteiro (histórico, subdivisões, questões centrais, métodos, referências densas)
+- skill `mecanismo` — aprofundamento de um conceito ou processo específico
+- skill `sistema` — compêndio de um artefato ou sistema técnico bounded (ex.: um automóvel): mapeia seus subsistemas e, centralmente, como eles se integram
+- skill `prova` — material de preparação para uma prova teórica específica: escopo FECHADO pelo plano de ensino/edital de uma disciplina (com data definida), profundidade suficiente (não máxima), com aparato próprio de avaliação (mapa de cobertura, caso-âncora, pegadinhas em contexto, Anki/simulado/véspera como parte regular do ciclo)
+
+A distinção principal: `compendio` cobre uma área inteira em largura e profundidade; `mecanismo` cobre um conceito único em profundidade máxima; `sistema` cobre um objeto técnico bounded — largura contida às suas partes, profundidade em cada parte e em como elas se integram (não é área de conhecimento nem mecanismo isolado); `prova` cobre exatamente o que um edital externo e temporário exige — nem a exaustividade de `compendio`, nem a saturação máxima de `mecanismo`, mas o suficiente para a prova, com data e cobertura fechadas por essa prova.
+Todos referenciam materiais externos — livros e artigos continuam sendo necessários, mas o material deve ser suficientemente denso para situar o leitor e guiar o estudo.
+Anki é opcional para qualquer um dos quatro modos, nunca exclusivo de um só — ver seção "Modo Anki (opcional, qualquer material)".
+
+Ativar a skill correspondente antes de iniciar qualquer trabalho de geração ou revisão.
+
+Fonte das skills: _docs/skills-export/ (um SKILL.md por pasta, versionado e auditável — fonte de verdade, não o cache de skills instaladas).
+Atualização: editar o SKILL.md correspondente → Claude empacota em .skill e apresenta via present_files → usuário clica "Save skill" para instalar/atualizar. Sem script local, sem passo manual pelo Settings > Capabilities.
+
+=== Criação de subskill nova ===
+Vale tanto para subskill de área nova sob demanda (área sem subskill ainda) quanto para inserção de subskill agrupadora/intermediária entre a skill pai e subskills que já existem (ex.: compendio-medicina entre compendio e {compendio-medicina-basica, compendio-medicina-clinica}). Em ambos os casos, tocar todos os arquivos abaixo na mesma sessão — esquecer um deixa o dispatch inconsistente com o que está de fato instalável:
+1. `_docs/skills-export/<nova-subskill>/SKILL.md` — seguir o padrão mais enxuto entre as subskills existentes da mesma skill pai (ex.: compendio-filosofia/compendio-investimentos, não duplicar CSS que já não está em template-v2-spec.md).
+2. Dispatch da skill pai (`compendio/SKILL.md`, `mecanismo/SKILL.md` ou `sistema/SKILL.md`): tabela de subskills + lista de áreas/domínios na `description` do frontmatter.
+3. Registro de histórico: `compêndios/compendio_estado.txt` (compendio), `_docs/project_estado.md` (mecanismo) ou `sistemas/sistema_estado.txt` (sistema) — mesmo sem compêndio/mecanismo/sistema ainda criado na área.
+4. Empacotar a(s) skill(s) tocada(s) (nova subskill + skill pai, se o dispatch dela mudou) e apresentar via `present_files` para o usuário instalar com um clique em "Save skill" — não pedir para o usuário rodar script nem abrir Settings > Capabilities.
+5. Se a nova subskill é agrupadora/intermediária: atualizar também o frontmatter `description` das subskills existentes que passam a ser carregadas por ela em vez da skill pai diretamente (referência "Carregada pela skill X").
+
+=== Criação de skill-pai nova (nível 1) ===
+Para quando surge um modo de trabalho inteiramente novo, paralelo a compendio/mecanismo/sistema (não uma subskill sob uma skill-pai existente — ver seção acima para esse caso). Tocar todos os arquivos abaixo na mesma sessão:
+1. `_docs/skills-export/<nova-skill>/SKILL.md` — distinção explícita com as skills-pai existentes, hierarquia de subskills (mesmo que só uma inicialmente), protocolo de abertura de sessão, pré-geração, formato, fluxo de trabalho, checklist, "o que não fazer". Seguir a estrutura de `compendio/SKILL.md` ou `mecanismo/SKILL.md` como modelo.
+2. Ao menos uma subskill inicial de domínio — seguir o processo de "Criação de subskill nova" acima para ela.
+3. Registro de histórico: criar `<pasta-raiz-nova>/<nome>_estado.txt` e `<pasta-raiz-nova>/<nome>_mapa.txt`, mesmo padrão de `compêndios/compendio_estado.txt`/`compendio_mapa.txt`.
+4. Cabeçalho deste arquivo ("Um repositório, N modos de trabalho"): incrementar N, listar a nova skill com uma frase de distinção, e atualizar o parágrafo "A distinção principal".
+5. Seção "Estrutura de pastas" abaixo: adicionar o bloco da nova pasta-raiz.
+6. "Protocolo de abertura de sessão", passo 1: incluir a nova opção na pergunta ao usuário sobre o tipo de trabalho.
+7. Avaliar se features cross-cutting já existentes (ex.: Modo Anki) devem se estender à skill nova — se sim, tocar também o SKILL.md das skills-irmãs que documentam essa feature.
+8. Empacotar a nova skill-pai e sua subskill inicial e apresentar via `present_files` para instalação com um clique em "Save skill".
+
+=== Estrutura de pastas ===
+compêndios/          → compêndios de área (skill compendio)
+  compendio_mapa.txt → áreas já cobertas
+  compendio_estado.txt → histórico e pendências
+  <área>/            → arquivos HTML dos compêndios de área
+  medicina/          → compêndios de área de medicina (skill compendio + subskill)
+medicina/            → compêndios de MECANISMO (skill mecanismo)
+  imunologia/        → 13 compêndios ativos
+  farmacologia/      → 3 compêndios ativos
+  fisiologia/        → 2 compêndios ativos
+  fisiopatologia/    → 3 compêndios ativos
+  microbiologia/     → 2 compêndios ativos
+sistemas/            → compêndios de SISTEMA (skill sistema — artefato/sistema técnico bounded)
+  sistema_mapa.txt   → objetos já cobertos
+  sistema_estado.txt → histórico e pendências
+  veiculos/          → compêndios de veículos automotivos (skill sistema + subskill sistema-veiculos)
+provas/              → material de PROVA (skill prova — escopo fechado por edital/plano de ensino)
+  prova_mapa.txt     → disciplinas/editais já cobertos
+  prova_estado.txt   → histórico e pendências
+  medicina/          → material de prova de disciplinas de medicina (skill prova + subskill prova-medicina)
+    _cache/          → cache de conteúdo processado por matéria (evita reler PDFs)
+anki/                → sessões e erros do Anki (opcional para qualquer material — compendio, mecanismo, sistema ou prova, não exclusivo de um só)
+_acervo/             → material pré-modelo preservado para reaproveitamento futuro
+  LEIA-ME.md         → descrição do conteúdo e instruções de adaptação
+_archive/            → versões anteriores (sufixo de data)
+_config/             → assets e scripts
+_docs/               → documentação do projeto
+  DEBT.md            → dívida técnica unificada
+  project_estado.md
+  project_mapa_materiais.md
+  skills-export/     → fonte das skills (um SKILL.md por pasta; empacotamento e instalação sob demanda por Claude via present_files)
+  instrucoes-projeto.txt  → este arquivo
+  operacoes-bash.md  → regras mecânicas de Edit/Write/bash, verificação pós-HTML, surge e arquivamento (lido sob demanda, não em toda mensagem)
+
+=== Escopo do repositório — evitar duplicação em pastas Cowork paralelas ===
+Princípio geral: qualquer material cujo propósito se encaixe no escopo de uma das skills deste repositório (compendio, mecanismo, sistema, prova — ou skill-pai futura equivalente) deve nascer e viver dentro de Base de estudos, na estrutura de pastas definida acima — não em uma pasta de projeto Cowork separada e paralela que reimplemente template, skill de fechamento de sessão ou convenção de arquivo próprios. Uma pasta Cowork separada só se justifica quando o propósito é genuinamente distinto do que as quatro skills cobrem: deliverable pontual não recorrente (trabalho de faculdade avulso, relatório clínico), dados ao vivo ou pessoais de terceiros (carteira de investimentos, projeto de pesquisa de outra pessoa), formato de entrega que não é HTML autônomo de estudo (docx, planilha), ou fluxo de trabalho estruturalmente diferente dos quatro modos (ex.: sessão Socrática ligada a um documento de abertura externo e não recorrente, sem compêndio de referência permanente).
+Ao identificar, no início de uma sessão ou durante o trabalho, uma pasta Cowork externa que pareça se sobrepor ao escopo de uma skill existente, sinalizar ao usuário antes de duplicar esforço — não assumir migração automática nem ignorar silenciosamente.
+(Incidente que originou esta regra: o projeto Cowork "Estudo para prova" reimplementava, em `_recursos/`, um sistema próprio de skill `autocritica-sessao`, `instrucoes-projeto.md` e `template-base.html` divergente para o mesmo propósito hoje coberto por `prova`/`prova-medicina`. Os 4 HTMLs de conteúdo (agressao-defesa, epidemiologia, pesquisa-em-saude, semiologia) e os 2 caches foram migrados para `provas/medicina/` em 2026-07-03; a pasta de origem, confirmada 100% redundante após comparação byte-a-byte do conteúdo migrado, foi removida na mesma sessão.)
+
+Mesmo princípio vale na direção inversa — importar conteúdo de FORA para dentro deste repositório (clone git legado, export antigo, backup): antes de copiar, checar `_acervo/` e a árvore viva (compêndios/medicina/sistemas/provas) por sobreposição de tema, não só a ausência de uma pasta com o mesmo nome no destino. Ausência de pasta homônima não significa ausência de conteúdo equivalente — o material pode ter sido migrado e reorganizado sob outro nome. Se houver sobreposição, comparar por checksum/conteúdo antes de decidir: se o conteúdo já migrado for mais recente, não reimportar a versão antiga; se divergirem de fato, sinalizar ao usuário em vez de mesclar silenciosamente.
+(Incidente que originou esta regra, 2026-07-09: durante uma auditoria de todo o OneDrive, `automoveis/` foi copiado do clone git legado `Git hub/estudo-conceitos` direto para a raiz de `Base de estudos`, sem checar antes que esse mesmo conteúdo já vivia, reorganizado e com edições mais novas, em `_acervo/produtos/comparativo/` e `_acervo/produtos/estudo/` desde a Terceira auditoria de 2026-07-09. A cópia redundante teve que ser desfeita, inclusive com remoção manual do usuário porque o sandbox não conseguiu apagá-la.)
+
+=== Protocolo de abertura de sessão ===
+Ao iniciar sessão sem tarefa direta:
+1. Perguntar ao usuário se o trabalho é Compêndio de área, Mecanismo, Sistema ou Prova.
+2. Ativar a skill correspondente (nível 1).
+3. Identificar a área/domínio → a skill-pai carrega a subskill adequada. Princípio geral, válido para qualquer skill-pai (atual ou futura), não só para o caso citado no exemplo abaixo: a descida na hierarquia (skill-pai → subskill de domínio → subskill agrupadora, quando existir → subskill-folha) é sempre governada pela ESPECIFICIDADE do recorte pedido, nunca pelo nível mais fundo disponível. Regras derivadas desse princípio:
+   - Se a área/domínio não tiver subskill: sinalizar ao usuário ANTES de gerar e propor criação da subskill.
+   - Se o pedido cobre a área/domínio inteiro governado por uma subskill agrupadora, a geração é regida pela agrupadora + skill-pai — NÃO descer às subskills-folha quando nenhuma subárea específica foi pedida; as subáreas entram como ramos MAPEADOS dentro do material, não como skills que governam a redação.
+   - Só descer a uma subskill-folha quando o recorte pedido for especificamente aquela subárea.
+   (Exemplo ilustrativo, não a regra em si: hoje isso se aplica a medicina → `compendio-medicina` → `compendio-medicina-basica`/`compendio-medicina-clinica`. Se essa árvore mudar ou uma nova skill-pai ganhar uma agrupadora equivalente, o princípio acima continua valendo sem precisar ser reescrito.)
+4. Verificar _docs/DEBT.md — informar dívidas críticas antes de prosseguir.
+5. Comandos git (`git rev-parse`, `git status`, `git log`) FALHAM POR COMPLETO no bash do sandbox (`fatal: not a git repository`) desde a migração do `.git` para fora do OneDrive (ver DEBT.md, resolvido em 2026-07-01) — o gitdir aponta para um caminho Windows que o sandbox Linux não alcança. Não gastar uma chamada tentando essa checagem no sandbox. Para detectar edições incompletas de sessões anteriores ou usar histórico como referência, confiar em Read/Grep direto no conteúdo atual (ver _docs/operacoes-bash.md, seção "Verificação bash obrigatória"); qualquer verificação de fato via git (status, log, diff) depende do terminal Windows nativo do usuário.
+
+=== Pré-geração (regras compartilhadas) ===
+- Perguntas de pré-geração sempre via AskUserQuestion — nunca em texto.
+- Antes de gerar qualquer material, confirmar que o propósito (compêndio de área, mecanismo ou sistema) e o recorte estão claros.
+- OBRIGATÓRIO antes de criar novo HTML: ler _docs/template-v2-spec.md (referência canônica de CSS, layout, sidebar, elementos visuais e seções — este spec evolui e é sempre a fonte de verdade, nunca um arquivo HTML específico). Se já existe compêndio na mesma subpasta, usá-lo como ponto de partida estrutural — copiar e editar (arquivar o original em _archive/ com sufixo de data), não criar do zero. Mas conferir se esse compêndio existente reflete o template-v2-spec.md atual antes de replicar seus padrões — se divergir, seguir o spec, não o arquivo antigo. Criar do zero só quando não há compêndio anterior na subpasta, mas sempre seguindo o template-v2-spec.md. A comparação compêndio-irmão ↔ spec é BIDIRECIONAL: o spec pode estar ATRÁS de um arquivo, não só à frente. Se um irmão (mesma subpasta, ou outro arquivo usado como base estrutural — ex.: outro arquivo-pai) tiver um recurso visual/interativo que o template-v2-spec.md ainda NÃO tem, sinalizar ANTES de gerar — promover o recurso ao spec ou registrar a decisão de pulá-lo — para que o material novo não nasça sem um bom padrão que um irmão já possui. Não deixar recurso bom preso a um único arquivo por omissão (incidente 2026-07-02: .term-rich/#dict-panel/aria-label existiam só no cardiologia; física e medicina nasceram sem eles, e o usuário teve que apontar a falta após a entrega). A mesma bidirecionalidade vale entre a lista de estrutura de uma skill-pai (ex.: "Estrutura do arquivo-pai" em compendio/SKILL.md) e os componentes que o template-v2-spec.md marca como "obrigatório": a lista de uma skill pode estar desatualizada em relação ao spec, então segui-la como exaustiva sem cruzar com o spec pode omitir um componente obrigatório. Antes de gerar um arquivo estruturado por uma lista de skill, conferir se cada item "obrigatório" do spec aparece nessa lista; se não aparecer, sinalizar a divergência em vez de assumir que a lista da skill já é a versão completa (incidente 2026-07-03: compendio/SKILL.md lista 11 seções obrigatórias do arquivo-pai sem incluir o Painel de dependências, que o spec marca obrigatório sem exceção — fisica.html e medicina.html nasceram sem ele por seguir a lista da skill).
+- OBRIGATÓRIO antes de gerar (proativamente, sem esperar o usuário perguntar): determinar o IDIOMA do material a partir das fontes primárias predominantes da área, conforme a regra do template-v2-spec.md ("Idioma e tooltips de tradução"), e confirmar isso ANTES de escrever qualquer linha. Área com literatura-fonte majoritariamente anglófona (física, IA, filosofia, maior parte da medicina) → material em INGLÊS (lang="en"), com tooltips .term (tradução PT) e sidebar bilíngue .sl-pt; conteúdo ancorado em diretrizes/epidemiologia brasileiras → português. NÃO herdar o idioma do acervo PT existente por inércia (o acervo anterior é grandfathered, não referência de idioma — ver spec). Se houver dúvida sobre o recorte de fontes, sinalizar ANTES de gerar, não depois — errar o idioma custa reescrita integral (incidente confirmado 2026-07-02: física gerada em PT e reescrita em inglês).
+- OBRIGATÓRIO antes de gerar (proativamente, sem esperar o usuário perguntar): checar o modelo atual da sessão (campo "Model:" do <env>) contra o tipo de pedido — compêndio/mecanismo/sistema/prova novo (1ª geração completa) → Opus; sessão Anki, revisão pontual, correção, autocrítica, auditoria visual, criação/edição de skill ou subskill (trabalho estrutural, não geração de conteúdo de compêndio/mecanismo/sistema/prova) → Sonnet; lookup/busca simples isolada → Haiku (via subagent). Se o modelo não bater com o tipo de tarefa, avisar ANTES de gerar e recomendar abrir nova sessão no modelo certo (não dá para trocar modelo no meio da sessão). **Isso é sempre recomendação, nunca bloqueio:** a escolha do modelo é do usuário, não do Claude. Se o usuário optar por prosseguir no modelo atual mesmo após o aviso, executar a tarefa normalmente — sem recusar, sem repetir o aviso a cada menção subsequente, e sem registrar em DEBT.md/estado de skill como se fosse uma pendência bloqueada ("fica para sessão em Opus"). Registrar, se for o caso, como recomendação aceita ou não pelo usuário — nunca como condição para o trabalho acontecer.
+- Junto da recomendação de modelo, indicar também Esforço e Pensamento (controles da UI, ao lado do seletor de modelo): compêndio/mecanismo/sistema/prova novo (1ª geração completa) → Esforço Alto ou Extra + Pensamento ligado (profundidade real e atribuição correta de argumentos/mecanismos importam mais que velocidade); sessão Anki, revisão pontual, correção, autocrítica, auditoria visual → Esforço Médio + Pensamento ligado; lookup/busca simples isolada → Esforço Baixo, Pensamento dispensável. Informar essa recomendação já na primeira mensagem de checagem de modelo, não como pergunta separada depois.
+
+=== Modo Anki (opcional, qualquer material) ===
+Anki não é exclusivo de nenhuma skill — está disponível para compendio, mecanismo, sistema e prova. É sempre opt-in: ativar somente mediante pedido explícito do usuário, nunca como etapa automática de fechamento de compêndio. Procedimento completo (Fase 1: triagem por múltipla escolha; Fase 2: aprofundamento discursivo nos erros; protocolo de véspera; registro em `anki/anki_[material].json` e `anki/erros_[material].md`) está documentado em `mecanismo/SKILL.md`, seção "Modo Anki" — as demais skills referenciam esse procedimento em vez de duplicá-lo. Na skill `prova`, Anki/simulado/véspera fazem parte regular do ciclo (não um extra opcional acessório como nas demais), mas o procedimento em si continua o mesmo, canônico.
+
+=== Idioma, tooltips de tradução e tabelas ===
+Regras de idioma predominante, sidebar bilíngue (.sl-pt), tooltips técnicos (.term) e uso de .data-table: ver _docs/template-v2-spec.md (seções "Idioma e tooltips de tradução" e "Elementos visuais"). Aplicar em todos os compêndios novos e ao revisar existentes.
+
+=== Busca de literatura biomédica (MCP) ===
+Quando disponível na sessão, usar o conector MCP de busca PubMed/PMC (busca de artigos, texto completo, lookup por citação, metadados, DOI/PMID) para localizar referências reais ao gerar ou revisar material de medicina — em vez de citar de memória. Cobre medicina, biologia, bioquímica, microbiologia, farmacologia, fisiologia; não cobre economia, CS, humanas nem guidelines de sociedades/RENAME (esses continuam via busca web). Uso detalhado por subárea: ver "Heurística de fontes" no SKILL.md de compendio-medicina-básica/clínica e mecanismo-medicina-básica/clínica. Se o conector não estiver conectado na sessão, seguir a hierarquia de fontes normal e sinalizar ao usuário que a busca de literatura automatizada não está disponível.
+
+=== Subagentes para auditoria em lote ===
+Ao revisar múltiplos compêndios de uma vez (ex.: aplicar o checklist de "Verificação bash obrigatória" — ver _docs/operacoes-bash.md — ou a "Auditoria visual proativa" a vários arquivos da mesma subpasta), despachar um subagente por arquivo em vez de processar sequencialmente na sessão principal — cada subagente lê o arquivo, roda o checklist correspondente (fechamento, encoding, artefatos, pranchas/tabelas por seção, densidade de parágrafo) e retorna um relatório curto (achado/ausente por item). Consolidar os relatórios num resumo único antes de aplicar correções. A mesma lógica já vale para lookup pontual isolado (ver seção Pré-geração — Haiku via subagent).
+Não despachar subagente para a redação do compêndio em si (prosa nova ou revisão de conteúdo/argumentação): coerência de voz e densidade de parágrafo ao longo de um arquivo dependem de um único contexto contínuo — fragmentar a escrita entre subagentes tende a produzir prosa desconexa, contrariando "Harmonia entre exaustividade e didática".
+
+=== Imagens e pranchas ===
+Hierarquia de fontes: OpenStax CC BY > Gray's Anatomy (1918, domínio público) > Blausen CC BY 3.0.
+Evitar SVGs com fundo branco em tema escuro. 4-6 pranchas por compêndio, uma por seção.
+Implementação completa (plate-block, lightbox, traduções PT, API Wikimedia): ver _docs/template-v2-spec.md.
+Se, após busca razoável, nenhuma imagem adequada e livre de direitos for encontrada (comum em conteúdo molecular/farmacológico sem correspondente em Gray's/OpenStax), pular a prancha para aquela seção — não forçar uma imagem inadequada. Registrar a ausência em _docs/DEBT.md para reavaliação futura.
+
+=== Auditoria visual proativa ===
+Ao revisar qualquer compêndio HTML (não apenas ao criar), verificar OBRIGATORIAMENTE cada seção:
+1. A seção tem prancha Gray's? Se sim, está integrada com float e referências no texto?
+2. A seção sem prancha tem tabela ou outro recurso visual útil?
+3. Para seções comparativas (estruturas, síndromes, mecanismos): preferir tabela HTML (.data-table) a lista de bullets.
+4. Seções que tipicamente precisam de tabela: valvas (comparativo), camadas (estrutura/função/patologia), territórios coronarianos, sistema de condução.
+Adicionar o que faltar sem esperar que o usuário peça.
+
+=== Harmonia entre exaustividade e didática ===
+Cobertura exaustiva de um campo e digestibilidade da prosa são critérios simultâneos de qualidade — um não deve ceder ao outro. Vale para compendio e mecanismo (qualquer HTML com prosa densa). Ao revisar qualquer compêndio HTML (não apenas ao criar), verificar OBRIGATORIAMENTE, junto da auditoria visual: nenhum parágrafo empilha 3+ teorias/entidades paralelas na mesma frase corrida sem transição — um parágrafo por ideia, mesmo quando exista uma .data-table cobrindo o mesmo conteúdo (tabela e prosa cumprem papéis diferentes: tabela para comparação rápida, prosa para desenvolver uma ideia de cada vez).
+Adicionar o que faltar sem esperar que o usuário peça.
+(Checagens de completude específicas da estrutura de cada skill — ex.: cards do "mapa do campo" no compendio — ficam no SKILL.md da skill correspondente, não aqui.)
+
+=== Operações de bash e arquivo ===
+Regras de Edit/Write/sed/encoding, verificação obrigatória pós-escrita de HTML, limitações do sandbox (OneDrive, git, rede), verificação visual via surge e arquivamento em _archive/: ver _docs/operacoes-bash.md. Ler ANTES de escrever/editar HTML, rodar bash, OU encerrar qualquer sessão que tenha editado instrucoes-projeto.txt/algum SKILL.md/template-v2-spec.md/operacoes-bash.md — nesse último caso, o checklist de pendências é obrigatório (nomeando cada skill afetada, nunca genericamente) mesmo sem o gatilho de autocritica-sessao (ver operacoes-bash.md, seção "GitHub"). Não repetido aqui porque só é relevante nesses momentos, não em toda mensagem — mas o gatilho de encerramento precisa estar listado aqui, já que este é o arquivo lido em toda mensagem (incidente 2026-07-03: checklist final saiu sem nomear as skills afetadas nem lembrar push.bat/recopiar instruções, porque operacoes-bash.md nunca foi aberto na sessão).
+
+=== Escopo de melhorias — não retroagir ===
+O projeto está sempre melhorando (novo padrão de tabela, novo tipo de tooltip, nova convenção de CSS, etc.). Quando uma melhoria surge durante o trabalho em um material específico:
+- Aplicar a melhoria ao material que já está sendo editado nessa sessão (isso não muda — "Auditoria visual proativa" continua valendo dentro do escopo do arquivo em revisão).
+- Registrar o padrão na estruturação do projeto — template-v2-spec.md, SKILL.md da skill correspondente, ou instrucoes-projeto.txt — para que materiais NOVOS já nasçam seguindo o padrão.
+- Não sair retroaplicando a melhoria em todos os materiais já existentes só porque ela existe agora. Isso geraria um ciclo interminável de revisão (toda melhoria nova reabriria todo o acervo) com gasto de tokens desproporcional ao benefício.
+- Reavaliar um material antigo específico só quando: (a) o usuário pedir revisão dele diretamente, (b) ele for reaberto por outro motivo (nova seção, correção pontual), ou (c) a divergência for crítica o suficiente para virar um item de dívida técnica explícito em _docs/DEBT.md — não uma aplicação silenciosa em lote.
+- Itens de DEBT.md do tipo "expandir X para os demais compêndios" devem ser tratados como decisão em aberto (fazer ou não), não como pendência a ser resolvida por padrão.
+- Checar pertinência antes de aplicar qualquer dívida: ao ir implementar um item do DEBT.md (não ao apenas listá-lo), primeiro verificar se ele ainda faz sentido na versão ATUAL do projeto. Como o projeto evolui entre sessões, uma dívida registrada pode ter se tornado obsoleta antes de ser implementada (o material foi reescrito, o padrão mudou, a decisão foi revertida). Se ainda pertinente → aplicar. Se obsoleta → mover para "Resolvida" com nota "obsoleta: <motivo>", em vez de implementar. Nunca aplicar um item do DEBT no automático só porque está listado.
+- Essa checagem de pertinência não é só para o momento de implementar: toda vez que DEBT.md for lido (protocolo de abertura de sessão, ou qualquer auditoria/revisão do projeto), reconferir os itens da seção Pendente contra o estado atual dos arquivos/pastas que eles citam — caminho ainda existe? decisão ainda vale? o item já foi resolvido de fato sem ter sido marcado? Uma dívida pode ficar pendente tempo suficiente para perder o sentido antes mesmo de alguém tentar implementá-la (ex.: caminho de arquivo mudou de pasta, arquivo foi removido, regra citada foi revista). Corrigir/mover para "Resolvida" com nota "obsoleta: <motivo>" no mesmo momento em que a divergência for percebida — não esperar uma sessão de implementação futura para notar.
+
+=== Reincidência de correção — verificar a fonte, não só a memória ===
+Memória entre sessões é reforço, não fonte de verdade — uma instrução escrita (SKILL.md, template-v2-spec.md, este arquivo) sempre tem precedência sobre o que ficou registrado em memória. Quando o usuário reportar que um comportamento já corrigido antes voltou a acontecer, a causa mais provável não é "esqueci a correção" — é que algum SKILL.md ou instrucoes-projeto.txt ainda dita literalmente o comportamento antigo, contradizendo a correção. Antes de apenas anotar a reincidência: localizar a instrução escrita responsável (grep no SKILL.md relevante, na subskill carregada, ou neste arquivo) e corrigir a fonte no mesmo momento — não deixar a correção só na memória, que não tem como sobrepor uma instrução explícita lida no início de cada sessão nova.
+Incidente que originou esta regra (2026-07-02): a orientação para não colar arquivos inteiros no chat (usar `present_files`) já tinha sido dada uma vez, mas o Passo 4 de `autocritica-sessao/SKILL.md` continuava instruindo "exibir o conteúdo completo do arquivo no chat" — uma sessão seguiu essa instrução escrita e reincidiu no erro.
+
+=== Redação de regras estruturais — enunciado geral, não exemplo ===
+Ao escrever ou revisar qualquer regra estrutural em instrucoes-projeto.txt ou em um SKILL.md (hierarquia de skills, dispatch, protocolos), separar sempre o PRINCÍPIO GERAL (válido para qualquer skill/subskill/arquivo atual ou futuro) do EXEMPLO que o ilustra. O princípio vem primeiro, enunciado de forma abstrata; o exemplo entra depois, marcado explicitamente como ilustração (ex.: entre parênteses ou como "hoje isso se aplica a..."), nunca como o veículo único da regra.
+Por quê: o projeto está em evolução constante — skills são criadas, renomeadas ou reorganizadas com frequência (ver histórico de `compendio-medicina`, `sistema`, `prova`). Uma regra escrita apenas através de um exemplo concreto (ex.: "medicina → compendio-medicina") fica obsoleta ou parece não se aplicar assim que esse exemplo específico muda, mesmo quando o princípio geral por trás dele continua válido — obrigando a reescrever a regra em vez de só atualizar o exemplo.
+Incidente que originou esta regra (2026-07-03): o passo 3 do "Protocolo de abertura de sessão" descrevia a hierarquia top-down de skills inteiramente através do caso medicina/compendio-medicina, sem enunciar o princípio geral à parte — corrigido na mesma sessão.
+
+=== Publicação (GitHub Pages) ===
+O repositório já está publicado em https://viniciuskato.github.io/estudo-conceitos/ ("app publicado") — atualiza sozinho a cada `push.bat`, sem passo manual de deploy.
+Antes de propor infraestrutura nova para pedidos do tipo "deixar acessível", "funcionar offline", "funcionar como aplicativo" ou "escalar para mais materiais": checar primeiro se essa publicação já resolve (ex.: via fetch da URL acima) antes de desenhar alternativas como servidor local — muitas vezes já está pronto.

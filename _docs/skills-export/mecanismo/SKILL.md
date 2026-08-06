@@ -1,19 +1,28 @@
 ---
 name: mecanismo
 description: >
-  Skill para criação, revisão e estudo (modo Anki) de compêndios de mecanismos —
-  HTMLs autônomos que cobrem um conceito até o mecanismo ser explicável sem referência
-  externa. Use SEMPRE que o usuário quiser aprofundar um conceito específico de medicina
-  (imunologia, farmacologia, fisiologia, fisiopatologia, microbiologia) ou fazer sessão
-  de revisão com questões (Anki) sobre um compêndio existente. Após identificar a área,
-  carregar a subskill correspondente: mecanismo-medicina-basica ou mecanismo-medicina-clinica.
+  Modo de escrita mais profundo dentro de `compendio` — desde 2026-07-10 não é mais
+  skill-pai de entrada direta. Carregada por `compendio` (via compendio-medicina-basica
+  ou compendio-medicina-clinica, que por sua vez carregam mecanismo-medicina-basica ou
+  mecanismo-medicina-clinica) quando o recorte pedido é um mecanismo específico dentro
+  de uma área, não a área inteira. Também é a fonte canônica do Modo Anki, referenciada
+  por compendio, sistema e prova — mantida como arquivo mesmo sem ser skill de entrada.
 ---
 
-# Skill Mecanismo
+# Modo Mecanismo (subskill-folha de compendio)
 
 Compêndios de mecanismos são HTMLs autônomos que cobrem um tema até ele ser explicável
 sem referência externa. Integram: contexto histórico, definição formal, mecanismo detalhado,
 bloco de código quando aplicável, implicações práticas e discussão.
+
+**Reenquadramento (2026-07-10):** mecanismo deixou de ser skill-pai paralela a `compendio`
+— na prática, um mecanismo é a mesma área de conhecimento levada à granularidade máxima,
+não um modo de trabalho categoricamente diferente. Fisicamente, o conteúdo vive dentro da
+árvore de compêndio da área (`compêndios/<área>/mecanismos/<subárea>/`), não numa pasta
+paralela. `compendio-medicina-basica`/`compendio-medicina-clinica` são quem decide, pela
+especificidade do pedido, se descem até aqui — este arquivo continua sendo a fonte única
+das regras de formato, seção e Modo Anki, só não é mais alcançado por trigger direto de
+descrição de skill.
 
 ## Hierarquia de subskills
 
@@ -41,14 +50,17 @@ Antes de gerar compêndio novo, perguntar: o que motivou o tema, onde o usuário
 ## Estrutura de pastas
 
 ```
-medicina/
+compêndios/medicina/mecanismos/
   imunologia/      → mecanismo-medicina-basica
   fisiologia/      → mecanismo-medicina-basica
   microbiologia/   → mecanismo-medicina-basica
   farmacologia/    → mecanismo-medicina-clinica
   fisiopatologia/  → mecanismo-medicina-clinica
-anki/              → sessões e erros do Anki
+anki/              → sessões e erros do Anki (na raiz de Compêndios, compartilhado)
 ```
+
+(Migrado de `medicina/` — pasta paralela à raiz — para dentro da árvore de `compêndios/`
+em 2026-07-10, junto com o reenquadramento acima.)
 
 ## Ordem das seções (obrigatória)
 
@@ -82,16 +94,17 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
 1. Identificar área → carregar subskill correspondente.
 2. Consultar `_docs/project_estado.md` e `_docs/project_mapa_materiais.md`.
 3. Gerar HTML na subpasta temática em kebab-case.
-4. Verificação bash obrigatória após qualquer escrita de HTML:
+4. **Buscar imagens pertinentes — passo obrigatório, não opcional:** para cada conceito com correspondente visual plausível (anatômico, radiológico, morfológico, diagramático), tentar ativamente localizar prancha via a hierarquia de `_docs/template-v2-spec.md` ("Fontes de imagens": OpenStax > Gray's > Blausen) e o método Wikimedia/Claude in Chrome documentado ali. Só pular uma prancha e registrar a ausência em `_docs/DEBT.md` depois de uma busca real ter sido tentada e não ter encontrado imagem adequada — nunca pular por omissão/pressa.
+5. Verificação bash obrigatória após qualquer escrita de HTML:
    - (a) fecha com `</body></html>`
    - (b) `wc -l` compatível com o esperado
    - (c) sem `const const` / `var var`
    - (d) acentuação PT-BR intacta: `grep -c "ã\|ç\|é" > 0`
    - (e) sem artefatos: `grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho"` vazio
-5. Verificação visual (novos compêndios e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
-6. Rodar grep nos demais HTMLs antes de fechar — nunca corrigir só o arquivo em foco.
-7. Atualizar `index.html`, `_docs/DEBT.md` e `_docs/project_mapa_materiais.md`.
-8. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
+6. Verificação visual (novos compêndios e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
+7. Rodar grep nos demais HTMLs antes de fechar — nunca corrigir só o arquivo em foco.
+8. Atualizar `index.html`, `_docs/DEBT.md` e `_docs/project_mapa_materiais.md`.
+9. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
 
 ## Eficiência operacional
 
@@ -113,6 +126,7 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
 - [ ] Cross-links verificáveis (IDs de destino existem)?
 - [ ] Campo "Última revisão" atualizado?
 - [ ] `index.html` e `_docs/DEBT.md` atualizados?
+- [ ] Busca de imagens efetivamente tentada para os conceitos com correspondente visual plausível — não apenas pulada por padrão?
 
 ## Modo Anki
 

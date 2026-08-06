@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmacologia dos Antivirais — Herpes e Influenza</title>
+<style>
+  :root {
+    --roxo: #4a2c6e;
+    --roxo-claro: #7b4fa6;
+    --rosa: #c0395a;
+    --cinza-bg: #f5f5f7;
+    --branco: #ffffff;
+    --texto: #1a1a2e;
+    --texto-suave: #555;
+    --verde: #2e7d32;
+    --azul: #1565c0;
+    --laranja: #e65100;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--cinza-bg);
+    color: var(--texto);
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--roxo) 0%, #2d1b4e 100%);
+    color: white;
+    padding: 48px 32px 40px;
+    text-align: center;
+  }
+  header .disciplina {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  header h1 span { color: #e8c4f0; }
+  header .subtitulo {
+    font-size: 1.15rem;
+    opacity: 0.85;
+    font-weight: 300;
+  }
+  header .autora {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+
+  /* NAV ÍNDICE */
+  nav {
+    background: var(--roxo);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  nav ul {
+    display: flex;
+    list-style: none;
+    overflow-x: auto;
+    padding: 0 16px;
+    gap: 0;
+  }
+  nav ul li a {
+    display: block;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 14px 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+  nav ul li a:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
+
+  /* CONTEÚDO */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+
+  /* SEÇÕES */
+  section {
+    background: var(--branco);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+
+  section h2 {
+    font-size: 1.4rem;
+    color: var(--roxo);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--roxo-claro);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  section h3 {
+    font-size: 1.1rem;
+    color: var(--rosa);
+    margin: 24px 0 10px;
+  }
+
+  section h4 {
+    font-size: 0.95rem;
+    color: var(--roxo-claro);
+    margin: 16px 0 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  p { margin-bottom: 10px; color: var(--texto-suave); }
+
+  /* ÍCONE EMOJI */
+  .icon { font-size: 1.3rem; }
+
+  /* CONCEITO CHAVE */
+  .conceito-chave {
+    background: linear-gradient(135deg, #f3e8ff, #ede0f8);
+    border-left: 4px solid var(--roxo-claro);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--roxo);
+  }
+
+  /* ALERTA */
+  .alerta {
+    background: #fff3e0;
+    border-left: 4px solid var(--laranja);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    color: #7c3100;
+    font-size: 0.92rem;
+  }
+  .alerta strong { color: var(--laranja); }
+
+  /* ATENÇÃO CLÍNICA */
+  .clinico {
+    background: #e8f5e9;
+    border-left: 4px solid var(--verde);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    color: #1b5e20;
+    font-size: 0.92rem;
+  }
+  .clinico strong { color: var(--verde); }
+
+  /* DESTAQUE */
+  .destaque {
+    background: #fce4ec;
+    border-left: 4px solid var(--rosa);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 14px 0;
+    color: #880e2f;
+    font-size: 0.92rem;
+  }
+
+  /* CARDS DE FÁRMACO */
+  .farmaco-card {
+    background: var(--cinza-bg);
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 16px 0;
+  }
+  .farmaco-card .nome {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--roxo);
+    margin-bottom: 4px;
+  }
+  .farmaco-card .comercial {
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    margin-bottom: 12px;
+  }
+  .farmaco-card ul {
+    padding-left: 18px;
+    color: var(--texto-suave);
+  }
+  .farmaco-card li { margin-bottom: 5px; font-size: 0.93rem; }
+  .farmaco-card .tag {
+    display: inline-block;
+    background: var(--roxo-claro);
+    color: white;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    margin-right: 4px;
+    margin-bottom: 8px;
+  }
+  .farmaco-card .tag.verde { background: var(--verde); }
+  .farmaco-card .tag.rosa { background: var(--rosa); }
+  .farmaco-card .tag.laranja { background: var(--laranja); }
+
+  /* TABELA */
+  .tabela-wrapper { overflow-x: auto; margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead th {
+    background: var(--roxo);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  tbody tr:nth-child(even) { background: #f8f4ff; }
+  tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e8e0f0;
+    color: var(--texto-suave);
+    vertical-align: top;
+  }
+  tbody tr:hover { background: #f0e8ff; }
+
+  /* FLUXOGRAMA / PASSO-A-PASSO */
+  .fluxo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+    align-items: center;
+  }
+  .fluxo-etapa {
+    background: var(--roxo);
+    color: white;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.83rem;
+    text-align: center;
+    min-width: 120px;
+  }
+  .fluxo-seta {
+    color: var(--roxo-claro);
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  /* DOIS COLS */
+  .dois-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 12px 0;
+  }
+  @media (max-width: 600px) { .dois-cols { grid-template-columns: 1fr; } }
+
+  /* RESUMO FINAL */
+  .resumo-box {
+    background: linear-gradient(135deg, var(--roxo) 0%, #2d1b4e 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 12px;
+  }
+  .resumo-box h3 { color: #e8c4f0; margin-bottom: 12px; }
+  .resumo-box p { color: rgba(255,255,255,0.85); }
+
+  /* GLOSSÁRIO */
+  .glossario-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+  .glossario-item:last-child { border-bottom: none; }
+  .glossario-item dt {
+    font-weight: 700;
+    color: var(--roxo);
+    font-size: 0.95rem;
+  }
+  .glossario-item dd {
+    color: var(--texto-suave);
+    font-size: 0.9rem;
+    margin-left: 0;
+    margin-top: 3px;
+  }
+  dl { display: block; }
+
+  /* BADGE NÃO TEM NO BR */
+  .badge-nao-br {
+    display: inline-block;
+    background: #ffebee;
+    color: var(--rosa);
+    border: 1px solid var(--rosa);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* LISTA COM ÍCONES */
+  .lista-ok { list-style: none; padding-left: 0; }
+  .lista-ok li { padding-left: 24px; position: relative; margin-bottom: 6px; color: var(--texto-suave); font-size: 0.93rem; }
+  .lista-ok li::before { content: '✓'; position: absolute; left: 0; color: var(--verde); font-weight: bold; }
+
+  .lista-atencao { list-style: none; padding-left: 0; }
+  .lista-atencao li { padding-left: 24px; position: relative; margin-bottom: 6px; color: var(--texto-suave); font-size: 0.93rem; }
+  .lista-atencao li::before { content: '⚠'; position: absolute; left: 0; color: var(--laranja); }
+
+  /* RODAPÉ */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 0.8rem;
+    color: #aaa;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="disciplina">Agressão e Defesa 1 · PUCPR-Londrina · 3º Período</div>
+  <h1>Farmacologia dos <span>Antivirais</span></h1>
+  <div class="subtitulo">Herpes (HSV/VZV) e Influenza</div>
+  <div class="autora">Profa. Dra. Jaqueline Costa Castardo de Paula</div>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#virus">Vírus</a></li>
+    <li><a href="#replicacao">Replicação Viral</a></li>
+    <li><a href="#classes">Classes de Antivirais</a></li>
+    <li><a href="#herpes">Anti-Herpes</a></li>
+    <li><a href="#aciclovir">Aciclovir</a></li>
+    <li><a href="#outros-herpes">Outros (HSV)</a></li>
+    <li><a href="#influenza">Anti-Influenza</a></li>
+    <li><a href="#oseltamivir">Oseltamivir</a></li>
+    <li><a href="#resumo">Resumo</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ==================== VÍRUS ==================== -->
+  <section id="virus">
+    <h2><span class="icon">🦠</span> O que são vírus?</h2>
+
+    <p>Vírus são <strong>patógenos intracelulares obrigatórios</strong>: não possuem maquinaria metabólica própria (sem organelas, sem ribossomos próprios) e, por isso, dependem totalmente da célula hospedeira para se replicar. Essa dependência é a razão pela qual desenvolver antivirais é mais difícil do que desenvolver antibióticos — qualquer alvo que o vírus usa, provavelmente a célula hospedeira também usa.</p>
+
+    <div class="dois-cols">
+      <div>
+        <h4>Estrutura básica do vírus</h4>
+        <ul style="padding-left: 18px; color: var(--texto-suave); font-size: 0.93rem;">
+          <li>Material genético: DNA <em>ou</em> RNA</li>
+          <li>Capsídeo proteico (protege o genoma)</li>
+          <li>Envelope lipídico (em alguns vírus)</li>
+          <li>Proteínas de superfície (hemaglutinina, neuraminidase etc.)</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tipos de vírus por genoma</h4>
+        <ul style="padding-left: 18px; color: var(--texto-suave); font-size: 0.93rem;">
+          <li><strong>Vírus DNA</strong> (ex.: herpes): entram no núcleo da célula hospedeira</li>
+          <li><strong>Vírus RNA</strong> (ex.: influenza, rubéola): replicação no citoplasma*</li>
+          <li><strong>Retrovírus RNA</strong> (ex.: HIV): usam transcriptase reversa para copiar RNA → DNA</li>
+        </ul>
+        <p style="font-size: 0.8rem; margin-top: 6px;">*O vírus influenza é exceção: seu RNA é replicado no núcleo.</p>
+      </div>
+    </div>
+
+    <div class="conceito-chave">
+      <strong>Conceito central:</strong> Antivirais eficazes precisam atuar em alvos <em>exclusivos do vírus</em> (ou suficientemente diferentes dos alvos celulares) para não causar toxicidade excessiva ao hospedeiro.
+    </div>
+
+    <h3>Vírus com terapia antiviral disponível</h3>
+    <p>Nem todo vírus tem tratamento específico. Os principais alvos com antivirais aprovados são:</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">Gripe (Influenza)</span>
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">HSV (Herpes Simples)</span>
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">CMV (Citomegalovírus)</span>
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">VZV (Varicela-Zóster)</span>
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">RSV (Vírus Sincicial)</span>
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">HCV / HBV</span>
+      <span style="background:#f3e8ff; color:var(--roxo); border-radius:20px; padding:4px 14px; font-size:0.85rem; border:1px solid var(--roxo-claro);">HIV</span>
+    </div>
+
+    <div class="alerta" style="margin-top: 16px;">
+      <strong>⚠ Importante:</strong> A maioria dos antivirais é <strong>virustática</strong> — atua apenas contra vírus em replicação ativa, limitando a extensão da lesão, mas não elimina o vírus do organismo (especialmente nos que entram em latência, como o herpes).
+    </div>
+  </section>
+
+  <!-- ==================== REPLICAÇÃO ==================== -->
+  <section id="replicacao">
+    <h2><span class="icon">🔄</span> Ciclo de Replicação Viral</h2>
+
+    <p>Entender o ciclo de replicação é fundamental para compreender onde cada antiviral atua. O ciclo geral ocorre em 8 etapas:</p>
+
+    <div class="fluxo">
+      <div class="fluxo-etapa">1. Fixação<br><small>(receptor celular)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">2. Entrada<br><small>(membrana)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">3. Desencapsulamento<br><small>(libera ácido nucleico)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">4. Síntese proteínas precoces<br><small>(polimerases)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">5. Replicação do genoma<br><small>(DNA ou RNA viral)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">6. Síntese proteínas tardias<br><small>(estruturais)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">7. Montagem<br><small>(maturação)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">8. Liberação<br><small>(brotamento)</small></div>
+    </div>
+
+    <div class="dois-cols" style="margin-top: 24px;">
+      <div class="farmaco-card">
+        <div class="nome">🧬 Vírus DNA — Herpes</div>
+        <ul>
+          <li>Entra no <strong>núcleo da célula</strong></li>
+          <li>DNA viral transcrito em mRNA → proteínas virais</li>
+          <li>DNA polimerase viral replica o genoma</li>
+          <li>Novos vírions brotam pela membrana</li>
+          <li>Pode entrar em <strong>latência</strong> nos gânglios nervosos</li>
+        </ul>
+      </div>
+      <div class="farmaco-card">
+        <div class="nome">🌀 Vírus RNA — Influenza</div>
+        <ul>
+          <li>Entra por <strong>endocitose</strong> mediada pela hemaglutinina</li>
+          <li>Endossomo é acidificado pelo <strong>canal M2</strong></li>
+          <li>RNA replicado <em>no núcleo</em> (exceção entre vírus RNA)</li>
+          <li>Neuraminidase cliva o ácido siálico para liberar novos vírions</li>
+          <li>Classificado por subtipos de H (hemaglutinina) e N (neuraminidase): H1N1, H3N2…</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CLASSES ==================== -->
+  <section id="classes">
+    <h2><span class="icon">💊</span> Classes de Antivirais</h2>
+
+    <p>Existem 7 grandes classes de antivirais, agindo em diferentes etapas do ciclo viral. Nesta aula, o foco está nas classes 1 e 2:</p>
+
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Classe</th>
+            <th>Exemplos</th>
+            <th>Foco desta aula</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>Inibidores da DNA-polimerase</td>
+            <td>Aciclovir, Valaciclovir, Foscarnet</td>
+            <td style="color:var(--verde); font-weight:600;">✓ Anti-Herpes</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>Inibidores da neuraminidase e da desmontagem da capa viral</td>
+            <td>Oseltamivir, Amantadina, Baloxavir</td>
+            <td style="color:var(--verde); font-weight:600;">✓ Anti-Influenza</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Inibidores da transcriptase reversa (ITR)</td>
+            <td>Zidovudina, Tenofovir</td>
+            <td style="color:#aaa;">Anti-HIV</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Inibidores da protease (IP)</td>
+            <td>Ritonavir</td>
+            <td style="color:#aaa;">Anti-HIV/HCV</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Inibidores da fusão</td>
+            <td>Enfuvirtida, Docosanol</td>
+            <td style="color:#aaa;">Anti-HIV / Herpes tópico</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Antagonistas do correceptor CCR5 (inibidores da entrada)</td>
+            <td>Maraviroque</td>
+            <td style="color:#aaa;">Anti-HIV</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Inibidores da integrase (INSTIs)</td>
+            <td>Raltegravir, Dolutegravir</td>
+            <td style="color:#aaa;">Anti-HIV</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== HERPES ==================== -->
+  <section id="herpes">
+    <h2><span class="icon">🔵</span> Antivirais para Herpes (HSV e VZV)</h2>
+
+    <p>O <strong>Herpes Simples (HSV-1 e HSV-2)</strong> e o <strong>Vírus Varicela-Zóster (VZV)</strong> são herpesvírus DNA que causam desde lesões labiais até encefalite e infecções neonatais graves. Ambos podem estabelecer latência em gânglios nervosos, com reativações ao longo da vida.</p>
+
+    <div class="alerta">
+      <strong>⚠ Atenção:</strong> O VZV é <em>menos sensível</em> aos fármacos anti-herpéticos que o HSV — portanto, as doses utilizadas no tratamento de varicela e herpes-zóster são <strong>mais altas</strong>.
+    </div>
+
+    <h3>Alvos moleculares dos anti-herpéticos</h3>
+    <div class="dois-cols">
+      <div class="farmaco-card">
+        <div class="nome">Timidina cinase viral</div>
+        <p style="font-size:0.9rem;">Enzima <em>específica do vírus</em> que catalisa a 1ª fosforilação dos análogos de nucleosídeos, ativando o pró-fármaco. Por ser diferente da cinase humana, confere seletividade ao tratamento.</p>
+      </div>
+      <div class="farmaco-card">
+        <div class="nome">DNA polimerase viral</div>
+        <p style="font-size:0.9rem;">Enzima responsável pela replicação do DNA viral. É o alvo final dos análogos de nucleosídeos (na forma trifosfato) e do foscarnet. Difere suficientemente da DNA polimerase humana, permitindo efeitos adversos aceitáveis.</p>
+      </div>
+    </div>
+
+    <h3>Tabela de fármacos disponíveis</h3>
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Fármaco</th>
+            <th>Tipo</th>
+            <th>Usos principais</th>
+            <th>Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Aciclovir</strong> (Zovirax®)</td>
+            <td>Análogo guanosina</td>
+            <td>HSV-1, HSV-2, VZV, Varicela</td>
+            <td>Marco histórico; pró-fármaco</td>
+          </tr>
+          <tr>
+            <td><strong>Valaciclovir</strong> (Valtrex®)</td>
+            <td>Pró-fármaco do aciclovir</td>
+            <td>HSV-1, HSV-2, Herpes Zoster</td>
+            <td>Maior biodisponibilidade oral</td>
+          </tr>
+          <tr>
+            <td><strong>Fanciclovir</strong> (Fanvir®)</td>
+            <td>Pró-fármaco do penciclovir</td>
+            <td>HSV-1, HSV-2 genital, Herpes Zoster</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Penciclovir</strong> (Penvir®)</td>
+            <td>Análogo guanosina</td>
+            <td>HSV-1, HSV-2, Herpes Zoster</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Ganciclovir</strong> (Cimevene®)</td>
+            <td>Análogo guanosina</td>
+            <td>CMV em imunocomprometidos</td>
+            <td>Mais tóxico</td>
+          </tr>
+          <tr>
+            <td><strong>Foscarnet</strong> (Foscavir®)</td>
+            <td>Análogo pirofosfato (não-nucleosídeo)</td>
+            <td>HSV, VZV, CMV, HBV; infecções resistentes</td>
+            <td><span class="badge-nao-br">Não no BR</span></td>
+          </tr>
+          <tr>
+            <td><strong>Trifluridina</strong></td>
+            <td>Nucleosídeo pirimidínico fluorado</td>
+            <td>Herpes cutâneo/ocular resistente (tópico)</td>
+            <td><span class="badge-nao-br">Não no BR</span> (no BR: Ca colorretal VO)</td>
+          </tr>
+          <tr>
+            <td><strong>Docosanol</strong> (Abreva®)</td>
+            <td>Inibidor de fusão</td>
+            <td>Herpes orolabial recorrente (tópico)</td>
+            <td><span class="badge-nao-br">Não no BR</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== ACICLOVIR ==================== -->
+  <section id="aciclovir">
+    <h2><span class="icon">⭐</span> Aciclovir — O Fármaco de Referência</h2>
+
+    <p>O aciclovir foi o <strong>primeiro antiviral efetivo e seguro</strong> para herpesvírus, desenvolvido pela pesquisadora Gertrude B. Elion (Prêmio Nobel de Medicina, 1988). É o marco da farmacologia antiviral moderna.</p>
+
+    <h3>Mecanismo de ação</h3>
+    <p>O aciclovir é um <strong>pró-fármaco</strong> que precisa ser ativado em 3 etapas de fosforilação para exercer seu efeito:</p>
+
+    <div class="fluxo" style="margin: 16px 0;">
+      <div class="fluxo-etapa" style="background:var(--rosa);">Aciclovir<br><small>(inativo)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Aciclovir-monofosfato<br><small>1ª fosforilação pela<br><strong>TIMIDINA CINASE VIRAL</strong></small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Aciclovir-difosfato<br><small>2ª fosforilação<br>enzimas celulares</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Aciclovir-trifosfato<br><small>3ª fosforilação<br>(forma ativa)</small></div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa" style="background:var(--verde);">Inibe DNA polimerase viral + termina a cadeia de DNA</div>
+    </div>
+
+    <div class="conceito-chave">
+      A 1ª fosforilação depende da <strong>timidina cinase específica do vírus</strong>. Como células não infectadas não possuem essa enzima viral, o aciclovir é ativado <em>apenas nas células infectadas</em>. Isso explica sua alta seletividade e segurança.
+    </div>
+
+    <p>O aciclovir trifosfato incorpora-se ao DNA viral como um análogo da guanosina. Por não ter o grupo 3'-OH necessário para elongação da cadeia, provoca <strong>terminação prematura da síntese de DNA viral</strong>.</p>
+
+    <h3>Farmacocinética</h3>
+    <div class="farmaco-card">
+      <div class="nome">Aciclovir</div>
+      <div class="comercial">Zovirax® · Análogo de guanosina</div>
+      <div>
+        <span class="tag">Inibidor nucleosídico de DNA polimerase</span>
+        <span class="tag verde">Seguro</span>
+        <span class="tag">Pró-fármaco</span>
+      </div>
+      <ul>
+        <li><strong>Formulações:</strong> tópica, oral, intravenosa (IV)</li>
+        <li><strong>Biodisponibilidade oral:</strong> baixa (10–30%) — por isso o valaciclovir foi desenvolvido</li>
+        <li><strong>Distribuição:</strong> boa — atravessa a barreira hematoencefálica (BHE); PM baixo e pouca ligação a proteínas plasmáticas. Níveis no líquor de até 50% do plasmático</li>
+        <li><strong>Eliminação:</strong> renal; t½ ≈ 3h (em anúria: 20h — exige ajuste de dose)</li>
+      </ul>
+    </div>
+
+    <h3>Reações adversas</h3>
+    <ul class="lista-ok">
+      <li>RAM mínimas por via oral: dor de cabeça, náusea (considerado bastante seguro)</li>
+    </ul>
+    <ul class="lista-atencao" style="margin-top: 8px;">
+      <li>Infusão IV: toxicidade renal reversível e efeitos neurológicos — prevenidos com <strong>infusão lenta + hidratação adequada</strong></li>
+    </ul>
+
+    <h3>Valaciclovir — por que existe?</h3>
+    <p>O valaciclovir é um <strong>éster valil do aciclovir</strong>: pró-fármaco com biodisponibilidade oral 3–5× maior. Após absorção intestinal, é convertido em aciclovir pelo fígado. Permite dosagem menos frequente e é preferido em muitas situações clínicas.</p>
+  </section>
+
+  <!-- ==================== FOSCARNET ==================== -->
+  <section id="outros-herpes">
+    <h2><span class="icon">🔴</span> Outros Antivirais Anti-Herpes</h2>
+
+    <h3>Foscarnet (Foscavir®) <span class="badge-nao-br">Não disponível no Brasil</span></h3>
+    <div class="farmaco-card">
+      <div class="nome">Foscarnet</div>
+      <div class="comercial">Foscavir® — apenas por importação · Análogo do pirofosfato inorgânico (não-nucleosídeo)</div>
+      <div>
+        <span class="tag rosa">Não-nucleosídeo</span>
+        <span class="tag laranja">Reserva resistência</span>
+      </div>
+      <ul>
+        <li><strong>Mecanismo:</strong> Inibidor direto (reversível) da <strong>DNA polimerase do herpesvírus</strong>, da RNA polimerase e da <strong>transcriptase reversa do HIV</strong></li>
+        <li><strong>Diferencial:</strong> NÃO necessita ativação por fosforilação — ativo mesmo em cepas com timidina cinase mutada</li>
+        <li><strong>Espectro:</strong> Todos os herpesvírus (HSV, VZV, CMV), HBV e HIV</li>
+        <li><strong>Uso:</strong> Infecções resistentes ao aciclovir ou ganciclovir</li>
+        <li><strong>Desvantagem:</strong> sem biodisponibilidade oral (apenas IV); comprometimento renal mesmo em baixa dose; pode interferir na divisão celular do hospedeiro em concentrações próximas às terapêuticas</li>
+      </ul>
+    </div>
+
+    <h3>Trifluridina <span class="badge-nao-br">Não no BR (uso anti-herpes)</span></h3>
+    <p>Nucleosídeo de pirimidina fluorado (trifluorotimidina). Análogo nucleosídico que inibe a síntese de DNA viral, mas <strong>também se incorpora ao DNA do hospedeiro</strong> — por isso seu uso anti-herpes é restrito à via <strong>tópica</strong> (infecções cutâneas e oculares resistentes). No Brasil, é comercializado por via oral para câncer colorretal (combinação com tipiracil).</p>
+
+    <h3>Docosanol (Abreva®) <span class="badge-nao-br">Não no BR</span></h3>
+    <div class="farmaco-card">
+      <div class="nome">Docosanol</div>
+      <div class="comercial">Abreva® — importado, venda livre</div>
+      <div><span class="tag">Inibidor de fusão</span><span class="tag">Uso tópico</span></div>
+      <ul>
+        <li><strong>Mecanismo:</strong> Inibe a fusão entre a membrana plasmática da célula hospedeira e o envelope do HSV — impede a entrada do vírus</li>
+        <li><strong>Uso:</strong> Herpes orolabial recorrente ("herpes labial")</li>
+        <li>Único inibidor de fusão aplicado topicamente para HSV</li>
+      </ul>
+    </div>
+
+    <h3>Resumo de posologia (HSV/VZV) — Aciclovir como referência</h3>
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Situação</th>
+            <th>Fármaco</th>
+            <th>Dose e duração</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Herpes genital — 1º episódio</td>
+            <td>Aciclovir oral</td>
+            <td>400 mg 3x/dia por 7–10 dias</td>
+          </tr>
+          <tr>
+            <td>Herpes genital — supressão</td>
+            <td>Aciclovir oral</td>
+            <td>400–800 mg 2–3x/dia</td>
+          </tr>
+          <tr>
+            <td>Herpes orolabial</td>
+            <td>Aciclovir oral</td>
+            <td>200–400 mg 5x/dia por 5 dias</td>
+          </tr>
+          <tr>
+            <td>Varicela</td>
+            <td>Aciclovir oral</td>
+            <td>20 mg/kg (máx. 800 mg) 5x/dia por 5 dias</td>
+          </tr>
+          <tr>
+            <td>Herpes Zoster</td>
+            <td>Aciclovir oral</td>
+            <td>800 mg 5x/dia por 7–10 dias</td>
+          </tr>
+          <tr>
+            <td>Encefalite herpética</td>
+            <td>Aciclovir IV</td>
+            <td>10 mg/kg a cada 8h por 14–21 dias</td>
+          </tr>
+          <tr>
+            <td>Infecção grave/imunocomprometido</td>
+            <td>Aciclovir IV</td>
+            <td>5–10 mg/kg a cada 8h por 7–14 dias</td>
+          </tr>
+          <tr>
+            <td>Ceratoconjuntivite herpética</td>
+            <td>Ganciclovir tópico 0,15%</td>
+            <td>5x/dia até cicatrizar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== INFLUENZA ==================== -->
+  <section id="influenza">
+    <h2><span class="icon">🌡️</span> Antivirais Anti-Influenza</h2>
+
+    <p>O vírus da influenza é um <strong>vírus RNA de fita simples</strong>, classificado em tipos A, B e C. O Influenza A é o mais relevante clinicamente, sendo classificado pelos subtipos de suas proteínas de superfície:</p>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0 20px;">
+      <span style="background:#fce4ec; color:var(--rosa); padding:6px 14px; border-radius:20px; font-weight:700;">H1N1 (gripe suína)</span>
+      <span style="background:#fce4ec; color:var(--rosa); padding:6px 14px; border-radius:20px; font-weight:700;">H1N2</span>
+      <span style="background:#fce4ec; color:var(--rosa); padding:6px 14px; border-radius:20px; font-weight:700;">H3N2</span>
+    </div>
+
+    <p>A <strong>hemaglutinina (H)</strong> liga o vírus ao ácido siálico da célula hospedeira para iniciar a infecção. A <strong>neuraminidase (N)</strong> cliva as ligações de ácido siálico para permitir a liberação dos novos vírions. Ambas são alvos terapêuticos importantes.</p>
+
+    <h3>Ciclo de replicação do Influenza — simplificado</h3>
+    <div class="fluxo">
+      <div class="fluxo-etapa">Hemaglutinina liga ao ácido siálico</div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Endocitose</div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Acidificação do endossomo (canal M2)</div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Desencapsulamento → RNA viral no núcleo</div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Replicação do RNA e síntese de proteínas</div>
+      <div class="fluxo-seta">→</div>
+      <div class="fluxo-etapa">Neuraminidase libera novos vírions</div>
+    </div>
+
+    <h3>Três classes de antivirais anti-influenza</h3>
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Classe</th>
+            <th>Exemplos</th>
+            <th>Status no BR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Adamantanos (bloqueadores M2)</td>
+            <td>Amantadina, Rimantadina</td>
+            <td>Disponíveis como <strong>antiparkinsonianos</strong> — NÃO recomendados para influenza</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Inibidor de endonuclease dependente de cap</td>
+            <td>Baloxavir marboxila (Xofluza®)</td>
+            <td>Disponível</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Inibidores da neuraminidase</td>
+            <td>Oseltamivir (Tamiflu®), Zanamivir, Peramivir</td>
+            <td>Oseltamivir: disponível. Zanamivir/Peramivir: não no BR</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ADAMANTANOS -->
+    <h3>1. Adamantanos — Amantadina e Rimantadina</h3>
+    <div class="farmaco-card">
+      <div class="nome">Amantadina / Rimantadina</div>
+      <div class="comercial">Bloqueadores do canal iônico M2 (inibidores do desencapsulamento)</div>
+      <div><span class="tag rosa">⚠ NÃO recomendados para influenza</span></div>
+      <ul>
+        <li><strong>Mecanismo:</strong> Bloqueiam o <strong>canal iônico de prótons M2</strong> da partícula viral, impedindo a acidificação do endossomo e o desencapsulamento do RNA viral</li>
+        <li><strong>Problema:</strong> Altas taxas de resistência para H1N1 e H3N2 — ineficazes contra as cepas circulantes atuais</li>
+        <li><strong>No Brasil:</strong> Usados como <strong>antiparkinsonianos</strong> (amantadina), não como antivirais</li>
+      </ul>
+    </div>
+
+    <!-- BALOXAVIR -->
+    <h3>2. Baloxavir Marboxila (Xofluza®)</h3>
+    <div class="farmaco-card">
+      <div class="nome">Baloxavir Marboxila</div>
+      <div class="comercial">Xofluza® — Inibidor de endonuclease dependente de cap</div>
+      <div><span class="tag">Pró-fármaco</span><span class="tag verde">Dose única</span></div>
+      <ul>
+        <li><strong>Ativação:</strong> Pró-fármaco ativado no intestino, fígado e plasma → fármaco ativo: <em>ácido baloxavir</em></li>
+        <li><strong>Mecanismo:</strong> Inibe a <strong>RNA polimerase dependente do RNA viral</strong> (endonuclease dependente de cap) → bloqueia a síntese do RNAm viral e a replicação</li>
+        <li><strong>Farmacocinética:</strong> Administração oral, t½ ≈ 80h → <strong>dose única</strong></li>
+        <li><strong>Interação:</strong> Cátions polivalentes (antiácidos com Al, Mg; laticínios) reduzem a absorção</li>
+        <li><strong>Janela terapêutica:</strong> Iniciar dentro de <strong>48 horas</strong> do início dos sintomas</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== OSELTAMIVIR ==================== -->
+  <section id="oseltamivir">
+    <h2><span class="icon">💉</span> Oseltamivir (Tamiflu®) — O Principal Anti-Influenza</h2>
+
+    <div class="conceito-chave">
+      O oseltamivir inibe a <strong>neuraminidase</strong>, a enzima que o vírus usa para libertar novos vírions da célula infectada. Sem essa enzima, os vírus recém-formados ficam presos na superfície celular, agregam entre si e não conseguem se disseminar.
+    </div>
+
+    <h3>Mecanismo de ação</h3>
+    <p>O oseltamivir é um <strong>análogo do ácido siálico</strong> que inibe reversível e competitivamente a neuraminidase viral. Sem neuraminidase funcional:</p>
+    <ul class="lista-ok">
+      <li>O vírion recém-replicado não consegue escapar da célula hospedeira</li>
+      <li>Os vírions agregam entre si e na membrana da célula infectada</li>
+      <li>A disseminação viral é bloqueada</li>
+    </ul>
+
+    <div class="alerta">
+      <strong>⚠ Por isso a administração precoce é essencial:</strong> O oseltamivir não elimina o vírus já estabelecido — ele impede a disseminação. Quanto antes iniciado (idealmente nas primeiras 48h), menor a carga viral que se dissemina.
+    </div>
+
+    <h3>Farmacocinética</h3>
+    <div class="farmaco-card">
+      <div class="nome">Oseltamivir (Tamiflu®)</div>
+      <div class="comercial">Inibidor da neuraminidase · Pró-fármaco</div>
+      <div>
+        <span class="tag">Via oral</span>
+        <span class="tag verde">Disponível no SUS</span>
+        <span class="tag">Pró-fármaco</span>
+      </div>
+      <ul>
+        <li><strong>Ativação:</strong> Pró-fármaco ativado por esterases hepáticas → oseltamivir carboxilato (forma ativa)</li>
+        <li><strong>Eliminação:</strong> Renal (filtração glomerular + secreção tubular) — ajustar na insuficiência renal</li>
+        <li><strong>Espectro:</strong> Influenza A e B agudas</li>
+        <li><strong>Início:</strong> Idealmente nas primeiras 48h. Em grupos de risco, pode ser usado até 5 dias após o início dos sintomas</li>
+      </ul>
+    </div>
+
+    <h3>Reações adversas</h3>
+    <ul class="lista-atencao">
+      <li>Náuseas, vômitos, dispepsia e diarreia (leves, relacionados ao TGI)</li>
+      <li>Risco aumentado de <strong>alucinações, delírio e comportamento anormal</strong> em pacientes com influenza tratados com o fármaco (vigilância especialmente em crianças e adolescentes)</li>
+    </ul>
+
+    <h3>Indicações — Guia do Ministério da Saúde (Brasil, 2024)</h3>
+    <div class="clinico">
+      <strong>✓ Indicado para:</strong><br>
+      1. Casos com <strong>condições e fatores de risco para complicações</strong> — independentemente da situação vacinal, mesmo em atendimento ambulatorial<br>
+      2. <strong>Síndrome Respiratória Aguda Grave (SRAG)</strong>
+    </div>
+
+    <h4>Grupos de risco para complicações (indicam uso de oseltamivir)</h4>
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr><th>Grupo</th><th>Critério</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gestantes e puérperas</td><td>Até 2 semanas após o parto</td></tr>
+          <tr><td>Idosos</td><td>≥ 60 anos</td></tr>
+          <tr><td>Crianças</td><td>&lt; 5 anos</td></tr>
+          <tr><td>Povos indígenas</td><td>—</td></tr>
+          <tr><td>Uso de AAS</td><td>&lt; 19 anos (risco de Síndrome de Reye)</td></tr>
+          <tr><td>Doenças pulmonares</td><td>Asma, DPOC, tuberculose</td></tr>
+          <tr><td>Doenças cardiovasculares</td><td>Exceto HAS isolada</td></tr>
+          <tr><td>Doenças renais, hepáticas ou hematológicas</td><td>—</td></tr>
+          <tr><td>Doenças metabólicas</td><td>Incluindo diabetes mellitus</td></tr>
+          <tr><td>Distúrbios neurológicos</td><td>Epilepsia, paralisia cerebral, síndrome de Down, AVE, doenças neuromusculares</td></tr>
+          <tr><td>Imunossupressão</td><td>Corticoides (≥ 20 mg/dia de prednisona > 2 semanas), quimioterapia, inibidores de TNF-α, HIV/aids, neoplasias</td></tr>
+          <tr><td>Obesidade grave</td><td>IMC ≥ 40 em adultos</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Posologia (Guia MS, Brasil, 2024)</h3>
+    <div class="tabela-wrapper">
+      <table>
+        <thead>
+          <tr><th>Faixa etária / Peso</th><th>Dose e duração</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Adultos</td><td>75 mg, 2x/dia, por 5 dias</td></tr>
+          <tr><td>Crianças ≥ 1 ano — ≤15 kg</td><td>30 mg, 2x/dia, 5 dias</td></tr>
+          <tr><td>Crianças ≥ 1 ano — 15–23 kg</td><td>45 mg, 2x/dia, 5 dias</td></tr>
+          <tr><td>Crianças ≥ 1 ano — 23–40 kg</td><td>60 mg, 2x/dia, 5 dias</td></tr>
+          <tr><td>Crianças ≥ 1 ano — &gt;40 kg</td><td>75 mg, 2x/dia, 5 dias</td></tr>
+          <tr><td>Crianças &lt; 1 ano — 0 a 8 meses</td><td>3 mg/kg, 2x/dia, 5 dias</td></tr>
+          <tr><td>Crianças &lt; 1 ano — 9 a 11 meses</td><td>3,5 mg/kg, 2x/dia, 5 dias</td></tr>
+          <tr><td>Profilaxia pós-exposição*</td><td>75 mg, 1x/dia, por 7 dias após o último contato</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82rem; margin-top:6px; color:#999;">*Profilaxia: apenas para grupos de risco específicos. Eficácia: 70–90% na prevenção após exposição.</p>
+  </section>
+
+  <!-- ==================== RESUMO ==================== -->
+  <section id="resumo">
+    <h2><span class="icon">📋</span> Resumo e Mapa Mental</h2>
+
+    <h3>Pontos essenciais — Anti-Herpes</h3>
+    <ul class="lista-ok">
+      <li>Aciclovir: pró-fármaco ativado <em>exclusivamente nas células infectadas</em> pela timidina cinase viral → alta seletividade</li>
+      <li>Ativação em 3 etapas: 1ª depende da TK viral; 2ª e 3ª por enzimas celulares</li>
+      <li>Forma ativa (trifosfato) inibe DNA polimerase viral e termina a cadeia de DNA</li>
+      <li>Valaciclovir = pró-fármaco com biodisponibilidade oral muito maior que o aciclovir</li>
+      <li>Foscarnet = não-nucleosídeo; não precisa de TK viral para ativação → útil em cepas resistentes</li>
+      <li>VZV requer doses maiores de anti-herpéticos que o HSV</li>
+    </ul>
+
+    <h3>Pontos essenciais — Anti-Influenza</h3>
+    <ul class="lista-ok">
+      <li>Adamantanos (amantadina): bloqueiam canal M2 → <strong>NÃO recomendados</strong> (alta resistência)</li>
+      <li>Baloxavir: inibe a endonuclease dependente de cap → bloqueia síntese do mRNA viral → dose única</li>
+      <li>Oseltamivir: inibe neuraminidase → impede liberação e disseminação dos novos vírions</li>
+      <li>Todos os antiinfluenza: iniciar em até <strong>48 horas</strong> do início dos sintomas</li>
+      <li>Oseltamivir: indicado para grupos de risco e SRAG segundo o Guia do MS 2024</li>
+    </ul>
+
+    <div class="resumo-box" style="margin-top: 24px;">
+      <h3>🧠 Princípio unificador</h3>
+      <p>Todo antiviral eficaz explora a diferença entre as enzimas virais e as enzimas do hospedeiro. Quanto mais específico o alvo viral (timidina cinase, neuraminidase, endonuclease dependente de cap), maior a seletividade e menor a toxicidade. O desafio central da farmacologia antiviral é encontrar esses alvos únicos em patógenos que dependem quase inteiramente da maquinaria da célula hospedeira.</p>
+    </div>
+
+    <!-- GLOSSÁRIO -->
+    <h3 style="margin-top: 28px;">Glossário rápido</h3>
+    <dl>
+      <div class="glossario-item">
+        <dt>Pró-fármaco</dt>
+        <dd>Composto inativo que precisa ser metabolizado no organismo para produzir o fármaco ativo.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>Virustático</dt>
+        <dd>Agente que inibe a replicação viral sem matar o vírus — funciona apenas contra vírus em replicação ativa.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>Hemaglutinina (H)</dt>
+        <dd>Proteína de superfície do vírus influenza responsável pela ligação ao receptor de ácido siálico da célula hospedeira.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>Neuraminidase (N)</dt>
+        <dd>Enzima viral que cliva as ligações de ácido siálico, permitindo a liberação dos novos vírions da célula infectada.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>Canal M2</dt>
+        <dd>Canal iônico de prótons na membrana do vírus influenza, responsável pela acidificação do endossomo e desencapsulamento viral.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>Timidina cinase viral</dt>
+        <dd>Enzima codificada pelo herpesvírus que realiza a primeira fosforilação dos análogos de nucleosídeos, sendo o principal determinante da seletividade do aciclovir.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>SRAG</dt>
+        <dd>Síndrome Respiratória Aguda Grave — critério clínico que indica internação hospitalar e início obrigatório de oseltamivir.</dd>
+      </div>
+      <div class="glossario-item">
+        <dt>Latência viral</dt>
+        <dd>Estado em que o genoma viral permanece nas células do hospedeiro sem replicação ativa — característico dos herpesvírus; explica as reativações recorrentes.</dd>
+      </div>
+    </dl>
+  </section>
+
+</main>
+
+<footer>
+  <p>Material baseado nos slides da Profa. Dra. Jaqueline Costa Castardo de Paula — PUCPR Londrina · Medicina, 3º Período, Agressão e Defesa 1</p>
+  <p style="margin-top:4px;">Referências: Katzung, 15ª ed. (2023) · Goodman &amp; Gilman, 14ª ed. · Rang &amp; Dale, 9ª ed. (2020) · Guia de Vigilância Integrada MS, Brasil (2024)</p>
+</footer>
+
+</body>
+</html>

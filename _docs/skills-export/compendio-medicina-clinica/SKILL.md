@@ -24,15 +24,20 @@ Esta subskill fornece o contexto epistêmico da área.
 ## Pastas de mecanismos correspondentes
 
 Quando o mapa referenciar um mecanismo já existente, procurar em:
-- `medicina/farmacologia/` — anti-hipertensivos, antiagregantes, antifúngicos
-- `medicina/fisiopatologia/` — trombose, doenças circulatórias, choque
+- `compêndios/medicina/mecanismos/farmacologia/` — anti-hipertensivos, antiagregantes, antifúngicos
+- `compêndios/medicina/mecanismos/fisiopatologia/` — trombose, doenças circulatórias, choque
+
+Se o usuário pedir para aprofundar um desses mecanismos até saturação (não só linkar),
+carregar a subskill-folha `mecanismo-medicina-clinica` — ela segue as regras gerais de
+`mecanismo/SKILL.md` e o contexto epistêmico específico dela mesma.
 
 ## Relação com medicina básica
 
 Mapas de medicina clínica frequentemente dependem de mecanismos de medicina básica.
 Ao mencionar um mecanismo básico (ex.: ativação de plaquetas, resposta inflamatória),
-linkar para o compêndio correspondente em `medicina/imunologia/` ou `medicina/fisiologia/`
-em vez de reexplicar. O mapa clínico é orientador — não duplica o básico.
+linkar para o compêndio correspondente em `compêndios/medicina/mecanismos/imunologia/` ou
+`compêndios/medicina/mecanismos/fisiologia/` em vez de reexplicar. O mapa clínico é
+orientador — não duplica o básico.
 
 ## Heurística de fontes
 

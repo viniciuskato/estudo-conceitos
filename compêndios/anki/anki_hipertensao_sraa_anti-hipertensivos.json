@@ -1,0 +1,31 @@
+{
+  "material": "hipertensao_sraa_anti-hipertensivos",
+  "ultima_sessao": null,
+  "perguntas": [
+    { "id": 1, "secao": "Fundamentos — Determinantes da PA", "pergunta": "A PA é definida como o produto de duas variáveis hemodinâmicas. Quais são elas, o que cada uma representa e como cada classe de anti-hipertensivo se relaciona com elas?", "status": null },
+    { "id": 2, "secao": "Fundamentos — Tônus vascular", "pergunta": "Descreva a cadeia molecular que vai da ativação de um canal de Ca²⁺ tipo L até a contração do músculo liso vascular. Por que os BCCs di-hidropiridínicos têm seletividade vascular?", "status": null },
+    { "id": 3, "secao": "Fundamentos — Rins e volume", "pergunta": "Por que a retenção de Na⁺ eleva a PA? Trace o caminho de Na⁺ → volume → DC → PA.", "status": null },
+    { "id": 4, "secao": "HAS — Definição e classificação", "pergunta": "O ponto de corte de 140/90 mmHg para definir hipertensão é biológico ou epidemiológico? O que isso significa na prática?", "status": null },
+    { "id": 5, "secao": "HAS — Primária vs. secundária", "pergunta": "Cite três sinais clínicos que levantam suspeita de HAS secundária e o mecanismo subjacente de cada um.", "status": null },
+    { "id": 6, "secao": "HAS — Fisiopatologia", "pergunta": "A HAS primária envolve pelo menos cinco mecanismos sobrepostos. Enumere-os e explique como cada um eleva a PA.", "status": null },
+    { "id": 7, "secao": "HAS — Fisiopatologia", "pergunta": "O que é natriurese pressórica e o que acontece com essa curva na hipertensão essencial? Qual classe de fármacos corrige diretamente esse desvio?", "status": null },
+    { "id": 8, "secao": "HAS — Fisiopatologia", "pergunta": "Por que a disfunção endotelial se autoperpetua na HAS? Trace o círculo vicioso completo envolvendo NO e espécies reativas de oxigênio.", "status": null },
+    { "id": 9, "secao": "HAS — Lesão de órgãos-alvo", "pergunta": "Qual complicação da HAS tem o maior risco relativo e por quê o endotélio cerebral é particularmente vulnerável?", "status": null },
+    { "id": 10, "secao": "SRAA — Definição e arquitetura", "pergunta": "O SRAA conecta quatro órgãos em série. Quais são eles, qual é a função de cada um na cascata, e por que bloquear um único passo tem efeitos sistêmicos tão amplos?", "status": null },
+    { "id": 11, "secao": "SRAA — Cascata molecular", "pergunta": "Quais são os três estímulos que liberam renina pelas células JG? Por que a renina é chamada de 'passo limitante de velocidade' da cascata?", "status": null },
+    { "id": 12, "secao": "SRAA — Cascata molecular", "pergunta": "A ECA tem duas funções na cascata do SRAA. Quais são? Como isso explica o mecanismo da tosse dos IECAs?", "status": null },
+    { "id": 13, "secao": "SRAA — Cascata molecular", "pergunta": "Compare os efeitos da Ang II via AT₁R versus AT₂R. Por que os BRAs podem potencializar os efeitos via AT₂R?", "status": null },
+    { "id": 14, "secao": "SRAA — Efeitos fisiológicos", "pergunta": "Explique o mecanismo pelo qual a aldosterona retém Na⁺ e excreta K⁺ no túbulo coletor. Por que IECAs e BRAs causam hipercalemia?", "status": null },
+    { "id": 15, "secao": "SRAA — Na hipertensão", "pergunta": "O que é o 'escape da angiotensina' e por que ele cria um paradoxo para o mecanismo de ação dos IECAs a longo prazo?", "status": null },
+    { "id": 16, "secao": "Anti-hipertensivos — IECAs", "pergunta": "Por que o captopril é preferível em urgência hipertensiva mas desvantajoso no tratamento crônico? Qual propriedade farmacocinética explica isso?", "status": null },
+    { "id": 17, "secao": "Anti-hipertensivos — IECAs", "pergunta": "Os IECAs reduzem mortalidade pós-IAM mesmo sem queda adicional de PA. Qual mecanismo explica esse benefício?", "status": null },
+    { "id": 18, "secao": "Anti-hipertensivos — BRAs", "pergunta": "Se IECAs e BRAs têm efeito funcional similar no curto prazo, qual é a diferença mecanística que pode produzir perfis de benefício distintos a longo prazo?", "status": null },
+    { "id": 19, "secao": "Anti-hipertensivos — Diuréticos", "pergunta": "Por que a clortalidona é preferida sobre a hidroclorotiazida nas diretrizes mais recentes? Qual ensaio clínico fundamenta isso?", "status": null },
+    { "id": 20, "secao": "Anti-hipertensivos — Betabloqueadores", "pergunta": "Por que betabloqueadores perderam posição de primeira linha na HAS sem comorbidades? Qual hipótese explica a menor proteção contra AVC?", "status": null },
+    { "id": 21, "secao": "Anti-hipertensivos — BCCs", "pergunta": "Por que o nifedipino de liberação imediata é contraindicado na HAS crônica mas o anlodipino é preferido? Qual propriedade farmacocinética é determinante?", "status": null },
+    { "id": 22, "secao": "Anti-hipertensivos — Escolha terapêutica", "pergunta": "Um paciente tem HAS + diabetes tipo 2 + proteinúria. Qual classe é preferencial e por qual mecanismo ela protege o rim além de reduzir a PA?", "status": null },
+    { "id": 23, "secao": "Discussão", "pergunta": "Todos os anti-hipertensivos convergem para dois denominadores finais. Quais são? Como isso justifica a lógica das combinações terapêuticas?", "status": null },
+    { "id": 24, "secao": "Discussão", "pergunta": "O que significa dizer que hipertensão é uma doença de 'integral' e não de 'valor pontual'? Qual implicação clínica isso tem para o tratamento precoce?", "status": null }
+  ],
+  "sessoes": []
+}

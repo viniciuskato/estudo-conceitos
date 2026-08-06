@@ -25,9 +25,13 @@ Esta subskill fornece o contexto epistêmico da área.
 ## Pastas de mecanismos correspondentes
 
 Quando o mapa referenciar um mecanismo já existente, procurar em:
-- `medicina/imunologia/` — 10+ compêndios de imunologia
-- `medicina/fisiologia/` — compêndios de fisiologia
-- `medicina/microbiologia/` — virologia, micologia
+- `compêndios/medicina/mecanismos/imunologia/` — 13 compêndios de imunologia
+- `compêndios/medicina/mecanismos/fisiologia/` — compêndios de fisiologia
+- `compêndios/medicina/mecanismos/microbiologia/` — virologia, micologia
+
+Se o usuário pedir para aprofundar um desses mecanismos até saturação (não só linkar),
+carregar a subskill-folha `mecanismo-medicina-basica` — ela segue as regras gerais de
+`mecanismo/SKILL.md` e o contexto epistêmico específico dela mesma.
 
 ## Heurística de fontes
 
@@ -50,5 +54,5 @@ Hierarquia epistêmica para medicina básica:
 
 - [ ] Mecanismo celular e molecular desenvolvido, não apenas descrição funcional?
 - [ ] Contexto clínico mencionado quando o mecanismo básico tem implicação direta?
-- [ ] Links para compêndios de mecanismo em `medicina/` onde existirem?
+- [ ] Links para compêndios de mecanismo em `compêndios/medicina/mecanismos/` onde existirem?
 - [ ] Nomenclatura padronizada (siglas, nomes de moléculas)?

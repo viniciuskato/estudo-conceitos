@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hematologia Clínica — Hemograma e Anemias</title>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#111010">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+body{transition:background .25s,color .25s}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78}
+#body-wrap{display:flex;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+
+#sidebar{width:280px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2);border-right:1px solid var(--border);transition:width .25s}
+#sidebar.collapsed{width:44px}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:8px 0 20px}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:14px 16px 8px}
+.s-group{padding:10px 8px 2px}
+.s-gt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;padding:6px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:5px;line-height:1.35}
+a.sl:hover{background:var(--bg3);color:var(--text)}
+a.sl.active{background:var(--ac2bg);color:var(--ac);font-weight:600}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#s-toggle{padding:6px 8px;flex-shrink:0}
+#toggle-btn{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:6px;cursor:pointer;font-size:12px}
+#toggle-btn:hover{color:var(--text)}
+
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+
+.doc-header h1{font-size:2.1em;line-height:1.2;margin:0 0 10px}
+.doc-meta{font-family:var(--font-ui);color:var(--muted);font-size:13px;margin:0 0 14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:24px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-note{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic}
+
+section{margin-bottom:46px}
+section h2{font-size:1.5em;margin:0 0 16px;padding-top:8px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+h3{font-size:1.15em;margin:26px 0 10px;color:var(--text)}
+p{margin:0 0 16px}
+ul,ol{margin:0 0 16px;padding-left:1.3em}
+li{margin-bottom:6px}
+strong{color:var(--text)}
+.eq{font-family:var(--font-ui);background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 16px;margin:12px 0;font-size:15px;text-align:center}
+
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+.subarea-grid,.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.subarea-card,.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.subarea-card .sat,.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.subarea-card p,.ck-card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+.table-wrap{overflow-x:auto;margin:18px 0}
+.data-table{width:100%;border-collapse:collapse;margin:0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:6px 0 0}
+
+.controversia{background:var(--bg2);border:1px solid var(--ac2);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0}
+.controversia .pos b{color:var(--ac)}
+
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10.5px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+
+.ref-layer{margin-bottom:26px}
+.ref-layer h3{color:var(--ac);margin-top:0}
+.ref-item{margin-bottom:14px;padding-left:16px;border-left:2px solid var(--border)}
+.ref-item .rtype{font-family:var(--font-ui);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ref-item .rtitle{font-weight:600}
+.ref-item .rnote{color:var(--muted);font-size:14.5px}
+
+@media(max-width:900px){
+  .theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}
+  #sidebar{display:none;position:fixed;z-index:150;width:80vw;height:100vh}
+  #sidebar.open{display:flex}
+  #content{padding:24px 20px 80px}
+  .subarea-grid,.ck-grid{grid-template-columns:repeat(2,1fr)}
+  #mob-bar{display:flex}
+}
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:140;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 14px;align-items:center;font-family:var(--font-ui)}
+#mob-bar button{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+
+@media print{
+  #sidebar,#s-toggle,#s-home,.theme-toggle,#progress-bar,#mob-bar{display:none}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+<div id="mob-bar"><button id="mob-open" aria-label="Abrir menu">☰</button></div>
+
+<div id="body-wrap">
+<div id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+  <div class="s-inner">
+    <div class="s-logo">Hematologia Clínica</div>
+
+    <div class="s-group">
+      <div class="s-gt">Fundamentos</div>
+      <a class="sl" href="#s-estuda">O que este mapa estuda</a>
+      <a class="sl" href="#s-hematopoiese">Hematopoiese e eritropoiese</a>
+      <a class="sl" href="#s-tecnica">Como o hemograma é feito</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Eritrograma</div>
+      <a class="sl" href="#s-eritrograma">Série vermelha e índices</a>
+      <a class="sl" href="#s-classificacao">Classificação das anemias</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Anemias por mecanismo</div>
+      <a class="sl" href="#s-ferropriva">Anemia ferropriva</a>
+      <a class="sl" href="#s-doenca-cronica">Anemia de doença crônica</a>
+      <a class="sl" href="#s-megaloblastica">Anemias megaloblásticas</a>
+      <a class="sl" href="#s-hemolitica">Anemias hemolíticas</a>
+      <a class="sl" href="#s-hemoglobinopatias">Hemoglobinopatias</a>
+      <a class="sl" href="#s-aplasica">Aplásica e hipoplásica</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Leucograma e plaquetas</div>
+      <a class="sl" href="#s-leucograma">Série branca</a>
+      <a class="sl" href="#s-plaquetas">Plaquetas</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Abordagem diagnóstica</div>
+      <a class="sl" href="#s-abordagem">Algoritmo integrado</a>
+      <a class="sl" href="#s-bayesiano">Raciocínio clínico bayesiano</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Contexto</div>
+      <a class="sl" href="#s-historia">História</a>
+      <a class="sl" href="#s-brasil">Hematologia no Brasil</a>
+      <a class="sl" href="#s-questoes">Questões centrais</a>
+      <a class="sl" href="#s-metodos">Ferramentas e métodos</a>
+      <a class="sl" href="#s-conexoes">Conexões</a>
+      <a class="sl" href="#s-controversias">Controvérsias</a>
+      <a class="sl" href="#s-perguntas-abertas">Perguntas em aberto</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Fechamento</div>
+      <a class="sl" href="#s-discussao">Discussão</a>
+      <a class="sl" href="#s-referencias">Referências</a>
+    </div>
+  </div>
+  <div id="s-toggle">
+    <button id="toggle-btn" onclick="toggleSidebar()">◀</button>
+  </div>
+</div>
+
+<div id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Hematologia Clínica — Hemograma e Anemias</h1>
+  <p class="doc-meta">Medicina Clínica · Hematologia · Semiologia laboratorial e Fisiopatologia</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~65 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum — partida zero</b></span>
+    <span class="chip">🔗 Depende de: <b>ver mapa de dependências</b></span>
+    <span class="chip">📍 Área: <b>Medicina — Hematologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-05</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Diante de um hemograma com hemoglobina baixa, como transformar um número isolado em diagnóstico — que perguntas o próprio hemograma já responde antes de pedir qualquer exame adicional, e em que ponto ele para de ser suficiente?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item cross-link" href="medicina.html">Medicine — mapa panorâmico da medicina</a>
+      <a class="dep-item cross-link" href="mecanismos/fisiopatologia/trombose-e-hemostasia.html">Trombose e hemostasia (mecanismo)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-note">Nenhum pré-requisito estrito — este compêndio parte de zero e desenvolve a fisiologia necessária (hematopoiese, eritropoiese) no próprio texto.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-note">Nenhum ainda — primeiro compêndio de hematologia do acervo.</span>
+    </div>
+  </div>
+</div>
+
+<section id="s-estuda">
+<h2>O que este mapa estuda</h2>
+<p>O hemograma é o exame mais solicitado da medicina — e um dos mais mal lidos. Ele não é uma lista de números para conferir contra um intervalo de referência: é uma fotografia quantitativa de três linhagens celulares (vermelha, branca, plaquetária) que, interpretada em conjunto com a história clínica, permite inferir mecanismo de doença antes mesmo de qualquer exame de segunda linha. Este compêndio cobre o hemograma completo — eritrograma, leucograma e plaquetas — com foco proporcionalmente maior nas <strong>anemias</strong>, que respondem pela fração mais numerosa e mais frequentemente mal classificada dos hemogramas alterados na prática clínica.</p>
+<p>O recorte é <strong>hematologia clínica de bancada</strong>: o que o hemograma mede, como ele é produzido tecnicamente, e como seus achados se traduzem em diagnóstico diferencial de anemias, alterações do leucograma e alterações plaquetárias mais comuns. Fica fora do escopo, por não caber num único compêndio sem perder profundidade: as neoplasias hematológicas (leucemias, linfomas, mieloma — que merecem compêndio próprio), a hemostasia secundária e a farmacologia anticoagulante (já cobertas em <a class="cross-link" href="mecanismos/fisiopatologia/trombose-e-hemostasia.html">Trombose e hemostasia</a> e <a class="cross-link" href="mecanismos/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html">Antiagregantes, anticoagulantes e trombolíticos</a>), e a medicina transfusional como disciplina própria.</p>
+<p>A distinção que organiza todo o campo é entre <strong>hematologia laboratorial</strong> (o método — como as células são contadas e caracterizadas) e <strong>hematologia clínica</strong> (a aplicação — o que os números significam num paciente real). Um hemograma tecnicamente perfeito é inútil sem a segunda; uma interpretação clínica sofisticada é impossível sem entender a primeira, porque cada índice tem um modo de falhar que só faz sentido conhecendo como ele é calculado.</p>
+</section>
+
+<section id="s-hematopoiese">
+<h2>Hematopoiese e eritropoiese</h2>
+<p>Todas as células do sangue derivam de uma população comum de <strong>células-tronco hematopoiéticas (CTH)</strong> na medula óssea, capazes de autorrenovação e de diferenciação em progenitores mieloides (que geram hemácias, granulócitos, monócitos e plaquetas) ou linfoides (que geram linfócitos T, B e células NK). Essa arquitetura hierárquica — tronco → progenitor comprometido → precursor morfologicamente reconhecível → célula madura — é a razão pela qual uma agressão à medula (quimioterapia, infiltração neoplásica, aplasia) tipicamente afeta as três linhagens de forma proporcional, enquanto uma deficiência nutricional específica (ferro, B12) afeta preferencialmente a linhagem que mais depende daquele substrato.</p>
+<p>A <strong>eritropoiese</strong> — a linha de produção da hemácia — começa no proeritroblasto e passa por sucessivas divisões e perda progressiva de citoplasma basofílico (rico em RNA ribossômico) até o reticulócito, que ainda contém retículo de RNA residual (daí o nome) e é liberado na circulação antes de perder esse retículo e se tornar hemácia madura em 24–48h. O processo inteiro, da célula-tronco à hemácia circulante, leva cerca de 7 dias na medula mais 1–2 dias de maturação periférica do reticulócito.</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p><strong>Eritropoetina (EPO)</strong>, produzida principalmente pelas células peritubulares renais em resposta à hipóxia tecidual (via o fator de transcrição HIF — hypoxia-inducible factor), é o regulador central da eritropoiese: liga-se a receptores no progenitor eritroide (BFU-E e CFU-E), promove sua proliferação e sobrevivência, e acelera a maturação. É por isso que a doença renal crônica é causa comum de anemia normocítica hiporregenerativa — a produção de EPO cai antes de qualquer deficiência de substrato —, e por isso que a EPO recombinante é terapia-alvo nessa população.</p>
+</div>
+<p>Cada etapa da eritropoiese consome um substrato específico cuja falta gera um padrão morfológico característico: <strong>ferro</strong> é necessário para a síntese de heme (e sua falta produz hemácias pequenas e pálidas — microcíticas e hipocrômicas, porque a célula completa as divisões programadas sem acumular hemoglobina suficiente); <strong>vitamina B12 e folato</strong> são necessários para a síntese de DNA (e sua falta atrasa a divisão nuclear em relação à maturação citoplasmática, produzindo células grandes — macrocíticas, com núcleo imaturo desproporcional ao citoplasma já hemoglobinizado). Essa lógica bioquímica — o que falta determina o tamanho da célula — é o que torna o volume corpuscular médio (VCM) o primeiro eixo de qualquer classificação de anemia, desenvolvido na seção <a class="cross-link" href="#s-classificacao">Classificação das anemias</a>.</p>
+</section>
+
+<section id="s-tecnica">
+<h2>Como o hemograma é feito</h2>
+<p>O hemograma moderno é produzido por <strong>contadores hematológicos automatizados</strong>, que combinam dois princípios físicos complementares. A <strong>impedância elétrica</strong> (princípio de Coulter) passa as células, suspensas em solução condutora, por uma abertura estreita entre dois eletrodos: cada célula que atravessa gera um pulso de resistência elétrica proporcional ao seu volume, permitindo contar e dimensionar hemácias e plaquetas simultaneamente. A <strong>citometria de fluxo a laser</strong> — usada sobretudo para o diferencial leucocitário — faz cada célula atravessar um feixe de laser em fluxo alinhado, medindo dispersão de luz frontal (tamanho) e lateral (granularidade/complexidade interna), o que separa neutrófilos, linfócitos, monócitos, eosinófilos e basófilos por sua assinatura óptica característica sem exigir coloração manual.</p>
+<p>Esses dois princípios geram os parâmetros primários (contagem de hemácias, hemoglobina por espectrofotometria, VCM por impedância) a partir dos quais os índices hematimétricos secundários (HCM, CHCM, RDW) são <strong>calculados</strong>, não medidos diretamente — distinção que importa porque um índice calculado herda e amplifica qualquer erro do parâmetro primário que o originou.</p>
+<p>Apesar da automação, o <strong>esfregaço de sangue periférico</strong> corado (coloração de Romanowsky — May-Grünwald-Giemsa ou Wright) examinado ao microscópio óptico continua insubstituível em três situações: (1) quando o aparelho sinaliza uma bandeira ("flag") de população celular atípica que ele não consegue classificar com confiança; (2) para caracterizar morfologia que nenhum contador mede diretamente — esquizócitos, esferócitos, drepanócitos, corpos de Howell-Jolly, pontilhado basófilo, parasitas intraeritrocitários; (3) para contagem diferencial manual quando a automatizada é inconsistente. A leitura do esfregaço permanece, mesmo em 2026, um ato de reconhecimento de padrão treinado — nenhum algoritmo comercial de inteligência artificial para hematoscopia substituiu integralmente esse julgamento na prática clínica de rotina.</p>
+
+<h3>De onde vem o erro: variáveis pré-analíticas, analíticas e pós-analíticas</h3>
+<p>Antes de interpretar clinicamente um resultado inesperado, vale perguntar se ele reflete o paciente ou o processo que produziu o número — a maioria dos "achados súbitos" que não fecham com a clínica é erro de processo, não doença nova. A literatura de qualidade laboratorial organiza as fontes de erro em três fases:</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Fontes de erro no hemograma por fase do processo laboratorial">
+<thead><tr><th>Fase</th><th>Exemplos de variável</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Pré-analítica</td><td><strong>Fisiológicas</strong> — idade, sexo, jejum, exercício físico recente (pode elevar transitoriamente leucócitos e hematócrito). <strong>Coleta e manipulação</strong> — identificação incorreta da amostra, tempo excessivo de garroteamento (hemoconcentração local), atraso no transporte, armazenamento inadequado. <strong>Endógenas</strong> — anticorpos dependentes de EDTA (causam pseudotrombocitopenia por agregação in vitro — sempre suspeitar quando a plaquetopenia não bate com o quadro clínico e confirmar por esfregaço ou tubo com citrato), interferência de medicamentos.</td></tr>
+<tr><td class="td-label">Analítica</td><td>Falha ou descalibração do próprio equipamento; troca de amostra entre pacientes — erros raros mas graves, motivo pelo qual um resultado discrepante da clínica deve, antes de gerar investigação extensa, cogitar repetição da coleta.</td></tr>
+<tr><td class="td-label">Pós-analítica</td><td>Erros de transcrição do resultado; uso de valores de referência inapropriados para a população do paciente (ver <a class="cross-link" href="#s-questoes">Questões centrais</a> sobre a generalização de intervalos de referência para a população brasileira).</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 1 — A pseudotrombocitopenia por EDTA é o exemplo mais didático de erro pré-analítico silencioso: o hemograma automatizado reporta uma plaquetopenia grave real que não existe in vivo, e sua não identificação já levou a transfusões e investigações desnecessárias.</p>
+</div>
+<p>Como regra prática de fechamento: qualquer alteração de uma única linhagem no hemograma deve ser lida junto com as outras duas (série vermelha, branca e plaquetas) antes de qualquer conclusão — um achado isolado que não se encaixa no quadro clínico é mais frequentemente erro de processo do que doença nova, mas essa suspeita só deve substituir a repetição do exame, nunca dispensá-la.</p>
+</section>
+
+<section id="s-eritrograma">
+<h2>Série vermelha e índices hematimétricos</h2>
+<p>O eritrograma reporta três parâmetros primários — <strong>contagem de hemácias</strong> (milhões/µL), <strong>hemoglobina</strong> (Hb, g/dL) e <strong>hematócrito</strong> (Ht, % do volume sanguíneo ocupado por hemácias) — e deriva deles um conjunto de índices que caracterizam a hemácia individual. A relação entre Hb e Ht segue aproximadamente a "regra dos três" (Ht ≈ 3 × Hb ± 3, em condições de hidratação normal): um desvio importante dessa proporção sugere erro pré-analítico (amostra hemolisada, tempo de coleta) antes de sugerir doença.</p>
+
+<div class="table-wrap">
+<table class="data-table" aria-label="Índices hematimétricos e seu significado clínico">
+<thead><tr><th>Índice</th><th>Fórmula / o que mede</th><th>Valor de referência (adulto)</th><th>O que sinaliza</th></tr></thead>
+<tbody>
+<tr><td class="td-label">VCM</td><td>Volume Corpuscular Médio = Ht(%) × 10 / hemácias (milhões/µL)</td><td>80–100 fL</td><td>Tamanho médio da hemácia — eixo primário de classificação (micro/normo/macrocítica)</td></tr>
+<tr><td class="td-label">HCM</td><td>Hemoglobina Corpuscular Média = Hb(g/dL) × 10 / hemácias (milhões/µL)</td><td>27–33 pg</td><td>Massa de Hb por hemácia — acompanha o VCM na maioria dos casos, menos informativo isoladamente</td></tr>
+<tr><td class="td-label">CHCM</td><td>Concentração de Hemoglobina Corpuscular Média = Hb(g/dL) × 100 / Ht(%)</td><td>32–36 g/dL</td><td>Concentração de Hb dentro da hemácia — cai na ferropriva e talassemia (hipocromia), sobe só na esferocitose hereditária</td></tr>
+<tr><td class="td-label">RDW</td><td>Red cell Distribution Width — coeficiente de variação do volume das hemácias</td><td>11,5–14,5%</td><td>Anisocitose (heterogeneidade de tamanho) — eleva-se cedo na ferropriva (população mista: hemácias antigas normais + novas microcíticas) e ajuda a diferenciar de talassemia menor (RDW tipicamente normal, apesar da microcitose)</td></tr>
+<tr><td class="td-label">Reticulócitos</td><td>% ou contagem absoluta (/µL) de hemácias jovens com retículo de RNA residual</td><td>0,5–2,5% (25.000–75.000/µL)</td><td>Atividade eritropoiética atual da medula — o parâmetro que separa anemia por <em>falta de produção</em> de anemia por <em>perda/destruição</em></td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 2 — Cada índice é calculado a partir dos três parâmetros primários (hemácias, Hb, Ht), exceto o reticulócito, medido por citometria de fluxo com marcação de RNA (ex.: azul de cresil brilhante ou fluorocromo).</p>
+</div>
+
+<h3>Reticulócitos: da contagem bruta ao índice de produção</h3>
+<p>A contagem percentual de reticulócitos, isolada, engana em duas situações opostas: numa anemia intensa, o mesmo número absoluto de reticulócitos representa uma <em>fração</em> maior do total de hemácias (que caiu), inflando o percentual sem que a medula esteja de fato respondendo mais; e reticulócitos "de estresse" liberados prematuramente pela medula sob hipóxia sobrevivem mais de 1 dia no sangue periférico antes de amadurecer, o que também infla a contagem sem representar produção sustentada. Dois ajustes corrigem essas distorções:</p>
+<div class="eq"><strong>Contagem corrigida de reticulócitos</strong> = % reticulócitos observado × (Ht do paciente / Ht normal, ~45%)</div>
+<div class="eq"><strong>Índice de Produção Reticulocitária (IPR)</strong> = Contagem corrigida / Fator de maturação (1 se Ht ≥35%; 1,5 se Ht 25–35%; 2 se Ht 15–25%; 2,5 se Ht &lt;15%)</div>
+<p>Um <strong>IPR ≥ 2–3</strong> indica medula respondendo adequadamente ao grau de anemia (anemia <strong>regenerativa</strong> — perda aguda ou hemólise); um <strong>IPR &lt; 2</strong> diante de anemia estabelecida indica medula incapaz de compensar (anemia <strong>hiporregenerativa</strong> — problema de produção: carência de substrato, falência medular, ou eritropoiese ineficaz). Esse único número é o eixo que mais rapidamente estreita o diagnóstico diferencial, desenvolvido a seguir.</p>
+</section>
+
+<section id="s-classificacao">
+<h2>Classificação das anemias</h2>
+<p>A anemia não é uma curiosidade laboratorial: é a alteração hematológica mais prevalente do planeta e um fator de risco independente para desfechos desfavoráveis, não apenas um marcador passivo de doença de base. Estimativas de 2013 apontavam <strong>1,93 bilhão de pessoas</strong> (27% da população mundial) com anemia, com 89% concentrados em países em desenvolvimento e pré-escolares e mulheres em idade fértil como os grupos mais suscetíveis; cerca de dois terços dos casos eram atribuíveis a deficiência de ferro, o restante a hemoglobinopatias, infecções, doença renal crônica, doenças gastrointestinais e neoplasias, entre outras causas. Em ambiente hospitalar, o problema tem uma segunda camada: a <strong>anemia adquirida no hospital</strong> (queda da hemoglobina após uma admissão sem anemia) afetou 74% de 188.447 hospitalizações num estudo multicêntrico americano, com risco ajustado de mortalidade intra-hospitalar 1,51 vez maior nos casos moderados e 3,28 vezes maior nos graves (ambos p&lt;0,001) — achado reproduzido num segundo estudo da mesma coorte, mostrando que a piora de uma anemia já presente na admissão eleva ainda mais esse risco. Segundo o PubMed, ambos são de Koch et al., <em>Journal of Hospital Medicine</em>, 2013 (<a href="https://doi.org/10.1002/jhm.2061" target="_blank" rel="noopener">DOI</a>, PMID 23873739) e <em>Journal of Patient Safety</em>, 2014 (<a href="https://doi.org/10.1097/PTS.0000000000000142" target="_blank" rel="noopener">DOI</a>, PMID 25290084). A implicação prática é dupla: anemia nunca deve ser tratada como achado inerte a ser apenas "seguido", e hemoglobina deve ser monitorada ativamente durante internações prolongadas, não apenas na admissão.</p>
+<p>A Organização Mundial da Saúde define anemia por limiares de hemoglobina ajustados por idade, sexo e estado gestacional — não um valor único. A revisão de 2024 manteve os limiares clássicos para homens e mulheres não gestantes adultos (que já vinham desde 1968) e ajustou apenas subgrupos específicos (lactentes de 6–23 meses, gestantes no segundo trimestre e residentes em altitude elevada), após evidência de que os cortes antigos não refletiam bem a ontogenia normal da hemoglobina nessas populações. Segundo o PubMed, a diretriz revisada foi publicada em 2024 (Khurana et al., <em>Indian Pediatrics</em>). <span class="evid">Diretriz/Consenso</span></p>
+
+<div class="table-wrap">
+<table class="data-table" aria-label="Limiares de hemoglobina para definição de anemia por população, OMS">
+<thead><tr><th>População</th><th>Hb abaixo de (g/dL)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Homens ≥15 anos</td><td>13,0</td></tr>
+<tr><td class="td-label">Mulheres não gestantes ≥15 anos</td><td>12,0</td></tr>
+<tr><td class="td-label">Gestantes, 1º e 3º trimestre</td><td>11,0</td></tr>
+<tr><td class="td-label">Gestantes, 2º trimestre (revisado 2024)</td><td>10,5</td></tr>
+<tr><td class="td-label">Crianças 6–23 meses (revisado 2024)</td><td>10,5</td></tr>
+<tr><td class="td-label">Crianças 24–59 meses / 5–11 anos</td><td>11,0 / 11,5</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 3 — Adaptado da diretriz revisada da Organização Mundial da Saúde (2024) sobre cortes de hemoglobina para definir anemia em indivíduos e populações (PMID 38910369, <a href="https://pubmed.ncbi.nlm.nih.gov/38910369/" target="_blank" rel="noopener">PubMed</a>). Residentes em altitude elevada exigem ajuste adicional por hemoconcentração fisiológica compensatória à hipóxia ambiental.</p>
+</div>
+
+<p>Uma vez confirmada a anemia, dois eixos ortogonais organizam o diagnóstico diferencial: o <strong>VCM</strong> (o que o tamanho da hemácia sugere sobre o substrato faltante) e o <strong>IPR</strong> (se a medula está ou não respondendo). Cruzá-los transforma uma lista de dezenas de causas possíveis num algoritmo tratável.</p>
+
+<div class="table-wrap">
+<table class="data-table" aria-label="Classificação de anemias cruzando VCM e índice de produção reticulocitária">
+<thead><tr><th>VCM</th><th>IPR baixo (hiporregenerativa — problema de produção)</th><th>IPR alto (regenerativa — perda ou destruição)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Microcítica (VCM &lt;80fL)</td><td>Ferropriva · Talassemias · Anemia de doença crônica (fase avançada) · Anemia sideroblástica · Intoxicação por chumbo</td><td>Hemólise com componente de talassemia · Perda crônica de sangue já com depleção de ferro</td></tr>
+<tr><td class="td-label">Normocítica (VCM 80–100fL)</td><td>Anemia de doença crônica/inflamação (fase inicial) · Doença renal crônica (EPO baixa) · Aplasia/hipoplasia medular · Infiltração medular · Mielodisplasia</td><td>Hemorragia aguda · Hemólise (fase inicial, antes da macrocitose reticulocitária se expressar no VCM médio)</td></tr>
+<tr><td class="td-label">Macrocítica (VCM &gt;100fL)</td><td>Deficiência de B12 ou folato (megaloblástica) · Hipotireoidismo · Hepatopatia · Mielodisplasia · Álcool</td><td>Hemólise crônica ou reticulocitose intensa (reticulócitos são maiores que hemácias maduras, elevando o VCM médio) · Fase de recuperação pós-hemorragia/pós-carência tratada</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 4 — Algoritmo classificatório central deste compêndio. Cada célula é desenvolvida em seção própria adiante; a matriz serve como mapa de navegação, não como substituto do raciocínio caso a caso — anemias combinadas (ex.: ferropriva + B12) produzem VCM falsamente normal por cancelamento mútuo, motivo pelo qual o RDW elevado é uma pista de heterogeneidade mesmo quando a média engana.</p>
+</div>
+
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>Nenhuma anemia normocítica-normocrômica com reticulócitos baixos deve ser aceita como "sem causa aparente" sem investigar função renal, tireoidiana e um perfil de ferro — é a categoria mais heterogênea da tabela e a que mais esconde doença sistêmica não hematológica primária.</p>
+</div>
+
+<h3>Por que a hemácia fica pequena: um mesmo bloqueio, três pontos diferentes</h3>
+<p>As três causas mais comuns de microcitose podem ser organizadas por <strong>onde</strong>, na via de síntese do heme e da hemoglobina, o suprimento falha — um jeito mais durável de memorizar a categoria do que decorar as causas isoladamente. A via converge ferro + protoporfirina → heme, e heme + globina → hemoglobina; um bloqueio em qualquer um desses três insumos produz microcitose, mas por mecanismos e com achados associados distintos.</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p><strong>Ferro insuficiente</strong> (ferropriva, ou ferro sequestrado na anemia de doença crônica) — a etapa mais comum de falha. <strong>Protoporfirina insuficiente ou mal utilizada</strong> — a <strong>anemia sideroblástica</strong>, em que a etapa final da síntese do heme dentro da mitocôndria do eritroblasto está bloqueada apesar de ferro abundante (às vezes em excesso, com sobrecarga sistêmica); o marcador morfológico é o <strong>sideroblasto em anel</strong> (grânulos de ferro mitocondrial dispostos ao redor do núcleo do eritroblasto, visíveis à coloração de Perls na medula óssea). Causas: hereditária — mais comumente ligada ao X, por mutação no gene <em>ALAS2</em> (a enzima que inicia a síntese do heme na linhagem eritroide) — ou adquirida, sendo a síndrome mielodisplásica com sideroblastos em anel (MDS-RS) a forma adquirida mais comum; causas reversíveis incluem alcoolismo, intoxicação por chumbo, deficiência de cobre e uso de isoniazida (que interfere no metabolismo da piridoxina, cofator da ALAS2). <strong>Globina insuficiente</strong> — as talassemias, já desenvolvidas em <a class="cross-link" href="#s-hemoglobinopatias">Hemoglobinopatias</a>. Segundo o PubMed, revisão de referência em Bottomley SS, Fleming MD. Sideroblastic Anemia: Diagnosis and Management. <em>Hematology/Oncology Clinics of North America</em>. 2014;28(4):653-670 (<a href="https://doi.org/10.1016/j.hoc.2014.04.008" target="_blank" rel="noopener">DOI</a>, PMID 25064706).</p>
+</div>
+<p>Clinicamente, a anemia sideroblástica costuma ser confundida com ferropriva à primeira vista (microcítica, RDW frequentemente elevado por eritropoese ineficaz) — a diferença aparece no perfil de ferro: ferritina e saturação de transferrina <strong>normais ou elevadas</strong>, o oposto da ferropriva. Repor ferro empiricamente numa anemia sideroblástica não identificada agrava a sobrecarga de ferro já presente pelo bloqueio de utilização — mais um motivo para não pular a etapa de perfil de ferro antes de tratar microcitose por presunção.</p>
+</section>
+
+<section id="s-ferropriva">
+<h2>Anemia ferropriva</h2>
+<p>A anemia por deficiência de ferro (do inglês <em>iron deficiency anemia</em>, IDA) é a causa mais comum de anemia no mundo e a única cuja fisiopatologia é mais bem entendida em <strong>estágios de depleção</strong> do que como evento único: primeiro esgotam-se os estoques (ferritina baixa, sem anemia ainda — "depleção de ferro"); depois a eritropoiese fica deficiente em ferro apesar de a Hb ainda estar normal ("eritropoiese ferro-deficiente", saturação de transferrina já baixa); só então surge a anemia propriamente dita, inicialmente normocítica e progressivamente microcítica-hipocrômica conforme a carência se aprofunda. Essa progressão é a razão pela qual "ferritina normal" não exclui deficiência de ferro em fase inicial, e pela qual a microcitose é um achado tardio, não precoce.</p>
+<h3>Perfil de ferro: interpretação integrada</h3>
+<div class="table-wrap">
+<table class="data-table" aria-label="Interpretação do perfil de ferro na anemia ferropriva versus anemia de doença crônica">
+<thead><tr><th>Parâmetro</th><th>Ferropriva</th><th>Doença crônica/inflamação</th><th>Por quê</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Ferritina sérica</td><td>Baixa</td><td>Normal ou alta</td><td>Ferritina é reagente de fase aguda — sobe na inflamação mesmo com estoques de ferro vazios, o que confunde o diagnóstico em pacientes inflamados (DRC, câncer, doença reumatológica)</td></tr>
+<tr><td class="td-label">Ferro sérico</td><td>Baixo</td><td>Baixo</td><td>Cai em ambas — não diferencia por si só</td></tr>
+<tr><td class="td-label">Transferrina (TIBC)</td><td>Alta</td><td>Baixa ou normal</td><td>O fígado aumenta a síntese de transferrina em resposta à carência real de ferro; na inflamação, a transferrina é suprimida como a maioria das proteínas de transporte</td></tr>
+<tr><td class="td-label">Saturação de transferrina</td><td>Muito baixa (&lt;15%)</td><td>Baixa, mas menos extrema</td><td>Combina ferro sérico baixo com TIBC alta — cai mais na ferropriva pura</td></tr>
+<tr><td class="td-label">Receptor solúvel de transferrina (sTfR)</td><td>Alto</td><td>Normal</td><td>Não é reagente de fase aguda — reflete diretamente a demanda de ferro do eritroblasto, útil quando a ferritina é ambígua por inflamação concomitante</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 5 — Diferencial laboratorial entre as duas causas mais comuns de anemia microcítica/normocítica hiporregenerativa na prática ambulatorial. Quando ambas coexistem (ferropriva sobreposta a doença inflamatória crônica, situação comum em DRC e doença reumatológica), o índice sTfR/log(ferritina) e a resposta terapêutica a uma prova de ferro são mais informativos que qualquer parâmetro isolado.</p>
+</div>
+<p>No Brasil, a etiologia mais comum de ferropriva varia por faixa etária: em lactentes e crianças pequenas, ingestão dietética insuficiente combinada a alto requerimento de crescimento; em mulheres em idade fértil, perdas menstruais; em homens adultos e mulheres pós-menopausa, sangramento gastrointestinal oculto é a causa que sempre deve ser ativamente investigada antes de assumir causa nutricional — ferropriva nesses grupos é achado que impõe endoscopia digestiva, não só reposição.</p>
+<h3>Conduta</h3>
+<p>O Protocolo Clínico e Diretrizes Terapêuticas (PCDT) do Ministério da Saúde para Anemia por Deficiência de Ferro recomenda reposição oral como primeira linha (sulfato ferroso ou similares, 2–5 mg/kg/dia de ferro elementar em adultos, ajustado à tolerância digestiva), com correção da causa de base sendo tão essencial quanto a reposição — sem isso, a anemia recidiva. Duração de tratamento entre 2 e 6 meses conforme a intensidade da carência, mantendo-se além da normalização da Hb para repor os estoques (ferritina-alvo, não só Hb-alvo). <span class="evid">Diretriz/Consenso</span> Ferripolimaltose foi incorporada ao SUS para pacientes com intolerância ao sulfato ferroso, e carboximaltose férrica intravenosa está disponível para adultos com intolerância ou contraindicação a sais de ferro orais (má absorção, doença inflamatória intestinal em atividade, necessidade de correção rápida pré-operatória). <span class="evid">Diretriz/Consenso</span></p>
+</section>
+
+<section id="s-doenca-cronica">
+<h2>Anemia de doença crônica (anemia da inflamação)</h2>
+<p>A anemia de doença crônica (ADC), hoje mais precisamente chamada <strong>anemia da inflamação</strong>, é a segunda causa mais comum de anemia globalmente e a mais comum em pacientes hospitalizados — acompanha infecção crônica, doença autoimune/reumatológica, câncer e doença renal crônica. Seu mecanismo central é a <strong>hepcidina</strong>, um peptídeo hepático cuja síntese é induzida por citocinas inflamatórias (sobretudo IL-6): a hepcidina se liga à ferroportina (o único exportador de ferro conhecido, presente em enterócitos e macrófagos) e promove sua degradação, sequestrando ferro dentro dos macrófagos e bloqueando sua absorção intestinal — o organismo tem ferro, mas não consegue disponibilizá-lo para a eritropoiese. A inflamação também suprime diretamente a produção renal de EPO e reduz a responsividade medular a ela, compondo um quadro hiporregenerativo mesmo com estoques de ferro repletos.</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>A anemia da inflamação começa tipicamente <strong>normocítica-normocrômica</strong> e só se torna microcítica em casos prolongados e intensos — a microcitose franca deve levantar suspeita de ferropriva verdadeira sobreposta, não assumir ADC isolada.</p>
+</div>
+<p>Cross-link fisiopatológico: a cascata de citocinas (IL-6 em particular) que dispara a síntese de hepcidina é a mesma via de resposta de fase aguda desenvolvida em <a class="cross-link" href="mecanismos/imunologia/citocinas-visao-integradora.html">Citocinas: uma visão integradora</a> — a anemia da inflamação é, nesse sentido, uma consequência hematológica direta da imunidade inata sistêmica, não uma doença hematológica primária.</p>
+</section>
+
+<section id="s-megaloblastica">
+<h2>Anemias megaloblásticas (deficiência de B12 e folato)</h2>
+<p>Vitamina B12 (cobalamina) e folato são cofatores na síntese de DNA — especificamente na conversão de homocisteína a metionina (que regenera tetrahidrofolato, necessário para síntese de timidina) e, no caso da B12 isoladamente, na conversão de metilmalonil-CoA a succinil-CoA. A deficiência de qualquer um dos dois trava a replicação do DNA sem travar a síntese de RNA/proteína citoplasmática, produzindo o achado morfológico definidor: núcleo imaturo (cromatina frouxa, "megaloblástico") dentro de um citoplasma já maduro e hemoglobinizado — assincronia núcleo-citoplasmática visível tanto na medula óssea quanto, refletida perifericamente, como macrocitose com <strong>neutrófilos hipersegmentados</strong> (≥5 lóbulos) no esfregaço, achado mais específico que o próprio VCM elevado.</p>
+<h3>Diferenciar B12 de folato</h3>
+<p>Clinicamente relevante porque repor apenas folato numa deficiência de B12 não identificada <strong>corrige a anemia mas mascara a progressão neurológica</strong> — a B12 é necessária também para a síntese de mielina (via metilmalonil-CoA, cujo acúmulo na deficiência de B12 gera ácidos graxos anômalos incorporados à bainha de mielina), causando degeneração combinada subaguda da medula espinhal (perda de propriocepção e vibração, ataxia sensitiva, espasticidade) que folato não previne nem trata.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Diferencial bioquímico entre deficiência de B12 e de folato">
+<thead><tr><th>Marcador</th><th>Deficiência de B12</th><th>Deficiência de folato</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Homocisteína plasmática</td><td>Elevada</td><td>Elevada</td></tr>
+<tr><td class="td-label">Ácido metilmalônico (MMA)</td><td>Elevado</td><td>Normal</td></tr>
+<tr><td class="td-label">B12 sérica</td><td>Baixa (mas pode ser normal em deficiência inicial — MMA é mais sensível)</td><td>Normal</td></tr>
+<tr><td class="td-label">Folato sérico/eritrocitário</td><td>Normal</td><td>Baixo</td></tr>
+<tr><td class="td-label">Manifestação neurológica</td><td>Sim (degeneração combinada subaguda)</td><td>Não</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 6 — O ácido metilmalônico é considerado o marcador mais específico para deficiência de B12, permanecendo elevado mesmo quando a B12 sérica está em zona limítrofe — útil quando a suspeita clínica é forte, mas a dosagem sérica isolada é ambígua.</p>
+</div>
+<p>Causas mais comuns: deficiência de B12 por anemia perniciosa (autoimune, contra fator intrínseco ou células parietais gástricas), gastrectomia/cirurgia bariátrica, dieta vegana estrita sem suplementação, uso crônico de metformina ou inibidor de bomba de prótons; deficiência de folato por baixa ingestão (alcoolismo, desnutrição), aumento de demanda (gestação, hemólise crônica) ou má absorção (doença celíaca). A fortificação obrigatória de farinhas com ácido fólico no Brasil (RDC ANVISA, desde 2002) reduziu significativamente a prevalência populacional de deficiência de folato e defeitos de tubo neural — uma intervenção de saúde pública que tornou a deficiência isolada de folato relativamente incomum no país hoje, deslocando a megaloblástica predominante para a etiologia por B12.</p>
+</section>
+
+<section id="s-hemolitica">
+<h2>Anemias hemolíticas</h2>
+<p>Hemólise é a destruição prematura de hemácias antes do seu tempo de vida normal (~120 dias), classificada por dois eixos independentes: <strong>local</strong> (intravascular, na própria circulação, versus extravascular, por fagocitose no baço/fígado pelo sistema reticuloendotelial) e <strong>mecanismo</strong> (intrínseco à hemácia — defeito de membrana, enzima ou hemoglobina — versus extrínseco — imune, mecânico, infeccioso, tóxico). Diferente das anemias hiporregenerativas da seção anterior, a hemólise compensada é <strong>regenerativa</strong> por definição (IPR alto) — a medula está saudável e respondendo; a anemia só se manifesta quando a taxa de destruição supera a capacidade de produção compensatória (~6–8× o basal).</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>O destino bioquímico da hemácia destruída difere entre os dois locais, e é esse destino que gera os marcadores da tabela a seguir. Na <strong>hemólise extravascular</strong> (macrófagos do baço/fígado), a hemácia é fagocitada e desmontada em três componentes: globina → aminoácidos reciclados; ferro → ligado à transferrina e reaproveitado; protoporfirina → convertida a bilirrubina indireta, conjugada no fígado, excretada como bilirrubina biliar e reduzida no intestino a urobilinogênio (parcialmente reabsorvido e excretado na urina) e estercobilinogênio (excretado nas fezes, responsável por sua cor característica). Na <strong>hemólise intravascular</strong> (lise da hemácia diretamente na circulação), a hemoglobina liberada satura rapidamente a haptoglobina disponível e o excesso circula livre — ligando-se à albumina (metahemalbumina) ou sendo filtrado pelo rim, produzindo hemoglobinúria e, com o tempo, hemossiderinúria (ferro depositado nas células tubulares renais, descamadas na urina). Esse mapeamento explica por que hiperbilirrubinemia indireta ocorre em ambos os tipos de hemólise, enquanto hemoglobinúria é praticamente exclusiva da intravascular.</p>
+</div>
+<h3>Confirmando hemólise: o painel laboratorial</h3>
+<div class="table-wrap">
+<table class="data-table" aria-label="Marcadores laboratoriais de hemólise">
+<thead><tr><th>Marcador</th><th>Padrão na hemólise</th><th>Mecanismo</th></tr></thead>
+<tbody>
+<tr><td class="td-label">LDH (desidrogenase láctica)</td><td>Elevada</td><td>Liberada do citoplasma da hemácia lisada — pouco específica (também sobe em lesão tecidual de qualquer origem)</td></tr>
+<tr><td class="td-label">Haptoglobina</td><td>Baixa/indetectável</td><td>Proteína plasmática que se liga à hemoglobina livre liberada por hemólise intravascular e é depurada pelo fígado — consumida mais rápido do que reposta</td></tr>
+<tr><td class="td-label">Bilirrubina indireta</td><td>Elevada</td><td>Produto do catabolismo do heme pelo sistema reticuloendotelial — eleva-se em ambos os tipos de hemólise, mais marcadamente na extravascular</td></tr>
+<tr><td class="td-label">Hemoglobinúria/hemoglobinemia</td><td>Presente</td><td>Só na hemólise intravascular intensa, quando a capacidade de ligação da haptoglobina é excedida</td></tr>
+<tr><td class="td-label">Reticulócitos (IPR)</td><td>Elevado</td><td>Resposta medular compensatória — sua ausência numa hemólise confirmada sugere crise aplásica sobreposta (ex.: infecção por parvovírus B19 em hemólise crônica)</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 7 — LDH elevada + haptoglobina baixa é a combinação mais sensível para hemólise; a associação com bilirrubina indireta alta e reticulocitose fecha a tríade clássica.</p>
+</div>
+<h3>Teste de Coombs e o eixo imune versus não imune</h3>
+<p>O <strong>teste de antiglobulina direto (Coombs direto)</strong> detecta anticorpos ou complemento já ligados à membrana da hemácia do paciente, separando hemólise <strong>imune</strong> (positivo — anemia hemolítica autoimune por anticorpos quentes IgG ou frios IgM, reação transfusional, doença hemolítica do recém-nascido) de <strong>não imune</strong> (negativo — defeitos de membrana como esferocitose hereditária, deficiências enzimáticas como G6PD, hemoglobinopatias, hemólise mecânica). O esfregaço de sangue periférico complementa o Coombs: esferócitos sugerem esferocitose hereditária ou hemólise autoimune por anticorpos quentes (ambas reduzem a razão superfície/volume da hemácia); esquizócitos (hemácias fragmentadas) sugerem hemólise mecânica — próteses valvares, púrpura trombocitopênica trombótica, síndrome hemolítico-urêmica, coagulação intravascular disseminada —, achado que exige investigação urgente por associar-se a emergências hematológicas.</p>
+<p>A <strong>deficiência de G6PD</strong> (glicose-6-fosfato desidrogenase), ligada ao X e uma das enzimopatias mais comuns do mundo (proteção relativa contra malária grave explica sua alta prevalência em populações de origem africana, mediterrânea e asiática, incluindo parte da população brasileira miscigenada), causa hemólise episódica desencadeada por estresse oxidativo — infecções, alguns fármacos (dapsona, primaquina, sulfonamidas, nitrofurantoína) e, na variante mediterrânea, ingestão de fava (favismo). O diagnóstico enzimático pode ser falsamente normal durante o episódio hemolítico agudo (as hemácias mais deficientes já foram destruídas, sobrando uma população mais jovem e relativamente menos deficiente) — repetir a dosagem 2–3 meses após a crise quando há forte suspeita clínica.</p>
+</section>
+
+<section id="s-hemoglobinopatias">
+<h2>Hemoglobinopatias: talassemias e doença falciforme</h2>
+<p>Hemoglobinopatias são defeitos genéticos da molécula de hemoglobina, divididos em dois grupos com fisiopatologia distinta: <strong>talassemias</strong> (defeito quantitativo — síntese reduzida ou ausente de uma cadeia de globina normal, α ou β) e <strong>hemoglobinopatias estruturais</strong> como a doença falciforme (defeito qualitativo — cadeia de globina estruturalmente anômala, no caso a hemoglobina S por substituição de um único aminoácido na cadeia β).</p>
+<h3>Talassemias: microcitose desproporcional à anemia</h3>
+<p>Nas talassemias, a característica que primeiro chama atenção no hemograma é a <strong>microcitose desproporcionalmente intensa em relação ao grau de anemia</strong> — o oposto da ferropriva, em que VCM e Hb caem de forma mais proporcional. O <strong>índice de Mentzer</strong> (VCM dividido pela contagem de hemácias) ajuda a triagem inicial: valor &lt;13 sugere traço talassêmico (hemácias numerosas e pequenas — a medula compensa a Hb reduzida por célula produzindo mais hemácias); valor &gt;13 sugere ferropriva (hemácias poucas e pequenas). É triagem, não diagnóstico definitivo — a confirmação exige eletroforese de hemoglobina (que mostra HbA2 elevada no traço β-talassêmico) ou, para α-talassemia, estudo genético molecular, já que a eletroforese costuma ser normal nesse caso.</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>RDW ajuda a diferenciar as duas principais causas de microcitose: tipicamente <strong>elevado</strong> na ferropriva (população heterogênea de hemácias) e <strong>normal</strong> no traço talassêmico (população homogeneamente pequena) — mas não é absoluto, e nunca substitui a eletroforese quando a distinção muda a conduta (ex.: aconselhamento genético reprodutivo).</p>
+</div>
+<h3>Doença falciforme</h3>
+<p>Na hemoglobina S, a desoxigenação induz polimerização da hemoglobina dentro da hemácia, distorcendo-a para a forma de foice (drepanócito) — processo inicialmente reversível que se torna irreversível com episódios repetidos (dano de membrana cumulativo). As hemácias falcizadas têm sobrevida curta (hemólise crônica extravascular, anemia normocítica com reticulocitose basal) e, mais gravemente, obstruem a microcirculação, causando as crises vaso-oclusivas dolorosas que definem a morbidade clínica da doença — do infarto ósseo à síndrome torácica aguda, ao acidente vascular cerebral em crianças.</p>
+<p>No Brasil, a triagem neonatal para doença falciforme integra o Programa Nacional de Triagem Neonatal (Teste do Pezinho) desde 2001, com cobertura universal no SUS — identificação pré-sintomática permite profilaxia com penicilina desde os primeiros meses de vida (reduzindo mortalidade por sepse pneumocócica, principal causa de óbito precoce não tratada) e acompanhamento hematológico estruturado. <span class="evid">Diretriz/Consenso</span> A prevalência do traço falciforme é particularmente alta na população afrodescendente brasileira, refletindo a história demográfica do país — dado que fundamenta a universalidade (não seletividade) da triagem neonatal.</p>
+</section>
+
+<section id="s-aplasica">
+<h2>Anemia aplásica, hipoplásica e mielodisplasia (visão geral)</h2>
+<p>Quando a falha não está num substrato específico, mas na própria capacidade produtiva da medula óssea, o resultado tipicamente afeta as três linhagens simultaneamente — <strong>pancitopenia</strong> — porque todas compartilham a mesma célula-tronco de origem (ver <a class="cross-link" href="#s-hematopoiese">Hematopoiese e eritropoiese</a>). A <strong>anemia aplásica</strong> é a falência medular mais grave: hipoplasia acentuada de todas as linhagens, geralmente autoimune (ataque de linfócitos T citotóxicos contra células-tronco hematopoiéticas) ou, mais raramente, tóxica (quimioterápicos, radiação, alguns fármacos idiossincráticos) ou congênita (anemia de Fanconi). O diagnóstico definitivo exige biópsia de medula óssea, mostrando hipocelularidade acentuada substituída por gordura.</p>
+<p>A <strong>síndrome mielodisplásica (SMD)</strong> é fisiopatologicamente distinta — a medula é normo ou hipercelular, mas a hematopoiese é <strong>ineficaz</strong>: as células são produzidas em quantidade, mas morrem por apoptose intramedular antes de amadurecer e saírem para a circulação (eritropoiese/leucopoiese/trombopoiese ineficazes), produzindo citopenias periféricas apesar de medula ativa — e frequentemente com um componente displásico (morfologia anômala) reconhecível no esfregaço e na biópsia. SMD é predominantemente doença do idoso e carrega risco de transformação para leucemia mieloide aguda, o que a diferencia prognosticamente da aplasia pura.</p>
+<p>Clinicamente, a distinção entre citopenia isolada (uma linhagem) e pancitopenia (três linhagens) é o gatilho mais confiável para escalar de investigação ambulatorial (perfil de ferro, B12/folato, função renal e tireoidiana) para investigação hematológica especializada com biópsia de medula — pancitopenia inexplicada não deve ser conduzida apenas com hemograma seriado.</p>
+</section>
+
+<section id="s-leucograma">
+<h2>Série branca (leucograma)</h2>
+<p>O leucograma reporta a contagem total de leucócitos e o <strong>diferencial</strong> — a proporção de cada tipo celular (neutrófilos, linfócitos, monócitos, eosinófilos, basófilos), reportada tanto em percentual quanto em contagem absoluta. A contagem absoluta é sempre mais informativa clinicamente que o percentual isolado: uma "linfocitose relativa" de 60% pode ser puramente matemática (neutropenia reduzindo o denominador) sem qualquer linfocitose absoluta real — erro de interpretação comum e evitável ao sempre calcular o valor absoluto (percentual × contagem total de leucócitos / 100).</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Principais alterações do leucograma e seu significado clínico">
+<thead><tr><th>Achado</th><th>Definição</th><th>Causas mais comuns</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Neutrofilia</td><td>Neutrófilos absolutos &gt;7.500/µL</td><td>Redistribuição do pool marginal para o circulante (estresse físico/emocional, corticoide) ou aumento real de liberação medular (infecção/inflamação, uso de lítio, neoplasia mieloproliferativa) — inclui também infarto agudo do miocárdio, por necrose tecidual estéril desencadeando resposta inflamatória</td></tr>
+<tr><td class="td-label">Desvio à esquerda</td><td>Aumento de formas jovens (bastonetes, metamielócitos) no diferencial</td><td>Resposta medular aguda a infecção bacteriana — sinaliza demanda que supera o pool de reserva de neutrófilos maduros</td></tr>
+<tr><td class="td-label">Neutropenia</td><td>Neutrófilos absolutos &lt;1.800/µL (população geral); em indivíduos de ascendência africana, o limiar de normalidade é mais baixo, ≤1.000/µL sem risco infeccioso aumentado (neutropenia étnica benigna). Gravidade: leve &gt;1.000/µL · moderada 500–1.000/µL · intensa 200–499/µL · muito intensa &lt;200/µL</td><td><strong>Granulopoese ineficaz/inadequada</strong> — quimioterapia, deficiência de B12/folato. <strong>Destruição periférica</strong> — sepse, HIV, lupus, fármacos mielotóxicos, infiltração medular. Quanto mais grave, maior o risco infeccioso — neutropenia muito intensa é emergência (risco de sepse sem resposta inflamatória típica)</td></tr>
+<tr><td class="td-label">Linfocitose</td><td>Linfócitos absolutos &gt;4.000/µL (adulto)</td><td>Secundária/reacional — infecção viral aguda (linfócitos atípicos na mononucleose), coqueluche, estresse, tabagismo. Primária — leucemia linfocítica crônica no idoso (linfocitose persistente isolada)</td></tr>
+<tr><td class="td-label">Linfocitopenia</td><td>Linfócitos absolutos &lt;1.000/µL</td><td>Sepse, HIV, influenza e outras infecções virais agudas, corticoides, doenças autoimunes</td></tr>
+<tr><td class="td-label">Eosinofilia</td><td>Eosinófilos absolutos &gt;500/µL</td><td>Mundialmente, infestação por helmintos com fase tecidual é a causa mais comum; em países industrializados, predominam as doenças atópicas. Secundária (infecciosa ou não infecciosa) é muito mais comum que primária (neoplasia hematológica) — eosinopenia é achado inespecífico, sem importância clínica isolada</td></tr>
+<tr><td class="td-label">Basofilia / basopenia</td><td>Basófilos: 20–80/µL de referência</td><td>Basofilia — alergia/inflamação, diabetes mellitus, hipotireoidismo, neoplasias mieloproliferativas. Basopenia — pouca importância clínica isolada</td></tr>
+<tr><td class="td-label">Monocitose / monocitopenia</td><td>Monócitos: 300–900/µL de referência</td><td>Monocitose — doenças inflamatórias crônicas, doença hepática alcoólica. Monocitopenia — doenças autoimunes, aids</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 8 — Leitura do leucograma sempre em contagens absolutas; o padrão de alteração (isolada versus múltiplas linhagens simultâneas) orienta se a causa é reativa/periférica ou primária de medula.</p>
+</div>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>A <strong>neutropenia étnica benigna</strong> — contagem de neutrófilos cronicamente mais baixa, sem risco infeccioso aumentado, em pessoas de ascendência africana e alguns grupos do Oriente Médio — tem base genética identificada: o polimorfismo <em>DARC</em>/Duffy nulo (fenótipo eritrocitário Duffy-negativo), que faz progenitores eritroides Duffy-nulos diferenciarem-se preferencialmente para a linhagem mieloide, levando neutrófilos ativados a migrar da circulação para o baço — reduzindo a contagem circulante sem refletir menor produção nem menor função imune. Reconhecer esse padrão evita investigação desnecessária (biópsia de medula, suspensão de medicação) diante de neutropenia leve persistente e sem outros achados num paciente afrodescendente — relevante para a prática clínica brasileira dada a proporção de população afrodescendente no país (ver <a class="cross-link" href="#s-brasil">Hematologia no Brasil</a>). Segundo o PubMed, mecanismo caracterizado em Charles BA et al. Analyses of genome wide association data, cytokines, and gene expression in African-Americans with benign ethnic neutropenia. <em>PLoS One</em>. 2018;13(3):e0194400 (<a href="https://doi.org/10.1371/journal.pone.0194400" target="_blank" rel="noopener">DOI</a>, PMID 29596498).</p>
+</div>
+<p>O leucograma tem uma relação estreita com a imunidade inata: neutrófilos, monócitos e eosinófilos são os efetores celulares dessa resposta desenvolvidos em <a class="cross-link" href="mecanismos/imunologia/imunidade-inata.html">Imunidade inata</a>, enquanto a linfocitose reativa a infecção viral se conecta à diferenciação de linfócitos T abordada em <a class="cross-link" href="mecanismos/imunologia/linfocitos-t-diferenciacao.html">Diferenciação de linfócitos T</a>.</p>
+</section>
+
+<section id="s-plaquetas">
+<h2>Plaquetas</h2>
+<p>A contagem de plaquetas (normal ~150.000–450.000/µL) é o terceiro pilar do hemograma. <strong>Trombocitopenia</strong> (&lt;150.000/µL) tem três mecanismos gerais — produção reduzida (falência medular, infiltração, deficiência de B12/folato também afeta megacariócitos), destruição/consumo aumentado (púrpura trombocitopênica imune, coagulação intravascular disseminada, síndrome hemolítico-urêmica, hiperesplenismo) e diluição (transfusão maciça) — cuja distinção depende de contexto clínico e, frequentemente, de biópsia de medula. <strong>Trombocitose</strong> (&gt;450.000/µL) é mais comumente reativa (infecção, inflamação, deficiência de ferro — outra pista indireta de ferropriva no próprio hemograma, já que a eritropoiese e trombopoiese competem por sinalização e substrato) do que primária (neoplasia mieloproliferativa, como trombocitemia essencial).</p>
+<p>A fisiologia da hemostasia primária mediada por plaquetas — adesão, ativação, agregação — e sua farmacologia (antiagregantes, anticoagulantes) já são desenvolvidas em profundidade em <a class="cross-link" href="mecanismos/fisiopatologia/trombose-e-hemostasia.html">Trombose e hemostasia</a> e <a class="cross-link" href="mecanismos/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html">Antiagregantes, anticoagulantes e trombolíticos</a> — este compêndio não reexplica esse mecanismo, apenas situa a contagem de plaquetas dentro do hemograma como ponto de entrada para aquela investigação.</p>
+</section>
+
+<section id="s-abordagem">
+<h2>Algoritmo diagnóstico integrado</h2>
+<p>Sintetizando as seções anteriores num fluxo de decisão: (1) confirmar anemia pelo limiar de Hb apropriado à população (Tabela 3); (2) classificar por VCM — micro, normo ou macrocítica (Tabela 4); (3) checar IPR — regenerativa ou hiporregenerativa; (4) dentro de cada célula da matriz, usar o perfil de ferro, B12/folato, função renal/tireoidiana, Coombs e esfregaço conforme a suspeita dominante gerada pelos passos 1–3; (5) nunca aceitar "anemia inespecífica" sem ter percorrido esse fluxo — a maioria das anemias ambulatoriais se resolve nos passos 1–3 sem exigir investigação de segunda linha.</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>O RDW e a história clínica são os dois elementos que mais frequentemente resolvem ambiguidades da matriz VCM×IPR: RDW elevado numa anemia "normocítica" pode estar mascarando duas populações opostas que se cancelam na média (ex.: ferropriva + macrocitose por reposição recente de B12); e a história (perda de sangue conhecida, fármacos, dieta, etnia, história familiar) frequentemente aponta a causa antes mesmo do resultado laboratorial confirmatório chegar.</p>
+</div>
+
+<h3>Quando a anemia não vem sozinha: lendo as três linhagens juntas</h3>
+<p>O passo 4 do algoritmo acima pressupõe checar as outras duas linhagens do hemograma antes de fechar a investigação — anemia isolada e anemia associada a alteração de leucócitos ou plaquetas apontam para famílias de causa muito diferentes. O primeiro ramo dessa checagem é a combinação com <strong>citopenia</strong> ou <strong>citose</strong> das outras linhagens:</p>
+<ul>
+<li><strong>Anemia + leucopenia/plaquetopenia (bi ou pancitopenia)</strong> — pesquisar esplenomegalia ao exame físico ou por imagem. Se presente, sugere <strong>hiperesplenismo</strong> (sequestro esplênico das três linhagens, geralmente secundário a hepatopatia com hipertensão portal) — mecanismo periférico, não medular. Se ausente, a suspeita se desloca para <strong>doença hematológica primária</strong> (falência medular, infiltração, mielodisplasia — ver <a class="cross-link" href="#s-aplasica">Anemia aplásica, hipoplásica e mielodisplasia</a>), exigindo investigação de medula óssea.</li>
+<li><strong>Anemia + leucocitose/plaquetose</strong> — leucocitose concomitante sugere inflamação/infecção ativa ou leucemia; plaquetose concomitante sugere deficiência de ferro (a própria anemia ferropriva pode cursar com trombocitose reativa, ver <a class="cross-link" href="#s-plaquetas">Plaquetas</a>) ou doença mieloproliferativa primária.</li>
+</ul>
+<p>Esse cruzamento é um filtro barato — não substitui a matriz VCM×IPR, mas frequentemente decide, antes de qualquer exame de segunda linha, se a investigação deve seguir por doença sistêmica benigna (a esmagadora maioria dos casos) ou ser escalada para hematologia especializada.</p>
+</section>
+
+<section id="s-bayesiano">
+<h2>Raciocínio clínico bayesiano aplicado ao hemograma</h2>
+<p>Cada exame do painel de anemia tem sensibilidade e especificidade imperfeitas, e sua interpretação correta depende da <strong>probabilidade pré-teste</strong> definida pela história clínica — o mesmo princípio bayesiano que organiza o raciocínio semiológico em outras áreas da medicina clínica (ver <a class="cross-link" href="cardiologia-semiologia.html">Semiologia cardíaca</a>, seção de raciocínio clínico). Uma ferritina "normal" (por exemplo, 40 ng/mL) numa mulher jovem sem sinais inflamatórios tem alto valor preditivo negativo para ferropriva; a mesma ferritina de 40 ng/mL num paciente com doença renal crônica em diálise praticamente não exclui deficiência de ferro concomitante, porque a ferritina está artificialmente elevada pela inflamação de base — o número idêntico exige interpretação oposta conforme o contexto pré-teste.</p>
+<p>Esse princípio também justifica por que a investigação de anemia ferropriva em homem adulto ou mulher pós-menopausa sempre prioriza excluir perda gastrointestinal oculta antes de assumir causa nutricional: a probabilidade pré-teste de neoplasia colorretal ou lesão de trato digestivo nesses grupos é alta o suficiente para que "ferropriva idiopática" seja um diagnóstico de exclusão, não de primeira linha.</p>
+</section>
+
+<section id="s-historia">
+<h2>História</h2>
+<div class="hist"><span class="hl">1855</span> Thomas Addison descreve a "anemia perniciosa idiopática" — quadro clínico fatal sem causa identificável na época, hoje reconhecido como deficiência de B12 por gastrite autoimune.</div>
+<div class="hist"><span class="hl">1910</span> James Herrick descreve pela primeira vez, em detalhe clínico, hemácias em forma de foice no sangue de um paciente — primeira descrição da doença falciforme na literatura médica ocidental.</div>
+<div class="hist"><span class="hl">1926</span> George Minot e William Murphy demonstram que fígado bovino cru cura a anemia perniciosa — descoberta que rende o Prêmio Nobel de Fisiologia ou Medicina de 1934 (dividido com George Whipple) e estabelece, mais de duas décadas antes do isolamento químico da B12 (1948), que a doença tinha origem nutricional/carencial.</div>
+<div class="hist"><span class="hl">1929–1934</span> Maxwell Wintrobe desenvolve os índices hematimétricos (VCM, HCM, CHCM) que ainda hoje organizam a classificação morfológica de anemias — antes dele, a anemia era caracterizada apenas por contagem de hemácias e Hb, sem padronização do "tamanho" celular.</div>
+<div class="hist"><span class="hl">1949</span> Linus Pauling e colegas demonstram que a hemoglobina de pacientes com doença falciforme tem mobilidade eletroforética diferente da hemoglobina normal — cunham o termo "doença molecular", primeira demonstração de que uma doença humana podia ser rastreada a uma alteração estrutural específica numa única proteína.</div>
+<div class="hist"><span class="hl">1953–1956</span> Wallace Coulter patenteia o princípio de impedância elétrica para contar partículas em suspensão e comercializa o Coulter Counter — início da automação do hemograma, que até então era inteiramente manual (câmara de Neubauer, contagem microscópica).</div>
+<div class="hist"><span class="hl">1956</span> Vernon Ingram identifica a substituição exata de aminoácido (ácido glutâmico por valina, posição 6 da cadeia β) responsável pela hemoglobina S — primeira doença humana com defeito molecular definido em nível de sequência de proteína.</div>
+<div class="hist"><span class="hl">1977–1985</span> Eugene Goldwasser e colaboradores purificam a eritropoetina humana (1977); o gene é clonado em 1985, abrindo caminho para a EPO recombinante, aprovada para uso clínico em 1989 — primeira terapia biológica dirigida especificamente à eritropoiese.</div>
+<p>A trajetória do campo é a de uma disciplina que caminhou de descrição clínica pura (Addison, Herrick) para mecanismo molecular (Pauling, Ingram) e depois para automação em escala (Coulter) — os três movimentos que ainda hoje estruturam o ensino da hematologia clínica: reconhecer o padrão, entender o mecanismo, e saber como o exame que confirma o mecanismo é de fato produzido.</p>
+</section>
+
+<section id="s-brasil">
+<h2>Hematologia no Brasil</h2>
+<p>A anemia ferropriva permanece um problema de saúde pública no Brasil, concentrado em crianças menores de 5 anos e gestantes — motivando duas políticas nacionais complementares: a fortificação obrigatória de farinhas de trigo e milho com ferro e ácido fólico (RDC ANVISA, desde 2002/2004) e o Programa Nacional de Suplementação de Ferro, que distribui sulfato ferroso profilático a crianças de 6 a 24 meses e gestantes na rede básica do SUS. <span class="evid">Diretriz/Consenso</span></p>
+<p>A doença falciforme tem prevalência particularmente alta no Brasil em razão da história demográfica do país — estima-se que o traço falciforme esteja presente numa fração relevante da população afrodescendente, o que fundamentou a universalização (não seletividade por etnia autodeclarada) da triagem neonatal no Programa Nacional de Triagem Neonatal desde 2001 (ver <a class="cross-link" href="#s-hemoglobinopatias">Hemoglobinopatias</a>). A Política Nacional de Atenção Integral às Pessoas com Doença Falciforme, do Ministério da Saúde, estrutura o cuidado desde o diagnóstico neonatal até o acompanhamento hematológico especializado ao longo da vida. <span class="evid">Diretriz/Consenso</span></p>
+<p>A rede de hemocentros públicos (Hemorrede Nacional, coordenada em nível federal e descentralizada por estado) é a espinha dorsal tanto da hemoterapia quanto de boa parte do diagnóstico hematológico especializado (eletroforese de hemoglobina, imunohematologia) disponível gratuitamente pelo SUS — cobertura que torna a triagem populacional de hemoglobinopatias e a reposição transfusional acessíveis mesmo fora dos grandes centros universitários. A literatura de referência em português — <em>Zago, Hematologia: Fundamentos e Prática</em> e o manual de interpretação de hemograma de Failace — reflete essa tradição nacional de hematologia clínica aplicada ao contexto do SUS, distinta em ênfase (embora não em fisiopatologia de base) dos textos-fonte anglófonos.</p>
+</section>
+
+<section id="s-questoes">
+<h2>Questões centrais</h2>
+<ul>
+<li>Quando um achado laboratorial isolado (ferritina, VCM, reticulócitos) basta para fechar diagnóstico, e quando exige confirmação por um segundo método antes de mudar conduta?</li>
+<li>Como distinguir, sem biópsia de medula, entre falência medular primária e supressão secundária a doença sistêmica (renal, inflamatória, endócrina)?</li>
+<li>Em que ponto a anemia deixa de ser "achado a investigar" e passa a ser "achado a monitorar" — existe um limiar de Hb ou de sintoma que justifique essa mudança de postura?</li>
+<li>Qual o peso relativo de rastreio populacional (universal) versus rastreio dirigido por fator de risco na detecção precoce de ferropriva e hemoglobinopatias?</li>
+<li>Como a genômica populacional deve, na prática, mudar o limiar de suspeita clínica para hemoglobinopatias em populações historicamente sub-representadas na literatura de referência?</li>
+<li>Até que ponto os limiares de referência do hemograma, calibrados originalmente em populações predominantemente europeias/norte-americanas, generalizam para uma população brasileira miscigenada?</li>
+</ul>
+</section>
+
+<section id="s-metodos">
+<h2>Ferramentas e métodos</h2>
+<p>A hematologia laboratorial produz conhecimento por uma combinação de métodos com poder de resolução crescente e custo/disponibilidade decrescente na direção oposta. A <strong>contagem automatizada</strong> (impedância + citometria de fluxo, ver <a class="cross-link" href="#s-tecnica">Como o hemograma é feito</a>) é o método de triagem de primeira linha, barato e disponível universalmente. O <strong>esfregaço de sangue periférico</strong> corado ao microscópio óptico continua sendo o método de maior resolução morfológica para achados que a automação apenas sinaliza sem caracterizar.</p>
+<p>A <strong>eletroforese de hemoglobina</strong> (e, cada vez mais, a cromatografia líquida de alta performance, HPLC, que a vem substituindo por maior resolução e quantificação automatizada) separa variantes de hemoglobina por carga elétrica ou afinidade cromatográfica, sendo o método de confirmação para hemoglobinopatias estruturais e talassemias. O <strong>sequenciamento genético molecular</strong> é reservado para casos em que a eletroforese é normal ou ambígua (sobretudo α-talassemias, cujo defeito é de deleção gênica, não de proteína anômala detectável por carga).</p>
+<p>A <strong>biópsia e aspirado de medula óssea</strong> é o método de maior resolução para doença primária da própria medula (aplasia, infiltração, mielodisplasia, neoplasia) — invasivo, reservado para quando os métodos periféricos não bastam para explicar o quadro, sobretudo em pancitopenia inexplicada.</p>
+</section>
+
+<section id="s-conexoes">
+<h2>Conexões com outros campos</h2>
+<p>A hematologia clínica não existe isolada: a fisiologia renal explica a produção de EPO e a anemia da doença renal crônica; a imunologia explica tanto a hepcidina/anemia da inflamação quanto as citopenias autoimunes (ver <a class="cross-link" href="mecanismos/imunologia/citocinas-visao-integradora.html">Citocinas: uma visão integradora</a> e <a class="cross-link" href="mecanismos/imunologia/imunidade-inata.html">Imunidade inata</a>); a farmacologia fornece tanto a terapêutica de reposição (ferro, B12, EPO recombinante) quanto os fármacos que causam citopenia iatrogênica; a genética molecular fundamenta hemoglobinopatias e mielodisplasia; e a oncologia compartilha fronteira direta com a hematologia nas neoplasias mieloproliferativas e linfoproliferativas, deliberadamente fora do escopo deste compêndio (ver <a class="cross-link" href="#s-estuda">O que este mapa estuda</a>). O mapa panorâmico de toda a medicina, incluindo essas conexões em escala macro, está em <a class="cross-link" href="medicina.html">Medicine</a>.</p>
+</section>
+
+<section id="s-controversias">
+<h2>Controvérsias ativas</h2>
+<div class="controversia">
+<div class="clabel">Controvérsia</div>
+<p><strong>Qual o corte de ferritina que exclui deficiência de ferro em paciente inflamado?</strong></p>
+<div class="pos"><b>Posição A —</b> Cortes tradicionais (ferritina &lt;30 ng/mL exclui ferropriva na maioria dos contextos) subestimam sistematicamente a deficiência de ferro em populações inflamadas (DRC, insuficiência cardíaca, doença inflamatória intestinal), porque a ferritina sobe como reagente de fase aguda independentemente dos estoques reais — diretrizes de insuficiência cardíaca já adotam cortes mais altos (ferritina &lt;100 ng/mL, ou 100–299 ng/mL com saturação de transferrina &lt;20%) para definir "deficiência de ferro" nessa população específica.</div>
+<div class="pos"><b>Posição B —</b> Elevar o corte de ferritina universalmente arrisca sobretratar com ferro (oral ou IV) pacientes sem deficiência real, expondo-os a efeitos adversos e custo desnecessário — cortes ajustados por contexto inflamatório deveriam ser validados especificamente para cada população (DRC, IC, DII) em vez de generalizados, e o sTfR (menos afetado por inflamação) é preterido na prática por menor disponibilidade e padronização entre laboratórios.</div>
+</div>
+<div class="controversia">
+<div class="clabel">Controvérsia</div>
+<p><strong>Ferro oral ou intravenoso como primeira linha na ferropriva não complicada?</strong></p>
+<div class="pos"><b>Posição A —</b> Ferro oral continua justificado como primeira linha na maioria dos casos não complicados — mais barato, sem risco de reação infusional, e a intolerância digestiva (a principal limitação) pode ser mitigada com doses menores em dias alternados, estratégia sustentada por estudos de absorção mostrando que doses diárias altas suprimem a própria absorção via elevação de hepcidina induzida pelo ferro ingerido.</div>
+<div class="pos"><b>Posição B —</b> Ferro intravenoso vem sendo defendido como primeira linha em subgrupos crescentes (gestação, doença inflamatória intestinal, DRC, pré-operatório com prazo curto) por corrigir a anemia mais rapidamente e de forma mais completa, com formulações modernas (carboximaltose férrica) de perfil de segurança muito melhor que preparações antigas — a barreira remanescente é de custo e necessidade de infraestrutura de infusão, não mais de segurança.</div>
+</div>
+</section>
+
+<section id="s-perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Pergunta em aberto</div><p>Terapias dirigidas ao eixo hepcidina-ferroportina (agonistas ou antagonistas de hepcidina) ainda são investigacionais para anemia da inflamação — qual será seu papel real frente à EPO recombinante e ao ferro IV já estabelecidos, e em quais subgrupos o benefício justificará o custo?</p></div>
+<div class="qa-block"><div class="qa-label">Pergunta em aberto</div><p>Por que a gravidade clínica da doença falciforme varia tão substancialmente entre pacientes com o mesmo genótipo HbSS — que modificadores genéticos (persistência de hemoglobina fetal, coerdade de α-talassemia, outros loci ainda não mapeados) explicam essa variação, e como isso deveria mudar o aconselhamento prognóstico individual?</p></div>
+<div class="qa-block"><div class="qa-label">Pergunta em aberto</div><p>O conteúdo de hemoglobina reticulocitária (CHr/Ret-He), disponível em contadores automatizados modernos, tem evidência de detectar deficiência de ferro funcional mais precocemente que ferritina/saturação de transferrina — por que sua adoção na prática clínica de rotina permanece limitada apesar da evidência favorável?</p></div>
+<div class="qa-block"><div class="qa-label">Pergunta em aberto</div><p>Os intervalos de referência do hemograma usados no Brasil derivam majoritariamente de populações de estudo europeias/norte-americanas — existe evidência suficiente, e estruturada em diretriz nacional, para intervalos de referência calibrados numa população brasileira miscigenada, ou essa lacuna permanece principalmente não investigada?</p></div>
+</section>
+
+<section id="s-discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora perguntava como transformar um número isolado — a hemoglobina baixa — em diagnóstico, e em que ponto o hemograma para de ser suficiente. A resposta que este compêndio desenvolveu é que o hemograma, sozinho, já responde à maior parte do caminho: confirmar a anemia pelo limiar correto (Tabela 3), classificar por VCM (Tabela 4), e checar reticulócitos/IPR estreitam o diferencial de dezenas para poucas hipóteses antes de qualquer exame de segunda linha. O hemograma para de ser suficiente exatamente onde a distinção entre duas hipóteses remanescentes muda a conduta e nenhum dos parâmetros do próprio hemograma resolve essa distinção — é aí que perfil de ferro, B12/folato, Coombs, eletroforese de hemoglobina ou biópsia de medula entram, cada um desenhado para resolver uma ambiguidade específica que ficou depois do primeiro filtro, não para substituí-lo.</p>
+<p>A tensão que atravessa o campo é entre <strong>generalização e contexto</strong>: os mesmos números (ferritina 40 ng/mL, VCM 78 fL) significam coisas diferentes conforme o paciente à frente — mulher jovem hígida ou idoso em diálise —, e nenhuma tabela de referência substitui a probabilidade pré-teste construída pela história clínica. É também no ponto de maior automação (contadores hematológicos processando milhares de amostras por dia) que a leitura humana do esfregaço continua insubstituível — um paradoxo que resume bem a hematologia laboratorial como disciplina: quanto mais a tecnologia acelera a triagem, mais valiosa fica a capacidade de reconhecer quando o resultado automatizado não fecha com o quadro clínico.</p>
+<p>Uma implicação que emerge mas não foi enunciada explicitamente no corpo do texto: a maioria dos mecanismos revisados aqui — hepcidina, EPO, hemólise imune, falência medular — converge numa mesma lógica de <strong>oferta versus demanda</strong> na linha de produção eritroide. Ferropriva e megaloblástica são falhas de oferta de substrato; doença renal e inflamação são falhas de sinal (EPO suprimida, hepcidina elevada); hemólise e hemorragia são excesso de demanda que a oferta normal não acompanha; aplasia e mielodisplasia são falhas da própria linha de produção. Pensar em cada anemia nova como "onde nessa cadeia oferta-demanda-produção está o problema" é um atalho heurístico mais durável do que memorizar causas por categoria de VCM.</p>
+</section>
+
+<section id="s-referencias">
+<h2>Referências</h2>
+
+<div class="ref-layer">
+<h3>Ponto de entrada</h3>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Failace, R. — Hemograma: Manual de Interpretação</span>, 6ª ed. Porto Alegre: Artmed, 2015.<br><span class="rnote">Referência brasileira de entrada, focada exclusivamente na leitura prática do hemograma — o ponto de partida recomendado para quem quer aplicar este compêndio à leitura de um exame real.</span></div>
+<div class="ref-item"><span class="rtype">Diretriz</span><br><span class="rtitle">World Health Organization — Guideline on haemoglobin cutoffs to define anaemia in individuals and populations</span>, 2024.<br><span class="rnote">Fonte primária dos limiares de Hb usados na Tabela 3. Resumo em Khurana R, Kanvinde P, Mudaliar S. Revised WHO Guidelines on Hemoglobin Cutoffs to Define Anemia in Individuals and Populations. <em>Indian Pediatrics</em>. 2024;61(7):671-674. Segundo o PubMed (<a href="https://pubmed.ncbi.nlm.nih.gov/38910369/" target="_blank" rel="noopener">PMID 38910369</a>).</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Aprofundamento</h3>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Hoffbrand, A.V.; Moss, P.A.H. — Fundamentos em Hematologia</span>, 7ª ed. Porto Alegre: Artmed, 2018 (edição original: <em>Essential Haematology</em>, Wiley-Blackwell).<br><span class="rnote">Texto-fonte de fisiopatologia hematológica em profundidade intermediária — a referência que sustenta a maior parte dos mecanismos desenvolvidos neste compêndio (eritropoiese, hemólise, hemoglobinopatias).</span></div>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Zago, M.A.; Falcão, R.P.; Pasquini, R. (org.) — Hematologia: Fundamentos e Prática</span>. São Paulo: Atheneu, 2013.<br><span class="rnote">Referência brasileira de maior densidade, com capítulos dedicados a epidemiologia e contexto nacional das principais anemias e hemoglobinopatias — base da seção "Hematologia no Brasil".</span></div>
+<div class="ref-item"><span class="rtype">Documento oficial</span><br><span class="rtitle">Ministério da Saúde — Protocolo Clínico e Diretrizes Terapêuticas: Anemia por Deficiência de Ferro</span>. Portaria SAS/MS nº 1.247, 10 nov. 2014, com atualizações posteriores (incorporação de ferripolimaltose e carboximaltose férrica).<br><span class="rnote">Fonte primária da conduta terapêutica nacional citada na seção de anemia ferropriva — grau de recomendação institucional (Diretriz/Consenso) para toda afirmação de conduta que o cita.</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Koch, C.G. et al. — Hospital-Acquired Anemia: Prevalence, Outcomes, and Healthcare Implications</span>. <em>Journal of Hospital Medicine</em>. 2013;8(9):506-512.<br><span class="rnote">Fonte primária dos números de prevalência e mortalidade de anemia adquirida no hospital citados na seção "Classificação das anemias". Segundo o PubMed (<a href="https://doi.org/10.1002/jhm.2061" target="_blank" rel="noopener">DOI</a>, PMID 23873739).</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Koch, C.G. et al. — From Bad to Worse: Anemia on Admission and Hospital-Acquired Anemia</span>. <em>Journal of Patient Safety</em>. 2014;13(4):211-216.<br><span class="rnote">Estudo complementar ao anterior, mostrando o efeito somado de anemia presente na admissão mais anemia adquirida durante a internação. Segundo o PubMed (<a href="https://doi.org/10.1097/PTS.0000000000000142" target="_blank" rel="noopener">DOI</a>, PMID 25290084).</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Consulta especializada</h3>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Kasper, D.L. et al. (ed.) — Harrison's Principles of Internal Medicine</span>, capítulos de Hematologia, 21ª ed. New York: McGraw-Hill, 2022.<br><span class="rnote">Para quem já domina o núcleo e quer o tratamento clínico integral de cada anemia com a profundidade de um texto de clínica médica de referência internacional.</span></div>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Kumar, V.; Abbas, A.K.; Aster, J.C. — Robbins &amp; Cotran: Patologia — Bases Patológicas das Doenças</span>, 10ª ed. Rio de Janeiro: Elsevier, 2021, capítulo de Distúrbios das Hemácias e Sangramento.<br><span class="rnote">Para a base patológica/molecular mais detalhada de cada mecanismo de anemia — útil especialmente para hemólise e hemoglobinopatias, onde o texto de patologia aprofunda a fisiopatologia molecular além do que cabe num compêndio clínico.</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Ganz, T. — Anemia of Inflammation</span>. <em>New England Journal of Medicine</em>, 2019.<br><span class="rnote">Revisão de referência sobre o eixo hepcidina-ferroportina que fundamenta a seção de anemia de doença crônica — para quem quer entender a via molecular além do resumo clínico apresentado aqui.</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Bottomley, S.S.; Fleming, M.D. — Sideroblastic Anemia: Diagnosis and Management</span>. <em>Hematology/Oncology Clinics of North America</em>. 2014;28(4):653-670.<br><span class="rnote">Revisão de referência sobre anemia sideroblástica hereditária e adquirida, base da seção sobre o mecanismo de bloqueio da síntese de heme. Segundo o PubMed (<a href="https://doi.org/10.1016/j.hoc.2014.04.008" target="_blank" rel="noopener">DOI</a>, PMID 25064706).</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Charles, B.A. et al. — Analyses of Genome Wide Association Data, Cytokines, and Gene Expression in African-Americans with Benign Ethnic Neutropenia</span>. <em>PLoS One</em>. 2018;13(3):e0194400.<br><span class="rnote">Base molecular (polimorfismo DARC/Duffy) da neutropenia étnica benigna citada na seção de leucograma. Segundo o PubMed (<a href="https://doi.org/10.1371/journal.pone.0194400" target="_blank" rel="noopener">DOI</a>, PMID 29596498).</span></div>
+</div>
+
+</section>
+
+</div>
+</div>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
+<script>
+function toggleSidebar(){
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var collapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', collapsed);
+  try{ sessionStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0'); }catch(e){}
+  document.getElementById('toggle-btn').textContent = collapsed ? '▶' : '◀';
+}
+(function(){
+  try{
+    if(sessionStorage.getItem('sidebar-collapsed') === '1'){
+      document.getElementById('sidebar').classList.add('collapsed');
+      document.getElementById('body-wrap').classList.add('sidebar-collapsed');
+      document.getElementById('toggle-btn').textContent = '▶';
+    }
+  }catch(e){}
+})();
+
+var mobOpen = document.getElementById('mob-open');
+if(mobOpen){
+  mobOpen.addEventListener('click', function(){
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+}
+
+var progressBar = document.getElementById('progress-bar');
+function updateProgress(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+  if(a) a.classList.add('active');
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+if('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, {rootMargin:'-10% 0px -55% 0px'});
+  sections.forEach(function(s){ io.observe(s); });
+}
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+
+window._readPos = null;
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>
+
+

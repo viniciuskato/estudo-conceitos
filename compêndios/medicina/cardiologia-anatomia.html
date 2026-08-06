@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cardiac Anatomy — Medicine Atlas</title>
@@ -15,6 +16,12 @@
   --font-body:'Source Serif 4',Georgia,serif;
   --font-ui:'Inter',system-ui,sans-serif;
 }
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+body{transition:background .25s,color .25s}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78}
@@ -60,8 +67,11 @@ a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:
 #sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
 #content{flex:1;padding:52px 72px 120px;transition:padding .25s}
 #body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
-.prose{max-width:88ch;margin:0 auto;transition:max-width .25s}
-#body-wrap.sidebar-collapsed .prose{max-width:114ch}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
 h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
 h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px}
 h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
@@ -174,7 +184,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     </div>
     <div class="s-group">
       <div class="sgt">Related compendiums</div>
-      <a class="sl" href="../../medicina/fisiologia/ciclo-cardiaco.html">Cardiac cycle</a>
+      <a class="sl" href="mecanismos/fisiologia/ciclo-cardiaco.html">Cardiac cycle</a>
     </div>
   </div>
 </nav>
@@ -188,7 +198,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     <span class="chip">⏱ <b>~35 min</b> read</span>
     <span class="chip">📋 Prerequisites: <b>basic general anatomy</b></span>
     <span class="chip">📍 Area: <b>Cardiology</b></span>
-    <span class="chip">🗓 Last revised: <b>2026-06-30</b></span>
+    <span class="chip">🗓 Last revised: <b>2026-08-05</b></span>
   </div>
 </div>
 
@@ -207,8 +217,8 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     </div>
     <div class="dep-group">
       <div class="dgt">Read after</div>
-      <a class="dep-item" href="../../medicina/fisiologia/ciclo-cardiaco.html">Cardiac cycle (physiology)</a>
-      <a class="dep-item" href="#">Cardiac semiology (in progress)</a>
+      <a class="dep-item" href="mecanismos/fisiologia/ciclo-cardiaco.html">Cardiac cycle (physiology)</a>
+      <a class="dep-item" href="cardiologia-semiologia.html">Cardiac semiology</a>
     </div>
     <div class="dep-group">
       <div class="dgt">Materials that depend on this</div>
@@ -527,7 +537,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <p>The <strong>epicardium</strong> is the visceral layer of the serous pericardium. It contains subepicardial adipose tissue in which the coronary arteries, veins, and nerves course. Epicardial adipose tissue has its own metabolic and inflammatory activity, with an emerging role in the pathogenesis of coronary artery disease and AF.</p>
 
-<p>The <strong>myocardium</strong> is the muscular layer responsible for contractile function. It is composed of cardiomyocytes — striated muscle cells, typically with a single central nucleus, interconnected by intercalated discs (<em>disci intercalares</em>) that ensure rapid cell-to-cell electrical conduction (functional syncytium). Ventricular myocardium is organized in helical fiber layers with different orientations, enabling the systolic torsion that increases ejection efficiency. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">→ Cardiac cycle: physiology of contraction</a>.</p>
+<p>The <strong>myocardium</strong> is the muscular layer responsible for contractile function. It is composed of cardiomyocytes — striated muscle cells, typically with a single central nucleus, interconnected by intercalated discs (<em>disci intercalares</em>) that ensure rapid cell-to-cell electrical conduction (functional syncytium). Ventricular myocardium is organized in helical fiber layers with different orientations, enabling the systolic torsion that increases ejection efficiency. <a class="cross-link" href="mecanismos/fisiologia/ciclo-cardiaco.html">→ Cardiac cycle: physiology of contraction</a>.</p>
 
 <p>The <strong>endocardium</strong> is the inner layer of endothelium and subendothelial connective tissue, lining the chambers and covering the valves. It is continuous with the vascular endothelium. Endocardial injury (e.g., by high-velocity regurgitant jets in valvular disease) creates thrombogenic surfaces — the substrate for infective endocarditis (endocardite infecciosa).</p>
 
@@ -623,7 +633,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <div class="ref-entry">
   GUYTON, Arthur C.; HALL, John E. <strong>Textbook of Medical Physiology</strong>. 14th ed. Philadelphia: Elsevier, 2021.
-  <p class="ref-nota">Chapters 9–14 develop the physiology of the cardiac pump and coronary circulation grounded in anatomy. Essential complementary reading — anatomy only acquires full meaning when connected to hemodynamic physiology. <a class="cross-link" href="../../medicina/fisiologia/ciclo-cardiaco.html">→ See Cardiac Cycle compendium</a>.</p>
+  <p class="ref-nota">Chapters 9–14 develop the physiology of the cardiac pump and coronary circulation grounded in anatomy. Essential complementary reading — anatomy only acquires full meaning when connected to hemodynamic physiology. <a class="cross-link" href="mecanismos/fisiologia/ciclo-cardiaco.html">→ See Cardiac Cycle compendium</a>.</p>
 </div>
 
 <div class="ref-layer">Specialized consultation</div>
@@ -649,6 +659,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
   <div id="lightbox-caption"></div>
 </div>
 <button id="back-btn" onclick="goBack()">← Back to reading</button>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle light/dark theme">🌙</button>
 <script>
 (function(){
   // Reading progress bar
@@ -673,6 +684,17 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
     bodyWrap.classList.toggle('sidebar-collapsed',c);
     btn.textContent = c ? '▶' : '◀';
     sessionStorage.setItem('sidebar-collapsed', c?'1':'0');
+  });
+
+  // Light/dark theme toggle
+  function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+  var themeBtn = document.getElementById('theme-toggle-btn');
+  themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+  themeBtn.addEventListener('click', function(){
+    var novo = temaAtual()==='light' ? 'dark' : 'light';
+    try{ localStorage.setItem('theme', novo); }catch(e){}
+    document.documentElement.setAttribute('data-theme', novo);
+    themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
   });
 
   // Active section highlight (scroll-based, robust for long sections)

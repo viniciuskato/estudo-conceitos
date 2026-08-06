@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Semiologia Cardíaca — Compêndio de Medicina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78;transition:background .25s,color .25s}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 8px 6px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 24px}
+.s-logo{padding:0 16px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:6px}
+a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
+h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
+h4{font-size:.9rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+p{margin-bottom:1.1em}
+ul,ol{padding-left:1.4em;margin-bottom:1.1em}
+li{margin-bottom:.35em}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+.doc-header{margin-bottom:32px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.subarea-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.sa-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.sa-card .sat{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--ac);margin-bottom:6px}
+.sa-card p{font-size:13.5px;color:var(--muted);margin:0}
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .cl{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0;padding-left:12px;border-left:2px solid var(--border)}
+.controversia .pos b{color:var(--text)}
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:4px;white-space:nowrap;vertical-align:middle}
+.ref-entry{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);font-size:14px}
+.ref-entry:last-child{border-bottom:none}
+.ref-entry .rt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ref-nota{font-style:italic;color:var(--muted);font-size:13px;margin-top:4px}
+.ref-layer{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed var(--ac);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .2s}
+#back-btn:hover{background:var(--bg3)}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid,.subarea-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar{display:none}
+  #content{padding:20px}
+  a[href]::after{content:" (" attr(href) ")";font-size:11px;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Semiologia Cardíaca</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Recolher barra lateral">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Compêndio · Medicina Clínica</div>
+    <div class="s-group">
+      <div class="sgt">Neste compêndio</div>
+      <a class="sl" href="#intro">Introdução</a>
+      <a class="sl" href="#anamnese">Anamnese cardiovascular</a>
+      <a class="sl" href="#inspecao">Inspeção</a>
+      <a class="sl" href="#palpacao">Palpação</a>
+      <a class="sl" href="#pa">Pressão arterial</a>
+      <a class="sl" href="#ausculta">Ausculta cardíaca</a>
+      <a class="sl" href="#pulso-venoso">Pulso venoso jugular</a>
+      <a class="sl" href="#sindromes">Síndromes clínicas</a>
+      <a class="sl" href="#raciocinio">Raciocínio clínico</a>
+      <a class="sl" href="#historico">Contexto histórico</a>
+      <a class="sl" href="#brasil">Contexto brasileiro</a>
+      <a class="sl" href="#questoes">Perguntas em aberto</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#controversias">Controvérsias</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Compêndios relacionados</div>
+      <a class="sl" href="cardiologia-anatomia.html">Anatomia cardíaca</a>
+      <a class="sl" href="mecanismos/fisiologia/ciclo-cardiaco.html">Ciclo cardíaco</a>
+      <a class="sl" href="mecanismos/farmacologia/hipertensao_sraa_anti-hipertensivos.html">Hipertensão / SRAA</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Semiologia Cardíaca</h1>
+  <p class="doc-meta">Compêndio de Área · Medicina Clínica · Cardiologia · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~45 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>anatomia cardíaca, ciclo cardíaco</b></span>
+    <span class="chip">📍 Área: <b>Cardiologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-05</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um sopro sistólico ejetivo em foco aórtico, irradiando para as carótidas, e um sopro sistólico inocente de uma criança de 8 anos podem soar quase idênticos a um ouvido destreinado. Um decide uma investigação urgente para estenose aórtica; o outro, uma explicação tranquilizadora aos pais. O que exatamente, no exame físico — sem qualquer exame de imagem — permite separar essas duas histórias com segurança suficiente para agir?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="cardiologia-anatomia.html">Anatomia cardíaca (câmaras, valvas, focos de projeção)</a>
+      <a class="dep-item" href="mecanismos/fisiologia/ciclo-cardiaco.html">Ciclo cardíaco (fisiologia — origem de B1/B2, curvas de pressão)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-item">Propedêutica geral (anamnese e exame físico gerais) — não coberta aqui, pressuposta</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="#">Valvopatias (em elaboração)</a>
+      <a class="dep-item" href="#">Insuficiência cardíaca (em elaboração)</a>
+      <a class="dep-item" href="mecanismos/farmacologia/hipertensao_sraa_anti-hipertensivos.html">Hipertensão arterial / SRAA</a>
+      <a class="dep-item" href="#">Eletrocardiograma (em elaboração)</a>
+    </div>
+  </div>
+</div>
+
+<section id="intro">
+<h2>O que este compêndio cobre</h2>
+<p>Semiologia cardíaca é o conjunto de técnicas e raciocínios pelos quais o exame clínico — sem qualquer exame complementar — gera hipóteses diagnósticas sobre a estrutura e a função do coração. Cobre quatro etapas clássicas da propedêutica aplicadas ao aparelho cardiovascular: anamnese dirigida (queixas, fatores de risco, cronologia), inspeção (fácies, pulsos visíveis, turgência jugular), palpação (ictus cordis, frêmitos, pulsos arteriais) e ausculta (bulhas, sopros, atritos) — a mais elaborada e historicamente mais estudada das quatro. A elas se soma a medida da pressão arterial, tecnicamente parte da palpação/ausculta mas tratada à parte pela sua centralidade clínica.</p>
+<p>O objetivo não é substituir o ecocardiograma ou o eletrocardiograma, mas gerar, a partir de achados de beira de leito, uma probabilidade pré-teste que decide se — e com que urgência — esses exames são necessários. Um exame físico cardiovascular bem-feito é o que transforma "este paciente tem um sopro" em "este paciente tem 70% de chance de estenose aórtica moderada a grave e precisa de ecocardiograma nas próximas semanas, não hoje à noite".</p>
+</section>
+
+<section id="anamnese">
+<h2>Anamnese cardiovascular dirigida</h2>
+<p>A anamnese cardiovascular gira em torno de cinco sintomas-guia: dor torácica, dispneia, palpitação, síncope (ou pré-síncope) e edema. Cada um deve ser caracterizado sistematicamente — início, localização, irradiação, qualidade, intensidade, fatores de piora/melhora, sintomas associados e cronologia — mas o valor diagnóstico real vem menos do sintoma isolado e mais do padrão de associação entre eles.</p>
+<p><b>Dor torácica</b> de origem cardíaca (anginosa) classicamente é em aperto ou peso retroesternal, desencadeada por esforço ou emoção, aliviada por repouso ou nitrato em minutos, podendo irradiar para membro superior esquerdo, mandíbula ou dorso. Dor pleurítica (piora à inspiração), dor que varia com a posição, ou dor pontual reproduzível à palpação tornam a origem cardíaca isquêmica menos provável — mas nenhuma característica isolada exclui infarto com segurança suficiente para dispensar investigação em paciente de risco.</p>
+<p><b>Dispneia</b> cardiogênica progride tipicamente de esforço para repouso, associando-se a ortopneia (dispneia ao deitar, aliviada por elevar o tronco) e dispneia paroxística noturna (despertar subitamente com falta de ar, horas após deitar) — ambas sinais de congestão pulmonar por elevação da pressão de enchimento do ventrículo esquerdo.</p>
+<p><b>Palpitação</b> deve ser caracterizada por início/término (súbito sugere arritmia paroxística; gradual sugere taquicardia sinusal reativa), regularidade percebida pelo próprio paciente (batendo "certo, rápido" versus "batendo desorganizado" — este último sugerindo fibrilação atrial) e sintomas associados (síncope concomitante eleva a gravidade).</p>
+<p><b>Síncope</b> de origem cardíaca (arrítmica ou obstrutiva, como na estenose aórtica grave) tende a ser súbita, sem pródromos longos, por vezes durante esforço — diferente da síncope vasovagal, precedida por pródromos autonômicos (náusea, sudorese fria, visão turva) e associada a gatilhos emocionais ou ortostáticos.</p>
+<p><b>Edema</b> de origem cardíaca é tipicamente bilateral, simétrico, de predomínio vespertino (piora ao longo do dia, melhora com a noite em decúbito), frio, e ascende de distal (tornozelos) para proximal conforme a gravidade da congestão sistêmica.</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — fatores de risco como parte da anamnese</div>
+  <p>A anamnese cardiovascular não termina nos sintomas atuais: hipertensão arterial, diabetes, dislipidemia, tabagismo, história familiar de doença coronariana precoce (antes de 55 anos em homens, 65 em mulheres) e obesidade compõem o escore de risco que recalibra a probabilidade pré-teste de qualquer sintoma relatado. A mesma dor torácica muda de interpretação clínica entre um paciente de 25 anos sem fatores de risco e um de 60 anos, diabético e tabagista.</p>
+</div>
+</section>
+
+<section id="inspecao">
+<h2>Inspeção</h2>
+<p>A inspeção cardiovascular começa antes de tocar o paciente: fácies, coloração de pele e mucosas, padrão respiratório e postura já geram hipóteses. Cianose central (lábios, língua) sugere shunt direito-esquerdo ou hipoxemia grave; cianose periférica isolada (extremidades frias) sugere baixo débito ou vasoconstrição, com mucosas orais poupadas. Baqueteamento digital (<em>clubbing</em>) — perda do ângulo ungueal normal com abaulamento da falange distal — associa-se classicamente a cardiopatias congênitas cianóticas de longa data e a endocardite infecciosa subaguda, além de causas pulmonares.</p>
+<p>A turgência jugular patológica (veias jugulares distendidas com o paciente a 45°) é sinal direto de elevação da pressão venosa central — achado que, sozinho, já eleva substancialmente a probabilidade de insuficiência cardíaca descompensada em paciente dispneico. O ictus cordis (choque da ponta), quando visível, aparece como um leve levantamento rítmico da parede torácica na topografia do 5º espaço intercostal esquerdo, linha hemiclavicular — visível com mais facilidade em pacientes magros ou com estados hipercinéticos.</p>
+</section>
+
+<section id="palpacao">
+<h2>Palpação</h2>
+<h3>Ictus cordis</h3>
+<p>A palpação do ictus cardíaco caracteriza quatro atributos: localização (normal no 5º espaço intercostal esquerdo, linha hemiclavicular — deslocamento lateral e para baixo sugere cardiomegalia, tipicamente por dilatação do ventrículo esquerdo), extensão (normalmente ocupa uma polpa digital, cerca de 2 a 3 cm; ictus difuso e amplo sugere dilatação ventricular), intensidade/força (impulsos hipercinéticos ocorrem em estados de alto débito — anemia, tireotoxicose, insuficiência aórtica) e mobilidade (se muda de posição com o decúbito lateral esquerdo).</p>
+<p>Um ictus sustentado (prolongado, ocupando mais da metade da sístole à palpação) sugere hipertrofia ventricular esquerda por sobrecarga de pressão — como na estenose aórtica ou hipertensão arterial de longa data — distinto do impulso hiperdinâmico e breve da sobrecarga de volume.</p>
+<h3>Frêmitos</h3>
+<p>Frêmito é a correspondência tátil de um sopro suficientemente intenso (classicamente grau ≥4/6 na escala de Levine) para ser palpado como uma vibração na parede torácica. Localizar o frêmito pelos mesmos focos de ausculta orienta a hipótese antes mesmo de auscultar: frêmito sistólico em foco aórtico sugere estenose aórtica significativa; frêmito diastólico em foco mitral (mais raro, exigindo palpação em decúbito lateral esquerdo) sugere estenose mitral.</p>
+<h3>Pulsos arteriais periféricos</h3>
+<p>A palpação dos pulsos arteriais (radial, carotídeo, femoral, poplíteo, pedioso, tibial posterior) avalia frequência, ritmo, amplitude, simetria e a morfologia da onda de pulso. Assimetria de pulsos entre membros superiores sugere doença obstrutiva proximal (dissecção de aorta, síndrome do roubo da subclávia); ausência de pulsos femorais em paciente jovem hipertenso é o achado clássico de coarctação de aorta.</p>
+<p>Duas morfologias de pulso têm valor semiológico direto e específico. O <b>pulso paradoxal</b> — queda da pressão arterial sistólica maior que 10 mmHg durante a inspiração — é acentuado por queda ainda maior no tamponamento cardíaco, refletindo a interdependência ventricular exagerada quando o pericárdio está sob tensão <span class="cite">(nível de evidência: fisiopatologia mecanicista bem estabelecida, quantificação clínica validada em séries de tamponamento)</span>. O <b>pulso alternante</b> — alternância batimento a batimento na amplitude do pulso, com ritmo regular — é sinal de disfunção sistólica grave do ventrículo esquerdo, refletindo variação cíclica na força contrátil de cardiomiócitos sobrecarregados.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Morfologias de pulso arterial e seu significado clínico">
+<thead><tr><th>Morfologia</th><th>Descrição</th><th>Associação clínica principal</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Pulso parvus et tardus</td><td>Amplitude reduzida, ascensão lenta</td><td>Estenose aórtica grave</td></tr>
+<tr><td class="td-label">Pulso em martelo d'água (Corrigan)</td><td>Ascensão rápida e colapso rápido, amplitude aumentada</td><td>Insuficiência aórtica grave</td></tr>
+<tr><td class="td-label">Pulso bisferiens</td><td>Dois picos sistólicos palpáveis</td><td>Insuficiência aórtica grave, cardiomiopatia hipertrófica obstrutiva</td></tr>
+<tr><td class="td-label">Pulso alternante</td><td>Alternância de amplitude, ritmo regular</td><td>Disfunção sistólica grave do VE</td></tr>
+<tr><td class="td-label">Pulso paradoxal</td><td>Queda inspiratória &gt;10 mmHg na PA sistólica</td><td>Tamponamento cardíaco, doença pulmonar obstrutiva grave</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 1 — Morfologias de pulso arterial classicamente associadas a achados de exame físico à palpação.</p>
+</div>
+</section>
+
+<section id="pa">
+<h2>Pressão arterial</h2>
+<p>A medida da pressão arterial (PA), embora simples em aparência, exige técnica padronizada para ter valor diagnóstico: manguito de largura adequada ao braço (cerca de 40% da circunferência), paciente sentado com apoio nas costas e pés, braço apoiado na altura do coração, sem falar, após 5 minutos de repouso, sem cafeína ou tabaco na hora anterior. Erros de técnica (manguito pequeno, braço sem apoio, medida imediata) inflam sistematicamente o valor obtido — uma fonte de sobrediagnóstico de hipertensão tão importante quanto qualquer variável biológica.</p>
+<p>A <span class="cite">Diretriz Brasileira de Hipertensão Arterial (Sociedade Brasileira de Cardiologia) <span class="evid">Diretriz</span></span> classifica a PA em consultório de forma semelhante à maioria das diretrizes internacionais, com um ponto de divergência relevante: o limiar para hipertensão estágio 1 é 140/90 mmHg nas diretrizes brasileira e europeia, contra 130/80 mmHg na diretriz norte-americana (ACC/AHA 2017) — a mesma medida pode ser rotulada normal ou hipertensiva dependendo da diretriz seguida, uma divergência com implicações diretas de conduta (ver Controvérsias).</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Classificação da pressão arterial em consultório">
+<thead><tr><th>Categoria</th><th>PA sistólica (mmHg)</th><th>PA diastólica (mmHg)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Ótima</td><td>&lt;120</td><td>&lt;80</td></tr>
+<tr><td class="td-label">Normal</td><td>120–129</td><td>80–84</td></tr>
+<tr><td class="td-label">Pré-hipertensão / limítrofe</td><td>130–139</td><td>85–89</td></tr>
+<tr><td class="td-label">Hipertensão estágio 1</td><td>140–159</td><td>90–99</td></tr>
+<tr><td class="td-label">Hipertensão estágio 2</td><td>160–179</td><td>100–109</td></tr>
+<tr><td class="td-label">Hipertensão estágio 3</td><td>≥180</td><td>≥110</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 2 — Classificação de PA em consultório pela Diretriz Brasileira de Hipertensão Arterial/SBC. <a class="cross-link" href="mecanismos/farmacologia/hipertensao_sraa_anti-hipertensivos.html">ver mecanismo SRAA e anti-hipertensivos</a>.</p>
+</div>
+<p><b>Hipotensão ortostática</b> — queda ≥20 mmHg na sistólica ou ≥10 mmHg na diastólica, medida após 3 minutos em pé a partir do decúbito — é parte obrigatória da avaliação de síncope e de pacientes idosos com quedas, e correlaciona-se com disautonomia, hipovolemia ou efeito farmacológico.</p>
+</section>
+
+<section id="ausculta">
+<h2>Ausculta cardíaca</h2>
+<p>A ausculta é, historicamente e didaticamente, o núcleo da semiologia cardíaca — a técnica que Laennec inaugurou em 1816 (ver Contexto histórico) e que permanece, apesar da disponibilidade de ecocardiografia, o primeiro filtro clínico para decidir quem precisa de investigação de imagem.</p>
+<h3>Focos de ausculta</h3>
+<div class="plate-block" id="fig-1">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Heart_sounds_auscultation_areas.svg"
+       alt="Diagrama da parede torácica anterior (Gray's Anatomy) com os 5 pontos de ausculta cardíaca marcados por cor"
+       loading="lazy" data-caption="Focos de ausculta cardíaca sobre a parede torácica (Gray's Anatomy)">
+  <div class="plate-caption"><b>Fig. 1 — Focos de ausculta</b> — vermelho: tricúspide · amarelo: pulmonar · verde: mitral · azul-marinho: aórtico · azul-claro: ponto de Erb. Derivado de Gray's Anatomy (Gray112) + Auskultation.jpg. Domínio público.</div>
+</div>
+<p>Os quatro focos clássicos correspondem à projeção acústica de cada valva na parede torácica, não à sua localização anatômica real (que é mais medial e profunda — ver <a class="cross-link" href="cardiologia-anatomia.html#topografia">Anatomia cardíaca, topografia</a>) <a class="fig-ref" href="#fig-1" onclick="navFig(this)">(Fig. 1)</a>: foco aórtico (2º espaço intercostal direito, borda esternal), foco pulmonar (2º espaço intercostal esquerdo, borda esternal), foco tricúspide (borda esternal esquerda inferior, 4º-5º espaço intercostal) e foco mitral (5º espaço intercostal esquerdo, linha hemiclavicular — coincide com o ictus). Um quinto ponto, o foco aórtico acessório (Erb, 3º espaço intercostal esquerdo), é útil para sopros de regurgitação aórtica.</p>
+<h3>Bulhas cardíacas normais</h3>
+<div class="plate-block" id="fig-2">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Wiggers_Diagram.svg"
+       alt="Diagrama de Wiggers: pressões aórtica, atrial e ventricular, volume ventricular, ECG e fonocardiograma alinhados ao longo do ciclo cardíaco"
+       loading="lazy" data-caption="Diagrama de Wiggers — bulhas cardíacas e ondas a/c/v alinhadas ao ciclo cardíaco">
+  <div class="plate-caption"><b>Fig. 2 — Diagrama de Wiggers</b> — pressões aórtica/atrial/ventricular, volume, ECG e fonocardiograma (1ª/2ª/3ª bulha) sobrepostos ao longo do ciclo cardíaco; a onda atrial mostra os componentes a/c/v (ver <a href="#pulso-venoso">Pulso venoso jugular</a>). DanielChangMD/DestinyQx, redesenhado por Xavax — Wikimedia Commons, CC BY-SA 2.5.</div>
+</div>
+<p>B1 (primeira bulha) marca o início da sístole, gerada principalmente pelo fechamento das valvas mitral e tricúspide; é mais bem audível no foco mitral, de tom mais grave e prolongado que B2. B2 (segunda bulha) marca o fim da sístole/início da diástole, pelo fechamento das valvas aórtica e pulmonar; mais audível na base (focos aórtico e pulmonar) <a class="fig-ref" href="#fig-2" onclick="navFig(this)">(Fig. 2)</a>. O desdobramento fisiológico de B2 — os componentes aórtico (A2) e pulmonar (P2) separando-se audivelmente durante a inspiração, por atraso no fechamento pulmonar com o maior retorno venoso ao VD — é um achado normal, mais evidente em jovens.</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — desdobramentos patológicos de B2</div>
+  <p>Desdobramento amplo e fixo de B2 (não varia com a respiração) sugere comunicação interatrial. Desdobramento paradoxal (P2 antes de A2, que se separa na expiração, não na inspiração) ocorre quando o fechamento aórtico está atrasado — bloqueio de ramo esquerdo, estenose aórtica grave. Distinguir os três padrões (fisiológico, fixo, paradoxal) é um dos achados de ausculta com maior especificidade para doença estrutural.</p>
+</div>
+<h3>Bulhas acessórias — B3 e B4</h3>
+<p>B3 (terceira bulha) ocorre no início da diástole, durante o enchimento ventricular rápido, gerada pela desaceleração brusca do fluxo ao encontrar um ventrículo cuja complacência já está reduzida ou cujo volume já está aumentado. É fisiológica em crianças, adultos jovens e gestantes (ventrículo complacente, alto débito); no adulto de meia-idade ou idoso, é achado patológico associado a insuficiência cardíaca com fração de ejeção reduzida ou sobrecarga de volume — o ritmo resultante (B1-B2-B3) é descrito como "ritmo de galope" (galope protodiastólico).</p>
+<p>B4 (quarta bulha) ocorre no fim da diástole, imediatamente antes de B1, gerada pela contração atrial contra um ventrículo com complacência reduzida (rígido) — nunca ocorre na ausência de contração atrial coordenada, logo está sempre ausente na fibrilação atrial. Associa-se a hipertrofia ventricular esquerda (hipertensão de longa data, estenose aórtica) e a isquemia aguda.</p>
+<h3>Sopros cardíacos</h3>
+<p>Um sopro é o som gerado por fluxo turbulento — por definição, sempre um achado a ser caracterizado sistematicamente antes de ser rotulado benigno ou patológico. A caracterização cobre seis atributos: momento no ciclo (sistólico, diastólico, contínuo), duração/forma (holosistólico, ejetivo em crescendo-decrescendo, em decrescendo), localização/foco de maior intensidade, irradiação, intensidade (escala de Levine, 1 a 6) e resposta a manobras dinâmicas.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Escala de Levine para intensidade de sopros cardíacos">
+<thead><tr><th>Grau</th><th>Descrição</th></tr></thead>
+<tbody>
+<tr><td class="td-label">1/6</td><td>Muito tênue, audível apenas com atenção concentrada</td></tr>
+<tr><td class="td-label">2/6</td><td>Tênue, mas audível imediatamente</td></tr>
+<tr><td class="td-label">3/6</td><td>Moderadamente intenso, sem frêmito palpável</td></tr>
+<tr><td class="td-label">4/6</td><td>Intenso, com frêmito palpável associado</td></tr>
+<tr><td class="td-label">5/6</td><td>Muito intenso, audível com o estetoscópio parcialmente afastado da parede torácica</td></tr>
+<tr><td class="td-label">6/6</td><td>Audível mesmo com o estetoscópio afastado da parede torácica</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 3 — Escala de Levine, padrão universal de graduação de intensidade de sopros à ausculta.</p>
+</div>
+<p>Sopros sistólicos ejetivos (crescendo-decrescendo, começando após B1, terminando antes de B2) ocorrem por fluxo através de uma via de saída obstruída ou por alto fluxo através de uma via normal — a estenose aórtica é o protótipo patológico; o sopro inocente (fisiológico, de Still, comum em crianças) tem a mesma forma temporal, mas tipicamente de baixa intensidade (≤2-3/6), sem frêmito, sem irradiação para carótidas e sem sintomas associados. Sopros holossistólicos (intensidade uniforme, cobrindo toda a sístole, mascarando B1) ocorrem em regurgitações através de um orifício que já está aberto desde o início da sístole — insuficiência mitral, insuficiência tricúspide, comunicação interventricular.</p>
+<p>Sopros diastólicos são, com poucas exceções, sempre patológicos. O sopro em decrescendo, logo após B2, em foco aórtico ou de Erb, é o sopro clássico de insuficiência aórtica — a manobra que mais aumenta sua audibilidade é o paciente sentado, inclinado à frente, em apneia expiratória. O ruflar diastólico de baixa frequência no foco mitral, mais bem audível em decúbito lateral esquerdo com a campânula do estetoscópio, é o sopro clássico de estenose mitral.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Manobras dinâmicas e seu efeito sobre sopros cardíacos selecionados">
+<thead><tr><th>Manobra</th><th>Efeito hemodinâmico</th><th>Sopro tipicamente acentuado</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Manobra de Valsalva (fase de esforço)</td><td>Reduz retorno venoso e pré-carga</td><td>Cardiomiopatia hipertrófica obstrutiva (aumenta); a maioria dos demais sopros diminui</td></tr>
+<tr><td class="td-label">Agachamento (squat)</td><td>Aumenta retorno venoso e resistência vascular periférica</td><td>Maioria dos sopros aumenta; CMH obstrutiva diminui</td></tr>
+<tr><td class="td-label">Handgrip isométrico</td><td>Aumenta resistência vascular periférica (pós-carga)</td><td>Insuficiência mitral, insuficiência aórtica (aumentam); estenose aórtica pode diminuir relativamente</td></tr>
+<tr><td class="td-label">Inspiração (manobra de Rivero-Carvalho)</td><td>Aumenta retorno venoso ao coração direito</td><td>Sopros de câmaras direitas (tricúspide, pulmonar) aumentam</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 4 — Manobras dinâmicas usadas para diferenciar a origem valvar de um sopro à beira do leito.</p>
+</div>
+<h3>Atritos pericárdicos</h3>
+<p>O atrito pericárdico é um som áspero, superficial, de timbre semelhante ao "ranger de couro", gerado pelo contato entre os folhetos pericárdicos inflamados (pericardite). Classicamente trifásico (componentes sistólico, diastólico precoce e pré-sistólico, correspondendo aos três momentos de maior movimento cardíaco no ciclo), mas frequentemente audível como componente único ou bifásico. Distingue-se de sopros valvares por não seguir estritamente a área de projeção de uma valva, variar com a posição do paciente e com a fase respiratória, e por sua qualidade acústica característica.</p>
+</section>
+
+<section id="pulso-venoso">
+<h2>Pulso venoso jugular</h2>
+<p>A veia jugular interna, sem valvas competentes e em continuidade direta com o átrio direito, funciona como um manômetro natural da pressão venosa central — sua coluna de sangue oscila com o ciclo cardíaco em um padrão de três ondas positivas (a, c, v) e dois colapsos (x, y) que, ao contrário do pulso arterial, é palpável apenas como impulso difuso e melhor avaliado por inspeção <a class="fig-ref" href="#fig-2" onclick="navFig(this)">(Fig. 2)</a>.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Componentes da onda de pulso venoso jugular">
+<thead><tr><th>Componente</th><th>Origem fisiológica</th><th>Alteração patológica notável</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Onda a</td><td>Contração atrial direita</td><td>Ausente na fibrilação atrial; "onda a em canhão" na dissociação atrioventricular (contração atrial contra tricúspide fechada)</td></tr>
+<tr><td class="td-label">Colapso x</td><td>Relaxamento atrial + descida da base do VD na sístole</td><td>Ausente ou invertido na regurgitação tricúspide grave</td></tr>
+<tr><td class="td-label">Onda c</td><td>Abaulamento da tricúspide para o átrio no início da sístole isovolumétrica</td><td>Discreta, frequentemente não identificada à beira do leito</td></tr>
+<tr><td class="td-label">Onda v</td><td>Enchimento atrial passivo contra a tricúspide ainda fechada</td><td>Onda v proeminente na regurgitação tricúspide</td></tr>
+<tr><td class="td-label">Colapso y</td><td>Abertura da tricúspide, esvaziamento atrial rápido</td><td>Y profundo e rápido na pericardite constritiva; y lento na estenose tricúspide</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 5 — Componentes da onda de pulso venoso jugular e seus correlatos patológicos.</p>
+</div>
+<p>A estimativa da pressão venosa central à beira do leito mede a altura do topo da coluna jugular pulsátil acima do ângulo esternal, com o paciente a 45°, somando-se cerca de 5 cm (distância estimada do ângulo esternal ao átrio direito); valores acima de 8-9 cmH2O sugerem elevação da pressão venosa central. O <b>reflexo hepatojugular</b> — elevação sustentada da coluna jugular durante compressão firme do abdome superior por 10-15 segundos — é um teste de reserva de complacência do coração direito, positivo quando o ventrículo direito não consegue acomodar o retorno venoso aumentado sem elevar sua pressão de enchimento.</p>
+<p>O <b>sinal de Kussmaul</b> — elevação paradoxal (em vez de queda) da pressão venosa jugular durante a inspiração — ocorre quando o coração direito não consegue acomodar o aumento inspiratório do retorno venoso, classicamente na pericardite constritiva, mas também descrito em infarto de ventrículo direito e cardiomiopatia restritiva.</p>
+</section>
+
+<section id="sindromes">
+<h2>Síndromes clínicas integradas</h2>
+<p>O valor real da semiologia cardíaca aparece quando achados isolados de anamnese, inspeção, palpação e ausculta se agrupam em síndromes reconhecíveis — o raciocínio sindrômico que precede o raciocínio etiológico específico.</p>
+<div class="subarea-grid">
+<div class="sa-card"><div class="sat">Síndrome de insuficiência cardíaca esquerda</div><p>Dispneia aos esforços, ortopneia, dispneia paroxística noturna, estertores crepitantes em bases pulmonares, B3, ictus desviado e difuso.</p></div>
+<div class="sa-card"><div class="sat">Síndrome de insuficiência cardíaca direita</div><p>Turgência jugular, hepatomegalia, refluxo hepatojugular positivo, edema de membros inferiores, ascite em casos avançados.</p></div>
+<div class="sa-card"><div class="sat">Síndrome de tamponamento cardíaco</div><p>Tríade de Beck (hipotensão, turgência jugular, bulhas hipofonéticas), pulso paradoxal acentuado, taquicardia.</p></div>
+<div class="sa-card"><div class="sat">Síndrome de pericardite aguda</div><p>Dor torácica pleurítica que piora em decúbito e melhora ao sentar inclinado à frente, atrito pericárdico, febre.</p></div>
+</div>
+<p>Cada síndrome listada aqui é desenvolvida em profundidade em compêndios dedicados de fisiopatologia e clínica médica (ver Mapa de dependências) — o papel deste compêndio é assegurar que os achados semiológicos que as compõem sejam reconhecidos individualmente com segurança suficiente para, então, agrupá-los.</p>
+</section>
+
+<section id="raciocinio">
+<h2>Raciocínio clínico e valor diagnóstico do exame físico</h2>
+<p>Cada achado semiológico tem, na literatura de medicina baseada em evidências, uma razão de verossimilhança (likelihood ratio) estimada — o quanto ele desloca a probabilidade pré-teste de uma condição. Um sopro sistólico irradiando para as carótidas com pulso parvus et tardus tem razão de verossimilhança positiva alta para estenose aórtica grave <span class="cite">(nível de evidência: revisões sistemáticas de acurácia diagnóstica do exame físico cardiovascular, ex. série "Rational Clinical Examination" do JAMA)</span>; já um sopro sistólico isolado, sem irradiação, sem sintomas e sem alteração de pulso, tem razão de verossimilhança próxima de 1 — praticamente não desloca a probabilidade em nenhuma direção.</p>
+<p>Esse enquadramento bayesiano — cada achado como multiplicador de uma probabilidade pré-teste, não como veredito binário — é o que separa a semiologia madura da simples coleta de sinais. Um mesmo sopro grau 2/6 sistólico ejetivo é quase certamente inocente em uma criança assintomática de 6 anos (baixíssima probabilidade pré-teste de doença estrutural) e exige investigação em um homem de 65 anos com síncope de esforço (alta probabilidade pré-teste) — a técnica de ausculta é idêntica, a interpretação clínica não é.</p>
+</section>
+
+<section id="historico">
+<h2>Contexto histórico</h2>
+<div class="hist"><span class="hl">1816 — o estetoscópio de Laennec</span>René Laennec, incomodado com a proximidade física exigida pela ausculta direta (encostar o ouvido no tórax do paciente), enrolou folhas de papel em um cilindro e descobriu que o som se transmitia amplificado — origem do primeiro estetoscópio de madeira. A invenção transformou a ausculta de prática ocasional em técnica sistemática, permitindo a Laennec correlacionar, pela primeira vez em escala, achados acústicos com achados de necropsia.</div>
+<div class="hist"><span class="hl">Século XIX-XX — sistematização semiológica</span>A obra de Laennec (<em>De l'Auscultation Médiate</em>, 1819) inaugurou um programa de correlação anatomoclínica que outros expandiram ao longo do século seguinte, consolidando a nomenclatura de bulhas, sopros e ritmos que — com poucas mudanças — permanece em uso.</div>
+<div class="hist"><span class="hl">Décadas de 1950-60 — fonocardiografia</span>O registro gráfico dos sons cardíacos (fonocardiograma), combinado a registros simultâneos de pulso carotídeo e jugular, permitiu validar objetivamente a cronologia exata de bulhas e sopros em relação ao ciclo cardíaco — a base fisiológica que hoje se ensina como certeza didática foi, em sua época, resultado de pesquisa experimental ativa.</div>
+<div class="hist"><span class="hl">Últimas décadas — ecocardiografia e a pergunta sobre o futuro do exame físico</span>A disseminação da ecocardiografia transtorácica, e mais recentemente do ultrassom point-of-care (POCUS) portátil, deslocou parte do papel diagnóstico antes exclusivo da ausculta — um debate ainda ativo (ver Controvérsias).</div>
+</section>
+
+<section id="brasil">
+<h2>Contexto brasileiro</h2>
+<p>No Brasil, o ensino de semiologia médica tem tradição consolidada em torno de obras nacionais — <em>Semiologia Médica</em>, de Celmo Celeno Porto, é a referência mais amplamente adotada nas faculdades de medicina brasileiras para esta disciplina especificamente, ao lado de traduções de Bates (<em>Propedêutica Médica</em>). A Sociedade Brasileira de Cardiologia (SBC) publica diretrizes próprias — como a já citada Diretriz Brasileira de Hipertensão Arterial — que servem de referência normativa para a interpretação clínica de achados de pressão arterial no país.</p>
+<p>A relevância prática do exame físico cardiovascular é amplificada no contexto do Sistema Único de Saúde (SUS): na atenção primária, onde o acesso a ecocardiograma e a especialistas pode levar semanas a meses, a triagem semiológica competente — reconhecer quem tem alta probabilidade de valvopatia significativa versus quem tem sopro inocente — determina diretamente a equidade e a eficiência do encaminhamento para cardiologia.</p>
+<p>A doença de Chagas, endêmica em regiões do Brasil, acrescenta um capítulo semiológico próprio: a cardiopatia chagásica crônica pode se manifestar com arritmias, bloqueios de condução e insuficiência cardíaca dilatada, exigindo que o exame cardiovascular em áreas endêmicas ou em pacientes com sorologia positiva incorpore essa hipótese etiológica ao raciocínio sindrômico.</p>
+</section>
+
+<section id="questoes">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>O ultrassom point-of-care (POCUS), cada vez mais acessível e portátil, deve substituir a ausculta como primeira triagem cardiovascular à beira do leito, ou os dois devem coexistir como técnicas complementares? A literatura ainda não converge sobre em que ponto da formação médica o POCUS deveria ser introduzido nem sobre se isso acelera ou atrofia a curva de aprendizado da ausculta.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Há evidência consistente de declínio nas habilidades de ausculta entre médicos em formação nas últimas décadas, atribuído por alguns autores à dependência precoce de exames de imagem — mas a causalidade (currículo, tempo de exposição clínica, disponibilidade de exames complementares) não está estabelecida com clareza.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Estetoscópios digitais com machine listening (classificação automática de sopros e bulhas por algoritmo) já existem comercialmente, mas sua acurácia comparada à ausculta humana treinada, e seu papel em sistemas de saúde com escassez de especialistas, ainda são objeto de pesquisa ativa, não de consenso.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Por que a mesma medida de pressão arterial é classificada de forma diferente pelas diretrizes americana e brasileira/europeia (ver Controvérsias)? Reconciliar os dados epidemiológicos que fundamentam cada limiar continua sendo uma área ativa de debate entre sociedades médicas.</p></div>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outras áreas</h2>
+<p>Semiologia cardíaca pressupõe diretamente <a class="cross-link" href="cardiologia-anatomia.html">anatomia cardíaca</a> (projeção dos focos de ausculta, topografia do ictus) e <a class="cross-link" href="mecanismos/fisiologia/ciclo-cardiaco.html">o ciclo cardíaco</a> (origem mecânica exata de cada bulha e cada onda do pulso venoso). Conecta-se adiante com <a class="cross-link" href="mecanismos/farmacologia/hipertensao_sraa_anti-hipertensivos.html">farmacologia anti-hipertensiva</a> (a medida de PA orienta diretamente a decisão terapêutica) e com <a class="cross-link" href="mecanismos/fisiopatologia/choque-circulatorio/choque-circulatorio.html">fisiopatologia do choque circulatório</a> (pulso paradoxal e alternante como achados de gravidade). Fora da cardiologia, dialoga com epidemiologia clínica e medicina baseada em evidências (razões de verossimilhança de achados de exame físico) e, mais recentemente, com inteligência artificial aplicada (classificação automática de sons cardíacos).</p>
+</section>
+
+<section id="controversias">
+<h2>Controvérsias ativas</h2>
+<div class="controversia">
+  <div class="cl">Controvérsia — limiares diagnósticos de hipertensão arterial</div>
+  <div class="pos"><b>Posição SBC/ESC (140/90 mmHg):</b> hipertensão estágio 1 definida a partir de 140/90 mmHg, argumentando que o limiar mais baixo da diretriz americana rotularia como hipertensa uma proporção muito maior da população sem evidência proporcional de benefício terapêutico universal nesse novo grupo.</div>
+  <div class="pos"><b>Posição ACC/AHA (130/80 mmHg):</b> hipertensão estágio 1 já a partir de 130/80 mmHg, apoiada em dados do estudo SPRINT sugerindo benefício cardiovascular de metas mais agressivas de controle pressórico em populações de risco.</div>
+</div>
+<div class="controversia">
+  <div class="cl">Controvérsia — ausculta tradicional versus POCUS na formação médica</div>
+  <div class="pos"><b>Defesa da ausculta como habilidade nuclear:</b> treina raciocínio fisiopatológico, é gratuita, instantânea e não depende de equipamento — habilidade que deve ser preservada mesmo com acesso crescente a imagem.</div>
+  <div class="pos"><b>Defesa da incorporação precoce de POCUS:</b> a acurácia diagnóstica de imagem à beira do leito para achados estruturais relevantes (função ventricular, derrame pericárdico) supera consistentemente a ausculta isolada, e a portabilidade dos aparelhos já reduz drasticamente a barreira de custo/acesso que antes justificava depender só da ausculta.</div>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora perguntava o que separa, à beira do leito, um sopro inocente de uma estenose aórtica grave que soam semelhantes a um ouvido destreinado. A resposta não está em nenhum achado isolado, mas na integração sistemática de vários: a caracterização completa do sopro (forma, intensidade, irradiação para carótidas), a morfologia do pulso arterial associado (parvus et tardus na estenose grave), a palpação de um frêmito, a presença ou ausência de sintomas (síncope, angina, dispneia) e o contexto epidemiológico do paciente (idade, fatores de risco). Cada achado funciona como um multiplicador bayesiano da probabilidade pré-teste — não como um veredito isolado.</p>
+<p>Essa integração revela uma tensão que atravessa toda a semiologia cardíaca: a técnica de ausculta em si é praticamente idêntica entre um caso benigno e um grave — o que muda é o raciocínio clínico que interpreta o mesmo som dentro de contextos diferentes. Isso implica que ensinar semiologia como coleta de sinais isolados, sem o raciocínio bayesiano que os integra, produz um clínico que ouve bem mas decide mal.</p>
+<p>Uma implicação que emerge, mas raramente é enunciada explicitamente no ensino tradicional: a ausculta cardíaca só continuará tendo valor clínico proporcional ao seu custo (zero, imediato) na medida em que o raciocínio que a acompanha continuar sendo ensinado com o mesmo rigor que a técnica motora de posicionar o estetoscópio — a atrofia de uma sem a outra é o que torna plausível a hipótese de substituição total pelo POCUS discutida nas Perguntas em aberto.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+<div class="ref-layer">Ponto de entrada</div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>PORTO, Celmo Celeno; PORTO, Arnaldo Lemos.</b> <em>Semiologia Médica</em>. 8ª ed. Rio de Janeiro: Guanabara Koogan, 2019.</p><p class="ref-nota">Referência nacional de entrada para semiologia médica no Brasil — organiza o exame cardiovascular na estrutura clássica (anamnese, inspeção, palpação, ausculta) seguida neste compêndio, com forte ancoragem no contexto clínico brasileiro.</p></div>
+<div class="ref-entry"><span class="rt">Livro-texto (tradução)</span><p><b>BICKLEY, Lynn S.</b> <em>Bates — Propedêutica Médica</em>. 13ª ed. Rio de Janeiro: Guanabara Koogan, 2022.</p><p class="ref-nota">Complementa Porto com maior detalhamento de manobras de exame físico e correlação com achados de outras diretrizes internacionais; a tradução em português é a versão efetivamente usada na maioria das faculdades brasileiras, não o original em inglês.</p></div>
+
+<div class="ref-layer">Aprofundamento</div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>LIBBY, Peter et al. (Eds.)</b> <em>Braunwald's Heart Disease: A Textbook of Cardiovascular Medicine</em>. 12ª ed. Philadelphia: Elsevier, 2022.</p><p class="ref-nota">Referência de aprofundamento em cardiologia clínica — desenvolve a fisiopatologia por trás de cada achado semiológico (por que a estenose aórtica gera pulso parvus et tardus, por que a insuficiência mitral gera sopro holossistólico) além do nível descritivo.</p></div>
+<div class="ref-entry"><span class="rt">Diretriz</span><p><b>Sociedade Brasileira de Cardiologia.</b> <em>Diretriz Brasileira de Hipertensão Arterial – 2020</em>. Arquivos Brasileiros de Cardiologia, 2021.</p><p class="ref-nota">Fonte primária brasileira para a classificação de PA usada neste compêndio (Tabela 2) e para a técnica padronizada de medida — referência normativa para conduta no contexto do SUS.</p></div>
+<div class="ref-entry"><span class="rt">Artigo seminal</span><p><b>McGEE, Steven.</b> <em>Evidence-Based Physical Diagnosis</em>. 4ª ed. Philadelphia: Elsevier, 2018.</p><p class="ref-nota">Sistematiza razões de verossimilhança para achados de exame físico cardiovascular (sopros, pulso, B3/B4) a partir de revisões sistemáticas — a base do enquadramento bayesiano desenvolvido na seção "Raciocínio clínico" deste compêndio.</p></div>
+
+<div class="ref-layer">Consulta especializada</div>
+<div class="ref-entry"><span class="rt">Revisão sistemática</span><p><b>Etchells, E.; Bell, C.; Robb, K.</b> "Does This Patient Have an Abnormal Systolic Murmur?" <em>JAMA</em>, série <em>The Rational Clinical Examination</em>, 1997.</p><p class="ref-nota">Artigo de referência da série JAMA que quantifica a acurácia diagnóstica de achados semiológicos específicos de sopros sistólicos — útil para quem quer ir além da descrição qualitativa e trabalhar com números de sensibilidade/especificidade reais.</p></div>
+<div class="ref-entry"><span class="rt">Texto-fonte histórico</span><p><b>LAENNEC, René T. H.</b> <em>De l'Auscultation Médiate</em>. Paris, 1819.</p><p class="ref-nota">Obra fundadora da ausculta mediata — leitura de interesse histórico-epistemológico para entender como a correlação anatomoclínica sistemática nasceu como programa de pesquisa, não como saber já pronto.</p></div>
+</section>
+
+
+</div>
+</div>
+</main>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+
+<script>
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function toggleSidebar(){
+  sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed');
+  sessionStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+}
+toggleBtn.addEventListener('click', toggleSidebar);
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+if(sessionStorage.getItem('sidebar-collapsed') === 'true'){
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+}
+
+var progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}, {passive:true});
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  if(current){
+    var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+    if(a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {rootMargin:'-10% 0px -55% 0px'});
+sections.forEach(function(s){ io.observe(s); });
+
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbCap = document.getElementById('lightbox-caption');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = img.getAttribute('data-caption') || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+document.querySelectorAll('.plate-block img').forEach(function(img){
+  img.addEventListener('click', function(){ openLightbox(this); });
+});
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

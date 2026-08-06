@@ -26,9 +26,11 @@ Fontes via Google Fonts: Source Serif 4 (corpo **17px**, line-height 1.78) + Int
 - `#s-toggle`: fora do `.s-inner`, sempre visível mesmo colapsado
 - `.s-inner`: `flex:1; overflow-y:auto; width:280px`
 - `#content`: `flex:1; padding:52px 72px 120px; transition:padding .25s`
-- `.prose`: `max-width:88ch; margin:0 auto; transition:max-width .25s`
+- `.prose`: `max-width:1000px; margin:0 auto; transition:max-width .25s`
 - `#body-wrap.sidebar-collapsed #content`: `padding:52px 100px 120px`
-- `#body-wrap.sidebar-collapsed .prose`: `max-width:114ch`
+- `#body-wrap.sidebar-collapsed .prose`: `max-width:1180px`
+
+**Largura da coluna de leitura (atualizado 2026-08-05):** valores em `px` fixos (não mais `ch`), calibrados para equivaler à largura de dashboard já usada em Investimentos (`.container{max-width:1180px}`) no estado de maior espaço disponível (sidebar recolhida) — `1000px` com sidebar aberta (280px ocupados pela nav) e `1180px` recolhida, mesmo número literal do container de Investimentos. Substitui os valores anteriores em `ch` (88/114), que produziam coluna mais estreita. Origem: pedido do usuário para igualar a largura ao padrão de Investimentos, 2026-08-05 — aplicado nesta rodada em `cardiologia-semiologia.html`/`cardiologia-anatomia.html`; resto do acervo não retroaplicado (ver "Escopo de melhorias — não retroagir").
 
 ---
 
@@ -38,6 +40,55 @@ Fontes via Google Fonts: Source Serif 4 (corpo **17px**, line-height 1.78) + Int
 - Estado persistido em `sessionStorage('sidebar-collapsed')`
 - Colapsar: `sidebar.classList.add('collapsed')` + `bodyWrap.classList.add('sidebar-collapsed')`
 - `.s-logo`, `.s-group`, `a.sl` recebem `opacity:0; pointer-events:none` quando colapsado
+
+---
+
+## Modo claro/escuro (tema) — padrão obrigatório (2026-08-05)
+
+Todo compêndio/mecanismo novo nasce com alternância de tema claro/escuro, replicando o mecanismo já usado em `Investimentos/Orçamento/Simulador.html` (único piloto real antes desta data — não era padrão de domínio nenhum, verificado por grep antes de promover). Escuro continua o tema padrão (`:root` sem atributo); claro é opt-in via toggle, persistido.
+
+**Script inline no `<head>`, antes do CSS e antes de qualquer paint** (evita flash de tema errado ao carregar):
+```html
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+```
+
+**Paleta clara — bloco de override, logo após o `:root` escuro já documentado (paleta C):**
+```css
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+body{transition:background .25s,color .25s}
+```
+**Correção de contraste (2026-08-05, mesmo dia):** os tons originais de `--ac`/`--ac2` (`#8a6a3f`/`#a8452f`) mediam ~4.0-4.9:1 conforme a superfície (abaixo do mínimo AA de 4.5:1 para texto normal em `--bg3`, o pior caso — cabeçalho de `.data-table`, por exemplo) — usuário sentiu falta de contraste no modo claro e o recálculo confirmou. Escurecidos para `#6b4023`/`#8a3620`, mesma família de cor (âmbar/ferrugem), agora **7.0-8.8:1** (`--ac`) e **6.4-7.0:1** (`--ac2`) nas três superfícies onde aparecem (`--bg`, `--bg2`, `--bg3`) — acima do mínimo AA com folga em qualquer tamanho de texto, sem alterar o tema escuro. `--text`/`--bg`/`--bg2` seguem >12:1 (não tocados). Não escurecer mais os acentos claros sem reconferir esse número.
+
+**Botão flutuante (fora do `.s-inner`, mesma lógica de nunca sumir ao colapsar sidebar):**
+```html
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+```
+```css
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
+```
+
+**JS (dentro do mesmo bloco de script dos demais comportamentos, não em IIFE separada):**
+```js
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+```
+
+Chave de `localStorage` é `theme` (compartilhada entre todo compêndio/mecanismo do mesmo site — preferência de tema persiste ao navegar entre páginas, já que todas vivem sob o mesmo domínio GitHub Pages). Não usar a chave `simulador-theme` do piloto de Investimentos — namespaces diferentes, domínios diferentes.
+
+Escopo: aplicar em todo HTML novo e ao revisar HTML existente reaberto por outro motivo — não retroaplicar em lote ao acervo (ver "Escopo de melhorias — não retroagir").
 
 ---
 
@@ -164,7 +215,7 @@ Todo compêndio é aberto a partir do `index.html` raiz. Sem um link de volta ex
 </div>
 ```
 
-- `href` relativo: calcular a partir da profundidade real do arquivo até a raiz do projeto (`../../index.html` para arquivos em `compêndios/<área>/` ou `medicina/<área>/`; um `../` a mais por nível extra, ex. `medicina/fisiopatologia/choque-circulatorio/` → `../../../index.html`)
+- `href` relativo: calcular a partir da profundidade real do arquivo até a raiz do projeto (`../../index.html` para arquivos em `compêndios/<área>/`; para mecanismos, um nível a mais de pasta — `compêndios/medicina/mecanismos/<subárea>/` já pede `../../../../index.html`, e mais um `../` por nível extra de subpasta, ex. `compêndios/medicina/mecanismos/fisiopatologia/choque-circulatorio/` → `../../../../../index.html`). Caminho de mecanismo migrado de `medicina/<subárea>/` para `compêndios/medicina/mecanismos/<subárea>/` em 2026-07-10 (desmembramento de Base de estudos em Compêndios/Sistemas/Provas) — ver `Base de estudos/compêndios/CLAUDE.md`.
 - `.home-label` fica oculto quando `#sidebar.collapsed`, mantendo só o ícone ⌂ visível
 
 ```css
@@ -336,6 +387,30 @@ Uso de `.data-table`: a primeira célula de cada linha (o rótulo/nome da linha)
 
 ---
 
+## Fórmulas e equações — apresentação modular obrigatória (2026-08-06)
+
+Toda fórmula/equação apresentada em qualquer compêndio, sistema ou material de prova segue duas regras: (1) o bloco da fórmula em si, na classe `.eq` já em uso informal em `fisica.html`, agora formalizada aqui; (2) logo abaixo, uma lista `.eq-vars` que decompõe **cada variável individualmente** — símbolo, nome por extenso, unidade e, quando existir um valor de referência/recomendado consolidado (clínico, físico, financeiro etc.), esse valor também. Nunca apresentar só o símbolo isolado sem essa decomposição — o objetivo é que o leitor não precise sair do material para saber se um número calculado é normal, alto, baixo ou uma constante fixa.
+
+```css
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--ac);border-radius:0 5px 5px 0;padding:12px 18px;margin:16px 0 8px;font-family:var(--font-ui);font-size:16px;color:var(--text);text-align:center;line-height:1.9;overflow-x:auto}
+.eq-vars{list-style:none;margin:0 0 18px;padding:0;font-family:var(--font-ui);font-size:13px;color:var(--muted)}
+.eq-vars li{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-bottom:2px}
+.eq-vars b{color:var(--ac);font-family:var(--font-body);font-style:italic;margin-right:6px;font-size:15px}
+```
+
+```html
+<div class="eq"><i>PA</i> = <i>DC</i> × <i>RVP</i></div>
+<ul class="eq-vars">
+  <li><b>PA</b> — pressão arterial média, mmHg. Referência: 70–100 mmHg.</li>
+  <li><b>DC</b> — débito cardíaco, L/min. Referência: 4–8 L/min em repouso.</li>
+  <li><b>RVP</b> — resistência vascular periférica, dyn·s/cm⁵. Sem valor único de referência — varia com o leito vascular.</li>
+</ul>
+```
+
+Quando a variável for uma constante universal (ex. `c`, `h`, `k_B` em física) em vez de algo com faixa de referência, a entrada da lista traz o valor fixo no lugar da faixa (`c ≈ 299 792 458 m/s`) — o princípio (nunca deixar uma variável sem contexto numérico) é o mesmo. Vale tanto para fórmula nova quanto para revisão de material existente que já usa `.eq` sem a lista de variáveis (`fisica.html` é o único caso legado — retrofit não obrigatório em lote, seguir "Escopo de melhorias — não retroagir", mas aplicar a `.eq-vars` a qualquer equação nova daquele arquivo se reaberto). Origem: pedido do usuário, 2026-08-06 — ver `Cowork/CLAUDE.md`, "Regras gerais".
+
+---
+
 
 ---
 
@@ -351,6 +426,8 @@ URL via API Wikimedia (usar `javascript_tool` no Chrome):
 ```js
 fetch('https://commons.wikimedia.org/w/api.php?action=query&titles=File:NOME.ext&prop=imageinfo&iiprop=url&format=json&origin=*')
 ```
+
+**Método que funciona de fato (2026-08-05):** `web_fetch` (fora do Chrome) retorna vazio para `wikimedia.org`/`upload.wikimedia.org` neste ambiente — domínio bloqueado, não é problema de URL. Dentro do Chrome conectado, `javascript_tool` executando `fetch()` com querystring (`action=query&...`) é bloqueado por um filtro de segurança do próprio Chrome MCP (`[BLOCKED: Cookie/query string data]`), mesmo reescrevendo a chamada com `URLSearchParams` — não tentar contornar esse filtro. O caminho que funciona: (1) `navigate` até a página normal `File:` no Commons e `get_page_text` para ler descrição/autor/licença (navegação de página comum, não é bloqueada); (2) calcular o hash MD5 do nome de arquivo (`hashlib.md5` em Python via bash, comando local, não é fetch) e montar a URL direta `https://upload.wikimedia.org/wikipedia/commons/<hash[0]>/<hash[0:2]>/<Nome_Do_Arquivo.ext>` — padrão de armazenamento do Wikimedia; (3) `navigate` + `screenshot` nessa URL para confirmar visualmente que a imagem carrega antes de referenciá-la no HTML. Evita todo bloqueio, sem tentar contornar nenhuma restrição de segurança — só troca o mecanismo de verificação.
 
 ---
 
@@ -379,6 +456,7 @@ fetch('https://commons.wikimedia.org/w/api.php?action=query&titles=File:NOME.ext
 - Traduções PT obrigatórias: listar termos visíveis na imagem na ordem estruturas maiores → menores
 - Mobile: `float:none; width:100%` em `max-width:900px`
 - NÃO usar `filter:invert`
+- **Referência formal, além do `plate-caption`:** toda imagem inserida também ganha uma entrada na seção "Referências" do compêndio, sob um `ref-layer` "Fontes das imagens" (após "Consulta especializada") — autor, título do arquivo, ano, licença e link para a página `File:` no Wikimedia Commons. O `plate-caption` já traz a atribuição resumida; a entrada em Referências é a citação completa e rastreável, mesmo padrão de rigor já exigido para toda afirmação de texto. Origem: pedido do usuário, 2026-08-06 — primeiro material a aplicar: `compêndios/medicina/mecanismos/semiologia/sindromes-bronco-pleuro-pulmonares.html`.
 
 ```css
 .plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}

@@ -2,22 +2,39 @@
 name: compendio
 description: >
   Skill para criação e revisão de compêndios de área — HTMLs autônomos
-  que exaurem um campo de estudo inteiro com profundidade real. Use SEMPRE que o usuário
-  mencionar "compêndio de área", quiser cobrir um campo inteiro (medicina,
-  investimentos, IA, física, etc.), ou pedir material denso sobre uma área ampla de estudo.
-  Após identificar a área, carregar a subskill correspondente: compendio-medicina
-  (medicina, que por sua vez carrega compendio-medicina-basica ou compendio-medicina-clinica),
-  compendio-investimentos, compendio-ia, compendio-filosofia ou compendio-fisica.
+  que exaurem um campo de estudo inteiro com profundidade real, incluindo o modo
+  `mecanismo` (aprofundamento de um conceito único até saturação) como sua camada mais
+  funda. Use SEMPRE que o usuário mencionar "compêndio de área", quiser cobrir um campo
+  inteiro (medicina, investimentos, IA, física, etc.), pedir material denso sobre uma
+  área ampla de estudo, OU quiser aprofundar um mecanismo/conceito específico dentro de
+  uma dessas áreas. Após identificar a área, carregar a subskill correspondente:
+  compendio-medicina (medicina, que por sua vez carrega compendio-medicina-basica ou
+  compendio-medicina-clinica), compendio-investimentos, compendio-ia, compendio-filosofia
+  ou compendio-fisica. Se o recorte pedido for um mecanismo específico (não a área
+  inteira), a subskill de área desce mais um nível até mecanismo-medicina-basica ou
+  mecanismo-medicina-clinica.
 ---
 
-# Skill Compêndio de Área
+# Skill Compêndio de Área (inclui mecanismo como camada mais funda)
 
 O compêndio de área cobre um campo de estudo inteiro em largura e profundidade.
 Não substitui livros nem artigos — mas deve ser suficientemente denso para situar o leitor,
 desenvolver os conceitos centrais e guiar o estudo com referências anotadas.
 
-**Distinção com a skill `mecanismo`:** o mecanismo aprofunda um conceito único; o compêndio de área
-exaure uma área inteira. Ambos referenciam materiais externos; ambos têm profundidade real.
+**Reenquadramento (2026-07-10):** `mecanismo` deixou de ser skill-pai paralela — é o modo
+de escrita mais profundo dentro desta mesma árvore, carregado quando o recorte pedido é
+um conceito/mecanismo único dentro da área, não a área inteira. Fisicamente, o conteúdo de
+mecanismo vive em `compêndios/<área>/mecanismos/<subárea>/`, dentro da árvore de compêndio
+da área correspondente. As regras de formato específicas do modo mecanismo (ordem de
+seções, saturação, Modo Anki canônico) continuam documentadas em `mecanismo/SKILL.md` —
+esta skill só decide QUANDO descer até lá.
+
+**Critério de descida — largura da área vs. profundidade de um ponto:** se o pedido cobre
+a área inteira ou uma subárea ampla, gerar como compêndio de área (este arquivo + subskill
+de área). Se o pedido é sobre UM conceito/processo específico até saturação máxima
+("aprofundar X até entender o mecanismo por completo"), carregar a subskill-folha de
+mecanismo correspondente (`mecanismo-medicina-basica`/`mecanismo-medicina-clinica`) — que
+por sua vez segue as regras gerais de `mecanismo/SKILL.md`.
 
 **Critério de sucesso:** o leitor sai com domínio real do campo — sabe o que existe,
 como as partes se relacionam, quais são as questões abertas, e o que estudar a seguir.
@@ -94,16 +111,17 @@ Exaustividade e didática não competem — devem ser buscadas em harmonia. Cobr
 2. Consultar `compêndios/compendio_estado.txt` e `compêndios/compendio_mapa.txt`.
 3. Ler `_docs/template-v2-spec.md` + SKILL.md da subskill antes de escrever qualquer HTML.
 4. Gerar HTML na subpasta temática em kebab-case dentro de `compêndios/`.
-5. Verificação bash obrigatória após qualquer escrita de HTML:
+5. **Buscar imagens pertinentes — passo obrigatório, não opcional:** para cada conceito com correspondente visual plausível (anatômico, radiológico, morfológico, diagramático), tentar ativamente localizar prancha via a hierarquia de `_docs/template-v2-spec.md` ("Fontes de imagens": OpenStax > Gray's > Blausen) e o método Wikimedia/Claude in Chrome documentado ali (navigate+get_page_text na página `File:`, hash MD5 para URL direta, navigate+screenshot para confirmar). Só pular uma prancha e registrar a ausência em `_docs/DEBT.md` depois de uma busca real ter sido tentada e não ter encontrado imagem adequada — nunca pular por omissão/pressa.
+6. Verificação bash obrigatória após qualquer escrita de HTML:
    - (a) fecha com `</body></html>`
    - (b) `wc -l` compatível com o esperado
    - (c) sem `const const` / `var var`
    - (d) acentuação PT-BR intacta: `grep -c "ã\|ç\|é" > 0`
    - (e) sem artefatos: `grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho"` vazio
-6. Verificação visual (novos arquivos e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
-7. Atualizar `compêndios/compendio_mapa.txt` na mesma operação.
-8. Registrar em `_docs/DEBT.md` toda inconsistência não corrigida.
-9. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
+7. Verificação visual (novos arquivos e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
+8. Atualizar `compêndios/compendio_mapa.txt` na mesma operação.
+9. Registrar em `_docs/DEBT.md` toda inconsistência não corrigida.
+10. GitHub: lembrar o usuário de rodar `push.bat` na raiz.
 
 ## Eficiência operacional
 
@@ -135,6 +153,7 @@ Vale tanto para gerar um compêndio novo quanto para revisar um existente — ao
 - [ ] Campo "Última revisão" atualizado?
 - [ ] `compêndios/compendio_mapa.txt` e `_docs/DEBT.md` atualizados?
 - [ ] Nenhum parágrafo empilha 3+ teorias/entidades paralelas sem transição (um parágrafo por ideia)?
+- [ ] Busca de imagens efetivamente tentada para os conceitos com correspondente visual plausível — não apenas pulada por padrão?
 
 ## O que não fazer
 

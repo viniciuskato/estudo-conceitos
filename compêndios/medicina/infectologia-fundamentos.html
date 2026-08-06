@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundamentos de Infectologia</title>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#111010">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+body{transition:background .25s,color .25s}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78}
+#body-wrap{display:flex;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+
+#sidebar{width:280px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2);border-right:1px solid var(--border);transition:width .25s}
+#sidebar.collapsed{width:44px}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:8px 0 20px}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:14px 16px 8px}
+.s-group{padding:10px 8px 2px}
+.s-gt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;padding:6px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:5px;line-height:1.35}
+a.sl:hover{background:var(--bg3);color:var(--text)}
+a.sl.active{background:var(--ac2bg);color:var(--ac);font-weight:600}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#s-toggle{padding:6px 8px;flex-shrink:0}
+#toggle-btn{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:6px;cursor:pointer;font-size:12px}
+#toggle-btn:hover{color:var(--text)}
+
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+
+.doc-header h1{font-size:2.1em;line-height:1.2;margin:0 0 10px}
+.doc-meta{font-family:var(--font-ui);color:var(--muted);font-size:13px;margin:0 0 14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:24px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-note{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic}
+
+section{margin-bottom:46px}
+section h2{font-size:1.5em;margin:0 0 16px;padding-top:8px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+h3{font-size:1.15em;margin:26px 0 10px;color:var(--text)}
+p{margin:0 0 16px}
+ul,ol{margin:0 0 16px;padding-left:1.3em}
+li{margin-bottom:6px}
+strong{color:var(--text)}
+.eq{font-family:var(--font-ui);background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 16px;margin:12px 0;font-size:15px;text-align:center}
+
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+.subarea-grid,.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.subarea-card,.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.subarea-card .sat,.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.subarea-card p,.ck-card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+.table-wrap{overflow-x:auto;margin:18px 0}
+.data-table{width:100%;border-collapse:collapse;margin:0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:6px 0 0}
+
+.controversia{background:var(--bg2);border:1px solid var(--ac2);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0}
+.controversia .pos b{color:var(--ac)}
+
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10.5px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:6px;white-space:nowrap}
+
+.ref-layer{margin-bottom:26px}
+.ref-layer h3{color:var(--ac);margin-top:0}
+.ref-item{margin-bottom:14px;padding-left:16px;border-left:2px solid var(--border)}
+.ref-item .rtype{font-family:var(--font-ui);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ref-item .rtitle{font-weight:600}
+.ref-item .rnote{color:var(--muted);font-size:14.5px}
+
+@media(max-width:900px){
+  .theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}
+  #sidebar{display:none;position:fixed;z-index:150;width:80vw;height:100vh}
+  #sidebar.open{display:flex}
+  #content{padding:24px 20px 80px}
+  .subarea-grid,.ck-grid{grid-template-columns:repeat(2,1fr)}
+  #mob-bar{display:flex}
+}
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:140;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 14px;align-items:center;font-family:var(--font-ui)}
+#mob-bar button{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+
+@media print{
+  #sidebar,#s-toggle,#s-home,.theme-toggle,#progress-bar,#mob-bar{display:none}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+<div id="mob-bar"><button id="mob-open" aria-label="Abrir menu">☰</button></div>
+
+<div id="body-wrap">
+<div id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+  <div class="s-inner">
+    <div class="s-logo">Fundamentos de Infectologia</div>
+
+    <div class="s-group">
+      <div class="s-gt">Fundamentos</div>
+      <a class="sl" href="#s-estuda">Infecção, contaminação e colonização</a>
+      <a class="sl" href="#s-fases">Fases da infecção</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Diagnóstico</div>
+      <a class="sl" href="#s-diagnostico">Clínico, epidemiológico e laboratorial</a>
+      <a class="sl" href="#s-abordagens">Como se estuda a doença infecciosa</a>
+      <a class="sl" href="#s-sindromes">Síndromes infecciosas</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Exames inespecíficos</div>
+      <a class="sl" href="#s-hemograma">Hemograma: cinética leucocitária</a>
+      <a class="sl" href="#s-hemograma-padroes">Padrões por agente etiológico</a>
+      <a class="sl" href="#s-fase-aguda">Provas de fase aguda</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Exames específicos</div>
+      <a class="sl" href="#s-especificos">Diagnóstico direto e indireto</a>
+      <a class="sl" href="#s-raciocinio">Raciocínio clínico integrado</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Contexto</div>
+      <a class="sl" href="#s-historia">História</a>
+      <a class="sl" href="#s-brasil">Infectologia no Brasil</a>
+      <a class="sl" href="#s-questoes">Questões centrais</a>
+      <a class="sl" href="#s-metodos">Ferramentas e métodos</a>
+      <a class="sl" href="#s-conexoes">Conexões</a>
+      <a class="sl" href="#s-controversias">Controvérsias</a>
+      <a class="sl" href="#s-perguntas-abertas">Perguntas em aberto</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Fechamento</div>
+      <a class="sl" href="#s-discussao">Discussão</a>
+      <a class="sl" href="#s-referencias">Referências</a>
+    </div>
+  </div>
+  <div id="s-toggle">
+    <button id="toggle-btn" onclick="toggleSidebar()">◀</button>
+  </div>
+</div>
+
+<div id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Fundamentos de Infectologia</h1>
+  <p class="doc-meta">Medicina Clínica · Infectologia · Introdução, raciocínio diagnóstico e semiologia laboratorial</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~45 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum — partida zero</b></span>
+    <span class="chip">🔗 Depende de: <b>ver mapa de dependências</b></span>
+    <span class="chip">📍 Área: <b>Medicina — Infectologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-05</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Diante de um paciente com febre sem foco evidente, o que já dá para saber — sobre a fase da infecção, o tipo provável de agente e a gravidade — antes que qualquer exame específico identifique o micro-organismo causador?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item cross-link" href="hematologia-hemograma-anemias.html#s-leucograma">Hematologia Clínica — Leucograma (série branca)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-note">Nenhum pré-requisito estrito — este compêndio parte de zero. Noções gerais de microbiologia/imunologia ajudam mas não são exigidas: os conceitos usados aqui são definidos no próprio texto.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-note">Nenhum ainda — primeiro compêndio de infectologia do acervo. Escopo restrito ao conteúdo da aula introdutória da disciplina (conceitos básicos, fases da infecção, diagnóstico, síndromes, exames laboratoriais) — não cobre os temas específicos da disciplina (Aids, antimicrobianos, hepatites, meningites, parasitologia etc.), que são candidatos a compêndios-filhos futuros.</span>
+    </div>
+  </div>
+</div>
+
+<section id="s-estuda">
+<h2>Infecção, contaminação e colonização</h2>
+<p>A <strong>infecção</strong> é o processo de penetração, multiplicação ou desenvolvimento de um micro-organismo ou parasita num determinado hospedeiro, com estabelecimento de uma interação real entre os dois — não basta o agente estar presente, é preciso que ele se instale e interaja com os tecidos do hospedeiro. Essa interação pode seguir cursos distintos, e é útil separá-los desde o início porque cada um pede uma conduta clínica diferente.</p>
+<p>Uma infecção pode ser <strong>assintomática</strong>: houve dano real a células e tecidos, mas nenhum sinal ou sintoma se manifestou — o hospedeiro nunca percebe que foi infectado, embora a resposta imune e eventuais sequelas subclínicas possam estar presentes. Diferente disso é a <strong>latência</strong>, em que o micro-organismo permanece "escondido" no organismo por meses ou anos, sem replicação ativa detectável, podendo reativar e causar doença sintomática mais tarde — o intervalo e o gatilho de reativação variam muito conforme o agente (o vírus varicela-zoster latente em gânglios sensitivos e reativando como herpes-zoster décadas depois é o exemplo didático clássico, embora pertença a outro compêndio).</p>
+<p>É essencial distinguir infecção de dois estados vizinhos que não envolvem doença. A <strong>contaminação</strong> é a simples presença de um micro-organismo no ambiente, em objetos ou sobre uma superfície epitelial, sem invasão tecidual, sem reação fisiológica do hospedeiro e sem qualquer relação de dependência metabólica entre os dois — é um encontro superficial e transitório. Já a <strong>colonização</strong> é mais íntima: há multiplicação do micro-organismo no hospedeiro, com relação de dependência metabólica e formação de colônias estáveis, mas ainda assim sem expressão clínica nem reação imunológica detectável — é o que ocorre, por exemplo, com boa parte da microbiota comensal da pele e do trato digestivo, e também com portadores assintomáticos de bactérias potencialmente patogênicas (como <em>Staphylococcus aureus</em> na mucosa nasal de uma fração saudável da população).</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave</div>
+<p>O eixo que organiza os três conceitos é o grau de interação hospedeiro-micro-organismo: contaminação (superfície, sem multiplicação relevante) → colonização (multiplicação e dependência metabólica, sem dano nem resposta clínica) → infecção (dano tecidual real, com ou sem sintomas). A mesma bactéria pode estar em qualquer um dos três estados dependendo do sítio, da carga microbiana e da imunocompetência do hospedeiro — colonização nasal por pneumococo é banal; a mesma bactéria no espaço subaracnóideo é meningite.</p>
+</div>
+
+<div class="subarea-grid">
+<div class="subarea-card"><div class="sat">Infecção</div><p>Penetração + multiplicação + interação real com dano tecidual, sintomática ou não.</p></div>
+<div class="subarea-card"><div class="sat">Colonização</div><p>Multiplicação com dependência metabólica, sem dano nem resposta clínica.</p></div>
+<div class="subarea-card"><div class="sat">Contaminação</div><p>Presença superficial, sem multiplicação relevante nem interação metabólica.</p></div>
+</div>
+</section>
+
+<section id="s-fases">
+<h2>Fases da infecção</h2>
+<p>Toda infecção sintomática percorre uma sequência temporal previsível, ainda que a duração de cada fase varie enormemente conforme o agente — de horas (algumas toxi-infecções alimentares) a semanas (hepatites virais). Reconhecer em que fase o paciente está é o primeiro passo do raciocínio clínico, porque orienta tanto a expectativa de sinais quanto decisões práticas como tempo de isolamento e momento ideal para colher exames.</p>
+<p>O <strong>período de incubação</strong> é o tempo que o agente infeccioso leva para ultrapassar as barreiras orgânicas iniciais, multiplicar-se até atingir uma quantidade considerável e alcançar o local do organismo onde exerce sua ação nociva — diretamente ou por meio de toxinas. Não há sinais nem sintomas nessa fase, e sua duração é altamente variável de agente para agente (horas para toxinas pré-formadas, dias para a maioria dos vírus respiratórios, semanas a meses para hepatite B). É um dado com aplicação prática direta: define a janela de vigilância de contactantes e o tempo mínimo de isolamento preventivo.</p>
+<p>Segue-se o <strong>período prodrômico</strong>: o intervalo entre o primeiro sinal ou sintoma e o primeiro sinal que confere especificidade à doença. É a fase dos sintomas generalizados e inespecíficos — febre, mal-estar, cefaleia, náuseas, mialgia — que antecedem o quadro característico. É também a fase de maior armadilha diagnóstica: o paciente já está sintomático e potencialmente transmissível, mas o quadro ainda não aponta para nenhuma doença específica.</p>
+<p>No <strong>período de estado</strong>, aparecem as manifestações próprias da doença — os sinais e sintomas que efetivamente a caracterizam e permitem diferenciá-la de outras — e essa fase se prolonga até que essas manifestações comecem a desaparecer. É aqui que o quadro clínico ganha especificidade suficiente para orientar hipóteses diagnósticas mais estreitas.</p>
+<p>Por fim, o <strong>período de convalescença</strong> corresponde ao desaparecimento dos sinais e sintomas, resultante da destruição ou neutralização do agente causador, e ao intervalo em que o organismo debilitado ainda precisa se recuperar plenamente das alterações e lesões sofridas — um estado intermediário entre a doença ativa e a saúde plena, sem contar eventuais sequelas permanentes.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Fases da infecção e suas características">
+<tr><th>Fase</th><th>Sinais/sintomas</th><th>Relevância clínica</th></tr>
+<tr><td class="td-label">Incubação</td><td>Ausentes</td><td>Define janela de isolamento e vigilância de contactantes</td></tr>
+<tr><td class="td-label">Pródromos</td><td>Inespecíficos (febre, mal-estar, cefaleia, mialgia)</td><td>Fase de maior armadilha diagnóstica — já transmissível, ainda inespecífico</td></tr>
+<tr><td class="td-label">Estado</td><td>Específicos da doença</td><td>Momento de maior especificidade diagnóstica</td></tr>
+<tr><td class="td-label">Convalescença</td><td>Em resolução</td><td>Organismo debilitado, ainda recuperando função</td></tr>
+</table>
+<p class="table-caption">Tabela 1 — As quatro fases clássicas da história natural de uma infecção sintomática, do contágio à resolução.</p>
+</div>
+</section>
+
+<section id="s-diagnostico">
+<h2>Diagnóstico clínico, clínico-epidemiológico e laboratorial</h2>
+<p>Uma infecção pode ser diagnosticada por três vias, que não são excludentes e frequentemente se somam na prática. O <strong>diagnóstico clínico</strong> se apoia na anamnese, no exame físico e em exames complementares inespecíficos, reconhecendo síndromes infecciosas — conjuntos de sinais e sintomas que apontam para um grupo de causas prováveis sem ainda identificar o agente. É o nível de raciocínio disponível na maior parte dos primeiros atendimentos, antes de qualquer resultado laboratorial.</p>
+<p>O <strong>diagnóstico clínico-epidemiológico</strong> soma à história clínica compatível o contato com um caso já confirmado laboratorialmente — é a lógica por trás, por exemplo, de tratar um paciente com quadro compatível com sarampo como caso confirmado quando ele teve contato próximo com um caso laboratorialmente comprovado durante o período de transmissibilidade, sem exigir confirmação laboratorial individual de cada novo caso num surto já caracterizado.</p>
+<p>Por fim, o <strong>diagnóstico laboratorial</strong> é a confirmação por exames específicos que detectam o próprio agente ou a resposta imune contra ele — a via de maior certeza etiológica, desenvolvida em detalhe adiante.</p>
+</section>
+
+<section id="s-abordagens">
+<h2>Como se estuda a doença infecciosa</h2>
+<p>O estudo sistemático das doenças infecciosas pode ser organizado por três eixos complementares, cada um útil num momento diferente do raciocínio clínico.</p>
+<p>A organização por <strong>agentes</strong> — vírus, bactérias, fungos, parasitas e outros agentes (príons, por exemplo) — é a mais natural para o estudo microbiológico e farmacológico: mecanismo de ação de cada classe de antimicrobiano, padrões de resistência, biologia do patógeno. É o eixo que a disciplina de infectologia costuma usar para estruturar seu conteúdo antimicrobiano.</p>
+<p>A organização por <strong>sistemas</strong> — infecções pulmonares, ósseas, de partes moles, otorrinolaringológicas e assim por diante — corresponde à lógica anatômica de acometimento, útil quando já se sabe o sítio afetado (por imagem, por queixa localizada) mas ainda não o agente.</p>
+<p>A organização por <strong>síndromes infecciosas</strong>, baseada em sinais e sintomas — síndrome febril, síndrome respiratória aguda grave, síndrome íctero-hemorrágica, entre outras — é a mais próxima do raciocínio clínico à beira do leito: o paciente chega com um conjunto de manifestações, não com um agente ou um sistema já definidos, e é a partir desse conjunto que se constrói a lista de diagnósticos diferenciais prováveis. É por isso que a seção seguinte, sobre síndromes infecciosas, é o elo mais direto entre a apresentação clínica e a lista de agentes a investigar.</p>
+</section>
+
+<section id="s-sindromes">
+<h2>Síndromes infecciosas</h2>
+<p>Cada síndrome agrupa um leque de agentes e doenças que compartilham uma mesma apresentação predominante — o valor prático é que, diante de um paciente, a síndrome reduz um universo aberto de possibilidades a uma lista manejável de hipóteses a excluir ou confirmar, orientando a escolha inicial de exames antes de qualquer resultado etiológico.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Principais síndromes infecciosas e seus diagnósticos diferenciais">
+<tr><th>Síndrome</th><th>Diagnósticos diferenciais principais</th></tr>
+<tr><td class="td-label">Febril</td><td>Dengue, enteroviroses, influenza e outras viroses respiratórias, hepatites virais, malária, febre tifoide, chikungunya</td></tr>
+<tr><td class="td-label">Exantemática febril</td><td>Dengue, chikungunya, Zika, rubéola, sarampo, escarlatina, eritema infeccioso, exantema súbito, enteroviroses, mononucleose infecciosa, citomegalovirose, farmacodermias, doença de Kawasaki, doença de Henoch-Schönlein</td></tr>
+<tr><td class="td-label">Meníngea</td><td>Meningites virais e bacterianas, encefalites</td></tr>
+<tr><td class="td-label">Respiratória aguda grave</td><td>Influenza, COVID-19 e outros vírus/agentes respiratórios</td></tr>
+<tr><td class="td-label">Hemorrágica febril</td><td>Dengue, hantavirose, febre amarela, leptospirose, malária grave, riquetsioses</td></tr>
+<tr><td class="td-label">Dolorosa abdominal</td><td>Dengue, apendicite, obstrução intestinal, abscesso hepático, abdome agudo, pneumonia, infecção urinária, colecistite aguda</td></tr>
+<tr><td class="td-label">Do choque</td><td>Dengue, meningococcemia, sepse, febre purpúrica brasileira, síndrome do choque tóxico, choque cardiogênico (miocardites)</td></tr>
+<tr><td class="td-label">Mono-like <span class="dep-note" style="display:inline">(febre, faringoamigdalite, adenomegalias, hepatoesplenomegalia)</span></td><td>Vírus Epstein-Barr, citomegalovírus, toxoplasmose, infecção aguda pelo HIV, leucemia aguda</td></tr>
+<tr><td class="td-label">Íctero-hemorrágica</td><td>Leptospirose, febre amarela, febre tifoide, hepatites virais, malária</td></tr>
+</table>
+<p class="table-caption">Tabela 2 — Síndromes infecciosas clássicas e seus principais diagnósticos diferenciais, incluindo causas infecciosas e não infecciosas relevantes.</p>
+</div>
+<p>Vale notar que várias síndromes compartilham agentes (dengue aparece em cinco das nove listadas) — o que reforça que a síndrome sozinha raramente fecha o diagnóstico etiológico: ela reduz o campo de busca, mas a confirmação depende dos exames discutidos a seguir, somados a dados epidemiológicos (sazonalidade, área de transmissão, exposições) e à evolução temporal do quadro.</p>
+</section>
+
+<section id="s-hemograma">
+<h2>Hemograma: cinética leucocitária</h2>
+<p>O hemograma é o exame inespecífico mais usado como primeira aproximação em infectologia. A <a class="cross-link" href="hematologia-hemograma-anemias.html#s-leucograma">série branca (leucograma)</a> já tem sua fisiologia básica desenvolvida no compêndio de Hematologia Clínica; aqui o foco é a leitura do leucograma como sinal de processo infeccioso em curso, não a hematologia dos leucócitos em si.</p>
+<p>Os leucócitos se movimentam por três compartimentos: a medula óssea (produção), o sangue periférico (trânsito) e os tecidos (destino funcional). O leucograma reflete tanto a demanda tissular por células de defesa quanto a capacidade de resposta da medula a essa demanda — alterações no equilíbrio entre produção e consumo tissular aparecem no sangue periférico antes de qualquer outro sinal visível.</p>
+<p>Os neutrófilos, especificamente, têm um detalhe cinético que muda a interpretação de qualquer contagem isolada: dentro do sangue periférico eles se dividem em um <strong>subcompartimento marginal</strong> — bastonetes e segmentados aderidos ao endotélio vascular, funcionando como reserva de pronta mobilização — e um <strong>subcompartimento circulante</strong>, basicamente segmentados livres na corrente sanguínea, que é o que de fato se mede no leucograma de rotina. Isso significa que um leucograma normal não descarta necessariamente ausência de resposta neutrofílica: parte da reserva mobilizável está fora do que o exame captura.</p>
+<h3>Dificuldades de interpretação</h3>
+<p>Como o leucograma mede apenas o subcompartimento circulante, ele é sensível a uma série de variáveis que nada têm a ver com infecção: exercício físico intenso, estresse agudo físico e emocional (ansiedade, medo, raiva), convulsões, uso de epinefrina, injeções intramusculares e endovenosas, cirurgia, trauma, dor, náusea, vômitos, ovulação, gestação, pancreatite aguda e uso de glicocorticoide — todos podem elevar a contagem de neutrófilos circulantes por desmarginação, sem que exista processo infeccioso algum. A leitura clínica precisa sempre considerar o contexto antes de atribuir uma alteração à infecção, e observar tanto o valor absoluto quanto o percentual relativo de cada linhagem, já que uma contagem total normal pode esconder um desvio relevante entre as frações.</p>
+</section>
+
+<section id="s-hemograma-padroes">
+<h2>Padrões de hemograma por agente etiológico</h2>
+<p>Apesar das limitações de interpretação, certos padrões de alteração no hemograma orientam — sem confirmar — o tipo provável de agente envolvido.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Padrões de alteração hematológica sugestivos por tipo de agente infeccioso">
+<tr><th>Agente</th><th>Alterações típicas</th></tr>
+<tr><td class="td-label">Bactérias</td><td>Leucocitose, neutrofilia, desvio escalonado à esquerda, granulações tóxicas neutrofílicas; neutropenia em infecções graves por gram-negativos</td></tr>
+<tr><td class="td-label">Vírus</td><td>Leucopenia, neutropenia, linfocitose, atipia linfocitária (típico de EBV, CMV, dengue)</td></tr>
+<tr><td class="td-label">Fungos e helmintos</td><td>Eosinofilia</td></tr>
+</table>
+<p class="table-caption">Tabela 3 — Padrões hematológicos orientadores por classe de agente etiológico; nenhum é patognomônico isoladamente.</p>
+</div>
+<p>Exames seriados — repetidos ao longo da evolução, não um único ponto no tempo — têm valor adicional: ajudam a avaliar melhora clínica e resposta ao tratamento antimicrobiano, especialmente quando a tendência (subindo, estável, caindo) é mais informativa do que o valor absoluto isolado.</p>
+
+<h3>Provas de fase aguda</h3>
+<p id="s-fase-aguda-anchor"></p>
+</section>
+
+<section id="s-fase-aguda">
+<h2>Provas de fase aguda</h2>
+<p>Além do hemograma, um segundo grupo de exames inespecíficos — as reações de fase aguda, ou provas inflamatórias — mede a resposta sistêmica à inflamação, seja ela infecciosa ou não.</p>
+<p>A <strong>velocidade de hemossedimentação (VHS)</strong> reflete indiretamente a alteração de várias proteínas séricas que afetam a agregação das hemácias. É um exame historicamente importante, mas hoje considerado em desuso na infectologia por sua baixa especificidade e cinética lenta (demora dias para se alterar e dias para normalizar), tendo sido amplamente substituído por marcadores mais rápidos e específicos.</p>
+<p>A <strong>proteína C reativa (PCR)</strong> eleva-se precocemente — em poucas horas — nos processos inflamatórios e infecciosos, e é hoje muito utilizada na prática clínica por sua disponibilidade, custo baixo e cinética útil para acompanhamento seriado.</p>
+<p>A <strong>procalcitonina</strong> é o hormônio precursor da calcitonina; permanece muito baixa em pessoas saudáveis e se eleva rapidamente na presença de infecções bacterianas, com maior especificidade para etiologia bacteriana do que a PCR — sua principal limitação prática é o custo mais alto, que restringe o uso rotineiro.</p>
+<div class="kbox">
+<div class="klabel">Evidência</div>
+<p>Uma revisão sistemática e meta-análise de 2024 com lactentes febris (n=7.755, 14 estudos) mostrou acurácia diagnóstica superior da procalcitonina (pAUC 0,72) sobre a PCR (pAUC 0,28) para detectar infecção bacteriana invasiva, com corte ótimo de 0,49 ng/mL para procalcitonina versus 13,12 mg/L para PCR — mas acurácia semelhante entre as duas para infecção bacteriana grave em geral (pAUC 0,55 vs. 0,54), refletindo a maior dificuldade de definir esse desfecho de forma consistente entre estudos.<span class="evid">Revisão sistemática/Meta-análise</span></p>
+</div>
+<p>No contexto específico de meningite bacteriana pediátrica, uma meta-análise de 2024 (112 artigos, 113 biomarcadores) mostrou que a PCR e a ferritina no líquor têm excelente discriminação entre meningite bacteriana e viral (área sob a curva sumária de 0,94 para ambas), enquanto a procalcitonina sérica tem discriminação boa, porém inferior (AUC 0,89) — reforçando que nenhum biomarcador isolado substitui a análise do líquor quando a suspeita clínica é meningite.<span class="evid">Revisão sistemática/Meta-análise</span></p>
+</section>
+
+<section id="s-especificos">
+<h2>Exames específicos: diagnóstico direto e indireto</h2>
+<p>Diferente dos exames inespecíficos, que apontam apenas a existência e intensidade de um processo inflamatório, os exames específicos buscam identificar o próprio agente causador ou a resposta imune dirigida especificamente contra ele.</p>
+<p>O <strong>diagnóstico direto</strong> é a pesquisa do agente etiológico propriamente dito, usando técnicas que detectam o micro-organismo em si: hemocultura para bactérias e fungos, isolamento viral em cultura de células, pesquisa de antígenos bacterianos, fúngicos ou virais, e técnicas moleculares (PCR e afins) para identificação do DNA ou RNA do agente. É a via de maior certeza etiológica, mas depende da disponibilidade do material biológico adequado, do momento da coleta em relação à fase da infecção e, em muitos casos, de tempo de processamento maior que o diagnóstico indireto.</p>
+<p>O <strong>diagnóstico indireto</strong> pesquisa a resposta do organismo infectado à presença do agente — tipicamente, anticorpos específicos em material biológico (sangue, líquor, entre outros) detectados por técnica sorológica. Exemplos clássicos: pesquisa de IgM para toxoplasmose no sangue (marcador de infecção recente) e pesquisa de IgG no líquor (indicando produção intratecal de anticorpos, relevante em neuroinfecções). A limitação central do diagnóstico indireto é a <strong>janela imunológica</strong>: a resposta de anticorpos leva dias a semanas para se tornar detectável, de modo que um resultado negativo no início do quadro não exclui infecção — e IgG isolada, sem IgM, pode apenas refletir contato prévio, não doença atual.</p>
+</section>
+
+<section id="s-raciocinio">
+<h2>Raciocínio clínico integrado em infectologia</h2>
+<p>O fio condutor de todo o conteúdo anterior converge numa sequência de raciocínio única: <strong>anamnese e exame físico</strong>, somados a <strong>exames complementares quando necessário</strong>, levam ao diagnóstico — que em infectologia tem duas camadas que precisam ser resolvidas juntas, não uma no lugar da outra. A primeira é identificar o <strong>agente infeccioso</strong> e sua sensibilidade antimicrobiana, para orientar o uso racional de antimicrobianos (evitando tanto o subtratamento quanto a pressão seletiva desnecessária de amplo espectro). A segunda é decidir o <strong>tratamento clínico</strong> — que pode ou não incluir antimicrobiano, dependendo do agente e da gravidade — e o suporte necessário ao paciente enquanto o organismo ou o tratamento resolvem o processo infeccioso.</p>
+<p>Na prática, esse raciocínio raramente é linear: a anamnese e o exame físico já geram uma síndrome provável (seção anterior); os exames inespecíficos (hemograma, provas de fase aguda) reforçam ou enfraquecem a suspeita de etiologia bacteriana, viral, fúngica ou parasitária sem confirmá-la; e só os exames específicos — quando indicados e disponíveis a tempo — fecham o diagnóstico etiológico com a certeza necessária para direcionar terapia dirigida em vez de empírica. Decisões terapêuticas frequentemente precisam ser tomadas antes que essa cadeia se complete, o que é a própria justificativa clínica do conceito de terapia empírica orientada por síndrome e epidemiologia local.</p>
+</section>
+
+<section id="s-historia">
+<h2>História</h2>
+<div class="hist"><span class="hl">Antes da teoria dos germes</span>Por milênios, doenças infecciosas foram atribuídas a miasmas (ares corrompidos) ou a desequilíbrios humorais, sem qualquer noção de agente vivo transmissível — a prática clínica de isolamento de doentes, observada desde a Antiguidade em surtos de peste e lepra, funcionava empiricamente sem uma teoria causal correta por trás.</div>
+<div class="hist"><span class="hl">Teoria dos germes (2ª metade do séc. XIX)</span>Louis Pasteur e Robert Koch estabeleceram, de forma independente e complementar, que micro-organismos específicos causam doenças específicas — os postulados de Koch (isolamento do agente, reprodução da doença em modelo experimental, reisolamento do mesmo agente) tornaram-se o padrão metodológico para atribuir causalidade infecciosa, ainda hoje referenciado mesmo com as limitações reconhecidas para agentes não cultiváveis.</div>
+<div class="hist"><span class="hl">Era dos antimicrobianos (séc. XX)</span>A descoberta da penicilina por Alexander Fleming (1928) e sua produção em escala industrial durante a Segunda Guerra Mundial inauguraram a era em que infecções bacterianas antes fatais se tornaram tratáveis — um dos maiores saltos de expectativa de vida da história da medicina, e também o início de uma corrida evolutiva contra a resistência antimicrobiana que segue em curso.</div>
+<div class="hist"><span class="hl">Diagnóstico molecular e vigilância genômica (séc. XXI)</span>Técnicas de amplificação de ácidos nucleicos (PCR e suas variantes) e, mais recentemente, sequenciamento genômico em tempo real transformaram tanto o diagnóstico individual quanto a vigilância epidemiológica — a resposta à pandemia de COVID-19 (2020-2023) consolidou o sequenciamento genômico viral como ferramenta rotineira de saúde pública, não apenas de pesquisa.</div>
+</section>
+
+<section id="s-brasil">
+<h2>Infectologia no Brasil</h2>
+<p>O Brasil tem uma carga particularmente alta de doenças infecciosas de transmissão vetorial e hídrica, moldada por clima tropical, grandes centros urbanos com saneamento desigual e amplas áreas endêmicas para arboviroses. O <strong>Sistema de Informação de Agravos de Notificação (SINAN)</strong> é a espinha dorsal da vigilância epidemiológica nacional, coletando notificação compulsória de doenças de importância para saúde pública — a mesma lógica de diagnóstico clínico-epidemiológico discutida acima é, na prática brasileira, operacionalizada por esse sistema.</p>
+<p>2024 foi o ano de maior epidemia de dengue já registrada no país: o Ministério da Saúde contabilizou 6.484.890 casos prováveis e 5.972 óbitos confirmados, um aumento de aproximadamente 400% em relação a 2023 — atribuído, entre outros fatores, ao enfraquecimento das ações de controle vetorial durante a pandemia de COVID-19 e a condições climáticas favoráveis ao <em>Aedes aegypti</em>. Em 2025 o número absoluto de casos nas primeiras semanas foi menor que no mesmo período de 2024, mas o país ainda ultrapassou a marca de um milhão de casos prováveis e mais de seiscentos óbitos confirmados até abril, com São Paulo concentrando a maior parte dos óbitos — evidência de que a doença permanece um problema estrutural de saúde pública, não um pico isolado.<span class="evid">Dado epidemiológico oficial</span></p>
+<p>Esse contexto explica por que tantas síndromes da Tabela 2 (febril, exantemática, hemorrágica, dolorosa abdominal, do choque) trazem a dengue como diagnóstico diferencial recorrente: no cenário epidemiológico brasileiro, ela é, na prática, uma das primeiras hipóteses a excluir diante de quadro febril agudo, sobretudo em época de maior transmissão.</p>
+</section>
+
+<section id="s-questoes">
+<h2>Questões centrais</h2>
+<ul>
+<li>Como diferenciar, só pela apresentação clínica inicial, uma infecção que vai resolver espontaneamente daquela que evoluirá para gravidade?</li>
+<li>Em que ponto do raciocínio diagnóstico compensa esperar por exame específico versus iniciar terapia empírica?</li>
+<li>Como equilibrar sensibilidade (não perder o diagnóstico) e especificidade (não tratar demais) na interpretação de exames inespecíficos?</li>
+<li>O que explica a enorme variação de período de incubação entre agentes, e o que isso revela sobre a biologia de cada um?</li>
+<li>Como a vigilância epidemiológica de base populacional deve dialogar com a decisão clínica individual à beira do leito?</li>
+<li>Que papel a genômica microbiana em tempo real terá no diagnóstico de rotina — e não apenas em vigilância de surtos — nas próximas décadas?</li>
+</ul>
+</section>
+
+<section id="s-metodos">
+<h2>Ferramentas e métodos</h2>
+<p>O <strong>método clínico clássico</strong> — anamnese dirigida e exame físico sistemático — continua sendo a ferramenta de maior rendimento por custo em infectologia, por gerar a síndrome provável que orienta toda investigação subsequente antes de qualquer exame ser solicitado.</p>
+<p>Os <strong>exames inespecíficos</strong> (hemograma, provas de fase aguda) funcionam como ferramenta de triagem e acompanhamento: não fecham diagnóstico etiológico, mas orientam a probabilidade de causa bacteriana versus viral versus outra, e permitem monitorar resposta terapêutica ao longo do tempo.</p>
+<p>Os <strong>exames específicos</strong> — culturas, sorologias, técnicas moleculares — são a ferramenta de confirmação etiológica definitiva, cada um com uma janela temporal de utilidade própria (cultura exige agente viável na amostra; sorologia exige tempo para soroconversão; PCR detecta material genético mesmo de agentes não cultiváveis ou já não viáveis).</p>
+<p>A <strong>vigilância epidemiológica</strong> (SINAN e sistemas correlatos) é a ferramenta que amplia a escala do raciocínio clínico-epidemiológico individual para a população inteira, permitindo detectar surtos, direcionar recursos de controle vetorial e informar protocolos de conduta antes mesmo que a confirmação laboratorial de cada caso individual esteja disponível.</p>
+</section>
+
+<section id="s-conexoes">
+<h2>Conexões</h2>
+<p>A leitura do leucograma desenvolvida aqui depende da fisiologia da <a class="cross-link" href="hematologia-hemograma-anemias.html">hematopoiese e do leucograma</a> já cobertas em Hematologia Clínica — este compêndio assume essa base e foca na interpretação infecciosa. O mecanismo pelo qual bactérias, vírus, fungos e parasitas provocam padrões distintos de resposta imune e inflamatória pertence ao território da imunologia, ainda não representado no acervo de mecanismos deste domínio para infectologia especificamente. Os próprios exames específicos (cultura, sorologia, PCR) pressupõem noções de microbiologia diagnóstica. E o uso racional de antimicrobianos mencionado na seção de raciocínio clínico é o ponto de entrada natural para os compêndios de farmacologia de antimicrobianos ainda a serem criados neste acervo — ver pendência registrada em DEBT.md.</p>
+</section>
+
+<section id="s-controversias">
+<h2>Controvérsias</h2>
+<div class="controversia">
+<div class="clabel">Controvérsia</div>
+<p><strong>Procalcitonina rotineira versus custo-efetividade.</strong></p>
+<div class="pos"><b>A favor do uso rotineiro:</b> maior especificidade para etiologia bacteriana do que PCR em cenários específicos (ex.: infecção bacteriana invasiva em lactentes febris), permitindo decisões mais assertivas sobre início ou suspensão de antimicrobiano e potencialmente reduzindo uso desnecessário de antibiótico.</div>
+<div class="pos"><b>Contra o uso rotineiro:</b> custo significativamente mais alto que PCR, sem superioridade consistente em todos os cenários clínicos (a meta-análise citada mostrou acurácia semelhante às da PCR para infecção bacteriana grave em geral, não apenas invasiva) — o benefício marginal pode não justificar o custo adicional em sistemas de saúde com recursos limitados, incluindo o SUS.</div>
+</div>
+<div class="controversia">
+<div class="clabel">Controvérsia</div>
+<p><strong>Diagnóstico sindrômico-epidemiológico versus exigência de confirmação laboratorial individual.</strong></p>
+<div class="pos"><b>A favor do diagnóstico clínico-epidemiológico em surtos:</b> confirmar laboratorialmente cada caso individual num surto já caracterizado consome recursos escassos sem alterar a conduta clínica ou de saúde pública — a lógica de "caso compatível + nexo epidemiológico com caso confirmado" já basta para notificação e conduta na maioria dos protocolos do Ministério da Saúde.</div>
+<div class="pos"><b>A favor de manter confirmação laboratorial ampla:</b> depender só de nexo epidemiológico arrisca sub-notificar cepas ou variantes emergentes, coinfecções e diagnósticos diferenciais que mimetizam a síndrome do surto em curso — a vigilância genômica de rotina (não só em picos de surto) é o que permite detectar essas exceções a tempo.</div>
+</div>
+</section>
+
+<section id="s-perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Existe um painel único e custo-efetivo de biomarcadores (combinando PCR, procalcitonina e outros) capaz de discriminar etiologia bacteriana de viral com acurácia clínica suficiente para substituir, na maioria dos casos, a espera por cultura?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Qual é o real impacto populacional de longo prazo da mudança climática sobre a distribuição geográfica de vetores (Aedes, Anopheles, entre outros) e, consequentemente, sobre a epidemiologia das síndromes infecciosas discutidas aqui?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Sequenciamento genômico point-of-care (à beira do leito) chegará a substituir cultura e sorologia como exame específico de primeira linha na próxima década, e a que custo?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Como equilibrar, em sistemas de saúde pública com recursos limitados, o valor marginal de biomarcadores mais caros e específicos (procalcitonina) contra o ganho populacional de ampliar o acesso a exames mais baratos e já validados (PCR, hemograma)?</p></div>
+</section>
+
+<section id="s-discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora perguntava o que já se sabe sobre um paciente febril sem foco evidente antes de qualquer exame específico identificar o agente causador. A resposta que este compêndio desenvolveu é: bastante coisa, desde que se leia corretamente os sinais inespecíficos. A fase da história natural (incubação, pródromos, estado, convalescença) situa o paciente numa linha do tempo previsível. A síndrome clínica predominante (febril, exantemática, meníngea, entre outras) reduz um universo aberto de agentes a uma lista manejável de hipóteses. E os exames inespecíficos — hemograma com seu padrão de leucograma, provas de fase aguda com sua cinética própria — orientam a probabilidade relativa de causa bacteriana, viral, fúngica ou parasitária, mesmo sem nomear o agente específico.</p>
+<p>A tensão que atravessa esse raciocínio é entre <strong>agir a tempo e confirmar com certeza</strong>: os exames específicos que fecham o diagnóstico etiológico com precisão levam tempo — cultura, soroconversão, sequenciamento — que o paciente grave nem sempre tem. É essa tensão que justifica clinicamente a terapia empírica orientada por síndrome e epidemiologia local, aceitando incerteza etiológica controlada em troca de intervenção oportuna, com ajuste posterior quando o resultado específico chegar.</p>
+<p>Uma implicação que emerge mas não foi enunciada explicitamente ao longo do texto: praticamente todo o conteúdo deste compêndio — fases da infecção, síndromes, exames inespecíficos — existe porque o diagnóstico etiológico direto é, na maior parte dos primeiros atendimentos, indisponível ou tardio demais para orientar a conduta inicial. A infectologia clínica, vista por esse ângulo, é fundamentalmente a disciplina de decidir bem sob incerteza etiológica — o exame específico apenas confirma ou corrige, a posteriori, uma decisão que já teve de ser tomada antes dele existir.</p>
+</section>
+
+<section id="s-referencias">
+<h2>Referências</h2>
+
+<div class="ref-layer">
+<h3>Ponto de entrada</h3>
+<div class="ref-item"><span class="rtype">Material de aula</span><br><span class="rtitle">Paiva, R.S. — Agressão e Defesa II: Introdução à Infectologia</span>. PUCPR, Curso de Medicina, 2026/1.<br><span class="rnote">Fonte primária do escopo deste compêndio — conceitos básicos, fases da infecção, diagnóstico e síndromes infecciosas conforme apresentados na aula introdutória da disciplina.</span></div>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Veronesi, R.; Focaccia, R. (org.) — Tratado de Infectologia</span>, 5ª ed. São Paulo: Atheneu, 2015.<br><span class="rnote">Referência brasileira de entrada mais abrangente da disciplina — capítulos introdutórios cobrem exatamente os conceitos gerais desenvolvidos aqui.</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Aprofundamento</h3>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Kasper, D.L. et al. (ed.) — Harrison's Principles of Internal Medicine</span>, capítulos de Doenças Infecciosas, 21ª ed. New York: McGraw-Hill, 2022.<br><span class="rnote">Referência internacional para aprofundar mecanismo fisiopatológico e apresentação clínica de cada síndrome citada na Tabela 2.</span></div>
+<div class="ref-item"><span class="rtype">Documento oficial</span><br><span class="rtitle">Ministério da Saúde — Painel de Monitoramento das Arboviroses</span>, Secretaria de Vigilância em Saúde, 2025.<br><span class="rnote">Fonte primária dos números de dengue de 2024-2025 citados na seção "Infectologia no Brasil".</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Norman-Bruce, H. et al. — Diagnostic Test Accuracy of Procalcitonin and C-Reactive Protein for Predicting Invasive and Serious Bacterial Infections in Young Febrile Infants: A Systematic Review and Meta-Analysis</span>. <em>The Lancet Child & Adolescent Health</em>, 2024;8(5):358-368.<br><span class="rnote">Fonte primária da comparação de acurácia PCT×PCR citada na seção "Provas de fase aguda" e na controvérsia correspondente. Segundo o PubMed (<a href="https://doi.org/10.1016/S2352-4642(24)00021-X" target="_blank" rel="noopener">DOI</a>, PMID 38499017).</span></div>
+<div class="ref-item"><span class="rtype">Artigo</span><br><span class="rtitle">Groeneveld, N.S. et al. — Biomarkers in Paediatric Bacterial Meningitis: A Systematic Review and Meta-Analysis of Diagnostic Test Accuracy</span>. <em>Clinical Microbiology and Infection</em>, 2024;31(5):702-712.<br><span class="rnote">Fonte primária dos dados de acurácia de PCR/procalcitonina/ferritina no líquor citados na seção "Provas de fase aguda". Segundo o PubMed (<a href="https://doi.org/10.1016/j.cmi.2024.12.009" target="_blank" rel="noopener">DOI</a>, PMID 39672463).</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Consulta especializada</h3>
+<div class="ref-item"><span class="rtype">Livro-texto</span><br><span class="rtitle">Mandell, G.L.; Bennett, J.E.; Dolin, R. (ed.) — Mandell, Douglas, and Bennett's Principles and Practice of Infectious Diseases</span>, 9ª ed. Philadelphia: Elsevier, 2020.<br><span class="rnote">Para quem já domina o núcleo e quer o tratado de referência internacional mais completo da especialidade, agente por agente.</span></div>
+<div class="ref-item"><span class="rtype">Documento oficial</span><br><span class="rtitle">Ministério da Saúde — Guia de Vigilância em Saúde</span>, 6ª ed. Secretaria de Vigilância em Saúde, 2024.<br><span class="rnote">Protocolos oficiais de definição de caso, notificação compulsória (SINAN) e conduta epidemiológica para cada doença citada nas síndromes da Tabela 2 — consulta obrigatória para quem for atuar na prática de vigilância brasileira.</span></div>
+</div>
+
+</section>
+
+</div>
+</div>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
+<script>
+function toggleSidebar(){
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var collapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', collapsed);
+  try{ sessionStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0'); }catch(e){}
+  document.getElementById('toggle-btn').textContent = collapsed ? '▶' : '◀';
+}
+(function(){
+  try{
+    if(sessionStorage.getItem('sidebar-collapsed') === '1'){
+      document.getElementById('sidebar').classList.add('collapsed');
+      document.getElementById('body-wrap').classList.add('sidebar-collapsed');
+      document.getElementById('toggle-btn').textContent = '▶';
+    }
+  }catch(e){}
+})();
+
+var mobOpen = document.getElementById('mob-open');
+if(mobOpen){
+  mobOpen.addEventListener('click', function(){
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+}
+
+var progressBar = document.getElementById('progress-bar');
+function updateProgress(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+  if(a) a.classList.add('active');
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+if('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, {rootMargin:'-10% 0px -55% 0px'});
+  sections.forEach(function(s){ io.observe(s); });
+}
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+
+window._readPos = null;
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

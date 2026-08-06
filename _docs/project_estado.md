@@ -1,5 +1,6 @@
-=== MECANISMO (medicina/) — ESTADO DA SESSÃO ===
+=== MECANISMO (compêndios/medicina/mecanismos/) — ESTADO DA SESSÃO ===
 Última sessão: 2026-07-03
+Nota (2026-07-10): pasta migrada de `medicina/` para `compêndios/medicina/mecanismos/` no desmembramento de Base de estudos em Compêndios/Sistemas/Provas — este registro histórico não foi reescrito além do cabeçalho de escopo.
 
 Arquivo criado nesta sessão (2026-07-03) — era referenciado por `mecanismo/SKILL.md` e por
 `instrucoes-projeto.txt` desde 2026-07-02 mas nunca tinha sido de fato criado (ver `_docs/DEBT.md`,
@@ -8,6 +9,70 @@ item resolvido nesta sessão). Histórico anterior a 2026-07-03 reconstruído a 
 registro de sessão original.
 
 === Histórico ===
+
+2026-08-06 — Compêndio de mecanismo criado: compêndios/medicina/mecanismos/semiologia/
+             sindromes-bronco-pleuro-pulmonares.html (subskill mecanismo-medicina-clinica) —
+             primeiro compêndio da nova subárea "Semiologia" dentro de mecanismos/. Origem: PDF
+             de slide de aula ("Síndromes bronco-pleuro-pulmonares", Fatima Chibana, baseado em
+             Porto - Semiologia Médica 9ª ed.) enviado pelo usuário. Domínio esclarecido via
+             AskUserQuestion (compêndio-mecanismo × prova × trabalho genérico) — usuário escolheu
+             mecanismo; ponto de partida (zero, foco em prova/aula) também via AskUserQuestion.
+             Mecanismo central desenvolvido até saturação: física da transmissão sonora torácica
+             (impedância acústica × densidade/ressonância) explicando por que FTV e ausculta
+             ficam ambíguos entre derrame e pneumotórax (ambos abolem por mecanismos opostos —
+             reflexão vs. dissipação) e por que é a percussão que resolve essa ambiguidade
+             (testa densidade/ressonância, não transmissão). 16 seções = 16 links de sidebar:
+             fundamentos (anatomia pleural mínima, pressão pleural negativa), conceitos-chave
+             (FTV/percussão/ausculta/sons adventícios com tabela de mecanismo), síndromes
+             brônquicas (asma, DPOC com fenótipos blue bloater/pink puffer, bronquiectasias),
+             parenquimatosas (condensação, atelectasia, enfisema, congestão passiva — cross-link
+             para doencas-circulatorias.html —, lesões cavitárias), pleurais (derrame com curva
+             de Ellis-Damoiseau, pneumotórax com tipos/hipertensivo), diafragmáticas/mediastínicas
+             (paralisia diafragmática, SVCS), quadro comparativo integrado (9 síndromes), caso
+             ilustrativo (bronquiectasias pós-COVID exacerbadas, do slide original — cross-link
+             para infectologia-fundamentos.html), história (Auenbrugger 1761 — percussão;
+             Laennec — cross-link para cardiologia-semiologia.html), Brasil (Porto, SBPT,
+             tuberculose/OMS, bronquiectasias pós-COVID), 4 perguntas em aberto, conexões, 2
+             controvérsias (exame físico × POCUS pulmonar; validade de sinais clássicos em
+             populações diferentes), discussão fechando a pergunta motivadora, referências em 3
+             camadas. Pesquisa de verificação via PubMed MCP antes da redação: Kalantri et al.
+             2007 Respir Med (PMID 16965906, DOI 10.1016/j.rmed.2006.07.014) — acurácia real dos
+             sinais físicos no derrame pleural (percussão maciça OR 12,80, expansão assimétrica
+             OR 5,22, AUC 0,88; sinais mais úteis para excluir que confirmar); Kirkpatrick et al.
+             2004 J Trauma (PMID 15345974, DOI 10.1097/01.ta.0000133565.88871.e4) — EFAST mais
+             sensível que radiografia supina para pneumotórax oculto em trauma (48,8% vs. 20,9%,
+             especificidade equivalente ~99%). Ambos citados com nível de evidência (<span
+             class="evid">) e DOI, fundamentando a controvérsia exame físico×POCUS. Cross-links:
+             cardiologia-semiologia.html (IPPA geral, #ausculta, #historico), doencas-
+             circulatorias.html (congestão/edema), infectologia-fundamentos.html (#s-sindromes,
+             #s-fases — âncoras corrigidas após conferência real dos IDs no arquivo-alvo),
+             imunidade-inata.html. index.html (catálogo raiz) recebeu card novo em 2 locais: listagem
+             geral (tab-todos) e aba própria de mecanismos (tab-mecanismos — mecanismos e
+             compêndios de área têm abas separadas no catálogo). Sem pranchas de
+             imagem nesta sessão (não buscadas — registrado em DEBT.md; conteúdo tem forte
+             correspondente radiológico/fotográfico real, diferente de outros materiais
+             conceituais do acervo — candidato genuíno a pranchas futuras). mecanismo-medicina-
+             clinica/SKILL.md (fonte em _docs/skills-export/) atualizado com a nova subárea e
+             cross-link prioritário — pendente empacotamento/reinstalação local pelo usuário.
+             Verificação bash-equivalente via Grep/Read OK: fecha `</body></html>`, 546 linhas,
+             sem const const/var var, sem TODO/FIXME/placeholder/debug/rascunho reais (único
+             match foi falso positivo em "método"), 794 acentos PT-BR, 16 seções = 16 `a class=
+             "sl" href="#..."` (contagem batendo), todos os cross-links e âncoras externas
+             conferidos contra os arquivos/IDs reais no disco antes de fechar. Verificação visual
+             via Chrome/surge PENDENTE (mesmo padrão do resto do acervo).
+2026-08-06 — CONTINUAÇÃO, mesma sessão: usuário pediu para tornar a busca de imagens parte
+             estrutural do fluxo (não mais opcional) — `compendio/SKILL.md` e `mecanismo/SKILL.md`
+             ganharam passo dedicado + item de checklist; `compêndios/CLAUDE.md` v1.2→v1.3. Aplicado
+             de imediato como piloto ao material acima: 4 pranchas buscadas e inseridas via Claude in
+             Chrome/Wikimedia (hiperinsuflação+bronquiectasias, baqueteamento digital, derrame pleural
+             volumoso, pneumotórax anotado), todas com licença conferida (domínio público ou CC BY-SA)
+             e URL direta confirmada por screenshot antes de referenciada. Usuário pediu ainda que
+             imagens fossem citadas também na seção Referências, não só no `plate-caption` — nova
+             camada "Fontes das imagens" adicionada (4 entradas) e regra formalizada em
+             `template-v2-spec.md`. `fig-ref` inline adicionado para as 4 figuras. Verificação
+             bash-equivalente pós-edição OK: fecha `</body></html>`, 625 linhas, 4 `plate-block`/4
+             `fig-ref`/4 `data-caption`, 815 acentos. Verificação visual no Chrome continua PENDENTE
+             (Claude-in-Chrome não navega de `chrome://newtab` para `file://` neste ambiente).
 
 2026-06-19 a 2026-06-20 — Lote inicial de compêndios de imunologia (M1–M10, incluindo
              moléculas, imunidade inata, complemento, MHC, anticorpos, linfócitos T, resposta

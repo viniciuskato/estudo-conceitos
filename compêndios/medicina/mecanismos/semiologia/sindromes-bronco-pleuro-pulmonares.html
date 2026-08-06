@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Síndromes Bronco-Pleuro-Pulmonares — Compêndio de Mecanismo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78;transition:background .25s,color .25s}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 8px 6px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 24px}
+.s-logo{padding:0 16px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:6px}
+a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
+h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
+h4{font-size:.9rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+p{margin-bottom:1.1em}
+ul,ol{padding-left:1.4em;margin-bottom:1.1em}
+li{margin-bottom:.35em}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+.doc-header{margin-bottom:32px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.subarea-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.sa-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.sa-card .sat{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--ac);margin-bottom:6px}
+.sa-card p{font-size:13.5px;color:var(--muted);margin:0}
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .cl{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0;padding-left:12px;border-left:2px solid var(--border)}
+.controversia .pos b{color:var(--text)}
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:4px;white-space:nowrap;vertical-align:middle}
+.ref-entry{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);font-size:14px}
+.ref-entry:last-child{border-bottom:none}
+.ref-entry .rt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ref-nota{font-style:italic;color:var(--muted);font-size:13px;margin-top:4px}
+.ref-layer{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed var(--ac);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .2s}
+#back-btn:hover{background:var(--bg3)}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid,.subarea-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar{display:none}
+  #content{padding:20px}
+  a[href]::after{content:" (" attr(href) ")";font-size:11px;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Síndromes Bronco-Pleuro-Pulmonares</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Recolher barra lateral">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Mecanismo · Semiologia</div>
+    <div class="s-group">
+      <div class="sgt">Neste compêndio</div>
+      <a class="sl" href="#intro">Introdução</a>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave (IPPA)</a>
+      <a class="sl" href="#sindromes-bronquicas">Síndromes brônquicas</a>
+      <a class="sl" href="#sindromes-parenquimatosas">Síndromes parenquimatosas</a>
+      <a class="sl" href="#sindromes-pleurais">Síndromes pleurais</a>
+      <a class="sl" href="#sindromes-mediastinicas">Diafragmáticas e mediastínicas</a>
+      <a class="sl" href="#quadro-comparativo">Quadro comparativo</a>
+      <a class="sl" href="#raciocinio-clinico">Raciocínio clínico</a>
+      <a class="sl" href="#historico">Contexto histórico</a>
+      <a class="sl" href="#brasil">Contexto brasileiro</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#controversias">Controvérsias</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Compêndios relacionados</div>
+      <a class="sl" href="../../cardiologia-semiologia.html">Semiologia cardíaca</a>
+      <a class="sl" href="../fisiopatologia/doencas-circulatorias.html">Doenças circulatórias</a>
+      <a class="sl" href="../../infectologia-fundamentos.html">Fundamentos de infectologia</a>
+      <a class="sl" href="../imunologia/imunidade-inata.html">Imunidade inata</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Síndromes Bronco-Pleuro-Pulmonares</h1>
+  <p class="doc-meta">Compêndio de Mecanismo · Medicina Clínica · Semiologia · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~40 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum — partida zero</b></span>
+    <span class="chip">📍 Área: <b>Semiologia respiratória</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-06</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um pulmão sem murmúrio vesicular audível pode significar duas coisas radicalmente opostas: está cheio de líquido, ou está cheio de ar (e nada mais). O frêmito tóraco-vocal também some nos dois casos. Se dois dos quatro pilares do exame físico torácico (palpação e ausculta) dão o mesmo resultado para condições opostas, como a semiologia resolve essa ambiguidade sem pedir uma radiografia — e por que a resposta está justamente na manobra que menos parece "de alta tecnologia", a percussão?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="../../cardiologia-semiologia.html">Semiologia cardíaca (método IPPA geral, ausculta, raciocínio bayesiano)</a>
+      <a class="dep-item" href="../fisiopatologia/doencas-circulatorias.html">Doenças circulatórias (congestão/hiperemia passiva, edema)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-item">Anatomia torácica básica (pleura, árvore brônquica) — nenhum compêndio dedicado no acervo ainda; fundamentos mínimos resumidos abaixo</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="../../infectologia-fundamentos.html">Fundamentos de infectologia (síndromes infecciosas — cross-link recíproco)</a>
+      <span class="dep-item">Semiologia abdominal, semiologia neurológica (futuros — mesma subárea)</span>
+    </div>
+  </div>
+</div>
+
+<section id="intro">
+<h2>O que este compêndio cobre</h2>
+<p>As síndromes bronco-pleuro-pulmonares são o conjunto de padrões clínicos reconhecíveis — cada um com uma assinatura própria de inspeção, palpação, percussão e ausculta (o método <b>IPPA</b>) — que permitem localizar uma anormalidade dentro do aparelho respiratório sem qualquer exame de imagem. O objetivo não é substituir a radiografia ou a tomografia de tórax, mas gerar, à beira do leito, uma hipótese topográfica e fisiopatológica precisa o bastante para decidir se — e com que urgência — esses exames são necessários.</p>
+<p>O material cobre quatro famílias de síndromes: <b>brônquicas</b> (obstrução ao fluxo aéreo nas vias de condução — asma, DPOC, bronquiectasias), <b>parenquimatosas</b> (alteração do tecido pulmonar propriamente dito — condensação, atelectasia, enfisema, congestão passiva, lesões cavitárias), <b>pleurais</b> (ocupação do espaço pleural por líquido ou ar — derrame, pneumotórax) e <b>diafragmáticas/mediastínicas</b> (estruturas vizinhas ao parênquima cuja disfunção mimetiza ou acompanha quadros pulmonares). Cada síndrome é apresentada não como uma lista de achados a decorar, mas como a consequência lógica de um mecanismo físico ou fisiopatológico único — o critério de organização deste compêndio é justamente esse: por que cada achado ocorre, não apenas que ele ocorre.</p>
+</section>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+<h3>Anatomia mínima: pleura e árvore brônquica</h3>
+<p>O pulmão é envolto por dois folhetos serosos contínuos entre si: a <b>pleura visceral</b>, aderida à superfície pulmonar, e a <b>pleura parietal</b>, revestindo a face interna da caixa torácica, o diafragma e o mediastino. Entre elas existe um espaço virtual — o <b>espaço pleural</b> — contendo uma fina película de líquido lubrificante (10–20 mL) que permite o deslizamento entre os dois folhetos durante o ciclo respiratório sem separá-los. A árvore brônquica se divide, a partir da traqueia, em cerca de 16 gerações de vias de condução (brônquios principais → lobares → segmentares → bronquíolos terminais, sem trocas gasosas) antes de alcançar a <b>zona respiratória</b> (bronquíolos respiratórios, ductos alveolares, alvéolos), onde ocorre a hematose. Essa divisão é o que separa, na prática clínica, uma síndrome <i>brônquica</i> (comprometimento das vias de condução, calibre grande/médio) de uma síndrome <i>parenquimatosa</i> (comprometimento das unidades alveolares).</p>
+<p>Nenhum compêndio de anatomia pulmonar dedicado existe ainda neste acervo — item registrado como pendência (ver <a class="cross-link" href="#referencias">Referências</a> e nota de dívida técnica ao final da sessão). Os elementos anatômicos acima são o mínimo necessário para o que segue; não substituem um estudo anatômico completo.</p>
+<h3>A pressão pleural negativa: por que o pulmão fica expandido</h3>
+<p>O pulmão, isolado, tende a colabar sobre si mesmo por sua própria retração elástica (fibras elásticas do parênquima + tensão superficial alveolar, parcialmente neutralizada pelo surfactante). A caixa torácica, isolada, tende ao oposto — expandir-se além do seu volume de repouso. Dentro do tórax intacto, essas duas forças elásticas antagônicas se equilibram através do espaço pleural, gerando uma <b>pressão intrapleural subatmosférica</b> (cerca de −5 cmH₂O ao fim da expiração, ainda mais negativa na inspiração) que mantém a pleura visceral "colada" à parietal e o pulmão, portanto, dilatado, apesar de sua tendência a colabar. Esse único fato mecânico é a chave para entender tanto o <a class="cross-link" href="#pneumotorax">pneumotórax</a> quanto o <a class="cross-link" href="#derrame-pleural">derrame pleural</a>: qualquer coisa que rompa essa pressão negativa — ar ou líquido entrando no espaço pleural — permite que o pulmão colabe parcial ou totalmente por sua própria elasticidade, independentemente do que causou a ruptura.</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave: a física por trás do IPPA</h2>
+<p>O exame físico torácico segue a sequência <b>I</b>nspeção, <b>P</b>alpação, <b>P</b>ercussão e <b>A</b>uscultação (IPPA) — mesmo método já desenvolvido em profundidade para o aparelho cardiovascular em <a class="cross-link" href="../../cardiologia-semiologia.html">Semiologia Cardíaca</a>. Aplicado ao tórax pulmonar, cada uma das quatro manobras testa uma propriedade física diferente do meio interposto entre a fonte do som/vibração e a mão ou o ouvido do examinador — e é essa diferença de propriedade testada que faz cada síndrome ter uma assinatura própria, mesmo quando dois achados isolados coincidem entre síndromes opostas.</p>
+<div class="ck-grid">
+<div class="ck-card"><div class="ckt">Frêmito tóraco-vocal (FTV)</div><p>Palpação de vibração de baixa frequência gerada pela fonação, transmitida pela árvore brônquica e pelo parênquima até a parede torácica.</p></div>
+<div class="ck-card"><div class="ckt">Percussão</div><p>Onda sonora gerada por impacto direto; o timbre de retorno depende da razão ar/tecido sólido do volume percutido.</p></div>
+<div class="ck-card"><div class="ckt">Ausculta</div><p>Sons gerados pelo fluxo aéreo nas vias centrais, filtrados (ou não) pelo parênquima interposto antes de alcançar o estetoscópio.</p></div>
+</div>
+<h3>Frêmito tóraco-vocal: por que consolidação aumenta e líquido/ar abolem</h3>
+<p>O FTV nasce da vibração das cordas vocais durante a fonação, propagada pela coluna de ar da árvore traqueobrônquica e, desta, para o tecido pulmonar e a parede torácica, onde é captada pela mão do examinador. A eficiência dessa transmissão depende da <b>impedância acústica</b> do meio: tecido pulmonar consolidado — sólido, denso, homogêneo, sem ar interposto — transmite vibração mecânica de baixa frequência com muito menos perda de energia do que o parênquima aerado normal, porque o ar é um condutor mecânico pobre para esse tipo de vibração (baixa densidade, alta compressibilidade). Por isso a <a class="cross-link" href="#condensacao">condensação</a> <b>aumenta</b> o FTV — o meio ficou mais eficiente em transmitir, não menos.</p>
+<p>Quando existe uma camada de <b>líquido</b> (derrame) ou <b>ar</b> (pneumotórax) interposta entre o parênquima e a parede, a vibração é fortemente atenuada ou abolida antes de alcançar a mão do examinador — por isso os dois quadros <b>abolem</b> o FTV, apesar de mecanismos físicos opostos: o líquido reflete parte da onda por descasamento abrupto de impedância acústica na interface pulmão-líquido-parede; o ar dissipa a energia mecânica por sua baixíssima densidade, incapaz de sustentar a propagação eficiente de vibração de baixa frequência. O resultado tátil — FTV abolido — é idêntico; a causa física é oposta. Essa é a raiz da ambiguidade enunciada na pergunta motivadora.</p>
+<h3>Percussão: a manobra que resolve a ambiguidade</h3>
+<p>Diferente do FTV (que testa a <i>transmissão</i> de uma vibração já existente), a percussão gera sua própria onda sonora por impacto mecânico direto na parede torácica, e o timbre de retorno depende diretamente da <b>razão ar/tecido sólido</b> do volume percutido e de sua capacidade de ressoar. Um volume com predomínio de ar e pouco tecido sólido — pulmão normalmente aerado, hiperinsuflado, ou espaço pleural cheio de ar — ressoa com timbre mais grave, mais prolongado (som claro pulmonar → hipersonoridade → timpanismo, em ordem crescente de conteúdo aéreo). Um volume com predomínio de líquido ou tecido sólido e pouco ar — condensação, atelectasia, derrame pleural — absorve a energia do impacto sem ressoar de forma eficiente, produzindo um som curto, abafado (submacicez → macicez, em ordem crescente de densidade).</p>
+<div class="kbox">
+<div class="klabel">Conceito-chave — por que a percussão, e não o FTV, diferencia derrame de pneumotórax</div>
+<p>FTV e ausculta testam a <i>transmissão</i> de um som através do meio interposto — e tanto líquido quanto ar bloqueiam essa transmissão, gerando o mesmo resultado (abolido). A percussão testa a <i>densidade/ressonância</i> desse mesmo meio — e líquido e ar têm densidades opostas entre si (o líquido é muito mais denso que o ar, e mais denso ainda que o parênquima aerado normal). É por isso que a percussão — macicez no derrame, timpanismo no pneumotórax — é o elemento semiológico que de fato resolve a ambiguidade que FTV e ausculta, isoladamente, não resolvem.</p>
+</div>
+<h3>Ausculta: murmúrio vesicular, sopro brônquico e o parênquima como filtro</h3>
+<p>O murmúrio vesicular (MV) — o som respiratório normal — é gerado pelo fluxo de ar turbulento nas vias aéreas de maior calibre (os alvéolos, individualmente, são silenciosos), mas <b>filtrado</b> pelo parênquima aerado normal interposto entre a via aérea central e o estetoscópio: o tecido alveolar aerado funciona como um filtro passa-baixa, absorvendo as frequências mais altas e deixando passar um som suave, de baixa intensidade, predominantemente inspiratório. Quando o parênquima está consolidado — sem ar nos alvéolos, mas com o brônquio ainda pérvio, como na <a class="cross-link" href="#condensacao">condensação</a> — esse filtro desaparece, e o som gerado nas vias centrais é transmitido quase sem atenuação: o <b>sopro brônquico (ou tubário)</b>, mais alto, mais agudo, audível também na fase expiratória. Quando não há fluxo aéreo alcançando a região (brônquio obstruído na atelectasia) ou o meio interposto bloqueia toda a transmissão (líquido no derrame, ar no pneumotórax), o MV é <b>abolido</b> — por razões diferentes em cada caso, mas com o mesmo resultado auscultatório.</p>
+<p>A mesma lógica do FTV, aplicada à voz em vez de vibração tátil, gera três achados adicionais sobre área consolidada: <b>broncofonia</b> (a voz falada soa mais clara e mais intensa, pela transmissão facilitada), <b>pectorilóquia áfona</b> (a voz sussurrada, normalmente ininteligível por ser filtrada pelo parênquima aerado, torna-se inteligível) e, no limite superior de um derrame pleural, a <b>egofonia</b> ("voz de cabra" — timbre nasalado por filtragem seletiva de frequências na zona de transição entre líquido e parênquima parcialmente comprimido).</p>
+<h3>Sons adventícios: um mecanismo físico distinto para cada um</h3>
+<div class="table-wrap">
+<table class="data-table" aria-label="Mecanismo físico de cada som adventício respiratório">
+<thead><tr><th>Som adventício</th><th>Mecanismo físico</th><th>Padrão típico</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Estertores crepitantes (finos)</td><td>Abertura sequencial e explosiva de pequenas vias aéreas/alvéolos previamente colabados por exsudato ou líquido — símile do "velcro"</td><td>Fim da inspiração; não se modificam com a tosse</td></tr>
+<tr><td class="td-label">Estertores subcrepitantes (bolhosos)</td><td>Ar borbulhando através de secreção líquida acumulada em vias de médio/grande calibre</td><td>Inspiração e expiração; podem se modificar com a tosse</td></tr>
+<tr><td class="td-label">Sibilos</td><td>Fluxo turbulento de alta velocidade através de via aérea estreitada (broncoespasmo, edema de mucosa, secreção)</td><td>Contínuos, agudos; predominam na expiração (via intratorácica estreita fisiologicamente mais nesta fase)</td></tr>
+<tr><td class="td-label">Roncos</td><td>Vibração de secreção espessa aderida à parede de vias de maior calibre</td><td>Graves, contínuos; tipicamente se modificam ou desaparecem com a tosse</td></tr>
+<tr><td class="td-label">Atrito pleural</td><td>Fricção entre os folhetos pleurais inflamados e ásperos (perda do deslizamento lubrificado normal)</td><td>Descontínuo, superficial, sincronizado com a respiração (não com o ciclo cardíaco — distingue de atrito pericárdico)</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 1 — Mecanismo físico distinto de cada som adventício respiratório clássico.</p>
+</div>
+</section>
+
+<section id="sindromes-bronquicas">
+<h2>Síndromes brônquicas</h2>
+<p>As síndromes brônquicas resultam de obstrução ao fluxo aéreo nas vias de condução de grande e médio calibre — por broncoespasmo, compressão extrínseca, obstrução intrínseca (corpo estranho, estenose, tumor) ou hipersecreção. O denominador comum fisiopatológico é o estreitamento do lúmen das vias aéreas, com prolongamento da fase expiratória (o ar demora mais para sair de um lúmen estreitado do que para entrar, porque a via aérea intratorácica normalmente se estreita ainda mais durante a expiração) e produção de ruídos adventícios característicos — sibilos e roncos.</p>
+<h3>Asma</h3>
+<p>Inflamação crônica das vias aéreas com hiper-responsividade brônquica, levando a broncoespasmo reversível, edema de mucosa e hipersecreção — resultado: obstrução difusa e variável ao fluxo aéreo. À inspeção, tórax em tonel nas crises graves e crônicas, uso de musculatura acessória (esternocleidomastóideo) e tiragem intercostal/subcostal na crise aguda, com fase expiratória visivelmente prolongada. FTV reduzido bilateralmente na crise; percussão com hipersonoridade difusa por hiperinsuflação dinâmica (ar aprisionado atrás das vias estreitadas). À ausculta, sibilos difusos predominantemente expiratórios, murmúrio vesicular diminuído.</p>
+<div class="kbox">
+<div class="klabel">Pérola clínica — silêncio auscultatório (<i>silent chest</i>)</div>
+<p>Na crise grave, a ausência de sibilos em paciente dispneico não descarta obstrução — pode indicar fluxo aéreo tão reduzido que não há mais turbulência suficiente para gerar o ruído. O <i>silent chest</i> é sinal de gravidade extrema, não de melhora.</p>
+</div>
+<h3>DPOC — Doença Pulmonar Obstrutiva Crônica</h3>
+<p>Limitação crônica e progressiva ao fluxo aéreo, pouco reversível, combinando em proporções variáveis bronquite crônica (hipersecreção mucosa, tosse produtiva ≥3 meses/ano por ≥2 anos) e enfisema (destruição de septos alveolares — ver <a class="cross-link" href="#enfisema">Síndromes parenquimatosas</a>). FTV reduzido bilateralmente; percussão com hipersonoridade e rebaixamento/imobilidade diafragmática; expansibilidade diminuída global e simetricamente. À ausculta, murmúrio vesicular globalmente diminuído, roncos e sibilos difusos, prolongamento expiratório marcado (tempo expiratório forçado &gt;5 segundos).</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Fenótipos clássicos de DPOC">
+<thead><tr><th>Fenótipo</th><th>Predomínio</th><th>Achados característicos</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Blue bloater</td><td>Bronquite crônica</td><td>Cianótico, obeso, edemaciado; hipoxemia e hipercapnia frequentes; tosse produtiva crônica</td></tr>
+<tr><td class="td-label">Pink puffer</td><td>Enfisema</td><td>Magro, tórax em barril, dispneico, respiração com lábios franzidos; hipoxemia menos marcada em repouso</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 2 — Os dois fenótipos clássicos de DPOC, reconhecendo que a maioria dos pacientes reais combina elementos dos dois. Sinais radiológicos de hiperinsuflação: mais de 7 costelas visíveis na região anterior, mais de 10 na posterior — retificação diafragmática pelo aprisionamento aéreo crônico <a class="fig-ref" href="#fig-1" onclick="navFig(this)">(Fig. 1)</a>.</p>
+</div>
+<h3>Bronquiectasias</h3>
+<div class="plate-block" id="fig-1">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Chest_X-ray_of_hyperinflated_lung_with_bronchiectasis_at_the_right_upper_lobe.jpg"
+       alt="Radiografia de tórax PA mostrando sinais de hiperinsuflação (contagem de arcos costais anterior/posterior no diafragma) e bronquiectasias no hilo/lobo superior direito"
+       loading="lazy" data-caption="Hiperinsuflação e bronquiectasias — radiografia PA anotada">
+  <div class="plate-caption"><b>Fig. 1 — Hiperinsuflação e bronquiectasias</b> — radiografia de tórax PA de paciente de 12 anos, mostrando os marcadores clássicos de hiperinsuflação (contagem de arcos costais anterior/posterior cruzando o diafragma) e bronquiectasias no hilo/lobo superior direito. Cerevisae, Wikimedia Commons, domínio público (imagem técnica de procedimento diagnóstico padrão).
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">Bronchiectasis <em>(bronquiectasias)</em> · Right/Left hilum <em>(hilo direito/esquerdo)</em> · Posterior/Anterior rib <em>(arco costal posterior/anterior)</em></span>
+  </div>
+</div>
+<p>Dilatação permanente e irreversível dos brônquios por destruição das paredes brônquicas — tipicamente um ciclo vicioso de infecção, inflamação e dano tecidual que se auto-perpetua (a chamada hipótese de Cole), resultando em acúmulo de secreções, infecções de repetição e produção de grande volume de escarro purulento. A tosse produtiva postural (piora ao deitar, pela drenagem gravitacional de secreção acumulada) é característica marcante, com correspondente radiológico direto na dilatação brônquica visível ao redor do hilo <a class="fig-ref" href="#fig-1" onclick="navFig(this)">(Fig. 1)</a>. À inspeção, tórax assimétrico nas formas localizadas e graves; baqueteamento digital frequente quando há hipóxia crônica associada <a class="fig-ref" href="#fig-2" onclick="navFig(this)">(Fig. 2)</a> — mecanismo ainda incompletamente elucidado, envolvendo vasodilatação distal e proliferação de tecido conjuntivo sob estímulo de fatores de crescimento circulantes. FTV variável, aumentado sobre áreas de condensação associada; percussão com macicez nas áreas de consolidação, timpanismo nas cavidades maiores. À ausculta, estertores subcrepitantes de médias e grossas bolhas, roncos e sibilos variáveis, sopro brônquico nas áreas de condensação adjacente.</p>
+<div class="plate-block" id="fig-2">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Clubbing_of_fingers_in_IPF.jpg"
+       alt="Fotografia de dedos com baqueteamento digital — perda do ângulo ungueal normal e abaulamento da falange distal"
+       loading="lazy" data-caption="Baqueteamento digital (clubbing)">
+  <div class="plate-caption"><b>Fig. 2 — Baqueteamento digital</b> — perda do ângulo ungueal normal (ângulo de Lovibond) e abaulamento da falange distal, achado clássico de hipóxia crônica em bronquiectasias e outras pneumopatias fibrosantes. IPFeditor, Wikimedia Commons, CC BY-SA 3.0.
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">Clubbing <em>(baqueteamento)</em> · Nail angle <em>(ângulo ungueal)</em></span>
+  </div>
+</div>
+<div class="table-wrap">
+<table class="data-table" aria-label="Quadro comparativo das síndromes brônquicas">
+<thead><tr><th>Achado</th><th>Asma</th><th>DPOC</th><th>Bronquiectasias</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Caráter</td><td>Obstrutivo reversível, episódico</td><td>Obstrutivo progressivo, pouco reversível</td><td>Obstrutivo crônico, infeccioso</td></tr>
+<tr><td class="td-label">FTV</td><td>↓ na crise</td><td>↓↓ bilateral</td><td>Variável; ↑ nas consolidações</td></tr>
+<tr><td class="td-label">Percussão</td><td>Hipersonoridade difusa</td><td>Hipersonoridade; diafragmas rebaixados</td><td>Variável; macicez nas condensações</td></tr>
+<tr><td class="td-label">Sons adventícios</td><td>Sibilos difusos, expiratórios</td><td>Sibilos/roncos difusos crônicos</td><td>Subcrepitantes (médias/grossas bolhas)</td></tr>
+<tr><td class="td-label">Tempo expiratório</td><td>Prolongado (&gt;3s)</td><td>Muito prolongado (&gt;5s)</td><td>Variável</td></tr>
+<tr><td class="td-label">Achado distintivo</td><td><i>Silent chest</i> na crise grave</td><td>Fenótipos blue bloater/pink puffer</td><td>Baqueteamento digital, escarro purulento</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 3 — Quadro comparativo integrado das três síndromes brônquicas. Sobreposição entre as três é comum na prática clínica — não são categorias mutuamente exclusivas.</p>
+</div>
+</section>
+
+<section id="sindromes-parenquimatosas">
+<h2>Síndromes parenquimatosas</h2>
+<p>As síndromes parenquimatosas envolvem alterações no tecido pulmonar propriamente dito — alvéolos, interstício e capilares — em vez das vias de condução. Cada uma delas é a aplicação direta dos mecanismos físicos desenvolvidos em <a class="cross-link" href="#conceitos-chave">Conceitos-chave</a>: o que muda entre elas é apenas o que substitui o ar dentro do alvéolo (líquido inflamatório, colapso, destruição de septo, transudato) e se o brônquio que leva a essa unidade continua pérvio ou não.</p>
+<h3 id="condensacao">Condensação pulmonar</h3>
+<p>Ocorre quando os alvéolos são preenchidos por material sólido ou líquido — exsudato inflamatório, sangue, células neoplásicas — mantendo os <b>brônquios pérvios</b>. A pneumonia bacteriana lobar é o protótipo clássico. Esse detalhe (brônquio pérvio) é o que distingue mecanisticamente a condensação da atelectasia, apesar de ambas envolverem perda de ar alveolar. À inspeção: assimetria torácica, redução da expansibilidade ipsilateral, taquipneia, retração da hemicaixa afetada nas formas extensas. À palpação: FTV <b>aumentado</b> sobre a área condensada (ver mecanismo em Conceitos-chave), expansibilidade diminuída ipsilateralmente. À percussão: macicez ou submacicez sobre a área condensada. À ausculta: sopro brônquico, broncofonia e pectorilóquia áfona positivas, estertores crepitantes nas bordas da lesão (a clássica "crepitação de Laennec").</p>
+<h3>Atelectasia</h3>
+<p>Colapso alveolar por obstrução completa de um brônquio (atelectasia obstrutiva — o ar já presente é progressivamente reabsorvido pela circulação capilar, sem reposição, até o colabamento total) ou por compressão extrínseca. Diferente da condensação, aqui o brônquio está <b>obstruído</b>, não pérvio — por isso, apesar de também haver perda de ar alveolar, o FTV segue o padrão oposto: sem via aérea patente para transmitir vibração até a região, o FTV é <b>abolido</b> em vez de aumentado. O pulmão perde volume, e há desvio <b>ipsilateral</b> das estruturas mediastinais — o mediastino é "puxado" para o lado que perdeu volume, ao contrário do que ocorre no derrame volumoso (ver adiante), o que torna a direção do desvio traqueal um dado semiológico topográfico de alto valor. À inspeção: retração da hemitórax, desvio da traqueia para o lado afetado. FTV abolido ou muito reduzido; percussão com macicez absoluta; ausculta com murmúrio vesicular abolido e ausência de sons adventícios (não há fluxo aéreo gerando som nem via patente para transmiti-lo).</p>
+<h3 id="enfisema">Enfisema pulmonar</h3>
+<p>Destruição dos septos alveolares com aumento permanente dos espaços aéreos distais ao bronquíolo terminal — perda de superfície de troca gasosa e, mecanicamente, perda de retração elástica, resultando em hiperinsuflação e aprisionamento aéreo. À inspeção: tórax em barril (aumento do diâmetro anteroposterior), respiração com lábios franzidos (manobra que o próprio paciente aprende, empiricamente, para gerar uma pressão positiva expiratória que mantém as vias aéreas colapsáveis abertas por mais tempo). FTV reduzido difusamente; percussão com hipersonoridade, rebaixamento e imobilidade diafragmática. Ausculta: murmúrio vesicular muito diminuído, expiração prolongada.</p>
+<h3>Congestão pulmonar passiva</h3>
+<p>Resulta do aumento da pressão hidrostática nos capilares pulmonares — habitualmente por insuficiência ventricular esquerda — levando ao extravasamento de líquido para o interstício e, nas formas graves, para os alvéolos (edema alveolar). O mecanismo hemodinâmico geral de congestão e edema é desenvolvido em profundidade em <a class="cross-link" href="../fisiopatologia/doencas-circulatorias.html">Patologia das Doenças Circulatórias</a> (hiperemia passiva, transudato); aqui o foco é a assinatura semiológica pulmonar específica. À inspeção: taquipneia, ortopneia, cianose periférica nas formas avançadas. FTV normal ou discretamente aumentado nas bases; percussão com submatidez nas bases bilaterais (líquido intersticial, ainda não tão denso quanto uma condensação verdadeira). Ausculta: estertores crepitantes bilaterais em bases ("estertores de estase"), sibilos expiratórios podem ocorrer por edema de mucosa brônquica (a chamada "asma cardíaca").</p>
+<div class="kbox">
+<div class="klabel">Diferenciação com pneumonia</div>
+<p>Na congestão passiva, os achados são bilaterais e predominam nas bases, ao contrário da pneumonia lobar, que tende a ser unilateral e localizada. A ausência de febre, o contexto de cardiopatia prévia e a resposta a diuréticos são elementos-chave do raciocínio diferencial. A terceira bulha (B3) e a distensão venosa jugular — ambas desenvolvidas em <a class="cross-link" href="../../cardiologia-semiologia.html#ausculta">Semiologia Cardíaca</a> — auxiliam na atribuição da etiologia cardíaca.</p>
+</div>
+<h3>Lesões cavitárias</h3>
+<p>Áreas de necrose e destruição do parênquima pulmonar que criam espaços aéreos patológicos — frequentemente vistas em abscesso pulmonar e tuberculose. O mecanismo é a drenagem do conteúdo necrótico através de um brônquio comunicante, deixando uma cavidade com paredes de tecido inflamatório/fibrótico e um centro aerado (frequentemente com nível hidroaéreo, quando resta líquido no fundo da cavidade). À percussão, pode haver timpanismo localizado sobre a cavidade quando ela é grande e superficial o bastante, contrastando com a macicez do tecido de parede ao redor. À ausculta, sopro anfórico (som cavo, ressonante, lembrando o som de assoprar sobre a boca de uma garrafa vazia) pode ocorrer sobre cavidades grandes e de paredes lisas.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Quadro comparativo das síndromes parenquimatosas pelo IPPA">
+<thead><tr><th>Síndrome</th><th>Expansibilidade</th><th>FTV</th><th>Percussão</th><th>MV</th><th>Sons adventícios</th><th>Sopro</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Condensação</td><td>↓ ipsilateral</td><td>↑↑</td><td>Macicez</td><td>↓ ou ↑</td><td>Crepitantes</td><td>Brônquico</td></tr>
+<tr><td class="td-label">Atelectasia</td><td>↓↓ ipsilateral</td><td>Abolido</td><td>Macicez</td><td>Abolido</td><td>Ausentes</td><td>Ausente</td></tr>
+<tr><td class="td-label">Enfisema</td><td>↓ bilateral</td><td>↓↓</td><td>Hipersonoridade</td><td>↓↓</td><td>Sibilos</td><td>Ausente</td></tr>
+<tr><td class="td-label">Congestão passiva</td><td>Normal</td><td>Normal/↑</td><td>Submatidez</td><td>↓ nas bases</td><td>Crepitantes</td><td>Ausente</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 4 — Quadro comparativo das síndromes parenquimatosas. Compare com a Tabela 6 (síndromes pleurais) para ver como atelectasia e derrame — ambos com FTV abolido, macicez e MV abolido — se diferenciam apenas pela direção do desvio traqueal.</p>
+</div>
+</section>
+
+<section id="sindromes-pleurais">
+<h2>Síndromes pleurais</h2>
+<p>As síndromes pleurais resultam da ocupação do espaço pleural — normalmente virtual, com pressão subatmosférica (ver <a class="cross-link" href="#fundamentos">Fundamentos necessários</a>) — por líquido ou ar em quantidade patológica. A perda da pressão negativa transpleural, em ambos os casos, permite que o pulmão colabe por sua própria retração elástica; o que diferencia as duas síndromes ao exame físico é exclusivamente a densidade do que ocupou o espaço.</p>
+<h3 id="derrame-pleural">Derrame pleural</h3>
+<div class="plate-block" id="fig-3">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Pleural_effusion_-_Left_lung_(7471755836).jpg"
+       alt="Radiografia de tórax mostrando derrame pleural esquerdo volumoso, opacificando todo o hemitórax esquerdo com desvio do mediastino para a direita"
+       loading="lazy" data-caption="Derrame pleural esquerdo volumoso com desvio mediastinal contralateral">
+  <div class="plate-caption"><b>Fig. 3 — Derrame pleural volumoso</b> — opacificação quase completa do hemitórax esquerdo por derrame pleural maciço, com desvio do mediastino (traqueia e coração) para a direita — o padrão contralateral descrito no texto, oposto ao da atelectasia. Yale Rosen, Wikimedia Commons, CC BY-SA 2.0.
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">Pleural effusion <em>(derrame pleural)</em> · Mediastinal shift <em>(desvio do mediastino)</em></span>
+  </div>
+</div>
+<p>Acúmulo de líquido entre a pleura parietal e visceral, por desequilíbrio das forças de Starling transpleurais (pressão hidrostática, pressão oncótica, permeabilidade capilar) — a distinção entre transudato (desequilíbrio hidrostático/oncótico, como na insuficiência cardíaca) e exsudato (aumento de permeabilidade, como na pneumonia ou neoplasia) depende de exame laboratorial do líquido, não do exame físico isolado. Em grandes volumes, a pressão positiva do líquido empurra o mediastino para o lado <b>oposto</b> (desvio contralateral) — o inverso da atelectasia, e um dos dados semiológicos mais úteis para diferenciar as duas causas de macicez torácica unilateral. O volume mínimo classicamente detectável ao exame físico é de aproximadamente 300–500 mL.</p>
+<p>À inspeção: abaulamento e assimetria torácica ipsilateral, redução da expansibilidade, desvio da traqueia para o lado oposto nos derrames volumosos. À percussão: macicez absoluta sobre o líquido, com limite superior classicamente descrito como uma curva de concavidade medial (curva de Ellis-Damoiseau) <a class="fig-ref" href="#fig-3" onclick="navFig(this)">(Fig. 3)</a> — o líquido se acumula preferencialmente nas porções mais dependentes (gravidade), e a curva reflete a geometria de acúmulo contra a parede torácica e o mediastino. À palpação: FTV abolido ou muito reduzido sobre o derrame (o líquido bloqueia a transmissão de vibração — ver Conceitos-chave), expansibilidade diminuída ipsilateralmente. À ausculta: MV abolido sobre o derrame, sopro pleurítico (ou atrítico) na borda superior, egofonia na linha de transição líquido-parênquima.</p>
+<div class="kbox">
+<div class="klabel">Nível de evidência — acurácia real dos sinais físicos no derrame pleural</div>
+<p>Um estudo prospectivo com 278 pacientes, comparando cegamente sinais físicos (expansão torácica assimétrica, FTV, percussão, murmúrio vesicular, estertores, ressonância vocal) contra radiografia de tórax como padrão-ouro, encontrou que a percussão maciça foi o preditor independente mais forte de derrame pleural (razão de chances 12,80; IC95% 4,23–38,70), seguida pela expansão torácica assimétrica (razão de chances 5,22; IC95% 2,06–13,23), com área sob a curva ROC de 0,88 para o modelo combinado <span class="evid">Estudo observacional</span>. A concordância interobservador foi excelente para expansão, FTV, percussão e murmúrio vesicular (kappa 0,84–0,89). Achado prático relevante: os autores concluem que os sinais físicos são mais úteis para <b>excluir</b> do que para <b>confirmar</b> derrame pleural — reforçando o enquadramento bayesiano de que cada achado é um multiplicador de probabilidade, não um veredito isolado. Segundo o PubMed, Kalantri S, Joshi R, Lokhande T et al. "Accuracy and reliability of physical signs in the diagnosis of pleural effusion." <i>Respiratory Medicine</i>, 2007. <a href="https://doi.org/10.1016/j.rmed.2006.07.014">DOI: 10.1016/j.rmed.2006.07.014</a> (PMID 16965906).</p>
+</div>
+<h3 id="pneumotorax">Pneumotórax</h3>
+<div class="plate-block" id="fig-4">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/X-ray_of_pneumothorax_signs.jpg"
+       alt="Radiografia de tórax anotada mostrando pneumotórax esquerdo: ausência de trama pulmonar, pulmão esquerdo colabado e desvio do mediastino para a direita"
+       loading="lazy" data-caption="Pneumotórax esquerdo — ausência de trama, pulmão colabado, desvio mediastinal">
+  <div class="plate-caption"><b>Fig. 4 — Pneumotórax esquerdo</b> — radiografia anotada mostrando os três sinais clássicos: ausência de trama pulmonar (ar livre no espaço pleural), pulmão esquerdo colabado junto ao hilo, e desvio do mediastino para a direita (compatível com componente hipertensivo). Karthik Easvur, Wikimedia Commons, CC BY-SA 3.0.
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">Absent lung markings <em>(ausência de trama pulmonar)</em> · Collapsed lung <em>(pulmão colabado)</em> · Mediastinal shift <em>(desvio do mediastino)</em></span>
+  </div>
+</div>
+<p>A ruptura da pleura — por bolha subpleural rota (espontâneo primário, tipicamente em jovens magros altos), doença pulmonar subjacente (espontâneo secundário — DPOC, fibrose), trauma ou procedimento iatrogênico — permite a entrada de ar no espaço pleural, desfazendo a pressão negativa e causando o colapso do parênquima pulmonar adjacente pela mesma lógica elástica descrita em Fundamentos necessários. No <b>pneumotórax hipertensivo</b>, um mecanismo valvular unidirecional permite a entrada progressiva de ar sem saída, com desvio mediastinal contralateral progressivo e risco de vida por compressão das estruturas mediastinais e da veia cava — emergência que exige descompressão imediata, não aguardar confirmação radiológica.</p>
+<p>À inspeção: hemitórax abaulado, redução da expansibilidade ipsilateral, desvio da traqueia para o lado oposto no hipertensivo. FTV abolido ou muito reduzido (o ar impede a transmissão — ver Conceitos-chave). À percussão: timpanismo ou hipersonoridade (ar ressonante — o achado que distingue o pneumotórax do derrame, apesar de ambos abolirem o FTV e o MV). À ausculta: MV abolido, ausência de sons adventícios <a class="fig-ref" href="#fig-4" onclick="navFig(this)">(Fig. 4)</a>.</p>
+<div class="kbox">
+<div class="klabel">Nível de evidência — ultrassom point-of-care × radiografia para pneumotórax oculto</div>
+<p>Um estudo prospectivo com 225 pacientes de trauma comparou o ultrassom torácico portátil (EFAST — <i>Extended Focused Assessment with Sonography for Trauma</i>) à radiografia de tórax em decúbito dorsal (o exame de imagem inicial mais comum em trauma). Considerando cada campo pulmonar isoladamente e a tomografia como padrão-ouro, o EFAST mostrou sensibilidade maior que a radiografia (48,8% vs. 20,9%) para detectar pneumotórax, com especificidade alta e semelhante entre os dois (99,6% e 98,7%) <span class="evid">Estudo observacional</span>. Muitos dos pneumotórax perdidos pela radiografia (63% dos casos, ocultos à radiografia convencional) foram identificados pelo ultrassom — relevante porque a radiografia em decúbito dorsal, usada rotineiramente na reanimação inicial, tem sensibilidade especialmente baixa para ar livre em pequena quantidade. Segundo o PubMed, Kirkpatrick AW, Sirois M, Laupland KB et al. "Hand-held thoracic sonography for detecting post-traumatic pneumothoraces: the Extended Focused Assessment with Sonography for Trauma (EFAST)." <i>The Journal of Trauma</i>, 2004. <a href="https://doi.org/10.1097/01.ta.0000133565.88871.e4">DOI: 10.1097/01.ta.0000133565.88871.e4</a> (PMID 15345974).</p>
+</div>
+<div class="table-wrap">
+<table class="data-table" aria-label="Diferenciação semiológica entre derrame pleural e pneumotórax">
+<thead><tr><th>Sinal</th><th>Derrame pleural</th><th>Pneumotórax</th></tr></thead>
+<tbody>
+<tr><td class="td-label">FTV</td><td>Abolido</td><td>Abolido</td></tr>
+<tr><td class="td-label">Percussão</td><td>Macicez</td><td>Timpanismo</td></tr>
+<tr><td class="td-label">Ausculta</td><td>MV abolido</td><td>MV abolido</td></tr>
+<tr><td class="td-label">Desvio traqueal (volumoso)</td><td>Contralateral</td><td>Contralateral (se hipertensivo)</td></tr>
+<tr><td class="td-label">Sopro pleurítico</td><td>Presente (borda superior)</td><td>Ausente</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 5 — A percussão (macicez × timpanismo) é o principal elemento diferenciador entre as duas síndromes que mais se parecem ao FTV e à ausculta isolados.</p>
+</div>
+</section>
+
+<section id="sindromes-mediastinicas">
+<h2>Síndromes diafragmáticas e mediastínicas</h2>
+<h3>Síndromes diafragmáticas</h3>
+<p>A <b>paralisia diafragmática</b> — por lesão do nervo frênico (compressão tumoral, trauma cirúrgico, doença neuromuscular) — remove a principal força motora da inspiração naquele hemidiafragma. O diafragma paralisado, em vez de descer durante a inspiração (aumentando o volume torácico), é empurrado passivamente para cima pelo gradiente de pressão negativa gerado pelo hemitórax contralateral saudável — o chamado <b>movimento paradoxal</b>, visível à fluoroscopia ou ultrassom diafragmático (teste do sniff). Clinicamente, resulta em diminuição do movimento diafragmático e da expansibilidade pulmonar ipsilateral, mais evidente em decúbito (a gravidade, que auxilia o diafragma paralisado no ortostatismo, deixa de ajudar). <b>Eventrações</b> e <b>hérnias diafragmáticas</b> compartilham parte da mesma lógica mecânica — fraqueza ou defeito da cúpula diafragmática permitindo ascensão de conteúdo abdominal ao tórax, com redução correspondente do volume pulmonar disponível.</p>
+<h3>Síndromes mediastínicas</h3>
+<p>Massas ou dilatações no compartimento central do tórax comprimem estruturas vitais adjacentes — vias aéreas, grandes vasos, esôfago, nervos. Causas comuns incluem linfoma não Hodgkin, aneurisma de aorta, timoma e massas compressivas de origem pulmonar (câncer de pulmão, metástases). O quadro clínico depende inteiramente de qual estrutura está sendo comprimida, não de um padrão único — daí a síndrome mediastínica ser, na prática, uma família de apresentações compressivas (vasculares, brônquicas, esofágicas) reunidas pela localização anatômica comum da causa.</p>
+<div class="kbox">
+<div class="klabel">Síndrome da Veia Cava Superior (SVCS)</div>
+<p>A obstrução do fluxo sanguíneo pela veia cava superior em direção ao átrio direito — por compressão extrínseca (tumor mediastinal, linfoma, câncer de pulmão, metástases) ou trombose — impede o retorno venoso normal da cabeça, pescoço e membros superiores. O sangue represado busca vias colaterais (sistema ázigo, veias torácicas superficiais), gerando o quadro clássico: dilatação das veias do pescoço, pletora facial, edema de face e de membros superiores, cianose, e — pela hipertensão venosa cefálica sustentada — cefaleia, além de dispneia, tosse, ortopneia e disfagia por efeito compressivo direto das estruturas adjacentes. É uma emergência oncológica relativa na maioria dos casos, exigindo identificação rápida da causa compressiva.</p>
+</div>
+</section>
+
+<section id="quadro-comparativo">
+<h2>Quadro comparativo integrado — todas as síndromes pelo IPPA</h2>
+<p>A tabela abaixo reúne as síndromes brônquicas, parenquimatosas e pleurais lado a lado — útil como referência rápida de revisão, mas sempre subordinada ao mecanismo desenvolvido em cada seção específica: memorizar a tabela sem entender por que cada célula tem o valor que tem é o oposto do que este compêndio se propõe a ensinar.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Quadro comparativo integrado de todas as síndromes bronco-pleuro-pulmonares pelo método IPPA">
+<thead><tr><th>Síndrome</th><th>Expansibilidade</th><th>FTV</th><th>Percussão</th><th>MV</th><th>Sons adventícios</th><th>Sopro</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Asma (crise)</td><td>↓ bilateral</td><td>↓</td><td>Hipersonoridade</td><td>↓</td><td>Sibilos difusos</td><td>Ausente</td></tr>
+<tr><td class="td-label">DPOC</td><td>↓ bilateral</td><td>↓↓</td><td>Hipersonoridade</td><td>↓↓</td><td>Roncos/sibilos</td><td>Ausente</td></tr>
+<tr><td class="td-label">Bronquiectasias</td><td>Variável</td><td>Variável/↑</td><td>Variável/macicez local</td><td>↓ local</td><td>Subcrepitantes</td><td>Brônquico local</td></tr>
+<tr><td class="td-label">Condensação</td><td>↓ ipsilateral</td><td>↑↑</td><td>Macicez</td><td>↓ ou ↑</td><td>Crepitantes</td><td>Brônquico</td></tr>
+<tr><td class="td-label">Atelectasia</td><td>↓↓ ipsilateral</td><td>Abolido</td><td>Macicez</td><td>Abolido</td><td>Ausentes</td><td>Ausente</td></tr>
+<tr><td class="td-label">Enfisema</td><td>↓ bilateral</td><td>↓↓</td><td>Hipersonoridade</td><td>↓↓</td><td>Sibilos</td><td>Ausente</td></tr>
+<tr><td class="td-label">Congestão passiva</td><td>Normal</td><td>Normal/↑</td><td>Submatidez</td><td>↓ bases</td><td>Crepitantes</td><td>Ausente</td></tr>
+<tr><td class="td-label">Derrame pleural</td><td>↓ ipsilateral</td><td>Abolido</td><td>Macicez</td><td>Abolido</td><td>Ausentes</td><td>Pleurítico</td></tr>
+<tr><td class="td-label">Pneumotórax</td><td>↓ ipsilateral</td><td>Abolido</td><td>Timpanismo</td><td>Abolido</td><td>Ausentes</td><td>Ausente</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 6 — Quadro sinóptico dos achados físicos nas nove síndromes desenvolvidas neste compêndio. Note os três pares que mais se confundem entre si (e o achado que os diferencia): atelectasia × derrame (desvio traqueal ipsi × contralateral), derrame × pneumotórax (macicez × timpanismo), asma × DPOC (reversibilidade e gravidade da hiperinsuflação).</p>
+</div>
+</section>
+
+<section id="raciocinio-clinico">
+<h2>Raciocínio clínico integrado — caso ilustrativo</h2>
+<p>Um paciente procura o pronto-socorro com história de pneumonias de repetição há três anos, tendo tido infecção grave por SARS-CoV-2 com necessidade de intubação e dez dias de UTI. Chega com febre, roncos ao exame do tórax e piora da tosse produtiva, com secreção que se tornou esverdeada nos últimos três dias. Ao exame: expansibilidade reduzida, estertores em bases (predominantemente à direita) e sibilos difusos, predominantemente expiratórios.</p>
+<p>Sistematizando o raciocínio pelos três eixos clássicos da propedêutica: o <b>quadro agudo</b> (febre, roncos, piora da tosse produtiva com secreção purulenta há 3 dias) aponta para uma exacerbação infecciosa em curso — ver <a class="cross-link" href="../../infectologia-fundamentos.html#s-sindromes">síndromes infecciosas</a> e <a class="cross-link" href="../../infectologia-fundamentos.html#s-fases">fases da infecção</a> para o enquadramento geral desse tipo de apresentação. Os <b>antecedentes pessoais</b> (pneumonias de repetição há 3 anos, internação em UTI com ventilação mecânica, COVID-19 grave) sugerem dano estrutural prévio das vias aéreas — exatamente o terreno que favorece o desenvolvimento de bronquiectasias pós-infecciosas, um mecanismo cada vez mais reconhecido após infecções respiratórias graves. As <b>alterações do exame físico</b> se encaixam nesse raciocínio: expansibilidade reduzida (parênquima com componente restritivo/cicatricial), estertores (comprometimento de parênquima e bronquíolos terminais, compatível com secreção/inflamação ativa) e sibilos (obstrução brônquica associada, componente reversível sobreposto) e roncos (secreção em vias aéreas de maior calibre).</p>
+<p>A hipótese diagnóstica sindrômica mais parcimoniosa é <b>exacerbação infecciosa de bronquiectasias</b> (provavelmente pós-COVID) — não uma pneumonia lobar clássica isolada (que teria condensação mais localizada e homogênea, sem o antecedente de dano estrutural crônico) nem uma crise de asma isolada (que não explicaria o escarro purulento nem os antecedentes). O caso ilustra o princípio central deste compêndio: nenhum achado isolado (nem os sibilos, nem os estertores, nem a história) resolve o quadro sozinho — é a integração de mecanismo fisiopatológico, cronologia e achados físicos que converge para a hipótese mais provável.</p>
+</section>
+
+<section id="historico">
+<h2>Contexto histórico</h2>
+<div class="hist"><span class="hl">1761 — Leopold Auenbrugger e a invenção da percussão</span>Filho de um estalajadeiro em Graz, Áustria, Auenbrugger observou desde jovem que era possível estimar a quantidade de líquido em um barril de vinho batendo em sua superfície e ouvindo o som resultante. Aplicou a mesma lógica ao tórax humano, publicando em 1761 o <em>Inventum Novum</em> ("Nova Descoberta") — descrevendo sistematicamente como o som da percussão torácica variava entre pulmão normal, derrame pleural e consolidação. A obra foi amplamente ignorada por décadas, só sendo redescoberta e popularizada por Jean-Nicolas Corvisart (médico de Napoleão) no início do século XIX.</div>
+<div class="hist"><span class="hl">1816 — Laennec e a ausculta mediata</span>René Laennec inventou o estetoscópio (ver desenvolvimento completo em <a class="cross-link" href="../../cardiologia-semiologia.html#historico">Semiologia Cardíaca, Contexto histórico</a>) e, nos anos seguintes, aplicou a técnica sistematicamente ao tórax, correlacionando achados auscultatórios com achados de necropsia pulmonar — cunhando termos que sobrevivem até hoje, como "estertor" (do francês <i>râle</i>) e descrevendo pela primeira vez de forma sistemática o sopro brônquico e a crepitação que hoje leva seu nome.</div>
+<div class="hist"><span class="hl">Século XIX — a síntese semiológica torácica</span>A combinação da percussão de Auenbrugger (redescoberta) com a ausculta mediata de Laennec, ao longo do século XIX, consolidou o método IPPA torácico essencialmente como se ensina hoje — décadas antes de existir qualquer meio de confirmação por imagem (a radiografia de tórax só se torna clinicamente utilizável no início do século XX). Toda a semiologia pulmonar clássica nasceu, portanto, de correlação anatomoclínica pura: achado físico durante a vida, confirmado por necropsia após a morte.</div>
+</section>
+
+<section id="brasil">
+<h2>Contexto brasileiro</h2>
+<p>O ensino de semiologia respiratória no Brasil segue a mesma tradição nacional consolidada em torno da obra de Celmo Celeno Porto (<em>Semiologia Médica</em>), amplamente adotada nas faculdades de medicina brasileiras, ao lado da tradução de Bates (<em>Propedêutica Médica</em>). A Sociedade Brasileira de Pneumologia e Tisiologia (SBPT) publica a obra de referência nacional para prática pneumológica, complementando a base semiológica com diretrizes específicas de doenças respiratórias prevalentes no país.</p>
+<p>A relevância epidemiológica brasileira das síndromes aqui descritas é substancial: a asma e a DPOC estão entre as principais causas de procura por atendimento respiratório na atenção primária e de internação por causas respiratórias no SUS; a tuberculose — causa clássica de síndrome cavitária — mantém incidência relevante no país, com o Brasil figurando historicamente entre os países de alta carga da doença segundo a Organização Mundial da Saúde, o que torna a suspeita de lesão cavitária um gatilho obrigatório para investigação de tuberculose no contexto brasileiro, não apenas de abscesso pulmonar bacteriano. As bronquiectasias pós-infecciosas — incluindo, mais recentemente, sequelas pós-COVID-19 grave, como no caso ilustrativo desta seção — são reconhecidas como um problema emergente no seguimento pós-pandêmico de pacientes que necessitaram de ventilação mecânica prolongada.</p>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Em que ponto da formação médica o ultrassom pulmonar point-of-care deveria ser introduzido — antes, depois ou em paralelo ao ensino tradicional de percussão e ausculta? Não há consenso sobre se a exposição precoce ao POCUS acelera ou atrofia a curva de aprendizado do exame físico clássico.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Qual o valor incremental real de cada sinal isolado (razão de verossimilhança) em populações de prevalência muito diferente da estudada por Kalantri et al. (hospital rural indiano, prevalência de derrame de 21%)? A generalização de razões de verossimilhança entre contextos epidemiológicos distintos — inclusive para o contexto brasileiro — permanece pouco estudada para a maioria dos sinais torácicos clássicos.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Qual a reprodutibilidade interobservador real de achados mais subjetivos, como broncofonia, pectorilóquia áfona e egofonia, fora de estudos controlados? A concordância excelente relatada para percussão e FTV não necessariamente se estende a esses achados vocais mais sutis.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Como a obesidade, a musculatura torácica desenvolvida e outras variações da parede torácica alteram sistematicamente a acurácia dos sinais clássicos (FTV, percussão) — e existe um limiar de índice de massa corporal a partir do qual o exame físico torácico deveria ser considerado, de saída, pouco confiável?</p></div>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outras áreas</h2>
+<p>Este compêndio pressupõe o método <a class="cross-link" href="../../cardiologia-semiologia.html">IPPA geral já desenvolvido em Semiologia Cardíaca</a> (a mesma lógica de ausculta sistematizada, aplicada a outro órgão) e usa diretamente o mecanismo de <a class="cross-link" href="../fisiopatologia/doencas-circulatorias.html">congestão passiva/edema desenvolvido em Patologia das Doenças Circulatórias</a> para a síndrome de congestão pulmonar. Conecta-se com <a class="cross-link" href="../../infectologia-fundamentos.html">Fundamentos de Infectologia</a> (síndromes infecciosas, fases da infecção — relevantes para exacerbações de bronquiectasias e para a pneumonia como protótipo de condensação) e com <a class="cross-link" href="../imunologia/imunidade-inata.html">Imunidade Inata</a> (a resposta inflamatória que gera o exsudato alveolar da condensação e o edema de mucosa da asma). Fora da medicina clínica, dialoga com a física acústica (impedância de meios, ressonância) que fundamenta todo o raciocínio de Conceitos-chave, e com a epidemiologia clínica/medicina baseada em evidências (razões de verossimilhança de achados de exame físico, mesmo enquadramento já usado em Semiologia Cardíaca).</p>
+</section>
+
+<section id="controversias">
+<h2>Controvérsias ativas</h2>
+<div class="controversia">
+  <div class="cl">Controvérsia — exame físico clássico versus ultrassom pulmonar point-of-care (POCUS)</div>
+  <div class="pos"><b>Defesa do exame físico clássico como habilidade nuclear:</b> gratuito, instantâneo, não depende de equipamento nem de treinamento especializado em imagem; treina o raciocínio fisiopatológico (por que cada achado ocorre) de um jeito que a leitura de uma imagem pronta não exige. O próprio estudo de Kalantri et al. mostra que sinais bem executados (percussão, expansão torácica) têm valor diagnóstico real, especialmente para excluir derrame pleural.</div>
+  <div class="pos"><b>Defesa da incorporação precoce de POCUS:</b> o estudo de Kirkpatrick et al. mostra sensibilidade mais que o dobro da radiografia para pneumotórax oculto em trauma, com especificidade equivalente — e a portabilidade crescente dos aparelhos reduz drasticamente a barreira de custo/acesso que antes justificava depender exclusivamente do exame físico. Séries mais recentes de ultrassom pulmonar em COVID-19 reforçam a utilidade do método para triagem rápida à beira do leito em cenários de alto volume de pacientes.</div>
+</div>
+<div class="controversia">
+  <div class="cl">Controvérsia — sinais físicos "clássicos" descritos em populações antigas ainda valem hoje?</div>
+  <div class="pos"><b>Posição da continuidade:</b> os mecanismos físicos subjacentes (impedância acústica, ressonância, filtragem alveolar) não mudaram — a física continua a mesma independentemente da década ou da população estudada, então os achados clássicos permanecem válidos como previsões mecanísticas.</div>
+  <div class="pos"><b>Posição da recalibração necessária:</b> a acurácia diagnóstica medida empiricamente (sensibilidade, especificidade, razões de verossimilhança) depende da prevalência da doença na população estudada e de fatores como habilidade do examinador e características da parede torácica — números obtidos em populações específicas (como o estudo indiano de Kalantri et al.) não necessariamente se transferem sem ajuste para outros contextos clínicos e epidemiológicos, incluindo o brasileiro.</div>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora perguntava por que a ausência de murmúrio vesicular pode significar tanto um pulmão cheio de líquido quanto um pulmão cheio de ar — e por que a percussão, a manobra aparentemente mais rudimentar do exame físico torácico, é o que resolve essa ambiguidade. A resposta desenvolvida ao longo deste compêndio é que FTV e ausculta testam a <b>transmissão</b> de um sinal através do meio interposto entre a fonte e o examinador, e tanto o líquido quanto o ar bloqueiam essa transmissão — por mecanismos físicos opostos (reflexão de impedância no líquido, dissipação por baixa densidade no ar), mas com o mesmo resultado prático de bloqueio. A percussão, ao contrário, testa a <b>densidade/ressonância</b> do próprio meio — e líquido e ar têm densidades diametralmente opostas entre si. Um único conceito físico — impedância acústica versus densidade de ressonância — organiza toda a semiologia torácica desenvolvida neste material, das síndromes brônquicas às mediastínicas.</p>
+<p>Essa organização revela uma tensão real, quantificada pela evidência revisada: os sinais físicos clássicos são estatisticamente mais fortes para <b>excluir</b> uma síndrome do que para <b>confirmá-la</b> com certeza — o exame físico gera uma probabilidade pré-teste sólida, não um diagnóstico definitivo isolado. Isso não desvaloriza o método; pelo contrário, é exatamente o raciocínio bayesiano (cada achado como multiplicador de probabilidade, já desenvolvido em Semiologia Cardíaca) que transforma uma coleção de sinais em uma decisão clínica segura.</p>
+<p>Uma implicação que emerge, mas raramente é enunciada explicitamente no ensino tradicional: a comparação entre exame físico e POCUS não é uma disputa entre "método antigo" e "método novo", mas entre duas formas de testar a mesma física — o POCUS mede diretamente a impedância acústica e a reflexão de ondas de ultrassom no tecido, enquanto o IPPA infere essas mesmas propriedades indiretamente, através da mão e do ouvido humano. Entender o mecanismo físico comum aos dois métodos é o que permite usar cada um no seu contexto de maior valor — o exame físico como triagem universal, imediata e sem custo; o ultrassom como confirmação de alta sensibilidade quando disponível — em vez de tratá-los como escolas rivais.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+<div class="ref-layer">Ponto de entrada</div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>PORTO, Celmo Celeno; PORTO, Arnaldo Lemos.</b> <em>Semiologia Médica</em>. 9ª ed. Rio de Janeiro: Guanabara Koogan, 2022.</p><p class="ref-nota">Referência nacional de entrada para semiologia respiratória no Brasil — fonte primária do material de aula que originou este compêndio (capítulos de síndromes brônquicas, parenquimatosas, pleurais, diafragmáticas e mediastínicas), com forte ancoragem no contexto clínico brasileiro.</p></div>
+<div class="ref-entry"><span class="rt">Livro-texto (tradução)</span><p><b>BICKLEY, Lynn S.</b> <em>Bates — Propedêutica Médica Essencial: Avaliação Clínica, Anamnese, Exame Físico</em>. 8ª ed. Rio de Janeiro: Guanabara Koogan, 2018.</p><p class="ref-nota">Complementa Porto com detalhamento técnico das manobras de exame físico torácico e correlação com achados de outras diretrizes internacionais.</p></div>
+
+<div class="ref-layer">Aprofundamento</div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>Sociedade Brasileira de Pneumologia e Tisiologia (SBPT).</b> <em>Prática Pneumológica</em>. 2ª ed. Rio de Janeiro: Guanabara Koogan, 2017.</p><p class="ref-nota">Referência nacional de sociedade médica, situando as síndromes semiológicas dentro da prática pneumológica brasileira — inclui epidemiologia e conduta que extrapolam o escopo puramente semiológico deste compêndio.</p></div>
+<div class="ref-entry"><span class="rt">Artigo original</span><p><b>KALANTRI, Shriprakash; JOSHI, Rajnish; LOKHANDE, Trunal et al.</b> "Accuracy and reliability of physical signs in the diagnosis of pleural effusion." <em>Respiratory Medicine</em>, 2007.</p><p class="ref-nota">Estudo prospectivo com dados reais de sensibilidade, especificidade e concordância interobservador para os sinais físicos clássicos de derrame pleural — a base quantitativa do kbox de "Nível de evidência" na seção de síndromes pleurais. Segundo o PubMed, <a href="https://doi.org/10.1016/j.rmed.2006.07.014">DOI: 10.1016/j.rmed.2006.07.014</a> (PMID 16965906).</p></div>
+<div class="ref-entry"><span class="rt">Artigo original</span><p><b>KIRKPATRICK, Andrew W.; SIROIS, Marc; LAUPLAND, Kevin B. et al.</b> "Hand-held thoracic sonography for detecting post-traumatic pneumothoraces: the Extended Focused Assessment with Sonography for Trauma (EFAST)." <em>The Journal of Trauma</em>, 2004.</p><p class="ref-nota">Estudo fundador da aplicação de ultrassom portátil para pneumotórax em trauma, base quantitativa da controvérsia exame físico × POCUS desenvolvida neste compêndio. Segundo o PubMed, <a href="https://doi.org/10.1097/01.ta.0000133565.88871.e4">DOI: 10.1097/01.ta.0000133565.88871.e4</a> (PMID 15345974).</p></div>
+
+<div class="ref-layer">Consulta especializada</div>
+<div class="ref-entry"><span class="rt">Texto-fonte histórico</span><p><b>AUENBRUGGER, Leopold.</b> <em>Inventum Novum ex Percussione Thoracis Humani</em>. Viena, 1761.</p><p class="ref-nota">Obra fundadora da percussão torácica como técnica semiológica sistemática — leitura de interesse histórico-epistemológico para entender a origem empírica (barris de vinho) de uma das quatro manobras centrais deste compêndio.</p></div>
+<div class="ref-entry"><span class="rt">Livro-texto de referência</span><p><b>McGEE, Steven.</b> <em>Evidence-Based Physical Diagnosis</em>. 4ª ed. Philadelphia: Elsevier, 2018.</p><p class="ref-nota">Sistematiza razões de verossimilhança para achados de exame físico pulmonar a partir de revisões sistemáticas — para quem quer ir além da descrição qualitativa e trabalhar com acurácia diagnóstica quantificada em maior profundidade que o escopo deste compêndio.</p></div>
+
+<div class="ref-layer">Fontes das imagens</div>
+<div class="ref-entry"><span class="rt">Imagem — Fig. 1</span><p><b>CEREVISAE.</b> "Chest X-ray of hyperinflated lung with bronchiectasis at the right upper lobe." Wikimedia Commons, 2022.</p><p class="ref-nota">Domínio público (imagem técnica de procedimento diagnóstico padrão, sem elemento criativo autoral). <a href="https://commons.wikimedia.org/wiki/File:Chest_X-ray_of_hyperinflated_lung_with_bronchiectasis_at_the_right_upper_lobe.jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
+<div class="ref-entry"><span class="rt">Imagem — Fig. 2</span><p><b>IPFEDITOR.</b> "Clubbing of fingers in IPF." Wikimedia Commons, 2013.</p><p class="ref-nota">Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Genérica (CC BY-SA 3.0). <a href="https://commons.wikimedia.org/wiki/File:Clubbing_of_fingers_in_IPF.jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
+<div class="ref-entry"><span class="rt">Imagem — Fig. 3</span><p><b>ROSEN, Yale.</b> "Pleural effusion - Left lung." Wikimedia Commons (via Flickr), 2012.</p><p class="ref-nota">Licença Creative Commons Atribuição-CompartilhaIgual 2.0 Genérica (CC BY-SA 2.0), revisada por bot administrador do Commons. <a href="https://commons.wikimedia.org/wiki/File:Pleural_effusion_-_Left_lung_(7471755836).jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
+<div class="ref-entry"><span class="rt">Imagem — Fig. 4</span><p><b>EASVUR, Karthik.</b> "X-ray of pneumothorax signs." Wikimedia Commons, 2016.</p><p class="ref-nota">Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Genérica (CC BY-SA 3.0). <a href="https://commons.wikimedia.org/wiki/File:X-ray_of_pneumothorax_signs.jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
+</section>
+
+</div>
+</div>
+</main>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+
+<script>
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function toggleSidebar(){
+  sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed');
+  sessionStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+}
+toggleBtn.addEventListener('click', toggleSidebar);
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+if(sessionStorage.getItem('sidebar-collapsed') === 'true'){
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+}
+
+var progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}, {passive:true});
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  if(current){
+    var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+    if(a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {rootMargin:'-10% 0px -55% 0px'});
+sections.forEach(function(s){ io.observe(s); });
+
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbCap = document.getElementById('lightbox-caption');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = img.getAttribute('data-caption') || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+document.querySelectorAll('.plate-block img').forEach(function(img){
+  img.addEventListener('click', function(){ openLightbox(this); });
+});
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

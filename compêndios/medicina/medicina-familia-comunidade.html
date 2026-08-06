@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medicina de Família e Comunidade — Compêndio de Medicina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78;transition:background .25s,color .25s}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 8px 6px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 24px}
+.s-logo{padding:0 16px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:6px}
+a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
+h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
+h4{font-size:.9rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+p{margin-bottom:1.1em}
+ul,ol{padding-left:1.4em;margin-bottom:1.1em}
+li{margin-bottom:.35em}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+.doc-header{margin-bottom:32px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.subarea-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.sa-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.sa-card .sat{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--ac);margin-bottom:6px}
+.sa-card p{font-size:13.5px;color:var(--muted);margin:0}
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .cl{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0;padding-left:12px;border-left:2px solid var(--border)}
+.controversia .pos b{color:var(--text)}
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:4px;white-space:nowrap;vertical-align:middle}
+.ref-entry{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);font-size:14px}
+.ref-entry:last-child{border-bottom:none}
+.ref-entry .rt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ref-nota{font-style:italic;color:var(--muted);font-size:13px;margin-top:4px}
+.ref-layer{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .2s}
+#back-btn:hover{background:var(--bg3)}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid,.subarea-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar{display:none}
+  #content{padding:20px}
+  a[href]::after{content:" (" attr(href) ")";font-size:11px;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Medicina de Família e Comunidade</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Recolher barra lateral">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Compêndio · Medicina Clínica</div>
+    <div class="s-group">
+      <div class="sgt">Neste compêndio</div>
+      <a class="sl" href="#intro">Introdução</a>
+      <a class="sl" href="#flexner">Flexner e a formação médica</a>
+      <a class="sl" href="#determinantes">Determinantes sociais da saúde</a>
+      <a class="sl" href="#dcn2025">Diretrizes Curriculares 2025</a>
+      <a class="sl" href="#definicao">O que é MFC (WONCA)</a>
+      <a class="sl" href="#brasil-historico">MFC no Brasil — histórico</a>
+      <a class="sl" href="#atuacao">Atuação do médico de família</a>
+      <a class="sl" href="#demografia">Demografia médica 2025</a>
+      <a class="sl" href="#internacional">MFC no mundo</a>
+      <a class="sl" href="#consulta">A consulta em MFC</a>
+      <a class="sl" href="#pessoa-doenca">Centrado na pessoa, não na doença</a>
+      <a class="sl" href="#rcop">Registro Clínico Orientado por Problemas</a>
+      <a class="sl" href="#questoes">Perguntas em aberto</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#controversias">Controvérsias</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Compêndios relacionados</div>
+      <a class="sl" href="medicina.html">Mapa panorâmico de Medicina</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Medicina de Família e Comunidade</h1>
+  <p class="doc-meta">Compêndio de Área · Medicina Clínica · Atenção Primária à Saúde · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~40 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum específico do acervo</b></span>
+    <span class="chip">📍 Área: <b>Medicina de Família e Comunidade (MFC)</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-05</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um paciente hipertenso descompensado chega à Unidade Básica de Saúde queixando-se de uma dor no pé. Ele não veio para tratar a hipertensão — veio para tratar a dor no pé, mesmo sabendo que ela é, objetivamente, o problema menos grave dos dois. O que diferencia, em método e não apenas em boa vontade, a resposta do médico de família e comunidade daquela do especialista de órgão diante da mesma cena — e por que essa diferença deixou de ser uma escolha de estilo pessoal para se tornar, em 2025, uma exigência curricular obrigatória para todo médico formado no Brasil?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <span class="dep-item">Nenhum compêndio específico do acervo ainda — primeiro material de MFC/Atenção Primária.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-item">Propedêutica geral e semiologia geral (anamnese, exame físico) — não cobertas neste compêndio, pressupostas.</span>
+      <a class="dep-item" href="medicina.html">Medicina — mapa panorâmico da disciplina (contextualiza, não é pré-requisito estrito)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-item">Atenção Primária à Saúde / SUS (compêndio futuro — ver DEBT.md)</span>
+      <span class="dep-item">Semiologia geral e método clínico (compêndio futuro)</span>
+    </div>
+  </div>
+</div>
+
+<section id="intro">
+<h2>O que este compêndio cobre</h2>
+<p>Medicina de Família e Comunidade (MFC) é a especialidade médica responsável pela porta de entrada e pela continuidade do cuidado em saúde — o ponto do sistema em que uma pessoa inteira, não um órgão ou uma doença isolada, é o objeto do trabalho clínico. Este compêndio cobre quatro camadas que se sustentam mutuamente: primeiro, por que a formação médica moderna se organizou historicamente em torno da doença e do hospital, e não da pessoa e da comunidade — o Relatório Flexner (1910) como ponto de virada; segundo, o que define MFC como especialidade clínica própria, com a definição de referência da <span class="term">World Organization of Family Doctors</span> (Wonca, 2010) e seu histórico no Brasil; terceiro, o estado atual da força de trabalho em MFC no país, à luz da Demografia Médica 2025 e das novas Diretrizes Curriculares Nacionais (DCN) do curso de Medicina, que passaram a exigir, a partir de 2025, pelo menos 30% do internato em MFC e Urgência/Emergência; e quarto, a metodologia prática da consulta em MFC — a abordagem centrada na pessoa e o Registro Clínico Orientado por Problemas (RCOP), com as notas de evolução no formato SOAP.</p>
+<p>A tese que atravessa as quatro camadas é a mesma: MFC não é "clínica geral menos especializada" nem um estágio provisório antes de uma especialidade "de verdade" — é uma especialidade com objeto, método e corpo de conhecimento próprios, cuja unidade de análise é a pessoa em seu contexto familiar e comunitário ao longo do tempo, não o episódio isolado de doença.</p>
+</section>
+
+<section id="flexner">
+<h2>Flexner e a formação médica centrada na doença</h2>
+<p>Para entender por que "cuidar da pessoa, não da doença" precisou ser reafirmado como princípio formal em 2025, é preciso entender a reforma que, um século antes, fez o oposto — e por boas razões técnicas, com efeitos colaterais duradouros.</p>
+<h3>O médico de família de antigamente e o médico de hoje</h3>
+<p>Antes da profissionalização científica da medicina, o médico de família era descrito como o orientador terapêutico seguro, o confidente, o conselheiro da unidade familiar — uma figura de vínculo contínuo, não de episódio isolado. A medicina do século XX, ao valorizar a variedade crescente de meios diagnósticos, deslocou essa relação: após uma entrevista breve, o paciente passa por uma série de manipulações e exames cuja lógica não é mais o indivíduo doente, mas a doença de que ele é portador. Essa inversão — da pessoa para a entidade nosológica — é o pano de fundo histórico que a reforma Flexner viria a consolidar estruturalmente.</p>
+<h3>O caos das escolas médicas norte-americanas</h3>
+<p>No início do século XX, a formação médica nos Estados Unidos era radicalmente desregulada: sem exigência de concessão estatal para o exercício da medicina, escolas podiam abrir indiscriminadamente, vinculadas ou não a universidades, com ou sem laboratórios, com critérios de admissão e duração de curso inteiramente heterogêneos, e sem qualquer exigência de fundamentação teórico-científica comum. Em 1908, Henry Pritchett, presidente da Carnegie Foundation, encarregou o educador <b>Abraham Flexner</b> de avaliar a qualidade das escolas médicas do país, a partir de cinco critérios: requisitos de admissão e treinamento do corpo docente; orçamento e taxas de suporte institucional; qualidade de laboratórios e bibliotecas; qualificação dos professores dos anos pré-clínicos; e a relação entre a escola médica e os hospitais.</p>
+<div class="hist"><span class="hl">1910 — o Relatório Flexner</span>Em 180 dias, Flexner avaliou 155 escolas de medicina nos Estados Unidos e no Canadá. O resultado, <em>Medical Education in the United States and Canada — A Report to the Carnegie Foundation for the Advancement of Teaching</em>, tornou-se a reforma mais influente da história da educação médica norte-americana. Flexner concluiu que apenas 31 das 155 escolas avaliadas tinham condições reais de continuar funcionando: a maioria não tinha laboratórios, os professores não tinham preparo prévio nem controle sobre os hospitais universitários, o currículo não era padronizado e o ensino, em muitos casos, era abertamente comercializado.</div>
+<h3>Modelo francês versus modelo alemão</h3>
+<p>Flexner tinha, à sua disposição, dois modelos concorrentes de formação médica então em disputa na Europa. O <b>modelo francês</b>, irradiado de Paris a partir de 1830, era anátomo-clínico: os estudantes aprendiam ao lado do leito do paciente e nos anfiteatros anatômicos do próprio hospital, treinando técnicas diagnósticas e terapêuticas e conduzindo pesquisa clínica dentro da faculdade de Medicina — um modelo situado, relacional, centrado no encontro clínico. O <b>modelo alemão</b>, que Flexner efetivamente recomendou, era centrado no laboratório, na hierarquia acadêmica, na especialização disciplinar e na pesquisa experimental — um modelo que produz conhecimento generalizável com grande rigor, mas que desloca o centro de gravidade da formação médica do encontro com a pessoa para o experimento sobre o mecanismo biológico.</p>
+<h3>As recomendações e suas consequências</h3>
+<p>O Relatório Flexner recomendou controle rigoroso de admissão, currículo de quatro anos dividido em um ciclo básico de dois anos no laboratório (anatomia, fisiologia, patologia) seguido de um ciclo clínico de mais dois anos fundamentalmente hospitalar — "pois ali se encontra o local privilegiado para estudar as doenças". Essa recomendação transformou o hospital na principal instituição de transmissão do conhecimento médico ao longo de todo o século XX, e Flexner, na síntese de sua própria proposta, foi direto: "o estudo da medicina deve ser centrado na doença de forma individual e concreta". Ao adotar esse modelo de saúde-doença unicausal e biologicista — o que a literatura posterior chamaria de <b>modelo biomédico</b> —, a proposta de Flexner reservou pouquíssimo espaço para as dimensões social, psicológica e econômica da saúde, e para o espectro mais amplo de saúde que vai além da medicina e de seus médicos.</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — o custo estrutural da reforma</div>
+  <p>Nos doze anos seguintes ao Relatório, o número de escolas de medicina nos EUA caiu de 131 para 81; as escolas homeopáticas caíram de 20 para 4 (as remanescentes convertidas em escolas biomédicas); cinco das sete escolas voltadas a estudantes negros e as três escolas voltadas a mulheres foram fechadas. Flexner via a educação médica como destinada ao aproveitamento dos "mais capazes, inteligentes, aplicados e dignos" — um ideal meritocrático que, na prática de uma sociedade já profundamente desigual em acesso educacional, funcionou como filtro de exclusão social, não apenas de qualidade técnica. Por volta de 1970, 80% dos médicos nos EUA já eram especialistas — a trajetória inversa da figura generalista descrita no início desta seção.</p>
+</div>
+<p>O escritor russo Fiódor Dostoiévski, décadas antes de Flexner, já registrara em <em>Os Irmãos Karamazov</em> a caricatura que a especialização levada ao extremo poderia produzir: "Fui a todos os médicos: fazem excelentes diagnósticos, explicam toda a doença na ponta dos dedos, mas curar que é bom, ninguém sabe [...] Estás com dor no nariz, te mandam a Paris [...] só posso curar a narina direita, porque não curo narinas esquerdas, não é minha especialidade, mas vá a Viena, lá um especialista específico curará sua narina esquerda". A ironia literária antecipa, com um século de vantagem, a própria tensão que a MFC — como especialidade dedicada a nunca fragmentar a pessoa em partes — viria a nomear formalmente.</p>
+</section>
+
+<section id="determinantes">
+<h2>Determinantes sociais da saúde</h2>
+<p>O modelo biomédico consolidado por Flexner explica doença como processo biológico individual, mas não explica por que a distribuição de doença na população segue tão consistentemente eixos de renda, educação, habitação e ocupação. O <b>modelo de determinação social da saúde</b>, proposto por <b>Göran Dahlgren</b> e <b>Margaret Whitehead</b> (1991), organiza essa distância em camadas concêntricas: no centro, características individuais não modificáveis (idade, sexo, fatores hereditários); em seguida, estilo de vida dos indivíduos; depois, redes sociais e comunitárias; depois, condições de vida e de trabalho (ambiente de trabalho, desemprego, água e esgoto, serviços sociais de saúde, habitação, educação, produção agrícola e de alimentos); e, na camada mais externa, condições socioeconômicas, culturais e ambientais gerais.</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — por que este modelo importa para MFC</div>
+  <p>O modelo de Dahlgren e Whitehead não é uma curiosidade de saúde coletiva periférica à clínica — é a justificativa teórica direta de por que a MFC lida com problemas de saúde em suas dimensões física, psicológica, social, cultural e existencial (definição da Wonca, ver seção seguinte), e não apenas biológica. Um médico de família que registra "desemprego" ou "ninho vazio" como problema ativo na lista de problemas de um paciente (ver Registro Clínico Orientado por Problemas) está aplicando este modelo na prática, não fazendo assistencialismo à margem da medicina.</p>
+</div>
+</section>
+
+<section id="dcn2025">
+<h2>Diretrizes Curriculares Nacionais do Curso de Medicina — 2025</h2>
+<p>Em 30 de setembro de 2025, o Conselho Nacional de Educação (CNE/CES) homologou a <b>Resolução CNE/CES nº 3/2025</b>, que instituiu novas Diretrizes Curriculares Nacionais (DCN) para o Curso de Graduação em Medicina no Brasil <span class="evid">Diretriz</span> — a reforma curricular mais relevante da formação médica brasileira desde as DCN anteriores, com implicações diretas para o lugar institucional da MFC.</p>
+<p>O <b>Art. 2º</b> estabelece que o médico deve ser um profissional com formação geral, sólida, crítica, reflexiva e comprometida com os princípios éticos, humanísticos, científicos e sociais da Medicina. O <b>Art. 4º</b> vai além do princípio geral: determina que o exercício profissional do médico seja orientado pelo <b>cuidado centrado na pessoa, na família e na comunidade</b>, com compreensão ampliada dos determinantes sociais da saúde, respeito à diversidade humana, valorização da dignidade e compromisso ativo com a equidade, a justiça social e o fortalecimento do SUS — uma formulação que devolve ao texto normativo, de forma explícita, exatamente a linguagem da MFC. O <b>Art. 6º</b> organiza as competências do egresso em três eixos — Atenção à Saúde, Gestão em Saúde e Educação em Saúde —, e o <b>Art. 9º</b> exige compreensão crítica dos determinantes sociais da saúde e dos princípios constitucionais do SUS (universalidade, equidade, integralidade) como orientadores da conduta profissional em qualquer ambiente de atuação.</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — o parágrafo único do internato</div>
+  <p>Duas exigências operacionais transformam esses princípios em obrigação curricular concreta. Primeiro, deve haver, obrigatoriamente, uma avaliação somativa abrangente imediatamente anterior ao início do internato, assegurando que o estudante tenha as competências mínimas para atuação supervisionada em ambiente clínico real. Segundo — e mais diretamente relevante para este compêndio — <b>pelo menos 30% da carga horária total do internato deve ser cumprida em ambientes de Medicina de Família e Comunidade e de Urgência/Emergência do SUS</b>, com distribuição proporcional entre as duas áreas, assegurando vivência prática tanto na atenção primária quanto em unidades de pronto atendimento e emergência hospitalar.</p>
+</div>
+<p>O efeito prático é que a MFC deixa de ser um rodízio optativo ou residual do internato médico brasileiro e passa a ocupar, por força normativa, uma fração obrigatória e substancial da formação prática de todo médico formado no país a partir da vigência da resolução — uma reversão parcial, um século depois, da centralidade hospitalar que o próprio Relatório Flexner havia consolidado.</p>
+</section>
+
+<section id="definicao">
+<h2>O que é MFC — a definição da Wonca</h2>
+<p>A <b>World Organization of Family Doctors</b> (Wonca), em documento de referência de 2010, define Medicina de Família e Comunidade como a especialidade clínica que se ocupa da manutenção da saúde e da resolução dos problemas frequentes de saúde de indivíduos, famílias ou comunidades, <b>independentemente da idade, do sexo, do órgão ou sistema afetado</b>. Essa cláusula de independência de órgão/sistema é o que distingue estruturalmente a MFC de qualquer outra especialidade clínica: cardiologia se define pelo órgão coração; MFC se define pela pessoa e pelo vínculo, não por um recorte anatômico ou fisiopatológico.</p>
+<p>A definição da Wonca acrescenta três atributos que funcionam, na prática, como critérios operacionais da especialidade. Primeiro, uma <b>abordagem centrada na pessoa</b>, orientada para o indivíduo, sua família e sua comunidade — não para a doença isoladamente. Segundo, responsabilidade pela <b>continuidade longitudinal</b> do cuidado, conforme a necessidade do paciente ao longo do tempo, não apenas durante um episódio agudo. Terceiro, capacidade de lidar com problemas de saúde em suas <b>dimensões física, psicológica, social, cultural e existencial</b> — a mesma amplitude que o modelo de Dahlgren e Whitehead justifica teoricamente (ver seção anterior).</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — "a pessoa define o problema"</div>
+  <p>Duas formulações, recorrentes na literatura de MFC, condensam a diferença de método em relação à clínica de órgão: <em>"O médico de família é o especialista que nunca pode dizer a um paciente: me desculpe, mas o seu problema não é da minha área"</em>; e <em>"a pessoa define o problema"</em> — não o médico, a partir de sua grade de especialidade. O compromisso do médico de família é com a pessoa, não com um sistema orgânico; esse compromisso tende a ser contínuo, perdurando por longos períodos ou mesmo por toda a vida do paciente, e exige saber equilibrar as necessidades individuais de cada pessoa com as demandas coletivas da comunidade que o mesmo profissional também atende.</p>
+</div>
+</section>
+
+<section id="brasil-historico">
+<h2>MFC no Brasil — histórico</h2>
+<p>A trajetória institucional da MFC no Brasil precede, em várias décadas, o nome atual da especialidade. Em <b>1981</b>, a Comissão Nacional de Residência Médica (CNRM) oficializou a <b>Medicina Geral e Comunitária (MGC)</b> como especialidade médica no país, e em novembro do mesmo ano foi criada a Sociedade Brasileira de Medicina Geral e Comunitária (SBMGC). Em <b>1986</b>, o Conselho Federal de Medicina (CFM) reconheceu formalmente essa especialidade. A mudança de denominação para <b>Medicina de Família e Comunidade (MFC)</b>, nome que a especialidade mantém até hoje, ocorreu em <b>2001</b> — alinhando a nomenclatura brasileira à tradição internacional de "family medicine"/"family doctor" já consolidada pela Wonca.</p>
+<div class="hist"><span class="hl">1994 — Programa Saúde da Família (PSF)</span>A implantação do PSF buscou reorganizar a atenção em saúde como alternativa ao modelo assistencial tradicional, construindo um modelo de assistência baseado na promoção e proteção da saúde, no diagnóstico precoce e na recuperação de agravos, segundo as diretrizes e princípios do SUS. O PSF — hoje incorporado à Estratégia Saúde da Família (ESF) — tornou-se o principal vetor de expansão prática da MFC no território brasileiro, ao criar a demanda estrutural por médicos formados para atuar como responsáveis longitudinais por uma população adscrita, não apenas por um serviço de demanda espontânea.</div>
+<p>A sequência histórica — MGC como especialidade reconhecida (1981/1986) antecedendo em mais de uma década a criação da política pública que geraria a demanda de massa por esses profissionais (PSF, 1994) — é um dado relevante por si: o Brasil formalizou o corpo de conhecimento da especialidade antes de ter, no SUS, a estrutura de emprego que hoje absorve a maior parte de seus egressos.</p>
+</section>
+
+<section id="atuacao">
+<h2>Atuação do médico de família e comunidade</h2>
+<p>O médico de família e comunidade atua em quatro frentes que frequentemente se combinam na trajetória de um mesmo profissional, não apenas em uma delas isoladamente.</p>
+<div class="subarea-grid">
+<div class="sa-card"><div class="sat">Serviço público</div><p>Atenção Primária à Saúde do SUS — Unidades Básicas de Saúde, Estratégia Saúde da Família, responsável por população adscrita em território definido.</p></div>
+<div class="sa-card"><div class="sat">Serviço privado</div><p>Consultórios, clínicas e planos de saúde com modelo de médico de família — coordenação do cuidado e porta de entrada também fora do SUS.</p></div>
+<div class="sa-card"><div class="sat">Educador</div><p>Docência em graduação e em Programas de Residência Médica em MFC, formação de novos generalistas — função amplificada pela exigência de 30% de internato em MFC (DCN 2025).</p></div>
+<div class="sa-card"><div class="sat">Gestor</div><p>Coordenação de equipes de saúde da família, gestão de unidades básicas e de redes de atenção primária, planejamento em saúde municipal.</p></div>
+</div>
+</section>
+
+<section id="demografia">
+<h2>Demografia médica 2025 e o cenário atual da MFC</h2>
+<p>O relatório <b>Demografia Médica no Brasil 2025</b>, coordenado por Mário Scheffer (Faculdade de Medicina da USP), em parceria com o Ministério da Saúde e a Associação Médica Brasileira <span class="evid">Relatório epidemiológico</span>, situa a MFC dentro de um panorama mais amplo de expansão acelerada — e desigual — da formação médica brasileira.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Panorama da formação médica no Brasil em 2025">
+<thead><tr><th>Indicador</th><th>Valor (2025)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Escolas de Medicina no Brasil</td><td>448</td></tr>
+<tr><td class="td-label">Vagas de graduação</td><td>48.491</td></tr>
+<tr><td class="td-label">Vagas em IES privadas</td><td>79,3% (38.450 vagas)</td></tr>
+<tr><td class="td-label">Vagas em IES públicas</td><td>20,7% (10.041 vagas)</td></tr>
+<tr><td class="td-label">Concorrência por vaga — cursos públicos (2023)</td><td>68,50 candidatos/vaga</td></tr>
+<tr><td class="td-label">Concorrência por vaga — cursos privados (2023)</td><td>7,17 candidatos/vaga</td></tr>
+<tr><td class="td-label">Concorrência geral, 2014 → 2023</td><td>46,51 → 18,81 candidatos/vaga</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 1 — Panorama da formação médica no Brasil, 2025. Fonte: Demografia Médica no Brasil 2025 (Scheffer, coord.).</p>
+</div>
+<p>A queda acentuada da concorrência geral por vaga entre 2014 e 2023 — de quase 47 para menos de 19 candidatos por vaga — reflete majoritariamente a explosão do número de vagas privadas, cuja concentração geográfica também mudou: a proporção de vagas em capitais caiu nos últimos dez anos, com maior interiorização (34,8% em capitais; os demais 65,2% distribuídos entre interior de diferentes portes populacionais). Esse movimento de interiorização é, em tese, favorável à MFC — especialidade cujo modelo assistencial depende de vínculo territorial —, mas o relatório também aponta 95 escolas previstas em edital do programa Mais Médicos de 2023 e 177 pedidos judiciais de abertura de curso ainda tramitando no MEC em 2024, um sinal de expansão que pode continuar descolada de mecanismos de garantia de qualidade.</p>
+<h3>MFC no ranking das especialidades</h3>
+<p>Em 2024, a Medicina de Família e Comunidade contava com <b>15.542 especialistas</b> registrados no Brasil, ocupando a 10ª posição entre as especialidades médicas por número de especialistas (3,3% do total, atrás de Clínica Médica, Pediatria, Cirurgia Geral, Ginecologia e Obstetrícia, Anestesiologia, Cardiologia, Ortopedia e Traumatologia, Medicina do Trabalho e Oftalmologia). O crescimento absoluto, no entanto, é o dado mais notável: a especialidade saltou de <b>2.392</b> para 15.542 especialistas — um aumento de <b>549,7%</b>, ou 13.150 novos médicos, em treze anos, resultado direto de políticas de expansão de programas e bolsas de residência médica em uma especialidade tratada como estratégica para o SUS.</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — crescimento não é sinônimo de suficiência</div>
+  <p>Apesar do salto de quase 550%, o relatório de 2025 é explícito: o aumento foi insuficiente para suprir a rede de atenção primária do SUS, e parte das vagas credenciadas de residência médica em MFC permaneceu desocupada por baixa procura — um paradoxo que combina escassez relativa (poucos especialistas para a demanda do sistema) com um problema de atratividade da carreira (vagas ofertadas que não são preenchidas), não apenas insuficiência de formação.</p>
+</div>
+</section>
+
+<section id="internacional">
+<h2>MFC no mundo — comparação internacional</h2>
+<p>A relação entre força de trabalho em MFC e desempenho do sistema de saúde não é uma hipótese isolada da literatura brasileira: países com os melhores indicadores de saúde tendem a ter uma Atenção Primária à Saúde (APS) muito forte, contando com pelo menos <b>50% de seus médicos com formação em MFC</b> — o caso, por exemplo, de Canadá, Portugal, Inglaterra e Espanha. O contraste com a proporção brasileira (MFC como 3,3% do total de especialistas registrados, ver seção anterior) situa a distância entre o patamar internacional de referência e o estágio atual de desenvolvimento da especialidade no país, mesmo após o crescimento recente.</p>
+</section>
+
+<section id="consulta">
+<h2>A consulta em MFC</h2>
+<p>A qualidade de uma consulta clínica em MFC pode ser analisada em três dimensões complementares, adaptadas do referencial clássico de avaliação de qualidade em saúde de Avedis Donabedian (estrutura–processo–resultado) para o contexto específico do encontro clínico.</p>
+<h3>Estrutura</h3>
+<p>A estrutura de uma consulta diz respeito aos elementos arquitetônicos e de mobiliário da unidade; à disposição de cadeiras, mesas e dispositivos como o computador dentro do consultório; aos papéis, formulários de casos novos e evolução clínica, e ao prontuário eletrônico, quando houver; à organização da sala de espera e do acolhimento; ao modo de chamar os pacientes; e às regras de agendamento, marcação de consultas e renovação de receituários.</p>
+<h3>Processo</h3>
+<p>Os processos envolvidos numa consulta dizem respeito à comunicação profissional–pessoa; às estratégias de condução da consulta (estruturada versus desorganizada, linear e não linear, grau de diretividade do profissional); ao método clínico adotado; aos processos de envolvimento e vínculo; à participação e negociação com a pessoa cuidada; e aos modelos de registro clínico utilizados — tema desenvolvido em profundidade na seção sobre RCOP.</p>
+<h3>Resultados</h3>
+<p>Os indicadores de resultado se dividem por perspectiva. Do ponto de vista <b>da pessoa cuidada</b>: satisfação quanto à atenção prestada, compreensão das explicações e do plano acordado, tranquilização e alívio do sofrimento, melhoria da condição de saúde e da qualidade de vida, adaptação ou superação de incapacidades. Do ponto de vista <b>do profissional</b>: adesão ao tratamento e ao plano proposto, controle de variáveis e fatores de risco, diminuição do número de episódios de condições agudas, redução de exacerbações ou descompensações de condições crônicas, ausência de desfechos clínicos indesejados e tempo vivido sem incapacidades.</p>
+<p>A distinção entre as duas perspectivas de resultado não é redundante: uma consulta pode produzir excelente controle biomédico de uma variável (por exemplo, pressão arterial normalizada) sem que a pessoa se sinta ouvida ou satisfeita — e o inverso também é possível. A MFC, por definição centrada na pessoa, trata as duas perspectivas como igualmente relevantes para julgar a qualidade do cuidado, não apenas a do profissional.</p>
+</section>
+
+<section id="pessoa-doenca">
+<h2>Centrado na pessoa, não na doença — um caso ilustrativo</h2>
+<p>A tese central da MFC ganha nitidez prática num exemplo simples. Um paciente chega à UBS com queixa de dor no pé que o impede de trabalhar. Por ser hipertenso, sua pressão arterial é aferida por rotina e está muito descontrolada. Do ponto de vista biomédico, a PA alterada chama mais atenção pelos riscos potenciais de longo prazo — acidente vascular cerebral, infarto, doença renal crônica — do que a dor no pé, um problema localizado e aparentemente menor. Mas a real preocupação do paciente, o motivo pelo qual ele efetivamente buscou o serviço naquele dia, é a dor no pé.</p>
+<p>Atender esse paciente exige cuidar dos dois problemas — a hipertensão não pode ser ignorada —, mas com uma ênfase inicial deliberada na dor no pé, por mais que a hipertensão pareça objetivamente mais grave em termos de risco de eventos futuros. O ganho não é apenas de "simpatia": ao perceber que foi ouvido no que efetivamente o levou à consulta, o vínculo aumenta, e as chances de que o paciente esteja disposto a ouvir e aderir à conversa subsequente sobre a hipertensão sobem proporcionalmente. Ignorar a queixa que motivou a consulta em favor do problema que o médico julga mais importante — inversão comum quando o raciocínio clínico é treinado exclusivamente no modelo biomédico de Flexner — tende a produzir o efeito oposto: menor confiança, menor adesão, e uma pessoa que evita retornar ao serviço.</p>
+</section>
+
+<section id="rcop">
+<h2>Registro Clínico Orientado por Problemas (RCOP)</h2>
+<p>O registro da história clínica e de vida de cada pessoa e/ou família — em prontuário impresso ou eletrônico — é memória valiosa para o profissional de saúde, instrumento de apoio à decisão clínica e à qualidade do cuidado prestado, e ferramenta de continuidade e longitudinalidade do cuidado: ele ajuda na comunicação e na tomada de decisão em equipe, além de eventualmente fornecer dados para investigação científica ou prova em diligências legais. Entre os modelos de registro, o <b>Registro Clínico Orientado por Problemas</b> (RCOP) — derivado do <em>Problem-Oriented Medical Record</em> (POMR), criado pelo médico norte-americano <b>Lawrence Weed</b> em 1968 como reação à desorganização dos registros clínicos tradicionais, cronológicos e não estruturados — tem se mostrado particularmente adequado à Atenção Primária, exatamente pela sua capacidade de acomodar múltiplos problemas concomitantes de uma mesma pessoa ao longo de anos de acompanhamento.</p>
+<p>Segundo a formulação de Rakel, "problema clínico é qualquer problema fisiológico, psicológico ou social que seja de interesse do profissional e/ou da pessoa que está sendo cuidada" — uma definição deliberadamente ampla, que autoriza registrar tanto um diagnóstico formal (asma, diabetes) quanto um fator de risco (tabagismo, sedentarismo), uma alteração de dinâmica familiar ("ninho vazio", desemprego, violência) ou um transtorno psicológico (ansiedade, crise de pânico) na mesma lista de problemas — coerente com a definição multidimensional de MFC da Wonca (ver seção anterior).</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Categorias de problema clínico no RCOP e exemplos">
+<thead><tr><th>Categoria</th><th>Exemplo</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Diagnóstico/enfermidade</td><td>asma, diabetes</td></tr>
+<tr><td class="td-label">Deficiência, incapacidade</td><td>paralisia cerebral, hemiparesia braquial direita</td></tr>
+<tr><td class="td-label">Sintoma</td><td>dor torácica, náusea</td></tr>
+<tr><td class="td-label">Sinal</td><td>medida da pressão arterial elevada</td></tr>
+<tr><td class="td-label">Exame complementar anormal</td><td>glicemia de jejum alterada</td></tr>
+<tr><td class="td-label">Alergia, efeito adverso de fármaco</td><td>alergia à penicilina, tosse por inibidor da ECA</td></tr>
+<tr><td class="td-label">Intervenção cirúrgica</td><td>apendicectomia</td></tr>
+<tr><td class="td-label">Síndrome</td><td>síndrome de Menière, síndrome do túnel do carpo</td></tr>
+<tr><td class="td-label">Efeitos de traumatismos</td><td>hematoma, fratura</td></tr>
+<tr><td class="td-label">Fator de risco</td><td>risco ocupacional, polipose familiar, sedentarismo, tabagismo</td></tr>
+<tr><td class="td-label">Transtorno psicológico/psiquiátrico</td><td>ansiedade, depressão, crise de pânico</td></tr>
+<tr><td class="td-label">Alteração de dinâmica familiar, social ou laboral</td><td>"ninho vazio", recém-nascido, desemprego, violência</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 2 — Categorias de "problema clínico" no RCOP e exemplos (adaptado de Cantale, 2003).</p>
+</div>
+<h3>As quatro áreas do RCOP</h3>
+<p>O RCOP organiza o prontuário em quatro áreas fundamentais. A <b>base de dados da pessoa</b> reúne informações obtidas na história clínica e de vida, no exame físico e nos resultados de exames complementares, registradas geralmente na primeira consulta ou "caso novo" — antecedentes pessoais e familiares, o problema de saúde atual e as informações de saúde prévias. A <b>lista de problemas</b>, a "folha de rosto" do prontuário orientado por problemas, vem logo após a identificação da pessoa: um resumo dos problemas de saúde enumerados por ordem de aparecimento ao longo do tempo, com data de início e data da primeira anotação ao lado de cada um, separando problemas crônicos/fatores de risco de problemas agudos e recorrências.</p>
+<p>As <b>fichas de acompanhamento</b> são formulários onde se registra a evolução de resultados de exames físicos e complementares, dados de crescimento e desenvolvimento, hábitos de vida, exames preventivos e medicações prescritas — geralmente posicionadas no início ou no fim do prontuário, para permitir visualização rápida da evolução sem revisar o prontuário inteiro. E as <b>notas de evolução</b>, tratadas em detalhe a seguir, registram cada encontro clínico no formato SOAP.</p>
+<h3>Notas de evolução — o formato SOAP</h3>
+<p>Cada nota de evolução no RCOP segue quatro componentes, cujo acrônimo em inglês — SOAP — se tornou padrão internacional de registro clínico estruturado. Em <b>"Subjetivo" (S)</b>, anotam-se as informações da entrevista clínica sobre o motivo da consulta ou o problema de saúde em questão, incluindo tanto as impressões subjetivas do profissional quanto as expressões literais da própria pessoa cuidada — no referencial do método clínico centrado na pessoa, é aqui que se explora a "experiência da doença" (ou do problema) vivida pela pessoa, componente fundamental desse método. Em <b>"Objetivo" (O)</b>, registram-se os dados positivos — e os negativos relevantes — do exame físico e dos exames complementares disponíveis, incluindo resultados laboratoriais.</p>
+<p>Em <b>"Avaliação" (A)</b>, após organizar os dados subjetivos e objetivos, o profissional formula uma avaliação mais precisa do problema, queixa ou necessidade de saúde — nomeando e definindo-o, eventualmente com apoio de algum sistema de classificação de problemas clínicos, como o CIAP (Classificação Internacional de Atenção Primária, também de origem Wonca). Em <b>"Plano" (P)</b>, a parte final da nota, registram-se as condutas planejadas, tipicamente em quatro categorias: planos diagnósticos (provas necessárias à elucidação do problema), planos terapêuticos (medicamentos, dietas, mudanças de hábito), planos de seguimento (estratégia de acompanhamento longitudinal do problema) e planos de educação em saúde (informações e orientações negociadas com a pessoa em relação ao problema).</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Exemplo de nota de evolução SOAP numa consulta médica">
+<thead><tr><th>Componente</th><th>Conteúdo do exemplo (adaptado de Cantale, 2003)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">S — Subjetivo</td><td>Motivo: controle do diabetes, tratado desde os cinco anos de idade, sem controle adequado da glicemia. Impressão do profissional: "pessoa evita o contato visual". Fala da pessoa: "estou cansada de aplicar a insulina diariamente".</td></tr>
+<tr><td class="td-label">O — Objetivo</td><td>IMC 29; PA 140/90; exame da pele: maceração interdigital nos pés.</td></tr>
+<tr><td class="td-label">A — Avaliação</td><td>Diabetes insulinodependente; sobrepeso; medida de pressão arterial elevada; micose interdigital.</td></tr>
+<tr><td class="td-label">P — Plano</td><td>Diagnóstico: glicemia de jejum, creatinina, microalbuminúria, Hb glicada, colesterol total, HDL, LDL, triglicérides. Terapêutico: reeducação alimentar, caminhadas diárias, lavagem/secagem diária dos pés, antimicótico local. Seguimento: monitoramento glicêmico ambulatorial (8h/12h/16h/20h por uma semana), peso semanal, curva pressórica em dias/horários diferentes por três semanas. Educação em saúde: orientação sobre diabetes e complicações, risco da micose nos pés para pessoas diabéticas, importância da insulina e do controle dietético.</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 3 — Exemplo de nota de evolução SOAP (adaptado de Cantale, 2003).</p>
+</div>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — por que o RCOP encaixa com o método da MFC</div>
+  <p>O RCOP não é uma escolha administrativa neutra: sua estrutura — lista de problemas persistente ao longo de anos, notas SOAP que sempre partem da fala e da experiência da própria pessoa — é a materialização operacional do que a definição da Wonca exige (continuidade longitudinal, dimensões física/psicológica/social/cultural/existencial) e do que o caso da dor no pé ilustra (o problema que a pessoa traz, não apenas o que o profissional julga prioritário, entra e permanece registrado). Um prontuário cronológico tradicional, sem lista de problemas persistente, tende a perder exatamente esse tipo de continuidade entre consultas separadas por meses ou anos.</p>
+</div>
+</section>
+
+<section id="questoes">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Por que, mesmo com o crescimento de 549,7% no número de especialistas em MFC entre 2012 e 2024, parte das vagas credenciadas de residência médica na especialidade permanece desocupada por baixa procura? A literatura de recursos humanos em saúde ainda não converge sobre o peso relativo de remuneração, prestígio percebido da especialidade e condições de trabalho na atenção primária como determinantes dessa baixa procura.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>A obrigatoriedade de 30% do internato em MFC e Urgência/Emergência (DCN 2025) é recente demais para haver evidência de impacto sobre a escolha de especialidade dos egressos — ela efetivamente aumentará o número de médicos que optam por MFC na residência, ou apenas amplia a exposição sem alterar a preferência de carreira, replicando o padrão observado em outros países que já adotaram medidas curriculares semelhantes?</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Países com mais de 50% dos médicos formados em MFC têm os melhores indicadores de saúde — mas essa é uma relação causal (mais MFC produz melhores indicadores) ou os dois fenômenos compartilham uma causa comum (sistemas de saúde universais e bem financiados tendem a investir tanto em APS quanto em indicadores de saúde em geral)? Separar causa de correlação nesse ponto continua sendo uma questão ativa da literatura de sistemas de saúde comparados.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>A digitalização do prontuário eletrônico — hoje predominante sobre o registro em papel — preserva integralmente a lógica do RCOP (lista de problemas persistente, notas SOAP), ou sistemas eletrônicos mal desenhados tendem a fragmentar o registro de volta a um formato cronológico por encontro, corroendo exatamente a continuidade longitudinal que o RCOP foi criado para proteger?</p></div>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outras áreas</h2>
+<p>MFC pressupõe, sem desenvolver em profundidade neste compêndio, propedêutica e semiologia geral (anamnese, exame físico) — compêndio futuro deste acervo. Dialoga diretamente com saúde coletiva e epidemiologia (o modelo de determinação social da saúde, a organização da Atenção Primária dentro do SUS) e com história e política de saúde (o Relatório Flexner como marco de virada da formação médica ocidental, a trajetória institucional da MFC no Brasil desde 1981). Conecta-se com bioética e comunicação em saúde (o método clínico centrado na pessoa, a negociação de plano terapêutico) e, de forma mais indireta, com informática médica (o desenho de prontuários eletrônicos fiéis ou infiéis à lógica do RCOP). Ver também <a class="cross-link" href="medicina.html">Medicina — mapa panorâmico</a> para a posição da MFC dentro do conjunto das ciências clínicas.</p>
+</section>
+
+<section id="controversias">
+<h2>Controvérsias ativas</h2>
+<div class="controversia">
+  <div class="cl">Controvérsia — legado do Relatório Flexner</div>
+  <div class="pos"><b>Defesa do legado Flexner:</b> a padronização científica que a reforma impôs eliminou um sistema de formação médica caótico e frequentemente fraudulento, elevou o rigor técnico da medicina ocidental de forma mensurável e permanece a base do ensino biomédico contemporâneo — sem esse rigor, argumenta-se, a própria MFC não teria hoje um corpo de conhecimento científico sólido sobre o qual se apoiar.</div>
+  <div class="pos"><b>Crítica ao legado Flexner:</b> a mesma reforma fechou escolas voltadas a estudantes negros e mulheres, consolidou um ideal meritocrático que funcionou como filtro de exclusão social, e enraizou um modelo biomédico unicausal que, por mais de um século, deixou pouco espaço institucional para as dimensões social, psicológica e existencial da saúde — exatamente a lacuna que a MFC e as DCN de 2025 tentam reabrir formalmente, um século depois.</div>
+</div>
+<div class="controversia">
+  <div class="cl">Controvérsia — MFC como porta de entrada obrigatória versus livre acesso a especialistas</div>
+  <div class="pos"><b>Defesa da MFC como porta de entrada/coordenadora:</b> sistemas de saúde com APS forte e MFC como coordenadora do cuidado (Canadá, Portugal, Inglaterra, Espanha) apresentam melhores indicadores agregados de saúde e menor custo per capita, ao evitar fragmentação e duplicação de investigação entre especialistas que não se comunicam entre si.</div>
+  <div class="pos"><b>Defesa do acesso direto a especialistas:</b> em sistemas com livre acesso, argumenta-se que o paciente chega mais rápido ao especialista relevante para seu problema, sem a etapa intermediária de triagem generalista — trade-off entre velocidade de acesso individual a um episódio específico e coordenação/continuidade agregada do cuidado ao longo do tempo, ainda sem resolução consensual entre desenhos de sistema de saúde.</div>
+</div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora perguntava o que diferencia, em método, a resposta do médico de família diante de um paciente hipertenso descompensado que só quer tratar a dor no pé — e por que essa diferença virou exigência curricular obrigatória em 2025. A resposta atravessa as quatro camadas deste compêndio de formas que se reforçam mutuamente. Historicamente, o Relatório Flexner (1910) consolidou um modelo biomédico centrado na doença e no hospital que, apesar de seu inegável rigor científico, deslocou a pessoa do centro do encontro clínico — a mesma inversão que a queixa "dor no pé versus PA descontrolada" recria em miniatura, cem anos depois, em qualquer consultório. Conceitualmente, a definição da Wonca (2010) e o modelo de determinação social da saúde de Dahlgren e Whitehead fornecem a MFC como especialidade formal e o arcabouço teórico que legitima tratar dimensões sociais e existenciais como parte do trabalho clínico, não como desvio dele. Metodologicamente, o RCOP e o formato SOAP oferecem o instrumento concreto — uma lista de problemas persistente, uma nota que sempre começa pela fala da própria pessoa — que torna essa centralidade operacionalizável na rotina de uma consulta de quinze minutos, não apenas um ideal declarado.</p>
+<p>E normativamente, a Resolução CNE/CES nº 3/2025 fecha o círculo: transforma um princípio até então dependente da escolha individual de cada médico em obrigação curricular verificável — pelo menos 30% do internato em MFC e Urgência/Emergência —, precisamente porque a Demografia Médica 2025 mostra que o crescimento espontâneo da especialidade (549,7% em treze anos) ainda não basta para aproximar o Brasil do patamar de países com APS forte, onde metade dos médicos tem formação em MFC.</p>
+<p>Uma implicação que emerge, mas raramente é enunciada de forma explícita: se a exigência de 30% do internato de fato formar médicos mais confortáveis com o método centrado na pessoa — mesmo os que, ao final, escolherem outra especialidade —, o efeito da DCN 2025 pode não ser medido apenas pelo número de novos especialistas em MFC, mas por quantos cardiologistas, cirurgiões e pediatras brasileiros, formados sob essa nova diretriz, se tornam capazes de fazer o que o exemplo da dor no pé exige: ouvir primeiro o que a pessoa veio dizer, antes de decidir o que ela precisa ouvir.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+<div class="ref-layer">Ponto de entrada</div>
+<div class="ref-entry"><span class="rt">Artigo</span><p><b>CAMPOS, Carlos Eduardo Aguilera.</b> "Os princípios da medicina de família e comunidade." <em>Revista APS</em>, v.8, n.2, jul./dez. 2005.</p><p class="ref-nota">Síntese introdutória em português dos princípios centrais da especialidade (centralidade na pessoa, continuidade, abordagem biopsicossocial) — bom ponto de partida antes de textos mais longos.</p></div>
+<div class="ref-entry"><span class="rt">Relatório</span><p><b>SCHEFFER, Mário (coord.).</b> <em>Demografia Médica no Brasil 2025</em>. Brasília: Ministério da Saúde; Faculdade de Medicina da USP; Associação Médica Brasileira, 2025.</p><p class="ref-nota">Fonte primária de todos os dados numéricos deste compêndio sobre formação médica, especialidades e força de trabalho em MFC no Brasil — indispensável para quem quer atualizar esses números em edições futuras do relatório.</p></div>
+
+<div class="ref-layer">Aprofundamento</div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>Tratado de Medicina de Família e Comunidade</b> — 2 volumes: Princípios, Formação e Prática. Porto Alegre: Artmed (Sociedade Brasileira de Medicina de Família e Comunidade).</p><p class="ref-nota">Referência canônica brasileira da especialidade, cobrindo em profundidade o que este compêndio apenas introduz — princípios, formação de residentes e prática clínica cotidiana em MFC.</p></div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>DUNCAN, Bruce B.; SCHMIDT, Maria Inês; GIUGLIANI, Elsa R. J. (Orgs.).</b> <em>Medicina Ambulatorial: Condutas de Atenção Primária Baseadas em Evidências</em>. Porto Alegre: Artmed.</p><p class="ref-nota">Referência de condutas clínicas baseadas em evidência para o dia a dia da atenção primária brasileira — complementa o enquadramento conceitual deste compêndio com conteúdo de manejo clínico direto.</p></div>
+<div class="ref-entry"><span class="rt">Artigo</span><p><b>PAGLIOSA, Fernando Luiz; DA ROS, Marco Aurélio.</b> "O Relatório Flexner: para o bem e para o mal." <em>Revista Brasileira de Educação Médica</em>, 32(4): 492–499, 2008.</p><p class="ref-nota">Análise crítica balanceada do Relatório Flexner em português — base direta da seção "Flexner e a formação médica" e da controvérsia sobre seu legado neste compêndio.</p></div>
+<div class="ref-entry"><span class="rt">Diretriz</span><p><b>BRASIL. Conselho Nacional de Educação (CNE/CES).</b> <em>Resolução CNE/CES nº 3, de 30 de setembro de 2025</em> — Institui as Diretrizes Curriculares Nacionais do Curso de Graduação em Medicina. Diário Oficial da União, 2025.</p><p class="ref-nota">Texto normativo integral citado na seção "Diretrizes Curriculares 2025" — fonte primária dos artigos e do parágrafo único sobre os 30% de internato em MFC/Urgência-Emergência.</p></div>
+
+<div class="ref-layer">Consulta especializada</div>
+<div class="ref-entry"><span class="rt">Artigo</span><p><em>"SOAP Revisitado."</em> <em>Revista Portuguesa de Clínica Geral</em>, 25: 221–7, 2009.</p><p class="ref-nota">Discussão especializada sobre o formato SOAP e suas variações/críticas na literatura de medicina de família em língua portuguesa — para quem quer ir além do uso descritivo do formato apresentado neste compêndio.</p></div>
+<div class="ref-entry"><span class="rt">Documento de referência</span><p><b>World Organization of Family Doctors (Wonca).</b> <em>Definição Europeia de Medicina Geral e Familiar/Medicina de Família</em>. 2010.</p><p class="ref-nota">Documento-fonte da definição internacional de MFC usada neste compêndio — leitura obrigatória para quem quer a formulação original completa, além da síntese aqui apresentada.</p></div>
+<div class="ref-entry"><span class="rt">Boletim</span><p><b>Universidade Estadual de Campinas.</b> <em>Boletim da FCM</em>, vol. 6, n. 6, dez. 2010.</p><p class="ref-nota">Fonte complementar sobre o histórico institucional da MFC/MGC no Brasil, citada na aula de origem deste material — útil para reconstruir a cronologia 1981–2001 com mais detalhe.</p></div>
+</section>
+
+</div>
+</div>
+</main>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+
+<script>
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function toggleSidebar(){
+  sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed');
+  sessionStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+}
+toggleBtn.addEventListener('click', toggleSidebar);
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+if(sessionStorage.getItem('sidebar-collapsed') === 'true'){
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+}
+
+var progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}, {passive:true});
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  if(current){
+    var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+    if(a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {rootMargin:'-10% 0px -55% 0px'});
+sections.forEach(function(s){ io.observe(s); });
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>
