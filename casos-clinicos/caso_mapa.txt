@@ -1,0 +1,7 @@
+Mapa de casos clínicos cobertos — domínio Casos Clínicos
+Atualizado: 2026-08-07
+
+Formato: [achado/diagnóstico principal] | [especialidade/rotação] | [data do caso, se conhecida] | [arquivo]
+
+Endocardite infecciosa com AVC embólico (mulher idosa, sopro pós-B1 em foco mitral, perna esquerda edemaciada/dolorosa, atelectasia, antimicrobiano prévio não caracterizado) | Infectologia | Caso visto em 2026-08-06 | endocardite-infecciosa-avc-embolico.html
+Infecção pós-cirúrgica após quadricepsplastia + meniscectomia parcial em fêmur osteossintetizado (homem sem comorbidades, rigidez de joelho pós-fratura de fêmur por acidente de moto, 2ª cirurgia há 4 meses, secreção purulenta evoluindo a seropurulenta, dificuldade de cicatrização) | Infectologia | Caso visto em 2026-08-06 (registrado em 2026-08-07) | infeccao-pos-quadricepsplastia-osteossintese-femur.html

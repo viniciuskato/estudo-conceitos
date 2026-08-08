@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocardite Infecciosa com AVC Embólico — Caso Clínico</title>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#111010">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+body{transition:background .25s,color .25s}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78}
+#body-wrap{display:flex;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+
+#sidebar{width:280px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2);border-right:1px solid var(--border);transition:width .25s}
+#sidebar.collapsed{width:44px}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:8px 0 20px}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:14px 16px 8px}
+.s-group{padding:10px 8px 2px}
+.s-gt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;padding:6px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:5px;line-height:1.35}
+a.sl:hover{background:var(--bg3);color:var(--text)}
+a.sl.active{background:var(--ac2bg);color:var(--ac);font-weight:600}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#s-toggle{padding:6px 8px;flex-shrink:0}
+#toggle-btn{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:6px;cursor:pointer;font-size:12px}
+#toggle-btn:hover{color:var(--text)}
+
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+
+.doc-header h1{font-size:2.1em;line-height:1.2;margin:0 0 10px}
+.doc-meta{font-family:var(--font-ui);color:var(--muted);font-size:13px;margin:0 0 14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:24px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-note{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic}
+
+section{margin-bottom:46px}
+section h2{font-size:1.5em;margin:0 0 16px;padding-top:8px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+h3{font-size:1.15em;margin:26px 0 10px;color:var(--text)}
+p{margin:0 0 16px}
+ul,ol{margin:0 0 16px;padding-left:1.3em}
+li{margin-bottom:6px}
+strong{color:var(--text)}
+
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--ac);border-radius:0 5px 5px 0;padding:12px 18px;margin:16px 0 8px;font-family:var(--font-ui);font-size:16px;color:var(--text);text-align:center;line-height:1.9;overflow-x:auto}
+.eq-vars{list-style:none;margin:0 0 18px;padding:0;font-family:var(--font-ui);font-size:13px;color:var(--muted)}
+.eq-vars li{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-bottom:2px}
+.eq-vars b{color:var(--ac);font-family:var(--font-body);font-style:italic;margin-right:6px;font-size:15px}
+
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+.table-wrap{overflow-x:auto;margin:18px 0}
+.data-table{width:100%;border-collapse:collapse;margin:0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:6px 0 0}
+
+.controversia{background:var(--bg2);border:1px solid var(--ac2);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0}
+.controversia .pos b{color:var(--ac)}
+
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10.5px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:6px;white-space:nowrap;text-decoration:none;cursor:pointer}
+.evid:hover{opacity:.8}
+
+.caso-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:8px 0 20px}
+.caso-box .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed var(--ac);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
+
+.ref-layer{margin-bottom:26px}
+.ref-layer h3{color:var(--ac);margin-top:0}
+.ref-item{margin-bottom:14px;padding-left:16px;border-left:2px solid var(--border)}
+.ref-item .rtype{font-family:var(--font-ui);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ref-item .rtitle{font-weight:600}
+.ref-item .rnote{color:var(--muted);font-size:14.5px}
+
+@media(max-width:900px){
+  .theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}
+  #sidebar{display:none;position:fixed;z-index:150;width:80vw;height:100vh}
+  #sidebar.open{display:flex}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  #mob-bar{display:flex}
+}
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:140;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 14px;align-items:center;font-family:var(--font-ui)}
+#mob-bar button{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+
+@media print{
+  #sidebar,#s-toggle,#s-home,.theme-toggle,#progress-bar,#mob-bar{display:none}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+<div id="mob-bar"><button id="mob-open" aria-label="Abrir menu">☰</button></div>
+
+<div id="body-wrap">
+<div id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+  <div class="s-inner">
+    <div class="s-logo">Endocardite + AVC Embólico</div>
+
+    <div class="s-group">
+      <div class="s-gt">O caso</div>
+      <a class="sl" href="#s-caso">Apresentação clínica</a>
+      <a class="sl" href="#s-hipotese">Hipótese diagnóstica principal</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Raciocínio</div>
+      <a class="sl" href="#s-fisiopatologia">Fisiopatologia da vegetação e embolização</a>
+      <a class="sl" href="#s-criterios">Critérios diagnósticos (Duke-ISCVID 2023)</a>
+      <a class="sl" href="#s-etiologia">Microbiologia provável</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Diagnóstico diferencial</div>
+      <a class="sl" href="#s-diferencial-avc">Do evento neurológico</a>
+      <a class="sl" href="#s-diferencial-perna">Da perna esquerda</a>
+      <a class="sl" href="#s-atelectasia">Da atelectasia</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Investigação</div>
+      <a class="sl" href="#s-exames">Exames complementares</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Conduta</div>
+      <a class="sl" href="#s-conduta">Antibioticoterapia e indicação cirúrgica</a>
+      <a class="sl" href="#s-terapia-dirigida">Terapia dirigida por agente</a>
+      <a class="sl" href="#s-avc-manejo">Manejo do AVC concomitante</a>
+      <a class="sl" href="#s-antimicrobiano">O antimicrobiano esquecido</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Fechamento</div>
+      <a class="sl" href="#s-conexoes">Conexões</a>
+      <a class="sl" href="#s-perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#s-discussao">Discussão</a>
+      <a class="sl" href="#s-referencias">Referências</a>
+    </div>
+  </div>
+  <div id="s-toggle">
+    <button id="toggle-btn" onclick="toggleSidebar()">◀</button>
+  </div>
+</div>
+
+<div id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Endocardite Infecciosa com AVC Embólico</h1>
+  <p class="doc-meta">Casos Clínicos · Infectologia / Cardiologia / Neurologia · Rotação hospitalar · Mulher idosa</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~40 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum — partida zero</b></span>
+    <span class="chip">🔗 Depende de: <b>ver mapa de dependências</b></span>
+    <span class="chip">📍 Área: <b>Casos Clínicos — Infectologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-06</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Diante de uma mulher idosa com AVC, sopro sistólico surgido logo após B1 em foco mitral e uma perna esquerda dolorosa e edemaciada, como construir — sem ainda ter hemocultura ou ecocardiograma em mãos — a hipótese diagnóstica que amarra os três achados, e o que investigar primeiro para confirmá-la ou refutá-la?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este caso usa</div>
+      <a class="dep-item cross-link" href="../compêndios/medicina/cardiologia-semiologia.html#ausculta">Semiologia Cardíaca — Ausculta, focos e sopros</a>
+      <a class="dep-item cross-link" href="../compêndios/medicina/infectologia-fundamentos.html#s-sindromes">Fundamentos de Infectologia — Síndromes infecciosas</a>
+      <a class="dep-item cross-link" href="../compêndios/medicina/mecanismos/fisiopatologia/trombose-e-hemostasia.html#embolia">Trombose e Hemostasia — Embolia</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-note">Nenhum pré-requisito estrito — o caso é desenvolvido do zero. Noções gerais de semiologia cardíaca e de fisiopatologia da trombose ajudam, mas os conceitos usados aqui são (re)definidos no próprio texto.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-note">Nenhum ainda — primeiro caso do domínio Casos Clínicos.</span>
+    </div>
+  </div>
+</div>
+
+<section id="s-caso">
+<h2>Apresentação clínica</h2>
+<div class="caso-box">
+<div class="clabel">O caso</div>
+<p>Mulher idosa (idade não precisada), atendida em rotação de Infectologia. Apresentou <strong>acidente vascular cerebral (AVC)</strong> — tempo de evolução não relatado. À ausculta cardíaca, identifica-se <strong>sopro sistólico evidente logo após a primeira bulha (B1)</strong>, mais audível em <strong>foco mitral</strong>. Ao exame dos membros inferiores, a <strong>perna esquerda encontra-se edemaciada, com dor à palpação</strong>. A paciente <strong>apresenta atelectasia</strong> — forma de identificação (exame físico, radiografia, TC) não relatada. Refere uso prévio de antimicrobiano, mas não foi possível precisar, no momento da anamnese, qual droga, por qual via, por quanto tempo nem o motivo da prescrição. Hemoculturas, ecocardiograma e demais exames complementares específicos ainda não estavam disponíveis no momento em que este caso foi levantado.</p>
+</div>
+<div class="kbox">
+<div class="klabel">Nota metodológica — dado relatado vs. leitura do raciocínio clínico</div>
+<p>Os achados acima são exatamente os relatados: nada foi acrescentado sobre tempo de evolução do AVC (se agudo, subagudo ou já em outra fase), idade exata, comorbidades, ou o método pelo qual a atelectasia foi identificada. Ao longo deste material, quando o texto discute manejo de "AVC agudo" (ex. contraindicação a trombólise) ou hipóteses que pressupõem imobilização já instalada, isso reflete o <strong>cenário-padrão da literatura</strong> usado para desenvolver o raciocínio — não um dado confirmado deste caso específico. Essas suposições são sinalizadas explicitamente onde aparecem; qualquer decisão real de conduta exige confirmar essas informações no prontuário.</p>
+</div>
+<div class="kbox">
+<div class="klabel">Síntese do problema</div>
+<p>Quatro achados a amarrar num único fio condutor: (1) evento neurológico compatível com fenômeno embólico (tempo de evolução não precisado); (2) sopro cardíaco novo ou pelo menos não previamente documentado, com padrão semiológico de regurgitação; (3) achado em extremidade que pode ser mais um fenômeno vascular ou um foco infeccioso à parte; (4) uso prévio de antimicrobiano não caracterizado, com potencial de interferir na própria investigação diagnóstica.</p>
+</div>
+</section>
+
+<section id="s-hipotese">
+<h2>Hipótese diagnóstica principal</h2>
+<div class="plate-block" id="fig-1">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Heart_sounds_auscultation_areas.svg"
+       alt="Diagrama da parede torácica anterior (Gray's Anatomy) com os 4 focos clássicos de ausculta cardíaca mais o ponto acessório de Erb, marcados por cor"
+       loading="lazy" data-caption="4 focos clássicos de ausculta + ponto acessório de Erb — o foco mitral (verde) é onde o sopro deste caso é mais audível">
+  <div class="plate-caption"><b>Fig. 1 — Focos de ausculta cardíaca</b> — <strong>4 focos clássicos:</strong> vermelho: tricúspide · amarelo: pulmonar · <strong>verde: mitral</strong> (foco de interesse deste caso) · azul-marinho: aórtico. <strong>+ 1 ponto acessório</strong> (não é um dos 4 clássicos): azul-claro: ponto de Erb (3º espaço intercostal esquerdo), útil para sopros de regurgitação aórtica, não para o sopro mitral deste caso. Mesma figura e mesma distinção 4+1 já usada em <a class="cross-link" href="../compêndios/medicina/cardiologia-semiologia.html#ausculta">Semiologia Cardíaca</a>. Derivado de Gray's Anatomy (Gray112) + Auskultation.jpg. Domínio público.</div>
+</div>
+<p>O achado semiológico mais específico do caso é o sopro. Um sopro <strong>sistólico, iniciando imediatamente após B1</strong>, mais audível em <strong>foco mitral</strong>, é o padrão clássico de <strong>insuficiência (regurgitação) mitral</strong> — sopro holossistólico, em geral com irradiação para axila. Esse achado, somado a um evento embólico para o sistema nervoso central, converge para uma hipótese unificadora: <strong>endocardite infecciosa (EI) acometendo a valva mitral, complicada por embolização séptica cerebral</strong>.</p>
+<div class="kbox">
+<div class="klabel">Por que esse é o fio condutor mais econômico</div>
+<p>A embolização é a complicação mais temida da EI e uma de suas formas mais comuns de manifestação inicial — ocorre em até 80% dos casos, e cerca de um terço dos êmbolos periféricos tem como alvo o sistema nervoso central, de modo que um AVC embólico pode preceder o próprio diagnóstico cardíaco.<a class="evid" href="#ref2" onclick="navRef(this)">Revisão</a> Uma única hipótese (vegetação valvar séptica com fragmentação e embolização) explica ao mesmo tempo o sopro novo, o AVC e — como candidato, a confirmar — o achado de perna esquerda, sem precisar recorrer a três processos independentes coincidindo no tempo.</p>
+</div>
+</section>
+
+<section id="s-fisiopatologia">
+<h2>Fisiopatologia da vegetação e da embolização séptica</h2>
+<p>A formação da vegetação endocardítica segue uma sequência de eventos que vale reconstruir, porque cada etapa sugere um ponto de intervenção ou um dado a buscar na história. Primeiro, ocorre <strong>lesão do endotélio valvar</strong> — por fluxo turbulento (válvula já alterada por doença reumática, degenerativa ou congênita) ou, mais raramente, por trauma direto (cateter, eletrodo de marca-passo). Sobre essa lesão se deposita um trombo estéril de plaquetas e fibrina, chamado de <strong>endocardite trombótica não bacteriana</strong> — o mesmo tipo de processo hemostático descrito de forma geral em <a class="cross-link" href="../compêndios/medicina/mecanismos/fisiopatologia/trombose-e-hemostasia.html#hemostasia">Trombose e Hemostasia</a>, aqui ocorrendo sobre uma superfície valvar em vez de um vaso.</p>
+<p>Se sobrevém uma <strong>bacteremia transitória</strong> — de qualquer porta de entrada: pele, mucosa oral/dentária, trato urinário, cateter vascular, procedimento invasivo — as bactérias circulantes podem aderir a esse trombo estéril por meio de adesinas de superfície (por exemplo, proteínas de ligação à fibronectina em <em>Staphylococcus aureus</em>). A partir da adesão, há proliferação bacteriana entremeada a mais plaquetas, fibrina e células inflamatórias, constituindo a <strong>vegetação</strong> — uma massa friável, pouco vascularizada (o que dificulta tanto a ação de antimicrobianos quanto da resposta imune humoral e celular) e sujeita a fragmentação mecânica pelo próprio fluxo sanguíneo.</p>
+<p>Fragmentos dessa vegetação, ao se soltarem, tornam-se <strong>êmbolos sépticos</strong>: carregam bactérias viáveis, de modo que o território embolizado não sofre apenas isquemia mecânica (como um êmbolo bland/estéril causaria), mas também inoculação infecciosa local — daí a associação de fenômenos embólicos da EI com abscessos metastáticos e aneurismas micóticos nos territórios atingidos.</p>
+<div class="kbox">
+<div class="klabel">O lado da valva acometida determina o alvo do êmbolo</div>
+<p>Vegetações em valvas do <strong>coração esquerdo</strong> (mitral, aórtica) embolizam para a circulação sistêmica — cérebro, baço, rins, extremidades, incluindo membros inferiores. Vegetações em valvas do <strong>coração direito</strong> (tricúspide, pulmonar — mais associadas a uso de drogas endovenosas ou dispositivos intracardíacos) embolizam para os pulmões, produzindo êmbolos sépticos pulmonares (infiltrados/nódulos, muitas vezes cavitados), não um AVC. Como o sopro deste caso localiza a lesão em <strong>foco mitral</strong>, o padrão esperado de embolização é sistêmico — coerente com o AVC, e um dado a favor de que qualquer achado pulmonar (aqui, a atelectasia) provavelmente <em>não</em> é embolia séptica pulmonar (ver seção sobre a atelectasia, adiante).</p>
+</div>
+</section>
+
+<section id="s-criterios">
+<h2>Critérios diagnósticos — Duke-ISCVID 2023</h2>
+<p>O diagnóstico de EI não depende de um único exame, mas da combinação estruturada de critérios clínicos, microbiológicos e de imagem — os critérios de Duke, propostos em 1994, modificados em 2000 ("critérios de Duke modificados") e revisados em 2023 pela International Society for Cardiovascular Infectious Diseases (ISCVID) em conjunto com a European Society of Cardiology (ESC). A revisão de 2023 ampliou o critério microbiológico (novos métodos: PCR, sequenciamento metagenômico, sorologia para <em>Bartonella</em>), ampliou o critério de imagem (incluindo PET-CT com ¹⁸F-FDG e TC cardíaca) e criou um <strong>terceiro domínio maior, cirúrgico</strong> (inspeção intraoperatória compatível com EI), além de remover a exigência estrita de tempo/punções separadas para as hemoculturas.<a class="evid" href="#ref3" onclick="navRef(this)">Diretriz/Consenso</a></p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Critérios diagnósticos de endocardite infecciosa, adaptados de Duke-ISCVID 2023">
+<tr><th>Categoria</th><th>Critério</th></tr>
+<tr><td class="td-label">Maior — Microbiológico</td><td>Hemoculturas positivas para micro-organismo típico de EI em ≥2 amostras, ou evidência microbiológica robusta por sorologia (ex. <em>Coxiella burnetii</em>, <em>Bartonella</em>) ou técnica molecular (PCR, sequenciamento) compatível</td></tr>
+<tr><td class="td-label">Maior — Imagem</td><td>Ecocardiograma (ou TC cardíaca/PET-CT com ¹⁸F-FDG) mostrando vegetação, abscesso/pseudoaneurisma perivalvar, deiscência nova de prótese ou nova regurgitação valvar significativa</td></tr>
+<tr><td class="td-label">Maior — Cirúrgico <a class="evid" href="#ref3" onclick="navRef(this)">Novo em 2023</a></td><td>Inspeção intraoperatória direta confirmando vegetação ou abscesso ativo</td></tr>
+<tr><td class="td-label">Menor — Predisposição</td><td>Cardiopatia predisponente conhecida, prótese valvar, dispositivo cardíaco eletrônico implantável, uso de droga endovenosa, EI prévia</td></tr>
+<tr><td class="td-label">Menor — Febre</td><td>Temperatura ≥38°C</td></tr>
+<tr><td class="td-label">Menor — Fenômenos vasculares</td><td>Êmbolo arterial maior (inclui AVC embólico), infarto pulmonar séptico, aneurisma micótico, hemorragia intracraniana, hemorragias conjuntivais, lesões de Janeway</td></tr>
+<tr><td class="td-label">Menor — Fenômenos imunológicos</td><td>Glomerulonefrite, nódulos de Osler, manchas de Roth, fator reumatoide positivo</td></tr>
+<tr><td class="td-label">Menor — Evidência microbiológica</td><td>Hemocultura positiva que não preenche critério maior, ou evidência sorológica de infecção ativa por agente compatível com EI</td></tr>
+</table>
+<p class="table-caption">Tabela 1 — Critérios diagnósticos adaptados de Fowler et al., "The 2023 Duke-ISCVID Criteria for Infective Endocarditis" (ver Referências). Diagnóstico definitivo: 2 maiores, ou 1 maior + 3 menores, ou 5 menores. Diagnóstico possível: 1 maior + 1 menor, ou 3 menores.</p>
+</div>
+<div class="plate-block" id="fig-2">
+  <img src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/335f/9148510/fcdfb228f72e/13256_2022_3427_Fig1_HTML.jpg"
+       alt="Três fotos clínicas de nódulos de Osler (seta) no dedo anelar direito, calcanhar direito e quinto artelho de uma paciente de 52 anos com endocardite infecciosa"
+       loading="lazy" data-caption="Nódulos de Osler (seta) em dedo, calcanhar e artelho — critério menor imunológico de EI">
+  <div class="plate-caption"><b>Fig. 2 — Nódulos de Osler</b> — lesões dolorosas, eritemato-violáceas, tipicamente em polpas digitais/palmas/plantas, por depósito de imunocomplexos (critério menor "fenômeno imunológico" na Tabela 1). Paciente diferente do caso deste material — imagem ilustrativa do achado clássico, não um dado deste caso (que não relatou lesões cutâneas). Diferem das lesões de Janeway (indolores, mais na região tenar/hipotenar). <strong>Nota:</strong> a paciente da imagem tem também doença de Osler-Weber-Rendu (telangiectasia hemorrágica hereditária) de base, condição não relacionada apesar do mesmo epônimo — as lesões marcadas pela seta são especificamente os nódulos de Osler dolorosos da endocardite, distintos das telangiectasias indolores crônicas dela. Segundo o PubMed, Naruse G, Watanabe T, Okura H. — Infective endocarditis with Osler's nodule in a patient with Osler's disease: a case report and review of the literature. <em>Journal of Medical Case Reports</em>, 2022;16:211 (<a href="https://doi.org/10.1186/s13256-022-03427-2" target="_blank" rel="noopener">DOI</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9148510/" target="_blank" rel="noopener">PMC</a>). Artigo revisado por pares, acesso aberto, CC BY 4.0 — consentimento informado do paciente documentado no artigo.</div>
+</div>
+<p>Aplicando ao caso: o <strong>AVC embólico já conta como critério menor (fenômeno vascular)</strong>; se a perna esquerda vier a se confirmar como fenômeno embólico ou aneurisma micótico, some-se a esse mesmo critério. O fechamento diagnóstico depende, então, de hemoculturas e ecocardiograma — os dois exames ainda pendentes neste caso (ver "Exames complementares").</p>
+</section>
+
+<section id="s-etiologia">
+<h2>Microbiologia provável</h2>
+<p>A probabilidade de cada agente depende fortemente do cenário clínico — válvula nativa vs. protética, uso de drogas endovenosas, exposição a serviço de saúde — informação que, neste caso, ainda está incompleta por não se conhecer o antimicrobiano usado previamente nem a real porta de entrada.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Agentes etiológicos mais prováveis de endocardite infecciosa por cenário clínico">
+<tr><th>Cenário</th><th>Agentes mais prováveis</th></tr>
+<tr><td class="td-label">Valva nativa, comunidade</td><td>Estreptococos do grupo viridans, <em>Staphylococcus aureus</em>, enterococos</td></tr>
+<tr><td class="td-label">Uso de droga endovenosa</td><td><em>S. aureus</em> predominante, frequentemente valva tricúspide (coração direito)</td></tr>
+<tr><td class="td-label">Associada a serviço de saúde / prótese valvar</td><td>Estafilococos coagulase-negativos, <em>S. aureus</em>, enterococos, bacilos gram-negativos</td></tr>
+<tr><td class="td-label">Hemocultura persistentemente negativa</td><td>Grupo HACEK (<em>Haemophilus, Aggregatibacter, Cardiobacterium, Eikenella, Kingella</em>), <em>Coxiella burnetii</em>, <em>Bartonella</em> spp., fungos — considerar sobretudo se houve antibiótico prévio</td></tr>
+</table>
+<p class="table-caption">Tabela 2 — Microbiologia orientadora por cenário clínico; não substitui a hemocultura real do caso.</p>
+</div>
+<p>O dado de <strong>uso prévio de antimicrobiano não caracterizado</strong> é o que mais pesa aqui: torna o cenário de "hemocultura persistentemente negativa" mais provável, deslocando a atenção para o grupo HACEK e para agentes que exigem sorologia (ver seção "O antimicrobiano esquecido").</p>
+<h3>MSSA vs. MRSA</h3>
+<p><em>S. aureus</em> é hoje o agente mais isolado em várias séries contemporâneas de EI de valva nativa e o de curso mais agressivo. A pergunta seguinte do infectologista — MSSA ou MRSA — não é acadêmica: define o antibiótico bactericida correto (Tabela 5). Risco de MRSA aumenta com exposição recente a serviço de saúde (internação, hemodiálise, CVC, cirurgia), colonização/infecção prévia por MRSA e <strong>uso de antibiótico nos últimos 3-12 meses</strong> (sobretudo quinolona/glicopeptídeo).<a class="evid" href="#ref13" onclick="navRef(this)">Revisão/Estudos observacionais</a> Ponto de contato direto com este caso: sem saber qual antimicrobiano a paciente usou antes, também não se sabe se ela já entra no grupo de maior risco para MRSA.</p>
+<h3>Estreptococos viridans e S. gallolyticus</h3>
+<p>Viridans (<em>S. mitis, sanguinis, mutans, salivarius</em>) = origem oral — história odontológica recente (extração, canal, limpeza) é pergunta obrigatória, e o curso tende a ser mais indolente/subagudo que o de <em>S. aureus</em>. Cepas altamente sensíveis à penicilina (CIM ≤ 0,12 µg/mL) têm cura bacteriológica em torno de 98% com o esquema padrão.<a class="evid" href="#ref12" onclick="navRef(this)">Revisão</a> <em>Streptococcus gallolyticus</em> (ex-<em>S. bovis</em>), de origem gastrointestinal, associa-se em 25-80% dos casos a lesão colônica concomitante (adenoma de alto grau ou neoplasia) — isolamento desse agente é indicação formal de <strong>colonoscopia</strong>.<a class="evid" href="#ref14" onclick="navRef(this)">Revisão</a></p>
+</section>
+
+<section id="s-diferencial-avc">
+<h2>Diagnóstico diferencial do evento neurológico</h2>
+<p>Embora a EI seja a hipótese mais econômica diante do sopro associado, vale listar as demais causas de AVC cardioembólico que um sopro e uma história incompleta não afastam de imediato.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Diagnóstico diferencial de AVC embólico de origem cardíaca">
+<tr><th>Causa</th><th>Como diferenciar</th></tr>
+<tr><td class="td-label">Fibrilação atrial</td><td>Causa cardioembólica mais comum de AVC em geral; ECG/Holter mostra ritmo irregular sem onda P — não explica, por si só, o sopro novo</td></tr>
+<tr><td class="td-label">Trombo mural pós-infarto</td><td>História de IAM recente, acinesia/discinesia segmentar ao ecocardiograma; sopro, se presente, tende a ser de disfunção isquêmica, não regurgitação valvar aguda</td></tr>
+<tr><td class="td-label">Forame oval patente + embolia paradoxal</td><td>Geralmente em pacientes mais jovens, sem sopro cardíaco novo; requer trombose venosa concomitante como fonte do êmbolo (bolha ao ecocardiograma com contraste)</td></tr>
+<tr><td class="td-label">Mixoma atrial</td><td>Sopro variável com a posição, massa intracavitária ao ecocardiograma, ausência de febre/hemocultura positiva</td></tr>
+<tr><td class="td-label">Endocardite trombótica não bacteriana (marântica)</td><td>Associada a neoplasia avançada ou estados de hipercoagulabilidade; vegetação "estéril" ao ecocardiograma, hemoculturas negativas, contexto oncológico</td></tr>
+<tr><td class="td-label">Valvopatia degenerativa/reumática sem infecção ativa</td><td>Sopro crônico já conhecido previamente, sem febre nem fenômenos embólicos/imunológicos associados</td></tr>
+</table>
+<p class="table-caption">Tabela 3 — Diferencial de AVC cardioembólico; a EI permanece a hipótese mais provável no caso por reunir sopro <em>novo</em> + evento embólico, mas cada alternativa orienta um exame específico a pedir.</p>
+</div>
+</section>
+
+<section id="s-diferencial-perna">
+<h2>Diagnóstico diferencial da perna esquerda</h2>
+<p>Este é o achado menos específico do caso. Edema com dor à palpação <strong>não</strong> é o padrão clássico de embolia arterial séptica — que classicamente causa isquemia aguda de membro, sintetizada nos "6 P's": <em>pain</em> (dor súbita e intensa), <em>pallor</em> (palidez), <em>pulselessness</em> (ausência de pulso), <em>paresthesia</em>, <em>paralysis</em> e <em>poikilothermia</em> (esfriamento). O padrão descrito — edema + dor à palpação, sem menção a esses sinais — aponta antes para um processo venoso.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Diagnóstico diferencial de perna esquerda edemaciada e dolorosa no contexto de endocardite infecciosa">
+<tr><th>Hipótese</th><th>Apresentação típica</th><th>Como confirmar/excluir</th></tr>
+<tr><td class="td-label">Trombose venosa profunda (TVP)</td><td>Edema unilateral, dor à palpação da panturrilha, sem sinais de isquemia arterial — combina com o relato deste caso</td><td>Doppler venoso de MMII; escore de Wells como triagem pré-teste (ver abaixo)</td></tr>
+<tr><td class="td-label">Embolia arterial séptica</td><td>Isquemia aguda (6 P's) — dor súbita intensa, palidez, ausência de pulso</td><td>Exame de pulsos periféricos; angio-TC/angiografia se suspeita</td></tr>
+<tr><td class="td-label">Aneurisma micótico periférico</td><td>Massa pulsátil localizada, mais raro que os alvos cerebral/esplênico/renal</td><td>USG Doppler ou angio-TC do segmento suspeito</td></tr>
+<tr><td class="td-label">Artrite séptica / miosite</td><td>Dor à mobilização articular ou muscular, por disseminação hematogênica</td><td>Exame articular dirigido; USG/RM se dúvida; artrocentese se derrame articular</td></tr>
+<tr><td class="td-label">Celulite/erisipela (porta de entrada, não consequência)</td><td>Eritema, calor e dor localizados, possível porta de entrada bacterêmica primária — inverteria a lógica causal do caso</td><td>Exame dermatológico dirigido; hemocultura já cobre essa hipótese</td></tr>
+</table>
+<p class="table-caption">Tabela 4 — TVP é a hipótese mais compatível com a descrição disponível (edema + dor à palpação, sem sinais de isquemia arterial), mas as demais permanecem no diferencial até o Doppler.</p>
+</div>
+<p>A imobilização decorrente do próprio AVC é o principal fator de risco de TVP nesse contexto: pode surgir já nos primeiros 7 dias de imobilização aguda, sendo a gravidade do déficit neurológico (medida pela escala NIHSS) o preditor mais consistente identificado em revisões sistemáticas recentes.<a class="evid" href="#ref5" onclick="navRef(this)">Revisão sistemática/Meta-análise</a> O estado pró-inflamatório e pró-coagulante da própria infecção sistêmica reforça esse risco de forma independente.</p>
+<div class="eq">
+<b>Escore de Wells (TVP)</b> — soma de pontos, cada item = 1 ponto (exceto o de exclusão)
+</div>
+<ul class="eq-vars">
+<li><b>Câncer ativo</b> — tratamento nos últimos 6 meses ou paliativo. +1.</li>
+<li><b>Paralisia, paresia ou imobilização gessada</b> de membro inferior recente. +1.</li>
+<li><b>Acamada ≥3 dias</b> ou cirurgia de grande porte nas últimas 12 semanas. +1.</li>
+<li><b>Dor localizada</b> ao longo do trajeto do sistema venoso profundo. +1.</li>
+<li><b>Perna inteira edemaciada</b>. +1.</li>
+<li><b>Panturrilha ≥3 cm maior</b> que a contralateral (10 cm abaixo da tuberosidade tibial). +1.</li>
+<li><b>Edema depressível</b> confinado à perna sintomática. +1.</li>
+<li><b>Veias colaterais superficiais</b> não varicosas. +1.</li>
+<li><b>TVP prévia documentada</b>. +1.</li>
+<li><b>Diagnóstico alternativo pelo menos tão provável</b> quanto TVP. −2.</li>
+</ul>
+<p>Interpretação simplificada: ≥2 pontos = TVP provável (investigar com Doppler); &lt;2 pontos = TVP pouco provável (D-dímero pode ser usado para reforçar exclusão). Neste caso, apenas com os dados relatados (dor localizada + edema depressível, e imobilização recente pelo próprio AVC) a paciente já soma pelo menos 3 pontos — reforçando a prioridade do Doppler venoso na investigação.</p>
+</section>
+
+<section id="s-atelectasia">
+<h2>Diagnóstico diferencial da atelectasia</h2>
+<p>Diferente dos outros três achados, a atelectasia provavelmente <strong>não</strong> pertence à mesma cadeia fisiopatológica da EI. Como discutido na seção de fisiopatologia, uma vegetação em valva mitral (coração esquerdo) embolizaria para a circulação sistêmica, não para os pulmões — êmbolos sépticos pulmonares são o padrão esperado de EI de <em>coração direito</em>, tipicamente associada a uso de drogas endovenosas ou dispositivos, cenário não descrito aqui.</p>
+<p>Uma explicação plausível — <strong>não confirmada neste caso</strong> — é mecânica, secundária a eventual imobilização associada ao AVC: decúbito prolongado, tosse ineficaz, disfagia e rebaixamento do nível de consciência são fatores clássicos de atelectasia basal em paciente idosa acamada, com risco adicional de evolução para pneumonia aspirativa se não corrigidos.<a class="evid" href="#ref8" onclick="navRef(this)">Opinião de especialista/Revisão clássica</a> Essa explicação pressupõe que a paciente já esteja de fato imobilizada há algum tempo — dado não informado no caso relatado, e a confirmar antes de assumi-lo como causa.</p>
+<div class="kbox">
+<div class="klabel">Achado a não misturar na hipótese central</div>
+<p>A forma como a atelectasia foi identificada (exame físico — murmúrio vesicular diminuído, por exemplo — ou exame de imagem) não foi relatada. Vale registrar o achado, mas não forçá-lo para dentro da narrativa embólica nem presumir maior precisão do que a informação disponível permite — a menos que uma eventual TC de tórax mostre nódulos/infiltrados compatíveis com êmbolos sépticos pulmonares (o que reabriria a hipótese de acometimento de coração direito concomitante, cenário menos provável mas não impossível).</p>
+</div>
+</section>
+
+<section id="s-exames">
+<h2>Exames complementares recomendados</h2>
+<div class="plate-block" id="fig-3">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Endocarditis_ultrasound.JPG"
+       alt="Ecocardiograma mostrando vegetação em valva tricúspide, indicada por seta, em dois quadros do ciclo cardíaco"
+       loading="lazy" data-caption="Vegetação ao ecocardiograma (seta) — exemplo ilustrativo em valva tricúspide">
+  <div class="plate-caption"><b>Fig. 3 — Vegetação ao ecocardiograma</b> — massa ecogênica irregular aderida ao folheto valvar (seta), o achado que ETT/ETE buscam confirmar. Imagem de referência mostra valva <strong>tricúspide</strong> (coração direito) — usada aqui só para ilustrar a aparência geral de uma vegetação; a valva esperada neste caso é a <strong>mitral</strong> (coração esquerdo), ainda sem eco realizado. Koya D, Shibuya K, Kikkawa R, Haneda M. — <em>BMC Nephrology</em>, 2004;5:18, via Wikimedia Commons. CC BY 2.0.</div>
+</div>
+<p>Em ordem de prioridade prática, considerando o que já se sabe e o que ainda falta confirmar:</p>
+<ul>
+<li><strong>Hemoculturas</strong> — idealmente ≥3 pares, de sítios de punção diferentes, antes de qualquer nova dose de antimicrobiano, se a condição clínica permitir um breve atraso. Os critérios de 2023 não exigem mais intervalo de tempo estrito nem punções obrigatoriamente separadas entre as coletas, o que facilita a operacionalização em pronto-socorro.<a class="evid" href="#ref3" onclick="navRef(this)">Diretriz/Consenso</a></li>
+<li><strong>Ecocardiograma transtorácico (ETT)</strong> — primeira linha, mas com sensibilidade moderada (em torno de 70% para detecção de vegetação). Se negativo e a suspeita clínica permanecer alta, ou diante de prótese valvar, avançar para <strong>ecocardiograma transesofágico (ETE)</strong>, com sensibilidade maior (&gt;90%).</li>
+<li><strong>Revisão da neuroimagem já realizada</strong> pelo quadro de AVC (TC/RM de crânio) — reavaliar tamanho da lesão, território vascular, presença de transformação hemorrágica e, se disponível RM com sequências vasculares, sinais sugestivos de aneurisma micótico intracraniano.</li>
+<li><strong>Doppler venoso de membros inferiores</strong>, com prioridade na perna esquerda — resolve TVP vs. não-TVP rapidamente, exame não invasivo.</li>
+<li><strong>Provas inflamatórias</strong> (PCR, VHS, hemograma com leucograma) como apoio inespecífico e para acompanhamento evolutivo — mesma lógica de interpretação desenvolvida em <a class="cross-link" href="../compêndios/medicina/infectologia-fundamentos.html#s-fase-aguda">Fundamentos de Infectologia</a>.</li>
+<li><strong>PET-CT com ¹⁸F-FDG ou angio-TC de corpo inteiro</strong> — considerar se houver suspeita de múltiplos sítios embólicos ou de foco infeccioso não localizado; passou a ser critério maior de imagem na revisão de 2023.</li>
+<li><strong>Função renal e exame de urina</strong> — êmbolos renais e glomerulonefrite mediada por imunocomplexos são complicações reconhecidas da EI.</li>
+<li><strong>Sorologias para agentes fastidiosos</strong> (<em>Bartonella</em>, <em>Coxiella burnetii</em>) — reservar para o cenário de hemoculturas repetidamente negativas, sobretudo relevante aqui dado o uso prévio de antimicrobiano não caracterizado.</li>
+</ul>
+</section>
+
+<section id="s-conduta">
+<h2>Antibioticoterapia empírica e indicação cirúrgica</h2>
+<p>A escolha do esquema empírico depende de fatores que ainda faltam neste caso — antimicrobiano usado previamente, valva nativa vs. protética, epidemiologia local de resistência — de modo que a recomendação prática é <strong>envolver a equipe de infectologia antes de iniciar</strong>, e sempre que possível colher as hemoculturas antes da primeira dose. Esquemas de referência para endocardite de valva nativa incluem combinações de ampicilina, flucloxacilina/oxacilina (ou vancomicina, se risco de MRSA) e gentamicina, com ajuste conforme cultura e antibiograma assim que disponíveis.</p>
+<h3 id="s-terapia-dirigida">Terapia dirigida, uma vez identificado o agente</h3>
+<div class="table-wrap">
+<table class="data-table" aria-label="Antimicrobianos por agente etiológico em endocardite infecciosa">
+<tr><th>Agente</th><th>Esquema de escolha</th><th>Duração</th><th>Observação</th></tr>
+<tr><td class="td-label">MSSA, valva nativa</td><td>Oxacilina/nafcilina/flucloxacilina IV (± gentamicina 3-5 d, opcional)</td><td>6 semanas</td><td>Betalactâmico &gt; vancomicina se sensível; daptomicina se alergia grave</td></tr>
+<tr><td class="td-label">MRSA, valva nativa</td><td>Vancomicina IV (nível/AUC-guiado)</td><td>6 semanas</td><td>Daptomicina dose alta (~8-10 mg/kg) alternativa, sobretudo se MIC de vancomicina elevada</td></tr>
+<tr><td class="td-label">S. aureus (MSSA/MRSA), prótese valvar</td><td>Esquema acima + rifampicina + gentamicina (2 sem)</td><td>≥6 semanas</td><td>Rifampicina só após hemocultura negativar — risco de resistência se iniciada cedo</td></tr>
+<tr><td class="td-label">Viridans, altamente sensível (CIM ≤0,12)</td><td>Penicilina G ou ceftriaxona</td><td>4 sem (2 sem se + gentamicina)</td><td>Regime curto exige valva nativa, sem complicação, função renal normal</td></tr>
+<tr><td class="td-label">Viridans, sensibilidade intermediária</td><td>Penicilina/ceftriaxona + gentamicina (2 sem)</td><td>4 semanas</td><td>—</td></tr>
+<tr><td class="td-label">Enterococcus, sensível</td><td>Ampicilina + ceftriaxona, ou ampicilina + gentamicina</td><td>4-6 semanas</td><td>Duplo betalactâmico evita nefrotoxicidade do aminoglicosídeo, eficácia equivalente</td></tr>
+<tr><td class="td-label">Enterococcus resistente/VRE</td><td>Vancomicina + gentamicina (VSE); linezolida ou daptomicina (VRE)</td><td>4-6 semanas</td><td>Discutir com infectologia — esquemas de resgate</td></tr>
+<tr><td class="td-label">HACEK</td><td>Ceftriaxona</td><td>4 semanas</td><td>—</td></tr>
+</table>
+<p class="table-caption">Tabela 5 — Terapia antimicrobiana dirigida por agente; esquemas de referência, sujeitos a ajuste por antibiograma, função renal e orientação da infectologia.<a class="evid" href="#ref12" onclick="navRef(this)">Diretriz/Consenso</a></p>
+</div>
+<p>As <strong>indicações cirúrgicas</strong> em EI de valva nativa mais reconhecidas são: insuficiência cardíaca refratária ao tratamento clínico; infecção não controlada (bacteremia persistente apesar de antibiótico adequado, abscesso perivalvar, deiscência de prótese); e vegetação grande em valva do coração esquerdo (as diretrizes ESC e ACC/AHA divergem em detalhe — ESC recomenda cirurgia para vegetação &gt;10 mm com estenose/regurgitação grave e baixo risco cirúrgico, ou qualquer vegetação &gt;15 mm; ACC/AHA considera cirurgia precoce para vegetações móveis &gt;10 mm independente da gravidade da lesão), especialmente após um primeiro evento embólico — o risco de novo embolismo é maior justamente na primeira semana de antibioticoterapia, o que reforça não postergar a cirurgia quando indicada por esse critério.<a class="evid" href="#ref10" onclick="navRef(this)">Diretriz/Consenso (divergência reconhecida entre ESC e ACC/AHA)</a></p>
+</section>
+
+<section id="s-avc-manejo">
+<h2>Manejo do AVC concomitante — um ponto de conduta frequentemente mal compreendido</h2>
+<div class="kbox">
+<div class="klabel">Suposição assumida nesta seção</div>
+<p>O caso relatado não informa o tempo de evolução do AVC. A discussão abaixo (trombólise, janela terapêutica, anticoagulação) segue o cenário-padrão de <strong>AVC isquêmico agudo</strong>, por ser o contexto em que essas decisões normalmente se colocam na literatura — não uma afirmação de que este AVC específico está na fase aguda. Se a paciente já estiver fora da janela aguda, a discussão de trombólise deixa de se aplicar, mas a de anticoagulação/tromboprofilaxia permanece relevante.</p>
+</div>
+<p>A EI é considerada <strong>contraindicação relativa forte à trombólise</strong> no AVC isquêmico agudo, pelo alto risco de transformação hemorrágica de um infarto de origem séptica — a parede vascular já fragilizada pelo próprio êmbolo séptico (e o eventual aneurisma micótico associado) torna o risco hemorrágico da trombólise inaceitavelmente alto na maioria dos cenários. A trombectomia mecânica pode ser considerada segura e eficaz em casos cuidadosamente selecionados, mas a trombólise intravenosa é evitada.<a class="evid" href="#ref6" onclick="navRef(this)">Revisão sistemática</a></p>
+<p>A <strong>anticoagulação plena</strong> também é controversa: estudos observacionais não mostraram redução do risco de novo AVC isquêmico com anticoagulação em pacientes com EI, e há sinal de aumento do risco hemorrágico — sobretudo em EI por <em>S. aureus</em> — quando anticoagulação é associada nas primeiras semanas. A recomendação predominante é suspender anticoagulação oral prévia nas primeiras 2 semanas (janela de maior risco hemorrágico), substituindo por heparina em dose ajustada apenas se houver indicação específica além da própria EI.<a class="evid" href="#ref6" onclick="navRef(this)">Revisão sistemática, com controvérsia reconhecida na literatura</a></p>
+<p>Consequência prática para a perna esquerda: <strong>se o Doppler confirmar TVP</strong>, a decisão sobre anticoagular pesa o risco de progressão/TEP contra o risco hemorrágico do AVC embólico séptico recente — decisão compartilhada entre neurologia, cardiologia e infectologia, não uma aplicação automática do protocolo padrão de TVP isolada. Tromboprofilaxia mecânica (compressão pneumática intermitente) é preferível a farmacológica nesse intervalo agudo, caso TVP ainda não esteja estabelecida.</p>
+</section>
+
+<section id="s-antimicrobiano">
+<h2>O antimicrobiano esquecido — por que é um dado crítico, não um detalhe</h2>
+<p>Dois motivos concretos tornam essa lacuna da história prioritária para resgate ativo (prontuário prévio, familiar, farmácia, unidade de saúde de origem):</p>
+<ul>
+<li><strong>Mascaramento de hemoculturas.</strong> Se o antimicrobiano foi usado recentemente e por via sistêmica, o cenário mais provável é o de <strong>endocardite com hemocultura negativa</strong> — o que muda a abordagem: maior peso para os critérios de imagem e sorologia (Tabela 1), possível necessidade de suspender o antibiótico e recolher hemoculturas seriadas se a paciente estiver clinicamente estável o suficiente para tolerar esse atraso, e priorização de sorologia para <em>Bartonella</em>/<em>Coxiella</em> e, se disponível, técnica molecular.</li>
+<li><strong>Pista sobre a porta de entrada.</strong> O motivo original da prescrição (procedimento dentário, infecção cutânea/de perna, infecção urinária) ajuda tanto a fechar a história causal completa quanto a orientar o antibiótico empírico atual — por exemplo, uma origem cutânea reforça a probabilidade de <em>S. aureus</em>, enquanto uma origem dentária reforça estreptococos do grupo viridans ou HACEK.</li>
+</ul>
+</section>
+
+<section id="s-conexoes">
+<h2>Conexões</h2>
+<p>O raciocínio semiológico do sopro parte da <a class="cross-link" href="../compêndios/medicina/cardiologia-semiologia.html#ausculta">ausculta cardíaca desenvolvida em Semiologia Cardíaca</a> — este caso assume essa base e aplica-a a um cenário de regurgitação valvar aguda por vegetação. A fisiopatologia da formação de trombo e embolização retoma diretamente os mecanismos gerais descritos em <a class="cross-link" href="../compêndios/medicina/mecanismos/fisiopatologia/trombose-e-hemostasia.html#embolia">Trombose e Hemostasia</a>, aqui aplicados a uma vegetação infectada em vez de um trombo estéril. O manejo da anticoagulação/trombólise no contexto de EI dialoga com a farmacologia de <a class="cross-link" href="../compêndios/medicina/mecanismos/farmacologia/antiagregantes-anticoagulantes-tromboliticos.html#tromboliticos">Antiagregantes, Anticoagulantes e Trombolíticos</a>. E o raciocínio diagnóstico sindrômico-laboratorial (hemograma, provas de fase aguda) retoma <a class="cross-link" href="../compêndios/medicina/infectologia-fundamentos.html#s-hemograma">Fundamentos de Infectologia</a>. Nenhum compêndio de área específico de valvopatias/endocardite existe ainda neste acervo — candidato natural a compêndio-filho futuro em Cardiologia, se o tema recorrer em outros casos.</p>
+</section>
+
+<section id="s-perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Qual é o momento ideal para retomar anticoagulação (quando genuinamente indicada por outra condição, como fibrilação atrial concomitante) após um AVC embólico associado a EI, equilibrando risco de novo embolismo contra risco de transformação hemorrágica?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Em que ponto exato após um AVC embólico o risco cirúrgico de trocar/reparar a valva se torna aceitável, quando a indicação cirúrgica por vegetação grande já está definida — operar cedo demais aumenta risco de sangramento intracraniano perioperatório, operar tarde demais mantém o risco de novo embolismo?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>PET-CT com ¹⁸F-FDG deveria se tornar exame de rotina (não reservado a casos duvidosos) na investigação inicial de EI, dado seu valor tanto para achar vegetação quanto para mapear êmbolos assintomáticos à distância?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Técnicas moleculares independentes de cultura (PCR de amplo espectro, sequenciamento metagenômico) chegarão a substituir a hemocultura tradicional como exame de primeira linha, especialmente em pacientes com uso prévio de antimicrobiano como esta paciente?</p></div>
+</section>
+
+<section id="s-discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora pedia o fio condutor que amarra AVC, sopro novo e perna esquerda dolorosa sem ainda ter hemocultura ou ecocardiograma em mãos. A resposta construída aqui é: <strong>endocardite infecciosa em valva mitral com embolização séptica sistêmica</strong> é a hipótese mais econômica, porque uma única lesão (a vegetação) explica os três achados centrais por um mecanismo comum — fragmentação e embolização —, enquanto hipóteses alternativas para cada achado isoladamente (fibrilação atrial para o AVC, uma valvopatia crônica não infecciosa para o sopro, imobilização isolada para a perna) exigiriam a coincidência de processos independentes.</p>
+<p>A tensão que atravessa o caso é entre <strong>agir sobre a hipótese mais provável e confirmá-la com rigor</strong>: os critérios de Duke-ISCVID exigem hemocultura e/ou imagem para fechar o diagnóstico, exames ainda pendentes — mas a gravidade do quadro (suspeita de infecção sistêmica ativa com fenômeno embólico já manifesto) não permite esperar por essa confirmação antes de iniciar investigação e, quando indicado, antibioticoterapia empírica. É a mesma tensão entre certeza etiológica e oportunidade terapêutica discutida de forma mais geral em <a class="cross-link" href="../compêndios/medicina/infectologia-fundamentos.html#s-raciocinio">Fundamentos de Infectologia</a>, aqui elevada a um cenário de alto risco onde o atraso tem consequência neurológica direta.</p>
+<p>Uma implicação que emerge mas não foi enunciada explicitamente ao longo do texto: o dado aparentemente mais "administrativo" do caso — não saber qual antimicrobiano a paciente usou antes — é, na prática, o dado que mais condiciona toda a investigação daqui para frente (hemocultura negativa, escolha de sorologia, interpretação de qualquer resultado microbiológico). Casos clínicos incompletos, como este, expõem bem que o valor de uma informação não é fixo: um dado trivial em um contexto (histórico de antibiótico recente) se torna crítico quando a hipótese de trabalho é endocardite.</p>
+</section>
+
+<section id="s-referencias">
+<h2>Referências</h2>
+
+<div class="ref-layer">
+<h3>Ponto de entrada</h3>
+<div class="ref-item" id="ref1"><span class="rtype">Verbete/StatPearls</span><br><span class="rtitle">Infective Endocarditis</span>. StatPearls, NCBI Bookshelf, atualizado 2024.<br><span class="rnote">Visão geral concisa de fisiopatologia, apresentação clínica e conduta — bom ponto de partida antes dos artigos mais densos abaixo. <a href="https://www.ncbi.nlm.nih.gov/books/NBK557641/" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref2"><span class="rtype">Artigo de revisão</span><br><span class="rtitle">Embolic Events in Infective Endocarditis: A Comprehensive Review</span>. PMC, 2024.<br><span class="rnote">Fonte primária dos dados de incidência de embolização (80% dos casos, um terço para SNC) citados na seção "Hipótese diagnóstica principal". Segundo o PubMed, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11263858/" target="_blank" rel="noopener">artigo</a>.</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Aprofundamento</h3>
+<div class="ref-item" id="ref3"><span class="rtype">Artigo</span><br><span class="rtitle">Fowler, V.G. et al. — The 2023 Duke-International Society for Cardiovascular Infectious Diseases Criteria for Infective Endocarditis: Updating the Modified Duke Criteria</span>. <em>Clinical Infectious Diseases</em>, 2023;77(4):518-526.<br><span class="rnote">Fonte primária da Tabela 1 (critérios diagnósticos). Segundo o PubMed (<a href="https://doi.org/10.1093/cid/ciad271" target="_blank" rel="noopener">DOI</a>, PMID 37138445, PMCID PMC10681650) — texto completo não recuperado integralmente nesta sessão; a tabela apresentada é uma adaptação do resumo estrutural do artigo, a conferir contra o texto completo antes de uso em prova ou publicação.</span></div>
+<div class="ref-item" id="ref4"><span class="rtype">Artigo</span><br><span class="rtitle">Septic Embolism Complicating Infective Endocarditis</span>. <em>Journal of Vascular Surgery</em>, 1991.<br><span class="rnote">Fonte clássica sobre embolização séptica periférica e aneurismas micóticos, citada na seção "Diagnóstico diferencial da perna esquerda". <a href="https://www.jvascsurg.org/article/0741-5214(91)90241-L/fulltext" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref12"><span class="rtype">Diretriz</span><br><span class="rtitle">Delgado, V. et al. — 2023 ESC Guidelines for the management of endocarditis</span>. <em>European Heart Journal</em>, 2023;44(39):3948-4042.<br><span class="rnote">Fonte primária pretendida da Tabela 5 (terapia antimicrobiana dirigida por agente), seção "Antibioticoterapia empírica e indicação cirúrgica". Segundo o PubMed (<a href="https://doi.org/10.1093/eurheartj/ehad193" target="_blank" rel="noopener">DOI</a>, PMID 37622656) — sem acesso aberto confirmado (não indexado em PMC nem com licença aberta identificada); texto completo não recuperado nesta sessão, a tabela apresentada segue esquemas de referência usuais da literatura e deve ser conferida contra o texto integral da diretriz antes de uso em prova ou conduta real.</span></div>
+<div class="ref-item" id="ref5"><span class="rtype">Meta-análise</span><br><span class="rtitle">IRIS-DVT: Incidence, Risk Factors, and Prevention of Deep Vein Thrombosis in Acute Ischemic Stroke Patients — A Systematic Review and Meta-Analysis</span>. 2025.<br><span class="rnote">Fonte primária dos dados de incidência/janela temporal de TVP pós-AVC citados na seção "Diagnóstico diferencial da perna esquerda". <a href="https://www.mdpi.com/2514-183X/9/4/49" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref6"><span class="rtype">Revisão</span><br><span class="rtitle">Infective Endocarditis and Antithrombotic Therapy</span>. PMC, 2024.<br><span class="rnote">Fonte primária da discussão sobre contraindicação a trombólise e controvérsia de anticoagulação na seção "Manejo do AVC concomitante". <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11449188/" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref7"><span class="rtype">Estudo observacional</span><br><span class="rtitle">Anticoagulation in Patients With Stroke With Infective Endocarditis Is Safe</span>. <em>Stroke</em>, American Heart Association Journals.<br><span class="rnote">Contraponto observacional citado na mesma seção — ilustra a controvérsia ainda não resolvida na literatura. <a href="https://www.ahajournals.org/doi/full/10.1161/strokeaha.110.611681" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref8"><span class="rtype">Artigo clássico</span><br><span class="rtitle">The Complications of Immobility in the Elderly Stroke Patient</span>. <em>Journal of the American Board of Family Medicine</em>, 1992.<br><span class="rnote">Fonte da discussão sobre mecanismo de atelectasia por imobilização na seção correspondente. <a href="https://www.jabfm.org/content/5/4/389" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref13"><span class="rtype">Revisão</span><br><span class="rtitle">Tong, S.Y.C. et al. — Management of Staphylococcus aureus Bacteremia: A Review</span>. <em>JAMA</em>, 2025;334(9):798-808.<br><span class="rnote">Fonte pretendida da discussão sobre fatores de risco e distinção MSSA/MRSA na seção "MSSA vs. MRSA". Segundo o PubMed (<a href="https://doi.org/10.1001/jama.2025.4288" target="_blank" rel="noopener">DOI</a>, PMID 40193249, PMCID PMC12663922) — acesso aberto não confirmado nesta sessão (checagem de licença via PMC bloqueada por captcha); a lista de fatores de risco apresentada segue o conteúdo do abstract, a conferir contra o texto completo antes de uso em prova ou publicação.</span></div>
+<div class="ref-item" id="ref14"><span class="rtype">Revisão</span><br><span class="rtitle">Bamrung, V., Sitthicharoenchai, P. — The evolving story of Streptococcus gallolyticus: classification, pathogenesis, role in human and animal disease, and laboratory diagnostics</span>. <em>Frontiers in Microbiology</em>, 2026;17:1765252.<br><span class="rnote">Fonte primária da associação entre <em>S. gallolyticus</em> e endocardite/neoplasia colônica, seção "Estreptococos viridans e S. gallolyticus". Segundo o PubMed (<a href="https://doi.org/10.3389/fmicb.2026.1765252" target="_blank" rel="noopener">DOI</a>, PMID 41756132, PMCID PMC12932617). Acesso aberto confirmado, CC BY 4.0.</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Consulta especializada</h3>
+<div class="ref-item" id="ref9"><span class="rtype">Calculadora clínica</span><br><span class="rtitle">2023 Duke-ISCVID Criteria Calculator</span>. MDCalc.<br><span class="rnote">Ferramenta prática para aplicar os critérios da Tabela 1 caso a caso, incluindo as atualizações de 2023. <a href="https://www.mdcalc.com/calc/10564/2023-duke-international-society-cardiovascular-infectious-diseases-iscvid-criteria" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref10"><span class="rtype">Resumo de diretriz</span><br><span class="rtitle">2023 ESC Guidelines for Management of Endocarditis: Key Points</span>. American College of Cardiology.<br><span class="rnote">Síntese das indicações cirúrgicas (Tabela de indicação por tamanho de vegetação) citadas na seção "Antibioticoterapia empírica e indicação cirúrgica". <a href="https://www.acc.org/Latest-in-Cardiology/ten-points-to-remember/2023/08/29/20/49/2023-esc-guidelines-for-endocarditis-esc-2023" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref11"><span class="rtype">Instrumento clínico</span><br><span class="rtitle">Wells' Criteria for Deep Vein Thrombosis (DVT)</span>. Patient.info / literatura de validação clínica.<br><span class="rnote">Fonte do escore apresentado na seção "Diagnóstico diferencial da perna esquerda". <a href="https://patient.info/doctor/cardiovascular-disease/wells-dvt-score" target="_blank" rel="noopener">Link</a>.</span></div>
+</div>
+
+</section>
+
+</div>
+</div>
+</div>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
+<script>
+function toggleSidebar(){
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var collapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', collapsed);
+  try{ sessionStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0'); }catch(e){}
+  document.getElementById('toggle-btn').textContent = collapsed ? '▶' : '◀';
+}
+(function(){
+  try{
+    if(sessionStorage.getItem('sidebar-collapsed') === '1'){
+      document.getElementById('sidebar').classList.add('collapsed');
+      document.getElementById('body-wrap').classList.add('sidebar-collapsed');
+      document.getElementById('toggle-btn').textContent = '▶';
+    }
+  }catch(e){}
+})();
+
+var mobOpen = document.getElementById('mob-open');
+if(mobOpen){
+  mobOpen.addEventListener('click', function(){
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+}
+
+var progressBar = document.getElementById('progress-bar');
+function updateProgress(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+  if(a) a.classList.add('active');
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+if('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, {rootMargin:'-10% 0px -55% 0px'});
+  sections.forEach(function(s){ io.observe(s); });
+}
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbCap = document.getElementById('lightbox-caption');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = img.getAttribute('data-caption') || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+document.querySelectorAll('.plate-block img').forEach(function(img){
+  img.addEventListener('click', function(){ openLightbox(this); });
+});
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.navRef = window.navFig;
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

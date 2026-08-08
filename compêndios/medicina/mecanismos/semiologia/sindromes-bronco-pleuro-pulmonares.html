@@ -78,6 +78,11 @@ section.in-view>h2{color:var(--ac);transition:color .3s}
 .hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
 .kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
 .kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.term-ling{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:normal}
+.term-ling .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:6px;padding:7px 11px;font-family:var(--font-ui);font-size:11.5px;line-height:1.45;white-space:normal;width:max-content;max-width:270px;text-align:left;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term-ling .tip b{display:block;color:var(--ac);font-weight:600;margin-bottom:2px}
+.term-ling .tip i{display:block;color:var(--muted);font-style:normal}
+.term-ling:hover .tip{opacity:1}
 .ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
 .ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
 .ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
@@ -239,7 +244,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <h2>Conceitos-chave: a física por trás do IPPA</h2>
 <p>O exame físico torácico segue a sequência <b>I</b>nspeção, <b>P</b>alpação, <b>P</b>ercussão e <b>A</b>uscultação (IPPA) — mesmo método já desenvolvido em profundidade para o aparelho cardiovascular em <a class="cross-link" href="../../cardiologia-semiologia.html">Semiologia Cardíaca</a>. Aplicado ao tórax pulmonar, cada uma das quatro manobras testa uma propriedade física diferente do meio interposto entre a fonte do som/vibração e a mão ou o ouvido do examinador — e é essa diferença de propriedade testada que faz cada síndrome ter uma assinatura própria, mesmo quando dois achados isolados coincidem entre síndromes opostas.</p>
 <div class="ck-grid">
-<div class="ck-card"><div class="ckt">Frêmito tóraco-vocal (FTV)</div><p>Palpação de vibração de baixa frequência gerada pela fonação, transmitida pela árvore brônquica e pelo parênquima até a parede torácica.</p></div>
+<div class="ck-card"><div class="ckt"><span class="term-ling">Frêmito tóraco-vocal<span class="tip"><b>lat. fremitus "tremor, sussurro" + thorax + vox/vocalis</b><i>Essência: o "tremor da voz" que a mão sente no peito — a vibração vocal tornada tátil.</i></span></span> (FTV)</div><p>Palpação de vibração de baixa frequência gerada pela fonação, transmitida pela árvore brônquica e pelo parênquima até a parede torácica.</p></div>
 <div class="ck-card"><div class="ckt">Percussão</div><p>Onda sonora gerada por impacto direto; o timbre de retorno depende da razão ar/tecido sólido do volume percutido.</p></div>
 <div class="ck-card"><div class="ckt">Ausculta</div><p>Sons gerados pelo fluxo aéreo nas vias centrais, filtrados (ou não) pelo parênquima interposto antes de alcançar o estetoscópio.</p></div>
 </div>
@@ -253,8 +258,8 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <p>FTV e ausculta testam a <i>transmissão</i> de um som através do meio interposto — e tanto líquido quanto ar bloqueiam essa transmissão, gerando o mesmo resultado (abolido). A percussão testa a <i>densidade/ressonância</i> desse mesmo meio — e líquido e ar têm densidades opostas entre si (o líquido é muito mais denso que o ar, e mais denso ainda que o parênquima aerado normal). É por isso que a percussão — macicez no derrame, timpanismo no pneumotórax — é o elemento semiológico que de fato resolve a ambiguidade que FTV e ausculta, isoladamente, não resolvem.</p>
 </div>
 <h3>Ausculta: murmúrio vesicular, sopro brônquico e o parênquima como filtro</h3>
-<p>O murmúrio vesicular (MV) — o som respiratório normal — é gerado pelo fluxo de ar turbulento nas vias aéreas de maior calibre (os alvéolos, individualmente, são silenciosos), mas <b>filtrado</b> pelo parênquima aerado normal interposto entre a via aérea central e o estetoscópio: o tecido alveolar aerado funciona como um filtro passa-baixa, absorvendo as frequências mais altas e deixando passar um som suave, de baixa intensidade, predominantemente inspiratório. Quando o parênquima está consolidado — sem ar nos alvéolos, mas com o brônquio ainda pérvio, como na <a class="cross-link" href="#condensacao">condensação</a> — esse filtro desaparece, e o som gerado nas vias centrais é transmitido quase sem atenuação: o <b>sopro brônquico (ou tubário)</b>, mais alto, mais agudo, audível também na fase expiratória. Quando não há fluxo aéreo alcançando a região (brônquio obstruído na atelectasia) ou o meio interposto bloqueia toda a transmissão (líquido no derrame, ar no pneumotórax), o MV é <b>abolido</b> — por razões diferentes em cada caso, mas com o mesmo resultado auscultatório.</p>
-<p>A mesma lógica do FTV, aplicada à voz em vez de vibração tátil, gera três achados adicionais sobre área consolidada: <b>broncofonia</b> (a voz falada soa mais clara e mais intensa, pela transmissão facilitada), <b>pectorilóquia áfona</b> (a voz sussurrada, normalmente ininteligível por ser filtrada pelo parênquima aerado, torna-se inteligível) e, no limite superior de um derrame pleural, a <b>egofonia</b> ("voz de cabra" — timbre nasalado por filtragem seletiva de frequências na zona de transição entre líquido e parênquima parcialmente comprimido).</p>
+<p><span class="term-ling">O murmúrio vesicular<span class="tip"><b>lat. murmur "sussurro, ruído surdo" + vesicula "pequena bexiga" (alvéolo)</b><i>Essência: o "sussurro dos pequenos sacos" — o nome já descreve a origem alveolar difusa do som normal, não um foco único.</i></span></span> (MV) — o som respiratório normal — é gerado pelo fluxo de ar turbulento nas vias aéreas de maior calibre (os alvéolos, individualmente, são silenciosos), mas <b>filtrado</b> pelo parênquima aerado normal interposto entre a via aérea central e o estetoscópio: o tecido alveolar aerado funciona como um filtro passa-baixa, absorvendo as frequências mais altas e deixando passar um som suave, de baixa intensidade, predominantemente inspiratório. Quando o parênquima está consolidado — sem ar nos alvéolos, mas com o brônquio ainda pérvio, como na <a class="cross-link" href="#condensacao">condensação</a> — esse filtro desaparece, e o som gerado nas vias centrais é transmitido quase sem atenuação: o <span class="term-ling"><b>sopro brônquico (ou tubário)</b><span class="tip"><b>lat. tubus "tubo"</b><i>Essência: som de ar "dentro de um tubo rígido" — sem a filtragem normal do parênquima aerado, porque o parênquima que filtrava sumiu.</i></span></span>, mais alto, mais agudo, audível também na fase expiratória. Quando não há fluxo aéreo alcançando a região (brônquio obstruído na atelectasia) ou o meio interposto bloqueia toda a transmissão (líquido no derrame, ar no pneumotórax), o MV é <b>abolido</b> — por razões diferentes em cada caso, mas com o mesmo resultado auscultatório.</p>
+<p>A mesma lógica do FTV, aplicada à voz em vez de vibração tátil, gera três achados adicionais sobre área consolidada: <span class="term-ling"><b>broncofonia</b><span class="tip"><b>gr. bronchos "brônquio" + phōnē "voz"</b><i>Essência: a voz "do brônquio" chegando ao estetoscópio sem o filtro normal do parênquima aerado — mais clara, mais alta.</i></span></span> (a voz falada soa mais clara e mais intensa, pela transmissão facilitada), <span class="term-ling"><b>pectorilóquia áfona</b><span class="tip"><b>lat. pectus "peito" + loqui "falar" + gr. a- privativo + phōnē "voz"</b><i>Essência: "fala do peito sem voz" — o sussurro, que deveria sumir a distância, chega inteligível porque o filtro alveolar desapareceu.</i></span></span> (a voz sussurrada, normalmente ininteligível por ser filtrada pelo parênquima aerado, torna-se inteligível) e, no limite superior de um derrame pleural, a <span class="term-ling"><b>egofonia</b><span class="tip"><b>gr. aix/aigós "cabra" + phōnē "voz"</b><i>Essência: a etimologia já é a semiologia — voz que soa como balido, por filtragem seletiva de frequência na interface líquido-parênquima.</i></span></span> ("voz de cabra" — timbre nasalado por filtragem seletiva de frequências na zona de transição entre líquido e parênquima parcialmente comprimido).</p>
 <h3>Sons adventícios: um mecanismo físico distinto para cada um</h3>
 <div class="table-wrap">
 <table class="data-table" aria-label="Mecanismo físico de cada som adventício respiratório">
@@ -292,7 +297,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 </table>
 <p class="table-caption">Tabela 2 — Os dois fenótipos clássicos de DPOC, reconhecendo que a maioria dos pacientes reais combina elementos dos dois. Sinais radiológicos de hiperinsuflação: mais de 7 costelas visíveis na região anterior, mais de 10 na posterior — retificação diafragmática pelo aprisionamento aéreo crônico <a class="fig-ref" href="#fig-1" onclick="navFig(this)">(Fig. 1)</a>.</p>
 </div>
-<h3>Bronquiectasias</h3>
+<h3><span class="term-ling">Bronquiectasias<span class="tip"><b>gr. bronchos "brônquio" + ektasis "dilatação"</b><i>Essência: mesma raiz -ectasia da atelectasia, sentido oposto — aqui o problema é dilatação permanente, não colapso.</i></span></span></h3>
 <div class="plate-block" id="fig-1">
   <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Chest_X-ray_of_hyperinflated_lung_with_bronchiectasis_at_the_right_upper_lobe.jpg"
        alt="Radiografia de tórax PA mostrando sinais de hiperinsuflação (contagem de arcos costais anterior/posterior no diafragma) e bronquiectasias no hilo/lobo superior direito"
@@ -309,6 +314,18 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
   <div class="plate-caption"><b>Fig. 2 — Baqueteamento digital</b> — perda do ângulo ungueal normal (ângulo de Lovibond) e abaulamento da falange distal, achado clássico de hipóxia crônica em bronquiectasias e outras pneumopatias fibrosantes. IPFeditor, Wikimedia Commons, CC BY-SA 3.0.
     <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">Clubbing <em>(baqueteamento)</em> · Nail angle <em>(ângulo ungueal)</em></span>
   </div>
+</div>
+<div class="plate-block" id="fig-5">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/extra_bronquiectasia_tc.jpg"
+       alt="Seis cortes de tomografia computadorizada de tórax mostrando bronquiectasias — dilatações brônquicas císticas e em anel, cortes axiais e coronais"
+       loading="lazy" data-caption="Bronquiectasias — TC de tórax, cortes axiais e coronais">
+  <div class="plate-caption"><b>Fig. 5 — Bronquiectasias à tomografia</b> — seis cortes de TC de tórax (axiais e coronais) mostrando o sinal do anel de sinete e a dilatação brônquica cística característica, mais sensível que a radiografia simples para o diagnóstico. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares" (baseado em Porto CC, <i>Semiologia Médica</i>, 9ª ed.); fonte primária da imagem não especificada no material original.</div>
+</div>
+<div class="plate-block" id="fig-6">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/extra_bronquiectasia_peca.jpg"
+       alt="Peça anatômica de pulmão seccionado mostrando bronquiectasias em padrão de favo de mel, com múltiplas cavidades brônquicas dilatadas"
+       loading="lazy" data-caption="Bronquiectasias — peça anatômica em corte, padrão em favo de mel">
+  <div class="plate-caption"><b>Fig. 6 — Bronquiectasias, peça anatômica</b> — corte de peça de ressecção/necropsia mostrando os brônquios cronicamente dilatados em padrão de favo de mel — a correspondência macroscópica direta do que a TC (Fig. 5) mostra em vida. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares"; fonte primária da imagem não especificada no material original.</div>
 </div>
 <div class="table-wrap">
 <table class="data-table" aria-label="Quadro comparativo das síndromes brônquicas">
@@ -330,10 +347,36 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <h2>Síndromes parenquimatosas</h2>
 <p>As síndromes parenquimatosas envolvem alterações no tecido pulmonar propriamente dito — alvéolos, interstício e capilares — em vez das vias de condução. Cada uma delas é a aplicação direta dos mecanismos físicos desenvolvidos em <a class="cross-link" href="#conceitos-chave">Conceitos-chave</a>: o que muda entre elas é apenas o que substitui o ar dentro do alvéolo (líquido inflamatório, colapso, destruição de septo, transudato) e se o brônquio que leva a essa unidade continua pérvio ou não.</p>
 <h3 id="condensacao">Condensação pulmonar</h3>
+<div class="plate-block" id="fig-7">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig5_condensacao.jpg"
+       alt="Duas radiografias de tórax PA mostrando condensação/pneumonia com opacidades alveolares confluentes"
+       loading="lazy" data-caption="Condensação pulmonar — dois casos de pneumonia, radiografia PA">
+  <div class="plate-caption"><b>Fig. 7 — Condensação pulmonar (pneumonia)</b> — dois casos de radiografia de tórax PA com opacidades alveolares confluentes, broncograma aéreo compatível com brônquio pérvio em meio à condensação. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares" (baseado em Porto CC, <i>Semiologia Médica</i>, 9ª ed.); fonte primária da imagem não especificada no material original.</div>
+</div>
 <p>Ocorre quando os alvéolos são preenchidos por material sólido ou líquido — exsudato inflamatório, sangue, células neoplásicas — mantendo os <b>brônquios pérvios</b>. A pneumonia bacteriana lobar é o protótipo clássico. Esse detalhe (brônquio pérvio) é o que distingue mecanisticamente a condensação da atelectasia, apesar de ambas envolverem perda de ar alveolar. À inspeção: assimetria torácica, redução da expansibilidade ipsilateral, taquipneia, retração da hemicaixa afetada nas formas extensas. À palpação: FTV <b>aumentado</b> sobre a área condensada (ver mecanismo em Conceitos-chave), expansibilidade diminuída ipsilateralmente. À percussão: macicez ou submacicez sobre a área condensada. À ausculta: sopro brônquico, broncofonia e pectorilóquia áfona positivas, estertores crepitantes nas bordas da lesão (a clássica "crepitação de Laennec").</p>
-<h3>Atelectasia</h3>
+<h3><span class="term-ling">Atelectasia<span class="tip"><b>gr. a- privativo + telos "fim, completude" + ektasis "expansão"</b><i>Essência: expansão que nunca se completou — não "pulmão que murchou", mas pulmão que não terminou de abrir.</i></span></span></h3>
+<div class="plate-block" id="fig-8">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig6_atelectasia.jpg"
+       alt="Duas radiografias de tórax mostrando atelectasia, com perda de volume e desvio das estruturas"
+       loading="lazy" data-caption="Atelectasia — dois casos, radiografia de tórax">
+  <div class="plate-caption"><b>Fig. 8 — Atelectasia</b> — dois casos de colapso pulmonar com perda de volume do hemitórax afetado. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares" (baseado em Porto CC, <i>Semiologia Médica</i>, 9ª ed.); fonte primária da imagem não especificada no material original.</div>
+</div>
+<div class="plate-block" id="fig-9">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig6b_atelectasia_intubacao.jpg"
+       alt="Radiografia de tórax mostrando tubo endotraqueal seletivo no brônquio direito, com atelectasia do pulmão esquerdo por exclusão ventilatória"
+       loading="lazy" data-caption="Atelectasia por intubação seletiva do brônquio direito (ETT/RB anotados)">
+  <div class="plate-caption"><b>Fig. 9 — Atelectasia por intubação seletiva</b> — radiografia anotada mostrando o tubo endotraqueal (<b>ETT</b>) avançado além da carina, para dentro do brônquio-fonte direito (<b>RB</b>) — a seta marca a ponta do tubo. O pulmão esquerdo, excluído da ventilação, colaba por atelectasia — exemplo iatrogênico direto do mecanismo obstrutivo descrito no texto. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares"; fonte primária da imagem não especificada no material original.
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">ETT = endotracheal tube <em>(tubo endotraqueal)</em> · RB = right bronchus <em>(brônquio direito)</em></span>
+  </div>
+</div>
 <p>Colapso alveolar por obstrução completa de um brônquio (atelectasia obstrutiva — o ar já presente é progressivamente reabsorvido pela circulação capilar, sem reposição, até o colabamento total) ou por compressão extrínseca. Diferente da condensação, aqui o brônquio está <b>obstruído</b>, não pérvio — por isso, apesar de também haver perda de ar alveolar, o FTV segue o padrão oposto: sem via aérea patente para transmitir vibração até a região, o FTV é <b>abolido</b> em vez de aumentado. O pulmão perde volume, e há desvio <b>ipsilateral</b> das estruturas mediastinais — o mediastino é "puxado" para o lado que perdeu volume, ao contrário do que ocorre no derrame volumoso (ver adiante), o que torna a direção do desvio traqueal um dado semiológico topográfico de alto valor. À inspeção: retração da hemitórax, desvio da traqueia para o lado afetado. FTV abolido ou muito reduzido; percussão com macicez absoluta; ausculta com murmúrio vesicular abolido e ausência de sons adventícios (não há fluxo aéreo gerando som nem via patente para transmiti-lo).</p>
-<h3 id="enfisema">Enfisema pulmonar</h3>
+<h3 id="enfisema"><span class="term-ling">Enfisema<span class="tip"><b>gr. emphysan "insuflar, soprar dentro" (em- "dentro" + physan "soprar")</b><i>Essência: tecido inflado que nunca esvazia — o nome descreve o próprio defeito mecânico, ar que entra mas não retorna.</i></span></span> pulmonar</h3>
+<div class="plate-block" id="fig-10">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig7_hiperinsuflacao.jpg"
+       alt="Radiografias de tórax em incidência PA e perfil mostrando hiperinsuflação pulmonar, com retificação diafragmática e aumento do espaço aéreo retroesternal"
+       loading="lazy" data-caption="Hiperinsuflação pulmonar — incidências PA e perfil">
+  <div class="plate-caption"><b>Fig. 10 — Hiperinsuflação pulmonar</b> — radiografias em PA e perfil mostrando os sinais clássicos de hiperinsuflação por enfisema: retificação/rebaixamento diafragmático e aumento do espaço aéreo retroesternal, complementando a contagem de arcos costais já descrita na <a class="fig-ref" href="#fig-1" onclick="navFig(this)">Fig. 1</a>. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares" (baseado em Porto CC, <i>Semiologia Médica</i>, 9ª ed.); fonte primária da imagem não especificada no material original.</div>
+</div>
 <p>Destruição dos septos alveolares com aumento permanente dos espaços aéreos distais ao bronquíolo terminal — perda de superfície de troca gasosa e, mecanicamente, perda de retração elástica, resultando em hiperinsuflação e aprisionamento aéreo. À inspeção: tórax em barril (aumento do diâmetro anteroposterior), respiração com lábios franzidos (manobra que o próprio paciente aprende, empiricamente, para gerar uma pressão positiva expiratória que mantém as vias aéreas colapsáveis abertas por mais tempo). FTV reduzido difusamente; percussão com hipersonoridade, rebaixamento e imobilidade diafragmática. Ausculta: murmúrio vesicular muito diminuído, expiração prolongada.</p>
 <h3>Congestão pulmonar passiva</h3>
 <p>Resulta do aumento da pressão hidrostática nos capilares pulmonares — habitualmente por insuficiência ventricular esquerda — levando ao extravasamento de líquido para o interstício e, nas formas graves, para os alvéolos (edema alveolar). O mecanismo hemodinâmico geral de congestão e edema é desenvolvido em profundidade em <a class="cross-link" href="../fisiopatologia/doencas-circulatorias.html">Patologia das Doenças Circulatórias</a> (hiperemia passiva, transudato); aqui o foco é a assinatura semiológica pulmonar específica. À inspeção: taquipneia, ortopneia, cianose periférica nas formas avançadas. FTV normal ou discretamente aumentado nas bases; percussão com submatidez nas bases bilaterais (líquido intersticial, ainda não tão denso quanto uma condensação verdadeira). Ausculta: estertores crepitantes bilaterais em bases ("estertores de estase"), sibilos expiratórios podem ocorrer por edema de mucosa brônquica (a chamada "asma cardíaca").</p>
@@ -342,6 +385,12 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <p>Na congestão passiva, os achados são bilaterais e predominam nas bases, ao contrário da pneumonia lobar, que tende a ser unilateral e localizada. A ausência de febre, o contexto de cardiopatia prévia e a resposta a diuréticos são elementos-chave do raciocínio diferencial. A terceira bulha (B3) e a distensão venosa jugular — ambas desenvolvidas em <a class="cross-link" href="../../cardiologia-semiologia.html#ausculta">Semiologia Cardíaca</a> — auxiliam na atribuição da etiologia cardíaca.</p>
 </div>
 <h3>Lesões cavitárias</h3>
+<div class="plate-block" id="fig-11">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig8_lesoes_cavitarias.jpg"
+       alt="Duas radiografias de tórax mostrando lesões cavitárias pulmonares com paredes espessadas e conteúdo aéreo central"
+       loading="lazy" data-caption="Lesões cavitárias — dois casos, radiografia de tórax">
+  <div class="plate-caption"><b>Fig. 11 — Lesões cavitárias</b> — dois casos de cavidade pulmonar com parede espessada e centro aerado, compatíveis com abscesso pulmonar/tuberculose cavitária. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares"; imagem com marca d'água de <a href="https://pneumoimagem.com.br" class="cross-link">pneumoimagem.com.br</a> visível na fonte original.</div>
+</div>
 <p>Áreas de necrose e destruição do parênquima pulmonar que criam espaços aéreos patológicos — frequentemente vistas em abscesso pulmonar e tuberculose. O mecanismo é a drenagem do conteúdo necrótico através de um brônquio comunicante, deixando uma cavidade com paredes de tecido inflamatório/fibrótico e um centro aerado (frequentemente com nível hidroaéreo, quando resta líquido no fundo da cavidade). À percussão, pode haver timpanismo localizado sobre a cavidade quando ela é grande e superficial o bastante, contrastando com a macicez do tecido de parede ao redor. À ausculta, sopro anfórico (som cavo, ressonante, lembrando o som de assoprar sobre a boca de uma garrafa vazia) pode ocorrer sobre cavidades grandes e de paredes lisas.</p>
 <div class="table-wrap">
 <table class="data-table" aria-label="Quadro comparativo das síndromes parenquimatosas pelo IPPA">
@@ -360,7 +409,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <section id="sindromes-pleurais">
 <h2>Síndromes pleurais</h2>
 <p>As síndromes pleurais resultam da ocupação do espaço pleural — normalmente virtual, com pressão subatmosférica (ver <a class="cross-link" href="#fundamentos">Fundamentos necessários</a>) — por líquido ou ar em quantidade patológica. A perda da pressão negativa transpleural, em ambos os casos, permite que o pulmão colabe por sua própria retração elástica; o que diferencia as duas síndromes ao exame físico é exclusivamente a densidade do que ocupou o espaço.</p>
-<h3 id="derrame-pleural">Derrame pleural</h3>
+<h3 id="derrame-pleural">Derrame <span class="term-ling">pleural<span class="tip"><b>gr. pleurá "costela, lado do corpo"</b><i>Essência: a membrana "do lado" — nome anatômico posicional, não funcional, herdado sem alteração desde o grego antigo.</i></span></span></h3>
 <div class="plate-block" id="fig-3">
   <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Pleural_effusion_-_Left_lung_(7471755836).jpg"
        alt="Radiografia de tórax mostrando derrame pleural esquerdo volumoso, opacificando todo o hemitórax esquerdo com desvio do mediastino para a direita"
@@ -375,7 +424,7 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <div class="klabel">Nível de evidência — acurácia real dos sinais físicos no derrame pleural</div>
 <p>Um estudo prospectivo com 278 pacientes, comparando cegamente sinais físicos (expansão torácica assimétrica, FTV, percussão, murmúrio vesicular, estertores, ressonância vocal) contra radiografia de tórax como padrão-ouro, encontrou que a percussão maciça foi o preditor independente mais forte de derrame pleural (razão de chances 12,80; IC95% 4,23–38,70), seguida pela expansão torácica assimétrica (razão de chances 5,22; IC95% 2,06–13,23), com área sob a curva ROC de 0,88 para o modelo combinado <span class="evid">Estudo observacional</span>. A concordância interobservador foi excelente para expansão, FTV, percussão e murmúrio vesicular (kappa 0,84–0,89). Achado prático relevante: os autores concluem que os sinais físicos são mais úteis para <b>excluir</b> do que para <b>confirmar</b> derrame pleural — reforçando o enquadramento bayesiano de que cada achado é um multiplicador de probabilidade, não um veredito isolado. Segundo o PubMed, Kalantri S, Joshi R, Lokhande T et al. "Accuracy and reliability of physical signs in the diagnosis of pleural effusion." <i>Respiratory Medicine</i>, 2007. <a href="https://doi.org/10.1016/j.rmed.2006.07.014">DOI: 10.1016/j.rmed.2006.07.014</a> (PMID 16965906).</p>
 </div>
-<h3 id="pneumotorax">Pneumotórax</h3>
+<h3 id="pneumotorax"><span class="term-ling">Pneumotórax<span class="tip"><b>gr. pneuma "ar, sopro" + thōrax "couraça, peito"</b><i>Essência: "ar na couraça" — ar onde deveria haver só a caixa torácica fechada ao redor do pulmão.</i></span></span></h3>
 <div class="plate-block" id="fig-4">
   <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/X-ray_of_pneumothorax_signs.jpg"
        alt="Radiografia de tórax anotada mostrando pneumotórax esquerdo: ausência de trama pulmonar, pulmão esquerdo colabado e desvio do mediastino para a direita"
@@ -386,6 +435,12 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 </div>
 <p>A ruptura da pleura — por bolha subpleural rota (espontâneo primário, tipicamente em jovens magros altos), doença pulmonar subjacente (espontâneo secundário — DPOC, fibrose), trauma ou procedimento iatrogênico — permite a entrada de ar no espaço pleural, desfazendo a pressão negativa e causando o colapso do parênquima pulmonar adjacente pela mesma lógica elástica descrita em Fundamentos necessários. No <b>pneumotórax hipertensivo</b>, um mecanismo valvular unidirecional permite a entrada progressiva de ar sem saída, com desvio mediastinal contralateral progressivo e risco de vida por compressão das estruturas mediastinais e da veia cava — emergência que exige descompressão imediata, não aguardar confirmação radiológica.</p>
 <p>À inspeção: hemitórax abaulado, redução da expansibilidade ipsilateral, desvio da traqueia para o lado oposto no hipertensivo. FTV abolido ou muito reduzido (o ar impede a transmissão — ver Conceitos-chave). À percussão: timpanismo ou hipersonoridade (ar ressonante — o achado que distingue o pneumotórax do derrame, apesar de ambos abolirem o FTV e o MV). À ausculta: MV abolido, ausência de sons adventícios <a class="fig-ref" href="#fig-4" onclick="navFig(this)">(Fig. 4)</a>.</p>
+<div class="plate-block" id="fig-12">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/extra_pneumotorax_seta.jpg"
+       alt="Radiografia de tórax com seta apontando a linha da pleura visceral separada da parede torácica, marcando o limite do pneumotórax"
+       loading="lazy" data-caption="Pneumotórax — seta marcando a linha pleural visceral">
+  <div class="plate-caption"><b>Fig. 12 — Linha pleural no pneumotórax</b> — segundo caso, com seta marcando diretamente a linha da pleura visceral deslocada da parede torácica pelo ar livre — o sinal radiológico primário do pneumotórax, complementar à impressão geral de ausência de trama já vista na <a class="fig-ref" href="#fig-4" onclick="navFig(this)">Fig. 4</a>. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares"; fonte primária da imagem não especificada no material original.</div>
+</div>
 <div class="kbox">
 <div class="klabel">Nível de evidência — ultrassom point-of-care × radiografia para pneumotórax oculto</div>
 <p>Um estudo prospectivo com 225 pacientes de trauma comparou o ultrassom torácico portátil (EFAST — <i>Extended Focused Assessment with Sonography for Trauma</i>) à radiografia de tórax em decúbito dorsal (o exame de imagem inicial mais comum em trauma). Considerando cada campo pulmonar isoladamente e a tomografia como padrão-ouro, o EFAST mostrou sensibilidade maior que a radiografia (48,8% vs. 20,9%) para detectar pneumotórax, com especificidade alta e semelhante entre os dois (99,6% e 98,7%) <span class="evid">Estudo observacional</span>. Muitos dos pneumotórax perdidos pela radiografia (63% dos casos, ocultos à radiografia convencional) foram identificados pelo ultrassom — relevante porque a radiografia em decúbito dorsal, usada rotineiramente na reanimação inicial, tem sensibilidade especialmente baixa para ar livre em pequena quantidade. Segundo o PubMed, Kirkpatrick AW, Sirois M, Laupland KB et al. "Hand-held thoracic sonography for detecting post-traumatic pneumothoraces: the Extended Focused Assessment with Sonography for Trauma (EFAST)." <i>The Journal of Trauma</i>, 2004. <a href="https://doi.org/10.1097/01.ta.0000133565.88871.e4">DOI: 10.1097/01.ta.0000133565.88871.e4</a> (PMID 15345974).</p>
@@ -409,17 +464,41 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 <h2>Síndromes diafragmáticas e mediastínicas</h2>
 <h3>Síndromes diafragmáticas</h3>
 <p>A <b>paralisia diafragmática</b> — por lesão do nervo frênico (compressão tumoral, trauma cirúrgico, doença neuromuscular) — remove a principal força motora da inspiração naquele hemidiafragma. O diafragma paralisado, em vez de descer durante a inspiração (aumentando o volume torácico), é empurrado passivamente para cima pelo gradiente de pressão negativa gerado pelo hemitórax contralateral saudável — o chamado <b>movimento paradoxal</b>, visível à fluoroscopia ou ultrassom diafragmático (teste do sniff). Clinicamente, resulta em diminuição do movimento diafragmático e da expansibilidade pulmonar ipsilateral, mais evidente em decúbito (a gravidade, que auxilia o diafragma paralisado no ortostatismo, deixa de ajudar). <b>Eventrações</b> e <b>hérnias diafragmáticas</b> compartilham parte da mesma lógica mecânica — fraqueza ou defeito da cúpula diafragmática permitindo ascensão de conteúdo abdominal ao tórax, com redução correspondente do volume pulmonar disponível.</p>
+<div class="plate-block" id="fig-13">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig9_paralisia_diafragmatica.jpg"
+       alt="Radiografia de tórax mostrando paralisia hemidiafragmática esquerda, com elevação da cúpula diafragmática esquerda"
+       loading="lazy" data-caption="Paralisia hemidiafragmática esquerda — elevação da cúpula diafragmática">
+  <div class="plate-caption"><b>Fig. 13 — Paralisia hemidiafragmática esquerda</b> — elevação da cúpula diafragmática esquerda, sinal radiológico estático que corresponde ao movimento paradoxal descrito no texto (confirmação dinâmica exige fluoroscopia ou USG com teste do sniff). Legenda original da fonte: "Figura 2 – Paralisia Hemidiafragmática Esquerda". Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares"; fonte primária da imagem não especificada no material original.</div>
+</div>
 <h3>Síndromes mediastínicas</h3>
 <p>Massas ou dilatações no compartimento central do tórax comprimem estruturas vitais adjacentes — vias aéreas, grandes vasos, esôfago, nervos. Causas comuns incluem linfoma não Hodgkin, aneurisma de aorta, timoma e massas compressivas de origem pulmonar (câncer de pulmão, metástases). O quadro clínico depende inteiramente de qual estrutura está sendo comprimida, não de um padrão único — daí a síndrome mediastínica ser, na prática, uma família de apresentações compressivas (vasculares, brônquicas, esofágicas) reunidas pela localização anatômica comum da causa.</p>
 <div class="kbox">
 <div class="klabel">Síndrome da Veia Cava Superior (SVCS)</div>
 <p>A obstrução do fluxo sanguíneo pela veia cava superior em direção ao átrio direito — por compressão extrínseca (tumor mediastinal, linfoma, câncer de pulmão, metástases) ou trombose — impede o retorno venoso normal da cabeça, pescoço e membros superiores. O sangue represado busca vias colaterais (sistema ázigo, veias torácicas superficiais), gerando o quadro clássico: dilatação das veias do pescoço, pletora facial, edema de face e de membros superiores, cianose, e — pela hipertensão venosa cefálica sustentada — cefaleia, além de dispneia, tosse, ortopneia e disfagia por efeito compressivo direto das estruturas adjacentes. É uma emergência oncológica relativa na maioria dos casos, exigindo identificação rápida da causa compressiva.</p>
+<div class="plate-block" id="fig-14">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/fig10_svcs.jpg"
+       alt="Radiografia de tórax mostrando alargamento do mediastino superior por massa mediastinal, causando síndrome da veia cava superior"
+       loading="lazy" data-caption="Síndrome da veia cava superior — alargamento do mediastino">
+  <div class="plate-caption"><b>Fig. 14 — SVCS: alargamento do mediastino</b> — radiografia de tórax mostrando alargamento do mediastino superior por massa compressiva, o correlato radiológico direto da obstrução venosa central. Segundo o material de aula, referência bibliográfica: <i>J. bras. pneumol.</i> vol. 31, n. 6, São Paulo, nov./dez. 2005. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares".</div>
+</div>
+<div class="plate-block" id="fig-15">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/extra_svcs_pacientes.jpg"
+       alt="Duas fotografias clínicas (rosto ocultado) de pacientes com síndrome da veia cava superior, mostrando edema de face e pescoço, pletora facial e circulação colateral"
+       loading="lazy" data-caption="SVCS — edema de face/pescoço e pletora facial em dois pacientes (rosto ocultado)">
+  <div class="plate-caption"><b>Fig. 15 — SVCS: sinais clínicos</b> — dois pacientes (rosto ocultado na fonte original) mostrando o quadro clássico de edema de face e pescoço, pletora facial e circulação colateral torácica superior descrito no texto. Mesma referência da <a class="fig-ref" href="#fig-14" onclick="navFig(this)">Fig. 14</a>: <i>J. bras. pneumol.</i> vol. 31, n. 6, São Paulo, nov./dez. 2005. Material de aula — Fatima Chibana, "Síndromes bronco-pleuro-pulmonares".</div>
+</div>
 </div>
 </section>
 
 <section id="quadro-comparativo">
 <h2>Quadro comparativo integrado — todas as síndromes pelo IPPA</h2>
 <p>A tabela abaixo reúne as síndromes brônquicas, parenquimatosas e pleurais lado a lado — útil como referência rápida de revisão, mas sempre subordinada ao mecanismo desenvolvido em cada seção específica: memorizar a tabela sem entender por que cada célula tem o valor que tem é o oposto do que este compêndio se propõe a ensinar.</p>
+<div class="plate-block" id="fig-16">
+  <img src="img/sindromes-bronco-pleuro-pulmonares/extra_resumo_ilustrado.jpg"
+       alt="Diagrama ilustrado dos dois pulmões marcando a localização típica de rarefação, atelectasia, condensação, caverna, neumotórax e derrame pleural, com tabela-resumo de achados do IPPA"
+       loading="lazy" data-caption="Resumo ilustrado — localização típica das síndromes pleuropulmonares">
+  <div class="plate-caption"><b>Fig. 16 — Resumo visual das síndromes</b> — mnemônico ilustrado localizando cada síndrome no pulmão e resumindo seus achados de ampliação/vibração/percussão/ausculta — cobre 5 das 9 síndromes deste compêndio; útil como âncora visual, não substitui a tabela completa abaixo. Ilustração de terceiro ("Femur Notes", assinatura visível na imagem), incluída no material de aula do usuário — autoria e licença de uso não confirmadas por esta sessão.</div>
+</div>
 <div class="table-wrap">
 <table class="data-table" aria-label="Quadro comparativo integrado de todas as síndromes bronco-pleuro-pulmonares pelo método IPPA">
 <thead><tr><th>Síndrome</th><th>Expansibilidade</th><th>FTV</th><th>Percussão</th><th>MV</th><th>Sons adventícios</th><th>Sopro</th></tr></thead>
@@ -506,16 +585,8 @@ a.fig-ref:hover{border-bottom-color:var(--ac)}
 
 <div class="ref-layer">Consulta especializada</div>
 <div class="ref-entry"><span class="rt">Texto-fonte histórico</span><p><b>AUENBRUGGER, Leopold.</b> <em>Inventum Novum ex Percussione Thoracis Humani</em>. Viena, 1761.</p><p class="ref-nota">Obra fundadora da percussão torácica como técnica semiológica sistemática — leitura de interesse histórico-epistemológico para entender a origem empírica (barris de vinho) de uma das quatro manobras centrais deste compêndio.</p></div>
-<div class="ref-entry"><span class="rt">Livro-texto de referência</span><p><b>McGEE, Steven.</b> <em>Evidence-Based Physical Diagnosis</em>. 4ª ed. Philadelphia: Elsevier, 2018.</p><p class="ref-nota">Sistematiza razões de verossimilhança para achados de exame físico pulmonar a partir de revisões sistemáticas — para quem quer ir além da descrição qualitativa e trabalhar com acurácia diagnóstica quantificada em maior profundidade que o escopo deste compêndio.</p></div>
+<div class="ref-entry"><span class="rt">Livro-texto de referência</span><p><b>McGEE, Steven.</b> <em>Evidence-Based Physical Diagnosis</em>. 4ª ed. Philadelphia: Elsevier, 2018.</p><p class="ref-nota">Sistematiza razões de verossimilhança para achados de exame físico pulmonar a partir de revisões sistemáticas — para quem quer ir além da descrição qualitativa e trabalhar com acurácia diagnóstica quantificada em maior profundidade que o escopo deste compêndio.</p></div></section>
 
-<div class="ref-layer">Fontes das imagens</div>
-<div class="ref-entry"><span class="rt">Imagem — Fig. 1</span><p><b>CEREVISAE.</b> "Chest X-ray of hyperinflated lung with bronchiectasis at the right upper lobe." Wikimedia Commons, 2022.</p><p class="ref-nota">Domínio público (imagem técnica de procedimento diagnóstico padrão, sem elemento criativo autoral). <a href="https://commons.wikimedia.org/wiki/File:Chest_X-ray_of_hyperinflated_lung_with_bronchiectasis_at_the_right_upper_lobe.jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
-<div class="ref-entry"><span class="rt">Imagem — Fig. 2</span><p><b>IPFEDITOR.</b> "Clubbing of fingers in IPF." Wikimedia Commons, 2013.</p><p class="ref-nota">Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Genérica (CC BY-SA 3.0). <a href="https://commons.wikimedia.org/wiki/File:Clubbing_of_fingers_in_IPF.jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
-<div class="ref-entry"><span class="rt">Imagem — Fig. 3</span><p><b>ROSEN, Yale.</b> "Pleural effusion - Left lung." Wikimedia Commons (via Flickr), 2012.</p><p class="ref-nota">Licença Creative Commons Atribuição-CompartilhaIgual 2.0 Genérica (CC BY-SA 2.0), revisada por bot administrador do Commons. <a href="https://commons.wikimedia.org/wiki/File:Pleural_effusion_-_Left_lung_(7471755836).jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
-<div class="ref-entry"><span class="rt">Imagem — Fig. 4</span><p><b>EASVUR, Karthik.</b> "X-ray of pneumothorax signs." Wikimedia Commons, 2016.</p><p class="ref-nota">Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Genérica (CC BY-SA 3.0). <a href="https://commons.wikimedia.org/wiki/File:X-ray_of_pneumothorax_signs.jpg">Página do arquivo no Wikimedia Commons</a>.</p></div>
-</section>
-
-</div>
 </div>
 </main>
 </div>

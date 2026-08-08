@@ -135,6 +135,20 @@ Aplicar (`.sl-pt` e `.term`) em todos os compêndios novos e ao revisar existent
 ```
 Escopo igual ao `.term`: primeira ocorrência de cada termo técnico relevante por seção. A glosa é uma definição de uma frase curta — não repetir a tradução, acrescentar informação. `.term` simples segue válido para casos em que a tradução isolada basta.
 
+**Tooltip de lógica/etimologia (`.term-ling`) — em qualquer idioma de compêndio, 2026-08-06:** diferente de `.term`/`.term-rich` (tradução, só em compêndio de idioma estrangeiro), o `.term-ling` cobre termos técnicos — inclusive em compêndios em português — cuja composição morfológica grega/latina revela a lógica do próprio conceito (ex.: "atelectasia" = a- + telos + ektasis = "expansão incompleta", não "pulmão murcho"). Inspirado nos princípios do projeto pessoal de ensino de línguas do usuário: conceito antes de tradução, lógica da língua, fechar em uma linha "Essência".
+
+```html
+<span class="term-ling">termo<span class="tip"><b>raízes gr./lat. + glosa literal</b><i>Essência: uma frase que conecta a etimologia ao conceito clínico/técnico.</i></span></span>
+```
+```css
+.term-ling{border-bottom:1px dotted var(--ac);cursor:help;position:relative;white-space:normal}
+.term-ling .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);border:1px solid var(--ac);border-radius:6px;padding:7px 11px;font-family:var(--font-ui);font-size:11.5px;line-height:1.45;white-space:normal;width:max-content;max-width:270px;text-align:left;pointer-events:none;opacity:0;transition:opacity .18s;z-index:999}
+.term-ling .tip b{display:block;color:var(--ac);font-weight:600;margin-bottom:2px}
+.term-ling .tip i{display:block;color:var(--muted);font-style:normal}
+.term-ling:hover .tip{opacity:1}
+```
+Escopo seletivo, não universal como `.term`: só quando a etimologia realmente esclarece o mecanismo, não como decoração. Piloto: `compêndios/medicina/mecanismos/semiologia/sindromes-bronco-pleuro-pulmonares.html` (11 termos — FTV, egofonia, broncofonia, pectorilóquia áfona, murmúrio vesicular, sopro tubário, atelectasia, enfisema, bronquiectasias, derrame pleural, pneumotórax). Sem retroaplicação ao acervo existente (ver "Escopo de melhorias" em `compêndios/CLAUDE.md`).
+
 **Dicionário ao vivo (`#dict-panel`) — padrão em compêndios de idioma estrangeiro:** complementa o `.term-rich`. Enquanto o `.term-rich` cobre os termos técnicos curados (com tradução + glosa autoral), o `#dict-panel` cobre o **vocabulário geral**: duplo-clique em qualquer palavra abre um painel flutuante com a definição em inglês, buscada ao vivo na API pública `dictionaryapi.dev`, mais a tradução PT-BR buscada em paralelo na API pública `api.mymemory.translated.net` (grátis, sem chave). Termos curados são pulados (o guard ignora `.term` e `.term-rich`, que já têm seu próprio tooltip). Cobre só inglês — usar apenas em compêndios em inglês. Promovido de piloto a padrão em 2026-07-02 (antes só em `cardiologia-anatomia.html`; aplicado também em `fisica.html` e `medicina.html`). Tradução PT-BR (via MyMemory) adicionada em 2026-07-02.
 
 ```css
@@ -422,12 +436,16 @@ Quando a variável for uma constante universal (ex. `c`, `h`, `k_B` em física) 
 
 Evitar SVGs com fundo branco em tema escuro (ficam estranhos no lightbox).
 
+**Fotografia clínica/achado de exame (não diagrama anatômico) — hierarquia própria, 2026-08-06:** a hierarquia acima (OpenStax/Gray's/Blausen) cobre diagramas didáticos, não fotos de sinal clínico real (ex. nódulos de Osler, lesões de pele, achados de imagem). Para esse caso, **preferir figura de artigo revisado por pares e de acesso aberto (via PMC) a upload "own work" autopublicado no Wikimedia Commons sem publicação por trás**, quando ambos existirem para o mesmo achado — mesmo princípio de "Disciplina de fonte primária" já em vigor no Cowork, aplicado a imagem. Commons continua um repositório válido (é onde a imagem do PMC também aparece hotlinkável), mas o critério de confiabilidade é a proveniência (documentada/peer-reviewed vs. autopublicada), não a plataforma de hospedagem. **Verificar sempre a página `File:` do Commons ou o artigo fonte antes de referenciar** — não presumir confiabilidade pela familiaridade da imagem (uma foto pode ser a mais usada em várias Wikipédias e ainda assim ser autopublicada sem lastro editorial). URL de figura do PMC (padrão de hotlink verificado nesta sessão): `https://cdn.ncbi.nlm.nih.gov/pmc/blobs/<hash>/<pmcid>/<hash2>/<nome>_HTML.jpg` — obter navegando até a página do artigo em `pmc.ncbi.nlm.nih.gov/articles/PMC<ID>/` e copiando a URL da tag `<img>` da figura (não inventar o padrão de hash). Licença do PMC costuma vir explícita no rodapé do artigo ("Open Access... Creative Commons Attribution X.0") — conferir antes de hotlink, mesma exigência de qualquer outra fonte. Piloto: `casos-clinicos/endocardite-infecciosa-avc-embolico.html`, Fig. 2 (nódulos de Osler) — trocado de upload autopublicado (Wikimedia, 2010, sem publicação) para figura de Naruse et al., *J Med Case Rep* 2022;16:211, PMC9148510, CC BY 4.0.
+
 URL via API Wikimedia (usar `javascript_tool` no Chrome):
 ```js
 fetch('https://commons.wikimedia.org/w/api.php?action=query&titles=File:NOME.ext&prop=imageinfo&iiprop=url&format=json&origin=*')
 ```
 
 **Método que funciona de fato (2026-08-05):** `web_fetch` (fora do Chrome) retorna vazio para `wikimedia.org`/`upload.wikimedia.org` neste ambiente — domínio bloqueado, não é problema de URL. Dentro do Chrome conectado, `javascript_tool` executando `fetch()` com querystring (`action=query&...`) é bloqueado por um filtro de segurança do próprio Chrome MCP (`[BLOCKED: Cookie/query string data]`), mesmo reescrevendo a chamada com `URLSearchParams` — não tentar contornar esse filtro. O caminho que funciona: (1) `navigate` até a página normal `File:` no Commons e `get_page_text` para ler descrição/autor/licença (navegação de página comum, não é bloqueada); (2) calcular o hash MD5 do nome de arquivo (`hashlib.md5` em Python via bash, comando local, não é fetch) e montar a URL direta `https://upload.wikimedia.org/wikipedia/commons/<hash[0]>/<hash[0:2]>/<Nome_Do_Arquivo.ext>` — padrão de armazenamento do Wikimedia; (3) `navigate` + `screenshot` nessa URL para confirmar visualmente que a imagem carrega antes de referenciá-la no HTML. Evita todo bloqueio, sem tentar contornar nenhuma restrição de segurança — só troca o mecanismo de verificação.
+
+**Imagem local (material fornecido pelo usuário, sem hospedagem pública) — 2026-08-06:** quando a imagem vem de um PDF/slide do próprio usuário (não Wikimedia/OpenStax/Gray's/Blausen), hospedar localmente em vez de linkar URL externa. Convenção: pasta `img/<nome-do-arquivo-html>/` ao lado do HTML, um arquivo por figura, `src="img/<nome-do-arquivo-html>/nome-descritivo.jpg"` (caminho relativo). Otimizar para JPEG (`quality=85-90`, largura máxima ~1600px) antes de salvar — reduz peso do repositório sem perda perceptível em radiografias/fotos. **Implicação para `push.bat`:** ao contrário de URL externa (nada para commitar), imagem local precisa ser adicionada ao git — lembrar o usuário no fechamento da sessão. Citação na legenda segue o mesmo padrão de `.plate-caption`, mas referenciando a origem real (ex.: "Material de aula — [autor], [título]") em vez de Wikimedia/licença CC; se a imagem tiver autoria de terceiro não identificada (ex.: ilustração de rede social incluída no material do usuário), declarar isso explicitamente na legenda em vez de omitir. Piloto: `compêndios/medicina/mecanismos/semiologia/sindromes-bronco-pleuro-pulmonares.html` (12 figuras extraídas de PDF de aula fornecido pelo usuário).
 
 ---
 
@@ -456,7 +474,7 @@ fetch('https://commons.wikimedia.org/w/api.php?action=query&titles=File:NOME.ext
 - Traduções PT obrigatórias: listar termos visíveis na imagem na ordem estruturas maiores → menores
 - Mobile: `float:none; width:100%` em `max-width:900px`
 - NÃO usar `filter:invert`
-- **Referência formal, além do `plate-caption`:** toda imagem inserida também ganha uma entrada na seção "Referências" do compêndio, sob um `ref-layer` "Fontes das imagens" (após "Consulta especializada") — autor, título do arquivo, ano, licença e link para a página `File:` no Wikimedia Commons. O `plate-caption` já traz a atribuição resumida; a entrada em Referências é a citação completa e rastreável, mesmo padrão de rigor já exigido para toda afirmação de texto. Origem: pedido do usuário, 2026-08-06 — primeiro material a aplicar: `compêndios/medicina/mecanismos/semiologia/sindromes-bronco-pleuro-pulmonares.html`.
+- **Referenciação de imagem já é padrão da estrutura, sem entrada adicional em "Referências":** o `plate-caption` (Fonte, Ano, Licença) já é a citação completa da imagem, e o `fig-ref` inline já é o link clicável que aponta para ela a partir do corpo do texto — mesmo mecanismo de "Referência in-line clicável" usado para dado textual, aplicado à imagem. Não duplicar em uma entrada separada de "Referências": isso já existia antes desta nota (ver `cardiologia-semiologia.html`, Figs. 1–2) — só reforçado aqui para não recriar a duplicação. Nota adicionada em 2026-08-06.
 
 ```css
 .plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avaliação da Função Renal — Compêndio de Medicina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78;transition:background .25s,color .25s}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 8px 6px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 24px}
+.s-logo{padding:0 16px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:6px}
+a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
+h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--text)}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
+h4{font-size:.9rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+p{margin-bottom:1.1em}
+ul,ol{padding-left:1.4em;margin-bottom:1.1em}
+li{margin-bottom:.35em}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+.doc-header{margin-bottom:32px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+.subarea-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.sa-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
+.sa-card .sat{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--ac);margin-bottom:6px}
+.sa-card p{font-size:13.5px;color:var(--muted);margin:0}
+.controversia{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .cl{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0;padding-left:12px;border-left:2px solid var(--border)}
+.controversia .pos b{color:var(--text)}
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:4px;white-space:nowrap;vertical-align:middle}
+.cite{font-size:.9em;color:var(--muted)}
+.ref-entry{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);font-size:14px}
+.ref-entry:last-child{border-bottom:none}
+.ref-entry .rt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ref-nota{font-style:italic;color:var(--muted);font-size:13px;margin-top:4px}
+.ref-layer{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--ac);border-radius:0 5px 5px 0;padding:12px 18px;margin:16px 0 8px;font-family:var(--font-ui);font-size:16px;color:var(--text);text-align:center;line-height:1.9;overflow-x:auto}
+.eq-vars{list-style:none;margin:0 0 18px;padding:0;font-family:var(--font-ui);font-size:13px;color:var(--muted)}
+.eq-vars li{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-bottom:2px}
+.eq-vars b{color:var(--ac);font-family:var(--font-body);font-style:italic;margin-right:6px;font-size:15px}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed var(--ac);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .2s}
+#back-btn:hover{background:var(--bg3)}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid,.subarea-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar{display:none}
+  #content{padding:20px}
+  a[href]::after{content:" (" attr(href) ")";font-size:11px;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Avaliação da Função Renal</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Recolher barra lateral">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Mecanismo · Medicina Básica · Fisiologia</div>
+    <div class="s-group">
+      <div class="sgt">Neste compêndio</div>
+      <a class="sl" href="#fundamentos">Fundamentos necessários</a>
+      <a class="sl" href="#clearance">Clearance renal</a>
+      <a class="sl" href="#creatinina">Creatinina</a>
+      <a class="sl" href="#clearance-medido">Clearance medido (urina 24h)</a>
+      <a class="sl" href="#cockcroft-gault">Fórmula de Cockcroft-Gault</a>
+      <a class="sl" href="#mdrd">Fórmula do MDRD</a>
+      <a class="sl" href="#ckd-epi">Fórmula CKD-EPI</a>
+      <a class="sl" href="#limitacoes">Limitações das estimativas</a>
+      <a class="sl" href="#cistatina-c">Cistatina C</a>
+      <a class="sl" href="#kdigo">Classificação KDIGO da DRC</a>
+      <a class="sl" href="#urina">Exame de urina</a>
+      <a class="sl" href="#proteinuria">Proteinúria e albuminúria</a>
+      <a class="sl" href="#sedimento">Sedimento urinário</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#questoes">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Compêndios relacionados</div>
+      <a class="sl" href="../../medicina.html">Medicina (mapa panorâmico)</a>
+      <a class="sl" href="../farmacologia/hipertensao_sraa_anti-hipertensivos.html">Hipertensão / SRAA</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Avaliação da Função Renal</h1>
+  <p class="doc-meta">Compêndio de Mecanismo · Medicina Básica · Fisiologia Renal · Origem: aula de Nefrologia, Prof. Dr. Abel Esteves Soares (PUC/UEL Londrina) · 2026</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~40 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>fisiologia geral de membranas e transporte</b></span>
+    <span class="chip">📍 Área: <b>Fisiologia Renal</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-07</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Três pacientes têm exatamente a mesma creatinina sérica: 1,2 mg/dL. Um é um homem negro de 22 anos; outro, um homem branco de 58 anos; o terceiro, uma mulher branca de 80 anos. Ao aplicar a mesma fórmula de estimativa, a taxa de filtração glomerular calculada varia de 98 mL/min/1,73m² (função normal) a 46 mL/min/1,73m² (doença renal crônica estágio 3) — o mesmo número de laboratório, três realidades clínicas distintas. Como um único exame de sangue pode significar coisas tão diferentes, e o que isso revela sobre os limites de qualquer método indireto de medir quanto os rins realmente filtram?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <span class="dep-item">Nenhum compêndio do acervo — a fisiologia renal básica necessária é desenvolvida na seção Fundamentos abaixo.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-item">Fisiologia geral de transporte de membrana (difusão, transporte ativo/passivo) — pressuposta, não coberta aqui.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="../farmacologia/hipertensao_sraa_anti-hipertensivos.html">Hipertensão / SRAA — ajuste de dose de IECA/BRA e monitorização de função renal</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos">
+<h2>Fundamentos necessários</h2>
+<p>Os rins mantêm o ambiente extracelular constante por três vias simultâneas: excretam produtos finais do metabolismo (creatinina, ureia, ácido úrico), regulam o equilíbrio hidroeletrolítico e o equilíbrio ácido-básico. Paralelamente, funcionam como órgão endócrino — secretam renina (regulação hemodinâmica sistêmica e renal, via angiotensina II), eritropoetina (produção de hemácias) e participam da ativação da vitamina D em calcitriol (metabolismo de cálcio e fósforo) — e catabolizam hormônios circulantes. "Avaliar a função renal" significa, na prática, medir ou estimar quanto os rins ainda filtram, porque a filtração glomerular é o passo que condiciona todos os demais.</p>
+<div class="plate-block" id="fig-1">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Anatomy_and_physiology_of_animals_Kidney_tubule_or_nephron.jpg"
+       alt="Diagrama do néfron: arteríola, glomérulo, cápsula de Bowman, túbulo contorcido proximal, alça de Henle, túbulo contorcido distal e ducto coletor"
+       loading="lazy" data-caption="Anatomia do néfron — unidade funcional do rim">
+  <div class="plate-caption"><b>Fig. 1 — Néfron</b> — unidade funcional do rim: glomérulo (cápsula de Bowman), túbulo proximal, alça de Henle, túbulo distal e ducto coletor. Ruth Lawson, Otago Polytechnic, via <em>Anatomy and Physiology of Animals</em> (Wikibooks) — Wikimedia Commons, CC BY 3.0.</div>
+</div>
+<p>Cada néfron começa no <b>glomérulo</b> <a class="fig-ref" href="#fig-1" onclick="navFig(this)">(Fig. 1)</a> — um tufo de capilares envolto pela cápsula de Bowman, onde o sangue é ultrafiltrado sob pressão. O filtrado resultante percorre o túbulo proximal, a alça de Henle, o túbulo distal e o ducto coletor, sendo maciçamente reabsorvido e seletivamente modificado antes de se tornar urina definitiva. É esse processo de filtração na cápsula de Bowman — não a reabsorção tubular subsequente — que a expressão "função renal", no sentido estrito usado neste compêndio, designa.</p>
+</section>
+
+<section id="clearance">
+<h2>Clearance renal: o conceito central</h2>
+<p><b>Clearance</b> (depuração) de uma substância é o volume de plasma do qual essa substância é completamente removida pelos rins por unidade de tempo, geralmente expresso em mL/min. Se o clearance de ureia é 65 mL/min, isso significa que os rins removem toda a ureia contida em 65 mL de plasma a cada minuto — não que 65 mL de plasma sejam filtrados por inteiro (a maior parte da ureia filtrada é, na verdade, reabsorvida; o número descreve um volume equivalente, não um volume real).</p>
+<div class="kbox">
+  <div class="klabel">Conceito-chave — quando o clearance é igual à TFG</div>
+  <p>O clearance de uma substância só reflete diretamente a taxa de filtração glomerular (TFG) se essa substância for (1) livremente filtrada pelos glomérulos, (2) não reabsorvida pelos túbulos, (3) não secretada pelos túbulos e (4) não sintetizada nem metabolizada ao longo do néfron. Qualquer desvio de um desses quatro critérios faz o clearance medido divergir da TFG real — para mais (se houver secreção tubular líquida) ou para menos (se houver reabsorção líquida).</p>
+</div>
+<div class="hist"><span class="hl">Padrão-ouro histórico — inulina</span>A inulina, polímero da frutose de baixo peso molecular encontrado em vegetais, satisfaz os quatro critérios com precisão quase perfeita: não se liga a proteínas plasmáticas (filtração livre), não é reabsorvida nem secretada pelos túbulos e distribui-se apenas no espaço extracelular. Por isso seu clearance é historicamente o padrão-ouro para medir a TFG.</div>
+<div class="kbox">
+  <div class="klabel">Limites do modelo — por que a inulina não é usada na prática clínica</div>
+  <p>Como substância exógena, a inulina exige infusão sanguínea contínua para manter concentração plasmática estável, cateterização vesical para coleta de urina, amostras seriadas de sangue e uma metodologia de dosagem laboriosa. O procedimento é preciso, mas inviável em rotina — por isso fica restrito a estudos científicos e à validação de métodos mais práticos, nunca à prática clínica do dia a dia.</p>
+</div>
+<div class="plate-block" id="fig-2">
+  <img src="img/avaliacao-funcao-renal/glomerular-ultrafiltration.jpg"
+       alt="Diagrama do glomérulo mostrando arteríola aferente, arteríola eferente, capilares glomerulares, cápsula de Bowman e o ultrafiltrado glomerular"
+       loading="lazy" data-caption="Ultrafiltração glomerular — arteríolas aferente/eferente, capilares e cápsula de Bowman">
+  <div class="plate-caption"><b>Fig. 2 — Ultrafiltração glomerular</b> — proteínas plasmáticas e a maior parte das hemácias não atravessam a barreira de filtração; água e pequenos solutos passam livremente para o espaço de Bowman. Material de aula — Prof. Dr. Abel Esteves Soares, Disciplina de Nefrologia (PUC/UEL Londrina); autoria original da ilustração não identificada no material fornecido.</div>
+</div>
+<p>Em um homem adulto saudável, o fluxo sanguíneo renal é de cerca de 1.200 mL/min; a fração de filtração (a proporção desse fluxo que efetivamente atravessa a barreira glomerular) é de aproximadamente 20% do débito cardíaco, resultando em uma taxa de filtração glomerular de 125 mL/min — o equivalente a cerca de 180 litros de filtrado por dia <a class="fig-ref" href="#fig-2" onclick="navFig(this)">(Fig. 2)</a>. Dos 625 mL/min de plasma que chegam aos glomérulos, 125 mL/min são filtrados para a cápsula de Bowman; os 500 mL/min restantes seguem para os capilares peritubulares, de onde a maior parte da água filtrada retorna ao sangue por reabsorção. Uma substância hipotética P, livremente filtrada e sem reabsorção ou secreção tubular, teria clearance idêntico à TFG: 125 mL/min.</p>
+</section>
+
+<section id="creatinina">
+<h2>Creatinina como marcador endógeno</h2>
+<p>A <span class="term-ling">creatinina<span class="tip"><b>do grego <i>kreas</i>, "carne"</b><i>Essência: literalmente "produto da carne" — reflete sua origem no metabolismo muscular, o que explica por que sua concentração varia com a massa muscular do indivíduo.</i></span></span> é o produto final do metabolismo da creatina e da fosfocreatina musculares, com produção e liberação relativamente constantes ao longo do dia — dependendo pouco da atividade física aguda, da alimentação imediata ou de flutuações agudas do catabolismo proteico. Um homem adulto excreta tipicamente de 20 a 25 mg/kg/dia; uma mulher, de 15 a 20 mg/kg/dia (a diferença reflete massa muscular relativa média, não uma diferença fisiológica direta na função renal). O valor normal de creatinina sérica situa-se entre 0,6 e 1,0 mg/dL, mas esse intervalo é, por si só, pouco informativo sem considerar de que corpo veio aquele número — ponto que retorna ao longo de todo este compêndio.</p>
+<p><div class="plate-block" id="fig-3">
+  <img src="img/avaliacao-funcao-renal/reabsorcao-secrecao-tubular.jpg"
+       alt="Esquema da célula tubular renal entre o lúmen e o capilar peritubular, mostrando as vias paracelular e transcelular de reabsorção e secreção"
+       loading="lazy" data-caption="Reabsorção e secreção tubular — vias paracelular e transcelular entre lúmen e capilar peritubular">
+  <div class="plate-caption"><b>Fig. 3 — Reabsorção e secreção tubular</b> — solutos filtrados no lúmen podem retornar ao sangue por via paracelular (entre células) ou transcelular (atravessando a célula, com componente ativo dependente de ATP e componente passivo por difusão/osmose); o sentido oposto define a secreção tubular. Material de aula — Prof. Dr. Abel Esteves Soares, Disciplina de Nefrologia (PUC/UEL Londrina); autoria original da ilustração não identificada no material fornecido.</div>
+</div>
+<p>Do ponto de vista dos quatro critérios de clearance: a creatinina é livremente filtrada (não se liga a proteínas plasmáticas) e não é reabsorvida pelos túbulos — mas uma pequena fração é ativamente <b>secretada</b> pelo túbulo proximal <a class="fig-ref" href="#fig-3" onclick="navFig(this)">(Fig. 3)</a>. Isso faz o clearance de creatinina superestimar sistematicamente a TFG real, um viés que se acentua justamente quando a função renal piora (a secreção tubular passa a representar uma fração proporcionalmente maior da excreção total). Fármacos que inibem essa secreção tubular — trimetoprima, cimetidina, amilorida, triantereno, espironolactona — elevam a creatinina sérica sem qualquer queda real da TFG, um efeito farmacológico que pode ser confundido com piora da função renal se não for reconhecido.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Fatores que afetam a geração de creatinina e seu efeito na creatinina sérica">
+<thead><tr><th>Fator</th><th>Efeito sobre a creatinina sérica</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Envelhecimento</td><td>Redução (perda de massa muscular)</td></tr>
+<tr><td class="td-label">Sexo feminino</td><td>Redução (menor massa muscular média)</td></tr>
+<tr><td class="td-label">Etnia negra</td><td>Aumento (maior massa muscular média em estudos populacionais)</td></tr>
+<tr><td class="td-label">Etnia hispânica ou asiática</td><td>Redução</td></tr>
+<tr><td class="td-label">Hábito corporal muscular</td><td>Aumento</td></tr>
+<tr><td class="td-label">Amputação</td><td>Redução</td></tr>
+<tr><td class="td-label">Obesidade (tecido adiposo)</td><td>Sem alteração relevante</td></tr>
+<tr><td class="td-label">Desnutrição, inflamação, descondicionamento</td><td>Redução</td></tr>
+<tr><td class="td-label">Doenças neuromusculares</td><td>Redução</td></tr>
+<tr><td class="td-label">Dieta vegetariana</td><td>Redução</td></tr>
+<tr><td class="td-label">Ingestão de carne cozida (refeição recente)</td><td>Aumento transitório</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 1 — Fatores que alteram a geração de creatinina independentemente da função renal. Adaptado de Stevens &amp; Levey, <em>J Am Soc Nephrol</em> 2009;20:2305-2313.</p>
+</div>
+<p>Essa lista é o motivo estrutural pelo qual nenhuma fórmula de estimativa de TFG usa a creatinina isolada: cada equação incorpora idade, sexo e (historicamente) etnia como <em>proxies</em> estatísticos da massa muscular — uma tentativa de separar, no número da creatinina sérica, o quanto reflete função renal e o quanto reflete geração muscular (ver Cockcroft-Gault, MDRD e CKD-EPI adiante).</p>
+</section>
+
+<section id="clearance-medido">
+<h2>Clearance de creatinina medido (urina de 24 horas)</h2>
+<p>Antes de qualquer fórmula estimada, o método direto de avaliar a função renal por creatinina é medir seu clearance real a partir de urina coletada por 24 horas, combinada com uma dosagem plasmática no mesmo período.</p>
+<div class="eq"><i>Ccr</i> = (<i>U</i> × <i>V</i>) / <i>P</i></div>
+<ul class="eq-vars">
+  <li><b>Ccr</b> — clearance de creatinina, mL/min. Referência normal: ~95–140 mL/min (homens), ~85–125 mL/min (mulheres), variando com idade e massa corporal.</li>
+  <li><b>U</b> — concentração de creatinina na urina de 24h, mg/dL.</li>
+  <li><b>V</b> — fluxo urinário, mL/min (volume total de urina de 24h dividido por 1.440 minutos).</li>
+  <li><b>P</b> — concentração plasmática de creatinina, mg/dL.</li>
+</ul>
+<p>O resultado costuma ser ajustado para uma superfície corporal padrão de 1,73 m² (a área corporal média de um adulto de referência usada desde os primeiros estudos de fisiologia renal), permitindo comparar pacientes de tamanhos corporais diferentes. Na prática clínica, porém, a coleta de urina de 24 horas é sujeita a erro de coleta (períodos incompletos, perda de amostra) e é inconveniente o bastante para que a maior parte da avaliação de rotina hoje dependa de fórmulas estimadas a partir de uma única dosagem sérica — o objeto das três seções seguintes.</p>
+</section>
+
+<section id="cockcroft-gault">
+<h2>Fórmula de Cockcroft-Gault</h2>
+<div class="hist"><span class="hl">1976 — origem da fórmula</span>Donald Cockcroft, então residente de Pneumologia, cursava um estágio em Nefrologia sob supervisão do Dr. Henry Gault no Royal Victoria Hospital, em Montreal. A fórmula que leva seus dois nomes nasceu como trabalho de conclusão desse estágio, publicada em <em>Nephron</em> em 1976 — décadas antes de qualquer equação baseada em estudos populacionais multicêntricos como MDRD ou CKD-EPI.</div>
+<div class="eq"><i>Ccr</i> = [(140 − <i>idade</i>) × <i>peso</i>] / (72 × <i>Cr</i>)</div>
+<ul class="eq-vars">
+  <li><b>Ccr</b> — clearance de creatinina estimado, mL/min. Multiplicar o resultado por 0,85 se sexo feminino.</li>
+  <li><b>idade</b> — em anos.</li>
+  <li><b>peso</b> — em kg (peso corporal real, sem correção de rotina para obesidade — ver limitações).</li>
+  <li><b>Cr</b> — creatinina sérica, mg/dL. Referência normal: 0,6–1,0 mg/dL.</li>
+</ul>
+<div class="kbox">
+  <div class="klabel">Limites do modelo — Cockcroft-Gault</div>
+  <p>A fórmula não é ajustada pela superfície corporal — diferença estrutural em relação ao clearance medido e às equações posteriores, que a torna menos comparável entre pacientes de tamanhos muito diferentes. Tende a superestimar a função renal em obesos (usa peso total, não peso magro) e não foi validada em extremos de idade, gestação ou massa muscular muito reduzida ou aumentada — situações em que a medida direta (ver Tabela 3, adiante) é preferível.</p>
+</div>
+</section>
+
+<section id="mdrd">
+<h2>Fórmula do MDRD</h2>
+<div class="hist"><span class="hl">1999 — estudo MDRD</span>Andrew Levey e colaboradores, pelo grupo de estudo <em>Modification of Diet in Renal Disease</em> (MDRD), publicaram na <em>Annals of Internal Medicine</em> uma nova equação de predição derivada de dados de mais de 1.600 pacientes com doença renal, com o objetivo explícito de superar as limitações do Cockcroft-Gault — em particular, incorporar a TFG medida por clearance de iotalamato como padrão de comparação, em vez do clearance de creatinina medido.</p></div>
+<div class="eq"><i>TFG</i> = 186 × <i>Cr</i><sup>−1,154</sup> × <i>idade</i><sup>−0,203</sup> × 0,742 <small>(se mulher)</small> × 1,210 <small>(se etnia negra)</small></div>
+<ul class="eq-vars">
+  <li><b>TFG</b> — taxa de filtração glomerular estimada, mL/min/1,73m². Já normalizada pela superfície corporal — diferença estrutural em relação ao Cockcroft-Gault.</li>
+  <li><b>Cr</b> — creatinina sérica, mg/dL.</li>
+  <li><b>idade</b> — em anos.</li>
+  <li><b>fator sexo</b> — multiplicar por 0,742 se mulher; sem ajuste se homem.</li>
+  <li><b>fator etnia</b> — multiplicar por 1,210 se etnia negra, na versão original do estudo (ver kbox abaixo sobre por que esse coeficiente se tornou controverso).</li>
+</ul>
+<p>Uma versão posterior, reexpressa após a padronização laboratorial IDMS (<em>isotope dilution mass spectrometry</em>) da dosagem de creatinina em 2006, substitui o coeficiente 186 por 175 — a equação mais efetivamente usada em laboratórios clínicos depois dessa data, embora a lógica e os demais expoentes permaneçam os mesmos.</p>
+<div class="kbox">
+  <div class="klabel">Controvérsia — o coeficiente de etnia negra</div>
+  <p>O coeficiente 1,210 para pacientes de etnia negra foi derivado estatisticamente (a coorte do estudo MDRD tinha creatinina sérica mais alta, em média, entre participantes negros, para a mesma TFG medida) — uma tentativa de corrigir, na equação, a maior massa muscular média observada nessa subpopulação. Só que "etnia" é uma categoria social e autodeclarada, não uma medida direta de massa muscular, e o uso desse coeficiente sistematicamente eleva a TFG estimada de pacientes negros em relação a brancos com a mesma creatinina — o que, em sistemas de saúde onde a TFG estimada determina elegibilidade para transplante ou ajuste de dose de medicamentos, pode atrasar cuidado necessário. Essa tensão é exatamente o que motivou a revisão da equação CKD-EPI em 2021 (ver seção seguinte).</p>
+</div>
+</section>
+
+<section id="ckd-epi">
+<h2>Fórmula CKD-EPI</h2>
+<p>A equação MDRD perde precisão em valores de TFG próximos do normal (acima de 60 mL/min/1,73m²), tendendo a subestimar a função renal de pessoas saudáveis — um problema relevante porque grande parte da população rastreada tem função renal normal ou próxima disso. Em 2009, o consórcio CKD-EPI (<em>Chronic Kidney Disease Epidemiology Collaboration</em>) publicou uma nova equação, derivada de uma amostra maior e mais diversa, com melhor desempenho nessa faixa — tornando-se a equação preferida pelas diretrizes internacionais a partir de então.</p>
+<div class="hist"><span class="hl">2021 — a versão sem coeficiente de raça</span>Inker e colaboradores, em nome do mesmo consórcio CKD-EPI, publicaram no <em>New England Journal of Medicine</em> uma nova versão da equação — derivada e validada em coortes que incluíam participantes com e sem coeficiente de raça — mostrando que era possível remover a variável etnia sem perda relevante de acurácia média, ao custo de uma pequena redistribuição de erro entre subgrupos <span class="cite">(PMID 34554658; nível de evidência: estudo multicêntrico de desenvolvimento e validação de equação, com medição direta de TFG por iohexol/iotalamato como padrão de referência)</span>. Essa versão de 2021, sem raça, é hoje a equação recomendada pela diretriz KDIGO.</div>
+<div class="eq"><i>TFG</i> = 142 × min(<i>Cr</i>/κ, 1)<sup>α</sup> × max(<i>Cr</i>/κ, 1)<sup>−1,200</sup> × 0,9938<sup><i>idade</i></sup> × 1,012 <small>(se mulher)</small></div>
+<ul class="eq-vars">
+  <li><b>TFG</b> — taxa de filtração glomerular estimada, mL/min/1,73m².</li>
+  <li><b>Cr</b> — creatinina sérica, mg/dL.</li>
+  <li><b>κ</b> — 0,7 se mulher; 0,9 se homem (valor de referência aproximado da creatinina basal por sexo).</li>
+  <li><b>α</b> — −0,241 se mulher; −0,302 se homem.</li>
+  <li><b>idade</b> — em anos.</li>
+  <li><b>min/max</b> — a equação usa o menor valor entre (Cr/κ) e 1 elevado a α, e o maior valor entre (Cr/κ) e 1 elevado a −1,200 — mecanismo que faz a curva de estimativa mudar de inclinação conforme a creatinina está abaixo ou acima do valor de referência κ, sem precisar de duas fórmulas separadas.</li>
+</ul>
+<p>Na prática clínica, essas três equações — Cockcroft-Gault, MDRD e CKD-EPI — raramente são calculadas manualmente: calculadoras validadas (como a da National Kidney Foundation e da Sociedade Brasileira de Nefrologia, ver Referências) fazem a conta a partir de creatinina, idade, sexo e peso, quando aplicável.</p>
+</section>
+
+<section id="limitacoes">
+<h2>Limitações das estimativas baseadas em creatinina</h2>
+<p>A pergunta motivadora deste compêndio ilustra a limitação central de qualquer equação baseada em creatinina: o mesmo valor sérico pode corresponder a taxas de filtração glomerular muito diferentes, porque a creatinina mede geração muscular tanto quanto filtração renal.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Mesma creatinina sérica, TFG estimada muito diferente conforme idade, sexo e etnia">
+<thead><tr><th></th><th>Homem negro, 22 anos</th><th>Homem branco, 58 anos</th><th>Mulher branca, 80 anos</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Creatinina sérica</td><td>1,2 mg/dL</td><td>1,2 mg/dL</td><td>1,2 mg/dL</td></tr>
+<tr><td class="td-label">TFG estimada (equação MDRD)</td><td>98 mL/min/1,73m²</td><td>66 mL/min/1,73m²</td><td>46 mL/min/1,73m²</td></tr>
+<tr><td class="td-label">Interpretação</td><td>Função normal (ou DRC estágio 1, se houver dano renal associado)</td><td>DRC estágio 2 (se houver dano renal associado)</td><td>DRC estágio 3</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 2 — Adaptado de Stevens &amp; Levey, <em>J Am Soc Nephrol</em> 2009;20:2305-2313. Mesma creatinina, três estimativas de TFG e três classificações clínicas potencialmente diferentes.</p>
+</div>
+<p>Além da variação individual em massa muscular, há situações em que qualquer equação estimada — mesmo a mais atual — é reconhecidamente pouco confiável, e a medida direta do clearance (ou de um marcador alternativo, ver Cistatina C) é preferível.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Situações em que estimativas baseadas em creatinina sérica podem ser imprecisas">
+<thead><tr><th>Situação</th></tr></thead>
+<tbody>
+<tr><td>Extremos de idade e de tamanho corporal</td></tr>
+<tr><td>Desnutrição grave ou obesidade importante</td></tr>
+<tr><td>Doença da musculatura esquelética</td></tr>
+<tr><td>Paraplegia ou quadriplegia</td></tr>
+<tr><td>Dieta vegetariana estrita</td></tr>
+<tr><td>Função renal em mudança rápida (lesão renal aguda)</td></tr>
+<tr><td>Gestação</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 3 — Indicações para medida direta de clearance quando a estimativa por creatinina sérica é reconhecidamente pouco confiável. Adaptado de Stevens &amp; Levey, <em>J Am Soc Nephrol</em> 2009.</p>
+</div>
+</section>
+
+<section id="cistatina-c">
+<h2>Cistatina C plasmática</h2>
+<p>A cistatina C é uma proteína de baixo peso molecular, não glicosilada, produzida em ritmo constante por praticamente todas as células nucleadas do corpo — ao contrário da creatinina, sua produção independe de massa muscular, sexo ou idade, o que a torna, em princípio, um marcador mais limpo de função renal isolada. Correlaciona-se melhor com a TFG medida do que a creatinina isolada e tende a detectar mais precocemente reduções da função renal, antes que a creatinina sérica se eleve de forma perceptível — uma vantagem relevante em estágios iniciais de doença renal, quando a chamada "reserva funcional renal" ainda mascara a queda de néfrons.</p>
+<p>O valor de referência típico gira em torno de 0,53 a 0,95 mg/L, variando conforme o método de dosagem do laboratório (imunonefelometria ou imunoturbidimetria) — a cistatina C se eleva proporcionalmente à queda da velocidade de filtração glomerular, permitindo melhor controle de fatores de risco associados (hipertensão, diabetes, hiperuricemia). Seu valor também se altera com o uso de corticoides (em transplantados, glomerulonefrites, lúpus eritematoso sistêmico) e em disfunções tireoidianas — limitações que, na prática, tornam a combinação de creatinina e cistatina C (como na própria equação CKD-EPI 2021, que tem uma versão combinada) mais robusta do que qualquer um dos dois marcadores isolados.</p>
+</section>
+
+<section id="kdigo">
+<h2>Classificação KDIGO da doença renal crônica</h2>
+<div class="plate-block" id="fig-4">
+  <img src="img/avaliacao-funcao-renal/gfr-importancia-clinica.jpg"
+       alt="Tabela: condições clínicas em que a avaliação da TFG é importante, organizadas em diagnóstico, prognóstico e tratamento"
+       loading="lazy" data-caption="Condições clínicas em que a avaliação da TFG é importante — diagnóstico, prognóstico e tratamento">
+  <div class="plate-caption"><b>Fig. 4 — Por que avaliar a TFG</b> — a TFG orienta decisões de diagnóstico (detecção de DRC/LRA, avaliação para doação de rim), prognóstico (risco de complicações, eventos cardiovasculares, mortalidade) e tratamento (dose de fármacos de depuração renal, segurança de exames, encaminhamento). Reproduzido, com permissão da American Society of Nephrology via Copyright Clearance Center, de Stevens LA, Levey AS. <em>J Am Soc Nephrol</em>. 2009;20:2305-2313.</div>
+</div>
+<p>Uma vez estimada a TFG, o passo seguinte é situá-la dentro de um sistema de estadiamento que também incorpore o grau de dano renal (medido pela albuminúria, ver seção seguinte) — porque TFG e albuminúria são preditores parcialmente independentes de risco de progressão, eventos cardiovasculares e mortalidade <a class="fig-ref" href="#fig-4" onclick="navFig(this)">(Fig. 4)</a>. A diretriz <span class="cite">KDIGO (<em>Kidney Disease: Improving Global Outcomes</em>) <span class="evid">Diretriz</span></span> combina as duas dimensões em uma matriz de prognóstico.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Classificação KDIGO de risco prognóstico da doença renal crônica por TFG e albuminúria">
+<thead><tr><th>Categoria de TFG (mL/min/1,73m²)</th><th>A1 — Albuminúria normal a levemente aumentada (&lt;30 mg/g)</th><th>A2 — Moderadamente aumentada (30–300 mg/g)</th><th>A3 — Gravemente aumentada (&gt;300 mg/g)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">G1 — ≥90 (normal ou alta)</td><td>Risco baixo (sem DRC na ausência de outro marcador de dano)</td><td>Risco moderadamente aumentado</td><td>Risco alto</td></tr>
+<tr><td class="td-label">G2 — 60–89 (levemente reduzida)</td><td>Risco baixo (sem DRC na ausência de outro marcador de dano)</td><td>Risco moderadamente aumentado</td><td>Risco alto</td></tr>
+<tr><td class="td-label">G3a — 45–59 (leve a moderadamente reduzida)</td><td>Risco moderadamente aumentado</td><td>Risco alto</td><td>Risco muito alto</td></tr>
+<tr><td class="td-label">G3b — 30–44 (moderada a gravemente reduzida)</td><td>Risco alto</td><td>Risco muito alto</td><td>Risco muito alto</td></tr>
+<tr><td class="td-label">G4 — 15–29 (gravemente reduzida)</td><td>Risco muito alto</td><td>Risco muito alto</td><td>Risco muito alto</td></tr>
+<tr><td class="td-label">G5 — &lt;15 (falência renal)</td><td>Risco muito alto</td><td>Risco muito alto</td><td>Risco muito alto</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 4 — Matriz de prognóstico KDIGO (categorias G × A). Adaptado de Levin et al., <em>Kidney Int</em> 2024;105:684-701 (PMID 38519239), a diretriz KDIGO vigente para avaliação e manejo da DRC.</p>
+</div>
+<p>A doença renal crônica (DRC) é definida por alterações da estrutura ou função renal presentes por mais de três meses, com implicações para a saúde — critério temporal que a distingue da lesão renal aguda (LRA), definida por queda rápida (horas a dias) da função renal, geralmente reversível se a causa for tratada a tempo. A avaliação da função renal descrita neste compêndio é o instrumento comum a ambas as situações, mas sua interpretação — crônica versus aguda — depende centralmente da trajetória temporal, não de um único valor isolado.</p>
+</section>
+
+<section id="urina">
+<h2>Avaliação complementar: exame de urina</h2>
+<p>A creatinina sérica e suas equações estimam a filtração — mas não dizem nada sobre lesão estrutural do néfron, que o exame de urina (urina tipo I, ou EAS) ajuda a detectar. Preferencialmente colhida na primeira micção do dia (mais concentrada, mais sensível a alterações), a análise cobre cor, densidade, pH, e a presença de elementos que normalmente estão ausentes ou em concentração mínima.</p>
+<p>A <b>densidade urinária</b> (normal: 1005 a 1030) é uma medida indireta de concentração, mas como valor isolado tem pouco valor diagnóstico — precisa ser interpretada junto do volume urinário e do contexto clínico (hidratação, uso de diuréticos). O <b>pH</b> normal varia de 4,5 a 7,5. A presença de <b>glicose</b> na urina geralmente indica glicemia acima de 200 mg/dL — o limiar tubular de reabsorção de glicose (T<sub>m</sub>, cerca de 160 mg/dL) sendo ultrapassado. <b>Corpos cetônicos</b> (acetoacetato e acetona) aparecem na cetoacidose diabética, na cetoacidose alcoólica e no jejum prolongado. Um teste positivo para <b>hemoglobina ou mioglobina</b> exige diferenciar hematúria (hemoglobina livre, por hemólise) de mioglobinúria (rabdomiólise) — a fita reagente não distingue as duas, exigindo correlação com sedimento urinário e contexto clínico.</p>
+</section>
+
+<section id="proteinuria">
+<h2>Proteinúria e albuminúria</h2>
+<p>A proteinúria é, simultaneamente, marcador de doença renal e fator de risco independente para a progressão dessa doença — quanto maior a proteinúria, mais rápida tende a ser a perda de função renal ao longo do tempo. O padrão-ouro de quantificação é a coleta de urina de 24 horas, mas a razão proteinúria/creatininúria (ou albuminúria/creatininúria) em amostra isolada — preferencialmente a primeira da manhã — tem menor erro de coleta prática e correlaciona-se bem com a medida de 24h, sendo hoje a abordagem mais usada.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Categorias de albuminúria pela razão albumina-creatinina em amostra isolada">
+<thead><tr><th>Categoria</th><th>Razão albumina/creatinina (mg/g)</th></tr></thead>
+<tbody>
+<tr><td class="td-label">Normoalbuminúria</td><td>&lt;30</td></tr>
+<tr><td class="td-label">Microalbuminúria (A2)</td><td>30–300</td></tr>
+<tr><td class="td-label">Macroalbuminúria (A3)</td><td>&gt;300</td></tr>
+</tbody>
+</table>
+<p class="table-caption">Tabela 5 — Categorias de albuminúria por razão albumina-creatinina em amostra isolada, base da coluna A da matriz KDIGO (Tabela 4).</p>
+</div>
+<p>Em urina de 24 horas, o valor normal de proteína total é de até 150 mg/dia; o de albumina, até 30 mg/dia. Diabéticos, hipertensos e pessoas com história familiar de doença renal são as populações prioritárias para rastreio sistemático de albuminúria — mesmo com proteinúria negativa em fita reagente, um paciente diabético ou hipertenso deve ter a microalbuminúria dosada especificamente, porque a fita convencional não é sensível o suficiente para detectar elevações nessa faixa. Fora desses grupos de risco, o rastreio populacional assintomático de proteinúria ou microalbuminúria permanece uma prática controversa, sem consenso sobre custo-efetividade em larga escala.</p>
+</section>
+
+<section id="sedimento">
+<h2>Sedimento urinário</h2>
+<p>O sedimento urinário não informa diretamente sobre a taxa de filtração, mas ajuda a distinguir a natureza e a extensão de uma lesão renal já suspeitada por outros achados. Células epiteliais refletem descamação normal do trato urinário; leucócitos sugerem processo inflamatório ou infeccioso; hemácias podem ser vistas macro ou microscopicamente, e sua origem (glomerular versus trato urinário baixo) é sugerida pela morfologia (hemácias dismórficas favorecem origem glomerular).</p>
+<p><b>Cilindros</b> são estruturas alongadas formadas nos túbulos distais, moldadas pela luz tubular — sua presença ajuda a distinguir nefropatias primárias de doenças limitadas ao trato urinário. Cilindros hemáticos indicam sangramento glomerular; cilindros leucocitários sugerem pielonefrite, vasculite ou doença reumatológica com acometimento renal; cilindros pigmentados aparecem em hemólise ou rabdomiólise. <b>Cristais</b> nem sempre têm significado diagnóstico — formam-se de acordo com temperatura ambiente, pH urinário e grau de hidratação — mas alguns são específicos: o cristal de estruvita (fosfato amoníaco-magnesiano) associa-se a infecções urinárias por <em>Proteus</em> ou <em>Klebsiella</em>; o cristal de cistina é acometimento da cistinúria, um erro inato do metabolismo de aminoácidos.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outras áreas</h2>
+<p>A avaliação da função renal descrita aqui é pré-requisito direto de <a class="cross-link" href="../farmacologia/hipertensao_sraa_anti-hipertensivos.html">farmacologia anti-hipertensiva</a> — o ajuste de dose de inibidores da ECA, bloqueadores de receptor de angiotensina e diuréticos depende diretamente da TFG estimada, e a própria monitorização da função renal é parte do seguimento terapêutico dessas classes. Conecta-se com fisiopatologia da doença renal crônica e da lesão renal aguda (ainda sem compêndio dedicado neste acervo — ver dep-panel), com farmacologia em geral (ajuste de dose renal de qualquer fármaco de depuração predominantemente renal) e com epidemiologia clínica (o rastreio de função renal em populações de risco — diabéticos, hipertensos — como estratégia de saúde pública). Fora da medicina clínica, dialoga com estatística aplicada (o próprio desenho das equações de estimativa é um problema de regressão e validação de modelo preditivo).</p>
+</section>
+
+<section id="questoes">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Qual o papel ideal da cistatina C na rotina clínica — dosagem combinada com creatinina para todo paciente, ou reservada a situações específicas de baixa confiabilidade da creatinina (Tabela 3)? A resposta depende de um equilíbrio de custo-efetividade que a literatura ainda não resolveu de forma consensual em diferentes sistemas de saúde.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Biomarcadores de lesão tubular (como NGAL e KIM-1) detectam dano renal antes que a TFG caia de forma mensurável — mas ainda não está estabelecido se a detecção mais precoce de lesão renal aguda por esses marcadores efetivamente muda desfechos clínicos quando incorporada à prática de rotina, ou apenas antecipa um diagnóstico sem alterar a conduta disponível.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>As equações CKD-EPI foram desenvolvidas e validadas majoritariamente em coortes norte-americanas e europeias. Seu desempenho em populações brasileiras, marcadas por miscigenação extensa e heterogênea geograficamente, ainda carece de validação local robusta e amplamente replicada.</p></div>
+<div class="qa-block"><div class="qa-label">Questão aberta</div><p>Modelos de aprendizado de máquina que combinam múltiplos biomarcadores, imagem e dados longitudinais prometem estimativas de TFG mais precisas que qualquer equação fechada — mas sua adoção clínica esbarra na exigência de validação prospectiva multicêntrica e na dificuldade de interpretar clinicamente um modelo que não se reduz a uma fórmula transparente.</p></div>
+</section>
+
+<section id="discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora perguntava como a mesma creatinina sérica pode corresponder a realidades tão diferentes. A resposta está na própria natureza do que a creatinina mede: não a filtração glomerular diretamente, mas o equilíbrio entre geração muscular (que varia sistematicamente com idade, sexo e composição corporal) e depuração renal. Toda equação de estimativa — Cockcroft-Gault, MDRD, CKD-EPI — é, no fundo, uma tentativa estatística de separar esses dois componentes a partir de um único número de laboratório, usando variáveis demográficas como proxies imperfeitos de massa muscular.</p>
+<p>Essa arquitetura revela uma tensão que atravessa a história das três equações: quanto mais uma fórmula tenta corrigir para características populacionais médias (como o coeficiente de etnia da MDRD), mais precisa ela se torna em média — e mais sujeita fica a converter uma categoria social em determinante biológico, com consequências reais de equidade quando usada para decidir acesso a transplante ou dosagem de medicamento. A remoção do coeficiente de raça na CKD-EPI 2021 não eliminou essa tensão — apenas a resolveu, para aquele caso específico, em favor da equidade individual sobre a precisão média marginal, uma escolha que a comunidade nefrológica ainda debate caso a caso para outras variáveis (ver Perguntas em aberto).</p>
+<p>Uma implicação que emerge, mas raramente é dita em voz alta no ensino desse tema: nenhum número isolado de creatinina, TFG estimada ou mesmo clearance medido é uma medida direta da função renal — todos são inferências construídas sobre premissas fisiológicas e estatísticas específicas, cada uma com seu próprio conjunto de situações em que falha. Avaliar a função renal, mais do que aplicar uma fórmula, é saber em qual dessas premissas confiar para aquele paciente específico — e reconhecer quando nenhuma delas é confiável o bastante, e a medida direta (clearance de 24h, ou mesmo inulina, em casos extremos) volta a ser necessária.</p>
+</section>
+
+<section id="referencias">
+<h2>Referências</h2>
+<div class="ref-layer">Ponto de entrada</div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>HALL, John E.; HALL, Michael E.</b> <em>Guyton &amp; Hall — Tratado de Fisiologia Médica</em>. 14ª ed. Rio de Janeiro: Elsevier, 2021.</p><p class="ref-nota">Referência primária de fisiologia renal para este compêndio — desenvolve filtração glomerular, clearance e regulação tubular com o nível de detalhe mecanicista que este material pressupõe.</p></div>
+<div class="ref-entry"><span class="rt">Livro-texto</span><p><b>RIELLA, Miguel Carlos.</b> <em>Princípios de Nefrologia e Distúrbios Hidroeletrolíticos</em>. 6ª ed. Rio de Janeiro: Guanabara Koogan, 2018.</p><p class="ref-nota">Referência nacional citada na aula de origem deste compêndio — ponto de entrada em português para nefrologia clínica, incluindo os métodos de avaliação de função renal aqui desenvolvidos.</p></div>
+
+<div class="ref-layer">Aprofundamento</div>
+<div class="ref-entry"><span class="rt">Artigo seminal</span><p><b>COCKCROFT, Donald W.; GAULT, M. Henry.</b> "Prediction of Creatinine Clearance from Serum Creatinine." <em>Nephron</em>, v. 16, p. 31-41, 1976.</p><p class="ref-nota">Artigo original da fórmula de Cockcroft-Gault — histórico e metodologicamente relevante para entender por que a equação tem a forma que tem (derivada antes da padronização IDMS e sem ajuste por superfície corporal).</p></div>
+<div class="ref-entry"><span class="rt">Artigo seminal</span><p><b>LEVEY, Andrew S. et al.</b> "A More Accurate Method to Estimate Glomerular Filtration Rate from Serum Creatinine: A New Prediction Equation." <em>Annals of Internal Medicine</em>, v. 130, n. 6, p. 461-470, 1999.</p><p class="ref-nota">Artigo fundador da equação MDRD — inclui a comparação direta com Cockcroft-Gault que motivou sua adoção como equação de referência entre 1999 e 2009.</p></div>
+<div class="ref-entry"><span class="rt">Artigo seminal</span><p><b>INKER, Lesley A. et al.</b> "New Creatinine- and Cystatin C-Based Equations to Estimate GFR without Race." <em>New England Journal of Medicine</em>, v. 385, n. 19, p. 1737-1749, 2021. PMID 34554658.</p><p class="ref-nota">Artigo que introduziu a equação CKD-EPI 2021 sem coeficiente de raça — hoje a equação recomendada pela KDIGO, e a base direta da discussão sobre equidade neste compêndio. Localizado via MCP PubMed.</p></div>
+<div class="ref-entry"><span class="rt">Diretriz</span><p><b>LEVIN, Adeera et al.</b> "Executive Summary of the KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease." <em>Kidney International</em>, v. 105, n. 4, p. 684-701, 2024. PMID 38519239.</p><p class="ref-nota">Diretriz vigente que fundamenta a matriz de estadiamento G×A (Tabela 4) e a recomendação atual de equação (CKD-EPI 2021). Localizado via MCP PubMed.</p></div>
+
+<div class="ref-layer">Consulta especializada</div>
+<div class="ref-entry"><span class="rt">Material técnico</span><p><b>STEVENS, Lesley A.; LEVEY, Andrew S.</b> "Clinical Implications of Estimating Equations for Glomerular Filtration Rate" / material de referência da National Kidney Foundation. <em>Journal of the American Society of Nephrology</em>, v. 20, p. 2305-2313, 2009.</p><p class="ref-nota">Fonte primária das Tabelas 1, 2 e 3 deste compêndio, e das figuras reproduzidas do material de aula (Tabela GFR importância clínica) — referência clássica de consulta sobre a interpretação prática de estimativas de TFG.</p></div>
+<div class="ref-entry"><span class="rt">Recurso online</span><p><b>National Kidney Foundation.</b> Calculadora de TFG estimada (eGFR). Disponível em: kidney.org.</p><p class="ref-nota">Calculadora validada para uso clínico das equações CKD-EPI, incluindo aplicativo móvel — ponto de consulta rápida citado na aula de origem.</p></div>
+<div class="ref-entry"><span class="rt">Recurso online</span><p><b>Sociedade Brasileira de Nefrologia.</b> Calculadoras de função renal. Disponível em: sbn.org.br.</p><p class="ref-nota">Equivalente brasileiro da calculadora da NKF, com utilização on-line ou por smartphone — referência de consulta citada na aula de origem deste compêndio.</p></div>
+</section>
+
+
+</div>
+</div>
+</main>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+
+<script>
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function toggleSidebar(){
+  sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed');
+  sessionStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+}
+toggleBtn.addEventListener('click', toggleSidebar);
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+if(sessionStorage.getItem('sidebar-collapsed') === 'true'){
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+}
+
+var progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}, {passive:true});
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  if(current){
+    var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+    if(a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {rootMargin:'-10% 0px -55% 0px'});
+sections.forEach(function(s){ io.observe(s); });
+
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbCap = document.getElementById('lightbox-caption');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = img.getAttribute('data-caption') || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+document.querySelectorAll('.plate-block img').forEach(function(img){
+  img.addEventListener('click', function(){ openLightbox(this); });
+});
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

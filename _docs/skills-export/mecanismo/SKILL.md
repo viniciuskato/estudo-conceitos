@@ -95,12 +95,14 @@ kebab-case sem acentos: `id="fundamentos"`, `id="conceitos-chave"`, `id="impleme
 2. Consultar `_docs/project_estado.md` e `_docs/project_mapa_materiais.md`.
 3. Gerar HTML na subpasta temática em kebab-case.
 4. **Buscar imagens pertinentes — passo obrigatório, não opcional:** para cada conceito com correspondente visual plausível (anatômico, radiológico, morfológico, diagramático), tentar ativamente localizar prancha via a hierarquia de `_docs/template-v2-spec.md` ("Fontes de imagens": OpenStax > Gray's > Blausen) e o método Wikimedia/Claude in Chrome documentado ali. Só pular uma prancha e registrar a ausência em `_docs/DEBT.md` depois de uma busca real ter sido tentada e não ter encontrado imagem adequada — nunca pular por omissão/pressa.
+4b. **Shell/CSS de HTML novo: ler o layout canônico de `_docs/template-v2-spec.md` diretamente (a seção `.prose`/sidebar/`theme-toggle`/`data-theme` perto do topo do arquivo), nunca copiar de um arquivo-irmão só por estar na mesma pasta.** Um sibling pode estar em versão de template mais antiga (o acervo não é retroaplicado por padrão — ver "Escopo de melhorias" acima) e passar essa defasagem adiante silenciosamente. Se usar um sibling como exemplo de página completa, escolher o de `mtime`/"Última revisão" mais recente da pasta, nunca só o mais relacionado por tema. Origem: `resposta-imune-bacterias-extra-intracelulares.html` saiu com shell desatualizado (sem `theme-toggle`, `.prose` estreito) por copiar de `resposta-a-patogenos.html` (anterior a 2026-08-05) — usuário pediu para não recorrer, 2026-08-07.
 5. Verificação bash obrigatória após qualquer escrita de HTML:
    - (a) fecha com `</body></html>`
    - (b) `wc -l` compatível com o esperado
    - (c) sem `const const` / `var var`
    - (d) acentuação PT-BR intacta: `grep -c "ã\|ç\|é" > 0`
    - (e) sem artefatos: `grep -iw "placeholder\|TODO\|FIXME\|debug\|rascunho"` vazio
+   - (f) **shell no padrão atual:** `grep ".prose{max-width" arquivo-novo.html` e `grep "theme-toggle" arquivo-novo.html` devolvem resultado, e o valor de `max-width` bate com o documentado em `_docs/template-v2-spec.md` — se vazio ou divergente, o shell foi copiado de um sibling desatualizado (ver item 4b) e deve ser corrigido antes de apresentar o arquivo.
 6. Verificação visual (novos compêndios e reescritas ≥30%): abrir no Chrome via Claude in Chrome.
 7. Rodar grep nos demais HTMLs antes de fechar — nunca corrigir só o arquivo em foco.
 8. Atualizar `index.html`, `_docs/DEBT.md` e `_docs/project_mapa_materiais.md`.

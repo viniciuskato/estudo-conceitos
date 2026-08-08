@@ -11,7 +11,7 @@ ver `_docs/DEBT.md` para o histórico da correção. **Caminho raiz atualizado e
 
 ---
 
-## Imunologia (`compêndios/medicina/mecanismos/imunologia/`) — 13 compêndios ativos
+## Imunologia (`compêndios/medicina/mecanismos/imunologia/`) — 14 compêndios ativos
 
 - `orgaos-linfoides.html` — Órgãos e Tecidos Linfoides: primários (medula óssea, timo) vs. secundários (linfonodo, baço, MALT); arquitetura e tráfego linfocitário
 - `celulas-sistema-imune.html` — Células do Sistema Imune: linhagens mieloide/linfoide, fenótipos e funções
@@ -26,6 +26,7 @@ ver `_docs/DEBT.md` para o histórico da correção. **Caminho raiz atualizado e
 - `vacinas-imunidade-protetora.html` — Vacinas e Imunidade Protetora: tipos de vacina, memória imunológica, adjuvantes
 - `citocinas-visao-integradora.html` — Citocinas — Visão Integradora: JAK-STAT, TNF/IL-6/IFN, redes de sinalização
 - `respostas-th1-th2-th17.html` — Respostas Th1, Th2 e Th17: polarização de linfócitos T auxiliares, doenças associadas
+- `resposta-imune-bacterias-extra-intracelulares.html` — Resposta Imune a Bactérias Extra e Intracelulares (aprofundamento clínico, filho de `resposta-a-patogenos.html`): 3 casos clínicos (doença granulomatosa crônica/DHR-123, deficiência de complemento C6/meningite meningocócica recorrente, resposta neutrofílica aguda/apendicite), evasão bacteriana extra e intracelular em tabelas por espécie, tuberculose (granuloma, PPD/Mantoux), hanseníase (espectro Th1/Th2 tuberculoide×lepromatosa), Chlamydia trachomatis, Bordetella pertussis. 10 imagens locais (PDF de aula do usuário) + 1 imagem externa (PMC12591272, CC BY). Origem: aula "Resposta imune a bactérias extra e intracelulares", Profa. Edna Maria Vissoci Reiche, PUCPR, enviada pelo usuário em .md+.pdf. [2026-08-07]
 
 ## Farmacologia (`compêndios/medicina/mecanismos/farmacologia/`) — 3 compêndios ativos
 
@@ -33,10 +34,11 @@ ver `_docs/DEBT.md` para o histórico da correção. **Caminho raiz atualizado e
 - `antiagregantes-anticoagulantes-tromboliticos.html` — Antiagregantes, Anticoagulantes e Trombolíticos: AAS, inibidores P2Y12/GpIIb-IIIa, heparina (HNF/HBPM), varfarina, NOACs, reversão/antídotos, alteplase/tenecteplase
 - `antifungicos.html` — Antifúngicos: polienos, azóis, equinocandinas, resistência antifúngica, contexto brasileiro
 
-## Fisiologia (`compêndios/medicina/mecanismos/fisiologia/`) — 2 compêndios ativos
+## Fisiologia (`compêndios/medicina/mecanismos/fisiologia/`) — 3 compêndios ativos
 
 - `ciclo-cardiaco.html` — Ciclo Cardíaco: potencial de ação ventricular e do nó SA, sistema de condução, acoplamento excitação-contração (CICR), ciclo mecânico (6 fases), pressões/volumes (VDF, VSF, VS, FE, loop PV), ESPVR/E_max, sons cardíacos, débito cardíaco, Frank-Starling, regulação autonômica/humoral, pressão de enchimento sistêmico
 - `hipotensao-pos-exercicio-barorreflexo.html` — Hipotensão Pós-Exercício e Controle Barorreflexo: débito cardíaco no exercício, redistribuição de fluxo, vasodilatação cutânea/termorregulação, HPE, arco barorreflexo completo, reflexo de imersão
+- `avaliacao-funcao-renal.html` — Avaliação da Função Renal: clearance renal (critérios, inulina padrão-ouro), creatinina como marcador endógeno, clearance medido (urina 24h), fórmulas estimadas (Cockcroft-Gault, MDRD, CKD-EPI 2009/2021 sem raça), cistatina C, classificação KDIGO (matriz G×A), exame de urina, proteinúria/albuminúria, sedimento urinário. Origem: aula de Nefrologia (Prof. Dr. Abel Esteves Soares, PUC/UEL Londrina), 2026-08-07.
 
 ## Fisiopatologia (`compêndios/medicina/mecanismos/fisiopatologia/`) — 3 compêndios ativos
 
@@ -58,7 +60,7 @@ ver `_docs/DEBT.md` para o histórico da correção. **Caminho raiz atualizado e
 ## Cross-links prioritários entre subáreas
 
 Dependências frequentes entre compêndios clínicos e básicos — linkar em vez de reexplicar:
-- Farmacologia cardiovascular (SRAA, anti-hipertensivos) → `fisiologia/ciclo-cardiaco.html` (débito cardíaco, regulação) e `fisiologia/hipotensao-pos-exercicio-barorreflexo.html` (barorreflexo)
+- Farmacologia cardiovascular (SRAA, anti-hipertensivos) → `fisiologia/ciclo-cardiaco.html` (débito cardíaco, regulação), `fisiologia/hipotensao-pos-exercicio-barorreflexo.html` (barorreflexo) e `fisiologia/avaliacao-funcao-renal.html` (ajuste de dose de IECA/BRA e monitorização por TFG — cross-link ainda pendente no sentido farmacologia→fisiologia, ver `_docs/DEBT.md`)
 - Antiagregantes/anticoagulantes → `fisiopatologia/trombose-e-hemostasia.html`
 - Antifúngicos → `microbiologia/micologia-medica.html` (mecanismos de virulência fúngica)
 - Choque circulatório → `fisiopatologia/trombose-e-hemostasia.html` (CID) e `imunologia/` (resposta inflamatória sistêmica)

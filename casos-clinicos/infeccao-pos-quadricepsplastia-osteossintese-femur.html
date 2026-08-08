@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infecção Pós-Cirúrgica após Quadricepsplastia em Fêmur Osteossintetizado — Caso Clínico</title>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#111010">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+body{transition:background .25s,color .25s}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78}
+#body-wrap{display:flex;min-height:100vh}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0}
+
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+
+#sidebar{width:280px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2);border-right:1px solid var(--border);transition:width .25s}
+#sidebar.collapsed{width:44px}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:8px 0 20px}
+.s-logo{font-family:var(--font-ui);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:14px 16px 8px}
+.s-group{padding:10px 8px 2px}
+.s-gt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;padding:6px 8px 4px}
+a.sl{display:block;font-family:var(--font-ui);font-size:13px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:5px;line-height:1.35}
+a.sl:hover{background:var(--bg3);color:var(--text)}
+a.sl.active{background:var(--ac2bg);color:var(--ac);font-weight:600}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#s-toggle{padding:6px 8px;flex-shrink:0}
+#toggle-btn{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:6px;cursor:pointer;font-size:12px}
+#toggle-btn:hover{color:var(--text)}
+
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+
+.doc-header h1{font-size:2.1em;line-height:1.2;margin:0 0 10px}
+.doc-meta{font-family:var(--font-ui);color:var(--muted);font-size:13px;margin:0 0 14px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:24px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-note{font-family:var(--font-ui);font-size:12px;color:var(--muted);font-style:italic}
+
+section{margin-bottom:46px}
+section h2{font-size:1.5em;margin:0 0 16px;padding-top:8px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+h3{font-size:1.15em;margin:26px 0 10px;color:var(--text)}
+p{margin:0 0 16px}
+ul,ol{margin:0 0 16px;padding-left:1.3em}
+li{margin-bottom:6px}
+strong{color:var(--text)}
+
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--ac);border-radius:0 5px 5px 0;padding:12px 18px;margin:16px 0 8px;font-family:var(--font-ui);font-size:16px;color:var(--text);text-align:center;line-height:1.9;overflow-x:auto}
+.eq-vars{list-style:none;margin:0 0 18px;padding:0;font-family:var(--font-ui);font-size:13px;color:var(--muted)}
+.eq-vars li{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-bottom:2px}
+.eq-vars b{color:var(--ac);font-family:var(--font-body);font-style:italic;margin-right:6px;font-size:15px}
+
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+
+.table-wrap{overflow-x:auto;margin:18px 0}
+.data-table{width:100%;border-collapse:collapse;margin:0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td.td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-caption{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin:6px 0 0}
+
+.controversia{background:var(--bg2);border:1px solid var(--ac2);border-radius:6px;padding:14px 18px;margin:14px 0}
+.controversia .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.controversia .pos{margin:8px 0}
+.controversia .pos b{color:var(--ac)}
+
+.qa-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:0 6px 6px 0;padding:14px 18px;margin:10px 0}
+.qa-block .qa-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qa-block p{margin:0;color:var(--muted);font-size:15px}
+
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10.5px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:6px;white-space:nowrap;text-decoration:none;cursor:pointer}
+.evid:hover{opacity:.8}
+
+.caso-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:8px 0 20px}
+.caso-box .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed var(--ac);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
+
+.ref-layer{margin-bottom:26px}
+.ref-layer h3{color:var(--ac);margin-top:0}
+.ref-item{margin-bottom:14px;padding-left:16px;border-left:2px solid var(--border)}
+.ref-item .rtype{font-family:var(--font-ui);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ref-item .rtitle{font-weight:600}
+.ref-item .rnote{color:var(--muted);font-size:14.5px}
+
+@media(max-width:900px){
+  .theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}
+  #sidebar{display:none;position:fixed;z-index:150;width:80vw;height:100vh}
+  #sidebar.open{display:flex}
+  #content{padding:24px 20px 80px}
+  .ck-grid{grid-template-columns:repeat(2,1fr)}
+  #mob-bar{display:flex}
+}
+#mob-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:140;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 14px;align-items:center;font-family:var(--font-ui)}
+#mob-bar button{background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+
+@media print{
+  #sidebar,#s-toggle,#s-home,.theme-toggle,#progress-bar,#mob-bar{display:none}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+<div id="mob-bar"><button id="mob-open" aria-label="Abrir menu">☰</button></div>
+
+<div id="body-wrap">
+<div id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+  <div class="s-inner">
+    <div class="s-logo">Infecção Pós-Quadricepsplastia</div>
+
+    <div class="s-group">
+      <div class="s-gt">O caso</div>
+      <a class="sl" href="#s-caso">Apresentação clínica</a>
+      <a class="sl" href="#s-hipotese">Hipótese diagnóstica principal</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Raciocínio</div>
+      <a class="sl" href="#s-cirurgia">A cirurgia de liberação de rigidez</a>
+      <a class="sl" href="#s-fisiopatologia">Fisiopatologia da infecção pós-cirúrgica</a>
+      <a class="sl" href="#s-classificacao">Classificação temporal e o que ela muda</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Diagnóstico diferencial</div>
+      <a class="sl" href="#s-diferencial-anatomico">Compartimento anatômico acometido</a>
+      <a class="sl" href="#s-diferencial-nao-infeccioso">Causas não infecciosas de má cicatrização</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Investigação</div>
+      <a class="sl" href="#s-exames">Exames complementares</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Conduta</div>
+      <a class="sl" href="#s-conduta-cirurgica">Reabordagem cirúrgica e decisão sobre o implante</a>
+      <a class="sl" href="#s-antibiotico">Antibioticoterapia</a>
+      <a class="sl" href="#s-partes-moles">Partes moles e otimização do hospedeiro</a>
+    </div>
+
+    <div class="s-group">
+      <div class="s-gt">Fechamento</div>
+      <a class="sl" href="#s-conexoes">Conexões</a>
+      <a class="sl" href="#s-perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#s-discussao">Discussão</a>
+      <a class="sl" href="#s-referencias">Referências</a>
+    </div>
+  </div>
+  <div id="s-toggle">
+    <button id="toggle-btn" onclick="toggleSidebar()">◀</button>
+  </div>
+</div>
+
+<div id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Infecção Pós-Cirúrgica após Quadricepsplastia em Fêmur Osteossintetizado</h1>
+  <p class="doc-meta">Casos Clínicos · Infectologia / Ortopedia · Rotação hospitalar · Homem, sem comorbidades</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>nenhum — partida zero</b></span>
+    <span class="chip">🔗 Depende de: <b>ver mapa de dependências</b></span>
+    <span class="chip">📍 Área: <b>Casos Clínicos — Infectologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-07</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Um homem sem comorbidades, quatro meses após uma cirurgia de liberação de rigidez de joelho (com ressecção de parte do menisco e do quadríceps) num fêmur ainda com placa de osteossíntese, evolui com secreção que começou purulenta e hoje é seropurulenta, além de dificuldade de cicatrização da ferida. Isso já basta para afirmar que há infecção ativa? E, se sim: é uma infecção confinada a partes moles, uma artrite séptica de joelho, ou uma infecção que já envolve o implante femoral — e por que essa distinção muda inteiramente a conduta (retenção ou remoção da placa, urgência cirúrgica, duração do antibiótico)?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este caso usa</div>
+      <a class="dep-item cross-link" href="../compêndios/medicina/infectologia-fundamentos.html#s-sindromes">Fundamentos de Infectologia — Síndromes infecciosas</a>
+      <span class="dep-note">Sem compêndio de área específico de ortopedia/traumatologia neste acervo ainda — o raciocínio cirúrgico-ortopédico é desenvolvido do zero neste próprio caso.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <span class="dep-note">Nenhum pré-requisito estrito — o caso é desenvolvido do zero. Noções gerais de resposta inflamatória e cicatrização ajudam, mas os conceitos usados aqui são (re)definidos no próprio texto, no nível de decisão clínica.</span>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <span class="dep-note">Nenhum ainda — segundo caso do domínio Casos Clínicos.</span>
+    </div>
+  </div>
+</div>
+
+<section id="s-caso">
+<h2>Apresentação clínica</h2>
+<div class="caso-box">
+<div class="clabel">O caso</div>
+<p>Homem, <strong>sem comorbidades</strong>, vítima de acidente motociclístico com <strong>fratura de fêmur</strong>, tratada cirurgicamente com <strong>osteossíntese por placa metálica</strong>. Por <strong>limitação de mobilidade</strong> do membro, foi submetido a uma <strong>segunda cirurgia</strong> — de liberação — na qual houve <strong>remoção de parte do menisco e de parte do quadríceps</strong>. Essa segunda cirurgia ocorreu <strong>há 4 meses</strong>. No pós-operatório dessa segunda cirurgia, o paciente evoluiu com <strong>infecção</strong>: inicialmente com <strong>secreção purulenta</strong>, hoje <strong>seropurulenta</strong>, associada a <strong>dificuldade de cicatrização</strong> da ferida operatória.</p>
+</div>
+<div class="kbox">
+<div class="klabel">Nota metodológica — dado relatado vs. leitura do raciocínio clínico</div>
+<p>Os achados acima são exatamente os relatados. Não foram informados: idade exata, intervalo entre a primeira e a segunda cirurgia, técnica exata da liberação (aberta ou artroscópica), momento em que a secreção purulenta começou (imediatamente após a segunda cirurgia ou só depois de um intervalo livre de sintomas), quando e por que mudou para seropurulenta, presença de febre ou outros sinais sistêmicos, aspecto atual da ferida (tamanho, se há fístula, se comunica visivelmente com osso/implante), localização exata da placa femoral em relação ao campo da segunda cirurgia, e qualquer exame laboratorial, de imagem, cultura ou antibiótico já realizado. Ao longo deste material, sempre que o texto precisar de um desses dados para avançar o raciocínio (por exemplo, ao classificar o tempo de evolução ou ao decidir sobre o implante), isso é sinalizado explicitamente como suposição de trabalho — não como fato confirmado do caso.</p>
+</div>
+<div class="kbox">
+<div class="klabel">Síntese do problema</div>
+<p>Três elementos a amarrar: (1) uma cirurgia de liberação de rigidez articular pós-traumática, cujo padrão técnico (ressecção parcial de menisco + parte do quadríceps) é reconhecível na literatura ortopédica; (2) uma evolução pós-operatória com secreção que já foi francamente purulenta e hoje é seropurulenta, num intervalo de 4 meses; (3) dificuldade de cicatrização persistente. A pergunta central não é "há infecção?" — a resposta a isso é, com os dados disponíveis, provavelmente sim — mas sim <strong>onde exatamente</strong> ela está (partes moles, articulação, osso/implante) e o que a <strong>passagem do tempo</strong> (4 meses) já implica para a chance de sucesso de um tratamento conservador.</p>
+</div>
+</section>
+
+<section id="s-hipotese">
+<h2>Hipótese diagnóstica principal</h2>
+<p>A combinação de <strong>drenagem persistente por 4 meses</strong> (mesmo tendo mudado de caráter) com <strong>dificuldade de cicatrização</strong>, num paciente com <strong>corpo estranho ortopédico</strong> (placa femoral) e uma ferida cirúrgica que necessariamente violou o <strong>espaço articular do joelho</strong> (a ressecção de menisco não é possível sem abrir a cápsula), aponta para uma <strong>infecção pós-cirúrgica crônica (de apresentação tardia)</strong>, ainda a localizar entre três compartimentos possíveis — partes moles, articulação ou interface osso-implante — e não para uma simples infecção de ferida operatória em resolução espontânea.</p>
+<div class="kbox">
+<div class="klabel">Por que "seropurulenta" não é sinal tranquilizador por si só</div>
+<p>É tentador ler a mudança de purulenta para seropurulenta como sinal de melhora. Isso é possível — mas não é a única leitura, e não é a mais segura sem mais dados. Segundo os critérios de consenso para infecção relacionada a implante ortopédico, <strong>drenagem persistente, aumentando ou recorrente além dos primeiros dias de pós-operatório</strong> já é, por si só, um critério <em>sugestivo</em> de infecção — e uma ferida que não fecha aos 4 meses preenche esse critério independentemente da cor/aspecto atual da secreção.<a class="evid" href="#ref3" onclick="navRef(this)">Diretriz/Consenso</a> A mudança de aspecto pode refletir tanto uma resposta parcial (menor carga bacteriana, menos neutrófilos) quanto simplesmente a evolução natural de uma infecção crônica de baixa virulência com biofilme já estabelecido — os dois cenários exigem investigação ativa, não observação.</p>
+</div>
+</section>
+
+<section id="s-cirurgia">
+<h2>A cirurgia de liberação de rigidez — o que ela provavelmente foi</h2>
+<p>O padrão descrito — <strong>ressecção parcial de menisco + ressecção de parte do quadríceps</strong>, indicada por limitação de mobilidade após osteossíntese de fratura ao redor do joelho — corresponde ao procedimento clássico para <strong>rigidez/contratura em extensão do joelho pós-traumática</strong>: a <strong>quadricepsplastia (técnica de Judet ou variantes modificadas)</strong>, por vezes associada a debridamento/meniscectomia parcial intra-articular quando há aderências ou lesão meniscal concomitante limitando o arco de movimento.<a class="evid" href="#ref5" onclick="navRef(this)">Estudo observacional (série de casos)</a></p>
+<p>Essa cirurgia existe porque a imobilização prolongada — necessária para consolidação de uma fratura de fêmur — favorece <strong>fibrose intra-articular e do aparelho extensor</strong> (quadríceps, retináculos, bursa suprapatelar), resultando em perda de flexão ou, mais caracteristicamente após fraturas distais do fêmur, contratura em extensão. Quando fisioterapia e mobilização isolada não restauram o arco de movimento funcional, a liberação cirúrgica — artroscópica (lise de aderências) nos casos mais leves, ou aberta (quadricepsplastia) nos casos de contratura mais estabelecida — torna-se a via de escape.<a class="evid" href="#ref9" onclick="navRef(this)">Estudo observacional (série de casos)</a></p>
+<div class="kbox">
+<div class="klabel">Um procedimento de alta morbidade, mesmo sem infecção</div>
+<p>Séries publicadas de quadricepsplastia de Judet (modificada) para rigidez pós-traumática relatam bons resultados funcionais, mas o próprio procedimento é descrito na literatura como de <strong>alta morbidade</strong> — grande dissecção de partes moles já fragilizadas por cirurgia(s) e imobilização prévias, tensão significativa no fechamento, e necessidade frequente de transfusão sanguínea. Numa série de 15 pacientes, houve <strong>infecção de pele em 1 caso (6,7%)</strong> — evidência direta de que a infecção pós-operatória, embora não seja o desfecho mais comum, é uma complicação reconhecida e não uma raridade teórica deste procedimento específico.<a class="evid" href="#ref6" onclick="navRef(this)">Estudo observacional (série de casos)</a> Outra série (11 pacientes) não registrou nenhuma infecção, o que reforça que o risco existe mas é variável conforme técnica, tempo cirúrgico e fatores do hospedeiro.<a class="evid" href="#ref5" onclick="navRef(this)">Estudo observacional (série de casos)</a></p>
+</div>
+<p>Ponto relevante para este caso: a meniscectomia parcial <strong>necessariamente abre a cápsula articular</strong> — diferente de uma liberação puramente extra-articular do aparelho extensor. Isso significa que, anatomicamente, o campo operatório desta segunda cirurgia teve <strong>comunicação direta com o espaço intra-articular do joelho</strong>, o que se torna central na seção de diagnóstico diferencial adiante.</p>
+</section>
+
+<section id="s-fisiopatologia">
+<h2>Fisiopatologia da infecção pós-cirúrgica em osso/articulação com corpo estranho</h2>
+<p>A contaminação bacteriana de uma ferida cirúrgica ortopédica pode ocorrer por inoculação direta durante o próprio ato operatório (a via mais provável em uma infecção que se manifesta nas primeiras semanas) ou, mais raramente, por via hematogênica a partir de um foco infeccioso à distância. Uma vez que bactérias — tipicamente cocos Gram-positivos de pele, como <em>Staphylococcus aureus</em> e estafilococos coagulase-negativos — colonizam a ferida, elas podem aderir tanto a tecido desvitalizado quanto a qualquer superfície de material estranho presente no campo (a placa femoral, mesmo que fisicamente distante do sítio da segunda cirurgia, é um corpo estranho já presente no membro) e formar <strong>biofilme</strong>: uma matriz extracelular que protege as bactérias da resposta imune do hospedeiro e da penetração de antimicrobianos sistêmicos.<a class="evid" href="#ref8" onclick="navRef(this)">Revisão</a></p>
+<div class="kbox">
+<div class="klabel">A maturação do biofilme é o que separa a infecção precoce da tardia</div>
+<p>Nas primeiras semanas, o biofilme ainda está em fase imatura — mais vulnerável a debridamento mecânico e antibiótico sistêmico, o que permite tratar mantendo o implante. Com o passar do tempo (semanas a poucos meses), o biofilme amadurece, pode haver invasão óssea pelos patógenos e necrose/osteólise localizada — tornando debridamento simples com retenção de implante progressivamente menos eficaz. Isso não é um limiar abrupto, mas um contínuo — e é exatamente esse contínuo que fundamenta a classificação temporal discutida a seguir.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a></p>
+</div>
+<p>A transição observada neste caso — de secreção purulenta para seropurulenta, sem resolução completa — é compatível com esse processo de cronificação: menor atividade inflamatória aguda (menos neutrófilos, menos pus franco), mas persistência do processo infeccioso de baixo grau sustentado pelo biofilme, sem erradicação. A <strong>dificuldade de cicatrização</strong> associada reforça essa leitura: uma ferida com infecção subjacente ativa tende a não fechar, independentemente de curativos e cuidados locais, porque o processo inflamatório crônico e a colonização bacteriana persistente interferem diretamente com as fases de proliferação e remodelamento da cicatrização.</p>
+</section>
+
+<section id="s-classificacao">
+<h2>Classificação temporal — e o que ela muda na conduta</h2>
+<div class="plate-block" id="fig-1">
+  <img src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/194d/6903359/67d3c54eb105/jot-34-08-g002.jpg"
+       alt="Seis painéis: radiografia da fratura original de fêmur distal, radiografia com placa de osteossíntese, PET-CT mostrando captação ao longo de todo o fêmur e trajeto de fístula, foto clínica com fístula na coxa, e foto intraoperatória com osso removido expondo a placa infectada"
+       loading="lazy" data-caption="Infecção tardia relacionada a implante femoral, com fístula e PET-CT — paciente diferente deste caso, usado só como ilustração anatômica">
+  <div class="plate-caption"><b>Fig. 1 — Infecção relacionada a implante em fêmur com placa, fístula e PET-CT</b> — <strong>paciente diferente do caso deste material</strong>, de um artigo de referência sobre diagnóstico de infecção relacionada a fratura: homem de 57 anos, fratura de fêmur distal por acidente motociclístico tratada com placa (A: radiografia original; B: pós-osteossíntese), que desenvolveu fístula 2,5 anos depois — cronologia bem mais longa que a deste caso (4 meses), mas o padrão de imagem serve de referência para o que se busca ao investigar infecção crônica relacionada a implante: PET-CT com captação ao longo de todo o fêmur e do trajeto fistuloso (C-D), fístula clinicamente visível (E) e, na reabordagem cirúrgica, o osso sobrejacente à placa removido expondo a infecção (F). Segundo o PubMed, Govaert GAM, Kuehl R, Atkins BL et al., em nome do Fracture-Related Infection (FRI) Consensus Group — Diagnosing Fracture-Related Infection: Current Concepts and Recommendations. <em>Journal of Orthopaedic Trauma</em>, 2020;34(1):8-17 (<a href="https://doi.org/10.1097/BOT.0000000000001614" target="_blank" rel="noopener">DOI</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6903359/" target="_blank" rel="noopener">PMC</a>). Artigo revisado por pares, acesso aberto, CC BY-NC-ND 4.0.</div>
+</div>
+<p>A classificação mais usada para infecção relacionada a osteossíntese (fixação de fratura) — e por extensão aplicável ao raciocínio deste caso, mesmo a segunda cirurgia não sendo diretamente sobre o foco de fratura — divide a infecção pelo <strong>tempo decorrido desde a cirurgia-índice até o início dos sintomas</strong>:</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Classificação temporal de infecção relacionada a osteossíntese, Willenegger-Roth">
+<tr><th>Categoria</th><th>Intervalo</th><th>Perfil esperado</th></tr>
+<tr><td class="td-label">Precoce</td><td>&lt; 2 semanas</td><td>Patógenos de alta virulência; sinais clássicos de infecção aguda; biofilme ainda imaturo — melhor prognóstico para retenção do implante</td></tr>
+<tr><td class="td-label">Retardada</td><td>3–10 semanas</td><td>Zona cinzenta; biofilme em maturação; patógenos menos virulentos ou efeito de antibiótico prévio mascarando o quadro</td></tr>
+<tr><td class="td-label">Tardia</td><td>&gt; 10 semanas</td><td>Biofilme maduro; possível necrose óssea/osteólise associada; pior prognóstico para retenção do implante isolada</td></tr>
+</table>
+<p class="table-caption">Tabela 1 — Classificação de Willenegger-Roth, amplamente adotada para infecção relacionada a fratura (FRI); outros autores usam corte único agudo/crônico em 6 semanas. Não há evidência robusta de um limiar exato — a decisão real depende mais dos achados no momento da apresentação do que do número de dias isolado.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a></p>
+</div>
+<p>Com <strong>4 meses (≈17 semanas)</strong> desde a segunda cirurgia, este caso se enquadra na categoria <strong>tardia</strong> — muito além do corte de 10 semanas. Isso tem consequência prática direta: uma revisão sistemática dedicada especificamente a essa questão encontrou taxa de sucesso de <strong>86–100% para debridamento com retenção do implante (DAIR)</strong> quando a infecção é tratada até 3 semanas de evolução, <strong>82–89%</strong> na janela retardada (3–10 semanas), e apenas <strong>~67%</strong> — com dados ainda escassos — em infecções tardias como esta.<a class="evid" href="#ref4" onclick="navRef(this)">Revisão sistemática</a></p>
+<div class="kbox">
+<div class="klabel">Consequência prática para este caso</div>
+<p>O tempo decorrido, por si só, já é um argumento contra uma conduta puramente conservadora (trocas de curativo + antibiótico oral empírico, sem nova cirurgia) e a favor de <strong>reabordagem cirúrgica com debridamento formal e coleta de amostras</strong> — com a decisão sobre manter ou remover a placa femoral dependendo de dado ainda não disponível neste caso: se a fratura do fêmur já consolidou (ver "Conduta").</p>
+</div>
+</section>
+
+<section id="s-diferencial-anatomico">
+<h2>Diagnóstico diferencial — qual compartimento anatômico está infectado</h2>
+<p>Esta é a pergunta mais importante do caso, porque cada resposta muda a urgência, a técnica cirúrgica e o horizonte de tratamento. Não é uma pergunta retórica: sem exame físico detalhado, imagem ou punção articular, as três hipóteses seguintes permanecem todas ativas.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Diagnóstico diferencial anatômico da infecção pós-quadricepsplastia">
+<tr><th>Hipótese</th><th>Por que é plausível aqui</th><th>Como confirmar/excluir</th></tr>
+<tr><td class="td-label">Infecção de partes moles (superficial ou profunda ao aparelho extensor)</td><td>É o compartimento diretamente manipulado na quadricepsplastia — grande dissecção, tensão de fechamento, tecido já fragilizado por cirurgia(s) prévia(s)</td><td>Exame local: extensão do eritema/calor, se há coleção palpável, se a drenagem sai da pele/subcutâneo sem sinais de derrame articular associado</td></tr>
+<tr><td class="td-label">Artrite séptica do joelho</td><td>A meniscectomia abriu a cápsula articular — via direta de comunicação entre o campo cirúrgico e o espaço intra-articular</td><td>Derrame articular, dor à mobilização passiva do joelho (não só na ferida), <strong>artrocentese</strong> com contagem celular/diferencial e cultura do líquido sinovial</td></tr>
+<tr><td class="td-label">Infecção relacionada à fratura (FRI) — envolvendo a placa femoral</td><td>Corpo estranho já presente no membro há meses; se os campos cirúrgicos da 1ª e 2ª cirurgia forem próximos/contíguos, o processo pode se estender ao longo da placa</td><td>Radiografia (soltura de parafusos/placa, lise óssea, ausência de consolidação), avaliar se há trajeto de fístula em direção à placa, cultura profunda na reabordagem</td></tr>
+</table>
+<p class="table-caption">Tabela 2 — As três hipóteses não são mutuamente excludentes: um mesmo processo pode acometer mais de um compartimento simultaneamente, sobretudo numa infecção já cronificada aos 4 meses.</p>
+</div>
+<div class="kbox">
+<div class="klabel">Por que a artrite séptica não pode ser assumida como improvável só pelo tempo de evolução</div>
+<p>Diferente de uma infecção puramente de partes moles, que pode eventualmente ser manejada de forma mais conservadora, a <strong>artrite séptica é uma emergência ortopédica</strong> em qualquer momento da evolução — o líquido sinovial infectado é diretamente condrolítico (enzimas proteolíticas bacterianas e da resposta inflamatória do hospedeiro degradam a cartilagem articular de forma progressiva e irreversível), de modo que o tempo decorrido não reduz a urgência de descartar essa hipótese; ao contrário, uma artrite séptica não tratada por 4 meses tende a já ter causado dano condral significativo.<a class="evid" href="#ref10" onclick="navRef(this)">Revisão</a> Séries de infecção articular após reconstrução ligamentar do joelho — cenário análogo por envolver artroscopia/artrotomia recente mais material intra-articular — reforçam que lavagem cirúrgica urgente, e não apenas antibiótico, é o pilar do tratamento assim que a hipótese é confirmada.<a class="evid" href="#ref10" onclick="navRef(this)">Revisão</a></p>
+</div>
+</section>
+
+<section id="s-diferencial-nao-infeccioso">
+<h2>Causas não infecciosas de má cicatrização e drenagem persistente</h2>
+<p>Antes de tratar tudo como infecção confirmada, vale listar o que mais pode explicar drenagem prolongada e dificuldade de cicatrização numa ferida de quadricepsplastia — em parte porque a resposta a essas hipóteses (observação, drenagem simples, ajuste de curativo) é bem menos invasiva do que a resposta à hipótese infecciosa.</p>
+<div class="table-wrap">
+<table class="data-table" aria-label="Diagnóstico diferencial não infeccioso de drenagem persistente e má cicatrização pós-cirúrgica">
+<tr><th>Hipótese</th><th>Como diferenciar da infecção</th></tr>
+<tr><td class="td-label">Seroma organizado</td><td>Secreção serosa clara (não purulenta nem turva), sem eritema/calor associado, geralmente sem odor — o relato de secreção <em>purulenta</em> em algum momento já torna este diagnóstico isolado insuficiente para explicar o quadro</td></tr>
+<tr><td class="td-label">Reação a corpo estranho (fio de sutura)</td><td>Drenagem de pequeno volume, muitas vezes com trajeto fistuloso puntiforme, cultura negativa ou com flora escassa; pode coexistir com infecção verdadeira</td></tr>
+<tr><td class="td-label">Deiscência mecânica por tensão</td><td>Achado descrito na própria literatura da quadricepsplastia como risco do procedimento (grande tensão no fechamento); abertura da ferida sem necessariamente refletir infecção profunda, embora predisponha a uma infecção secundária</td></tr>
+<tr><td class="td-label">Hematoma em resolução</td><td>Tende a ocorrer mais precocemente (dias a poucas semanas), não meses; secreção serossanguinolenta, não purulenta</td></tr>
+</table>
+<p class="table-caption">Tabela 3 — Nenhuma dessas hipóteses isoladas explica bem a fase inicial <em>purulenta</em> relatada; mais provável é que uma causa mecânica (deiscência por tensão) tenha favorecido a infecção secundária, não que ela seja a explicação completa do quadro atual.</p>
+</div>
+</section>
+
+<section id="s-exames">
+<h2>Exames complementares recomendados</h2>
+<p>Em ordem de prioridade prática, partindo do que está faltando neste caso:</p>
+<ul>
+<li><strong>Exame físico dirigido do joelho</strong> — não só da ferida: avaliar derrame articular, dor à mobilização passiva (não apenas à palpação da cicatriz), amplitude de movimento atual comparada à obtida na cirurgia, e se a drenagem tem trajeto identificável em direção à articulação ou à placa.</li>
+<li><strong>Provas inflamatórias</strong> (PCR, VHS, hemograma com leucograma) — úteis como apoio, mas com valor diagnóstico isolado limitado neste cenário crônico: uma revisão sistemática dedicada a infecção tardia relacionada a osteossíntese encontrou sensibilidade de 60–100% e especificidade de apenas 34–86% para PCR, e desempenho ainda pior para leucograma e VHS isoladamente — nenhum dos três, isoladamente, confirma ou exclui infecção crônica.<a class="evid" href="#ref3" onclick="navRef(this)">Revisão sistemática</a></li>
+<li><strong>Radiografia simples do fêmur/joelho</strong> — primeira linha de imagem: avalia posição e integridade da placa e parafusos, sinais de soltura, e principalmente o <strong>status de consolidação da fratura original</strong> — dado decisivo para a decisão cirúrgica adiante. <a class="fig-ref" onclick="navFig(this)" href="#fig-1">(Fig. 1)</a> ilustra, num caso de referência diferente deste, o tipo de achado radiográfico e de PET-CT que se busca numa infecção crônica relacionada a implante femoral.</li>
+<li><strong>Artrocentese</strong>, se houver derrame articular ao exame — contagem celular, diferencial e cultura do líquido sinovial são o exame mais direto para confirmar ou excluir artrite séptica associada.</li>
+<li><strong>Ressonância magnética</strong>, se disponível e sem contraindicação — útil para mapear extensão de partes moles, coleções profundas e eventual comunicação com a articulação ou com a interface óssea, embora o artefato metálico da placa possa limitar a avaliação exatamente na região de maior interesse.</li>
+<li><strong>Cultura de tecido profundo — não substituível por exame de sangue ou swab superficial.</strong> Na reabordagem cirúrgica (ver "Conduta"), coletar preferencialmente ≥5 amostras de tecido profundo, de sítios diferentes, com instrumental separado para cada uma ("no-touch technique"), evitando amostra superficial ou de trajeto fistuloso — que refletem colonização, não o agente causador real.<a class="evid" href="#ref3" onclick="navRef(this)">Diretriz/Consenso</a></li>
+<li><strong>Histopatologia</strong> do tecido coletado — a presença de &gt;5 neutrófilos por campo de grande aumento é considerada critério confirmatório de infecção em cenários crônicos, com boa correlação quando combinada à cultura.<a class="evid" href="#ref3" onclick="navRef(this)">Diretriz/Consenso</a></li>
+<li><strong>Hemocultura</strong> — reservada para o cenário de febre (temperatura ≥38,3°C); em infecção crônica/tardia relacionada a implante, o rendimento de hemocultura costuma ser baixo, já que bacteremia sistêmica é incomum nesses casos.</li>
+</ul>
+</section>
+
+<section id="s-conduta-cirurgica">
+<h2>Reabordagem cirúrgica e decisão sobre o implante</h2>
+<p>Com 4 meses de drenagem persistente e falha de cicatrização, a <strong>observação vigilante não é uma conduta apropriada</strong> — a indicação de reabordagem cirúrgica com debridamento formal e coleta de amostras se sustenta pelo critério temporal isolado, independentemente do resultado de exames de sangue (que, como visto, têm valor limitado nesse cenário). O planejamento cirúrgico segue dois eixos de decisão que dependem diretamente da hipótese diagnóstica confirmada na exploração:</p>
+<h3>Se confirmada artrite séptica do joelho</h3>
+<p>Desbridamento e lavagem articular <strong>urgentes</strong>, independentemente do tempo de evolução prévio — o dano condral já pode estar instalado, mas isso não é motivo para adiar o controle da infecção ativa. Entre lavagem artroscópica e artrotomia aberta, dados de uma base nacional de seguros em joelho nativo mostraram taxas semelhantes de reoperação em 90 dias entre as duas técnicas, mas <strong>menor taxa de readmissão, anemia pós-operatória e necessidade de transfusão</strong> com a via artroscópica — favorecendo-a quando fatores técnicos específicos do caso não indicarem o contrário.<a class="evid" href="#ref11" onclick="navRef(this)">Estudo observacional (banco de dados nacional)</a> Um raciocínio análogo — joelho com material intra-articular recente e infecção pós-operatória — vem de séries de infecção após reconstrução ligamentar, nas quais lavagem cirúrgica precoce (idealmente em caráter de urgência) mais antibioticoterapia dirigida foi consistentemente associada a melhor preservação da função articular.<a class="evid" href="#ref10" onclick="navRef(this)">Revisão</a></p>
+<h3>Decisão sobre a placa femoral: reter ou remover</h3>
+<p>Esta é a decisão de maior impacto a longo prazo, e depende de um dado ainda não disponível neste caso: <strong>a fratura do fêmur já consolidou?</strong></p>
+<ul>
+<li><strong>Se a fratura já consolidou</strong> — a placa deixou de ser necessária para a estabilidade, e sua remoção elimina a superfície onde o biofilme se forma, com alta probabilidade de erradicação definitiva da infecção relacionada ao implante. Esta é, em geral, a conduta preferida quando factível.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a></li>
+<li><strong>Se a fratura ainda não consolidou</strong> — remover a placa comprometeria a estabilidade necessária à consolidação óssea. Nesse cenário, a via costuma ser <strong>debridamento com retenção do implante (DAIR)</strong> associado a antibioticoterapia — sistêmica e, quando há defeito de partes moles, local (ex. cimento/esferas impregnadas de antibiótico) — mantendo a placa até a consolidação, com a expectativa (e a suposição, quando aplicável) de retirá-la posteriormente. Como discutido na seção de classificação temporal, o sucesso de DAIR isolado numa infecção já <strong>tardia</strong> como esta é reportado em torno de <strong>67%</strong> — inferior ao de infecções mais precoces — o que deve ser comunicado ao paciente na decisão compartilhada, e reforça a importância de debridamento tecnicamente completo e de terapia antimicrobiana adequada como complemento.<a class="evid" href="#ref4" onclick="navRef(this)">Revisão sistemática</a></li>
+</ul>
+<div class="kbox">
+<div class="klabel">Princípios de debridamento, independentemente da via escolhida</div>
+<p>Excisão de todo tecido necrótico/não sangrante, remoção de tecido mal perfundido e de qualquer corpo estranho não essencial (fios de sutura soltos, por exemplo), e irrigação abundante com solução salina a baixa pressão. A extensão da ressecção óssea, se necessária, segue até encontrar sangramento pontual uniforme — sinal de tecido viável. Havendo defeito residual ("espaço morto"), antibiótico local (ex. esferas de PMMA) é um complemento reconhecido, sobretudo relevante em infecção crônica, onde a perfusão do antibiótico sistêmico ao tecido cicatricial já é reduzida.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a></p>
+</div>
+</section>
+
+<section id="s-antibiotico">
+<h2>Antibioticoterapia</h2>
+<p>Sempre que a condição clínica permitir, as amostras profundas devem ser colhidas <strong>antes</strong> da primeira dose de antibiótico — inclusive suspendendo, quando seguro, qualquer antibiótico empírico já em uso por pelo menos 2 semanas antes da reabordagem, para não comprometer o rendimento da cultura.<a class="evid" href="#ref3" onclick="navRef(this)">Diretriz/Consenso</a> Uma vez colhidas as amostras, terapia empírica de amplo espectro (cobrindo Gram-positivos, incluindo cobertura para MRSA a depender do risco individual, mais um agente contra Gram-negativos) pode ser iniciada e ajustada assim que o antibiograma estiver disponível.</p>
+<p>Quanto à <strong>duração</strong>: regimes de 6–12 semanas são os mais comumente empregados quando há retenção de implante, mas um ensaio clínico randomizado recente mostrou desfechos equivalentes entre um curso de até 7 dias de antibiótico intravenoso seguido de terapia oral versus terapia intravenosa prolongada (6–12 semanas) — sinal de que a duração ótima está sendo reconsiderada na literatura mais recente, ainda sem consenso fechado.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso, controvérsia reconhecida</a> Quando há ressecção completa do foco (por exemplo, remoção da placa após consolidação, com debridamento considerado radical), um curso mais curto — da ordem de 2 semanas — pode ser suficiente para tratar a contaminação residual de partes moles.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a> Se a opção terapêutica for supressão antimicrobiana prolongada (retenção do implante sem erradicação completa, aceita em hospedeiros comprometidos ou por decisão compartilhada), a terapia se estende até a consolidação óssea ser confirmada.</p>
+</section>
+
+<section id="s-partes-moles">
+<h2>Partes moles e otimização do hospedeiro</h2>
+<p>A <strong>dificuldade de cicatrização</strong> relatada é, em si, um achado a investigar e tratar ativamente, não apenas uma consequência passiva da infecção. Fatores que sabidamente comprometem cicatrização em cirurgia ortopédica incluem tabagismo, desnutrição, perfusão tecidual inadequada, controle glicêmico inadequado (mesmo em pacientes sem diagnóstico prévio de diabetes — até um terço da hiperglicemia perioperatória ocorre em não diabéticos) e deficiência de vitamina D.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a> Este paciente foi descrito como "sem comorbidades", o que não exclui automaticamente esses fatores — vale rastreá-los ativamente antes de assumir que o hospedeiro está otimizado.</p>
+<p>Se o debridamento resultar em defeito de partes moles significativo — plausível dado o histórico de duas cirurgias prévias na mesma região —, avaliação conjunta com cirurgia plástica para cobertura (retalho muscular local, por exemplo) deve ser considerada precocemente, sem que a equipe ortopédica limite a extensão do debridamento por receio de não conseguir fechar a ferida.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a> Terapia por pressão negativa pode servir como ponte temporária entre debridamentos, mas não deve ultrapassar cerca de 1 semana nem substituir a cobertura definitiva — uso prolongado associa-se a colonização por organismos resistentes.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a></p>
+<div class="kbox">
+<div class="klabel">Abordagem multidisciplinar</div>
+<p>Dado o tempo de evolução e a complexidade (dois compartimentos anatômicos potencialmente envolvidos, corpo estranho ortopédico presente, incerteza sobre consolidação da fratura), este é exatamente o perfil de caso para o qual a literatura recomenda um <strong>time multidisciplinar</strong> — cirurgia ortopédica, infectologia, microbiologia e, se necessário, cirurgia plástica — em vez de decisões isoladas por uma única especialidade.<a class="evid" href="#ref2" onclick="navRef(this)">Diretriz/Consenso</a></p>
+</div>
+</section>
+
+<section id="s-conexoes">
+<h2>Conexões</h2>
+<p>O raciocínio sobre carga bacteriana, fase inflamatória e critérios diagnósticos de infecção retoma a lógica sindrômica geral desenvolvida em <a class="cross-link" href="../compêndios/medicina/infectologia-fundamentos.html#s-sindromes">Fundamentos de Infectologia</a>, aqui aplicada a um cenário de infecção associada a corpo estranho ortopédico — sem compêndio de área dedicado a ortopedia/traumatologia neste acervo ainda, esse recorte foi desenvolvido do zero dentro deste próprio caso. Há uma analogia estrutural direta com o raciocínio de <a class="cross-link" href="endocardite-infecciosa-avc-embolico.html#s-fisiopatologia">Endocardite Infecciosa com AVC Embólico</a> — outro caso deste domínio em que uma infecção se organiza sobre uma superfície não totalmente acessível à resposta imune (ali, uma vegetação valvar; aqui, um biofilme sobre implante metálico), com implicação direta e comparável sobre duração de antibioticoterapia e necessidade de intervenção mecânica (troca/remoção de valva vs. de implante) para erradicação completa. Um compêndio de área futuro sobre infecções osteoarticulares e relacionadas a implante é candidato natural, caso o tema recorra em outros casos deste domínio.</p>
+</section>
+
+<section id="s-perguntas-abertas">
+<h2>Perguntas em aberto</h2>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Existe um ponto de corte temporal real — e não apenas convencional — que deveria orientar retenção versus remoção de implante quando a fratura ainda não consolidou, ou a decisão deveria depender inteiramente dos achados intraoperatórios (aspecto do biofilme, extensão de necrose óssea) em vez do tempo decorrido?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>Qual o real valor agregado da sonicação do implante retirado (técnica já mais estabelecida em infecção de prótese articular) quando aplicada a material de osteossíntese removido num contexto de infecção crônica como este?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>A lise artroscópica de aderências, como alternativa menos mórbida à quadricepsplastia aberta para rigidez pós-traumática do joelho, reduziria de fato a incidência de infecção pós-operatória neste cenário — ou o ganho funcional inferior da técnica artroscópica em contraturas mais graves anularia essa vantagem na prática?</p></div>
+<div class="qa-block"><div class="qa-label">Em aberto</div><p>PCR seriado (não um único valor isolado) teria valor real como guia de resposta à terapia em infecção crônica relacionada a implante, dado que um único valor já tem desempenho diagnóstico limitado nesse cenário?</p></div>
+</section>
+
+<section id="s-discussao">
+<h2>Discussão</h2>
+<p>A pergunta motivadora pedia uma resposta em duas partes: se a mudança de secreção purulenta para seropurulenta, mais a dificuldade de cicatrização, já bastam para afirmar infecção ativa — e, se sim, onde ela está. A primeira resposta construída aqui é que sim: pelos critérios de consenso para infecção relacionada a implante ortopédico, drenagem persistente além do período inicial de cicatrização já é, isoladamente, critério suficiente para investigar ativamente, independentemente do aspecto atual da secreção ter melhorado. A segunda resposta é que <strong>o compartimento exato permanece indeterminado com os dados disponíveis</strong> — e esse é o ponto central do caso: partes moles, articulação e interface osso-implante não são hipóteses concorrentes que se excluem por argumento teórico, mas hipóteses que só se resolvem com exame físico dirigido, imagem e, sobretudo, a própria reabordagem cirúrgica com coleta de amostras.</p>
+<p>A tensão que atravessa o caso é a mesma do primeiro caso deste domínio (endocardite): agir sobre a hipótese mais provável e razoável diante da gravidade da situação, sem poder esperar por confirmação completa antes de intervir — aqui, o argumento para reabordagem cirúrgica se sustenta pelo critério temporal (4 meses de drenagem) mesmo antes de qualquer exame de sangue ou imagem confirmar a extensão exata do problema. Adiar a decisão cirúrgica em nome de mais exames não solucionaria a limitação real dos exames disponíveis (PCR/VHS pouco específicos neste cenário crônico) e adicionaria mais tempo a uma janela em que o próprio prognóstico de sucesso terapêutico já está se deteriorando pela maturação do biofilme.</p>
+<p>Uma implicação que emerge mas não foi enunciada explicitamente ao longo do texto: a "melhora" aparente de purulenta para seropurulenta pode ter funcionado, neste caso hipotético, como um fator que atrasou a busca por atendimento ou a indicação de reabordagem — precisamente porque secreção menos "alarmante" tende a ser lida, tanto por pacientes quanto por profissionais menos atentos, como sinal de resolução. Casos como este demonstram por que critérios objetivos de tempo de evolução (e não apenas o aspecto subjetivo da drenagem) precisam orientar a decisão de reoperar.</p>
+</section>
+
+<section id="s-referencias">
+<h2>Referências</h2>
+
+<div class="ref-layer">
+<h3>Ponto de entrada</h3>
+<div class="ref-item" id="ref1"><span class="rtype">Revisão/Primer</span><br><span class="rtitle">Fracture-related infection</span>. <em>Nature Reviews Disease Primers</em>, 2022;8:67.<br><span class="rnote">Visão geral concisa de definição, epidemiologia, fisiopatologia e princípios de tratamento de infecção relacionada a fratura — bom ponto de partida antes dos artigos mais densos abaixo. Segundo o PubMed (<a href="https://doi.org/10.1038/s41572-022-00396-0" target="_blank" rel="noopener">DOI</a>, PMID 36266296) — acesso aberto não confirmado nesta sessão; texto completo não recuperado.</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Aprofundamento</h3>
+<div class="ref-item" id="ref2"><span class="rtype">Diretriz/Consenso</span><br><span class="rtitle">Metsemakers, W.J. et al. — General treatment principles for fracture-related infection: recommendations from an international expert group</span>. <em>Archives of Orthopaedic and Trauma Surgery</em>, 2019.<br><span class="rnote">Fonte primária da classificação temporal (Tabela 1), princípios de debridamento, decisão retenção/remoção de implante, duração de antibiótico e manejo de partes moles, usados nas seções "Classificação temporal" e "Conduta". Segundo o PubMed (<a href="https://doi.org/10.1007/s00402-019-03287-4" target="_blank" rel="noopener">DOI</a>, PMID 31659475, PMCID PMC7351827). Acesso aberto confirmado, CC BY 4.0.</span></div>
+<div class="ref-item" id="ref3"><span class="rtype">Diretriz/Consenso</span><br><span class="rtitle">Govaert, G.A.M. et al. — Diagnosing Fracture-Related Infection: Current Concepts and Recommendations</span>. <em>Journal of Orthopaedic Trauma</em>, 2020;34(1).<br><span class="rnote">Fonte primária dos critérios confirmatórios/sugestivos de infecção, protocolo de coleta de amostras (≥5 amostras profundas) e desempenho de marcadores inflamatórios/imagem, usados nas seções "Hipótese diagnóstica" e "Exames complementares". Segundo o PubMed (<a href="https://doi.org/10.1097/BOT.0000000000001614" target="_blank" rel="noopener">DOI</a>, PMID 31855973, PMCID PMC6903359). Acesso aberto confirmado, CC BY-NC-ND 4.0.</span></div>
+<div class="ref-item" id="ref4"><span class="rtype">Revisão sistemática</span><br><span class="rtitle">The influence of duration of infection on outcome of debridement and implant retention in fracture-related infection</span>. <em>The Bone &amp; Joint Journal</em>, 2021;103-B(2):213-221.<br><span class="rnote">Fonte primária das taxas de sucesso de DAIR por janela temporal (86-100% precoce, 82-89% retardada, ~67% tardia), citadas nas seções "Classificação temporal" e "Conduta". Segundo o PubMed (<a href="https://doi.org/10.1302/0301-620X.103B2.BJJ-2020-1010.R1" target="_blank" rel="noopener">DOI</a>, PMID 33517743) — acesso aberto não confirmado nesta sessão; texto completo não recuperado, dados apresentados seguem o resumo estruturado do artigo.</span></div>
+<div class="ref-item" id="ref5"><span class="rtype">Estudo observacional (série de casos)</span><br><span class="rtitle">Bidolegui, F., Pereira, S.P., Pires, R.E. — Safety and efficacy of the modified Judet quadricepsplasty in patients with post-traumatic knee stiffness</span>. <em>European Journal of Orthopaedic Surgery &amp; Traumatology</em>, 2020;31(3):549-555.<br><span class="rnote">Fonte primária da caracterização da quadricepsplastia de Judet modificada como o procedimento provável da 2ª cirurgia deste caso, seção "A cirurgia de liberação de rigidez" — série de 11 pacientes sem infecção registrada. Segundo o PubMed (<a href="https://doi.org/10.1007/s00590-020-02802-3" target="_blank" rel="noopener">DOI</a>, PMID 33051692) — acesso aberto não confirmado nesta sessão.</span></div>
+<div class="ref-item" id="ref6"><span class="rtype">Estudo observacional (série de casos)</span><br><span class="rtitle">Luo, Y., Li, H., Mei, L., Mao, X. — Effects of Judet Quadricepsplasty in the Treatment of Post-traumatic Extension Contracture of the Knee</span>. <em>Orthopaedic Surgery</em>, 2021;13(4):1284-1289.<br><span class="rnote">Fonte primária da taxa de infecção de pele (1/15, 6,7%) após quadricepsplastia de Judet, citada na seção "A cirurgia de liberação de rigidez" como evidência de que a infecção é complicação reconhecida do procedimento. Segundo o PubMed (<a href="https://doi.org/10.1111/os.12950" target="_blank" rel="noopener">DOI</a>, PMID 33955701, PMCID PMC8274180) — licença aberta não confirmada nesta sessão (copyright dos autores, publicado por Wiley/Chinese Orthopaedic Association).</span></div>
+<div class="ref-item" id="ref7"><span class="rtype">Revisão</span><br><span class="rtitle">The role of implant retention and conservative management in the management of fracture-related infection</span>. <em>Journal of Orthopaedics</em>, 2023.<br><span class="rnote">Discute indicações e limites de DAIR e supressão antimicrobiana, complementando a seção "Conduta". Segundo o PubMed (<a href="https://doi.org/10.1016/j.jor.2023.11.040" target="_blank" rel="noopener">DOI</a>, PMID 38077474) — acesso aberto não confirmado nesta sessão.</span></div>
+<div class="ref-item" id="ref8"><span class="rtype">Revisão</span><br><span class="rtitle">Skeletal infections: microbial pathogenesis, immunity and clinical management</span>. <em>Nature Reviews Microbiology</em>, 2022;20:385-400.<br><span class="rnote">Fonte geral de apoio à discussão de biofilme e adesão bacteriana a corpo estranho ortopédico, seção "Fisiopatologia" — usada de forma seletiva, sem reexplicar mecanismos básicos já cobertos em compêndios de microbiologia. Segundo o PubMed (<a href="https://doi.org/10.1038/s41579-022-00686-0" target="_blank" rel="noopener">DOI</a>, PMID 35169289, PMCID PMC8852989) — acesso aberto não confirmado nesta sessão.</span></div>
+</div>
+
+<div class="ref-layer">
+<h3>Consulta especializada</h3>
+<div class="ref-item" id="ref9"><span class="rtype">Estudo observacional (série de casos)</span><br><span class="rtitle">Gittings, D. et al. — Arthroscopic lysis of adhesions improves knee range of motion after fixation of intra-articular fractures about the knee</span>. <em>Archives of Orthopaedic and Trauma Surgery</em>, 2016;136(12):1631-1635.<br><span class="rnote">Fonte da alternativa artroscópica à quadricepsplastia aberta, discutida na seção "A cirurgia de liberação de rigidez" e retomada em "Perguntas em aberto". Segundo o PubMed (<a href="https://doi.org/10.1007/s00402-016-2561-2" target="_blank" rel="noopener">DOI</a>, PMID 27576878).</span></div>
+<div class="ref-item" id="ref10"><span class="rtype">Revisão</span><br><span class="rtitle">Cavaignac, E. et al. — Managing septic arthritis after knee ligament reconstruction</span>. <em>International Orthopaedics</em>, 2015;39(12):2517-2523.<br><span class="rnote">Fonte do raciocínio análogo (joelho com material intra-articular recente + infecção pós-operatória) usado na seção "Diagnóstico diferencial anatômico" e "Conduta". Segundo o PubMed (<a href="https://doi.org/10.1007/s00264-015-2884-6" target="_blank" rel="noopener">DOI</a>, PMID 26239533).</span></div>
+<div class="ref-item" id="ref11"><span class="rtype">Estudo observacional (banco de dados nacional)</span><br><span class="rtitle">Comparison of Arthroscopy versus Open Arthrotomy for Treatment of Septic Arthritis of the Native Knee: Analysis of 90-Day Postoperative Complications</span>. <em>The Journal of Knee Surgery</em>, 2022.<br><span class="rnote">Fonte da comparação artroscopia vs. artrotomia aberta para artrite séptica de joelho nativo, seção "Conduta". Segundo o PubMed (<a href="https://doi.org/10.1055/s-0042-1747948" target="_blank" rel="noopener">DOI</a>, PMID 35512823).</span></div>
+<div class="ref-item" id="ref12"><span class="rtype">Revisão</span><br><span class="rtitle">The DAIR-procedure in fracture-related infection — When and how</span>. <em>Injury</em>, 2024;55(11):111977.<br><span class="rnote">Aprofundamento técnico do procedimento de debridamento com retenção de implante, complementar à seção "Conduta" para quem quiser o detalhe operatório. Segundo o PubMed (<a href="https://doi.org/10.1016/j.injury.2024.111977" target="_blank" rel="noopener">DOI</a>, PMID 39482023).</span></div>
+</div>
+
+</section>
+
+
+
+</div>
+</div>
+</div>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+
+<script>
+function toggleSidebar(){
+  var sidebar = document.getElementById('sidebar');
+  var bodyWrap = document.getElementById('body-wrap');
+  var collapsed = sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed', collapsed);
+  try{ sessionStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0'); }catch(e){}
+  document.getElementById('toggle-btn').textContent = collapsed ? '▶' : '◀';
+}
+(function(){
+  try{
+    if(sessionStorage.getItem('sidebar-collapsed') === '1'){
+      document.getElementById('sidebar').classList.add('collapsed');
+      document.getElementById('body-wrap').classList.add('sidebar-collapsed');
+      document.getElementById('toggle-btn').textContent = '▶';
+    }
+  }catch(e){}
+})();
+
+var mobOpen = document.getElementById('mob-open');
+if(mobOpen){
+  mobOpen.addEventListener('click', function(){
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+}
+
+var progressBar = document.getElementById('progress-bar');
+function updateProgress(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+  if(a) a.classList.add('active');
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+if('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, {rootMargin:'-10% 0px -55% 0px'});
+  sections.forEach(function(s){ io.observe(s); });
+}
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbCap = document.getElementById('lightbox-caption');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = img.getAttribute('data-caption') || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+document.querySelectorAll('.plate-block img').forEach(function(img){
+  img.addEventListener('click', function(){ openLightbox(this); });
+});
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.navRef = window.navFig;
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

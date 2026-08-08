@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resposta Imune a Bactérias Extracelulares e Intracelulares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111010;--bg2:#1a1919;--bg3:#222121;--border:#333131;
+  --text:#e2ddd6;--muted:#9e9890;
+  --ac:#d4924a;--ac2:#c0604a;--ac2bg:#2a1810;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-ui:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4f0e8;--bg2:#ffffff;--bg3:#eee7d9;--border:#ddd3bf;
+  --text:#2a2620;--muted:#6b6459;
+  --ac:#6b4023;--ac2:#8a3620;--ac2bg:#fbe2d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:17px;line-height:1.78;transition:background .25s,color .25s}
+a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--ac);z-index:100;width:0%;transition:width .1s}
+#body-wrap{display:flex;min-height:100vh}
+#sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:width .25s;flex-shrink:0}
+#sidebar.collapsed{width:44px}
+#s-home{padding:8px 8px 0;flex-shrink:0}
+#home-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:4px;white-space:nowrap;overflow:hidden}
+#home-btn:hover{color:var(--text);border-color:var(--muted)}
+#sidebar.collapsed #home-btn .home-label{display:none}
+#sidebar.collapsed #home-btn{padding:4px;justify-content:center}
+#s-toggle{padding:10px 8px 6px;border-bottom:1px solid var(--border);flex-shrink:0}
+#toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:var(--font-ui)}
+#toggle-btn:hover{color:var(--text);border-color:var(--muted)}
+.s-inner{flex:1;overflow-y:auto;width:280px;padding:16px 0 24px}
+.s-logo{padding:0 16px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);margin-bottom:12px}
+.s-group{margin-bottom:16px}
+.sgt{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:0 16px;margin-bottom:6px}
+a.sl{display:block;padding:5px 16px;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);border-left:2px solid transparent;transition:all .15s}
+a.sl:hover,a.sl.active{color:var(--text);border-left-color:var(--ac);background:var(--bg3);text-decoration:none}
+#sidebar.collapsed .s-logo,#sidebar.collapsed .s-group,#sidebar.collapsed a.sl{opacity:0;pointer-events:none}
+#content{flex:1;padding:52px 72px 120px;transition:padding .25s}
+#body-wrap.sidebar-collapsed #content{padding:52px 100px 120px}
+.prose{max-width:1000px;margin:0 auto;transition:max-width .25s}
+#body-wrap.sidebar-collapsed .prose{max-width:1180px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:210;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;font-size:1.25em;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease,background .25s}
+.theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
+@media(max-width:900px){.theme-toggle{top:10px;right:10px;width:38px;height:38px;font-size:1.1em}}
+h1{font-size:2.1rem;font-weight:600;line-height:1.25;margin-bottom:10px;color:var(--ac)}
+h2{font-size:1.35rem;font-weight:600;color:var(--text);margin:52px 0 16px;padding-top:8px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--ac);margin:28px 0 10px;font-family:var(--font-ui)}
+h4{font-size:.9rem;font-weight:600;color:var(--muted);margin:20px 0 8px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.06em}
+p{margin-bottom:1.1em}
+ul,ol{padding-left:1.4em;margin-bottom:1.1em}
+li{margin-bottom:.35em}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:var(--muted)}
+section{scroll-margin-top:24px}
+section.in-view>h2{color:var(--ac);transition:color .3s}
+h2 .anchor,h3 .anchor{opacity:0;margin-left:8px;font-size:.8em;color:var(--ac);text-decoration:none;font-weight:400;transition:opacity .15s}
+h2:hover .anchor,h3:hover .anchor{opacity:1}
+.doc-header{margin-bottom:32px}
+.doc-meta{font-family:var(--font-ui);font-size:12px;color:var(--muted);margin-bottom:12px}
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--font-ui);font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.pergunta{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:40px}
+.pergunta .plabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.dep-panel{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:40px}
+.dep-panel .dep-label{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dep-row{display:flex;gap:10px;flex-wrap:wrap}
+.dep-group{flex:1;min-width:160px}
+.dep-group .dgt{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.dep-item{font-family:var(--font-ui);font-size:12px;color:var(--muted);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dashed var(--border)}
+.dep-item:hover{color:var(--ac)}
+.hist{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin:0 0 20px;font-size:14px;font-family:var(--font-ui);color:var(--muted)}
+.hist .hl{font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:5px}
+.kbox{background:var(--ac2bg);border-left:2px solid var(--ac2);border-radius:0 5px 5px 0;padding:12px 16px;margin:14px 0}
+.kbox .klabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ck-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 13px}
+.ck-card .ckt{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ac2);margin-bottom:4px}
+.ck-card p{font-size:13px;color:var(--muted);margin:0}
+a.cross-link{color:var(--ac);font-size:.85em;font-style:italic;border-bottom:1px dashed var(--ac);text-decoration:none;opacity:.9}
+a.cross-link:hover{opacity:1}
+a.cite{color:var(--ac);text-decoration:none;font-size:.85em;font-style:italic}
+a.cite:hover{text-decoration:underline}
+.caso-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:8px 0 20px}
+.caso-box .clabel{font-family:var(--font-ui);font-size:9px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.caso-box h4{margin:14px 0 6px}
+.caso-box h4:first-of-type{margin-top:4px}
+.caso-box ul{margin:0 0 8px 20px}
+.caso-box li{margin-bottom:3px;font-size:15px}
+.callout{background:var(--bg3);border-left:3px solid var(--ac);padding:14px 18px;margin:24px 0;border-radius:0 4px 4px 0;font-size:15px}
+.callout strong{color:var(--ac)}
+.evid{display:inline-block;font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--ac2);background:var(--ac2bg);border-radius:10px;padding:1px 8px;margin-left:6px;white-space:nowrap;text-decoration:none;cursor:pointer}
+.evid:hover{opacity:.8}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;font-family:var(--font-ui)}
+.data-table th{background:var(--bg3);color:var(--ac);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-label{color:var(--ac);font-weight:600;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+.table-caption{font-family:var(--font-ui);font-size:11px;color:var(--muted);margin-top:-12px;margin-bottom:18px;font-style:italic}
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--ac);border-radius:0 5px 5px 0;padding:12px 18px;margin:16px 0 8px;font-family:var(--font-ui);font-size:16px;color:var(--text);text-align:center;line-height:1.9;overflow-x:auto}
+.eq-vars{list-style:none;margin:0 0 18px;padding:0;font-family:var(--font-ui);font-size:13px;color:var(--muted)}
+.eq-vars li{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-bottom:2px}
+.eq-vars b{color:var(--ac);font-family:var(--font-body);font-style:italic;margin-right:6px;font-size:15px}
+.plate-block{float:right;clear:right;width:42%;margin:4px 0 20px 28px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.plate-block img{width:100%;display:block;background:#e8e2d8;cursor:zoom-in}
+.plate-caption{padding:8px 14px;font-family:var(--font-ui);font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+.plate-caption b{color:var(--ac);font-weight:600}
+a.fig-ref{color:var(--ac);font-size:.82em;font-style:italic;white-space:nowrap;border-bottom:1px dashed var(--ac);text-decoration:none;cursor:pointer}
+a.fig-ref:hover{border-bottom-color:var(--ac)}
+#lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:40px 56px;flex-direction:column;gap:10px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:82vw;max-height:80vh;object-fit:contain;border-radius:6px;box-shadow:0 4px 32px rgba(0,0,0,.8)}
+#lightbox-caption{background:rgba(30,28,28,.85);color:var(--muted);font-family:var(--font-ui);font-size:12.5px;padding:6px 18px;border-radius:8px;max-width:78vw;text-align:center;pointer-events:none;flex-shrink:0}
+#lightbox-close{position:fixed;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;font-family:var(--font-ui);line-height:1}
+#lightbox-close:hover{color:var(--text)}
+@media(max-width:900px){.plate-block{float:none;width:100%;margin:20px 0}}
+#back-btn{display:none;position:fixed;bottom:28px;right:28px;z-index:200;background:var(--bg2);border:1px solid var(--ac);color:var(--ac);font-family:var(--font-ui);font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:opacity .2s}
+#back-btn:hover{background:var(--bg3)}
+.connections-box{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:18px 22px;margin:40px 0 0}
+.connections-box h4{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.connections-box p{font-size:15px;margin-bottom:.8em}
+.connections-box p:last-child{margin-bottom:0}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.book-card{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:var(--font-ui);font-size:13px}
+.book-card .book-title{font-weight:600;color:var(--text);margin-bottom:4px}
+.book-card .book-meta{color:var(--muted);font-size:12px}
+.ref-item{margin-bottom:14px;padding-left:16px;border-left:2px solid var(--border);font-family:var(--font-ui);font-size:13px;color:var(--muted);line-height:1.6}
+.ref-item .rtype{font-family:var(--font-ui);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:block}
+.ref-item .rtitle{font-weight:600;color:var(--text)}
+.ref-item .rnote{color:var(--muted);font-size:13px}
+.ref-item a{color:var(--ac);text-decoration:none}
+.ref-item a:hover{text-decoration:underline}
+#mob-bar{display:none}
+@media(max-width:900px){
+  #sidebar{display:none}#sidebar.open{display:flex}
+  #mob-bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;z-index:50}
+  #mob-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+  #s-toggle{display:none}
+  #content{padding:24px 20px 80px}
+  .ck-grid,.book-grid{grid-template-columns:repeat(2,1fr)}
+  .dep-row{flex-direction:column}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #sidebar,#mob-bar,#progress-bar,.theme-toggle{display:none}
+  #content{padding:20px}
+  a[href]::after{content:" (" attr(href) ")";font-size:11px;color:#666}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="mob-bar">
+  <button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted)">Resposta a Bactérias — Extra×Intracelulares</span>
+</div>
+<div id="body-wrap">
+<nav id="sidebar">
+  <div id="s-home"><a id="home-btn" href="../../../../index.html" title="Voltar ao índice">⌂ <span class="home-label">Índice</span></a></div>
+<div id="s-toggle"><button id="toggle-btn" title="Recolher barra lateral">◀</button></div>
+  <div class="s-inner">
+    <div class="s-logo">Imunologia · Aprofundamento clínico</div>
+    <div class="s-group">
+      <div class="sgt">Neste compêndio</div>
+      <a class="sl" href="#fundamentos-necessarios">Fundamentos necessários</a>
+      <a class="sl" href="#conceitos-chave">Conceitos-chave</a>
+      <a class="sl" href="#extracelulares-resposta">Bactérias extracelulares</a>
+      <a class="sl" href="#caso-dgc">Caso 1 — Doença granulomatosa crônica</a>
+      <a class="sl" href="#complemento-funcoes">Sistema complemento</a>
+      <a class="sl" href="#caso-c6">Caso 2 — Deficiência de C6</a>
+      <a class="sl" href="#evasao-extracelular">Evasão — extracelulares</a>
+      <a class="sl" href="#caso-apendicite">Caso 3 — Resposta neutrofílica aguda</a>
+      <a class="sl" href="#intracelulares-resposta">Bactérias intracelulares</a>
+      <a class="sl" href="#evasao-intracelular">Evasão — intracelulares</a>
+      <a class="sl" href="#tuberculose">Tuberculose</a>
+      <a class="sl" href="#hanseniase">Hanseníase</a>
+      <a class="sl" href="#outros-patogenos">Chlamydia e Bordetella</a>
+      <a class="sl" href="#conexoes">Conexões</a>
+      <a class="sl" href="#perguntas-abertas">Perguntas em aberto</a>
+      <a class="sl" href="#discussao">Discussão</a>
+      <a class="sl" href="#leituras">Leituras recomendadas</a>
+      <a class="sl" href="#referencias">Referências</a>
+    </div>
+    <div class="s-group">
+      <div class="sgt">Compêndios relacionados</div>
+      <a class="sl" href="index.html">← Índice de Imunologia</a>
+      <a class="sl" href="resposta-a-patogenos.html">Resposta a Patógenos (panorama)</a>
+      <a class="sl" href="sistema-complemento.html">Sistema Complemento</a>
+      <a class="sl" href="respostas-th1-th2-th17.html">Th1, Th2 e Th17</a>
+    </div>
+  </div>
+</nav>
+<main id="content">
+<div class="prose">
+
+<div class="doc-header">
+  <h1>Resposta Imune a Bactérias — Extracelulares e Intracelulares</h1>
+  <p class="doc-meta">Imunologia · Microbiologia Clínica · PUC-PR (Profa. Edna Maria Vissoci Reiche) · 2026 · Aprofundamento clínico de <a class="cross-link" href="resposta-a-patogenos.html">Resposta a Patógenos</a> · Abbas cap. 15–16 · Murray, capítulos por agente</p>
+  <div class="doc-chips">
+    <span class="chip">⏱ <b>~35 min</b> de leitura</span>
+    <span class="chip">📋 Pré-requisitos: <b>Imunidade inata, Complemento, Anticorpos, Th1/Th17</b></span>
+    <span class="chip">🔗 Depende de: <b>resposta-a-patogenos.html, sistema-complemento.html, respostas-th1-th2-th17.html</b></span>
+    <span class="chip">📍 Área: <b>Imunologia · Microbiologia · Infectologia</b></span>
+    <span class="chip">🗓 Última revisão: <b>2026-08-07</b></span>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="plabel">Pergunta motivadora</div>
+  <p>Por que uma criança com hemograma, imunoglobulinas e complemento normais desenvolve abscessos de repetição por bactérias que qualquer outra criança eliminaria sem esforço? Por que a mesma <em>Neisseria meningitidis</em> que mata a maioria dos pacientes em horas causa, em uma jovem com deficiência de C6, apenas episódios recorrentes dos quais ela sempre se recupera? E por que o mesmo bacilo, <em>Mycobacterium leprae</em>, produz em um paciente uma única lesão que cicatriza sozinha e, em outro, uma doença desfigurante e infinitamente bacilífera?</p>
+</div>
+
+<div class="dep-panel">
+  <div class="dep-label">Mapa de dependências</div>
+  <div class="dep-row">
+    <div class="dep-group">
+      <div class="dgt">Este compêndio usa</div>
+      <a class="dep-item" href="imunidade-inata.html">Imunidade Inata</a>
+      <a class="dep-item" href="sistema-complemento.html">Sistema Complemento</a>
+      <a class="dep-item" href="anticorpos-imunidade-humoral.html">Anticorpos e Imunidade Humoral</a>
+      <a class="dep-item" href="linfocitos-t-diferenciacao.html">Linfócitos T — Diferenciação</a>
+      <a class="dep-item" href="respostas-th1-th2-th17.html">Respostas Th1, Th2 e Th17</a>
+      <a class="dep-item" href="resposta-a-patogenos.html">Resposta Imune a Patógenos (panorama)</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Leia antes se necessário</div>
+      <a class="dep-item" href="celulas-sistema-imune.html">Células do Sistema Imune</a>
+      <a class="dep-item" href="moleculas-sistema-imune.html">PRRs, citocinas, TLRs</a>
+    </div>
+    <div class="dep-group">
+      <div class="dgt">Materiais que dependem deste</div>
+      <a class="dep-item" href="hipersensibilidade.html">Hipersensibilidade (granuloma como tipo IV)</a>
+      <a class="dep-item" href="vacinas-imunidade-protetora.html">Vacinas e Imunidade Protetora</a>
+    </div>
+  </div>
+</div>
+
+<section id="fundamentos-necessarios">
+<h2>Fundamentos necessários <a class="anchor" href="#fundamentos-necessarios">#</a></h2>
+<p>Este compêndio pressupõe os mecanismos básicos já saturados em outros módulos e foca na <strong>aplicação clínica</strong>: qual bactéria, qual defeito imunológico, qual fenótipo. Revisão mínima do que é usado aqui: <strong>fagocitose e burst oxidativo</strong> — neutrófilos e macrófagos internalizam bactérias opsonizadas e as destroem com espécies reativas de oxigênio geradas pela NADPH oxidase (ver <a class="cross-link" href="imunidade-inata.html">Imunidade Inata</a>); <strong>complemento</strong> — via alternativa ativa-se espontaneamente sobre superfícies bacterianas, culminando no complexo de ataque à membrana (MAC, C5b-9) (ver <a class="cross-link" href="sistema-complemento.html">Sistema Complemento</a>); <strong>polarização Th</strong> — Th1 ativa macrófagos via IFN-γ (patógenos intracelulares), Th17 recruta neutrófilos via IL-17 (patógenos extracelulares/mucosas) (ver <a class="cross-link" href="respostas-th1-th2-th17.html">Th1, Th2, Th17</a>); <strong>anticorpos opsonizantes</strong> — IgG liga FcγR de fagócitos, IgM e IgG ativam a via clássica do complemento (ver <a class="cross-link" href="anticorpos-imunidade-humoral.html">Anticorpos</a>).</p>
+</section>
+
+<section id="conceitos-chave">
+<h2>Conceitos-chave <a class="anchor" href="#conceitos-chave">#</a></h2>
+<div class="ck-grid">
+  <div class="ck-card"><div class="ckt">Localização determina o efetor</div><p>Extracelular → opsonização + complemento + Th17. Intracelular → Th1 + CTL. O fagócito é comum às duas vias, mas ativado de formas diferentes.</p></div>
+  <div class="ck-card"><div class="ckt">Imunodeficiências primárias ensinam por exclusão</div><p>Um defeito seletivo em um braço do sistema imune revela, pela infecção que ele permite, exatamente qual mecanismo aquele braço executava.</p></div>
+  <div class="ck-card"><div class="ckt">DGC prova o burst oxidativo</div><p>Sem NADPH oxidase funcional, só bactérias catalase-positivas — que destroem seu próprio H₂O₂ — escapam da morte oxidativa residual.</p></div>
+  <div class="ck-card"><div class="ckt">Deficiência de C5–C9 prova o MAC</div><p>Opsonização e inflamação continuam intactas (via C3b); só a lise terminal falha — e só <em>Neisseria</em> depende dela de forma crítica.</p></div>
+  <div class="ck-card"><div class="ckt">Granuloma é contenção, não cura</div><p>Estrutura de macrófagos ativados e linfócitos Th1 que aprisiona o patógeno intracelular sem eliminá-lo — a necrose caseosa central é o registro morfológico da batalha em curso.</p></div>
+  <div class="ck-card"><div class="ckt">O espectro Th1↔Th2 é o fenótipo clínico</div><p>Na hanseníase, a mesma bactéria produz doenças radicalmente diferentes conforme o paciente polariza para Th1 (tuberculoide) ou Th2 (lepromatosa).</p></div>
+</div>
+</section>
+
+<section id="extracelulares-resposta">
+<h2>Bactérias extracelulares — resposta imune <a class="anchor" href="#extracelulares-resposta">#</a></h2>
+<div class="plate-block" id="fig-fagocitose">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/fagocitose-inata-extracelular.jpg"
+       alt="Diagrama de mastócitos e fagócitos respondendo a bactérias extracelulares no tecido"
+       loading="lazy"
+       data-caption="Resposta inata imediata a bactérias extracelulares: mastócitos liberam histamina, fagócitos (neutrófilos/macrófagos) migram e internalizam o patógeno.">
+  <div class="plate-caption">
+    <b>Fig. 1 — Resposta inata a bactéria extracelular</b> — mastócitos degranulam histamina, aumentando permeabilidade vascular; fagócitos recrutados internalizam o patógeno opsonizado. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+    <span style="display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.6">mast cells <em>(mastócitos)</em> · phagocytes <em>(fagócitos)</em> · pathogens <em>(patógenos)</em></span>
+  </div>
+</div>
+<p>Bactérias como <em>Staphylococcus aureus</em>, <em>Streptococcus pneumoniae</em> e <em>Neisseria meningitidis</em> vivem no espaço extracelular — acessíveis a anticorpos e complemento. A resposta inata imediata combina três eixos: barreira de <strong>mucosas</strong> (secreções, lisozima, pH ácido), <strong>fagócitos</strong> (neutrófilos, macrófagos, células dendríticas) recrutados por quimiocinas e C5a, e o <strong>sistema complemento</strong>, cuja via alternativa se ativa espontaneamente sobre a superfície bacteriana sem necessidade de anticorpo prévio. O <strong>inflamassoma</strong> (NLRP3) amplifica a resposta processando IL-1β em resposta a PAMPs e sinais de dano.</p>
+<p>A resposta adaptativa é predominantemente <strong>humoral</strong>: IgG opsonizante, IgM e IgG ativando a via clássica do complemento, e IgA secretora em mucosas. Linfócitos T CD4⁺ <strong>Th17</strong> amplificam o recrutamento de neutrófilos via IL-17A/F — mecanismo central contra bactérias piogênicas <span class="cite"><a href="#referencias">(ABBAS; LICHTMAN; PILLAI, 2023)</a></span>.</p>
+</section>
+
+<section id="caso-dgc">
+<h2>Caso clínico 1 — Doença Granulomatosa Crônica <a class="anchor" href="#caso-dgc">#</a></h2>
+<div class="caso-box">
+  <div class="clabel">Caso clínico</div>
+  <h4>História clínica</h4>
+  <p>João, 8 anos, apresenta história de abscessos cutâneos recorrentes desde o primeiro ano de vida. Já foi hospitalizado por pneumonia causada por <em>Staphylococcus aureus</em> e recentemente desenvolveu osteomielite por <em>Serratia marcescens</em>. Os pais relatam que vários antibióticos apresentam melhora temporária, mas as infecções retornam poucos meses depois.</p>
+  <h4>Exame físico</h4>
+  <ul>
+    <li>Cicatrizes de abscessos prévios</li>
+    <li>Linfonodos cervicais aumentados</li>
+    <li>Hepatoesplenomegalia discreta</li>
+  </ul>
+  <h4>Exames laboratoriais</h4>
+  <ul>
+    <li>Hemograma: leucocitose com neutrofilia</li>
+    <li>Imunoglobulinas: normais</li>
+    <li>Complemento: normal</li>
+    <li>Teste da diidrorodamina (DHR-123): ausência de explosão respiratória</li>
+    <li>Cultura do abscesso: <em>Staphylococcus aureus</em></li>
+  </ul>
+  <p style="font-size:13px;color:var(--muted);margin-top:8px">Epidemiologia: cerca de 1 caso a cada 250.000 nascidos vivos <span class="cite"><a href="#ref7">(GeneReviews, 2023)</a></span>. Predomínio masculino (forma ligada ao X é a mais comum) — proporção de 86% relatada no material de aula <span class="cite"><a href="#ref3">(REICHE, 2026)</a></span>.</p>
+</div>
+
+<div class="plate-block" id="fig-morteoxidativa">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/morte-oxidativa-fagolisossomo.jpg"
+       alt="Diagrama da destruição intracelular dependente de oxigênio no fagolisossomo"
+       loading="lazy"
+       data-caption="Destruição intracelular dependente de oxigênio: NADPH oxidase gera superóxido, convertido em H₂O₂ e, via mieloperoxidase, em HOCl.">
+  <div class="plate-caption">
+    <b>Fig. 2 — Morte oxidativa dependente de NADPH oxidase</b> — o complexo NADPH oxidase (gp91<i>phox</i>/CYBB) gera superóxido (O₂⁻), dismutado em H₂O₂; a mieloperoxidase converte H₂O₂ + Cl⁻ em ácido hipocloroso (HOCl), o principal agente bactericida do fagolisossomo. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo — por que só bactérias catalase-positivas?</div>
+  <p>Na DGC, mutação no gene <em>CYBB</em> (ligado ao X, codifica gp91<i>phox</i>) inativa a NADPH oxidase — os fagócitos internalizam a bactéria normalmente, mas não produzem o burst oxidativo. <strong>Bactérias catalase-negativas</strong> (ex. <em>Streptococcus</em>) produzem seu próprio H₂O₂ como subproduto metabólico; mesmo sem NADPH oxidase do hospedeiro, esse H₂O₂ bacteriano difunde-se e é usado pela mieloperoxidase residual para gerar HOCl — a bactéria é morta com sua própria química. <strong>Bactérias catalase-positivas</strong> (<em>S. aureus</em>, <em>Serratia</em>, <em>Burkholderia cepacia</em>, <em>Aspergillus</em>) degradam esse H₂O₂ com sua própria catalase antes que a via alternativa possa usá-lo — sem NADPH oxidase do hospedeiro <em>e</em> sem H₂O₂ bacteriano disponível, não há substrato algum para a mieloperoxidase. O defeito é seletivo porque a única saída (H₂O₂ bacteriano) é fechada exatamente pelos organismos que a produziriam.</p>
+</div>
+
+<p><strong>Diagnóstico — teste da diidrorodamina (DHR-123):</strong> substitui com vantagens o clássico teste do nitroblue tetrazolium (NBT). A sonda DHR-123 é oxidada a rodamina-123 (fluorescente) pelo H₂O₂/O₂⁻ produzidos durante a ativação neutrofílica normal, mensurável por citometria de fluxo — índice de oxidação neutrofílica (ION) referência &gt;80; na DGC, ION &lt;10.</p>
+
+<div class="plate-block" id="fig-dhr">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/dgc-teste-dhr123.jpg"
+       alt="Painel do teste de oxidação da diidrorodamina (DHR-123) por citometria de fluxo"
+       loading="lazy"
+       data-caption="Teste da diidrorodamina (DHR-123): fluorescência emitida pela reação de radicais livres com a sonda colocada sobre pedaços de pele, avaliada por citometria de fluxo.">
+  <div class="plate-caption">
+    <b>Fig. 3 — Teste da diidrorodamina (DHR-123)</b> — painéis de citometria de fluxo mostram deslocamento de fluorescência em neutrófilos ativados normalmente; na DGC, o deslocamento está ausente. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+
+<p>Imunoglobulinas e complemento normais no caso de João não são coincidência: a DGC é um defeito puramente do <strong>fagócito</strong>, não do braço humoral — por isso a suscetibilidade é seletiva a catalase-positivos, não a bactérias em geral <span class="cite"><a href="#referencias">(ABBAS; LICHTMAN; PILLAI, 2023)</a></span>.</p>
+</section>
+
+<section id="complemento-funcoes">
+<h2>Sistema complemento — funções <a class="anchor" href="#complemento-funcoes">#</a></h2>
+<p>O mecanismo completo das três vias (clássica, alternativa, das lectinas) está em <a class="cross-link" href="sistema-complemento.html">Sistema Complemento</a>; aqui, apenas as quatro funções efetoras relevantes para o Caso 2:</p>
+<div class="table-wrap"><table class="data-table" aria-label="Funções do sistema complemento">
+  <thead><tr><th>Função</th><th>Mecanismo</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Opsonização</td><td>Facilitação da fagocitose de micro-organismos recobertos por C3b/iC3b, reconhecidos por receptores de complemento (CR1, CR3) em fagócitos</td></tr>
+    <tr><td class="td-label">Inflamação</td><td>C3a, C4a e C5a ligam-se a receptores específicos, aumentando permeabilidade vascular e recrutando/ativando células inflamatórias</td></tr>
+    <tr><td class="td-label">Lise</td><td>Formação de poros na membrana (complexo de ataque à membrana, C5b-9), levando à lise osmótica de micro-organismos e células infectadas</td></tr>
+    <tr><td class="td-label">Remoção de complexos imunes</td><td>Remoção de complexos antígeno-anticorpo da circulação, depositando-os no baço e fígado para clearance</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 1 — Funções efetoras do sistema complemento.</p>
+</section>
+
+<section id="caso-c6">
+<h2>Caso clínico 2 — Deficiência de Complemento (C6) e Meningite Recorrente <a class="anchor" href="#caso-c6">#</a></h2>
+<div class="caso-box">
+  <div class="clabel">Caso clínico — "A meningite que voltou"</div>
+  <h4>História clínica</h4>
+  <p>Mariana, 18 anos, estudante universitária, procura o PS com febre alta (39,5°C), cefaleia intensa, náuseas, vômitos e rigidez na nuca iniciados há aproximadamente 12 horas. Ao exame físico, apresenta-se sonolenta, desorientada no tempo, taquicárdica (115 bpm) e com múltiplas lesões petequiais nos membros inferiores e tronco. A punção lombar evidencia LCR turvo com predominância de neutrófilos, proteína elevada e glicose reduzida; a coloração de Gram revela diplococos Gram-negativos. A paciente é internada, recebendo ceftriaxona intravenosa, com boa evolução clínica.</p>
+  <p>Durante a internação, um dado chama atenção: aos 14 anos Mariana havia apresentado outro episódio confirmado de meningite meningocócica, do qual também se recuperou completamente. Ao revisar a história familiar, a mãe relata que um irmão mais velho faleceu aos 16 anos por meningite bacteriana fulminante; um primo materno também apresentou meningite na adolescência. A paciente não possui outras doenças conhecidas, nunca apresentou infecções respiratórias recorrentes, pneumonias de repetição ou infecções fúngicas/virais graves, e seu crescimento e desenvolvimento sempre foram normais.</p>
+  <h4>Exame físico</h4>
+  <ul>
+    <li>Temperatura: 39,5°C · FC: 115 bpm · PA: 95×60 mmHg</li>
+    <li>Rigidez de nuca · Sinal de Kernig positivo</li>
+    <li>Petéquias em membros inferiores</li>
+    <li>Sem linfonodomegalias, sem hepatoesplenomegalia</li>
+  </ul>
+  <h4>Exames laboratoriais</h4>
+  <ul>
+    <li>Leucócitos 19.800/mm³, neutrófilos 89%, plaquetas 145.000/mm³</li>
+    <li>PCR e procalcitonina elevadas</li>
+    <li>LCR: turvo, proteínas elevadas, glicose reduzida, predomínio de neutrófilos</li>
+    <li>Hemocultura: <em>Neisseria meningitidis</em></li>
+    <li>Após recuperação — investigação imunológica: IgG/IgA/IgM normais; linfócitos T e B normais; função dos neutrófilos normal; <strong>dosagem individual dos componentes do complemento revela deficiência de C6</strong></li>
+  </ul>
+</div>
+
+<div class="plate-block" id="fig-mac">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/complemento-mac.jpg"
+       alt="Diagrama do complexo de ataque à membrana (MAC) formado por C5b-C9 na membrana bacteriana"
+       loading="lazy"
+       data-caption="Complexo de ataque à membrana (MAC): C5b recruta C6, C7, C8 e polimeriza C9, formando um poro que lisa a célula bacteriana.">
+  <div class="plate-caption">
+    <b>Fig. 4 — Complexo de ataque à membrana (MAC)</b> — C5 convertase cliva C5 em C5a+C5b; C5b se associa a C6, C7 e C8, e recruta múltiplas cópias de C9 (poli-C9), formando um poro transmembrana que causa lise osmótica. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+
+<div class="kbox">
+  <div class="klabel">Mecanismo — por que deficiência de C6 causa suscetibilidade seletiva a Neisseria?</div>
+  <p>C6 é um componente <strong>terminal</strong> comum às três vias do complemento — sua ausência não impede a formação de C3b (opsonização continua funcional pela via alternativa) nem a geração de anafilatoxinas (C3a, C5a — inflamação preservada), mas impede a montagem do MAC. Para a maioria das bactérias, essa perda é compensada por opsonofagocitose robusta. <em>Neisseria</em> (meningococo e gonococo) é a exceção clinicamente relevante: sua membrana externa fina e a ausência de cápsula espessa em muitas cepas tornam a <strong>lise direta pelo MAC</strong> o mecanismo dominante de eliminação — daí a suscetibilidade seletiva e recorrente a infecções meningocócicas/gonocócicas em deficiências de C5–C9, com função normal de imunoglobulinas, linfócitos e neutrófilos, exatamente como no caso de Mariana <span class="cite"><a href="#referencias">(ABBAS; LICHTMAN; PILLAI, 2023)</a></span>.</p>
+</div>
+<div class="callout">
+  <strong>Implicação prática:</strong> pacientes com deficiência de complemento terminal recorrentemente infectados por <em>Neisseria</em>, mas sem outras infecções recorrentes, devem ser vacinados com MenACWY e MenB — a vacinação substitui exatamente a função que falta (anticorpos que, mesmo sem MAC eficiente, aumentam a opsonização). Ver <a class="cross-link" href="sistema-complemento.html">Sistema Complemento → Deficiências</a> e <a class="cross-link" href="vacinas-imunidade-protetora.html">Vacinas</a>.
+</div>
+</section>
+
+<section id="evasao-extracelular">
+<h2>Evasão da resposta imune por bactérias extracelulares <a class="anchor" href="#evasao-extracelular">#</a></h2>
+<p>Cada braço da resposta a bactérias extracelulares tem um mecanismo de evasão correspondente:</p>
+<div class="table-wrap"><table class="data-table" aria-label="Evasão da resposta imune pelas bactérias extracelulares, por elemento do sistema imune">
+  <thead><tr><th>Elemento do SI</th><th>Mecanismo bacteriano</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">PRRs do hospedeiro</td><td>Produção de PAMPs modificados; alteração da sinalização do PRR; indução de produção de IL-10 anti-inflamatória</td></tr>
+    <tr><td class="td-label">Anticorpos</td><td>Alteração da expressão de moléculas de superfície; secreção de proteases anti-Ig</td></tr>
+    <tr><td class="td-label">Recrutamento de neutrófilos</td><td>Secreção de toxinas que bloqueiam a célula do hospedeiro na produção de quimiocinas</td></tr>
+    <tr><td class="td-label">Fagocitose</td><td>Bloqueio da ligação de receptores de fagócitos pela cápsula; inativação de EROs (ex. estafilococos catalase-positivos)</td></tr>
+    <tr><td class="td-label">Sistema complemento</td><td>Prevenção da ligação/degradação de C3b; indução de IgG4 e outros isotipos que não fixam complemento</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 2 — Evasão da resposta imune pelas bactérias extracelulares, por elemento do sistema imune.</p>
+
+<div class="table-wrap"><table class="data-table" aria-label="Mecanismos de evasão da resposta imune por bactéria específica">
+  <thead><tr><th>Estratégia</th><th>Exemplo</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Variação antigênica (proteína pilina, adesão)</td><td><em>Neisseria gonorrhoeae</em>, <em>Escherichia coli</em>, <em>Salmonella typhimurium</em></td></tr>
+    <tr><td class="td-label">Mimetismo molecular — inibição do complemento</td><td><em>Streptococcus pyogenes</em> (não <em>S. pneumoniae</em>): a proteína M liga o Fator H do hospedeiro à superfície bacteriana, acelerando a degradação de C3b e bloqueando a via alternativa do complemento <span class="cite"><a href="#ref6">(REED et al., 2019)</a></span></td></tr>
+    <tr><td class="td-label">Resistência à fagocitose</td><td>Pneumococos: o polissacarídeo capsular inibe a fagocitose</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 3 — Mecanismos de evasão por espécie, com exemplos.</p>
+
+<div class="plate-block" id="fig-neisseria">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/neisseria-morfologia-pili.jpg"
+       alt="Ilustração de Neisseria gonorrhoeae mostrando diplococos reniformes com pili na superfície"
+       loading="lazy"
+       data-caption="Neisseria gonorrhoeae: diplococos Gram-negativos reniformes ('em grão de café'), com pili (fímbrias) mediando adesão à mucosa.">
+  <div class="plate-caption">
+    <b>Fig. 5 — Morfologia de <em>Neisseria gonorrhoeae</em></b> — diplococos reniformes ("em grão de café", <em>kidney/coffee-bean shaped</em>), arranjados aos pares, com pili (<em>hair-like pili</em>) que medeiam adesão à mucosa. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+<p><strong>Neisseria gonorrhoeae</strong> (gonorreia) expressa variantes de pilina — proteína responsável pela adesão à mucosa — mas apenas uma variante por vez, alternando entre múltiplas versões codificadas no genoma por rearranjo programado (recombinação sítio-específica entre cópias silenciosas e o locus de expressão). O efeito é o mesmo obtido por <em>Salmonella typhimurium</em> com sua flagelina (alternância entre duas versões da proteína de superfície): a cada nova geração bacteriana, anticorpos previamente gerados contra a variante antiga reconhecem cada vez menos a população circulante — uma corrida armamentista onde o hospedeiro está sempre um passo atrás.</p>
+</section>
+
+<section id="caso-apendicite">
+<h2>Caso clínico 3 — Resposta Neutrofílica Aguda <a class="anchor" href="#caso-apendicite">#</a></h2>
+<div class="caso-box">
+  <div class="clabel">Caso clínico — vinheta de raciocínio diagnóstico</div>
+  <p>Jovem de 17 anos, sexo masculino, é levado ao atendimento de urgência pela mãe por apresentar, há um dia e meio, inapetência, náuseas, vômitos, mal-estar geral, dor abdominal inicialmente periumbilical migrando para a fossa ilíaca direita, e febre. Refere obstipação há dois dias, sem trauma ou outra causa aparente. Ao exame: regular estado geral, prostrado, temperatura 38,6°C, FR aumentada, desconforto à palpação abdominal com sinal de descompressão brusca positivo (Blumberg).</p>
+  <div class="table-wrap"><table class="data-table" aria-label="Hemograma do caso 3, com valores de referência">
+    <thead><tr><th>Parâmetro</th><th>Resultado (%)</th><th>Resultado (absoluto)</th><th>Referência (/mm³)</th></tr></thead>
+    <tbody>
+      <tr><td class="td-label">Metamielócitos</td><td>2%</td><td>271,6/mm³</td><td>0</td></tr>
+      <tr><td class="td-label">Bastões</td><td>10%</td><td>1.358/mm³</td><td>0–500</td></tr>
+      <tr><td class="td-label">Segmentados</td><td>78%</td><td>10.592,4/mm³</td><td>2.000–8.000</td></tr>
+      <tr><td class="td-label">Linfócitos</td><td>8%</td><td>1.086,4/mm³</td><td>1.000–5.000</td></tr>
+      <tr><td class="td-label">Monócitos</td><td>2%</td><td>271,6/mm³</td><td>200–1.000</td></tr>
+      <tr><td class="td-label">Plaquetas</td><td>—</td><td>186.000/mm³</td><td>180.000–400.000</td></tr>
+    </tbody>
+  </table></div>
+  <p class="table-caption">Tabela 4 — Hemograma com desvio à esquerda (metamielócitos + bastões elevados) e neutrofilia com granulações tóxicas. PCR 57,0 mg/L (VR &lt;10 mg/L); VHS 45 mm/hora. Raio X de abdômen com sombra radiopaca em fossa ilíaca direita; ultrassom evidencia apêndice tubular de 8 mm.</p>
+</div>
+<p><strong>Interpretação:</strong> o quadro combina dor migratória para fossa ilíaca direita, sinal de Blumberg positivo, febre, leucocitose com desvio à esquerda acentuado (bastonetes + metamielócitos — sinal de demanda medular aguda por neutrófilos maduros), PCR e VHS elevados, e apêndice de 8 mm (limite superior normal ≤6 mm) com fecalito radiopaco — hipótese diagnóstica principal: <strong>apendicite aguda</strong>. O padrão hematológico ilustra, à beira-leito, exatamente o que a seção anterior descreveu em mecanismo: infecção bacteriana aguda (tipicamente polimicrobiana — flora entérica, incluindo <em>E. coli</em> e anaeróbios) dispara recrutamento medular de neutrófilos tão rápido que formas imaturas (bastões, metamielócitos) são lançadas na circulação antes de completar maturação — o "desvio à esquerda" é a assinatura laboratorial da resposta inata extracelular em curso.</p>
+</section>
+
+<section id="intracelulares-resposta">
+<h2>Bactérias intracelulares — resposta imune <a class="anchor" href="#intracelulares-resposta">#</a></h2>
+<p>Bactérias intracelulares obrigatórias ou facultativas — <em>Mycobacterium tuberculosis</em>, <em>Mycobacterium leprae</em>, <em>Listeria monocytogenes</em>, <em>Chlamydia trachomatis</em> — infectam células hospedeiras e persistem dentro delas, inacessíveis a anticorpos circulantes. A <strong>imunidade inata</strong> depende de macrófagos, inflamação e, quando a infecção persiste, formação de granuloma. A <strong>imunidade adaptativa</strong> é predominantemente celular: Th1 ativa macrófagos via IFN-γ, linfócitos T CD8⁺ (CTLs) destroem diretamente células infectadas, e linfócitos B/anticorpos específicos têm papel coadjuvante.</p>
+<div class="kbox">
+  <div class="klabel">Princípio central</div>
+  <p>A principal resposta imunológica protetora contra bactérias intracelulares é o <strong>recrutamento e ativação de fagócitos mediados por células T</strong> (imunidade mediada por células) — não anticorpos. Indivíduos com deficiência de imunidade celular (linfócitos T) são seletivamente mais suscetíveis a infecções por micro-organismos intracelulares, o espelho exato do padrão visto no Caso 1 (defeito de fagócito → suscetibilidade a catalase-positivos) e no Caso 2 (defeito de complemento terminal → suscetibilidade a <em>Neisseria</em>) <span class="cite"><a href="#referencias">(ABBAS; LICHTMAN; PILLAI, 2023)</a></span>.</p>
+</div>
+<p>A cooperação entre T CD4⁺ e T CD8⁺ é central: CD4⁺ Th1 ativa macrófagos para destruir bactérias no fagossomo; CD8⁺ elimina células cuja carga bacteriana já escapou do controle do macrófago, via granzima/perforina e Fas-FasL — dupla camada de defesa contra um patógeno que, por definição, já está "dentro" da célula.</p>
+<div class="kbox">
+  <div class="klabel">Limites do modelo — defesa que lesiona</div>
+  <p>A ativação de macrófagos em resposta a micro-organismos intracelulares é capaz de causar <strong>lesão tecidual</strong> — resultado de reações de hipersensibilidade do tipo tardio (tipo IV) a antígenos de proteína microbiana. A estimulação antigênica crônica e a ativação continuada de células T e macrófagos podem resultar na formação de granulomas em torno dos micro-organismos: a defesa que contém a bactéria é a mesma que destrói o tecido normal ao redor. Ver <a class="cross-link" href="hipersensibilidade.html">Hipersensibilidade → Tipo IV</a>.</p>
+</div>
+</section>
+
+<section id="evasao-intracelular">
+<h2>Evasão da resposta imune por bactérias intracelulares <a class="anchor" href="#evasao-intracelular">#</a></h2>
+<div class="table-wrap"><table class="data-table" aria-label="Evasão da resposta imune pelas bactérias intracelulares, por elemento do sistema imune">
+  <thead><tr><th>Elemento do SI</th><th>Mecanismo bacteriano</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">PRRs do hospedeiro</td><td>Produção de PAMPs modificados que inibem a sinalização; variação antigênica das proteínas de superfície</td></tr>
+    <tr><td class="td-label">Escape da destruição fagossomal</td><td>Infecção de célula não fagocitária; síntese de moléculas que bloqueiam fusão do lisossoma, acidificação do fagossomo e morte por EROs/ERNs</td></tr>
+    <tr><td class="td-label">Linfócitos T</td><td>Redução da apresentação de antígenos pelas APCs; indução das DCs a produzirem citocinas imunossupressoras</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 5 — Evasão da resposta imune pelas bactérias intracelulares, por elemento do sistema imune.</p>
+
+<div class="table-wrap"><table class="data-table" aria-label="Mecanismos de evasão intracelular por bactéria específica">
+  <thead><tr><th>Estratégia</th><th>Exemplo</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Inibição da formação do fagolisossomo</td><td><em>Mycobacterium tuberculosis</em> — lipoarabinomanana (LAM) bloqueia fusão fagossomo-lisossomo; <em>Legionella</em></td></tr>
+    <tr><td class="td-label">Inativação de espécies reativas de oxigênio e nitrogênio</td><td><em>Mycobacterium leprae</em></td></tr>
+    <tr><td class="td-label">Ruptura da membrana do fagossomo, escape para o citoplasma</td><td><em>Listeria monocytogenes</em> (listeriolisina O + duas fosfolipases)</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 6 — Evasão intracelular por espécie. <em>M. tuberculosis</em> cataboliza óxido nítrico e ânions superóxido, e inibe a produção de IL-12/IFN-γ pela proteína ESAT-6 <span class="cite"><a href="#referencias">(MURRAY; ROSENTHAL; PFALLER, 2023)</a></span>.</p>
+
+<p><strong><em>Listeria monocytogenes</em> — escape para o citoplasma:</strong> usa listeriolisina O (LLO), toxina que perfura a membrana do fagossomo, para escapar ao citoplasma; ali, polimeriza actina do hospedeiro via ActA, propulsão intracelular que permite disseminação célula-a-célula sem jamais se expor ao espaço extracelular. CTLs são efetores essenciais — destroem a célula infectada antes que a bactéria migre à próxima. Ver panorama comparativo em <a class="cross-link" href="resposta-a-patogenos.html#bacterias-intracelulares">Resposta a Patógenos → Bactérias intracelulares</a>.</p>
+</section>
+
+<section id="tuberculose">
+<h2>Tuberculose <a class="anchor" href="#tuberculose">#</a></h2>
+<div class="hist">
+  <span class="hl">Contexto histórico</span>
+  Robert Koch demonstrou em 1882 que <em>Mycobacterium tuberculosis</em> é o agente da tuberculose — inaugurando a bacteriologia moderna. A descoberta de que M. tb sobrevive dentro de macrófagos (sua própria célula predadora) levou décadas para ser explicada: só nos anos 1980–1990 foram identificados os mecanismos de inibição de fusão fagossomo-lisossomo pela LAM e o papel central de IFN-γ para superar essa evasão.
+</div>
+<p>M. tb usa C3b depositado espontaneamente em sua superfície (via alternativa) para entrar no macrófago via CR3 — receptor que não dispara o burst oxidativo inicial. Dentro do fagossomo, secreta lipoarabinomanana, que inibe a fusão fagossomo-lisossomo, bloqueia a acidificação e intercepta vesículas endossomais tardias, criando um vacúolo protegido. A ativação por IFN-γ reverte esse bloqueio: upregula GTPases da família IRGM que forçam a fusão fagossomo-lisossomo, e ativa NADPH oxidase e iNOS, que destroem o bacilo — deficiência congênita de receptor de IFN-γ ou de IL-12 resulta em suscetibilidade a micobactérias atípicas, inofensivas para imunocompetentes.</p>
+
+<div class="plate-block" id="fig-granuloma-histo">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/granuloma-caseoso-histologia.jpg"
+       alt="Cortes histológicos de granuloma tuberculoso com necrose caseosa central e macrófagos epitelioides"
+       loading="lazy"
+       data-caption="Histologia do granuloma tuberculoso: zona de necrose caseosa central circundada por macrófagos epitelioides ativados e linfócitos Th1.">
+  <div class="plate-caption">
+    <b>Fig. 6 — Inflamação granulomatosa na tuberculose</b> — cortes histológicos (H&amp;E) mostrando necrose caseosa central, halo de macrófagos epitelioides ativados (alguns fusionados em células gigantes multinucleadas) e periferia de linfócitos Th1 ativados. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+
+<p>O <strong>granuloma</strong> — estrutura organizada de macrófagos epitelioides, células gigantes multinucleadas e linfócitos T CD4⁺ Th1 no perímetro — é a resposta adaptativa característica da tuberculose. Contém o bacilo sem eliminá-lo definitivamente: a necrose caseosa central é o sinal morfológico da batalha em curso, e a estabilidade do granuloma depende de TNF contínuo.</p>
+<div class="callout">
+  <strong>Anti-TNF e reativação de TB latente:</strong> adalimumabe, infliximabe e outros anti-TNF desestabilizam granulomas existentes. Séries observacionais mostram risco aumentado de reativação de TB latente com anti-TNF (mais acentuado com anticorpos monoclonais como infliximabe do que com o receptor solúvel etanercepte), justificando triagem com PPD/IGRA antes do início <span class="cite"><a href="#ref8">(TBNET Consensus, 2010)</a></span>. Ver <a class="cross-link" href="hipersensibilidade.html">Hipersensibilidade → Granuloma e anti-TNF</a>.
+</div>
+
+<h3>Teste tuberculínico (PPD) — reação de Mantoux</h3>
+<div class="plate-block" id="fig-ppd-mecanismo">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/ppd-mecanismo-tst.jpg"
+       alt="Diagrama do princípio do teste tuberculínico: apresentação antigênica a células T de memória gera resposta de hipersensibilidade tardia"
+       loading="lazy"
+       data-caption="Princípio do TST: antígenos do PPD são apresentados a células T de memória, desencadeando resposta de hipersensibilidade tardia (tipo IV) local.">
+  <div class="plate-caption">
+    <b>Fig. 7 — Princípio do teste tuberculínico (TST)</b> — o PPD (derivado proteico purificado) injetado por via intradérmica é reconhecido por células T de memória previamente sensibilizadas a antígenos micobacterianos, desencadeando reação de hipersensibilidade tardia (tipo IV) local, lida em 48–72h. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+<p>O teste de oxidação da diidrorodamina não deve ser confundido com o teste tuberculínico — este último detecta memória imunológica de células T contra antígenos de <em>M. tuberculosis</em>, não função de fagócito. Aplicação: injeção intradérmica de PPD no antebraço; leitura: medida do diâmetro de <strong>induração</strong> (não de eritema) em 48–72h.</p>
+
+<div class="plate-block" id="fig-ppd-aplicacao">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/ppd-aplicacao-intradermica.jpg"
+       alt="Aplicação intradérmica do PPD no antebraço"
+       loading="lazy"
+       data-caption="Técnica de aplicação intradérmica do PPD no antebraço.">
+  <div class="plate-caption">
+    <b>Fig. 8a — Aplicação do PPD</b> — injeção intradérmica no terço médio da face anterior do antebraço, formando pápula. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+<div class="plate-block" id="fig-ppd-leitura">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/ppd-leitura-induracao.jpg"
+       alt="Leitura da induração do teste PPD com régua milimetrada"
+       loading="lazy"
+       data-caption="Leitura do teste PPD: medida do diâmetro transverso da induração com régua milimetrada, 48–72h após aplicação.">
+  <div class="plate-caption">
+    <b>Fig. 8b — Leitura do PPD</b> — medida do diâmetro transverso da área indurada (não da área de eritema) com régua milimetrada. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+
+<div class="table-wrap"><table class="data-table" aria-label="Interpretação do teste tuberculínico (PPD)">
+  <thead><tr><th>Induração</th><th>Interpretação</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">0–4 mm</td><td>Não reator — indivíduo não infectado por <em>M. tuberculosis</em> ou com resposta imune reduzida</td></tr>
+    <tr><td class="td-label">5–9 mm</td><td>Reator fraco — indivíduo vacinado com BCG ou infectado por <em>M. tuberculosis</em></td></tr>
+    <tr><td class="td-label">≥10 mm</td><td>Reator forte — indivíduo infectado por <em>M. tuberculosis</em> (doente ou não) ou vacinado com BCG nos últimos dois anos</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 7 — Interpretação do teste tuberculínico (PPD/Mantoux) por diâmetro de induração, conforme classificação tradicional do Ministério da Saúde do Brasil <span class="cite"><a href="#ref9">(Ministério da Saúde, 2019)</a></span>. Protocolos de triagem para grupos de risco (ex.: HIV+, contactantes) usam ponto de corte único ≥5 mm — consultar diretriz vigente para conduta em populações especiais.</p>
+</section>
+
+<section id="hanseniase">
+<h2>Hanseníase (<em>Mycobacterium leprae</em>) <a class="anchor" href="#hanseniase">#</a></h2>
+<div class="plate-block" id="fig-hanseniase-mapa">
+  <img src="img/resposta-imune-bacterias-extra-intracelulares/hanseniase-distribuicao-geografica.jpg"
+       alt="Mapa de distribuição geográfica de novos casos de hanseníase no mundo"
+       loading="lazy"
+       data-caption="Distribuição geográfica de novos casos de hanseníase (2019) — concentração em regiões tropicais, com o Brasil entre os países de maior incidência absoluta.">
+  <div class="plate-caption">
+    <b>Fig. 9 — Distribuição geográfica de novos casos de hanseníase (2019)</b> — Índia, Brasil e Indonésia concentram a maior parte dos casos globais novos. Material de aula — Profa. Edna Maria Vissoci Reiche, Imunologia, PUCPR.
+  </div>
+</div>
+<p><em>Mycobacterium leprae</em> é um bacilo intracelular obrigatório com tropismo por células de Schwann e macrófagos cutâneos, incapaz de crescer in vitro — sua biologia foi estabelecida em grande parte por inoculação em tatus (<em>Dasypus novemcinctus</em>), cuja temperatura corporal baixa favorece o crescimento micobacteriano.</p>
+
+<h3>Espectro imunológico: tuberculoide × lepromatosa</h3>
+<p>A hanseníase é o paradigma clínico do espectro Th1↔Th2: a mesma bactéria, em hospedeiros diferentes, produz apresentações radicalmente distintas conforme o eixo de polarização — não a carga bacilar inicial determina o fenótipo, mas a resposta imune do hospedeiro.</p>
+<div class="table-wrap"><table class="data-table" aria-label="Comparação entre hanseníase tuberculoide e lepromatosa">
+  <thead><tr><th>Característica</th><th>Tuberculoide</th><th>Lepromatosa</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Anticorpos</td><td>Baixa concentração</td><td>Elevada concentração</td></tr>
+    <tr><td class="td-label">Resposta imune celular</td><td>Mais ativa</td><td>Menos ativa</td></tr>
+    <tr><td class="td-label">Granuloma</td><td>Formação em volta dos nervos, causando menor sensibilidade</td><td>Ausente ou pouco organizado</td></tr>
+    <tr><td class="td-label">Carga bacilar / destruição tecidual</td><td>Menor destruição tecidual, menos micobactérias</td><td>Micobactérias multiplicam-se livremente nos macrófagos, em grande número nos tecidos; lesões destrutivas</td></tr>
+    <tr><td class="td-label">Citocinas</td><td>Elevada IFN-γ e IL-2</td><td>Baixa IFN-γ; elevada IL-4 e IL-10</td></tr>
+    <tr><td class="td-label">Polarização</td><td>Resposta Th1</td><td>Resposta Th2</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 8 — Espectro imunológico da hanseníase, polo tuberculoide (TT) × polo lepromatoso (LL). Formas borderline (BT, BB, BL) ocupam posições intermediárias do espectro.</p>
+
+<div class="plate-block" id="fig-hanseniase-clinica">
+  <img src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/1720/12591272/e1c13c34b974/1678-9946-rimtsp-67-S1678-9946202567074-gf01.jpg"
+       alt="Fotografias clínicas comparando lesões de hanseníase tuberculoide, lepromatosa, borderline e indeterminada"
+       loading="lazy"
+       data-caption="Formas clínicas da hanseníase: (A) tuberculoide — lesão hipopigmentada bem demarcada, com sensibilidade reduzida; (B) lepromatosa — múltiplas lesões papulonodulares difusas, alta carga bacilar.">
+  <div class="plate-caption">
+    <b>Fig. 10 — Espectro clínico da hanseníase</b> — (A) hanseníase tuberculoide: lesão hipopigmentada bem demarcada com sensibilidade reduzida; (B) lepromatosa: lesões papulonodulares difusas com alta carga bacilar; (C) borderline: placas anulares com bordas elevadas e clareamento central; (D) indeterminada: mácula hipopigmentada mal definida. Froes, Sotto &amp; Trindade, <em>Rev. Inst. Med. Trop. São Paulo</em>, 2025, PMC12591272 — Creative Commons Attribution License <span class="cite"><a href="#referencias">(FROES; SOTTO; TRINDADE, 2025)</a></span>.
+  </div>
+</div>
+
+<p>O mecanismo por trás do espectro: na forma <strong>tuberculoide</strong>, a resposta Th1 (IFN-γ, IL-2) ativa macrófagos, que controlam a proliferação bacilar e formam granulomas organizados — o preço é lesão neural localizada por hipersensibilidade tardia, mas com baixa carga bacilar e boa contenção. Na forma <strong>lepromatosa</strong>, a polarização Th2 (IL-4, IL-10) suprime a ativação clássica de macrófagos: os bacilos multiplicam-se livremente dentro deles, gerando altíssima carga bacilar, resposta humoral abundante mas ineficaz (anticorpos não têm acesso ao compartimento intracelular) e destruição tecidual extensa e progressiva <span class="cite"><a href="#referencias">(FROES; SOTTO; TRINDADE, 2025)</a></span>.</p>
+</section>
+
+<section id="outros-patogenos">
+<h2>Chlamydia trachomatis e Bordetella pertussis <a class="anchor" href="#outros-patogenos">#</a></h2>
+<h3>Chlamydia trachomatis</h3>
+<p>Bactéria intracelular obrigatória com ciclo bifásico (corpúsculo elementar infeccioso → corpúsculo reticulado replicativo, dentro de um vacúolo que evita fusão com lisossomo). Diferentes sorovares causam síndromes clínicas distintas por tropismo tecidual:</p>
+<div class="table-wrap"><table class="data-table" aria-label="Sorovares de Chlamydia trachomatis e síndromes clínicas associadas">
+  <thead><tr><th>Sorovares</th><th>Tropismo</th><th>Complicações principais</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">A, B, Ba, C</td><td>Conjuntiva (tracoma)</td><td>Cegueira por cicatrização corneana progressiva</td></tr>
+    <tr><td class="td-label">D–K</td><td>Trato genital</td><td>Doença inflamatória pélvica, gravidez ectópica, infertilidade, esterilidade</td></tr>
+    <tr><td class="td-label">L1, L2, L3</td><td>Linfonodos regionais (linfogranuloma venéreo)</td><td>Úlceras genitais, linfadenopatia, fibrose crônica</td></tr>
+  </tbody>
+</table></div>
+<p class="table-caption">Tabela 9 — Sorovares de <em>Chlamydia trachomatis</em>, tropismo e principais complicações clínicas.</p>
+<p>Sobrevive em vacúolo intracelular secretando proteínas que inibem fusão com lisossomo — mecanismo de evasão análogo, em princípio, ao de <em>M. tuberculosis</em>, mas em célula epitelial não fagocitária.</p>
+
+<h3>Bordetella pertussis</h3>
+<p>Cocobacilo Gram-negativo, agente da coqueluche — doença infecciosa do trato respiratório, geralmente grave em crianças pequenas. Produz toxina pertussis, moléculas de adesão e LPS; a adenilato ciclase bacteriana inibe diretamente a resposta imune do hospedeiro, e a bactéria induz citocinas anti-inflamatórias que amortecem o clearance. Cursa com inibição da fagocitose apesar de a espécie ser catalase e oxidase positiva — mais um exemplo de evasão dirigida à sinalização do fagócito, não apenas à sua bioquímica oxidativa.</p>
+</section>
+
+<section id="conexoes">
+<h2>Conexões com outros módulos <a class="anchor" href="#conexoes">#</a></h2>
+<div class="connections-box">
+  <h4>Como este material se conecta</h4>
+  <p><strong>→ Sistema Complemento</strong> — o Caso 2 é a aplicação clínica direta das deficiências terminais discutidas em <a class="cross-link" href="sistema-complemento.html">Sistema Complemento</a>; leia lá o mecanismo completo das três vias antes de revisar este caso.</p>
+  <p><strong>→ Hipersensibilidade</strong> — o granuloma tuberculoso e a lesão neural na hanseníase tuberculoide são manifestações de hipersensibilidade tipo IV; ver <a class="cross-link" href="hipersensibilidade.html">Hipersensibilidade</a> para o mecanismo geral.</p>
+  <p><strong>→ Vacinas e Imunidade Protetora</strong> — a vacinação MenACWY/MenB no Caso 2 e o BCG na interpretação do PPD são exemplos de imunização direcionada a exatamente o gap descrito aqui; ver <a class="cross-link" href="vacinas-imunidade-protetora.html">Vacinas</a>.</p>
+  <p><strong>→ Hematologia (Hemograma e Anemias)</strong> — o desvio à esquerda do Caso 3 é abordado em profundidade técnica em <a class="cross-link" href="../../hematologia-hemograma-anemias.html">Hematologia Clínica: Hemograma e Anemias</a>.</p>
+</div>
+</section>
+
+<section id="perguntas-abertas">
+<h2>Perguntas em aberto <a class="anchor" href="#perguntas-abertas">#</a></h2>
+<p><strong>1.</strong> O que determina, no momento da infecção primária por <em>M. leprae</em>, se um indivíduo geneticamente predisposto polarizará para Th1 (tuberculoide) ou Th2 (lepromatosa)? Estudos de associação genômica identificaram loci de suscetibilidade (ex. <em>PARK2</em>, genes da via NOD2), mas o gatilho inicial que "decide" o eixo de polarização em um dado paciente permanece incompletamente elucidado.</p>
+<p><strong>2.</strong> Por que a deficiência de componentes terminais do complemento (C5–C9) confere suscetibilidade quase exclusiva a <em>Neisseria</em>, e não a outras bactérias Gram-negativas com membrana externa igualmente fina? A resposta usual (ausência de cápsula espessa) não explica totalmente por que espécies como <em>Haemophilus influenzae</em>, também encapsuladas de forma variável, não mostram a mesma dependência crítica do MAC.</p>
+<p><strong>3.</strong> Terapias biológicas moduladoras de IL-17 (para psoríase, espondiloartrites) aumentam risco de candidíase mucocutânea — mas qual é o risco real, ainda pouco quantificado prospectivamente, de infecções por bactérias extracelulares piogênicas nesses pacientes, dado o papel de Th17 nesta via?</p>
+</section>
+
+<section id="discussao">
+<h2>Discussão <a class="anchor" href="#discussao">#</a></h2>
+<p>As três perguntas que abrem este compêndio têm a mesma resposta estrutural: <strong>um defeito seletivo em um mecanismo imunológico revela, pela infecção que ele permite, exatamente qual função aquele mecanismo executava</strong> — e nenhuma outra. João desenvolve abscessos por catalase-positivos porque seu defeito é estritamente do burst oxidativo do fagócito, não do reconhecimento, da opsonização ou do recrutamento — todos intactos. Mariana sobrevive a episódios repetidos de meningite meningocócica porque seu defeito é estritamente da lise terminal via MAC, enquanto opsonização por C3b, anticorpos e imunidade celular permanecem plenamente funcionais — suficientes para conter (não sempre prevenir) a infecção antes que se torne fulminante, e suficientes para protegê-la de todo o restante do universo microbiano. E o mesmo <em>M. leprae</em> produz doenças opostas porque a variável decisiva não é o patógeno, mas qual dos dois braços adaptativos — Th1 celular ou Th2 humoral — o hospedeiro escolhe amplificar diante dele.</p>
+<p>O fio condutor clínico é: <strong>localização do patógeno determina o efetor necessário, e cada efetor tem uma vulnerabilidade específica que, quando ausente, expõe seletivamente o hospedeiro a um subconjunto estreito e previsível de micro-organismos.</strong> Esse princípio — não a memorização de tabelas de patógeno por patógeno — é o que permite, diante de um paciente com infecções recorrentes, formular a pergunta certa: recorrente por <em>qual</em> tipo de organismo, e o que isso implica sobre qual peça, especificamente, está faltando?</p>
+</section>
+
+<section id="leituras">
+<h2>Leituras recomendadas <a class="anchor" href="#leituras">#</a></h2>
+<div class="book-grid">
+  <div class="book-card"><div class="book-title">Imunologia Celular e Molecular</div><div class="book-meta">Abbas, Lichtman &amp; Pillai — cap. 15–16 (imunidade a micro-organismos)</div></div>
+  <div class="book-card"><div class="book-title">Microbiologia Médica</div><div class="book-meta">Murray, Rosenthal &amp; Pfaller — capítulos por agente (<em>Staphylococcus</em>, <em>Neisseria</em>, <em>Mycobacterium</em>, <em>Chlamydia</em>, <em>Bordetella</em>)</div></div>
+  <div class="book-card"><div class="book-title">Clinical Overview of Leprosy</div><div class="book-meta">CDC — classificação Ridley-Jopling e conduta prática</div></div>
+  <div class="book-card"><div class="book-title">Leprosy in the 21st century</div><div class="book-meta">Froes, Sotto &amp; Trindade, <em>Rev. Inst. Med. Trop. São Paulo</em>, 2025 — revisão imunológica completa, acesso aberto</div></div>
+</div>
+</section>
+
+<section id="referencias">
+<h2>Referências <a class="anchor" href="#referencias">#</a></h2>
+<div class="ref-item" id="ref1"><span class="rtype">Livro-texto</span> <span class="rtitle">Cellular and Molecular Immunology</span>. ABBAS, A. K.; LICHTMAN, A. H.; PILLAI, S. 10. ed. Philadelphia: Elsevier, 2023.<br><span class="rnote">Referência primária para os mecanismos de imunodeficiência primária (DGC, deficiência de complemento terminal) e para o princípio geral de resposta por localização do patógeno.</span></div>
+<div class="ref-item" id="ref2"><span class="rtype">Livro-texto</span> <span class="rtitle">Medical Microbiology</span>. MURRAY, P. R.; ROSENTHAL, K. S.; PFALLER, M. A. 10. ed. Philadelphia: Elsevier, 2023.<br><span class="rnote">Referência primária para mecanismos de evasão bacteriana específicos por espécie (<em>M. tuberculosis</em>, <em>Listeria</em>, <em>Chlamydia</em>, <em>Bordetella</em>).</span></div>
+<div class="ref-item" id="ref3"><span class="rtype">Material de aula</span> <span class="rtitle">Resposta imune a bactérias extracelulares e intracelulares</span>. REICHE, Edna Maria Vissoci. Imunologia, PUC-PR, 2026.<br><span class="rnote">Fonte primária dos três casos clínicos, diagramas de mecanismo (DHR-123, MAC, fagocitose, granuloma, PPD) e dados epidemiológicos citados ao longo deste compêndio.</span></div>
+<div class="ref-item" id="ref4"><span class="rtype">Artigo de revisão — acesso aberto</span> <span class="rtitle">Leprosy in the 21st century: a comprehensive review of immunological mechanisms, diagnosis, and treatment</span>. FROES, L. A. R.; SOTTO, M. N.; TRINDADE, M. A. B. <em>Revista do Instituto de Medicina Tropical de São Paulo</em>, v. 67, 2025. PMC12591272.<br><span class="rnote">Fonte da Fig. 10 (espectro clínico da hanseníase) e da discussão atualizada do espectro Th1/Th2. Creative Commons Attribution License. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12591272/" target="_blank" rel="noopener">Artigo</a>.</span></div>
+<div class="ref-item" id="ref5"><span class="rtype">Página institucional</span> <span class="rtitle">Clinical Overview of Leprosy</span>. Centers for Disease Control and Prevention (CDC), 2025.<br><span class="rnote">Referência para a classificação clínica e conduta prática da hanseníase. <a href="https://www.cdc.gov/leprosy/hcp/clinical-overview/index.html" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref6"><span class="rtype">Artigo de revisão</span> <span class="rtitle">Catch Me If You Can: Streptococcus pyogenes Complement Evasion Strategies</span>. REED, S. et al. <em>Journal of Innate Immunity</em>, 2019. PMC6738146.<br><span class="rnote">Correção de fonte primária: o material de aula original atribuía o mecanismo de evasão do complemento via proteína M ao <em>Streptococcus pneumoniae</em>; a literatura confirma que este é um mecanismo do <em>Streptococcus pyogenes</em> (proteína M liga o Fator H, bloqueando C3b). O <em>S. pneumoniae</em> evade o complemento por via distinta (PspA/PspC/Hic). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6738146/" target="_blank" rel="noopener">Artigo</a>.</span></div>
+<div class="ref-item" id="ref7"><span class="rtype">Revisão clínica</span> <span class="rtitle">Chronic Granulomatous Disease</span>. GeneReviews®, NCBI Bookshelf, NBK99496. Seattle: University of Washington, 2023.<br><span class="rnote">Referência para a incidência da doença granulomatosa crônica (~1:250.000 nascidos vivos) e predomínio da forma ligada ao X. <a href="https://www.ncbi.nlm.nih.gov/books/NBK99496/" target="_blank" rel="noopener">Link</a>.</span></div>
+<div class="ref-item" id="ref8"><span class="rtype">Consenso de especialistas</span> <span class="rtitle">Consensus statement of the TBNET on tuberculin skin testing and interferon-gamma release assays in tuberculosis and anti-TNF therapy</span>. TBNET (European Tuberculosis Network). PMID 20530046, 2010.<br><span class="rnote">Referência para o risco aumentado de reativação de tuberculose latente sob terapia anti-TNF e a recomendação de triagem com PPD/IGRA antes do início do tratamento.</span></div>
+<div class="ref-item" id="ref9"><span class="rtype">Manual técnico</span> <span class="rtitle">Manual de Recomendações para o Controle da Tuberculose no Brasil</span>. Ministério da Saúde, Secretaria de Vigilância em Saúde, 2019.<br><span class="rnote">Fonte da classificação tradicional de interpretação do PPD por diâmetro de induração (0–4 / 5–9 / ≥10 mm) usada na Tabela 7; a mesma diretriz define ponto de corte único ≥5 mm para grupos de risco (ex.: HIV+, contactantes de bacilíferos). <a href="https://bvsms.saude.gov.br/bvs/publicacoes/manual_recomendacoes_controle_tuberculose_brasil_2_ed.pdf" target="_blank" rel="noopener">Link</a>.</span></div>
+</section>
+
+</div>
+</main>
+</div>
+
+<button id="back-btn" onclick="backToRead()">← Voltar à leitura</button>
+<button id="theme-toggle-btn" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">🌙</button>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption"></div>
+</div>
+
+<script>
+var sidebar = document.getElementById('sidebar');
+var bodyWrap = document.getElementById('body-wrap');
+var toggleBtn = document.getElementById('toggle-btn');
+function toggleSidebar(){
+  sidebar.classList.toggle('collapsed');
+  bodyWrap.classList.toggle('sidebar-collapsed');
+  sessionStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+}
+toggleBtn.addEventListener('click', toggleSidebar);
+
+function temaAtual(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+var themeBtn = document.getElementById('theme-toggle-btn');
+themeBtn.textContent = temaAtual()==='light' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', function(){
+  var novo = temaAtual()==='light' ? 'dark' : 'light';
+  try{ localStorage.setItem('theme', novo); }catch(e){}
+  document.documentElement.setAttribute('data-theme', novo);
+  themeBtn.textContent = novo==='light' ? '🌙' : '☀️';
+});
+if(sessionStorage.getItem('sidebar-collapsed') === 'true'){
+  sidebar.classList.add('collapsed');
+  bodyWrap.classList.add('sidebar-collapsed');
+}
+
+var progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', function(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight*100) : 0) + '%';
+}, {passive:true});
+
+var sideLinks = document.querySelectorAll('a.sl[href^="#"]');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+function updateActive(){
+  var scrollY = window.scrollY || window.pageYOffset;
+  var offset = 80;
+  var current = sections[0];
+  for(var i=0;i<sections.length;i++){
+    if(sections[i].getBoundingClientRect().top + scrollY <= scrollY + offset) current = sections[i];
+  }
+  sideLinks.forEach(function(l){ l.classList.remove('active'); });
+  if(current){
+    var a = document.querySelector('a.sl[href="#'+current.id+'"]');
+    if(a) a.classList.add('active');
+  }
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {rootMargin:'-10% 0px -55% 0px'});
+sections.forEach(function(s){ io.observe(s); });
+
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbCap = document.getElementById('lightbox-caption');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbCap.textContent = img.getAttribute('data-caption') || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+document.querySelectorAll('.plate-block img').forEach(function(img){
+  img.addEventListener('click', function(){ openLightbox(this); });
+});
+
+window._readPos = null;
+window.navFig = function(anchor){
+  window._readPos = window.scrollY;
+  document.getElementById('back-btn').style.display = 'block';
+};
+window.navRef = window.navFig;
+window.backToRead = function(){
+  if(window._readPos !== null){
+    window.scrollTo({top: window._readPos, behavior:'smooth'});
+  }
+  document.getElementById('back-btn').style.display = 'none';
+};
+</script>
+</body>
+</html>

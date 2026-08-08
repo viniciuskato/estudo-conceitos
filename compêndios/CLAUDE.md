@@ -1,5 +1,5 @@
 # Instruções do Projeto — Compêndios (área + mecanismo)
-**Versão:** 1.3 · **Data:** 2026-08-06
+**Versão:** 1.4 · **Data:** 2026-08-06
 
 ## Objetivo
 
@@ -64,6 +64,8 @@ Os três domínios-irmãos usam o mesmo repositório git/GitHub Pages e a mesma 
 ## Atualização deste arquivo
 
 Ao editar: arquivar a versão anterior em `_archive/CLAUDE_<data>.md` antes de sobrescrever — nunca perder uma versão sem registro.
+
+**Mudou em 2026-08-06 (2ª sessão):** novo padrão visual `.term-ling` (tooltip de lógica/etimologia, distinto de `.term`/`.term-rich` que são só tradução) registrado em `../_docs/template-v2-spec.md`, seção "Idioma e tooltips de tradução" — aplica-se a termos técnicos em qualquer idioma de compêndio cuja composição grega/latina esclarece o conceito. Origem: pedido do usuário para trazer os princípios do seu projeto pessoal de ensino de línguas (conceito > tradução, lógica da língua, "Essência") para compêndios de medicina. Piloto aplicado no mesmo turno a `medicina/mecanismos/semiologia/sindromes-bronco-pleuro-pulmonares.html` (11 termos). Sem retroaplicação ao acervo existente. **Continuação, mesmo arco:** o mesmo arquivo recebeu 12 figuras extraídas de um PDF de aula fornecido pelo usuário (imagens não públicas, sem URL Wikimedia disponível) — novo padrão "imagem local" registrado em `../_docs/template-v2-spec.md`, seção "Fontes de imagens (hierarquia)": pasta `img/<nome-do-html>/` ao lado do HTML, JPEG otimizado, legenda cita a origem real em vez de licença CC. Lembrete: imagem local exige `git add`, diferente de URL externa. Diff em `_archive/CLAUDE_2026-08-06b_diff.md`.
 
 **Mudou em 2026-08-06:** regra "Imagens" reescrita — busca vira passo obrigatório do fluxo (não item que pode ser pulado por padrão); `compendio/SKILL.md` e `mecanismo/SKILL.md` ganharam passo dedicado no "Fluxo de trabalho" + item no checklist de fechamento. Motivo: padrão recorrente de dezenas de entradas "sem pranchas... não buscadas nesta sessão" em DEBT.md — usuário apontou que a busca deveria ser estrutural, não opcional. Aplicado no mesmo turno a `sindromes-bronco-pleuro-pulmonares.html` (piloto). Diff em `_archive/CLAUDE_2026-08-06_diff.md`.
 

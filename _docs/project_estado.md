@@ -10,6 +10,86 @@ registro de sessão original.
 
 === Histórico ===
 
+2026-08-07 (2ª sessão) — Compêndio de mecanismo criado: compêndios/medicina/mecanismos/imunologia/
+             resposta-imune-bacterias-extra-intracelulares.html (subskill mecanismo-medicina-basica)
+             — 14º compêndio da subárea Imunologia, filho clínico de resposta-a-patogenos.html
+             (M9, panorama). Origem: aula "Resposta imune a bactérias extra e intracelulares"
+             (Profa. Edna Maria Vissoci Reiche, PUCPR), enviada pelo usuário em .md+.pdf — mesmo
+             padrão da sessão anterior (avaliacao-funcao-renal.html), confirmado pelo usuário como
+             recorrente. Domínio esclarecido sem pergunta (precedente direto: pasta já tinha 13
+             compêndios de mecanismo de imunologia); escopo (arquivo novo × expandir
+             resposta-a-patogenos.html; incluir os 3 casos clínicos) confirmado via
+             AskUserQuestion. Usuário pediu explicitamente foco clínico, não básico — seções de
+             mecanismo básico (Th1/Th17, complemento, fagocitose) mantidas breves com cross-link
+             para os módulos já saturados, priorizando os 3 casos (doença granulomatosa crônica/
+             DHR-123/burst oxidativo, deficiência de complemento C6/MAC/meningite meningocócica
+             recorrente, resposta neutrofílica aguda/apendicite/desvio à esquerda), evasão
+             bacteriana por espécie, tuberculose (granuloma/necrose caseosa, PPD/Mantoux) e
+             hanseníase (espectro tuberculoide×lepromatosa). 10 imagens locais extraídas do PDF
+             (pasta img/resposta-imune-bacterias-extra-intracelulares/, cópia verificada por
+             checksum) + 1 imagem externa (Froes; Sotto; Trindade, 2025, PMC12591272, CC BY —
+             espectro clínico da hanseníase). 18 seções = 18 links de sidebar. Achado de auditoria
+             durante a sessão: os cross-links entre compêndios-irmãos de imunologia (inclusive em
+             index.html) usam o caminho pré-migração `../../../../medicina/imunologia/*.html`, que
+             não existe mais desde a migração de 2026-07-10 — todos quebrados; corrigido apenas no
+             arquivo novo (cross-links same-directory corretos) e registrado em `_docs/DEBT.md`
+             para os demais, sem retroagir nesta sessão. index.html atualizado com o novo card.
+             Auditoria de citação (pedido explícito do usuário, mesma sessão, regra nova "tudo que
+             não for consenso deve ser referenciado"): 1 erro factual corrigido — Tabela 3 atribuía
+             o mecanismo de evasão do complemento via proteína M ao *S. pneumoniae*; é mecanismo do
+             *S. pyogenes* (proteína M liga Fator H, bloqueia C3b) — erro presente no material de
+             aula original, propagado ao rascunho, corrigido com nova ref6 (PMC6738146). 3 citações
+             novas adicionadas: epidemiologia da DGC (ref7, GeneReviews NBK99496), risco de
+             reativação de TB sob anti-TNF (ref8, TBNET consensus PMID 20530046) e a Tabela 7 de
+             interpretação do PPD explicitamente atribuída à classificação tradicional do Ministério
+             da Saúde (ref9), com nota sobre o corte único ≥5mm usado em grupos de risco.
+
+2026-08-07 — Compêndio de mecanismo criado: compêndios/medicina/mecanismos/fisiologia/
+             avaliacao-funcao-renal.html (subskill mecanismo-medicina-basica) — terceiro compêndio
+             da subárea Fisiologia. Origem: slide de aula de Nefrologia (Prof. Dr. Abel Esteves
+             Soares, Disciplina de Nefrologia PUC-Londrina/UEL), enviado pelo usuário em md+pdf
+             (pdf explicitamente "para imagens"). Domínio esclarecido via AskUserQuestion
+             (compêndio-mecanismo × atualizar fechamento de Tutoria já existente sobre o mesmo
+             tema em Tutorial/medicina/nefrologia/ × material de prova) — usuário escolheu
+             mecanismo. Mecanismo central desenvolvido até saturação: clearance renal (4 critérios
+             para clearance=TFG, inulina padrão-ouro), creatinina como marcador endógeno (secreção
+             tubular residual, fatores de geração), clearance medido (urina 24h), as três fórmulas
+             estimadas (Cockcroft-Gault 1976, MDRD 1999 — incluindo a controvérsia do coeficiente
+             de etnia negra —, CKD-EPI 2009 e a revisão 2021 sem raça), cistatina C, e a matriz de
+             estadiamento KDIGO G×A. Conceitos de suporte (parágrafo+definição): exame de urina,
+             proteinúria/albuminúria (categorias ACR), sedimento urinário. 17 seções = 17 links de
+             sidebar. Verificação de fatos via MCP PubMed antes da redação: Inker et al. 2021 NEJM
+             (PMID 34554658, DOI 10.1056/NEJMoa2102953 — equação CKD-EPI 2021 sem raça) e Levin et
+             al. 2024 Kidney Int (PMID 38519239, DOI 10.1016/j.kint.2023.10.016 — diretriz KDIGO
+             2024 vigente, base da Tabela 4/matriz G×A) — ambos citados com nível de evidência.
+             4 pranchas: Fig. 1 néfron (Wikimedia, "Anatomy and physiology of animals Kidney
+             tubule or nephron.jpg", Ruth Lawson/Otago Polytechnic, CC BY 3.0 — sourced via
+             navigate+get_page_text na página File: + hash MD5 do nome do arquivo para URL direta,
+             confirmada por screenshot antes de referenciar, método já documentado em
+             template-v2-spec.md); Fig. 2 ultrafiltração glomerular, Fig. 3 reabsorção/secreção
+             tubular e Fig. 4 tabela de importância clínica da TFG — as 3 últimas são imagem local
+             (convenção `img/<nome-do-html>/`, extraídas do PDF de aula via pdftoppm+pypdf/PIL,
+             integridade confirmada por md5sum origem×destino após a cópia): Figs. 2–3 sem autoria
+             identificada no material do usuário (declarado na legenda, conforme convenção),
+             Fig. 4 é reprodução de Stevens & Levey, J Am Soc Nephrol 2009 (fonte peer-reviewed,
+             já citada com permissão no próprio slide de origem). Busca de imagem tratada como
+             passo obrigatório da criação (regra nova de 2026-08-07 em casos-clinicos/CLAUDE.md,
+             ver `_docs/DEBT.md`) — primeiro material de Compêndios criado sob esse padrão.
+             Cross-link: `../farmacologia/hipertensao_sraa_anti-hipertensivos.html` (ajuste de
+             dose de IECA/BRA por função renal) — bidirecional pendente, pois esse arquivo é de
+             template legado sem `dep-panel` (ver `_docs/DEBT.md`, não retroagir por padrão).
+             `project_mapa_materiais.md` atualizado na mesma sessão (seção Fisiologia + cross-links
+             prioritários). Verificação bash-equivalente via Grep/Read OK: fecha `</body></html>`,
+             592 linhas antes das figuras locais (ajustado após as 3 Edits de imagem), sem
+             `const const`/`var var`, sem TODO/FIXME/placeholder/debug/rascunho reais (únicos
+             matches do grep foram falsos positivos em "método"/"métodos"), 703 acentos PT-BR,
+             17 seções = 17 `a class="sl" href="#..."` (contagem batendo), 4 `plate-block` = 4
+             `fig-ref`, integridade das 3 imagens locais confirmada por md5sum origem×destino.
+             Verificação visual no Chrome PENDENTE (registrado em DEBT.md, mesmo padrão do resto
+             do acervo). index.html (catálogo raiz) ainda não recebeu o card deste novo mecanismo
+             — registrado em DEBT.md. Imagens locais + HTML novo exigem `git add` — lembrete de
+             `push.bat` ao usuário no fechamento desta sessão.
+
 2026-08-06 — Compêndio de mecanismo criado: compêndios/medicina/mecanismos/semiologia/
              sindromes-bronco-pleuro-pulmonares.html (subskill mecanismo-medicina-clinica) —
              primeiro compêndio da nova subárea "Semiologia" dentro de mecanismos/. Origem: PDF
@@ -66,13 +146,17 @@ registro de sessão original.
              de imediato como piloto ao material acima: 4 pranchas buscadas e inseridas via Claude in
              Chrome/Wikimedia (hiperinsuflação+bronquiectasias, baqueteamento digital, derrame pleural
              volumoso, pneumotórax anotado), todas com licença conferida (domínio público ou CC BY-SA)
-             e URL direta confirmada por screenshot antes de referenciada. Usuário pediu ainda que
-             imagens fossem citadas também na seção Referências, não só no `plate-caption` — nova
-             camada "Fontes das imagens" adicionada (4 entradas) e regra formalizada em
-             `template-v2-spec.md`. `fig-ref` inline adicionado para as 4 figuras. Verificação
-             bash-equivalente pós-edição OK: fecha `</body></html>`, 625 linhas, 4 `plate-block`/4
-             `fig-ref`/4 `data-caption`, 815 acentos. Verificação visual no Chrome continua PENDENTE
-             (Claude-in-Chrome não navega de `chrome://newtab` para `file://` neste ambiente).
+             e URL direta confirmada por screenshot antes de referenciada. `fig-ref` inline adicionado
+             para as 4 figuras (só a Fig. 2 tinha). Tentativa inicial de adicionar também uma
+             camada "Fontes das imagens" na seção Referências foi revertida no mesmo turno: usuário
+             apontou que a referenciação de imagem já é padrão da estrutura do projeto — o
+             `plate-caption` (Fonte/Ano/Licença) já é a citação completa, e `fig-ref` já é o link
+             in-line — replicando esse padrão duplicaria o que `cardiologia-semiologia.html` (Figs.
+             1-2) já faz sem entrada extra em Referências. `template-v2-spec.md` ganhou nota
+             reforçando isso (não regra nova). Verificação bash-equivalente pós-reversão OK: fecha
+             `</body></html>`, 618 linhas, 4 `plate-block`/4 `fig-ref`, 0 "Fontes das imagens".
+             Verificação visual no Chrome continua PENDENTE (Claude-in-Chrome não navega de
+             `chrome://newtab` para `file://` neste ambiente).
 
 2026-06-19 a 2026-06-20 — Lote inicial de compêndios de imunologia (M1–M10, incluindo
              moléculas, imunidade inata, complemento, MHC, anticorpos, linfócitos T, resposta
